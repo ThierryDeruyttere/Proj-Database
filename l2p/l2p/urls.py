@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic import TemplateView
 from django.contrib import admin
 
 urlpatterns = patterns('',
@@ -7,4 +8,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
 
     url(r'^admin/', include(admin.site.urls)),
+
+    # Include Zurb Foundation test pages
+    url(r'zurb/', include('foundation.urls'))
 )
