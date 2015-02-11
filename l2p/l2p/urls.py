@@ -9,8 +9,6 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
-    #url(r'^date/', 'l2p.views.date', name='date')
-
     # Include Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls'))
 )
