@@ -61,7 +61,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'sql367204',
         'USER': 'sql367204',
-        'PASSWORD': 'mN5!eZ1*',
+        'PASSWORD': 'DB_PASSWORD',
         'HOST': 'sql3.freesqldatabase.com'
     }
 }
