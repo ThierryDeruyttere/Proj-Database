@@ -1,5 +1,5 @@
 """
-Django settings for Site project.
+Django settings for l2p project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -48,9 +48,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'Site.urls'
+ROOT_URLCONF = 'l2p.urls'
 
-WSGI_APPLICATION = 'Site.wsgi.application'
+WSGI_APPLICATION = 'l2p.wsgi.application'
 
 
 # Database
