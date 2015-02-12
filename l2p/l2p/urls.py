@@ -9,6 +9,8 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^$', 'l2p.views.home', name='home'),
+
     # Include Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls'))
 )
