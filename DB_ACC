@@ -25,6 +25,10 @@ pass: ruien9690
 Domain: projdb.heliohost.org
 Control Panel URL: http://projdb.heliohost.org/cpanel
 
+db user: projdb_l2p
+pass: ruien9690
+
+
 Please note that it will take up to 24 hours before you can log in, and up to 48 hours before your website is up and running. Also note that your account will be automatically pruned if you do not log in to your control panel for a period of one month.
 
 If you would like to check the status of your account in the creation queue, please visit http://www.heliohost.org/scripts/status.php?username=projdb.
