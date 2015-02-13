@@ -38,7 +38,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'foundation',
     'question',
-    'polls'
+    'polls',
+    'dbw'
 )
 
 MIDDLEWARE_CLASSES = (

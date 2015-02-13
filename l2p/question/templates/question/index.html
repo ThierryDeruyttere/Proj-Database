@@ -17,6 +17,23 @@
     </div>
 
     <div class="row">
+      <div class="large-12 columns">
+          <div class="panel">
+            {% for question in question_list %}
+            <h3>Q: {{ question.question_text }} </h3>
+            <ul>
+                {% for choice in question.choices %}
+                <li>
+                    {{ choice.choice_text }}
+                </li>
+                {% endfor %}
+            </ul>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+
+    <div class="row">
         <div class="large-4 medium-4 columns">
           <label>VRAAG</label>
           <input type="text" placeholder="placeholder" />
