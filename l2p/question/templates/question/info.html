@@ -1,0 +1,26 @@
+{% extends "foundation/base.html" %}
+
+{% block base_body %}
+
+    <div class="row">
+      <div class="large-12 columns">
+        <h1>Info</h1>
+      </div>
+    </div>
+
+    <div class="panel clearfix">
+        <a class="button right">Right: {{text1}}</a>
+        <a class="button left">Left: {{text2}}</a>
+    </div>
+
+    <div class="row">
+      <div class="large-12 columns">
+          <div class="panel">
+            {% for link in links %}
+              <a href="http://127.0.0.1:8000/">{{link}}</a>
+            {% endfor %}
+          </div>
+      </div>
+    </div>
+
+{% endblock base_body %}

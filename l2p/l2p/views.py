@@ -19,3 +19,8 @@ def home(request):
         l.append(item)
 
     return render(request, 'question/index.html', {'test':'haha', 'question_list':l})
+
+def info(request):
+    links = []
+    links.append("Index Page")
+    return render(request, 'question/info.html', {'text1':'FTW','text2':'FTL','links':links})
