@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^$', 'l2p.views.home', name='home'),
 
     # Include Zurb Foundation test pages
-    url(r'zurb/', include('foundation.urls'))
+    url(r'zurb/', include('foundation.urls')),
+
+    url(r'^polls/', include('polls.urls'))
 )
