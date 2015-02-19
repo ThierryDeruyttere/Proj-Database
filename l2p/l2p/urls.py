@@ -18,5 +18,5 @@ urlpatterns = patterns('',
     # Include Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
 
-    url(r'^polls/', include('polls.urls'))
+    url(r'^polls/', include('polls.urls', namespace="polls"))
 )
