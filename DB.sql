@@ -152,4 +152,4 @@ CREATE TABLE madeList(
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO user(is_active, first_name, last_name, password,email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'titi.der@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password,email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
