@@ -116,3 +116,14 @@ $ git push
 ```
 
 **NIEUW: Best via github pull request mergen. Zo ziet ge direct of er merge conflicten zijn en kan iedereen nog commentaar geven**
+
+###### NIEUW: Resetten
+`git reset args paths`
+- args: --hard om alle code te resetten, --soft om enkel de HEAD pointer te verplaatsen zonder code aan te passen.
+- paths: HEAD voor de laatste commit, HEAD~k voor de k'de laatste commit. Kan ook een commit hash zijn (`git log` voor een lijst met commits, enkel eerste 7 chars nodig)
+```
+$ git reset --hard HEAD
+Reset code naar laatste commit
+$ git reset --hard HEAD~2
+Undo 2 commits
+```
