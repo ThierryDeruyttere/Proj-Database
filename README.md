@@ -1,7 +1,7 @@
 # Proj-Database
 
 Verslagen : https://docs.google.com/document/d/1ki_IN-m4fuHY4OC_5kxvkX_DA_bjRzRzxaXyVwK_U7U/edit?usp=sharing
-
+Database model: https://drive.draw.io/#G0BzFlD8HmM6i9OXh6amc2b1NWUlE
 ## Useful git setting
 Zoda we ni constant die merge branch commits krijgen.
 ```sh
