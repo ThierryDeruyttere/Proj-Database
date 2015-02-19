@@ -62,7 +62,7 @@ WSGI_APPLICATION = 'l2p.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
+        'NAME': 'codegalaxy',
         'USER': 'root',
         'PASSWORD': 'ruien9690',
         'HOST': 'localhost'
