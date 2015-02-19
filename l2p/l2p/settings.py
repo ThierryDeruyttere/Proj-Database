@@ -38,7 +38,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'foundation',
     'question',
-    'polls',
     'dbw'
 )
 
@@ -63,10 +62,10 @@ WSGI_APPLICATION = 'l2p.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'sql367204',
-        'USER': 'sql367204',
-        'PASSWORD': 'mN5!eZ1*',
-        'HOST': 'sql3.freesqldatabase.com'
+        'NAME': 'codegalaxy',
+        'USER': 'root',
+        'PASSWORD': 'ruien9690',
+        'HOST': 'localhost'
     }
 }
 
