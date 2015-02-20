@@ -27,11 +27,20 @@ def userOverview(request):
     users = dbw.getAll('user')
     return render(request, 'userOverview.html', {'users':users})
 
+def login(request):
+    return render(request, 'login.html', {})
+
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
+def groupCreate(request, id = 0):
+    return render(request, 'groupCreate.html', {})
+
 def list(request, id = 0):
     return render(request, 'list.html', {'id':id})
+
+def question(request, id, question):
+    return render(request, 'question.html', {})
 
 # TESTING
 def info(request):
