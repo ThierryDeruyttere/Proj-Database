@@ -123,7 +123,7 @@ CREATE TABLE exerciseList(
   PRIMARY KEY(id)
 );
 
-CREATE TABLE hasSubject(
+CREATE TABLE subject(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
   PRIMARY KEY(id)
@@ -136,7 +136,7 @@ CREATE TABLE hasSubject(
   FOREIGN KEY (subject_id) REFERENCES subject(id)
 );
 
-CREATE TABLE hasSubject(
+CREATE TABLE isPartOf(
   exerciseList_id INT,
   exercice_id INT,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
@@ -152,4 +152,11 @@ CREATE TABLE madeList(
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
-INSERT INTO user(is_active, first_name, last_name, password,email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
+CREATE TABLE correctAnswer(
+  exercise_id INT,
+  answer_id INT,
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+  FOREIGN KEY (answer_id) REFERENCES answer(id)
+);
+
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
