@@ -20,6 +20,14 @@ def home(request):
 
     return render(request, 'question/index.html', {'test':'haha', 'question_list':l})
 
+def user(request, id = 0):
+    return render(request, 'user.html', {'id':id})
+
+def group(request, id = 0):
+    return render(request, 'group.html', {'id':id})
+
+
+# TESTING
 def info(request):
     links = []
     links.append("Index Page")
