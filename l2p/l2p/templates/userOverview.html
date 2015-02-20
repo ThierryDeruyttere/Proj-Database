@@ -1,0 +1,13 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+
+    <div class="row">
+      <div class="large-12 columns">
+        {% for user in users %}
+            <h3>{{ user.id }}: {{ user.first_name }} {{ user.last_name }} - {{ user.email }}</h3>
+        {% endfor %}
+      </div>
+    </div>
+
+{% endblock base_body %}

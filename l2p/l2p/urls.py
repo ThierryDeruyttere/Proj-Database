@@ -13,11 +13,16 @@ urlpatterns = patterns('',
     # TODO Further templating on the foundations html for more generic code?
     url(r'^$', 'l2p.views.home', name='home'),
 
+    ## USERS ##
     # User page (/u/<id>)
     url(r'^u/(?P<id>\d*)/$', 'l2p.views.user'),
+    # User overview (/u/overview)
+    url(r'^u/overview/$', 'l2p.views.userOverview'),
 
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'l2p.views.group'),
+
+    # Question list
 
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),

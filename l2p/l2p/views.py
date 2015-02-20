@@ -23,9 +23,12 @@ def home(request):
 def user(request, id = 0):
     return render(request, 'user.html', {'id':id})
 
+def userOverview(request):
+    users = dbw.getAll('user')
+    return render(request, 'userOverview.html', {'users':users})
+
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
-
 
 # TESTING
 def info(request):
