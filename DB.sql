@@ -24,7 +24,6 @@ CREATE TABLE groups(
   id INT NOT NULL AUTO_INCREMENT,
   group_name VARCHAR(255) NOT NULL UNIQUE,
   group_type INT NOT NULL,
-  FOREIGN KEY (creator_id) REFERENCES user(id)
   PRIMARY KEY(id)
 );
 
@@ -93,16 +92,10 @@ CREATE TABLE question(
   question_text BLOB NOT NULL,
   language_id INT,
   correct_answer INT,
+  exercise_id INT,
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   FOREIGN KEY (language_id) REFERENCES language(id),
   PRIMARY KEY(id)
-);
-
-
-CREATE TABLE isQuestionFor(
-  question_id INT,
-  exercise_id INT,
-  FOREIGN KEY (question_id) REFERENCES question(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 CREATE TABLE answer(
@@ -190,7 +183,7 @@ INSERT INTO programmingLanguage(name) VALUES ('python 3.3');
 INSERT INTO exercise(difficulty, max_score, penalty, exercise_type) VALUES (1,5,1,'code');
 
 #insert into code
-INSERT INTO exercise(code_text) VALUES ('print("")');
+INSERT INTO code(code_text) VALUES ('print("")');
 
 #insert into associatedWith
 #param1 progLang_ID
@@ -210,85 +203,31 @@ INSERT INTO language(name) VALUES ('English');
 INSERT INTO language(name) VALUES ('Nederlands');
 
 #insert into question
-INSERT INTO language(question_text,language_id) VALUES ('Print your name', 1);
+INSERT INTO question(question_text, language_id, exercise_id) VALUES ('Print your name', 1,1);
 
-CREATE TABLE question(
-  id INT NOT NULL AUTO_INCREMENT,
-  question_text BLOB NOT NULL,
-  language_id INT,
-  correct_answer INT,
-  exercise_id INT, ######ADD THIS???? THEN WE CAN DROP ISQUESTIONFOR
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  PRIMARY KEY(id)
-);
+#insert into answer
+INSERT INTO answer VALUES (1,1,'Print your name', 1,1);
 
-CREATE TABLE isQuestionFor(
-  question_id INT,
-  exercise_id INT,
-  FOREIGN KEY (question_id) REFERENCES question(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
+#insert into hint
+INSERT INTO hint VALUES ('write print("your name here")', 1, 1);
 
-CREATE TABLE answer(
-  id INT NOT NULL,
-  answer_number INT NOT NULL,
-  answer_text BLOB NOT NULL,
-  language_id INT,
-  is_answer_for INT,
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
-  PRIMARY KEY(id, answer_number, language_id)
-);
+#insert into exerciseList
+INSERT INTO exerciseList(name, description ,difficulty) VALUES ('Beginning of a journey...', 'Python 101', 1);
 
-/*
-CREATE TABLE hint(
-  hint_text varchar(255),
-  hint_number INT,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
+#insert into subject
+INSERT INTO subject(name) VALUES ('Printing');
 
-CREATE TABLE exerciseList(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  description VARCHAR(255) NOT NULL,
-  difficulty INT NOT NULL,
-  PRIMARY KEY(id)
-);
+#insert into hasSubject
+INSERT INTO hasSubject VALUES (1,1);
 
-CREATE TABLE subject(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  PRIMARY KEY(id)
-);
+#insert into isPartOf
+#first param exerciseList_id
+#second param exercice_id
+INSERT INTO isPartOf VALUES (1,1);
 
-CREATE TABLE hasSubject(
-  exerciseList_id INT,
-  subject_id INT,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (subject_id) REFERENCES subject(id)
-);
 
-CREATE TABLE isPartOf(
-  exerciseList_id INT,
-  exercice_id INT,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (exercice_id) REFERENCES exercise(id)
-);
+#insert into isPartOf
+#INSERT INTO isPartOf VALUES (1,1,5,5);
 
-CREATE TABLE madeList(
-  exerciseList_id INT,
-  user_id INT,
-  rating INT NOT NULL,
-  score INT NOT NULL,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-CREATE TABLE correctAnswer(
-  exercise_id INT,
-  answer_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  FOREIGN KEY (answer_id) REFERENCES answer(id)
-);
-*/
+#insert into correctAnswer
+#INSERT INTO correctAnswer VALUES (1,1,5,5);
