@@ -6,6 +6,8 @@ Database model: https://drive.draw.io/#G0BzFlD8HmM6i9OXh6amc2b1NWUlE
 Zoda we ni constant die merge branch commits krijgen.
 ```sh
 $ git config --global branch.autosetuprebase always
+In de repo ook:
+$ git config branch.master.rebase true
 ```
 
 ## Tech
