@@ -2,31 +2,30 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
 
-urlpatterns = patterns('',
-    # Examples:
-    # url(r'^$', 'l2p.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+urlpatterns = patterns('l2p.views',
 
-    url(r'^admin/', include(admin.site.urls)),
-
-
-    # TODO Further templating on the foundations html for more generic code?
-    url(r'^$', 'l2p.views.home', name='home'),
+    ## HOME ##
+    # Home page (/)
+    url(r'^$', 'home'),
 
     ## USERS ##
     # User page (/u/<id>)
-    url(r'^u/(?P<id>\d*)/$', 'l2p.views.user'),
+    url(r'^u/(?P<id>\d*)/$', 'user'),
     # User overview (/u/overview)
-    url(r'^u/overview/$', 'l2p.views.userOverview'),
+    url(r'^u/overview/$', 'userOverview'),
 
+    ## GROUPS ##
     # Group page (/g/<id>)
-    url(r'^g/(?P<id>\d*)/$', 'l2p.views.group'),
+    url(r'^g/(?P<id>\d*)/$', 'group'),
 
-    # Question list
+    ## QUESTIONS ##
+    # List page with overview of questions (/l/<id>)
+    url(r'^l/(?P<id>\d*)/$', 'list'),
 
+
+    ## TESTING ##
+    url(r'^info/', 'info'),
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
-
-    # TESTING
-    url(r'^info/', 'l2p.views.info'),
+    url(r'^admin/', include(admin.site.urls)),
 )

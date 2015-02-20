@@ -30,6 +30,9 @@ def userOverview(request):
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
+def list(request, id = 0):
+    return render(request, 'list.html', {'id':id})
+
 # TESTING
 def info(request):
     links = []
