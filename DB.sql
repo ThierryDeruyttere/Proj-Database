@@ -99,13 +99,15 @@ CREATE TABLE isQuestionFor(
 );
 
 CREATE TABLE answer(
-  id INT NOT NULL AUTO_INCREMENT,
+  id INT NOT NULL,
+  answer_number INT NOT NULL,
   answer_text BLOB NOT NULL,
   language_id INT,
   is_answer_for INT,
+  correct_answer INT,
   FOREIGN KEY (language_id) REFERENCES language(id),
   FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
-  PRIMARY KEY(id)
+  PRIMARY KEY(id, answer_number, language_id)
 );
 
 CREATE TABLE hint(
