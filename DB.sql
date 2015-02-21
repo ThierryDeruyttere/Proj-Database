@@ -57,27 +57,27 @@ CREATE TABLE code(
 );
 
 CREATE TABLE associatedWith(
-  progLang_ID INT,
-  exerc_ID INT,
-  FOREIGN KEY (progLang_ID) REFERENCES programmingLanguage(id),
-  FOREIGN KEY (exerc_ID) REFERENCES exercise(id)
+  progLang_id INT,
+  exercise_id INT,
+  FOREIGN KEY (progLang_id) REFERENCES programmingLanguage(id),
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 CREATE TABLE isCodeFor(
-  code_ID INT,
-  exerc_ID INT,
-  FOREIGN KEY (code_ID) REFERENCES code(id),
-  FOREIGN KEY (exerc_ID) REFERENCES exercise(id)
+  code_id INT,
+  exercise_id INT,
+  FOREIGN KEY (code_id) REFERENCES code(id),
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 CREATE TABLE madeEx(
-  user_ID INT,
-  exerc_ID INT,
+  user_id INT,
+  exercise_id INT,
   solved BOOLEAN NOT NULL,
   exercise_score INT NOT NULL,
   rating INT,
-  FOREIGN KEY (user_ID) REFERENCES user(id),
-  FOREIGN KEY (exerc_ID) REFERENCES exercise(id)
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 
@@ -160,74 +160,79 @@ CREATE TABLE correctAnswer(
   FOREIGN KEY (answer_id) REFERENCES answer(id)
 );
 
-#Insert into user
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
+# User data
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'root', 'admin', '1337', 'root_admin_1337@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Sten', 'Verbois', 'admin', 'stenverbois@gmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Tristan', 'Vandeputte', 'admin', 'tristanvandeputte@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', 'admin', 'marie@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', 'admin', 'maarten@.');
 
-#insert into friends
-INSERT INTO friendsWith VALUES (1,2);
+# Friend data
+INSERT INTO friendsWith(first_id, second_id) VALUES (1,2);
+INSERT INTO friendsWith(first_id, second_id) VALUES (3,2);
+INSERT INTO friendsWith(first_id, second_id) VALUES (3,4);
+INSERT INTO friendsWith(first_id, second_id) VALUES (3,5);
+INSERT INTO friendsWith(first_id, second_id) VALUES (3,6);
 
-#insert into groups
-INSERT INTO groups(group_name, group_type) VALUES ('Admin group', 0);
+# Group data
+INSERT INTO groups(group_name, group_type) VALUES ('Admins', 0);
 
-#insert into userInGroup
-INSERT INTO userInGroup VALUES (1,1,0);
-#root user is creator of the admin group
-INSERT INTO userInGroup VALUES (1,2,3);
+# UserInGroup data
+# Group creator is 0
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,1,0);
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,2,1);
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,3,1);
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,4,1);
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,5,1);
+INSERT INTO userInGroup(group_id, user_id, user_permissions) VALUES (1,6,1);
 
-#insert into programmingLanguage
-INSERT INTO programmingLanguage(name) VALUES ('python 3.3');
+# ProgrammingLanguage data
+INSERT INTO programmingLanguage(name) VALUES ('Python');
+INSERT INTO programmingLanguage(name) VALUES ('C++');
+INSERT INTO programmingLanguage(name) VALUES ('SQL');
 
-#insert into exercise
-#min difficulty is 1 max 5?
+# Exercise data
+# Difficulty range 1-5?
 INSERT INTO exercise(difficulty, max_score, penalty, exercise_type) VALUES (1,5,1,'code');
 
-#insert into code
+# Code data
 INSERT INTO code(code_text) VALUES ('print("")');
 
-#insert into associatedWith
-#param1 progLang_ID
-#param2 exerc_ID
-INSERT INTO associatedWith VALUES (1,1);
+# AssosiatedWith data
+INSERT INTO associatedWith(progLang_id, exercise_id) VALUES (1,1);
 
-#insert into isCodeFor
-#param1 code_ID
-#param2 exerc_ID
-INSERT INTO isCodeFor VALUES (1,1);
+# IsCodeFor data
+INSERT INTO isCodeFor(code_id, exercise_id) VALUES (1,1);
 
-#insert into madeEX
-#INSERT INTO madeEx VALUES (1,1,true,5,5);
-
-#insert into language
+# Language data
 INSERT INTO language(name) VALUES ('English');
 INSERT INTO language(name) VALUES ('Nederlands');
 
-#insert into question
-INSERT INTO question(question_text, language_id, exercise_id) VALUES ('Print your name', 1,1);
+# Question data
+INSERT INTO question(question_text, language_id, exercise_id)
+    VALUES ('Print your name', 1,1);
 
-#insert into answer
-INSERT INTO answer VALUES (1,1,'Print your name', 1,1);
+# Anwer data
+INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
+    VALUES (1,'Print your name', 1,1);
 
-#insert into hint
-INSERT INTO hint VALUES ('write print("your name here")', 1, 1);
+# Hint data
+INSERT INTO hint(hint_text, hint_number, exercise_id)
+    VALUES ('write print("your name here")', 1, 1);
 
-#insert into exerciseList
-INSERT INTO exerciseList(name, description ,difficulty) VALUES ('Beginning of a journey...', 'Python 101', 1);
+# ExerciseList data
+INSERT INTO exerciseList(name, description ,difficulty)
+    VALUES ('Beginning of a journey...', 'Python 101', 1);
 
-#insert into subject
+# Subject data
 INSERT INTO subject(name) VALUES ('Printing');
 
-#insert into hasSubject
-INSERT INTO hasSubject VALUES (1,1);
+# HasSubject data
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 
-#insert into isPartOf
-#first param exerciseList_id
-#second param exercice_id
-INSERT INTO isPartOf VALUES (1,1);
-
-
-#insert into isPartOf
-#INSERT INTO isPartOf VALUES (1,1,5,5);
+# IsPartOf data
+INSERT INTO isPartOf(exerciseList_id, exercice_id) VALUES (1,1);
 
 #insert into correctAnswer
 #INSERT INTO correctAnswer VALUES (1,1,5,5);
