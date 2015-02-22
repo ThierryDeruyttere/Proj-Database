@@ -32,7 +32,6 @@ urlpatterns = patterns('l2p.views',
     url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'list'),
 
     ## TESTING ##
-    url(r'^info/', 'info'),
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
