@@ -2,6 +2,10 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 import dbw
+import ObjectManagerFiles
+
+#we'll use one ObjectManager to work with/create the objects stored in the DB
+#object_manager = ObjectManagerFiles.ObjectManager()
 
 def home(request):
     # Get choices

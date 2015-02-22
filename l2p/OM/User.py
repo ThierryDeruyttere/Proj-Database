@@ -10,9 +10,12 @@ class PersonalList:
         self.rating
         # total obtained score
         self.score
-        # Object which represents the actual list
         self.excersise_list
 
+
+        # Object which represents the actual list of exercises (SQL function)
+        def allExercises():
+            pass
 
 
 class PersonalExercise:
@@ -41,10 +44,16 @@ class User:
 
         # password not needed here?
 
-        # Map with groupIDs this user is in + the permissions for that group
-        self.groups
 
-        # List with all the lists of exercises this user has completed/is working on
+
         self.personal_lists
 
         self.permissions
+
+        # List with all the groups this user is currently in (SQL function)
+        def getGroups():
+            pass
+
+        # List with all the lists of exercises this user has completed/is working on (SQL function)
+        def personalLists():
+            pass
