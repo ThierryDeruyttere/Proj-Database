@@ -13,6 +13,8 @@ class ObjectManager:
     def __init__(self):
         pass
 
+    # NOTE: create functions return the object created
+
     # Uses the DB to create an object representing a user
     def createUser(self,id):
         user_info = dbw.getUserInformation(id)
@@ -21,4 +23,14 @@ class ObjectManager:
         user_info[0]["is_active"],user_info[0]["email"],user_info[0]["permission"])
         return user_object
 
-    
+    # Uses the DB to create an object representing a Group
+    def createGroup(self,id):
+        pass
+
+    # Uses the DB to create an object representing an Exercise
+    def createExercise(self,id):
+        pass
+
+    # Uses the DB to create an object representing a ExerciseList
+    def createExerciseList(self,id):
+        pass

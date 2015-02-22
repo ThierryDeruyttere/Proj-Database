@@ -8,7 +8,6 @@ from om import *
 object_manager = objectmanager.ObjectManager()
 
 def home(request):
-    object_manager.createUser(1);
     return render(request, 'home.html', {})
 
 def user(request, id = 0):
