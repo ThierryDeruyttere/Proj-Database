@@ -235,4 +235,4 @@ INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 INSERT INTO isPartOf(exerciseList_id, exercice_id) VALUES (1,1);
 
 #insert into correctAnswer
-#INSERT INTO correctAnswer VALUES (1,1,5,5);
+#INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES (1,1);
