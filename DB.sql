@@ -14,10 +14,10 @@ CREATE TABLE user(
 );
 
 CREATE TABLE friendsWith(
-  first_id INT NOT NULL,
-  second_id INT NOT NULL,
-  FOREIGN KEY (first_id) REFERENCES user(id),
-  FOREIGN KEY (second_id) REFERENCES user(id)
+  user_id INT NOT NULL,
+  friend_id INT NOT NULL,
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (friend_id) REFERENCES user(id)
 );
 
 CREATE TABLE groups(
@@ -139,9 +139,9 @@ CREATE TABLE hasSubject(
 
 CREATE TABLE isPartOf(
   exerciseList_id INT,
-  exercice_id INT,
+  exercise_id INT,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (exercice_id) REFERENCES exercise(id)
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 CREATE TABLE madeList(
@@ -169,11 +169,11 @@ INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'M
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@.');
 
 # Friend data
-INSERT INTO friendsWith(first_id, second_id) VALUES (1,2);
-INSERT INTO friendsWith(first_id, second_id) VALUES (3,2);
-INSERT INTO friendsWith(first_id, second_id) VALUES (3,4);
-INSERT INTO friendsWith(first_id, second_id) VALUES (3,5);
-INSERT INTO friendsWith(first_id, second_id) VALUES (3,6);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (1,2);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,2);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,4);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,5);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,6);
 
 # Group data
 INSERT INTO groups(group_name, group_type) VALUES ('Admins', 0);
@@ -214,8 +214,8 @@ INSERT INTO question(question_text, language_id, exercise_id)
     VALUES ('Print your name', 1,1);
 
 # Anwer data
-INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
-    VALUES (1,'Print your name', 1,1);
+INSERT INTO answer(id, answer_number, answer_text, language_id, is_answer_for)
+    VALUES (1, 1,'Print your name', 1,1);
 
 # Hint data
 INSERT INTO hint(hint_text, hint_number, exercise_id)
@@ -232,7 +232,18 @@ INSERT INTO subject(name) VALUES ('Printing');
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 
 # IsPartOf data
-INSERT INTO isPartOf(exerciseList_id, exercice_id) VALUES (1,1);
+INSERT INTO isPartOf(exerciseList_id, exercise_id) VALUES (1,1);
 
 #insert into correctAnswer
-#INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES (1,1);
+INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES (1,1);
+
+#insert into madeList
+INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,1,5,5);
+
+#insert into madeEx
+INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating) VALUES(1,1,1,5,5);
+user_id INT,
+exercise_id INT,
+solved BOOLEAN NOT NULL,
+exercise_score INT NOT NULL,
+rating INT,
