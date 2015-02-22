@@ -66,14 +66,7 @@ def login(request):
 
     if request.method == 'GET':
         if request.session['current_user']:
-<<<<<<< HEAD
             return redirect('/me/')
-        
-=======
-            user = dbw.getUserInformation(request.session['current_user'])
-            return render(request, 'me.html', {'first_name': user[0]['first_name']})
-
->>>>>>> 457e0c6bce1ad24ec7f6c1f68c70d8f62c5b13de
     return render(request, 'login.html', {})
 
 def logout(request):
