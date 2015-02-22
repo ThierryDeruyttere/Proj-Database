@@ -85,4 +85,4 @@ def insertIsPartOf(exerciseList_id, exercice_id):
 
 def insertCorrectAnswer(exercise_id ,answer_id):
     cursor.execute("INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES ({},{});".format(exercise_id ,answer_id))
->>>>>>> 457e0c6bce1ad24ec7f6c1f68c70d8f62c5b13de
+
