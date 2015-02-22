@@ -23,9 +23,9 @@ class Exercise:
         self.correct_answer = correct_answer
 
         # List of possible answerIDs (only one in a coding exercise = the output)
-        def allAnswers():
+        def allAnswers(self):
             pass
 
         # List of strings depicting hints
-        def allHints():
+        def allHints(self):
             pass

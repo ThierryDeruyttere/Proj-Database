@@ -7,5 +7,5 @@ class Group:
 
 
         #list of users
-        def allMembers():
+        def allMembers(self):
             pass

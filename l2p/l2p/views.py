@@ -8,6 +8,7 @@ from om import *
 object_manager = objectmanager.ObjectManager()
 
 def home(request):
+    object_manager.createUser(1);
     return render(request, 'home.html', {})
 
 def user(request, id = 0):
@@ -44,7 +45,7 @@ def login(request):
         if request.session['current_user']:
             user = dbw.getUserInformation(request.session['current_user'])
             return render(request, 'me.html', {'first_name': user[0]['first_name']})
-        
+
     return render(request, 'login.html', {})
 
 def logout(request):
