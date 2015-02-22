@@ -1,0 +1,55 @@
+# Laten inheriten van Exercise/ExerciseList?
+
+class PersonalList:
+    def __init__(self,rating,score,exercise_list_id):
+        #given rating
+        self.rating = rating
+        # total obtained score
+        self.score = score
+        # Actual exercises-object (make with SQL queries)
+        self.excersises_list
+        # Integer representing the number of the last-made excersise (needed?) ("calculate" with the real list-obj)
+        self.last_made
+
+        # Object which represents the actual list of personal exercises (SQL function)
+        def allExercises():
+            pass
+
+
+class PersonalExercise:
+    def __init__(self,solved,score,rating,exercise_id):
+        # bool to check if exercise was solved
+        self.solved = solved
+        # obtained score
+        self.score = score
+        # given rating
+        self.rating = rating
+        # Object which represents the actual excersise (make with SQL query)
+        self.excersise
+
+class User:
+    def __init__(self,id,first_name,last_name,is_active,account_name,email,permissions):
+        self.friends_list
+
+        # Plain info on the user
+        self.id = id
+        self.first_name = first_name
+        self.last_name = last_name
+        self.is_active = is_active
+        self.account_name = account_name
+        self.email = email
+        # password not needed here?
+        self.permissions = permissions
+
+
+        # List with other users this user is befriended with
+        def allFriends():
+            pass
+
+        # List with all the groups this user is currently in (SQL function)
+        def allGroups():
+            pass
+
+        # List with all the lists of exercises this user has completed/is working on (SQL function)
+        def allPersonalLists():
+            pass
