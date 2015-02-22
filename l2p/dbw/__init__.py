@@ -12,3 +12,11 @@ def dictfetchall():
 def getAll(table):
     cursor.execute('SELECT * FROM ' + table)
     return dictfetchall()
+
+def getUser(username):
+	cursor.execute("SELECT id, first_name, password FROM user WHERE user.first_name = " + "'%s'" % username)
+	return dictfetchall()
+
+def getUserInformation(id):
+	cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
+	return dictfetchall()
