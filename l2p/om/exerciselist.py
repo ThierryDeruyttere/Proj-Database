@@ -5,9 +5,9 @@ class ExerciseList:
         self.difficulty = difficulty
 
         # List of subjects
-        def allSubjects():
+        def allSubjects(self):
             pass
 
         # List of exercises
-        def allExercises():
+        def allExercises(self):
             pass

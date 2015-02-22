@@ -6,6 +6,6 @@ class Group:
         self.group_type = group_type
 
 
-        #list of users
-        def allMembers():
+        # list of users
+        def allMembers(self):
             pass
