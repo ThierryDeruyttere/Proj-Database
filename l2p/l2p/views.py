@@ -2,17 +2,17 @@ from django.http import HttpResponse
 from django.shortcuts import render
 
 import dbw
-import ObjectManagerFiles
+from om import *
 
 #we'll use one ObjectManager to work with/create the objects stored in the DB
-#object_manager = ObjectManagerFiles.ObjectManager()
+object_manager = objectmanager.ObjectManager()
 
 def home(request):
     # Get choices
     choices = dbw.getAll('polls_choice')
 
     # Get questions
-    questions = dbw.getAll('polls_question')
+    questins = dbw.getAll('polls_question')
 
     # Make list of pairs (question, choice_list)
     l = []

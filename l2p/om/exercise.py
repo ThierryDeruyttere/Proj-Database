@@ -1,7 +1,7 @@
 class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
-    def __init__(self):
+    def __init__(self,id,difficulty,max_score,penalty,exercise_type,programming_language,code,question,language,correct_answer):
         self.id
         # (Integer ranging from 1-5)
         self.difficulty
@@ -19,9 +19,13 @@ class Exercise:
         self.question
         # Language the question is in (string)
         self.language
-        # List of possible answerIDs (only one in a coding exercise = the output)
-        self.answers
         # ID of the correct answer
         self.correct_answer
+
+        # List of possible answerIDs (only one in a coding exercise = the output)
+        def allAnswers():
+            pass
+
         # List of strings depicting hints
-        self.hints
+        def allHints():
+            pass
