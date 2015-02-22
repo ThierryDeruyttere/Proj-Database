@@ -66,7 +66,6 @@ def login(request):
     if request.method == 'GET':
         if request.session['current_user']:
             return redirect('/me/')
-
     return render(request, 'login.html', {})
 
 def logout(request):
