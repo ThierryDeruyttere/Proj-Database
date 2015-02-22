@@ -60,7 +60,6 @@ def login(request):
         email = request.POST.get('your_email', '')
 
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
-        print(password)
 
         return authenticate(request, email, password)
 
