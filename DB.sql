@@ -161,12 +161,12 @@ CREATE TABLE correctAnswer(
 );
 
 # User data
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'root', 'admin', '1337', 'root_admin_1337@hotmail.com');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', 'test', 'thierryderuyttere@hotmail.com');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Sten', 'Verbois', 'admin', 'stenverbois@gmail.com');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Tristan', 'Vandeputte', 'admin', 'tristanvandeputte@hotmail.com');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', 'admin', 'marie@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', 'admin', 'maarten@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'root', 'admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Sten', 'Verbois', '21232f297a57a5a743894a0e4a801fc3', 'stenverbois@gmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Tristan', 'Vandeputte', '21232f297a57a5a743894a0e4a801fc3', 'tristanvandeputte@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', '21232f297a57a5a743894a0e4a801fc3', 'marie@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@.');
 
 # Friend data
 INSERT INTO friendsWith(first_id, second_id) VALUES (1,2);

@@ -1,7 +1,9 @@
 from django.http import HttpResponse
-from django.shortcuts import render
-
+from django.shortcuts import render, redirect
+from django.contrib.auth.hashers import make_password
 import dbw
+import hashlib
+
 from om import *
 
 #we'll use one ObjectManager to work with/create the objects stored in the DB
@@ -17,33 +19,54 @@ def userOverview(request):
     users = dbw.getAll('user')
     return render(request, 'userOverview.html', {'users':users})
 
-def authenticate(request, username, password):
+def register(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('your_first_name', '')
+        last_name = request.POST.get('your_last_name', '')
+        email = request.POST.get('your_email', '')
+        password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
-    #ik doe hier alsof alle users een unieke first_name hebben die als username dient
-    user = dbw.getUser(username)
+        try:
+            dbw.createNewUser(first_name, last_name, email, password)
+
+        except:
+            print("ALREADY A USER WITH THIS EMAIL")
+            return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
+    return render(request, 'register.html', {})
+
+def authenticate(request, email, password):
+    #inloggen met email
+    user = dbw.getUser(email)
 
     #als het zoeken naar een user met die naam geen lege lijst geeft
     if not user:
-        print('There is no user with the name %s' % username)
+        print('There is no user with the name %s' % email)
         return render(request, 'login.html', {})
 
     if user[0]['password'] == password:
+        print("You are getting logged in")
         request.session['current_user'] = user[0]['id']
-        return render(request, 'me.html', {'first_name': user[0]['first_name']})
+        return redirect('/me/')
+    return render(request, 'login.html', {})
 
 def login(request):
-    if request.method == 'POST':
+    if 'current_user' not in request.session:
+        print('Current_user sessions doesnt exist yet')
         request.session['current_user'] = None
+    else:
+        print('Already current_user session')
 
-        username = request.POST.get('your_name', '')
-        password = request.POST.get('your_password', '')
+    if request.method == 'POST':
+        email = request.POST.get('your_email', '')
 
-        authenticate(request, username, password)
+        password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
+        print(password)
+
+        return authenticate(request, email, password)
 
     if request.method == 'GET':
         if request.session['current_user']:
-            user = dbw.getUserInformation(request.session['current_user'])
-            return render(request, 'me.html', {'first_name': user[0]['first_name']})
+            return redirect('/me/')
         
     return render(request, 'login.html', {})
 
@@ -55,8 +78,11 @@ def logout(request):
     return render(request, 'logout.html', {})
 
 def me(request):
-    user = dbw.getUserInformation(request.session['current_user'])
-    return render(request, 'me.html', {'first_name': user[0]['first_name']})
+    try:
+        user = dbw.getUserInformation(request.session['current_user'])
+        return render(request, 'me.html', {'first_name': user[0]['first_name']})
+    except:
+        return render(request, 'me.html', {'first_name': 'Anonymous'})
 
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})

@@ -19,7 +19,9 @@ urlpatterns = patterns('l2p.views',
     url(r'^logout', 'logout'),
     # MyPage, information about myself
     url(r'^me', 'me'),
-
+    # Register
+    url(r'^register', 'register'),
+    
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
