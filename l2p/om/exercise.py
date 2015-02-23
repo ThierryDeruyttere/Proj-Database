@@ -24,8 +24,28 @@ class Exercise:
 
         # List of possible answerIDs (only one in a coding exercise = the output)
         def allAnswers(self):
-            pass
+            answer_info = dbw.getExerciseAnswers(self.id,self.language)
+            if answer_info:
+                # first we add the data to a list of tuples
+                answer_unordered_list = [(x["answer_text"],x["answer_number"]) for x in answer_info]
+                # We sort on the second element of every tuple
+                sorted_answers = sorted(answer_unordered_list, key=lambda tup: tup[1])
+                # We don't need the number anymore
+                short_list = [answer[0] for answer in sorted_answers]
+                return short_list
+            else:
+                return None
 
         # List of strings depicting hints
         def allHints(self):
-            pass
+            hint_info = dbw.getExerciseHints(self.id)
+            if hint_info:
+                # first we add the data to a list of tuples
+                hint_unordered_list = [(x["answer_text"],x["answer_number"]) for x in hint_info]
+                # We sort on the second element of every tuple
+                sorted_hints = sorted(hint_unordered_list, key=lambda tup: tup[1])
+                # We don't need the number anymore
+                short_list = [hint[0] for hint in sorted_hints]
+                return short_list
+            else:
+                return None

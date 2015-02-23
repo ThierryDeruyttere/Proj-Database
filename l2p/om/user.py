@@ -16,19 +16,44 @@ class User:
 
         # List with other users this user is befriended with
         def allFriends(self):
-            pass
+            friends_info = dbw.getFriendsIdForID(self.id)
+            if friends_info:
+                # We'll put the info in a regular list
+                friends_list = [ x["friend_id"] for x in friends_info]
+                return friends_list
+            else:
+                return None
 
         # List with all the groups this user is currently in (SQL function)
         def allGroups(self):
-            pass
+            groups_info = dbw.getFriendsIdForID(self.id)
+            if groups_info:
+                # We'll put the info in a regular list
+                groups_list = [ x["friend_id"] for x in groups_info]
+                return groups_list
+            else:
+                return None
 
         # List with all the lists of exercises this user has completed/is working on (SQL function)
         def allPersonalLists(self):
-            pass
+            lists_info = dbw.getMadeListForUser(self.id)
+            if lists_info:
+                personal_lists_list = [PersonalList(x["rating"],x["score"],x["exerciseList_id"],self.id) for x in lists_info]
+                return personal_lists_list
+            else:
+                return None
 
         # returns TRUE for admin and FALSE for regular user
         def checkPermission(self,group_id):
-            pass
+            permissions_info = dbw.getPermForUserInGroup(self.id,group_id)
+            if permissions_info:
+                # What to check for? TODO
+                if permissions_info[user_permissions]:
+                    return True
+                else:
+                    return False
+            else:
+                return None
 
 
 class PersonalList:
