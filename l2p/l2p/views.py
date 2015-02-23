@@ -71,7 +71,7 @@ def login(request):
 
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
         return authenticate(request, email, password)
-        
+
     if request.method == 'GET':
         if request.session['current_user']:
             return redirect('/me/')
@@ -91,7 +91,7 @@ def me(request):
     else:
         return render(request, 'me.html', {'first_name': 'Anonymous'})
 
-def group(request, id = 0):anders zet
+def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
 def groupCreate(request, id = 0):

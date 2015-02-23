@@ -26,10 +26,10 @@ class User:
 
         # List with all the groups this user is currently in (SQL function)
         def allGroups(self):
-            groups_info = dbw.getFriendsIdForID(self.id)
+            groups_info = dbw.getGroupsFromUser(self.id)
             if groups_info:
                 # We'll put the info in a regular list
-                groups_list = [ x["friend_id"] for x in groups_info]
+                groups_list = [ x["group_id"] for x in groups_info]
                 return groups_list
             else:
                 return None
@@ -71,7 +71,13 @@ class PersonalList:
 
         # Object which represents the actual list of personal exercises (SQL function)
         def allExercises(self,user_id):
-            pass
+            exercise_info = dbw.getExerciseScoreFor(self.id)
+            if exercise_info:
+                personal_exercises_list = [PersonalExercise(x["solved"],x["exercise_score"],x["rating"],x["exercise_id"],self.id) for x in exercise_info]
+                return personal_exercises_list
+            else:
+                return None
+
 
 
 class PersonalExercise:

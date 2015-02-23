@@ -8,4 +8,10 @@ class Group:
 
         # list of users
         def allMembers(self):
-            pass
+            members_info = dbw.getUsersInGroup(self.id)
+            if members_info:
+                # We'll put the info in a regular list
+                members_list = [ x["user_id"] for x in members_info]
+                return members_list
+            else:
+                return None
