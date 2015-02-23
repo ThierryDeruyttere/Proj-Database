@@ -1,9 +1,10 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
-import dbw
 import hashlib
+import sys
 
+import dbw
 from om import *
 
 #we'll use one ObjectManager to work with/create the objects stored in the DB
@@ -14,10 +15,15 @@ def home(request):
 
 def user(request, id = 0):
     user = dbw.getUserOnId(id)
+    id = int(id)
+
     if user:
-        return render(request, 'user.html', {'user':user})
+        context = {'user':user}
+        if request.session['current_user'] == id:
+            context['logged_in'] = True
+        return render(request, 'user.html', context)
     else:
-        return redirect('/home/')
+        return redirect('/')
 
 def userOverview(request):
     users = dbw.getAll('user')
