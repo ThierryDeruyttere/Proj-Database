@@ -15,92 +15,95 @@ def getAll(table):
 
 def getUserOnId(id):
     cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
-    return processOne()
+    return processData()
 
 def getUserOnEmail(email):
     cursor.execute("SELECT id, first_name, password, email FROM user WHERE user.email = " + "'%s'" % email)
-    return processOne()
+    return processData()
 
-def processOne():
+def processData():
     info = dictfetchall()
     if not info:
         return None
     else:
-        return info[0]
+        if len(info) == 1:
+            return info[0]
+        return info
+
 
 def createNewUser(first_name, last_name, email, password):
     cursor.execute("INSERT INTO user(is_active, first_name, last_name, password, email) VALUES ({}, '{}', '{}', '{}', '{}');".format(1, first_name,last_name,password,email))
 
     cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
-    return processOne()
+    return processData()
 
 def getExerciseListInformation(id):
     cursor.execute("SELECT * FROM exerciseList WHERE user.id = " + "'%s'" % id)
-    return processOne()
+    return processData()
 
 def getExerciseInformation(id):
     cursor.execute("SELECT * FROM exercise WHERE user.id = " + "'%s'" % id)
-    return processOne()
+    return processData()
 
 def getGroupInformation(id):
     cursor.execute("SELECT * FROM groups WHERE user.id = " + "'%s'" % id)
-    return processOne()
+    return processData()
 
 def getExerciseLanguage(id):
     cursor.execute("SELECT p.name FROM programmingLanguage p, associatedWith a, exercise e WHERE e.id = {} AND e.id = a.exercise_id AND a.progLang_id = p.id;".format(id))
-    return processOne()
+    return processData()
 
 def getExerciseCode(id):
     cursor.execute("SELECT c.code_text FROM code c, isCodeFor i, exercise e WHERE e.id = {} AND e.id = i.exercise_id AND i.code_id = c.id;".format(id))
-    return processOne()
+    return processData()
 
 def getExercQuestionAndLang(id):
     cursor.execute("SELECT l.name, q.question_text  FROM language l, question q, exercise e WHERE e.id = {} AND e.id = q.exercise_id AND q.language_id = l.id;".format(id))
-    return processOne()
+    return processData()
 
 def getExercCorrectAnswer(id):
     cursor.execute("SELECT a.answer_text, a.answer_number FROM correctAnswer c, answer a, exercise e WHERE e.id = {} AND e.id = c.exercise_id AND c.exercise_id = a.id ;".format(id))
-    return processOne()
+    return processData()
 
 def getExerciseAnswers(id, languageName):
     cursor.execute("SELECT a.answer_text, a.answer_number  FROM  answer a, exercise e, language l WHERE e.id = 1 AND a.is_answer_for = e.id AND a.language_id = l.id AND l.name = '{}';".format(id, languageName))
-    return processOne()
+    return processData()
 
 def getExerciseHints(id):
     cursor.execute("SELECT h.hint_text, h.hint_number  FROM exercise e, hint h WHERE e.id = h.exercise_id AND e.id = {};".format(id))
-    return processOne()
+    return processData()
 
 def getFriendsIdForID(id):
     cursor.execute("select f.friend_id from friendsWith f, user u WHERE u.id = f.user_id AND u.id = {};".format(id))
-    return processOne()
+    return processData()
 
 def getExercisesForList(list_id):
     cursor.execute("select i.exercise_id FROM exerciseList eL, isPartOf i WHERE eL.id = {} AND i.exerciseList_id = eL.id;".format(list_id))
-    return processOne()
+    return processData()
 
 def getMadeListForUser(id):
     cursor.execute("select * from  user u, madeList m WHERE  u.id = {} AND u.id = m.user_id;".format(id))
-    return processOne()
+    return processData()
 
 def getExerciseScoreFor(id, exercise_list):
     cursor.execute("select mE.exercise_id, mE.solved, mE.exercise_score, mE.rating from  user u, exerciseList eL, isPartOf i, madeEx mE WHERE u.id = 1 AND eL.id = 1 AND i.exerciseList_id = eL.id AND i.exercise_id =  mE.exercise_id AND mE.user_id = u.id;".format(id, exercise_list))
-    return processOne()
+    return processData()
 
 def getSubjectsForList(list_id):
     cursor.execute("select s.name from exerciseList e, subject s, hasSubject hS WHERE e.id = hS.exerciseList_id AND hS.subject_id = s.id AND e.id = {};".format(list_id))
-    return processOne()
+    return processData()
 
 def getPermForUserInGroup(user_id, group_id):
     cursor.execute("select uIG.user_permissions from user u, groups g, userInGroup uIG WHERE u.id = {} AND g.id = {} AND uIG.user_id = u.id AND g.id = uIG.group_id;".format(user_id, group_id))
-    return processOne()
+    return processData()
 
 def getUsersInGroup(group_id):
     cursor.execute("select user_id FROM userInGroup u WHERE u.group_id = {};".format(group_id))
-    return processOne()
+    return processData()
 
 def getGroupsFromUser(user_id):
     cursor.execute("select group_id FROM userInGroup u WHERE u.user_id = {};".format(user_id))
-    return processOne()
+    return processData()
 ##INSERTS
 def insertIntoTable(tableName, **kwargs):
     columnNames = []
