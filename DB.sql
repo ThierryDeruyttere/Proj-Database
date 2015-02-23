@@ -242,8 +242,3 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,1,5,5);
 
 #insert into madeEx
 INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating) VALUES(1,1,1,5,5);
-user_id INT,
-exercise_id INT,
-solved BOOLEAN NOT NULL,
-exercise_score INT NOT NULL,
-rating INT,

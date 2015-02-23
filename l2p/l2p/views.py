@@ -71,7 +71,7 @@ def login(request):
 
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
         return authenticate(request, email, password)
-
+        
     if request.method == 'GET':
         if request.session['current_user']:
             return redirect('/me/')
