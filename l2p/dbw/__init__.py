@@ -94,6 +94,13 @@ def getPermForUserInGroup(user_id, group_id):
     cursor.execute("select uIG.user_permissions from user u, groups g, userInGroup uIG WHERE u.id = {} AND g.id = {} AND uIG.user_id = u.id AND g.id = uIG.group_id;".format(user_id, group_id))
     return processOne()
 
+def getUsersInGroup(group_id):
+    cursor.execute("select user_id FROM userInGroup u WHERE u.group_id = {};".format(group_id))
+    return processOne()
+
+def getGroupsFromUser(user_id):
+    cursor.execute("select group_id FROM userInGroup u WHERE u.user_id = {};".format(user_id))
+    return processOne()
 ##INSERTS
 def insertIntoTable(tableName, **kwargs):
     columnNames = []

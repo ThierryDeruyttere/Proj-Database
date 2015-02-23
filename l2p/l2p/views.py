@@ -91,7 +91,7 @@ def me(request):
     else:
         return render(request, 'me.html', {'first_name': 'Anonymous'})
 
-def group(request, id = 0):
+def group(request, id = 0):anders zet
     return render(request, 'group.html', {'id':id})
 
 def groupCreate(request, id = 0):
