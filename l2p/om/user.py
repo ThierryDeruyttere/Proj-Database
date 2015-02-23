@@ -45,7 +45,7 @@ class PersonalList:
         self.last_made
 
         # Object which represents the actual list of personal exercises (SQL function)
-        def allExercises(self):
+        def allExercises(self,user_id):
             pass
 
 
