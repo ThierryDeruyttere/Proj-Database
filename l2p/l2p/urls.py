@@ -13,25 +13,28 @@ urlpatterns = patterns('l2p.views',
     url(r'^u/(?P<id>\d*)/$', 'user'),
     # User overview (/u/overview)
     url(r'^u/overview/$', 'userOverview'),
-    # Login
+    # Login page (/login)
     url(r'^login', 'login'),
-    # Logout
+    # Logout page (/logout)
     url(r'^logout', 'logout'),
-    # MyPage, information about myself
+    # Redirect to user page (/me)
     url(r'^me', 'me'),
-    # Register
+    # Register (/register)
     url(r'^register', 'register'),
-    
+
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
-    # Create new group
+    # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
     ## QUESTIONS ##
     # List page with overview of questions (/l/<id>)
     url(r'^l/(?P<id>\d*)/$', 'list'),
-    url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'list'),
+    # Question page (/l/<id>/<question>)
+    url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
+    # Submit question answer (/l/<id>/<question>/submit)
+    url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
 
     ## TESTING ##
     # Zurb Foundation test pages

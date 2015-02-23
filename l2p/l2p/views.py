@@ -77,7 +77,7 @@ def logout(request):
 def me(request):
     try:
         user = dbw.getUserInformation(request.session['current_user'])
-        return render(request, 'me.html', {'first_name': user[0]['first_name']})
+        return redirect('/u/{id}'.format(id = request.session['current_user']))
     except:
         return render(request, 'me.html', {'first_name': 'Anonymous'})
 
@@ -92,3 +92,6 @@ def list(request, id = 0):
 
 def question(request, id, question):
     return render(request, 'question.html', {})
+
+def submit(request, id, question):
+    return render(request, 'submit.html', {})
