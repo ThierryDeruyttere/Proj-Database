@@ -13,7 +13,11 @@ def home(request):
     return render(request, 'home.html', {})
 
 def user(request, id = 0):
-    return render(request, 'user.html', {'id':id})
+    user = dbw.getUserOnId(id)
+    if user:
+        return render(request, 'user.html', {'user':user})
+    else:
+        return redirect('/home/')
 
 def userOverview(request):
     users = dbw.getAll('user')
@@ -36,16 +40,16 @@ def register(request):
 
 def authenticate(request, email, password):
     #inloggen met email
-    user = dbw.getUser(email)
+    user = dbw.getUserOnEmail(email)
 
     #als het zoeken naar een user met die naam geen lege lijst geeft
     if not user:
         print('There is no user with the name %s' % email)
         return render(request, 'login.html', {})
 
-    if user[0]['password'] == password:
+    if user['password'] == password:
         print("You are getting logged in")
-        request.session['current_user'] = user[0]['id']
+        request.session['current_user'] = user['id']
         return redirect('/me/')
     return render(request, 'login.html', {})
 
@@ -75,10 +79,10 @@ def logout(request):
     return render(request, 'logout.html', {})
 
 def me(request):
-    try:
-        user = dbw.getUserInformation(request.session['current_user'])
+    user = dbw.getUserOnId(request.session['current_user'])
+    if user:
         return redirect('/u/{id}'.format(id = request.session['current_user']))
-    except:
+    else:
         return render(request, 'me.html', {'first_name': 'Anonymous'})
 
 def group(request, id = 0):
