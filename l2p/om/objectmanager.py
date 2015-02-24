@@ -23,7 +23,6 @@ class ObjectManager:
             user_info = dbw.getUserOnId(kwargs['id'])[0]
         elif 'email' in kwargs:
             user_info = dbw.getUserOnEmail(kwargs['email'])[0]
-
         if user_info:
             user_object = om.user.User(user_info['id'],user_info["first_name"],user_info["last_name"],
             user_info["is_active"],user_info["email"],user_info["permission"], user_info['password'])
@@ -35,7 +34,7 @@ class ObjectManager:
 
     # Uses the DB to create an object representing a Group
     def createGroup(self,id):
-        group_info = dbw.getGroupInformation(id)[0]
+        group_info = dbw.getGroupInformation(id)
         if group_info:
             group_object = om.group.Group(id,group_info["group_name"],group_info["group_type"])
             return group_object
@@ -44,7 +43,7 @@ class ObjectManager:
 
     # Uses the DB to create an object representing an Exercise
     def createExercise(self,id):
-        exercise_info = dbw.getExerciseInformation(id)[0]
+        exercise_info = dbw.getExerciseInformation(id)
         if exercise_info:
             exercise_object = om.exercise.Exercise(id,exercise_info["difficulty"],
             exercise_info["max_score"],exercise_info["penalty"],exercise_info["exercise_type"])
@@ -54,7 +53,7 @@ class ObjectManager:
 
     # Uses the DB to create an object representing a ExerciseList
     def createExerciseList(self,id):
-        exercise_list_info = dbw.getExerciseListInformation(id)[0]
+        exercise_list_info = dbw.getExerciseListInformation(id)
         if exercise_list_info:
             exercise_list_object = om.exerciselist.ExerciseList(id,exercise_list_info["name"],
             exercise_list_info["difficulty"],exercise_list_info["description"])

@@ -116,6 +116,7 @@ def test(request, id = 0):
     user_test = object_manager.createUser(3)
     friends = user_test.allFriends()
     groups = user_test.allGroups()
+    lists = user_test.allPersonalLists()
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
     ,'testfunction2': ' '.join([str(group) for group in groups]) })
 
@@ -125,5 +126,3 @@ def tables(request):
         if(table != ''):
             data = dbw.getAll(table)
             return render(request, 'tables.html',{'data' : data, 'keys' : data[0].keys()})
-
-    return render(request, 'tables.html',{})

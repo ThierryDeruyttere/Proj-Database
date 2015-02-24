@@ -17,8 +17,8 @@ def getAll(table):
     return None
 
 def getUserOnId(id):
-    cursor.execute('SELECT * FROM user WHERE user.id = {}'.format(id))
-    return processData()
+    cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
+    return processOne()
 
 def getUserOnEmail(email):
     cursor.execute('SELECT * FROM user WHERE user.email = "{}"'.format(email))
@@ -35,6 +35,18 @@ def processData():
     else:
         return info
 
+def processOne():
+    '''
+    @brief gets the data from a sql query
+    @return returns a dict with the retrieved data
+    '''
+    info = dictfetchall()
+    if not info:
+        return None
+    else:
+        return info[0]
+
+
 
 def createNewUser(first_name, last_name, email, password):
     cursor.execute("INSERT INTO user(is_active, first_name, last_name, password, email) VALUES ({}, '{}', '{}', '{}', '{}');".format(1, first_name,last_name,password,email))
@@ -48,8 +60,8 @@ def getExerciseListInformation(id):
     @param id the id of the user
     @return returns a dict with information
     '''
-    cursor.execute("SELECT * FROM exerciseList WHERE user.id = " + "'%s'" % id)
-    return processData()
+    cursor.execute("SELECT * FROM exerciseList WHERE id = " + "'%s'" % id)
+    return processOne()
 
 def getGroupInformation(id):
     '''
@@ -58,7 +70,7 @@ def getGroupInformation(id):
     @return returns a dict with information
     '''
     cursor.execute("SELECT * FROM groups WHERE id = " + "'%s'" % id)
-    return processData()
+    return processOne()
 
 def getExerciseInformation(id):
     '''
@@ -67,7 +79,7 @@ def getExerciseInformation(id):
     @return returns a dict with information
     '''
     cursor.execute("SELECT * FROM exercise WHERE id = " + "'%s'" % id)
-    return processData()
+    return processOne()
 
 def getExerciseLanguage(id):
     '''
@@ -85,7 +97,7 @@ def getExerciseCode(id):
     @return returns a dict with information
     '''
     cursor.execute("SELECT c.code_text FROM code c, isCodeFor i, exercise e WHERE e.id = {} AND e.id = i.exercise_id AND i.code_id = c.id;".format(id))
-    return processData()
+    return processOne()
 
 def getExercQuestionAndLang(id):
     '''
@@ -177,7 +189,7 @@ def getPermForUserInGroup(user_id, group_id):
     @return returns a dict with lists
     '''
     cursor.execute("select uIG.user_permissions from user u, groups g, userInGroup uIG WHERE u.id = {} AND g.id = {} AND uIG.user_id = u.id AND g.id = uIG.group_id;".format(user_id, group_id))
-    return processData()
+    return processOne()
 
 def getUsersInGroup(group_id):
     '''

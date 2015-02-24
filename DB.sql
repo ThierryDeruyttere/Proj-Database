@@ -239,6 +239,7 @@ INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES (1,1);
 
 #insert into madeList
 INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,1,5,5);
+INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,3,5,5);
 
 #insert into madeEx
 INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating) VALUES(1,1,1,5,5);
