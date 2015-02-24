@@ -121,8 +121,10 @@ def test(request, id = 0):
     ,'testfunction2': ' '.join([str(group) for group in groups]),'testfunction3': ' '.join([str(list_) for list_ in lists]) })
 
 def tables(request):
-    if request.method == 'POST':
-        table = request.POST.get('sql_table', '')
+    if request.method == 'GET':
+        table = request.GET.get('sql_table', '')
         if(table != ''):
             data = dbw.getAll(table)
             return render(request, 'tables.html',{'data' : data, 'keys' : data[0].keys()})
+
+    return render(request, 'tables.html',{})
