@@ -20,9 +20,9 @@ class ObjectManager:
         # Get search key from kwargs, only one possible key atm
         user_info = None
         if 'id' in kwargs:
-            user_info = dbw.getUserOnId(kwargs['id'])[0]
+            user_info = dbw.getUserOnId(kwargs['id'])
         elif 'email' in kwargs:
-            user_info = dbw.getUserOnEmail(kwargs['email'])[0]
+            user_info = dbw.getUserOnEmail(kwargs['email'])
         if user_info:
             user_object = om.user.User(user_info['id'],user_info["first_name"],user_info["last_name"],
             user_info["is_active"],user_info["email"],user_info["permission"], user_info['password'])

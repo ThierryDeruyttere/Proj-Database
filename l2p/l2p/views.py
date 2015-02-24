@@ -113,12 +113,12 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def test(request, id = 0):
-    user_test = object_manager.createUser(3)
+    user_test = object_manager.createUser(id=3)
     friends = user_test.allFriends()
     groups = user_test.allGroups()
     lists = user_test.allPersonalLists()
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
-    ,'testfunction2': ' '.join([str(group) for group in groups]) })
+    ,'testfunction2': ' '.join([str(group) for group in groups]),'testfunction3': ' '.join([str(list_) for list_ in lists]) })
 
 def tables(request):
     if request.method == 'POST':
