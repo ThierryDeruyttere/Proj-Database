@@ -10,14 +10,14 @@ def dictfetchall():
     ]
 
 def getAll(table):
-    cursor.execute("show tables like '{}'".format(table))
+    cursor.execute('show tables like "{}"'.format(table))
     if(len(dictfetchall()) > 0):
         cursor.execute('SELECT * FROM ' + table)
         return dictfetchall()
     return None
 
 def getUserOnId(id):
-    cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
+    cursor.execute('SELECT * FROM user WHERE user.id = {}'.format(id))
     return processOne()
 
 def getUserOnEmail(email):

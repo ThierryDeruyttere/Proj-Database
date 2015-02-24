@@ -22,11 +22,11 @@ class User:
             friends_list = []
             # We'll make objects of the friends and put them in a list
             for friend in friends_info:
-                friend_info = dbw.getUserOnId(friend["friend_id"])
+                friend_info = dbw.getUserOnId(friend['friend_id'])
                 if friend_info:
                     # If the info is legit, we add a User object with the info to the list
-                    friend_object = User(friend["friend_id"],friend_info["first_name"],friend_info["last_name"],
-                    friend_info["is_active"],friend_info["email"],friend_info["permission"],friend_info['password'])
+                    friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
+                    friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
                     friends_list.append(friend_object)
             return friends_list
         else:
@@ -39,10 +39,10 @@ class User:
             groups_list = []
             # We'll make objects of the friends and put them in a list
             for group in groups_info:
-                group_info = dbw.getGroupInformation(group["group_id"])
+                group_info = dbw.getGroupInformation(group['group_id'])
                 if group_info:
                     # If the info is legit, we add a User object with the info to the list
-                    group_object = om.group.Group(group["group_id"],group_info["group_name"],group_info["group_type"])
+                    group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
                     groups_list.append(group_object)
             return groups_list
         else:
@@ -56,8 +56,8 @@ class User:
             # We'll make objects of the friends and put them in a list
             for exercises_list in exercises_lists_info:
                 # If the info is legit, we add a User object with the info to the list
-                exercises_list_object = PersonalList(exercises_list["rating"],exercises_list["score"]
-                ,exercises_list["exerciseList_id"],self.id)
+                exercises_list_object = PersonalList(exercises_list['rating'],exercises_list['score']
+                ,exercises_list['exerciseList_id'],self.id)
                 exercises_lists_list.append(exercises_list_object)
             return exercises_lists_list
         else:
@@ -76,7 +76,7 @@ class User:
             return None
 
     def __str__(self):
-         return str(self.id)+" "+self.first_name+" "+self.last_name+"\n"+str(self.is_active)+"\n"+self.email+"\n"+str(self.permissions)
+         return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
 
 class PersonalList:
     def __init__(self,rating,score,exercise_list_id,user_id):
@@ -87,24 +87,24 @@ class PersonalList:
         # Needed to use the allExercises function
         self.user_id = user_id
         exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
-        exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info["name"],
-        exercise_list_info["difficulty"],exercise_list_info["description"])
+        exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
+        exercise_list_info['difficulty'],exercise_list_info['description'])
         # Actual exercises-object (make with SQL queries)
         self.excersises_list = exercise_list_object
-        # Integer representing the number of the last-made excersise (needed?) ("calculate" with the real list-obj)
+        # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None
 
     # Object which represents the actual list of personal exercises (SQL function)
     def allExercises(self,user_id):
         exercise_info = dbw.getExerciseScoreFor(self.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x["solved"],x["exercise_score"],x["rating"],x["exercise_id"],self.id) for x in exercise_info]
+            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id'],self.id) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
 
     def __str__(self):
-         return str(self.rating)+" "+str(self.score)+" "+str(self.user_id)
+         return str(self.rating)+' '+str(self.score)+' '+str(self.user_id)
 
 
 class PersonalExercise:
