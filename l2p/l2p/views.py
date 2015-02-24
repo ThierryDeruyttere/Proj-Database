@@ -86,10 +86,15 @@ def logout(request):
 
 def me(request):
     user = dbw.getUserOnId(request.session['current_user'])
+    redirect_url = ""
+    
+    # Switch to /u/<id> if user is logged in, home page otherwise
     if user:
-        return redirect('/u/{id}'.format(id = request.session['current_user']))
+        redirect_url = '/u/{id}'.format(id = request.session['current_user'])
     else:
-        return render(request, 'me.html', {'first_name': 'Anonymous'})
+        redirect_url = '/'
+    
+    return redirect(redirect_url)
 
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
