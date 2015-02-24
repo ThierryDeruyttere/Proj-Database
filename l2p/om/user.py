@@ -1,5 +1,6 @@
 import om.exerciselist
 import om.exercise
+import om.group
 import dbw
 
 class User:
@@ -21,10 +22,10 @@ class User:
             friends_list = []
             # We'll make objects of the friends and put them in a list
             for friend in friends_info:
-                friend_info = dbw.getUserOnId(friend)
+                friend_info = dbw.getUserOnId(friend["friend_id"])[0]
                 if friend_info:
                     # If the info is legit, we add a User object with the info to the list
-                    friend_object = User(friend,friend_info["first_name"],friend_info["last_name"],
+                    friend_object = User(friend["friend_id"],friend_info["first_name"],friend_info["last_name"],
                     friend_info["is_active"],friend_info["email"],friend_info["permission"])
                     friends_list.append(friend_object)
             return friends_list
@@ -35,8 +36,14 @@ class User:
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)
         if groups_info:
-            # We'll put the info in a regular list
-            groups_list = [ x["group_id"] for x in groups_info]
+            groups_list = []
+            # We'll make objects of the friends and put them in a list
+            for group in groups_info:
+                group_info = dbw.getGroupInformation(group["group_id"])[0]
+                if group_info:
+                    # If the info is legit, we add a User object with the info to the list
+                    group_object = om.group.Group(group["group_id"],group_info["group_name"],group_info["group_type"])
+                    groups_list.append(group_object)
             return groups_list
         else:
             return None

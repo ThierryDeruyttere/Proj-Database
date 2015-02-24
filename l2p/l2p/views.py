@@ -87,13 +87,13 @@ def logout(request):
 def me(request):
     user = dbw.getUserOnId(request.session['current_user'])
     redirect_url = ""
-    
+
     # Switch to /u/<id> if user is logged in, home page otherwise
     if user:
         redirect_url = '/u/{id}'.format(id = request.session['current_user'])
     else:
         redirect_url = '/'
-    
+
     return redirect(redirect_url)
 
 def group(request, id = 0):
@@ -114,4 +114,6 @@ def submit(request, id, question):
 def test(request, id = 0):
     user_test = object_manager.createUser(3)
     friends = user_test.allFriends()
-    return render(request, 'test.html', {'test': str(user_test),'testfunction': friends })
+    groups = user_test.allGroups()
+    return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
+    ,'testfunction2': ' '.join([str(group) for group in groups]) })

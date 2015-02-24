@@ -30,8 +30,6 @@ def processData():
     if not info:
         return None
     else:
-        if len(info) == 1:
-            return info[0]
         return info
 
 
@@ -48,6 +46,15 @@ def getExerciseListInformation(id):
     @return returns a dict with information
     '''
     cursor.execute("SELECT * FROM exerciseList WHERE user.id = " + "'%s'" % id)
+    return processData()
+
+def getGroupInformation(id):
+    '''
+    @brief get the information from Groups given an group id
+    @param id the id of the group
+    @return returns a dict with information
+    '''
+    cursor.execute("SELECT * FROM groups WHERE id = " + "'%s'" % id)
     return processData()
 
 def getExerciseInformation(id):
