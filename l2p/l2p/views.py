@@ -117,3 +117,12 @@ def test(request, id = 0):
     groups = user_test.allGroups()
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
     ,'testfunction2': ' '.join([str(group) for group in groups]) })
+
+def tables(request):
+    if request.method == 'POST':
+        table = request.POST.get('sql_table', '')
+        if(table != ''):
+            data = dbw.getAll(table)
+            return render(request, 'tables.html',{'data' : data, 'keys' : data[0].keys()})
+
+    return render(request, 'tables.html',{})

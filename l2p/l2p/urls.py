@@ -41,4 +41,5 @@ urlpatterns = patterns('l2p.views',
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test', 'test'),
+    url(r'^tables/', 'tables')
 )

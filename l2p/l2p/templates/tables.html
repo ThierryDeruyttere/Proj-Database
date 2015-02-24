@@ -1,0 +1,30 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+
+<div class="large-4 small-4 columns">
+    Table you want to view:
+    <form method="post">
+        {% csrf_token %}
+         <div class="small-11  columns">
+             <input type="text" placeholder="Table" id="sql_table" name="sql_table" value="{{ sql_table }}">
+         </div>
+         <input type="submit" value="search" class="button"/>
+    </form>
+    <table>
+        <tr>
+            {%  for key in keys %}
+                <td>{{ key }}</td>
+            {% endfor %}
+        </tr>
+        {%  for row in data %}
+            <tr>
+            {%  for k, value in row.items %}
+                <td>{{ value }}</td>
+            {% endfor %}
+             </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock base_body %}

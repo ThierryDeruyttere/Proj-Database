@@ -10,8 +10,11 @@ def dictfetchall():
     ]
 
 def getAll(table):
-    cursor.execute('SELECT * FROM ' + table)
-    return dictfetchall()
+    cursor.execute("show tables like '{}'".format(table))
+    if(len(dictfetchall()) > 0):
+        cursor.execute('SELECT * FROM ' + table)
+        return dictfetchall()
+    return None
 
 def getUserOnId(id):
     cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
@@ -108,7 +111,7 @@ def getExerciseAnswers(id, languageName):
     @param id the id of the exercise
     @return returns a dict with answers
     '''
-    cursor.execute("SELECT a.answer_text, a.answer_number  FROM  answer a, exercise e, language l WHERE e.id = 1 AND a.is_answer_for = e.id AND a.language_id = l.id AND l.name = '{}';".format(id, languageName))
+    cursor.execute("SELECT a.answer_text, a.answer_number  FROM  answer a, exercise e, language l WHERE e.id = {} AND a.is_answer_for = e.id AND a.language_id = l.id AND l.name = '{}';".format(id, languageName))
     return processData()
 
 def getExerciseHints(id):
