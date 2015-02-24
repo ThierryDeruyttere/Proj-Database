@@ -12,11 +12,11 @@
          <input type="submit" value="search" class="button"/>
     </form>
     <table>
-        <tr>
+        <thead><tr>
             {%  for key in keys %}
                 <td>{{ key }}</td>
             {% endfor %}
-        </tr>
+        </tr><thead>
         {%  for row in data %}
             <tr>
             {%  for k, value in row.items %}
