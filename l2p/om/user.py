@@ -4,15 +4,15 @@ import om.group
 import dbw
 
 class User:
-    def __init__(self,id,first_name,last_name,is_active,email,permissions):
+    def __init__(self,id,first_name,last_name,is_active,email,permissions,password):
         # Plain info on the user
         self.id = id
         self.first_name = first_name
         self.last_name = last_name
         self.is_active = is_active
         self.email = email
-        # password not needed here?
         self.permissions = permissions
+        self.password = password
 
 
     # List with other users this user is befriended with
@@ -26,7 +26,7 @@ class User:
                 if friend_info:
                     # If the info is legit, we add a User object with the info to the list
                     friend_object = User(friend["friend_id"],friend_info["first_name"],friend_info["last_name"],
-                    friend_info["is_active"],friend_info["email"],friend_info["permission"])
+                    friend_info["is_active"],friend_info["email"],friend_info["permission"],friend_info['password'])
                     friends_list.append(friend_object)
             return friends_list
         else:

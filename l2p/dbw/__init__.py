@@ -17,11 +17,11 @@ def getAll(table):
     return None
 
 def getUserOnId(id):
-    cursor.execute("SELECT * FROM user WHERE user.id = " + "'%s'" % id)
+    cursor.execute('SELECT * FROM user WHERE user.id = {}'.format(id))
     return processData()
 
 def getUserOnEmail(email):
-    cursor.execute("SELECT id, first_name, password, email FROM user WHERE user.email = " + "'%s'" % email)
+    cursor.execute('SELECT * FROM user WHERE user.email = "{}"'.format(email))
     return processData()
 
 def processData():

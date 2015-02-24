@@ -14,8 +14,10 @@ def home(request):
     return render(request, 'home.html', {})
 
 def user(request, id = 0):
-    user = dbw.getUserOnId(id)
+    # Make id an int
     id = int(id)
+    # Get the user object for that id
+    user = object_manager.createUser(id = id)
 
     if user:
         context = {'user':user}
@@ -44,18 +46,18 @@ def register(request):
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
     return render(request, 'register.html', {})
 
-def authenticate(request, email, password):
-    #inloggen met email
-    user = dbw.getUserOnEmail(email)
+def authenticate(request, email, password_str):
+    # Create the user object on email
+    user = object_manager.createUser(email = email)
 
-    #als het zoeken naar een user met die naam geen lege lijst geeft
+    # If we found a user with that email
     if not user:
-        print('There is no user with the name %s' % email)
+        print('There is no user with the name %s' % email_str)
         return render(request, 'login.html', {})
 
-    if user['password'] == password:
+    if user.password == password:
         print("You are getting logged in")
-        request.session['current_user'] = user['id']
+        request.session['current_user'] = user.id
         return redirect('/me/')
     return render(request, 'login.html', {})
 
@@ -85,7 +87,7 @@ def logout(request):
     return render(request, 'logout.html', {})
 
 def me(request):
-    user = dbw.getUserOnId(request.session['current_user'])
+    user = object_manager.createUser(id = request.session['current_user'])
     redirect_url = ""
 
     # Switch to /u/<id> if user is logged in, home page otherwise
