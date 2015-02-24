@@ -110,3 +110,8 @@ def question(request, id, question):
 
 def submit(request, id, question):
     return render(request, 'submit.html', {})
+
+def test(request, id = 0):
+    user_test = object_manager.createUser(3)
+    friends = user_test.allFriends()
+    return render(request, 'test.html', {'test': str(user_test),'testfunction': friends })

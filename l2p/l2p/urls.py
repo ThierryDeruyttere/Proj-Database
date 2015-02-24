@@ -40,4 +40,5 @@ urlpatterns = patterns('l2p.views',
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^test', 'test'),
 )

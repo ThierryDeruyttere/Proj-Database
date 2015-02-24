@@ -41,7 +41,7 @@ class Exercise:
             hint_info = dbw.getExerciseHints(self.id)
             if hint_info:
                 # first we add the data to a list of tuples
-                hint_unordered_list = [(x["answer_text"],x["answer_number"]) for x in hint_info]
+                hint_unordered_list = [(x["hint_text"],x["hint_number"]) for x in hint_info]
                 # We sort on the second element of every tuple
                 sorted_hints = sorted(hint_unordered_list, key=lambda tup: tup[1])
                 # We don't need the number anymore
