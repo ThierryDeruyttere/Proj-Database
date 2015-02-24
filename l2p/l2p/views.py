@@ -46,13 +46,12 @@ def register(request):
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
     return render(request, 'register.html', {})
 
-def authenticate(request, email, password_str):
+def authenticate(request, email, password):
     # Create the user object on email
     user = object_manager.createUser(email = email)
 
     # If we found a user with that email
     if not user:
-        print('There is no user with the name %s' % email_str)
         return render(request, 'login.html', {})
 
     if user.password == password:
