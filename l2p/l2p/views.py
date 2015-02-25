@@ -130,12 +130,25 @@ def test(request, id = 0):
         personalexercises += list_.allExercises()
     #testfunction6
     exercise_test = object_manager.createExercise(id=1)
-
+    #testfunction7
+    hints = exercise_test.allHints()
+    #testfunction8
+    answers = exercise_test.allAnswers()
+    #testfunction9
+    group_test = object_manager.createGroup(1)
+    #testfunction10
+    exercise_list_test = object_manager.createExerciseList(1)
+    #testfunction11
+    subjects = exercise_list_test.allSubjects()
+    #testfunction12
+    exercises = exercise_list_test.allExercises()
 
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
     ,'testfunction2': ' '.join([str(group) for group in groups]),'testfunction3': ' '.join([str(list_) for list_ in lists])
     ,'testfunction4': permission,'testfunction5': ' '.join([str(ex) for ex in personalexercises])
-    ,'testfunction6': str(exercise_test)})
+    ,'testfunction6': str(exercise_test),'testfunction7': hints,'testfunction8': answers
+    ,'testfunction9': 'Group: '+str(group_test),'testfunction10': 'List: '+str(exercise_list_test)
+    ,'testfunction11': subjects,'testfunction12': ' '.join([str(exercise) for exercise in exercises])})
 
 def tables(request):
     if request.method == 'GET':
