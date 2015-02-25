@@ -113,11 +113,14 @@ class PersonalExercise:
         self.score = score
         # given rating
         self.rating = rating
-        exercise_info = dbw.getExerciseListInformation(exercise_id)
-        exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
-        exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type'])
+        
+        exercise_info = dbw.getExerciseInformation(exercise_id)
         # Actual exercises-object (make with SQL queries)
-        self.exercise = exercise_object
+        self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
+        exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
+        ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
+        ,exercise_info['language'],exercise_info['answer_text'])
+
 
     def __str__(self):
-         return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+self.excercise.difficulty
+         return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+str(self.exercise)

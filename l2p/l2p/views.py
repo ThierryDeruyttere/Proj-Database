@@ -114,7 +114,7 @@ def submit(request, id, question):
 
 def test(request, id = 0):
     # test
-    user_test = object_manager.createUser(id=3)
+    user_test = object_manager.createUser(id=1)
     #testfunction
     friends = user_test.allFriends()
     #testfunction2
@@ -125,18 +125,18 @@ def test(request, id = 0):
     permission = user_test.checkPermission(1)
     #testfunction5
     #TODO fix this test by adding stuff to DB?
-    personalexercises_pseudo = []
-    #for list_ in lists:
-        #personalexercises_pseudo += list_.allExercises()
-
+    personalexercises = []
+    for list_ in lists:
+        personalexercises += list_.allExercises()
     #testfunction6
     exercise_test = object_manager.createExercise(id=1)
 
 
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
     ,'testfunction2': ' '.join([str(group) for group in groups]),'testfunction3': ' '.join([str(list_) for list_ in lists])
-    , 'testfunction4': permission,'testfunction5': ' ', 'testfunction6': exercise_test})
-#' '.join([str(ex) for ex in personalexercises])
+    ,'testfunction4': permission,'testfunction5': ' '.join([str(ex) for ex in personalexercises])
+    ,'testfunction6': str(exercise_test)})
+
 def tables(request):
     if request.method == 'GET':
         table = request.GET.get('sql_table', '')
