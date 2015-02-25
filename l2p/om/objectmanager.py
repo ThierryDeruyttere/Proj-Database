@@ -23,6 +23,7 @@ class ObjectManager:
             user_info = dbw.getUserOnId(kwargs['id'])
         elif 'email' in kwargs and kwargs['email']:
             user_info = dbw.getUserOnEmail(kwargs['email'])
+
         if user_info:
             user_object = om.user.User(user_info['id'],user_info['first_name'],user_info['last_name'],
             user_info['is_active'],user_info['email'],user_info['permission'], user_info['password'])

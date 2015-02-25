@@ -40,9 +40,7 @@ def register(request):
 
         try:
             dbw.createNewUser(first_name, last_name, email, password)
-
         except:
-            print("ALREADY A USER WITH THIS EMAIL")
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
     return render(request, 'register.html', {})
 
@@ -55,17 +53,13 @@ def authenticate(request, email, password):
         return render(request, 'login.html', {})
 
     if user.password == password:
-        print("You are getting logged in")
         request.session['current_user'] = user.id
         return redirect('/me/')
     return render(request, 'login.html', {})
 
 def login(request):
     if 'current_user' not in request.session:
-        print('Current_user sessions doesnt exist yet')
         request.session['current_user'] = None
-    else:
-        print('Already current_user session')
 
     if request.method == 'POST':
         email = request.POST.get('your_email', '')

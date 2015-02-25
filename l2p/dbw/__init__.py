@@ -22,7 +22,7 @@ def getUserOnId(id):
 
 def getUserOnEmail(email):
     cursor.execute('SELECT * FROM user WHERE user.email = "{}"'.format(email))
-    return processData()
+    return processOne()
 
 def processData():
     '''
