@@ -78,7 +78,7 @@ def getExerciseInformation(id):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT * FROM exercise WHERE id = {id}'.format(id))
+    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, associatedWith aW, correctAnswer cA, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.id = cA.exercise_id AND cA.exercise_id = a.id AND e.id = aW.exercise_id AND aW.progLang_id = p.id;'.format(id))
     return processOne()
 
 def getExerciseLanguage(id):
@@ -96,7 +96,7 @@ def getExerciseCode(id):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT c.code_text FROM code c, isCodeFor i, exercise e WHERE e.id = {id} AND e.id = i.exercise_id AND i.code_id = c.id;'.format(id = id))
+    cursor.execute('SELECT c.code_text FROM code c, exercise e WHERE e.id = {id} AND e.id = c.exercise_id;'.format(id = id))
     return processOne()
 
 def getExercQuestionAndLang(id):
@@ -237,14 +237,11 @@ def insertProgrammingLanguage(name):
 def insertExercise(difficulty, max_score, penalty, exercise_type):
     cursor.execute('INSERT INTO exercise(difficulty,max_score,penalty,exercise_type) VALUES ({diff},{max},{pen},"{e_type}");'.format(diff = difficulty, max = max_score, pen = penalty, e_type = exercise_type))
 
-def insertCode(code_text):
-    cursor.execute('INSERT INTO code(code_text) VALUES ("{c_text}");'.format(c_text = code_text))
+def insertCode(code_text, exercise_id):
+    cursor.execute('INSERT INTO code(code_text, exercise_id) VALUES ("{c_text}", {exerc_id});'.format(c_text = code_text, exerc_id = exercise_id))
 
 def insertAssociatedWith(progLang_id, exercise_id):
     cursor.execute('INSERT INTO associatedWith(progLang_id,exercise_id) VALUES ({pl_id},{e_id});'.format(pl_id = progLang_id, e_id = exercise_id))
-
-def insertIsCodeFor(code_id, exercise_id):
-    cursor.execute('INSERT INTO isCodeFor(code_id,exercise_id) VALUES ({c_id},{e_id});'.format(c_id = code_id, e_id = exercise_id))
 
 def insertLanguage(name):
     cursor.execute('INSERT INTO language(name) VALUES ("{name}");'.format(name = name))

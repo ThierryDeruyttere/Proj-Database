@@ -53,6 +53,8 @@ CREATE TABLE exercise(
 CREATE TABLE code(
   id INT NOT NULL AUTO_INCREMENT,
   code_text BLOB NOT NULL,
+  exercise_id INT,
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   PRIMARY KEY(id)
 );
 
@@ -63,12 +65,6 @@ CREATE TABLE associatedWith(
   FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
-CREATE TABLE isCodeFor(
-  code_id INT,
-  exercise_id INT,
-  FOREIGN KEY (code_id) REFERENCES code(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
 
 CREATE TABLE madeEx(
   user_id INT,
@@ -197,13 +193,10 @@ INSERT INTO programmingLanguage(name) VALUES ('SQL');
 INSERT INTO exercise(difficulty, max_score, penalty, exercise_type) VALUES (1,5,1,'code');
 
 # Code data
-INSERT INTO code(code_text) VALUES ('print("")');
+INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
 
 # AssosiatedWith data
 INSERT INTO associatedWith(progLang_id, exercise_id) VALUES (1,1);
-
-# IsCodeFor data
-INSERT INTO isCodeFor(code_id, exercise_id) VALUES (1,1);
 
 # Language data
 INSERT INTO language(name) VALUES ('English');

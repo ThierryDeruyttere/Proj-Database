@@ -2,11 +2,11 @@
 
 {% block base_body %}
 
-<div class="large-4 small-4 columns">
-  Table you want to view:
+<div class="large-4 small-4 small-centered columns" >
   <form method="get">
     {% csrf_token %}
     <div class="small-11  columns">
+      Table you want to view:
       <input type="text" placeholder="Table" id="sql_table" name="sql_table" value="{{ sql_table }}" data-dropdown="drop1" aria-controls="drop1" aria-expanded="true">
       <ul id="drop1" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
         <li><a href="?sql_table=user">user</a></li>
@@ -29,9 +29,11 @@
         <li><a href="?sql_table=madeList">madeList</a></li>
         <li><a href="?sql_table=correctAnswer">correctAnswer</a></li>
       </ul>
+        <input type="submit" value="search" class="button"/>
     </div>
-    <input type="submit" value="search" class="button"/>
   </form>
+</div >
+<div class="table">
   <table>
     <thead><tr>
       {%  for key in keys %}
