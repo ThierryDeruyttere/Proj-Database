@@ -220,7 +220,7 @@ def insertIntoTable(tableName, **kwargs):
     cursor.execute('INSERT INTO ' + tableName + '('+ queryColumns  +') VALUES ('+ queryValues +');', kwargs)
 
 def insertUser(first_name, last_name, password, email, is_active = 1):
-    cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{pass}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, pass = password, email = email))
+    cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
 
 def insertFriendsWith(user_id, friend_id):
     cursor.execute('INSERT INTO friendsWith(first_id,second_id) VALUES ({u_id}, {f_id});'.format(u_id = user_id, f_id = friend_id))
@@ -253,7 +253,7 @@ def insertQuestion(question_text, language_id, exercise_id):
     cursor.execute('INSERT INTO question(question_text,language_id,exercise_id) VALUES ("{q_text}",{l_id},{e_id});'.format(q_text = question_text, l_id = language_id, e_id = exercise_id))
 
 def insertAnswer(id, answer_number, answer_text, language_id, is_answer_for):
-    cursor.execute('INSERT INTO answer(id, answer_number,answer_text,language_id,is_answer_for) VALUES ({id},{a_numb},"{a_text}",{l_id},{for});'.format(id = id, a_numb = answer_number, a_text = answer_text, l_id = language_id, for = is_answer_for))
+    cursor.execute('INSERT INTO answer(id, answer_number,answer_text,language_id,is_answer_for) VALUES ({id},{a_numb},"{a_text}",{l_id},{ans_for});'.format(id = id, a_numb = answer_number, a_text = answer_text, l_id = language_id, ans_for = is_answer_for))
 
 def insertHint(hint_text, hint_number, exercise_id):
     cursor.execute('INSERT INTO hint(hint_text,hint_number,exercise_id) VALUES ("{h_text}",{h_numb},{e_id});'.format(h_text = hint_text, h_numb = hint_number, e_id = exercise_id))
