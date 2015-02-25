@@ -45,8 +45,10 @@ class ObjectManager:
     def createExercise(self,id):
         exercise_info = dbw.getExerciseInformation(id)
         if exercise_info:
-            exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
-            exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type'])
+            exercise_object = om.exercise.Exercise(id,exercise_info[difficulty],
+            exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
+            ,exercise_info['programming_language'],exercise_info['code'],exercise_info['question']
+            ,exercise_info['language'],exercise_info['correct_answer'])
             return exercise_object
         else:
             return None

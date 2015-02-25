@@ -67,8 +67,7 @@ class User:
     def checkPermission(self,group_id):
         permissions_info = dbw.getPermForUserInGroup(self.id,group_id)
         if permissions_info:
-            # What to check for? TODO
-            if permissions_info[user_permissions]:
+            if permissions_info['user_permissions']:
                 return True
             else:
                 return False
@@ -90,22 +89,21 @@ class PersonalList:
         exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
         exercise_list_info['difficulty'],exercise_list_info['description'])
         # Actual exercises-object (make with SQL queries)
-        self.excersises_list = exercise_list_object
+        self.exercises_list = exercise_list_object
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None
 
     # Object which represents the actual list of personal exercises (SQL function)
-    def allExercises(self,user_id):
-        exercise_info = dbw.getExerciseScoreFor(self.id)
+    def allExercises(self):
+        exercise_info = dbw.getExerciseScoreFor(self.user_id,self.exercises_list.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id'],self.id) for x in exercise_info]
+            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
 
     def __str__(self):
-         return str(self.rating)+' '+str(self.score)+' '+str(self.user_id)
-
+         return str(self.rating)+' '+str(self.score)+' '+str(self.user_id)+' '+self.exercises_list.name+' '+str(self.exercises_list.difficulty)+' '+self.exercises_list.description
 
 class PersonalExercise:
     def __init__(self,solved,score,rating,exercise_id):
@@ -115,5 +113,11 @@ class PersonalExercise:
         self.score = score
         # given rating
         self.rating = rating
-        # Object which represents the actual excersise (make with SQL query)
-        self.excersise
+        exercise_info = dbw.getExerciseListInformation(exercise_id)
+        exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
+        exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type'])
+        # Actual exercises-object (make with SQL queries)
+        self.exercise = exercise_object
+
+    def __str__(self):
+         return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+self.excercise.difficulty
