@@ -41,7 +41,7 @@ class User:
             for group in groups_info:
                 group_info = dbw.getGroupInformation(group['group_id'])
                 if group_info:
-                    # If the info is legit, we add a User object with the info to the list
+                    # If the info is legit, we add a Group object with the info to the list
                     group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
                     groups_list.append(group_object)
             return groups_list

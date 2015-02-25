@@ -51,7 +51,7 @@ def processOne():
 def createNewUser(first_name, last_name, email, password):
     cursor.execute('INSERT INTO user(is_active, first_name, last_name, password, email) VALUES ({}, "{}", "{}", "{}", "{}");'.format(1, first_name,last_name,password,email))
 
-    cursor.execute('SELECT * FROM user WHERE user.id = {id}'.format(id = id))
+    cursor.execute('SELECT * FROM user WHERE user.id = {id};'.format(id = id))
     return processData()
 
 def getExerciseListInformation(id):
@@ -60,7 +60,7 @@ def getExerciseListInformation(id):
     @param id the id of the user
     @return returns a dict with information
     '''
-    cursor.execute('SELECT * FROM exerciseList WHERE id = {id}'.format(id = id))
+    cursor.execute('SELECT * FROM exerciseList WHERE id = {id};'.format(id = id))
     return processOne()
 
 def getGroupInformation(id):
@@ -69,7 +69,7 @@ def getGroupInformation(id):
     @param id the id of the group
     @return returns a dict with information
     '''
-    cursor.execute('SELECT * FROM groups WHERE id = {id}'.format(id))
+    cursor.execute('SELECT * FROM groups WHERE id = {id};'.format(id = id))
     return processOne()
 
 def getExerciseInformation(id):
@@ -78,7 +78,7 @@ def getExerciseInformation(id):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, associatedWith aW, correctAnswer cA, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.id = cA.exercise_id AND cA.exercise_id = a.id AND e.id = aW.exercise_id AND aW.progLang_id = p.id;'.format(id))
+    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, associatedWith aW, correctAnswer cA, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.id = cA.exercise_id AND cA.exercise_id = a.id AND e.id = aW.exercise_id AND aW.progLang_id = p.id;'.format(id = id))
     return processOne()
 
 def getExerciseLanguage(id):
