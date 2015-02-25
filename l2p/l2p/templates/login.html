@@ -14,37 +14,39 @@
 
 
 
-<div class="center row">
-	<div class="content" data-section-content>
-	<p>
-	  <div class="row">
-	    <div class="large-12 columns">
-	      <div class="signup-panel">
-	        <p class="welcome">Welcome back!</p>
-	        <form method="post" action="/login/">
-	        {% csrf_token %}
-	          <div class="row collapse">
-	            <div class="small-1 columns">
-	              <span class="prefix"><i class="fi-mail"></i></span>
-	            </div>
-	            <div class="small-11  columns">
-	              <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-	            </div>
-	          </div>
-	          <div class="row collapse">
-	            <div class="small-1 columns ">
-	              <span class="prefix"><i class="fi-lock"></i></span>
-	            </div>
-	            <div class="small-11 columns ">
-	              <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-	            </div>
-	          </div>
-	          <input type="submit" value="Log In" class="button"/>
-	        </form>
-	      </div>
-	    </div>
-	   </div></p>
-	</div>
-<div>    
+ <div class="row">
+   <div class="large-6 columns">
+        <div class="content" data-section-content>
+            <p>
+              <div class="row">
+                <div class="large-12 columns">
+                  <div class="signup-panel">
+                    <p class="welcome">Welcome back!</p>
+                    <form method="post" action="/login/">
+                    {% csrf_token %}
+                      <div class="row collapse">
+                        <div class="small-1 columns">
+                          <span class="prefix"><i class="fi-mail"></i></span>
+                        </div>
+                        <div class="small-11  columns">
+                          <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                        </div>
+                      </div>
+                      <div class="row collapse">
+                        <div class="small-1 columns ">
+                          <span class="prefix"><i class="fi-lock"></i></span>
+                        </div>
+                        <div class="small-11 columns ">
+                          <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
+                        </div>
+                      </div>
+                      <input type="submit" value="Log In" class="button"/>
+                    </form>
+                  </div>
+                </div>
+            </div></p>
+        </div>
+    </div>
+</div>
 
 {% endblock base_body %}

@@ -9,59 +9,66 @@
     </div>
   </div>
 </div>
-              
-<div class="center row">
-  <div class="section-container tabs" data-section="tabs">
-    <section class="active">
-      <div class="content" data-section-content>
-        <p>
-          <div class="row">
-            <div class="large-12 columns">
-              <div class="signup-panel">
-                <p class="text"> {{ error_message }} </p>
-                <form method="post" action="/register/">
-                {% csrf_token %}
-                  <div class="row collapse">
-                    <div class="small-2  columns">
-                      <span class="prefix"><i class="fi-torso"></i></span>
+           
+
+
+<form class="custom">
+  <div class="row">
+    <div class="large-6 columns">
+      <section class="active">
+        <div class="content" data-section-content>
+          <p>
+            <div class="row">
+              <div class="large-12 columns">
+                <div class="signup-panel">
+                  <p class="text"> {{ error_message }} </p>
+                  <form method="post" action="/register/">
+                  {% csrf_token %}
+                    <div class="row collapse">
+                      <div class="small-2  columns">
+                        <span class="prefix"><i class="fi-torso"></i></span>
+                      </div>
+                      <div class="small-10  columns">
+                        <input type="text" placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                      </div>
                     </div>
-                    <div class="small-10  columns">
-                      <input type="text" placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                    <div class="row collapse">
+                      <div class="small-2  columns">
+                        <span class="prefix"><i class="fi-torso"></i></span>
+                      </div>
+                      <div class="small-10  columns">
+                        <input type="text" placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                      </div>
                     </div>
-                  </div>
-                  <div class="row collapse">
-                    <div class="small-2  columns">
-                      <span class="prefix"><i class="fi-torso"></i></span>
+                    <div class="row collapse">
+                      <div class="small-2 columns">
+                        <span class="prefix"><i class="fi-mail"></i></span>
+                      </div>
+                      <div class="small-10  columns">
+                        <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                      </div>
                     </div>
-                    <div class="small-10  columns">
-                      <input type="text" placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                    <div class="row collapse">
+                      <div class="small-2 columns ">
+                        <span class="prefix"><i class="fi-lock"></i></span>
+                      </div>
+                      <div class="small-10 columns ">
+                        <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
+                      </div>
                     </div>
-                  </div>
-                  <div class="row collapse">
-                    <div class="small-2 columns">
-                      <span class="prefix"><i class="fi-mail"></i></span>
-                    </div>
-                    <div class="small-10  columns">
-                      <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                    </div>
-                  </div>
-                  <div class="row collapse">
-                    <div class="small-2 columns ">
-                      <span class="prefix"><i class="fi-lock"></i></span>
-                    </div>
-                    <div class="small-10 columns ">
-                      <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                    </div>
-                  </div>
-                <input type="submit" value="Sign Up" class="button"/>
-                </form>
+                  <input type="submit" value="Sign Up" class="button"/>
+                  </form>
+                </div>
               </div>
-            </div>
-           </div></p>
-      </div>
-    </section>
+             </div></p>
+        </div>
+      </section>        
+    </div>
   </div>
-<div>              
+</form>
+
+
+
             
 
 

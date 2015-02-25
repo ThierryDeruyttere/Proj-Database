@@ -32,6 +32,14 @@ def userOverview(request):
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):
+
+    user = object_manager.createUser(id = request.session['current_user'])
+    redirect_url = ""
+
+    if user:
+        redirect_url = '/u/{id}'.format(id = request.session['current_user'])
+        return redirect(redirect_url)
+
     if request.method == 'POST':
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
