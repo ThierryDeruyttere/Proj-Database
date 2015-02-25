@@ -142,13 +142,16 @@ def test(request, id = 0):
     subjects = exercise_list_test.allSubjects()
     #testfunction12
     exercises = exercise_list_test.allExercises()
+    #testfunction13
+    members = group_test.allMembers()
 
     return render(request, 'test.html', {'test': str(user_test),'testfunction': ' '.join([str(friend) for friend in friends])
     ,'testfunction2': ' '.join([str(group) for group in groups]),'testfunction3': ' '.join([str(list_) for list_ in lists])
     ,'testfunction4': permission,'testfunction5': ' '.join([str(ex) for ex in personalexercises])
     ,'testfunction6': str(exercise_test),'testfunction7': hints,'testfunction8': answers
     ,'testfunction9': 'Group: '+str(group_test),'testfunction10': 'List: '+str(exercise_list_test)
-    ,'testfunction11': subjects,'testfunction12': ' '.join([str(exercise) for exercise in exercises])})
+    ,'testfunction11': subjects,'testfunction12': ' '.join([str(exercise) for exercise in exercises])
+    ,'testfunction13': ' '.join([str(member) for member in members])})
 
 def tables(request):
     if request.method == 'GET':

@@ -1,3 +1,6 @@
+import dbw
+import om.user
+
 class Group:
     def __init__(self,id,group_name,group_type):
         self.id = id
@@ -7,11 +10,16 @@ class Group:
 
     # list of users
     def allMembers(self):
-        members_info = dbw.getUsersInGroup(self.id)
-        if members_info:
-            # We'll put the info in a regular list
-            members_list = [ x['user_id'] for x in members_info]
-            return members_list
+        members_infos = dbw.getUsersInGroup(self.id)
+        if members_infos:
+            user_list = []
+            for members_info in members_infos:
+                user_id = members_info['user_id']
+                user_info = dbw.getUserOnId(user_id)
+                user_object = om.user.User(user_id,user_info['first_name'],user_info['last_name'],
+                user_info['is_active'],user_info['email'],user_info['permission'], user_info['password'])
+                user_list.append(user_object)
+            return user_list
         else:
             return None
 
