@@ -19,9 +19,9 @@ class ObjectManager:
     def createUser(self, **kwargs):
         # Get search key from kwargs, only one possible key atm
         user_info = None
-        if 'id' in kwargs:
+        if 'id' in kwargs and kwargs['id']:
             user_info = dbw.getUserOnId(kwargs['id'])
-        elif 'email' in kwargs:
+        elif 'email' in kwargs and kwargs['email']:
             user_info = dbw.getUserOnEmail(kwargs['email'])
         if user_info:
             user_object = om.user.User(user_info['id'],user_info['first_name'],user_info['last_name'],

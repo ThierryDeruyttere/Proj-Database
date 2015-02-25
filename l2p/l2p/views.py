@@ -93,7 +93,7 @@ def me(request):
     if user:
         redirect_url = '/u/{id}'.format(id = request.session['current_user'])
     else:
-        redirect_url = '/'
+        redirect_url = '/login'
 
     return redirect(redirect_url)
 
