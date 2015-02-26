@@ -4,32 +4,64 @@
 
     <div class="row">
         <div class="panel">
-            <input type="text" placeholder="Enter list name">
-            <input type="text" placeholder="Enter list description">
-            <div class="row">
-              <div class="small-10 medium-11 columns">
-                <div class="range-slider" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
-                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                  <span class="range-slider-active-segment"></span>
-                </div>
-              </div>
-              <div class="small-2 medium-1 columns">
-                <span id="difficulty"></span>
-              </div>
-            </div>
-            <a href="#" class="button split" id="prog_lang">Choose language<span data-dropdown="drop"></span></a><br>
-            <ul id="drop" class="f-dropdown" data-dropdown-content>
-                {% for lang in languages %}
-                    <li><a onclick="javascript:changeText('{{ lang.name }}');"> {{ lang.name }} </a> </li>
-                {% endfor %}
+            <form method="post">
+            {% csrf_token %}
+                <div class="row">
+                    <div class="large-4 large-centered columns">
 
-            </ul>
+                        <input type="text" placeholder="Enter list name" name="list_name">
+
+                        <textarea placeholder="Enter description of exercise list" name="description_text"></textarea>
+                        <div class="row">
+                            <div class="small-10 medium-11 columns">
+                                <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;" onchange="javascript:updateText()">
+                                    <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                                    <span class="range-slider-active-segment"></span>
+                                </div>
+                            </div>
+                            <span id="difficulty" hidden="True"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row collapse prefix-radius">
+                                <div class="small-3 columns">
+                                    <span class="prefix">Difficulty</span>
+                                </div>
+                                <div class="small-9 columns">
+                                    <input type="text" id="diff_text" name="diff_text" readonly="True" class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <label>Programming language</label>
+                            <select name="prog_lang">
+                                {% for lang in languages %}
+                                    <option value="{{ lang.name }}">{{ lang.name }}</option>
+                                {% endfor %}
+                            </select>
+
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-2 large-centered columns">
+                            <input type="submit" class="button" value="Create list">
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+
         </div>
     </div>
 
     <script language="javascript">
-    function changeText(name){
-        document.getElementById('prog_lang').innerHTML = name + "<span data-dropdown=\"drop\"></span>";
-    }
+        function updateText(){
+            document.getElementById("diff_text").value=document.getElementById("difficulty").innerText;
+        }
     </script>
 {% endblock base_body %}

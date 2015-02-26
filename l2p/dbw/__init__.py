@@ -234,8 +234,8 @@ def insertUserInGroup(group_id, user_id, user_permissions):
 def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))
 
-def insertExercise(difficulty, max_score, penalty, exercise_type):
-    cursor.execute('INSERT INTO exercise(difficulty,max_score,penalty,exercise_type) VALUES ({diff},{max},{pen},"{e_type}");'.format(diff = difficulty, max = max_score, pen = penalty, e_type = exercise_type))
+def insertExercise(difficulty, max_score, penalty, exercise_type,created_by, created_on, exercise_number):
+    cursor.execute('INSERT INTO exercise(difficulty,max_score,penalty,exercise_type, created_by, created_on, exercise_number) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, {crtd_on}, {exerc_nmbr});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number))
 
 def insertCode(code_text, exercise_id):
     cursor.execute('INSERT INTO code(code_text, exercise_id) VALUES ("{c_text}", {exerc_id});'.format(c_text = code_text, exerc_id = exercise_id))
