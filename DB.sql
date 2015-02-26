@@ -120,6 +120,8 @@ CREATE TABLE exerciseList(
   name VARCHAR(255) NOT NULL,
   description VARCHAR(255) NOT NULL,
   difficulty INT NOT NULL,
+  created_by INT NOT NULL,
+  created_on DATE NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -218,9 +220,9 @@ INSERT INTO hint(hint_text, hint_number, exercise_id)
     VALUES ('write print("your name here")', 1, 1);
 
 # ExerciseList data
-INSERT INTO exerciseList(name, description ,difficulty)
-    VALUES ('Beginning of a journey...', 'Python 101', 1);
-
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on)
+    VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5");
+    
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
 
