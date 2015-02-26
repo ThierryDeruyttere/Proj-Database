@@ -1,0 +1,35 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+
+    <div class="row">
+        <div class="panel">
+            <input type="text" placeholder="Enter list name">
+            <input type="text" placeholder="Enter list description">
+            <div class="row">
+              <div class="small-10 medium-11 columns">
+                <div class="range-slider" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
+                </div>
+              </div>
+              <div class="small-2 medium-1 columns">
+                <span id="difficulty"></span>
+              </div>
+            </div>
+            <a href="#" class="button split" id="prog_lang">Choose language<span data-dropdown="drop"></span></a><br>
+            <ul id="drop" class="f-dropdown" data-dropdown-content>
+                {% for lang in languages %}
+                    <li><a onclick="javascript:changeText('{{ lang.name }}');"> {{ lang.name }} </a> </li>
+                {% endfor %}
+
+            </ul>
+        </div>
+    </div>
+
+    <script language="javascript">
+    function changeText(name){
+        document.getElementById('prog_lang').innerHTML = name + "<span data-dropdown=\"drop\"></span>";
+    }
+    </script>
+{% endblock base_body %}

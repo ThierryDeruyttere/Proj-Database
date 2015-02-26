@@ -36,10 +36,17 @@ urlpatterns = patterns('l2p.views',
     # Submit question answer (/l/<id>/<question>/submit)
     url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
 
+
     ## TESTING ##
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test', 'test'),
     url(r'^tables/', 'tables')
+)
+
+urlpatterns += patterns('',
+    url(r'^l/create$', 'l2p.exercises.views.test'),
+
+
 )
