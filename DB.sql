@@ -47,6 +47,9 @@ CREATE TABLE exercise(
   max_score INT NOT NULL,
   penalty INT NOT NULL,
   exercise_type VARCHAR(255) NOT NULL,
+  created_by INT NOT NULL,
+  created_on DATE NOT NULL,
+  exercise_number INT NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -190,7 +193,7 @@ INSERT INTO programmingLanguage(name) VALUES ('SQL');
 
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type) VALUES (1,5,1,'code');
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number) VALUES (1,5,1,'code',1, '2015-02-1', 1);
 
 # Code data
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
