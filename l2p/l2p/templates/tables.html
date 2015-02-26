@@ -2,54 +2,59 @@
 
 {% block base_body %}
 
-<div class="large-4 small-4 small-centered columns" >
-  <form method="get">
-    {% csrf_token %}
-    <div class="small-11  columns">
-      Table you want to view:
-      <input type="text" placeholder="Table" id="sql_table" name="sql_table" value="{{ sql_table }}" data-dropdown="drop1" aria-controls="drop1" aria-expanded="true">
-      <ul id="drop1" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-        <li><a href="?sql_table=user">user</a></li>
-        <li><a href="?sql_table=friendsWith">friendsWith</a></li>
-        <li><a href="?sql_table=groups">groups</a></li>
-        <li><a href="?sql_table=userInGroup">userInGroup</a></li>
-        <li><a href="?sql_table=programmingLanguage">programmingLanguage</a></li>
-        <li><a href="?sql_table=exercise">exercise</a></li>
-        <li><a href="?sql_table=associatedWith">associatedWith</a></li>
-        <li><a href="?sql_table=isCodeFor">isCodeFor</a></li>
-        <li><a href="?sql_table=madeEx">madeEx</a></li>
-        <li><a href="?sql_table=language">language</a></li>
-        <li><a href="?sql_table=question">question</a></li>
-        <li><a href="?sql_table=answer">answer</a></li>
-        <li><a href="?sql_table=hint">hint</a></li>
-        <li><a href="?sql_table=exerciseList">exerciseList</a></li>
-        <li><a href="?sql_table=subject">subject</a></li>
-        <li><a href="?sql_table=hasSubject">hasSubject</a></li>
-        <li><a href="?sql_table=isPartOf">isPartOf</a></li>
-        <li><a href="?sql_table=madeList">madeList</a></li>
-        <li><a href="?sql_table=correctAnswer">correctAnswer</a></li>
-      </ul>
-        <input type="submit" value="search" class="button"/>
+<div class="row">
+    <div class="large-4 small-4 small-centered columns" >
+        <form method="get">
+            {% csrf_token %}
+            <div class="small-11  columns">
+                Table you want to view:
+                <input type="text" placeholder="Table" id="sql_table" name="sql_table" value="{{ sql_table }}" data-dropdown="drop1" aria-controls="drop1" aria-expanded="true">
+                <ul id="drop1" class="f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+                    <li><a href="?sql_table=user">user</a></li>
+                    <li><a href="?sql_table=friendsWith">friendsWith</a></li>
+                    <li><a href="?sql_table=groups">groups</a></li>
+                    <li><a href="?sql_table=userInGroup">userInGroup</a></li>
+                    <li><a href="?sql_table=programmingLanguage">programmingLanguage</a></li>
+                    <li><a href="?sql_table=exercise">exercise</a></li>
+                    <li><a href="?sql_table=associatedWith">associatedWith</a></li>
+                    <li><a href="?sql_table=isCodeFor">isCodeFor</a></li>
+                    <li><a href="?sql_table=madeEx">madeEx</a></li>
+                    <li><a href="?sql_table=language">language</a></li>
+                    <li><a href="?sql_table=question">question</a></li>
+                    <li><a href="?sql_table=answer">answer</a></li>
+                    <li><a href="?sql_table=hint">hint</a></li>
+                    <li><a href="?sql_table=exerciseList">exerciseList</a></li>
+                    <li><a href="?sql_table=subject">subject</a></li>
+                    <li><a href="?sql_table=hasSubject">hasSubject</a></li>
+                    <li><a href="?sql_table=isPartOf">isPartOf</a></li>
+                    <li><a href="?sql_table=madeList">madeList</a></li>
+                    <li><a href="?sql_table=correctAnswer">correctAnswer</a></li>
+                </ul>
+                <input type="submit" value="search" class="button round"/>
+            </div>
+        </form>
+    </div >
+</div>
+
+<div class="row">
+    <div class="large-10 large-centered columns text-center">
+        <table>
+            <thead><tr>
+                {%  for key in keys %}
+                    <td>{{ key }}</td>
+                {% endfor %}
+            </tr></thead>
+            <tbody>
+            {%  for row in data %}
+                <tr>
+                    {%  for k, value in row.items %}
+                        <td>{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
-  </form>
-</div >
-<div class="table">
-  <table>
-    <thead><tr>
-      {%  for key in keys %}
-      <td>{{ key }}</td>
-      {% endfor %}
-    </tr></thead>
-    <tbody>
-      {%  for row in data %}
-      <tr>
-        {%  for k, value in row.items %}
-        <td>{{ value }}</td>
-        {% endfor %}
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
 </div>
 
 {% endblock base_body %}
