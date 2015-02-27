@@ -1,13 +1,40 @@
-import om.exerciselist
-import om.exercise
-import om.group
-import dbw
+import hashlib
+from om import *
 
 from django.contrib.auth.models import AbstractBaseUser
+from django.db import models
 
-class User(AbstractBaseUser):
+object_manager = objectmanager.ObjectManager()
 
+class CustomUser(AbstractBaseUser):
+
+    email = models.EmailField(
+        verbose_name='email address',
+        max_length=255,
+        unique=True,
+    )
     USERNAME_FIELD = 'email'
+
+    def get_full_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def get_short_name(self):
+        # The user is identified by their email address
+        return self.email
+
+    def __str__(self):              # __unicode__ on Python 2
+        return self.email
+
+    def has_perm(self, perm, obj=None):
+        "Does the user have a specific permission?"
+        # Simplest possible answer: Yes, always
+        return True
+
+    def has_module_perms(self, app_label):
+        "Does the user have permissions to view the app `app_label`?"
+        # Simplest possible answer: Yes, always
+        return True
 
     def __init__(self,id,first_name,last_name,is_active,email,permissions,password):
         #Plain info on the user
@@ -15,7 +42,7 @@ class User(AbstractBaseUser):
         #self.first_name = first_name
         #self.last_name = last_name
         #self.is_active = is_active
-        #self.email = email
+        self.email = email
         #self.permissions = permissions
         #self.password = password
 
@@ -80,52 +107,19 @@ class User(AbstractBaseUser):
             return None
 
     def __str__(self):
-         return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
+        return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
 
-class PersonalList:
-    def __init__(self,rating,score,exercise_list_id,user_id):
-        #given rating
-        self.rating = rating
-        # total obtained score
-        self.score = score
-        # Needed to use the allExercises function
-        self.user_id = user_id
-        exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
-        exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
-        exercise_list_info['difficulty'],exercise_list_info['description'])
-        # Actual exercises-object (make with SQL queries)
-        self.exercises_list = exercise_list_object
-        # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
-        # self.last_made = None
+    class Meta:
+        app_label = 'authentication'
 
-    # Object which represents the actual list of personal exercises (SQL function)
-    def allExercises(self):
-        exercise_info = dbw.getExerciseScoreFor(self.user_id,self.exercises_list.id)
-        if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id']) for x in exercise_info]
-            return personal_exercises_list
-        else:
-            return None
+class AuthBackend(object):
+    def authenticate(self, email = None, password = None):
+        user = object_manager.createUser(email = email)
 
-    def __str__(self):
-         return str(self.rating)+' '+str(self.score)+' '+str(self.user_id)+' '+self.exercises_list.name+' '+str(self.exercises_list.difficulty)+' '+self.exercises_list.description
+        if user and user.password == password:
+            return user
 
-class PersonalExercise:
-    def __init__(self,solved,score,rating,exercise_id):
-        # bool to check if exercise was solved
-        self.solved = solved
-        # obtained score
-        self.score = score
-        # given rating
-        self.rating = rating
+        return None
 
-        exercise_info = dbw.getExerciseInformation(exercise_id)
-        # Actual exercises-object (make with SQL queries)
-        self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
-        exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
-        ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-        ,exercise_info['language'],exercise_info['answer_text'])
-
-
-    def __str__(self):
-         return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+str(self.exercise)
+    def get_user(self, id):
+        return object_manager.createUser(id = id)

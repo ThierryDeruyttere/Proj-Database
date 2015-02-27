@@ -14,7 +14,7 @@ urlpatterns = patterns('l2p.views',
     # User overview (/u/overview)
     url(r'^u/overview/$', 'userOverview'),
     # Login page (/login)
-    url(r'^login', 'login'),
+    url(r'^login', 'loginView'),
     # Logout page (/logout)
     url(r'^logout', 'logout'),
     # Redirect to user page (/me)
