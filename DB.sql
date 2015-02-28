@@ -41,7 +41,6 @@ CREATE TABLE programmingLanguage(
   PRIMARY KEY(id)
 );
 
-
 CREATE TABLE language(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
@@ -119,6 +118,8 @@ CREATE TABLE hint(
   hint_text varchar(255),
   hint_number INT,
   exercise_id INT,
+  language_id INT,
+  FOREIGN KEY (language_id) REFERENCES language(id),
   FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
@@ -209,8 +210,8 @@ INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
     VALUES (1,'Print your name', 1,1);
 
 # Hint data
-INSERT INTO hint(hint_text, hint_number, exercise_id)
-    VALUES ('write print("your name here")', 1, 1);
+INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
+    VALUES ('write print("your name here")', 1, 1, 1);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
