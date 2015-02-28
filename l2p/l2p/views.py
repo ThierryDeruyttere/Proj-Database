@@ -134,7 +134,7 @@ def test(request, id = 0):
         personalexercises = []
         #personalexercises += list_.allExercises()
     #testfunction6
-    exercise_test = object_manager.createExercise(id=1)
+    exercise_test = object_manager.createExercise(1,'en')
     #testfunction7
     hints = exercise_test.allHints()
     #testfunction8
@@ -146,7 +146,7 @@ def test(request, id = 0):
     #testfunction11
     subjects = exercise_list_test.allSubjects()
     #testfunction12
-    exercises = exercise_list_test.allExercises()
+    exercises = exercise_list_test.allExercises('en')
     #testfunction13
     members = group_test.allMembers()
 

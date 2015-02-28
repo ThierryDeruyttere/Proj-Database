@@ -72,13 +72,13 @@ def getGroupInformation(id):
     cursor.execute('SELECT * FROM groups WHERE id = {id};'.format(id = id))
     return processOne()
 
-def getExerciseInformation(id, languageName):
+def getExerciseInformation(id, language_code):
     '''
     @brief get the information from Exercise given an exercise id
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, exerciseList eL, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.correct_answer = a.answer_number AND e.id = a.is_answer_for AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.name = {lang_name};'.format(id = id, lang_name = languageName))
+    cursor.execute('SELECT e.*, c.code_text, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.correct_answer = a.answer_number AND e.id = a.is_answer_for AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
     return processOne()
 
 def getExerciseProgLanguage(id):
@@ -108,22 +108,22 @@ def getExercQuestionAndLang(id):
     cursor.execute('SELECT l.name, q.question_text FROM language l, question q, exercise e WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id;'.format(id = id))
     return processData()
 
-def getExercCorrectAnswer(id, languageName):
+def getExercCorrectAnswer(id, language_name):
     '''
     @brief get the information from Exercise given an exercise id
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT a.answer_text, a.answer_number FROM answer a, exercise e, language l WHERE e.id = {id} AND e.id = a.is_answer_for AND e.correct_answer = a.answer_number AND l.name = {name} AND l.id = a.language_id;'.format(id = id, name = languageName))
+    cursor.execute('SELECT a.answer_text, a.answer_number FROM answer a, exercise e, language l WHERE e.id = {id} AND e.id = a.is_answer_for AND e.correct_answer = a.answer_number AND l.name = {name} AND l.id = a.language_id;'.format(id = id, name = language_name))
     return processData()
 
-def getExerciseAnswers(exercise_id, languageName):
+def getExerciseAnswers(exercise_id, language_name):
     '''
     @brief get the answers for a Exercise given an exercise id
     @param id the id of the exercise
     @return returns a dict with answers
     '''
-    cursor.execute('SELECT a.answer_text, a.answer_number  FROM  answer a, exercise e, language l WHERE e.id = {id} AND a.is_answer_for = e.id AND a.language_id = l.id AND l.name = "{l_name}";'.format(id = id, l_name = languageName))
+    cursor.execute('SELECT a.answer_text, a.answer_number  FROM  answer a, exercise e, language l WHERE e.id = {id} AND a.is_answer_for = e.id AND a.language_id = l.id AND l.name = "{l_name}";'.format(id = exercise_id, l_name = language_name))
     return processData()
 
 def getExerciseHints(id, languageName):
@@ -132,7 +132,7 @@ def getExerciseHints(id, languageName):
     @param id the id of the exercise
     @return returns a dict with hints
     '''
-    cursor.execute('SELECT h.hint_text, h.hint_number  FROM exercise e, hint h, language l WHERE e.id = h.exercise_id AND e.id = {id} AND l.name = {name} AND l.id = h.language_id;'.format(id = id, name = languageName))
+    cursor.execute('SELECT h.hint_text, h.hint_number  FROM exercise e, hint h, language l WHERE e.id = h.exercise_id AND e.id = {id} AND l.name = "{name}" AND l.id = h.language_id;'.format(id = id, name = languageName))
     return processData()
 
 def getFriendsIdForID(id):

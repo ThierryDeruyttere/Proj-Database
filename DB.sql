@@ -44,6 +44,7 @@ CREATE TABLE programmingLanguage(
 CREATE TABLE language(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
+  language_code INT NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -198,8 +199,8 @@ INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, 
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
 
 # Language data
-INSERT INTO language(name) VALUES ('English');
-INSERT INTO language(name) VALUES ('Nederlands');
+INSERT INTO language(name,language_code) VALUES ('English','en');
+INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
 
 # Question data
 INSERT INTO question(question_text, language_id, exercise_id)

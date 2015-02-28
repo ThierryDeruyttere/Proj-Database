@@ -3,7 +3,8 @@ import dbw
 class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
-    def __init__(self,id,difficulty,max_score,penalty,exercise_type,programming_language,code,question,language,correct_answer):
+    def __init__(self,id,difficulty,max_score,penalty,exercise_type,programming_language
+    ,code,question,language_code,correct_answer,language_name):
         self.id = id
         # (Integer ranging from 1-5)
         self.difficulty = difficulty
@@ -20,16 +21,18 @@ class Exercise:
         # Question asked to the user (string)
         self.question = question.decode('ascii')
         # Language the question is in (string)
-        self.language = language
+        self.language_name = language_name
         # ID of the correct answer
         self.correct_answer = correct_answer.decode('ascii')
+        # Django code for the name
+        self.language_code = language_code
 
     def __str__(self):
         return str(self.difficulty)+' '+str(self.max_score)+' '+str(self.penalty)+' '+self.exercise_type+' '+self.programming_language+' '+self.code+' '+self.question+' '+self.language+' '+self.correct_answer
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
-        answer_info = dbw.getExerciseAnswers(self.id,self.language)
+        answer_info = dbw.getExerciseAnswers(self.id,self.language_name)
         if answer_info:
             # first we add the data to a list of tuples
             answer_unordered_list = [(x['answer_text'],x['answer_number']) for x in answer_info]
@@ -43,7 +46,7 @@ class Exercise:
 
     # List of strings depicting hints
     def allHints(self):
-        hint_info = dbw.getExerciseHints(self.id)
+        hint_info = dbw.getExerciseHints(self.id,self.language_name)
         if hint_info:
             # first we add the data to a list of tuples
             hint_unordered_list = [(x['hint_text'],x['hint_number']) for x in hint_info]

@@ -45,13 +45,13 @@ class ObjectManager:
             return None
 
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self,id):
-        exercise_info = dbw.getExerciseInformation(id)
+    def createExercise(self,id,language_code):
+        exercise_info = dbw.getExerciseInformation(id,language_code)
         if exercise_info:
             exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
             exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
             ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-            ,exercise_info['language'],exercise_info['answer_text'])
+            ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
             return exercise_object
         else:
             return None
@@ -97,7 +97,7 @@ class ObjectManager:
             dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id)
         # Linking exercise+list
         dbw.insertIsPartOf(list_id, exercise_id)
-        
+
 #insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
     def addExerciseList(self,name, description ,difficulty):
         dbw.insertExerciseList(name, description ,difficulty)

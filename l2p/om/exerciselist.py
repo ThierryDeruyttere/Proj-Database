@@ -25,13 +25,13 @@ class ExerciseList:
             return None
 
     # List of exercises
-    def allExercises(self):
+    def allExercises(self,language_code):
         exercises_infos = dbw.getExercisesForList(self.id)
         if exercises_infos:
             # We'll put the info in a regular list
             exercises = []
             for exercise_id in exercises_infos:
-                exercise_info = dbw.getExerciseInformation(exercise_id['exercise_id'])
+                exercise_info = dbw.getExerciseInformation(exercise_id['id'],language_code)
                 exercise_object = om.exercise.Exercise(self.id,exercise_info['difficulty'],
                 exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
                 ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
