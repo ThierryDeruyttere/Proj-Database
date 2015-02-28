@@ -28,6 +28,13 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+    if request.method == 'POST':
+        subject_name = request.POST.get('subject_name', '')
+        dbw.insertSubject(subject_name)
+        #get subjectID
+        #link with exerciseLIST
+        #TODO
+        
     if exercise_list:
         prog_lang = dbw.getNameFromProgLangID(exercise_list.programming_language)['name']
 

@@ -42,7 +42,22 @@
                             <a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a>
                         {% endif %}
                     </div>
+                    <div class="large-2 left columns">
+                        {% if correct_user %}
+                            <a href="#" data-reveal-id="Subject_Modal" class="button tiny radius">Add Subject</a>
+
+                            <div id="Subject_Modal" class="reveal-modal" data-reveal>
+                                <h2>Subject name:</h2>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="Subject name" name="subject_name">
+                                    <input type="submit" class="button tiny radius" value="Add Subject">
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
                 </div>
+
                 <div class ="row">
                     <div class="large-10 large-centered columns">
                         <ul class="pricing-table">

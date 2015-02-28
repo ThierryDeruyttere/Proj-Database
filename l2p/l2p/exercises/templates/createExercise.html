@@ -7,27 +7,53 @@
         <div class="large-12 columns">
             <div class="panel">
 
+
+                <hr>
                 <div class="row">
-                    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-                    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-                    <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
-                    <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
-                    <form style="width:500px; height: 500px;">
+                    <div class="large-6 large-centered columns">
+                        <label>Exercise Type:</label>
+                        <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" onchange="javascript:ShowContent();"><label for="exercise_type_code">Code question</label>
+                        <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open" onchange="javascript:ShowContent()"><label for="exercise_type_open">Open question</label>
+
+                    </div>
+
+                </div>
+
+                <hr>
+                <div class="row" id="Code_Question" hidden="True">
+                    <div class="small-4 large-offset-1 columns">
+                        <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+                        <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+                        <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+                        <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+                        <form style="width:500px; height: 500px;">
                         <textarea id="code" name="code">
 
                         </textarea>
-                    </form>
-                    <script>
-                        var myCodeMirror = CodeMirror.fromTextArea(code,
-                                {
-                                    lineNumbers: true,
-                                    mode: "Python",
-                                    theme: "monokai",
-                                    indentWithTabs: false
-                                });
-                    </script>
+                        </form>
+                        <script>
+                            var myCodeMirror = CodeMirror.fromTextArea(code,
+                                    {
+                                        lineNumbers: true,
+                                        mode: "python",
+                                        theme: "monokai"
+                                    });
+                        </script>
+                    </div>
+
                 </div>
 
+
+                <script language="javascript">
+                    function ShowContent(){
+                        if(document.getElementById("exercise_type_code").checked){
+                            document.getElementById("Code_Question").hidden = false;
+                        }else if(document.getElementById('exercise_type_open').checked){
+                            document.getElementById("Code_Question").hidden = true;
+                        }
+
+                    }
+                </script>
             </div>
         </div>
     </div>
