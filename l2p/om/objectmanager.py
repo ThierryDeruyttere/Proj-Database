@@ -97,11 +97,9 @@ class ObjectManager:
             dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id)
         # Linking exercise+list
         dbw.insertIsPartOf(list_id, exercise_id)
-
+        
+#insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
     def addExerciseList(self,name, description ,difficulty):
-        # Answers is a list of AnswerContainer objects (see below)
-        #for answer in answers:
-            #insertAnswer(id, answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
         dbw.insertExerciseList(name, description ,difficulty)
 
     def addGroup(self,group_name, group_type):

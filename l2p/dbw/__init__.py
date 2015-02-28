@@ -78,7 +78,7 @@ def getExerciseInformation(id):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, exerciseList eL, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.correct_answer = a.answer_number AND e.id = a.answer_for AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id;'.format(id = id))
+    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, exerciseList eL, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.correct_answer = a.answer_number AND e.id = a.is_answer_for AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id;'.format(id = id))
     return processOne()
 
 def getExerciseProgLanguage(id):
