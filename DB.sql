@@ -98,14 +98,13 @@ CREATE TABLE question(
 );
 
 CREATE TABLE answer(
-  id INT NOT NULL,
   answer_number INT NOT NULL,
   answer_text BLOB NOT NULL,
   language_id INT,
   is_answer_for INT,
   FOREIGN KEY (language_id) REFERENCES language(id),
   FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
-  PRIMARY KEY(id, answer_number, language_id)
+  PRIMARY KEY(is_answer_for, answer_number, language_id)
 );
 
 CREATE TABLE hint(
@@ -122,6 +121,8 @@ CREATE TABLE exerciseList(
   difficulty INT NOT NULL,
   created_by INT NOT NULL,
   created_on DATE NOT NULL,
+  prog_lang_id INT NOT NULL,
+  FOREIGN KEY (prog_lang_id) REFERENCES programmingLanguage(id),
   PRIMARY KEY(id)
 );
 
@@ -220,9 +221,9 @@ INSERT INTO hint(hint_text, hint_number, exercise_id)
     VALUES ('write print("your name here")', 1, 1);
 
 # ExerciseList data
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on)
-    VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5");
-    
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+    VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
+
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
 

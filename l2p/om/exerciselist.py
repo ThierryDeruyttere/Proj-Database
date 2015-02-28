@@ -2,14 +2,17 @@ import dbw
 import om.exercise
 
 class ExerciseList:
-    def __init__(self,id,name,difficulty,description):
+    def __init__(self,id,name,difficulty,description, created_by, created_on, programming_lang):
         self.id = id
         self.name = name
         self.difficulty = difficulty
         self.description = description
+        self.created_by = created_by
+        self.created_on = created_on
+        self.programming_language = programming_lang
 
     def __str__(self):
-        return self.name+' '+str(self.difficulty)+' '+self.description
+        return self.name+' '+str(self.difficulty)+' '+self.description +' '+ str(self.created_by) + ' ' + str(self.created_on)
 
     # List of subjects
     def allSubjects(self):
