@@ -5,7 +5,6 @@ from django.contrib.auth.hashers import make_password
 import hashlib
 import sys
 
-import dbw
 from l2p.authentication import logged_in, logged_user, authenticate
 from om import *
 
@@ -30,6 +29,7 @@ def user(request, id = 0):
         return redirect('/')
 
 def userOverview(request):
+    import dbw
     users = dbw.getAll('user')
     return render(request, 'userOverview.html', {'users':users})
 
@@ -44,11 +44,10 @@ def register(request):
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
-        print("i'm here")
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         try:
-            dbw.createNewUser(first_name, last_name, email, password)
+            object_manager.addUser(first_name, last_name, email, password)
         except:
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
     return render(request, 'register.html', {})
@@ -145,6 +144,7 @@ def test(request, id = 0):
     ,'testfunction13': ' '.join([str(member) for member in members])})
 
 def tables(request):
+    import dbw
     if request.method == 'GET':
         table = request.GET.get('sql_table', '')
         if(table != ''):
