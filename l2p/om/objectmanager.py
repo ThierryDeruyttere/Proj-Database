@@ -71,29 +71,60 @@ class ObjectManager:
 
     # ADD functions will insert info into the DB by calling dbw functions
 
-    def addUser(first_name, last_name, email, password):
+    def addUser(self,first_name, last_name, email, password):
         dbw.insertUser(first_name, last_name,password, email)
 
-    def addExerciseToList(difficulty, max_score, penalty, exercise_type,created_by
-        , created_on, exercise_number,programming_language,answers,code = ""):
+    def addExerciseToList(self,difficulty, max_score, penalty, exercise_type,created_by
+        , created_on, exercise_number,programming_language,question,answers,correct_answer
+        ,hints,list_id,code = ""):
         # Info for exercises table + id of the exercise
-        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type,created_by
-        , created_on, exercise_number)['highest_id']
+        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
+        ,created_by, created_on, exercise_number)['highest_id']
         # AssociatedWith relation
-        pl_id = dbw.getIdFromProgrammingLanguage(programming_language)
+        pl_id = dbw.getIdFromProgrammingLanguage(programming_language)['id']
         dbw.insertAssociatedWith(pl_id,exercise_id)
         # Code (default "")
         dbw.insertCode(code,exercise_id)
-        # Answers is a list of AnswerContainer objects (see below)
+        # question = QuestionContainer object
+        dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
+        # answers is a list of AnswerContainer objects (see below)
         for answer in answers:
-            #insertAnswer(id, answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
+            # TODO: fix this
+            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
+        # TODO :correct_answer -> changes to answer needed so i'll hold off on this
+        # hints, like answers, is a list of HintContainer objects
+        for hint in hints:
+            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id)
+        # Linking exercise+list
+        dbw.insertIsPartOf(list_id, exercise_id)
 
-    def addExerciseList(name, description ,difficulty):
+    def addExerciseList(self,name, description ,difficulty):
         dbw.insertExerciseList(name, description ,difficulty)
 
+    def addGroup(self,group_name, group_type):
+        dbw.insertGroup(group_name, group_type)
+
+    def addMemberToGroup(self,group_id, user_id, user_permissions):
+        dbw.insertUserInGroup(group_id, user_id, user_permissions)
+
+    
+
+# NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():
     def __init__(self,answer_number, answer_text, language_id, is_answer_for):
         self.answer_number = answer_number
         self.answer_text = answer_text
         self.language_id = language_id
         self.is_answer_for = is_answer_for
+
+# NOTE : Make these with the info stored in the HTML boxes
+class HintContainer():
+    def __init__(self,hint_text, hint_number, exercise_id):
+        self.hint_text = hint_text
+        self.hint_number = hint_number
+        self.exercise_id = exercise_id
+
+class QuestionContainer():
+    def __init__(self,question_text,language_id):
+        self.question_text = question_text
+        self.language_id = language_id
