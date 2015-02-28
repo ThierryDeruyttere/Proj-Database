@@ -5,8 +5,8 @@ from django.contrib.auth.hashers import make_password
 import hashlib
 import sys
 
-from l2p.authentication import logged_in, logged_user, authenticate
 from om import *
+from l2p.authentication import logged_in, logged_user, authenticate
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
