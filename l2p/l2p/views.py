@@ -90,15 +90,18 @@ def me(request):
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
+@logged_in
 def groupCreate(request, id = 0):
     return render(request, 'groupCreate.html', {})
 
 def list(request, id = 0):
     return render(request, 'list.html', {'id':id})
 
+@logged_in
 def question(request, id, question):
     return render(request, 'question.html', {})
 
+@logged_in
 def submit(request, id, question):
     return render(request, 'submit.html', {})
 
