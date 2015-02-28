@@ -130,7 +130,9 @@ def test(request, id = 0):
     #TODO fix this test by adding stuff to DB?
     personalexercises = []
     for list_ in lists:
-        personalexercises += list_.allExercises()
+        #TODO uncomment this when everything is k
+        personalexercises = []
+        #personalexercises += list_.allExercises()
     #testfunction6
     exercise_test = object_manager.createExercise(id=1)
     #testfunction7

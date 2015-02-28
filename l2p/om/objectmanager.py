@@ -110,8 +110,6 @@ class ObjectManager:
     def addMemberToGroup(self,group_id, user_id, user_permissions):
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
 
-
-
 # NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():
     def __init__(self,answer_number, answer_text, language_id, is_answer_for):
