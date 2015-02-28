@@ -138,13 +138,6 @@ CREATE TABLE hasSubject(
   FOREIGN KEY (subject_id) REFERENCES subject(id)
 );
 
-CREATE TABLE isPartOf(
-  exerciseList_id INT,
-  exercise_id INT,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
-
 CREATE TABLE madeList(
   exerciseList_id INT,
   user_id INT,

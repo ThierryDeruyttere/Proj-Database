@@ -94,9 +94,17 @@ class ObjectManager:
             dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
 
     def InsertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_id):
-        return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)
+        return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)["highest_id"]
 
     def InsertGroup(self,group_name, group_type):
+        dbw.insertGroup(group_name, group_type)
+        
+#insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+    def addExerciseList(self,name, description ,difficulty):
+        dbw.insertExerciseList(name, description ,difficulty)
+
+
+    def addGroup(self,group_name, group_type):
         dbw.insertGroup(group_name, group_type)
 
     def InsertMemberIntoGroup(self,group_id, user_id, user_permissions):

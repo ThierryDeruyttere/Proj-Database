@@ -215,7 +215,7 @@ def getIdFromProgrammingLanguage(name):
         @param name the name of the programming_language
         @return returns an integer (the id)
         '''
-        cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = {name};'.format(name = name))
+        cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
         return processOne()
 
 def getMaxIdFromExListForUserID(user_id):

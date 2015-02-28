@@ -1,0 +1,41 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+{% load staticfiles %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="panel">
+
+                <div class="row">
+                    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+                    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+                    <script src="{% static "codemirror/mode/javascript/javascript.js" %}"></script>
+
+                    <form style="width:500px; height: 500px;">
+                        <textarea id="code" name="code">
+
+                        </textarea>
+                    </form>
+                    <script>
+                        var myCodeMirror = CodeMirror.fromTextArea(code);
+                    </script>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+<div id="editor">function foo(items) {
+    var x = "All this is syntax highlighted";
+    return x;
+}</div>
+
+<script src="{{ STATIC_URL }}ace/src-noconflict/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+</script>
+
+{% endblock base_body %}
