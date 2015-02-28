@@ -61,7 +61,9 @@ class ObjectManager:
         exercise_list_info = dbw.getExerciseListInformation(id)
         if exercise_list_info:
             exercise_list_object = om.exerciselist.ExerciseList(id,exercise_list_info['name'],
-            exercise_list_info['difficulty'],exercise_list_info['description'])
+            exercise_list_info['difficulty'],exercise_list_info['description'],
+            exercise_list_info['created_by'], exercise_list_info['created_on'],
+            exercise_list_info['prog_lang_id'])
             return exercise_list_object
         else:
             return None

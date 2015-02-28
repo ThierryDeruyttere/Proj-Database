@@ -218,6 +218,18 @@ def getIdFromProgrammingLanguage(name):
         cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = {name};'.format(name = name))
         return processOne()
 
+def getMaxIdFromExListForUserID(user_id):
+    '''
+
+    '''
+    cursor.execute('SELECT max(e.id) AS max FROM exerciseList e WHERE e.created_by = {id};'.format(id = user_id))
+    return processOne()
+
+
+def getNameFromProgLangID(ID):
+    cursor.execute('SELECT p.name FROM programmingLanguage p WHERE p.id = {id};'.format(id = ID))
+    return processOne()
+
 ##INSERTS
 def insertIntoTable(tableName, **kwargs):
     columnNames = []
@@ -266,8 +278,8 @@ def insertAnswer(id, answer_number, answer_text, language_id, is_answer_for):
 def insertHint(hint_text, hint_number, exercise_id):
     cursor.execute('INSERT INTO hint(hint_text,hint_number,exercise_id) VALUES ("{h_text}",{h_numb},{e_id});'.format(h_text = hint_text, h_numb = hint_number, e_id = exercise_id))
 
-def insertExerciseList(name, description ,difficulty):
-    cursor.execute('INSERT INTO exerciseList(name,description,difficulty) VALUES ("{name}","{desc}",{diff});'.format(name = name, desc = description, diff = difficulty))
+def insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id):
+    cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name = name, desc = description, diff = difficulty, crtd_by = created_by, crtd_on = created_on, prog_lang_id = prog_lang_id))
 
 def insertSubject(name):
     cursor.execute('INSERT INTO subject(name) VALUES ("{name}");'.format(name = name))

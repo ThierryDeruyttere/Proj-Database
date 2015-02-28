@@ -29,8 +29,6 @@ urlpatterns = patterns('l2p.views',
     url(r'^g/create', 'groupCreate'),
 
     ## QUESTIONS ##
-    # List page with overview of questions (/l/<id>)
-    url(r'^l/(?P<id>\d*)/$', 'list'),
     # Question page (/l/<id>/<question>)
     url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
     # Submit question answer (/l/<id>/<question>/submit)
@@ -47,6 +45,12 @@ urlpatterns = patterns('l2p.views',
 
 urlpatterns += patterns('',
     url(r'^l/create$', 'l2p.exercises.views.test'),
-
+    ## QUESTIONS ##
+    # List page with overview of questions (/l/<id>)
+    url(r'^l/(?P<id>\d*)/$', 'l2p.exercises.views.list'),
+    # Question page (/l/<id>/<question>)
+    #url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
+    # Submit question answer (/l/<id>/<question>/submit)
+    #url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
 
 )
