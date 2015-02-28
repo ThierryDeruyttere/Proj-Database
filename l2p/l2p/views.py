@@ -34,14 +34,12 @@ def userOverview(request):
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):
-
-    user = object_manager.createUser(id = request.session['current_user'])
-    redirect_url = ""
+    user = logged_user()
 
     if user:
-        redirect_url = '/u/{id}'.format(id = request.session['current_user'])
-        return redirect(redirect_url)
+        return redirect('/u/{id}'.format(id = user.id))
 
+    # There has been a request to register a new user
     if request.method == 'POST':
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
