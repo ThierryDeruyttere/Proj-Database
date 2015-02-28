@@ -3,12 +3,98 @@
 {% block base_body %}
     {% load staticfiles %}
 
-    <div class="row">
+    <div class="row" xmlns="http://www.w3.org/1999/html">
         <div class="large-12 columns">
             <div class="panel">
 
-
                 <hr>
+                <div class="row">
+                    <div class="text-center column">
+                        <h3>
+                            Create exercise
+                        </h3>
+                    </div>
+                </div>
+
+                <div class="Diff">
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row">
+                                <div class="small-10 medium-11 columns">
+                                    <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;" onchange="javascript:updateText()">
+                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                                        <span class="range-slider-active-segment"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="difficulty" hidden="True"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row collapse prefix-radius">
+                                <div class="small-3 columns">
+                                    <span class="prefix">Difficulty</span>
+                                </div>
+                                <div class="small-9 columns">
+                                    <input type="text" id="diff_text" name="diff_text" readonly="True" class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script language="javascript">
+                        function updateText(){
+                            document.getElementById("diff_text").value=document.getElementById("difficulty").innerText;
+                        }
+                    </script>
+                </div>
+
+                <div class="max_score">
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row">
+                                <div class="small-10 medium-11 columns">
+                                    <div class="range-slider round" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="javascript:updateMaxText()">
+                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                                        <span class="range-slider-active-segment"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="max" hidden="True"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row collapse prefix-radius">
+                                <div class="small-3 columns">
+                                    <span class="prefix">Max score</span>
+                                </div>
+                                <div class="small-9 columns">
+                                    <input type="text" id="max_score" name="max_score" readonly="True" class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script language="javascript">
+                        function updateMaxText(){
+                            document.getElementById("max_score").value=document.getElementById("max").innerText;
+                        }
+                    </script>
+                </div>
+
+                <div class="row">
+                    <div class="large-5 large-centered columns">
+                        Question
+                        <textarea name="Question">
+
+                        </textarea>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="large-6 large-centered columns">
                         <label>Exercise Type:</label>
@@ -16,10 +102,11 @@
                         <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open" onchange="javascript:ShowContent()"><label for="exercise_type_open">Open question</label>
 
                     </div>
-
                 </div>
 
+
                 <hr>
+
                 <div class="row" id="Code_Question" hidden="True">
                     <div class="small-4 large-offset-1 columns">
                         <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
@@ -43,7 +130,6 @@
 
                 </div>
 
-
                 <script language="javascript">
                     function ShowContent(){
                         if(document.getElementById("exercise_type_code").checked){
@@ -54,6 +140,7 @@
 
                     }
                 </script>
+
             </div>
         </div>
     </div>

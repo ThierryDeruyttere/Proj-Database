@@ -34,7 +34,7 @@ def list(request, id=0):
         #get subjectID
         #link with exerciseLIST
         #TODO
-        
+
     if exercise_list:
         prog_lang = dbw.getNameFromProgLangID(exercise_list.programming_language)['name']
 
