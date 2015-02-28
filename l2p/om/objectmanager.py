@@ -90,7 +90,7 @@ class ObjectManager:
         # answers is a list of AnswerContainer objects (see below)
         for answer in answers:
             # TODO: fix this
-            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
+            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
         # TODO :correct_answer -> changes to answer needed so i'll hold off on this
         # hints, like answers, is a list of HintContainer objects
         for hint in hints:
@@ -107,7 +107,7 @@ class ObjectManager:
     def addMemberToGroup(self,group_id, user_id, user_permissions):
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
 
-    
+
 
 # NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():
