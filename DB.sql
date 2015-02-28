@@ -70,8 +70,8 @@ CREATE TABLE exercise(
   created_on DATE NOT NULL,
   exercise_number INT NOT NULL,
   correct_answer INT NOT NULL,
-  exercise_list_id INT NOT NULL,
-  FOREIGN KEY(exercise_list_id) REFERENCES exerciseList(id),
+  exerciseList_id INT NOT NULL,
+  FOREIGN KEY(exerciseList_id) REFERENCES exerciseList(id),
   PRIMARY KEY(id)
 );
 
@@ -191,7 +191,7 @@ VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
 
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exercise_list_id) VALUES (1,5,1,'code',1, '2015-02-1', 1,1,1);
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (1,5,1,'code',1, '2015-02-1', 1,1,1);
 
 # Code data
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
