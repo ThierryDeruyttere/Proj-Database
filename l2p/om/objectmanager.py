@@ -13,6 +13,8 @@ class ObjectManager:
     def __init__(self):
         pass
 
+    # CREATE functions make an object with Data from the DB-SQL Queries
+
     # NOTE: create functions return the object created OR None if the ID does not exist
 
     # Uses the DB to create an object representing a user
@@ -63,3 +65,33 @@ class ObjectManager:
             return exercise_list_object
         else:
             return None
+
+
+    # ADD functions will insert info into the DB by calling dbw functions
+
+    def addUser(first_name, last_name, email, password):
+        dbw.insertUser(first_name, last_name,password, email)
+
+    def addExerciseToList(difficulty, max_score, penalty, exercise_type,created_by
+        , created_on, exercise_number,programming_language,answers,code = ""):
+        # Info for exercises table + id of the exercise
+        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type,created_by
+        , created_on, exercise_number)['highest_id']
+        # AssociatedWith relation
+        pl_id = dbw.getIdFromProgrammingLanguage(programming_language)
+        dbw.insertAssociatedWith(pl_id,exercise_id)
+        # Code (default "")
+        dbw.insertCode(code,exercise_id)
+        # Answers is a list of AnswerContainer objects (see below)
+        for answer in answers:
+            #insertAnswer(id, answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
+
+    def addExerciseList(name, description ,difficulty):
+        dbw.insertExerciseList(name, description ,difficulty)
+
+class AnswerContainer():
+    def __init__(self,answer_number, answer_text, language_id, is_answer_for):
+        self.answer_number = answer_number
+        self.answer_text = answer_text
+        self.language_id = language_id
+        self.is_answer_for = is_answer_for

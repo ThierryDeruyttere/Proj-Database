@@ -209,6 +209,14 @@ def getGroupsFromUser(user_id):
     cursor.execute('SELECT group_id FROM userInGroup u WHERE u.user_id = {id};'.format(id = user_id))
     return processData()
 
+def getIdFromProgrammingLanguage(name):
+        '''
+        @brief gets the id that corresponds to a given programming language
+        @param name the name of the programming_language
+        @return returns an integer (the id)
+        '''
+        cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = {name};'.format(name = name))
+        return processOne()
 
 ##INSERTS
 def insertIntoTable(tableName, **kwargs):
@@ -236,6 +244,9 @@ def insertProgrammingLanguage(name):
 
 def insertExercise(difficulty, max_score, penalty, exercise_type,created_by, created_on, exercise_number):
     cursor.execute('INSERT INTO exercise(difficulty,max_score,penalty,exercise_type, created_by, created_on, exercise_number) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, {crtd_on}, {exerc_nmbr});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number))
+    # Returns last added id (keeps on counting even through deletes?) AKA the one just added
+    cursor.execute('SELECT MAX(id) AS highest_id FROM exercise WHERE exercise.created_by = {created_by};'.format(created_by = created_by))
+    return processOne()
 
 def insertCode(code_text, exercise_id):
     cursor.execute('INSERT INTO code(code_text, exercise_id) VALUES ("{c_text}", {exerc_id});'.format(c_text = code_text, exerc_id = exercise_id))
