@@ -99,6 +99,9 @@ class ObjectManager:
         dbw.insertIsPartOf(list_id, exercise_id)
 
     def addExerciseList(self,name, description ,difficulty):
+        # Answers is a list of AnswerContainer objects (see below)
+        #for answer in answers:
+            #insertAnswer(id, answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for):
         dbw.insertExerciseList(name, description ,difficulty)
 
     def addGroup(self,group_name, group_type):

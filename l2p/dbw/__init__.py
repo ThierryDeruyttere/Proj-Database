@@ -78,7 +78,7 @@ def getExerciseInformation(id):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, associatedWith aW, correctAnswer cA, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.id = cA.exercise_id AND cA.exercise_id = a.id AND e.id = aW.exercise_id AND aW.progLang_id = p.id;'.format(id = id))
+    cursor.execute('SELECT e.*, c.code_text, l.name AS language, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language FROM programmingLanguage p, associatedWith aW, correctAnswer cA, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.id = cA.exercise_id AND cA.answer_id = a.id AND e.id = aW.exercise_id AND aW.progLang_id = p.id;'.format(id = id))
     return processOne()
 
 def getExerciseLanguage(id):
@@ -108,16 +108,16 @@ def getExercQuestionAndLang(id):
     cursor.execute('SELECT l.name, q.question_text FROM language l, question q, exercise e WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id;'.format(id = id))
     return processData()
 
-def getExercCorrectAnswer(id):
+def getExercCorrectAnswer(id, languageName):
     '''
     @brief get the information from Exercise given an exercise id
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT a.answer_text, a.answer_number FROM correctAnswer c, answer a, exercise e WHERE e.id = {id} AND e.id = c.exercise_id AND c.exercise_id = a.id ;'.format(id = id))
+    cursor.execute('SELECT a.answer_text, a.answer_number FROM correctAnswer c, answer a, exercise e WHERE e.id = {id} AND e.id = c.exercise_id AND c.answer_id = a.id ;'.format(id = id))
     return processData()
 
-def getExerciseAnswers(id, languageName):
+def getExerciseAnswers(exercise_id, languageName):
     '''
     @brief get the answers for a Exercise given an exercise id
     @param id the id of the exercise
@@ -272,8 +272,8 @@ def insertLanguage(name):
 def insertQuestion(question_text, language_id, exercise_id):
     cursor.execute('INSERT INTO question(question_text,language_id,exercise_id) VALUES ("{q_text}",{l_id},{e_id});'.format(q_text = question_text, l_id = language_id, e_id = exercise_id))
 
-def insertAnswer(id, answer_number, answer_text, language_id, is_answer_for):
-    cursor.execute('INSERT INTO answer(id, answer_number,answer_text,language_id,is_answer_for) VALUES ({id},{a_numb},"{a_text}",{l_id},{ans_for});'.format(id = id, a_numb = answer_number, a_text = answer_text, l_id = language_id, ans_for = is_answer_for))
+def insertAnswer(answer_number, answer_text, language_id, is_answer_for):
+    cursor.execute('INSERT INTO answer(answer_number,answer_text,language_id,is_answer_for) VALUES ({a_numb},"{a_text}",{l_id},{ans_for});'.format(a_numb = answer_number, a_text = answer_text, l_id = language_id, ans_for = is_answer_for))
 
 def insertHint(hint_text, hint_number, exercise_id):
     cursor.execute('INSERT INTO hint(hint_text,hint_number,exercise_id) VALUES ("{h_text}",{h_numb},{e_id});'.format(h_text = hint_text, h_numb = hint_number, e_id = exercise_id))
@@ -290,8 +290,8 @@ def insertHasSubject(exerciseList_id, subject_id):
 def insertIsPartOf(exerciseList_id, exercise_id):
     cursor.execute('INSERT INTO isPartOf(exerciseList_id,exercice_id) VALUES ({el_id},{e_id});'.format(el_id = exerciseList_id, e_id = exercise_id))
 
-def insertCorrectAnswer(exercise_id ,answer_id):
-    cursor.execute('INSERT INTO correctAnswer(exercise_id,answer_id) VALUES ({e_id},{a_id});'.format(e_id = exercise_id, a_id = answer_id))
+def insertCorrectAnswer(exercise_id, is_answer_for, answer_number, language_id):
+    cursor.execute('INSERT INTO correctAnswer(exercise_id, is_answer_for, answer_number, language_id) VALUES ({e_id},{is_ans_for}, {ans_nmbr}, {lang_id});'.format(e_id = exercise_id, is_ans_for = is_answer_for,ans_nmbr = answer_number, lang_id = language_id))
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score) VALUES ({el_id},{u_id},{rating},{score});'.format(el_id = exerciseList_id, u_id = user_id, rating = rating, score = score))
