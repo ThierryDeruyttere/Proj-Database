@@ -28,7 +28,7 @@ class Exercise:
         self.language_code = language_code
 
     def __str__(self):
-        return str(self.difficulty)+' '+str(self.max_score)+' '+str(self.penalty)+' '+self.exercise_type+' '+self.programming_language+' '+self.code+' '+self.question+' '+self.language+' '+self.correct_answer
+        return str(self.difficulty)+' '+str(self.max_score)+' '+str(self.penalty)+' '+self.exercise_type+' '+self.programming_language+' '+self.code+' '+self.question+' '+self.language_name+' '+self.correct_answer+' '+self.language_code
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):

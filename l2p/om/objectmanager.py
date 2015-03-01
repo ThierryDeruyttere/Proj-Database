@@ -71,10 +71,10 @@ class ObjectManager:
 
     # ADD functions will insert info into the DB by calling dbw functions
 
-    def InsertUser(self,first_name, last_name, email, password):
+    def insertUser(self,first_name, last_name, email, password):
         dbw.insertUser(first_name, last_name,password, email)
 
-    def InsertExerciseIntoList(self,difficulty, max_score, penalty, exercise_type,created_by
+    def insertExerciseIntoList(self,difficulty, max_score, penalty, exercise_type,created_by
         , created_on, exercise_number,programming_language,question,answers,correct_answer
         ,hints,list_id,language_code,code = ""):
         # Info for exercises table + id of the exercise
@@ -93,21 +93,13 @@ class ObjectManager:
         for hint in hints:
             dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
 
-    def InsertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_id):
+    def insertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_id):
         return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)["highest_id"]
 
-    def InsertGroup(self,group_name, group_type):
-        dbw.insertGroup(group_name, group_type)
-        
-#insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-    def addExerciseList(self,name, description ,difficulty):
-        dbw.insertExerciseList(name, description ,difficulty)
-
-
-    def addGroup(self,group_name, group_type):
+    def insertGroup(self,group_name, group_type):
         dbw.insertGroup(group_name, group_type)
 
-    def InsertMemberIntoGroup(self,group_id, user_id, user_permissions):
+    def insertMemberIntoGroup(self,group_id, user_id, user_permissions):
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
 
 # NOTE : Make these with the info stored in the HTML boxes

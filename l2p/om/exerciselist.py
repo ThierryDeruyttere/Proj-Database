@@ -35,7 +35,7 @@ class ExerciseList:
                 exercise_object = om.exercise.Exercise(self.id,exercise_info['difficulty'],
                 exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
                 ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-                ,exercise_info['language'],exercise_info['answer_text'])
+                ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
                 exercises.append(exercise_object)
             return exercises
         else:

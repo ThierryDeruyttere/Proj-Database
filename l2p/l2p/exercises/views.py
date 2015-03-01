@@ -19,7 +19,7 @@ def createExerciseList(request):
             prog_lang = request.POST.get('prog_lang', '')
             user = object_manager.createUser(id = request.session['current_user'])
             prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang)["id"]
-            exlist_id = object_manager.InsertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
+            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
             return redirect("/l/" + str(exlist_id))
 
 
