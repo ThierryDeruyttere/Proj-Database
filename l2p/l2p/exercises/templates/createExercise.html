@@ -1,293 +1,272 @@
 {% extends "codegalaxy.html" %}
 
 {% block base_body %}
-    {% load staticfiles %}
+{% load staticfiles %}
 
-    <div class="row" xmlns="http://www.w3.org/1999/html">
-        <div class="large-12 columns">
-            <div class="panel">
+<div class="row" xmlns="http://www.w3.org/1999/html">
+  <div class="large-12 columns">
+    <div class="panel">
 
-                <hr>
-                <div class="row">
-                    <div class="text-center column">
-                        <h3>
-                            Create exercise
-                        </h3>
-                    </div>
-                </div>
-
-                <div class="Diff">
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row">
-                                <div class="small-10 medium-11 columns">
-                                    <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;" onchange="javascript:updateText()">
-                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                                        <span class="range-slider-active-segment"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <span id="difficulty" hidden="True"></span>
-                    </div>
-
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row collapse prefix-radius">
-                                <div class="small-3 columns">
-                                    <span class="prefix">Difficulty</span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="text" id="diff_text" name="diff_text" readonly="True" class="text-center">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <script language="javascript">
-                        function updateText(){
-                            document.getElementById("diff_text").value=document.getElementById("difficulty").innerText;
-                        }
-                    </script>
-                </div>
-
-                <div class="max_score">
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row">
-                                <div class="small-10 medium-11 columns">
-                                    <div class="range-slider round" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="javascript:updateMaxText();javascript:removeHints()">
-                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                                        <span class="range-slider-active-segment"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <span id="max" hidden="True"></span>
-                    </div>
-
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row collapse prefix-radius">
-                                <div class="small-3 columns">
-                                    <span class="prefix">Max score</span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="text" id="max_score" name="max_score" readonly="True" class="text-center">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <script language="javascript">
-                        function updateMaxText(){
-                            document.getElementById("max_score").value=document.getElementById("max").innerText;
-                        }
-                    </script>
-                </div>
-
-                <div class="penalty_score">
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row">
-                                <div class="small-10 medium-11 columns">
-                                    <div class="range-slider round" id="range_slider" data-slider data-options="display_selector: #penalty; start: 1; end: 10;" onchange="javascript:updatePenaltyText()">
-                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                                        <span class="range-slider-active-segment"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <span id="penalty" hidden="True"></span>
-                    </div>
-
-                    <div class="row">
-                        <div class="large-4 large-centered columns">
-                            <div class="row collapse prefix-radius">
-                                <div class="small-3 columns">
-                                    <span class="prefix">Penalty</span>
-                                </div>
-                                <div class="small-9 columns">
-                                    <input type="text" id="penalty_score" name="penalty_score" readonly="True" class="text-center">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <script language="javascript">
-                        function updatePenaltyText(){
-                            document.getElementById("penalty_score").value=document.getElementById("penalty").innerText;
-                        }
-                    </script>
-                </div>
-
-                <div class="row">
-                    <div class="large-5 large-centered columns">
-                        Question
-                        <textarea name="Question">
-
-                        </textarea>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="large-6 large-centered columns">
-                        <label>Exercise Type:</label>
-                        <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" onchange="javascript:ShowContent();"><label for="exercise_type_code">Code question</label>
-                        <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open" onchange="javascript:ShowContent()"><label for="exercise_type_open">Open question</label>
-
-                    </div>
-                </div>
-
-
-                <hr>
-
-                <div class="row" id="Code_Question" hidden="True">
-                    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-                    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-                    <script src="{% static "codemirror/mode/python/python.js" %}"></script>
-                    <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
-
-                    <div class ="row">
-                        <div class="small-4 large-offset-1 columns">
-
-                            <form style="width:500px;">
-                                <u>Code the user gets to see:</u>
-                        <textarea id="code" name="code">
-
-                        </textarea>
-                            </form>
-                            <script>
-                                var myCodeMirror = CodeMirror.fromTextArea(code,
-                                        {
-                                            lineNumbers: true,
-                                            mode: "python",
-                                            theme: "monokai"
-                                        });
-                            </script>
-                        </div>
-                    </div>
-                    <div class ="row">
-                        <div class="small-4 large-offset-1 columns">
-
-                            <form style="width:500px;">
-                                <u>Expected output</u>
-                                <textarea id="output" name="output">
-
-                                </textarea>
-                            </form>
-                            <script>
-                                var myCodeMirror = CodeMirror.fromTextArea(output,
-                                        {
-                                            lineNumbers: true,
-                                            mode: "python",
-                                            theme: "monokai"
-                                        });
-                            </script>
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="row" id="Open_Question" hidden="True">
-                    <u>Possible answers</u>
-
-                    {% for i in "12345" %}
-                        <div class ="row">
-                            <div class="large-1 columns">
-                                {{ i }}.
-                            </div>
-                            <div class="large-5 columns">
-                                <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="subject_name">
-                            </div>
-                            <div class="large-6 columns">
-                                <input type="radio" name="corr_answer_no_{{ i }}" value="{{ i }}" id="corr_answer_no_{{ i }}"><label for="answer_no_{{ i }}">Correct answer</label>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-                <hr>
-
-                <div class="row">
-                    <h3>Tips:</h3>
-                    <div class="large-4 right columns">
-                        <input type="button" class="button tiny radius" value="Add Tip" onclick="javascript:add('text');">
-                    </div>
-                    <div class="row">
-                        <span id="Hints"> </span>
-
-                    </div>
-                </div>
-
-                <!--
-                    Tips
-                -->
-                <hr>
-                <div class="row">
-                    <div class="large-text-center">
-                        <input type="submit" class="button tiny radius" value="Create exercise">
-                    </div>
-                </div>
-                <script language="javascript">
-                    function ShowContent(){
-                        if(document.getElementById("exercise_type_code").checked){
-                            document.getElementById("Code_Question").hidden = false;
-                            document.getElementById("Open_Question").hidden = true;
-                        }else if(document.getElementById('exercise_type_open').checked){
-                            document.getElementById("Code_Question").hidden = true;
-                            document.getElementById("Open_Question").hidden = false;
-                        }
-
-                    }
-
-                    var hint_nmbr = 0;
-                    function add(type){
-
-                        if(hint_nmbr >= document.getElementById("max_score").value){
-                            return;
-                            console.log( document.getElementById("max_score").value);
-                        }
-                        var element=document.createElement("input");
-                        element.setAttribute("type",type);
-                        element.setAttribute("name",type+(hint_nmbr+1));
-                        var foo=document.getElementById("Hints");
-                        element.setAttribute("value","Tip"+ (hint_nmbr+1));
-
-                        //create div
-                        var div = document.createElement("div");
-                        div.setAttribute("class", "large-5 large-centered columns");
-
-                        var row = document.createElement("div");
-                        row.setAttribute("class", "row");
-                        row.setAttribute("id", "row"+(hint_nmbr+1));
-                        div.appendChild(element);
-                        row.appendChild(div);
-                        foo.appendChild(row);
-                        ++hint_nmbr;
-                    }
-
-                    function removeHints(){
-                        var value = document.getElementById("max_score").value;
-                        if((hint_nmbr-value) > 0){
-                            var span = document.getElementById("Hints");
-                            for(i = 0; i < (hint_nmbr-value);++i){
-
-                                var name = "row"+ (hint_nmbr-i);
-
-                                var obj = document.getElementById(name);
-                                if(obj){
-                                    obj.parentNode.removeChild(obj);
-                                    hint_nmbr--;
-                                }
-                            }
-                        }
-                    }
-                </script>
-
-            </div>
+      <hr>
+      <div class="row">
+        <div class="text-center column">
+          <h3>
+            Create exercise
+          </h3>
         </div>
+      </div>
+
+      <div class="Diff">
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row">
+              <div class="small-10 medium-11 columns">
+                <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Difficulty</span>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="max_score">
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row">
+              <div class="small-10 medium-11 columns">
+                <div class="range-slider round" data-slider data-options="display_selector: #max; start: 1; end: 10;">
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Max score</span>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="max" name="max" readonly="True" class="text-center">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="penalty_score">
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row">
+              <div class="small-10 medium-11 columns">
+                <div class="range-slider round" id="range_slider" data-slider data-options="display_selector: #penalty; start: 1; end: 10;">
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Penalty</span>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="penalty" name="penalty" readonly="True" class="text-center">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-5 large-centered columns">
+          Question
+          <textarea name="Question">
+
+          </textarea>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="large-6 large-centered columns">
+          <label>Exercise Type:</label>
+          <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" onchange="javascript:ShowContent();"><label for="exercise_type_code">Code question</label>
+          <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open" onchange="javascript:ShowContent()"><label for="exercise_type_open">Open question</label>
+
+        </div>
+      </div>
+
+
+      <hr>
+
+      <div class="row" id="Code_Question" hidden="True">
+      <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+      <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+      <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+      <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
+      <div class ="row">
+        <div class="small-4 large-offset-1 columns">
+
+          <form style="width:500px;">
+            <u>Code the user gets to see:</u>
+            <textarea id="code" name="code">
+
+            </textarea>
+          </form>
+          <script>
+          var myCodeMirror = CodeMirror.fromTextArea(code,
+            {
+              lineNumbers: true,
+              mode: "python",
+              theme: "monokai"
+            });
+            </script>
+          </div>
+        </div>
+        <div class ="row">
+          <div class="small-4 large-offset-1 columns">
+
+            <form style="width:500px;">
+              <u>Expected output</u>
+              <textarea id="output" name="output">
+
+              </textarea>
+            </form>
+            <script>
+            var myCodeMirror = CodeMirror.fromTextArea(output,
+              {
+                lineNumbers: true,
+                mode: "python",
+                theme: "monokai"
+              });
+              </script>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="row" id="Open_Question" hidden="True">
+          <u>Possible answers</u>
+
+          {% for i in "12345" %}
+          <div class ="row">
+            <div class="large-1 columns">
+              {{ i }}.
+            </div>
+            <div class="large-5 columns">
+              <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="subject_name">
+            </div>
+            <div class="large-6 columns">
+              <input type="radio" name="corr_answer_no_{{ i }}" value="{{ i }}" id="corr_answer_no_{{ i }}"><label for="answer_no_{{ i }}">Correct answer</label>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+        <hr>
+
+        <div class="row">
+          <h3>Tips:</h3>
+          <div class="large-4 right columns">
+            <input type="button" class="button tiny radius" value="Add Tip" onclick="javascript:add('text');">
+          </div>
+          <div class="row">
+            <span id="Hints"> </span>
+
+          </div>
+        </div>
+
+        <!--
+        Tips
+      -->
+      <hr>
+      <div class="row">
+        <div class="large-text-center">
+          <input type="submit" class="button tiny radius" value="Create exercise">
+        </div>
+      </div>
+      <script language="javascript">
+      function ShowContent(){
+        if(document.getElementById("exercise_type_code").checked){
+          document.getElementById("Code_Question").hidden = false;
+          document.getElementById("Open_Question").hidden = true;
+        }else if(document.getElementById('exercise_type_open').checked){
+          document.getElementById("Code_Question").hidden = true;
+          document.getElementById("Open_Question").hidden = false;
+        }
+
+      }
+
+      var hint_nmbr = 0;
+      function add(type){
+
+        if(hint_nmbr >= document.getElementById("max_score").value){
+          return;
+          console.log( document.getElementById("max_score").value);
+        }
+        var element=document.createElement("input");
+        element.setAttribute("type",type);
+        element.setAttribute("name",type+(hint_nmbr+1));
+        var foo=document.getElementById("Hints");
+        element.setAttribute("value","Tip"+ (hint_nmbr+1));
+
+        //create div
+        var div = document.createElement("div");
+        div.setAttribute("class", "large-5 large-centered columns");
+
+        var row = document.createElement("div");
+        row.setAttribute("class", "row");
+        row.setAttribute("id", "row"+(hint_nmbr+1));
+        div.appendChild(element);
+        row.appendChild(div);
+        foo.appendChild(row);
+        ++hint_nmbr;
+      }
+
+      function removeHints(){
+        var value = document.getElementById("max_score").value;
+        if((hint_nmbr-value) > 0){
+          var span = document.getElementById("Hints");
+          for(i = 0; i < (hint_nmbr-value);++i){
+
+            var name = "row"+ (hint_nmbr-i);
+
+            var obj = document.getElementById(name);
+            if(obj){
+              obj.parentNode.removeChild(obj);
+              hint_nmbr--;
+            }
+          }
+        }
+      }
+      </script>
+
     </div>
+  </div>
+</div>
 
 
 {% endblock base_body %}
