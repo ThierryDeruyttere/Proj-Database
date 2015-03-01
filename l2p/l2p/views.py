@@ -44,6 +44,7 @@ def register(request):
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
+        print("i'm here")
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         try:
