@@ -18,21 +18,30 @@ def authenticate(email, password):
         return user
     return None
 
-def logged_in(function = None):
+def require_login(*args):
     '''
-    @brief A 'is the user logged in' decorator, else redirect to a specified page
+    @brief A decorator to check for a logged in user, else redirect to a specified page
     '''
-    def wrapper(*args, **kwargs):
-        user = None
+    def arg_wrapper(function = None):
+        def f_wrapper(*args, **kwargs):
+            user = None
 
-        if 'current_user' in args[0].session:
-            user = object_manager.createUser(id = args[0].session['current_user'])
+            if 'current_user' in args[0].session:
+                user = object_manager.createUser(id = args[0].session['current_user'])
 
-        if user:
-            return function(*args, **kwargs)
-        else:
-            return redirect('/login')
-    return wrapper
+            if user:
+                return function(*args, **kwargs)
+            else:
+                return redirect(link)
+        return f_wrapper
+
+    if len(args) == 1 and callable(args[0]):
+        link = "/login/"
+        return arg_wrapper(args[0])
+    else:
+        link = args[0]
+        
+    return arg_wrapper
 
 def logged_user(request):
     '''

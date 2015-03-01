@@ -6,7 +6,7 @@ import hashlib
 import sys
 
 from om import *
-from l2p.authentication import logged_in, logged_user, authenticate
+from l2p.authentication import require_login, logged_user, authenticate
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -82,7 +82,7 @@ def logout(request):
     request.session['current_user'] = None
     return render(request, 'logout.html', {})
 
-@logged_in
+@require_login
 def me(request):
     user_url = '/u/{id}'.format(id = logged_user(request).id)
     return redirect(user_url)
@@ -90,18 +90,18 @@ def me(request):
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
-@logged_in
+@require_login
 def groupCreate(request, id = 0):
     return render(request, 'groupCreate.html', {})
 
 def list(request, id = 0):
     return render(request, 'list.html', {'id':id})
 
-@logged_in
+@require_login
 def question(request, id, question):
     return render(request, 'question.html', {})
 
-@logged_in
+@require_login
 def submit(request, id, question):
     return render(request, 'submit.html', {})
 
