@@ -107,6 +107,9 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def test(request, id = 0):
+#TODO : getexercise nog bugged?
+    #exercise_test = object_manager.createExercise(1,1)
+
     # test
     user_test = object_manager.createUser(id=1)
     # UPDATE USER test
@@ -139,8 +142,15 @@ def test(request, id = 0):
     answers = exercise_test.allAnswers()
     #testfunction9
     group_test = object_manager.createGroup(1)
+    group_test.group_name = "Testgroup"
+    group_test.group_type = 5
+    group_test.save()
     #testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
+    exercise_list_test.name = "testlist"
+    exercise_list_test.difficulty = 4
+    exercise_list_test.description = "no"
+    exercise_list_test.programming_language = 2
     #testfunction11
     subjects = exercise_list_test.allSubjects()
     #testfunction12

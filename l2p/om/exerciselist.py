@@ -40,3 +40,6 @@ class ExerciseList:
             return exercises
         else:
             return None
+
+    def save(self):
+        dbw.updateExerciseList(self.id,self.name, self.description ,self.difficulty, self.programming_language)
