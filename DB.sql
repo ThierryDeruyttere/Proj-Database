@@ -44,7 +44,7 @@ CREATE TABLE programmingLanguage(
 CREATE TABLE language(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
-  language_code INT NOT NULL,
+  language_code VARCHAR(225) NOT NULL,
   PRIMARY KEY(id)
 );
 
