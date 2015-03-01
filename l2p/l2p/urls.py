@@ -44,13 +44,15 @@ urlpatterns = patterns('l2p.views',
 )
 
 urlpatterns += patterns('',
-    url(r'^l/create$', 'l2p.exercises.views.test'),
+    url(r'^l/create$', 'l2p.exercises.views.createExerciseList'),
     ## QUESTIONS ##
     # List page with overview of questions (/l/<id>)
     url(r'^l/(?P<id>\d*)/$', 'l2p.exercises.views.list'),
+
+    #Create exercise for list
+    url(r'^l/(?P<listId>\d*)/createExercise/$', 'l2p.exercises.views.createExercise')
     # Question page (/l/<id>/<question>)
     #url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
     # Submit question answer (/l/<id>/<question>/submit)
     #url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
-
 )

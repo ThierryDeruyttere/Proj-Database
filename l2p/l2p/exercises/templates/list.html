@@ -1,0 +1,75 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+
+    <div class="row">
+        <div class="large-12 columns">
+            <div class="panel">
+                <div class="text-center">
+                    <div class="row">
+                        <h1><u>{{ list_name }}</u></h1>
+                    </div>
+                    <div class="row">
+                        <div class="large-6 large-centered text-center columns">
+                            <ul class="pricing-table">
+                                <li class="title">Description</li>
+                                <li class="price">{{ list_description }}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="large-6 large-centered text-center columns">
+                        <ul class="pricing-table">
+                            <li class="title">List difficulty</li>
+                            <li class="price">{{ list_difficulty }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class ="row">
+                    <div class="large-6 large-centered text-center columns">
+                        <ul class="pricing-table">
+                            <li class="title">Programming language</li>
+                            <li class="price">{{ list_programming_lang }}</li>
+                        </ul>
+                    </div>
+                </div>
+                <hr>
+
+                <div class="row">
+                    <div class="large-2 right columns">
+                        {% if correct_user %}
+                            <a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a>
+                        {% endif %}
+                    </div>
+                    <div class="large-2 left columns">
+                        {% if correct_user %}
+                            <a href="#" data-reveal-id="Subject_Modal" class="button tiny radius">Add Subject</a>
+
+                            <div id="Subject_Modal" class="reveal-modal" data-reveal>
+                                <h2>Subject name:</h2>
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <input type="text" placeholder="Subject name" name="subject_name">
+                                    <input type="submit" class="button tiny radius" value="Add Subject">
+                                    <a class="close-reveal-modal">&#215;</a>
+                                </form>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class ="row">
+                    <div class="large-10 large-centered columns">
+                        <ul class="pricing-table">
+                            <li class="title">Exercises</li>
+                            <li class="price">{{ list_programming_lang }}</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock base_body %}

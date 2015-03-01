@@ -45,13 +45,13 @@ class ObjectManager:
             return None
 
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self,id):
-        exercise_info = dbw.getExerciseInformation(id)
+    def createExercise(self,id,language_code):
+        exercise_info = dbw.getExerciseInformation(id,language_code)
         if exercise_info:
             exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
             exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
             ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-            ,exercise_info['language'],exercise_info['answer_text'])
+            ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
             return exercise_object
         else:
             return None
@@ -71,43 +71,36 @@ class ObjectManager:
 
     # ADD functions will insert info into the DB by calling dbw functions
 
-    def addUser(self,first_name, last_name, email, password):
+    def insertUser(self,first_name, last_name, email, password):
         dbw.insertUser(first_name, last_name,password, email)
 
-    def addExerciseToList(self,difficulty, max_score, penalty, exercise_type,created_by
+    def insertExerciseIntoList(self,difficulty, max_score, penalty, exercise_type,created_by
         , created_on, exercise_number,programming_language,question,answers,correct_answer
-        ,hints,list_id,code = ""):
+        ,hints,list_id,language_code,code = ""):
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
-        ,created_by, created_on, exercise_number)['highest_id']
+        ,created_by, created_on, exercise_number,correct_answer,list_id)['highest_id']
         # AssociatedWith relation
-        pl_id = dbw.getIdFromProgrammingLanguage(programming_language)['id']
-        dbw.insertAssociatedWith(pl_id,exercise_id)
+        l_id = dbw.getIdFromLanguageCode(language_code)['id']
         # Code (default "")
         dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
         # answers is a list of AnswerContainer objects (see below)
         for answer in answers:
-            # TODO: fix this
             dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
-        # TODO :correct_answer -> changes to answer needed so i'll hold off on this
         # hints, like answers, is a list of HintContainer objects
         for hint in hints:
-            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id)
-        # Linking exercise+list
-        dbw.insertIsPartOf(list_id, exercise_id)
+            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
 
-    def addExerciseList(self,name, description ,difficulty):
-        dbw.insertExerciseList(name, description ,difficulty)
+    def insertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_id):
+        return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)["highest_id"]
 
-    def addGroup(self,group_name, group_type):
+    def insertGroup(self,group_name, group_type):
         dbw.insertGroup(group_name, group_type)
 
-    def addMemberToGroup(self,group_id, user_id, user_permissions):
+    def insertMemberIntoGroup(self,group_id, user_id, user_permissions):
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
-
-
 
 # NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():

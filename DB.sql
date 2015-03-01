@@ -41,77 +41,11 @@ CREATE TABLE programmingLanguage(
   PRIMARY KEY(id)
 );
 
-CREATE TABLE exercise(
-  id INT NOT NULL AUTO_INCREMENT,
-  difficulty INT NOT NULL,
-  max_score INT NOT NULL,
-  penalty INT NOT NULL,
-  exercise_type VARCHAR(255) NOT NULL,
-  created_by INT NOT NULL,
-  created_on DATE NOT NULL,
-  exercise_number INT NOT NULL,
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE code(
-  id INT NOT NULL AUTO_INCREMENT,
-  code_text BLOB NOT NULL,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE associatedWith(
-  progLang_id INT,
-  exercise_id INT,
-  FOREIGN KEY (progLang_id) REFERENCES programmingLanguage(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
-
-
-CREATE TABLE madeEx(
-  user_id INT,
-  exercise_id INT,
-  solved BOOLEAN NOT NULL,
-  exercise_score INT NOT NULL,
-  rating INT,
-  FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
-
-
 CREATE TABLE language(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
+  language_code INT NOT NULL,
   PRIMARY KEY(id)
-);
-
-CREATE TABLE question(
-  id INT NOT NULL AUTO_INCREMENT,
-  question_text BLOB NOT NULL,
-  language_id INT,
-  correct_answer INT,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  PRIMARY KEY(id)
-);
-
-CREATE TABLE answer(
-  answer_number INT NOT NULL,
-  answer_text BLOB NOT NULL,
-  language_id INT,
-  is_answer_for INT,
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
-  PRIMARY KEY(is_answer_for, answer_number, language_id)
-);
-
-CREATE TABLE hint(
-  hint_text varchar(255),
-  hint_number INT,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
 );
 
 CREATE TABLE exerciseList(
@@ -126,6 +60,72 @@ CREATE TABLE exerciseList(
   PRIMARY KEY(id)
 );
 
+CREATE TABLE exercise(
+  id INT NOT NULL AUTO_INCREMENT,
+  difficulty INT NOT NULL,
+  max_score INT NOT NULL,
+  penalty INT NOT NULL,
+  exercise_type VARCHAR(255) NOT NULL,
+  created_by INT NOT NULL,
+  created_on DATE NOT NULL,
+  exercise_number INT NOT NULL,
+  correct_answer INT NOT NULL,
+  exerciseList_id INT NOT NULL,
+  FOREIGN KEY(exerciseList_id) REFERENCES exerciseList(id),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE answer(
+  answer_number INT NOT NULL,
+  answer_text BLOB NOT NULL,
+  language_id INT,
+  is_answer_for INT,
+  FOREIGN KEY (language_id) REFERENCES language(id),
+  FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
+  PRIMARY KEY(is_answer_for, answer_number, language_id)
+);
+
+CREATE TABLE code(
+  id INT NOT NULL AUTO_INCREMENT,
+  code_text BLOB NOT NULL,
+  exercise_id INT,
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+  PRIMARY KEY(id)
+);
+
+CREATE TABLE madeEx(
+  user_id INT,
+  exercise_id INT,
+  solved BOOLEAN NOT NULL,
+  exercise_score INT NOT NULL,
+  rating INT,
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+);
+
+CREATE TABLE question(
+  id INT NOT NULL AUTO_INCREMENT,
+  question_text BLOB NOT NULL,
+  language_id INT,
+  correct_answer INT,
+  exercise_id INT,
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+  FOREIGN KEY (language_id) REFERENCES language(id),
+  PRIMARY KEY(id)
+);
+
+
+
+CREATE TABLE hint(
+  hint_text varchar(255),
+  hint_number INT,
+  exercise_id INT,
+  language_id INT,
+  FOREIGN KEY (language_id) REFERENCES language(id),
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+);
+
+
 CREATE TABLE subject(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL,
@@ -139,13 +139,6 @@ CREATE TABLE hasSubject(
   FOREIGN KEY (subject_id) REFERENCES subject(id)
 );
 
-CREATE TABLE isPartOf(
-  exerciseList_id INT,
-  exercise_id INT,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
-);
-
 CREATE TABLE madeList(
   exerciseList_id INT,
   user_id INT,
@@ -153,13 +146,6 @@ CREATE TABLE madeList(
   score INT NOT NULL,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
   FOREIGN KEY (user_id) REFERENCES user(id)
-);
-
-CREATE TABLE correctAnswer(
-  exercise_id INT,
-  answer_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  FOREIGN KEY (answer_id) REFERENCES answer(id)
 );
 
 # User data
@@ -194,47 +180,39 @@ INSERT INTO programmingLanguage(name) VALUES ('Python');
 INSERT INTO programmingLanguage(name) VALUES ('C++');
 INSERT INTO programmingLanguage(name) VALUES ('SQL');
 
+# ExerciseList data
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
+
+
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number) VALUES (1,5,1,'code',1, '2015-02-1', 1);
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (1,5,1,'code',1, '2015-02-1', 1,1,1);
 
 # Code data
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
 
-# AssosiatedWith data
-INSERT INTO associatedWith(progLang_id, exercise_id) VALUES (1,1);
-
 # Language data
-INSERT INTO language(name) VALUES ('English');
-INSERT INTO language(name) VALUES ('Nederlands');
+INSERT INTO language(name,language_code) VALUES ('English','en');
+INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
 
 # Question data
 INSERT INTO question(question_text, language_id, exercise_id)
     VALUES ('Print your name', 1,1);
 
 # Anwer data
-INSERT INTO answer(id, answer_number, answer_text, language_id, is_answer_for)
-    VALUES (1, 1,'Print your name', 1,1);
+INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
+    VALUES (1,'Print your name', 1,1);
 
 # Hint data
-INSERT INTO hint(hint_text, hint_number, exercise_id)
-    VALUES ('write print("your name here")', 1, 1);
-
-# ExerciseList data
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-    VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
+INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
+    VALUES ('write print("your name here")', 1, 1, 1);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
 
 # HasSubject data
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
-
-# IsPartOf data
-INSERT INTO isPartOf(exerciseList_id, exercise_id) VALUES (1,1);
-
-#insert into correctAnswer
-INSERT INTO correctAnswer(exercise_id ,answer_id) VALUES (1,1);
 
 #insert into madeList
 INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,1,5,5);

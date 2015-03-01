@@ -87,7 +87,8 @@ class PersonalList:
         self.user_id = user_id
         exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
         exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
-        exercise_list_info['difficulty'],exercise_list_info['description'])
+        exercise_list_info['difficulty'],exercise_list_info['description'],exercise_list_info['created_by']
+        ,exercise_list_info['created_on'],exercise_list_info['prog_lang_id'])
         # Actual exercises-object (make with SQL queries)
         self.exercises_list = exercise_list_object
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
@@ -113,13 +114,13 @@ class PersonalExercise:
         self.score = score
         # given rating
         self.rating = rating
-        
+
         exercise_info = dbw.getExerciseInformation(exercise_id)
         # Actual exercises-object (make with SQL queries)
         self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
         exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
         ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-        ,exercise_info['language'],exercise_info['answer_text'])
+        ,exercise_info['language_code'],exercise_info['answer_text'],exercise_info['language_name'])
 
 
     def __str__(self):
