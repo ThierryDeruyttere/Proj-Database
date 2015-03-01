@@ -38,19 +38,20 @@ def register(request):
 
     if user:
         return redirect('/u/{id}'.format(id = user.id))
-
     # There has been a request to register a new user
+
     if request.method == 'POST':
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
-        print("i'm here")
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         try:
-            object_manager.addUser(first_name, last_name, email, password)
+            object_manager.insertUser(first_name, last_name, email, password)
+
         except:
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
+
     return render(request, 'register.html', {})
 
 def login(request):
@@ -76,6 +77,7 @@ def login(request):
 
     return render(request, 'login.html', {})
 
+@require_login('/')
 def logout(request):
     #flush zorgt ervoor dat er geen restjes achterblijven
     #geen idee of dit de juiste manier is

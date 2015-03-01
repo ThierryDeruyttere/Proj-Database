@@ -10,18 +10,14 @@
   </div>
 </div>
 
-
-
-<form class="custom">
-  <div class="row">
-    <div class="large-6 columns">
-      <section class="active">
+ <div class="row">
+   <div class="large-6 columns">
         <div class="content" data-section-content>
-          <p>
-            <div class="row">
-              <div class="large-12 columns">
-                <div class="signup-panel">
-                  <p class="text"> {{ error_message }} </p>
+            <p>
+              <div class="row">
+                <div class="large-12 columns">
+                  <div class="signup-panel">
+                    <p class="welcome">Welcome back!</p>
                   <form method="post" action="/register/">
                   {% csrf_token %}
                     <div class="row collapse">
@@ -56,19 +52,14 @@
                         <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
                       </div>
                     </div>
-                  <input type="submit" value="Sign Up" class="button"/>
-                  </form>
+                  <input type="submit" value="Sign Up" name="SignUp" class="button"/>
+                    </form>
+                  </div>
                 </div>
-              </div>
-             </div></p>
+            </div></p>
         </div>
-      </section>
     </div>
-  </div>
-</form>
-
-
-
+</div>
 
 
 
