@@ -101,14 +101,7 @@ class ObjectManager:
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
 
     # UPDATE functions will update the info stored in the DB
-
-    def updateUser():
-        pass
-
-    # Used when
-    def updateList():
-        pass
-        
+    
 # NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():
     def __init__(self,answer_number, answer_text, language_id, is_answer_for):

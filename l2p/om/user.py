@@ -74,6 +74,10 @@ class User:
         else:
             return None
 
+    def save(self):
+        dbw.updateUser(self.id,self.first_name,self.last_name
+        ,self.password,self.email,self.is_active,self.permissions)
+
     def __str__(self):
          return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
 

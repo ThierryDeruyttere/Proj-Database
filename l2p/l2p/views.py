@@ -109,6 +109,13 @@ def submit(request, id, question):
 def test(request, id = 0):
     # test
     user_test = object_manager.createUser(id=1)
+    # UPDATE USER test
+    user_test.first_name = "testerino"
+    user_test.first_name = "thafuk"
+    user_test.password = "peswert"
+    user_test.permissions = 1
+    user_test.email = "lol@test.fk"
+    user_test.save()
     #testfunction
     friends = user_test.allFriends()
     #testfunction2

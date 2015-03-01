@@ -275,3 +275,8 @@ def insertHasSubject(exerciseList_id, subject_id):
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score) VALUES ({el_id},{u_id},{rating},{score});'.format(el_id = exerciseList_id, u_id = user_id, rating = rating, score = score))
+
+#UPDATE
+
+def updateUser(user_id,first_name, last_name, password, email, is_active,permissions):
+    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm} WHERE  id = {id};'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email,id = user_id,perm = permissions))
