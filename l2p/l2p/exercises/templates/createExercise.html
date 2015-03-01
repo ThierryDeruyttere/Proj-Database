@@ -86,6 +86,41 @@
                     </script>
                 </div>
 
+                <div class="penalty_score">
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row">
+                                <div class="small-10 medium-11 columns">
+                                    <div class="range-slider round" id="range_slider" data-slider data-options="display_selector: #penalty; start: 1; end: 10;" onchange="javascript:updatePenaltyText()">
+                                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                                        <span class="range-slider-active-segment"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <span id="penalty" hidden="True"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="large-4 large-centered columns">
+                            <div class="row collapse prefix-radius">
+                                <div class="small-3 columns">
+                                    <span class="prefix">Penalty</span>
+                                </div>
+                                <div class="small-9 columns">
+                                    <input type="text" id="penalty_score" name="penalty_score" readonly="True" class="text-center">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <script language="javascript">
+                        function updatePenaltyText(){
+                            document.getElementById("penalty_score").value=document.getElementById("penalty").innerText;
+                        }
+                    </script>
+                </div>
+
                 <div class="row">
                     <div class="large-5 large-centered columns">
                         Question
@@ -108,34 +143,73 @@
                 <hr>
 
                 <div class="row" id="Code_Question" hidden="True">
-                    <div class="small-4 large-offset-1 columns">
-                        <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-                        <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-                        <script src="{% static "codemirror/mode/python/python.js" %}"></script>
-                        <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
-                        <form style="width:500px;">
+                    <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+                    <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+                    <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+                    <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
+                    <div class ="row">
+                        <div class="small-4 large-offset-1 columns">
+
+                            <form style="width:500px;">
+                                <u>Code the user gets to see:</u>
                         <textarea id="code" name="code">
 
                         </textarea>
-                        </form>
-                        <script>
-                            var myCodeMirror = CodeMirror.fromTextArea(code,
-                                    {
-                                        lineNumbers: true,
-                                        mode: "python",
-                                        theme: "monokai"
-                                    });
-                        </script>
+                            </form>
+                            <script>
+                                var myCodeMirror = CodeMirror.fromTextArea(code,
+                                        {
+                                            lineNumbers: true,
+                                            mode: "python",
+                                            theme: "monokai"
+                                        });
+                            </script>
+                        </div>
+                    </div>
+                    <div class ="row">
+                        <div class="small-4 large-offset-1 columns">
+
+                            <form style="width:500px;">
+                                <u>Expected output</u>
+                                <textarea id="output" name="output">
+
+                                </textarea>
+                            </form>
+                            <script>
+                                var myCodeMirror = CodeMirror.fromTextArea(output,
+                                        {
+                                            lineNumbers: true,
+                                            mode: "python",
+                                            theme: "monokai"
+                                        });
+                            </script>
+                        </div>
+
                     </div>
 
                 </div>
+
+                <div class="row" id="Open_Question" hidden="True">
+                    <u>Possible answers</u>
+                    {% for i in "12345" %}
+                        <div class ="row">
+                            <div class="large-4 large-offset-1">
+                                {{ i }}. <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="subject_name">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <hr>
 
                 <script language="javascript">
                     function ShowContent(){
                         if(document.getElementById("exercise_type_code").checked){
                             document.getElementById("Code_Question").hidden = false;
+                            document.getElementById("Open_Question").hidden = true;
                         }else if(document.getElementById('exercise_type_open').checked){
                             document.getElementById("Code_Question").hidden = true;
+                            document.getElementById("Open_Question").hidden = false;
                         }
 
                     }
