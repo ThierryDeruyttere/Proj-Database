@@ -15,11 +15,11 @@ def createExerciseList(request):
         if request.method == 'POST':
             list_name = request.POST.get('list_name', '')
             list_description = request.POST.get('description_text', '')
-            diff_text = request.POST.get('diff_text', '')
+            difficulty = request.POST.get('difficulty', '')
             prog_lang = request.POST.get('prog_lang', '')
             user = object_manager.createUser(id = request.session['current_user'])
             prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang)["id"]
-            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
+            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
             return redirect("/l/" + str(exlist_id))
 
         return render(request, 'createExerciseList.html',{"languages": languages})
