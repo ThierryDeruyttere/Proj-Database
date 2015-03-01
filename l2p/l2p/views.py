@@ -107,9 +107,6 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def test(request, id = 0):
-#TODO : getexercise nog bugged?
-    #exercise_test = object_manager.createExercise(1,1)
-
     # test
     user_test = object_manager.createUser(id=1)
     # UPDATE USER test
@@ -128,12 +125,9 @@ def test(request, id = 0):
     #testfunction4
     permission = user_test.checkPermission(1)
     #testfunction5
-    #TODO fix this test by adding stuff to DB?
     personalexercises = []
     for list_ in lists:
-        #TODO uncomment this when everything is k
-        personalexercises = []
-        #personalexercises += list_.allExercises()
+        personalexercises += list_.allExercises("en")
     #testfunction6
     exercise_test = object_manager.createExercise(1,'en')
     #testfunction7
