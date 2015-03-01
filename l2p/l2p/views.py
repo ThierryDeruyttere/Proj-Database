@@ -34,7 +34,7 @@ def userOverview(request):
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):
-    user = logged_user()
+    user = logged_user(request)
 
     if user:
         return redirect('/u/{id}'.format(id = user.id))
