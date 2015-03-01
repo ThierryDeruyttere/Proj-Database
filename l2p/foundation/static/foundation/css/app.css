@@ -84,7 +84,7 @@ body {
 
 /* line 417, ../bower_components/foundation/scss/foundation/components/_global.scss */
 body {
-  background: #040404;
+  background: #7f3b3b;
   color: #FAFAFA;
   padding: 0;
   margin: 0;
@@ -5432,10 +5432,10 @@ ul.pagination li {
 .panel {
   border-style: solid;
   border-width: 1px;
-  border-color: #393939;
+  border-color: #454545;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: #414141;
+  background: #4d4d4d;
   color: #FFFFFF;
 }
 /* line 55, ../bower_components/foundation/scss/foundation/components/_panels.scss */
