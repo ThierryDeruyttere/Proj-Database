@@ -210,13 +210,13 @@ def getGroupsFromUser(user_id):
     return processData()
 
 def getIdFromProgrammingLanguage(name):
-        '''
-        @brief gets the id that corresponds to a given programming language
-        @param name the name of the programming_language
-        @return returns an integer (the id)
-        '''
-        cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
-        return processOne()
+    '''
+    @brief gets the id that corresponds to a given programming language
+    @param name the name of the programming_language
+    @return returns an integer (the id)
+    '''
+    cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
+    return processOne()
 
 def getMaxIdFromExListForUserID(user_id):
     '''

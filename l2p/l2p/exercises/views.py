@@ -50,7 +50,19 @@ def list(request, id=0):
 
 def createExercise(request, listId=0):
     if 'current_user' not in request.session:
-       return redirect("/login")
+        return redirect("/login")
+
+    if request.method == 'POST':
+        exercise_difficulty = request.POST.get('difficulty')
+        exercise_max_score = request.POST.get('max')
+        exercise_penalty = request.POST.get('penalty')
+        exercise_question = request.POST.get('Question')
+        exercise_type = request.POST.get('exercise_type')
+        if(exercise_type == 'Open Question'):
+            print("open")
+        else:
+            print("code")
+
 
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list:
@@ -58,6 +70,5 @@ def createExercise(request, listId=0):
         if exercise_list.created_by != user.id:
             return redirect('/')
         else:
-
             return render(request, 'createExercise.html','')
     return redirect('/')
