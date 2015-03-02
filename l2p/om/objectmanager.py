@@ -33,8 +33,6 @@ class ObjectManager:
         else:
             return None
 
-#TODO: De volgende creates afmaken: Exercise
-
     # Uses the DB to create an object representing a Group
     def createGroup(self,id):
         group_info = dbw.getGroupInformation(id)
@@ -69,7 +67,7 @@ class ObjectManager:
             return None
 
 
-    # ADD functions will insert info into the DB by calling dbw functions
+    # INSERT functions will insert info into the DB by calling dbw functions
 
     def insertUser(self,first_name, last_name, email, password):
         dbw.insertUser(first_name, last_name,password, email)
@@ -102,6 +100,15 @@ class ObjectManager:
     def insertMemberIntoGroup(self,group_id, user_id, user_permissions):
         dbw.insertUserInGroup(group_id, user_id, user_permissions)
 
+    # UPDATE functions will update the info stored in the DB
+
+    def updateUser():
+        pass
+
+    # Used when
+    def updateList():
+        pass
+        
 # NOTE : Make these with the info stored in the HTML boxes
 class AnswerContainer():
     def __init__(self,answer_number, answer_text, language_id, is_answer_for):

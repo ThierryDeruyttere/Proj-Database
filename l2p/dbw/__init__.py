@@ -46,14 +46,6 @@ def processOne():
     else:
         return info[0]
 
-
-
-def createNewUser(first_name, last_name, email, password):
-    cursor.execute('INSERT INTO user(is_active, first_name, last_name, password, email) VALUES ({}, "{}", "{}", "{}", "{}");'.format(1, first_name,last_name,password,email))
-
-    cursor.execute('SELECT * FROM user WHERE user.id = {id};'.format(id = id))
-    return processData()
-
 def getExerciseListInformation(id):
     '''
     @brief get the information from Exercise lists given an user id
@@ -247,6 +239,7 @@ def insertUserInGroup(group_id, user_id, user_permissions):
 def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))
 
+
 def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
     cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exercise_list_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, {crtd_on}, {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
@@ -270,6 +263,7 @@ def insertHint(hint_text, hint_number, exercise_id, language_id):
 
 def insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id):
     cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name = name, desc = description, diff = difficulty, crtd_by = created_by, crtd_on = created_on, prog_lang_id = prog_lang_id))
+
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by = created_by))
     return processOne()
 

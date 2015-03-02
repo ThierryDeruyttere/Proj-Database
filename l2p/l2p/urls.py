@@ -55,5 +55,4 @@ urlpatterns += patterns('',
     #url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
     # Submit question answer (/l/<id>/<question>/submit)
     #url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
-
 )

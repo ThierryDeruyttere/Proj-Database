@@ -115,6 +115,7 @@ CREATE TABLE question(
 );
 
 
+
 CREATE TABLE hint(
   hint_text varchar(255),
   hint_number INT,

@@ -1,13 +1,14 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
+
 import hashlib
 import sys
 
-import dbw
 from om import *
+from l2p.authentication import require_login, logged_user, authenticate
 
-#we'll use one ObjectManager to work with/create the objects stored in the DB
+# We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
 
 def home(request):
@@ -28,59 +29,55 @@ def user(request, id = 0):
         return redirect('/')
 
 def userOverview(request):
+    import dbw
     users = dbw.getAll('user')
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):
-
-    user = object_manager.createUser(id = request.session['current_user'])
-    redirect_url = ""
+    user = logged_user(request)
 
     if user:
-        redirect_url = '/u/{id}'.format(id = request.session['current_user'])
-        return redirect(redirect_url)
+        return redirect('/u/{id}'.format(id = user.id))
+    # There has been a request to register a new user
 
     if request.method == 'POST':
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
-        print("i'm here")
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         try:
-            dbw.createNewUser(first_name, last_name, email, password)
+            object_manager.insertUser(first_name, last_name, email, password)
+
         except:
             return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
+
     return render(request, 'register.html', {})
-
-def authenticate(request, email, password):
-    # Create the user object on email
-    user = object_manager.createUser(email = email)
-
-    # If we found a user with that email
-    if not user:
-        return render(request, 'login.html', {})
-
-    if user.password == password:
-        request.session['current_user'] = user.id
-        return redirect('/me/')
-    return render(request, 'login.html', {})
 
 def login(request):
     if 'current_user' not in request.session:
         request.session['current_user'] = None
 
+    # There has been a request to log in
     if request.method == 'POST':
         email = request.POST.get('your_email', '')
-
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
-        return authenticate(request, email, password)
 
-    if request.method == 'GET':
-        if request.session['current_user']:
+        user = authenticate(email, password)
+
+        # Successful login attempt
+        if user:
+            request.session['current_user'] = user.id
             return redirect('/me/')
+
+    # We just landed on the login page
+    elif request.method == 'GET':
+        if logged_user(request):
+            return redirect('/me/')
+
     return render(request, 'login.html', {})
 
+@require_login('/')
 def logout(request):
     #flush zorgt ervoor dat er geen restjes achterblijven
     #geen idee of dit de juiste manier is
@@ -88,30 +85,26 @@ def logout(request):
     request.session['current_user'] = None
     return render(request, 'logout.html', {})
 
+@require_login
 def me(request):
-    user = object_manager.createUser(id = request.session['current_user'])
-    redirect_url = ""
-
-    # Switch to /u/<id> if user is logged in, home page otherwise
-    if user:
-        redirect_url = '/u/{id}'.format(id = request.session['current_user'])
-    else:
-        redirect_url = '/login'
-
-    return redirect(redirect_url)
+    user_url = '/u/{id}'.format(id = logged_user(request).id)
+    return redirect(user_url)
 
 def group(request, id = 0):
     return render(request, 'group.html', {'id':id})
 
+@require_login
 def groupCreate(request, id = 0):
     return render(request, 'groupCreate.html', {})
 
 def list(request, id = 0):
     return render(request, 'list.html', {'id':id})
 
+@require_login
 def question(request, id, question):
     return render(request, 'question.html', {})
 
+@require_login
 def submit(request, id, question):
     return render(request, 'submit.html', {})
 
@@ -159,6 +152,7 @@ def test(request, id = 0):
     ,'testfunction13': ' '.join([str(member) for member in members])})
 
 def tables(request):
+    import dbw
     if request.method == 'GET':
         table = request.GET.get('sql_table', '')
         if(table != ''):

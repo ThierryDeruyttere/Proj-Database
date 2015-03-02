@@ -23,12 +23,15 @@ def createExerciseList(request):
         exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
         return redirect("/l/" + str(exlist_id))
 
-
     return render(request, 'createExerciseList.html',{"languages": languages})
 
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+    if exercise_list:
+        prog_lang = dbw.getNameFromProgLangID(exercise_list.programming_language)['name']
+        print(prog_lang)
+
     if request.method == 'POST':
         subject_name = request.POST.get('subject_name', '')
         dbw.insertSubject(subject_name)
