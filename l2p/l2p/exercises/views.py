@@ -11,15 +11,14 @@ def createExerciseList(request):
     if 'current_user' not in request.session:
         return redirect("/login")
     else:
-        languages = dbw.getAll("programmingLanguage")
+        languages = object_manager.allProgrammingLanguages()
         if request.method == 'POST':
             list_name = request.POST.get('list_name', '')
             list_description = request.POST.get('description_text', '')
             diff_text = request.POST.get('diff_text', '')
             prog_lang = request.POST.get('prog_lang', '')
             user = object_manager.createUser(id = request.session['current_user'])
-            prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang)["id"]
-            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
+            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang)
             return redirect("/l/" + str(exlist_id))
 
         return render(request, 'createExerciseList.html',{"languages": languages})
@@ -27,19 +26,15 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
-    if exercise_list:
-        prog_lang = dbw.getNameFromProgLangID(exercise_list.programming_language)['name']
-        print(prog_lang)
-
     if request.method == 'POST':
         subject_name = request.POST.get('subject_name', '')
         dbw.insertSubject(subject_name)
         #get subjectID
         #link with exerciseLIST
-        #TODO
+        #TODO how to add?
 
     if exercise_list:
-        prog_lang = dbw.getNameFromProgLangID(exercise_list.programming_language)['name']
+        prog_lang = exercise_list.programming_language_string
 
         return render(request, 'list.html', {'id' : id, 'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,

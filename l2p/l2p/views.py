@@ -29,8 +29,7 @@ def user(request, id = 0):
         return redirect('/')
 
 def userOverview(request):
-    import dbw
-    users = dbw.getAll('user')
+    users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):

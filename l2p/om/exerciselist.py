@@ -10,6 +10,7 @@ class ExerciseList:
         self.created_by = created_by
         self.created_on = created_on
         self.programming_language = programming_lang
+        self.programming_language_string = dbw.getNameFromProgLangID(programming_lang)['name']
 
     def __str__(self):
         return self.name+' '+str(self.difficulty)+' '+self.description +' '+ str(self.created_by) + ' ' + str(self.created_on)
@@ -43,6 +44,8 @@ class ExerciseList:
 
     def save(self):
         dbw.updateExerciseList(self.id,self.name, self.description ,self.difficulty, self.programming_language)
+
+#TODO: how to add subjects
 
     def addSubject():
         pass
