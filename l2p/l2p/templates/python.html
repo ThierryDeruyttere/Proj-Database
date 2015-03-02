@@ -40,14 +40,19 @@ function runit() {
    }
 }
 </script>
+<div class="row">
+  <div class="small-12 columns">
+    <textarea id="yourcode" rows="20">import turtle
 
-<textarea id="yourcode" cols="40" rows="10">import turtle
+    t = turtle.Turtle()
 
-t = turtle.Turtle()
-t.forward(100)
-
-print "Hello World"
-</textarea><br />
+    for c in ['red', 'green', 'yellow', 'blue']:
+        t.color(c)
+        t.forward(75)
+        t.left(90)
+    </textarea>
+  </div>
+</div>
 <button type="button" onclick="runit()">Run</button>
 <pre id="output" ></pre>
 <!-- If you want turtle graphics include a canvas -->
