@@ -58,5 +58,5 @@ class Exercise:
         else:
             return None
 
-    def save():
-        pass
+    def save(self):
+        dbw.updateExercise(id,self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)

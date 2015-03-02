@@ -285,3 +285,6 @@ def updateGroup(group_id,group_name,group_type):
 
 def updateExerciseList(list_id,name, description ,difficulty, prog_lang_id):
     cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id = list_id,desc = description,name=name,diff = difficulty,prg_id = prog_lang_id))
+
+def updateExercise(exercise_id,difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
+    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exercise_list_id = {exerciseList_id}) WHERE id = {ex_id};'.format(ex_id = exercise_id,diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))

@@ -107,11 +107,17 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def test(request, id = 0):
+    # Quick tests
+    exercise_test = object_manager.createExercise(1,'en')
+    exercise_test.difficulty = 9001
+    #print(exercise_test)
+
+
     # test
     user_test = object_manager.createUser(id=1)
     # UPDATE USER test
     user_test.first_name = "testerino"
-    user_test.first_name = "thafuk"
+    user_test.last_name = "thafuk"
     user_test.password = "peswert"
     user_test.permissions = 1
     user_test.email = "lol@test.fk"
