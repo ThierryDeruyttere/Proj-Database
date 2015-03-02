@@ -65,9 +65,7 @@ class ExerciseList:
         dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
-        # answers is a list of AnswerContainer objects (see below)
-        for answer in answers:
-            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
-        # hints, like answers, is a list of HintContainer objects
-        for hint in hints:
-            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
+        import managers.om.objectmanager
+        object_manager = objectmanager.ObjectManager()
+        exercise = object_manager.createExercise(exercise_id)
+        exercise.update(correct_answer,answers,hints)
