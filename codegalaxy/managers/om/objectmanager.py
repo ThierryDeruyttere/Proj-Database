@@ -49,7 +49,7 @@ class ObjectManager:
             exercise_object = managers.om.exercise.Exercise(id,exercise_info['difficulty'],
             exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
             ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-            ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
+            ,language_code,exercise_info['correct_answer'],exercise_info['language_name'])
             return exercise_object
         else:
             return None

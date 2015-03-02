@@ -36,7 +36,7 @@ class ExerciseList:
                 exercise_object = managers.om.exercise.Exercise(self.id,exercise_info['difficulty'],
                 exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
                 ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-                ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
+                ,language_code,exercise_info['correct_answer'],exercise_info['language_name'])
                 exercises.append(exercise_object)
             return exercises
         else:
@@ -60,7 +60,7 @@ class ExerciseList:
         exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
         ,created_by, created_on, exercise_number,correct_answer,self.id)['highest_id']
         # AssociatedWith relation
-        l_id = dbw.getIdFromLanguageCode(language_code)['id']
+        l_id = dbw.getIdFromLanguage(language_code)['id']
         # Code (default "")
         dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
@@ -68,14 +68,20 @@ class ExerciseList:
 
         import managers.om.objectmanager
         object_manager = managers.om.objectmanager.ObjectManager()
-        exercise = object_manager.createExercise(exercise_id)
-        exercise.update(correct_answer,answers,hints)
-
         for answer in answers:
             dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
+        for i, answer in enumerate(answers):
+            dbw.insertAnswer(i+1, answer, 1, exercise_id)
 
-        for hint in hints:
-            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
+        for i, hint in enumerate(hints):
+            dbw.insertHint(hint, i+1, exercise_id,l_id)
+
+
+        exercise = object_manager.createExercise(exercise_id, language_code)
+
+        exercise.update(correct_answer,answers,hints)
+
+
 
     def getLastExercise(self):
         if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:

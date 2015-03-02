@@ -70,7 +70,7 @@ def getExerciseInformation(id, language_code):
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, q.question_text, a.answer_text, a.answer_number, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, answer a, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.correct_answer = a.answer_number AND e.id = a.is_answer_for AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
+    cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
     return processOne()
 
 def getExerciseProgLanguage(id):
@@ -258,25 +258,29 @@ def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))
 
 def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exercise_list_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, {crtd_on}, {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, "{crtd_on}", {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise WHERE exercise.created_by = {created_by};'.format(created_by = created_by))
     return processOne()
 
 def insertCode(code_text, exercise_id):
-    cursor.execute('INSERT INTO code(code_text, exercise_id) VALUES ("{c_text}", {exerc_id});'.format(c_text = code_text, exerc_id = exercise_id))
+    sql = 'INSERT INTO code(code_text, exercise_id) VALUES (%s, {exerc_id});'.format(exerc_id = exercise_id)
+    cursor.execute(sql, [code_text])
 
 def insertLanguage(name):
     cursor.execute('INSERT INTO language(name) VALUES ("{name}");'.format(name = name))
 
 def insertQuestion(question_text, language_id, exercise_id):
-    cursor.execute('INSERT INTO question(question_text,language_id,exercise_id) VALUES ("{q_text}",{l_id},{e_id});'.format(q_text = question_text, l_id = language_id, e_id = exercise_id))
+    sql = 'INSERT INTO question(question_text,language_id,exercise_id) VALUES (%s,{l_id},{e_id});'.format(l_id = language_id, e_id = exercise_id)
+    cursor.execute(sql, [question_text])
 
 def insertAnswer(answer_number, answer_text, language_id, is_answer_for):
-    cursor.execute('INSERT INTO answer(answer_number,answer_text,language_id,is_answer_for) VALUES ({a_numb},"{a_text}",{l_id},{ans_for});'.format(a_numb = answer_number, a_text = answer_text, l_id = language_id, ans_for = is_answer_for))
+    sql = 'INSERT INTO answer(answer_number,answer_text,language_id,is_answer_for) VALUES ({a_numb},%s,{l_id},{ans_for});'.format(a_numb = answer_number, l_id = language_id, ans_for = is_answer_for)
+    cursor.execute(sql, [answer_text])
 
 def insertHint(hint_text, hint_number, exercise_id, language_id):
-    cursor.execute('INSERT INTO hint(hint_text,hint_number,exercise_id, language_id) VALUES ("{h_text}",{h_numb},{e_id}, {lang_id});'.format(h_text = hint_text, h_numb = hint_number, e_id = exercise_id, lang_id = language_id))
+    sql = 'INSERT INTO hint(hint_text,hint_number,exercise_id, language_id) VALUES (%s,{h_numb},{e_id}, {lang_id});'.format(h_numb = hint_number, e_id = exercise_id, lang_id = language_id)
+    cursor.execute(sql, [hint_text])
 
 def insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id):
     cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name = name, desc = description, diff = difficulty, crtd_by = created_by, crtd_on = created_on, prog_lang_id = prog_lang_id))

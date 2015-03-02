@@ -23,7 +23,7 @@ class Exercise:
         # Language the question is in (string)
         self.language_name = language_name
         # ID of the correct answer
-        self.correct_answer = correct_answer.decode('ascii')
+        self.correct_answer = correct_answer
         # Django code for the name
         self.language_code = language_code
 
@@ -63,16 +63,16 @@ class Exercise:
         dbw.deleteAnswers(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
         print(language_id)
-        for i in range(len(answers)):
-            dbw.insertAnswer(i, answers[i], language_id, self.id)
+        for i in range(1,len(answers)+1):
+            dbw.insertAnswer(i, answers[i-1], language_id, self.id)
 
     #inserts a list of answer_texts (also deletes the previous ones)
     def updateHints(self,hints):
         dbw.deleteHints(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
         print(language_id)
-        for i in range(len(hints)):
-            dbw.insertHint(hints[i], i, self.id, language_id)
+        for i in range(1,len(hints)+1):
+            dbw.insertHint(hints[i-1], i, self.id, language_id)
 
     def update(self,correct_answer,answers,hints):
         self.correct_answer = correct_answer
@@ -81,3 +81,9 @@ class Exercise:
 
     def save(self):
         dbw.updateExercise(id,self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
+
+
+class Question:
+    def __init__(self,question_text,language_id):
+        self.question_text = question_text
+        self.language_id = language_id
