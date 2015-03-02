@@ -216,7 +216,7 @@ def getIdFromLanguage(language_code):
     @param name the name of the programming_language
     @return returns an integer (the id)
     '''
-    cursor.execute('SELECT id FROM language WHERE language.name = "{language_code}";'.format(language_code = language_code))
+    cursor.execute('SELECT id FROM language WHERE language.language_code = "{language_code}";'.format(language_code = language_code))
     return processOne()
 
 def getMaxIdFromExListForUserID(user_id):
@@ -304,7 +304,7 @@ def deleteAnswers(exercise_id):
     cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id = exercise_id))
 
 def deleteHints(hint_id):
-    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint))
+    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint_id))
 
 #TRIVIA
 
