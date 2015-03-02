@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 import sys
-from om import *
+from managers.om import *
 import dbw
 object_manager = objectmanager.ObjectManager()
 import time

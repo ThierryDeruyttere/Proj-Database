@@ -5,7 +5,7 @@ from django.contrib.auth.hashers import make_password
 import hashlib
 import sys
 
-from om import *
+from managers.om import *
 from l2p.authentication import require_login, logged_user, authenticate
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
@@ -179,3 +179,7 @@ def tables(request):
             return render(request, 'tables.html',{'data' : data, 'keys' : data[0].keys()})
 
     return render(request, 'tables.html',{})
+
+
+def graphs(request):
+    return render(request, 'graphs.html',{})

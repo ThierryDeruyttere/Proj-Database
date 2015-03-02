@@ -1,6 +1,6 @@
-import om.exerciselist
-import om.exercise
-import om.group
+import managers.om.exerciselist
+import managers.om.exercise
+import managers.om.group
 import dbw
 
 class User:
@@ -42,7 +42,7 @@ class User:
                 group_info = dbw.getGroupInformation(group['group_id'])
                 if group_info:
                     # If the info is legit, we add a Group object with the info to the list
-                    group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
+                    group_object = managers.om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
                     groups_list.append(group_object)
             return groups_list
         else:
@@ -90,7 +90,7 @@ class PersonalList:
         # Needed to use the allExercises function
         self.user_id = user_id
         exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
-        exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
+        exercise_list_object = managers.om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
         exercise_list_info['difficulty'],exercise_list_info['description'],exercise_list_info['created_by']
         ,exercise_list_info['created_on'],exercise_list_info['prog_lang_id'])
         # Actual exercises-object (make with SQL queries)
@@ -120,7 +120,7 @@ class PersonalExercise:
         self.rating = rating
         exercise_info = dbw.getExerciseInformation(exercise_id,language_code)
         # Actual exercises-object (make with SQL queries)
-        self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
+        self.exercise = managers.om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
         exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
         ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
         ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
