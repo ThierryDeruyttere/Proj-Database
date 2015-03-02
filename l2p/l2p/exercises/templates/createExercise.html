@@ -132,14 +132,13 @@
               <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 
               <div class ="row">
-                <div class="small-4 large-offset-1 columns">
+                <div class="large-8 large-offset-1 columns">
 
-                  <form style="width:500px;">
-                    <u>Code the user gets to see:</u>
+                  <u>Code the user gets to see:</u>
+
                 <textarea id="code" name="code">
 
                 </textarea>
-                  </form>
                   <script>
                     var myCodeMirror = CodeMirror.fromTextArea(code,
                             {
@@ -151,14 +150,12 @@
                 </div>
               </div>
               <div class ="row">
-                <div class="small-4 large-offset-1 columns">
+                <div class="large-8 large-offset-1 columns">
 
-                  <form style="width:500px;">
                     <u>Expected output</u>
                 <textarea id="output" name="output">
 
                 </textarea>
-                  </form>
                   <script>
                     var myCodeMirror = CodeMirror.fromTextArea(output,
                             {
@@ -234,9 +231,9 @@
           var hint_nmbr = 0;
           function add(type){
 
-            if(hint_nmbr >= document.getElementById("max_score").value){
+            if(hint_nmbr >= document.getElementById("max").value){
               return;
-              console.log( document.getElementById("max_score").value);
+              console.log( document.getElementById("max").value);
             }
             var element=document.createElement("input");
             element.setAttribute("type",type);
@@ -258,7 +255,7 @@
           }
 
           function removeHints(){
-            var value = document.getElementById("max_score").value;
+            var value = document.getElementById("max").value;
             if((hint_nmbr-value) > 0){
               var span = document.getElementById("Hints");
               for(i = 0; i < (hint_nmbr-value);++i){
