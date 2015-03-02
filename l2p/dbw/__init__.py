@@ -202,13 +202,22 @@ def getGroupsFromUser(user_id):
     return processData()
 
 def getIdFromProgrammingLanguage(name):
-        '''
-        @brief gets the id that corresponds to a given programming language
-        @param name the name of the programming_language
-        @return returns an integer (the id)
-        '''
-        cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
-        return processOne()
+    '''
+    @brief gets the id that corresponds to a given programming language
+    @param name the name of the programming_language
+    @return returns an integer (the id)
+    '''
+    cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
+    return processOne()
+
+def getIdFromLanguage(language_code):
+    '''
+    @brief gets the id that corresponds to a given language
+    @param name the name of the programming_language
+    @return returns an integer (the id)
+    '''
+    cursor.execute('SELECT id FROM language WHERE language.language_code = "{language_code}";'.format(language_code = language_code))
+    return processOne()
 
 def getMaxIdFromExListForUserID(user_id):
     '''
@@ -238,7 +247,6 @@ def insertUserInGroup(group_id, user_id, user_permissions):
 
 def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))
-
 
 def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
     cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exercise_list_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, {crtd_on}, {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
@@ -275,3 +283,35 @@ def insertHasSubject(exerciseList_id, subject_id):
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score) VALUES ({el_id},{u_id},{rating},{score});'.format(el_id = exerciseList_id, u_id = user_id, rating = rating, score = score))
+
+#UPDATE
+
+def updateUser(user_id,first_name, last_name, password, email, is_active,permissions):
+    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm} WHERE  id = {id};'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email,id = user_id,perm = permissions))
+
+def updateGroup(group_id,group_name,group_type):
+    cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t} WHERE id = {id};'.format(id = group_id,gr_t = group_type,gr_n=group_name))
+
+def updateExerciseList(list_id,name, description ,difficulty, prog_lang_id):
+    cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id = list_id,desc = description,name=name,diff = difficulty,prg_id = prog_lang_id))
+
+def updateExercise(exercise_id,difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
+    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exercise_list_id = {exerciseList_id}) WHERE id = {ex_id};'.format(ex_id = exercise_id,diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
+
+#DELETE
+
+def deleteAnswers(exercise_id):
+    cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id = exercise_id))
+
+def deleteHints(hint_id):
+    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint_id))
+
+#TRIVIA
+
+def latestAnswer(exercise_id,language_id):
+    cursor.execute('SELECT MAX(answer_number) AS highest FROM answer WHERE answer.language_id = {l_id} AND answer.is_answer_for = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))
+    return processOne()
+
+def latestHint(exercise_id,language_code):
+    cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))
+    return processOne()

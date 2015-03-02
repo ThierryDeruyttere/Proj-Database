@@ -72,57 +72,13 @@ class ObjectManager:
     def insertUser(self,first_name, last_name, email, password):
         dbw.insertUser(first_name, last_name,password, email)
 
-    def insertExerciseIntoList(self,difficulty, max_score, penalty, exercise_type,created_by
-        , created_on, exercise_number,programming_language,question,answers,correct_answer
-        ,hints,list_id,language_code,code = ""):
-        # Info for exercises table + id of the exercise
-        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
-        ,created_by, created_on, exercise_number,correct_answer,list_id)['highest_id']
-        # AssociatedWith relation
-        l_id = dbw.getIdFromLanguageCode(language_code)['id']
-        # Code (default "")
-        dbw.insertCode(code,exercise_id)
-        # question = QuestionContainer object
-        dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
-        # answers is a list of AnswerContainer objects (see below)
-        for answer in answers:
-            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
-        # hints, like answers, is a list of HintContainer objects
-        for hint in hints:
-            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
-
     def insertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_id):
         return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)["highest_id"]
 
     def insertGroup(self,group_name, group_type):
         dbw.insertGroup(group_name, group_type)
 
-    def insertMemberIntoGroup(self,group_id, user_id, user_permissions):
-        dbw.insertUserInGroup(group_id, user_id, user_permissions)
-
     # UPDATE functions will update the info stored in the DB
-
-    def updateUser():
-        pass
-
-    # Used when
-    def updateList():
-        pass
-        
-# NOTE : Make these with the info stored in the HTML boxes
-class AnswerContainer():
-    def __init__(self,answer_number, answer_text, language_id, is_answer_for):
-        self.answer_number = answer_number
-        self.answer_text = answer_text
-        self.language_id = language_id
-        self.is_answer_for = is_answer_for
-
-# NOTE : Make these with the info stored in the HTML boxes
-class HintContainer():
-    def __init__(self,hint_text, hint_number, exercise_id):
-        self.hint_text = hint_text
-        self.hint_number = hint_number
-        self.exercise_id = exercise_id
 
 class QuestionContainer():
     def __init__(self,question_text,language_id):

@@ -44,7 +44,7 @@ CREATE TABLE programmingLanguage(
 CREATE TABLE language(
   id INT NOT NULL AUTO_INCREMENT,
   name VARCHAR(255) NOT NULL UNIQUE,
-  language_code INT NOT NULL,
+  language_code VARCHAR(255) NOT NULL,
   PRIMARY KEY(id)
 );
 
@@ -113,8 +113,6 @@ CREATE TABLE question(
   FOREIGN KEY (language_id) REFERENCES language(id),
   PRIMARY KEY(id)
 );
-
-
 
 CREATE TABLE hint(
   hint_text varchar(255),

@@ -109,8 +109,24 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def test(request, id = 0):
+    # Quick tests/changes
+    exercise_test = object_manager.createExercise(1,'en')
+    exercise_test2 = object_manager.createExercise(1,'en')
+    #exercise_test.difficulty = 9001
+    new_answers = ["a","b","c"]
+    new_hints = ["hint1","hint2"]
+    exercise_test.update(2,new_answers,new_hints)
+    print(exercise_test)
+
     # test
     user_test = object_manager.createUser(id=1)
+    # UPDATE USER test
+    user_test.first_name = "testerino"
+    user_test.last_name = "thafuk"
+    user_test.password = "peswert"
+    user_test.permissions = 1
+    user_test.email = "lol@test.fk"
+    user_test.save()
     #testfunction
     friends = user_test.allFriends()
     #testfunction2
@@ -120,12 +136,9 @@ def test(request, id = 0):
     #testfunction4
     permission = user_test.checkPermission(1)
     #testfunction5
-    #TODO fix this test by adding stuff to DB?
     personalexercises = []
     for list_ in lists:
-        #TODO uncomment this when everything is k
-        personalexercises = []
-        #personalexercises += list_.allExercises()
+        personalexercises += list_.allExercises("en")
     #testfunction6
     exercise_test = object_manager.createExercise(1,'en')
     #testfunction7
@@ -134,8 +147,15 @@ def test(request, id = 0):
     answers = exercise_test.allAnswers()
     #testfunction9
     group_test = object_manager.createGroup(1)
+    group_test.group_name = "Testgroup"
+    group_test.group_type = 5
+    group_test.save()
     #testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
+    exercise_list_test.name = "testlist"
+    exercise_list_test.difficulty = 4
+    exercise_list_test.description = "no"
+    exercise_list_test.programming_language = 2
     #testfunction11
     subjects = exercise_list_test.allSubjects()
     #testfunction12

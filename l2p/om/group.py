@@ -23,5 +23,11 @@ class Group:
         else:
             return None
 
+    def save(self):
+        dbw.updateGroup(self.id,self.group_name,self.group_type)
+
+    def insertMember(self, user_id, user_permissions):
+        dbw.insertUserInGroup(self.id, user_id, user_permissions)
+
     def __str__(self):
          return str(self.id)+' '+self.group_name+' '+str(self.group_type)
