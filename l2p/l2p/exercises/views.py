@@ -62,6 +62,11 @@ def createExercise(request, listId=0):
             if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
                 hints.append(request.POST.get("hint"+str(j)))
 
+        exercise_number = object_manager.getLastExercise() + 1
+
+        exercise_answer = None
+        correct_answer = None
+        code = ""
         if(exercise_type == 'Open Question'):
             answer = []
             for i in range(1,6):
@@ -69,14 +74,20 @@ def createExercise(request, listId=0):
                     answer.append(request.POST.get("answer_no_"+str(i)))
 
             selected_answer = request.POST.get("corr_answer")
-            #exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id
-            #                             ,str(time.strftime("%Y-%m-%d")), exercise_number,programming_language,exercise_question,answer,selected_answer
-            #                             ,hints,language_code)
+            exercise_answer = answer
+            correct_answer = selected_answer
 
         else:
             code_for_user = request.POST.get("code")
             expected_answer = request.POST.get("output")
+            exercise_answer = expected_answer
+            correct_answer = expected_answer
+            code = code_for_user
 
+        exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id
+                                         ,str(time.strftime("%Y-%m-%d")), exercise_number
+                                         ,exercise_question,exercise_answer,correct_answer
+                                         ,hints,"en",code)
 
     if exercise_list:
         if exercise_list.created_by != user.id:

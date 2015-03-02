@@ -232,6 +232,9 @@ def getNameFromProgLangID(ID):
     cursor.execute('SELECT p.name FROM programmingLanguage p WHERE p.id = {id};'.format(id = ID))
     return processOne()
 
+def getLastExerciseFromList(ID):
+    cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id = ID))
+    return processOne()
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
