@@ -160,3 +160,6 @@ def tables(request):
             return render(request, 'tables.html',{'data' : data, 'keys' : data[0].keys()})
 
     return render(request, 'tables.html',{})
+
+def python(request):
+    return render(request, 'python.html', {})

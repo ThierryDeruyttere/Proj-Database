@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'foundation',
     'dbw',
+    'skulpt',
 )
 
 MIDDLEWARE_CLASSES = (
