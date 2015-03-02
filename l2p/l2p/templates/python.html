@@ -44,19 +44,24 @@ function runit() {
   <div class="small-12 columns">
     <textarea id="yourcode" rows="20">import turtle
 
-    t = turtle.Turtle()
+t = turtle.Turtle()
 
-    for c in ['red', 'green', 'yellow', 'blue']:
-        t.color(c)
-        t.forward(75)
-        t.left(90)
+for c in ['red', 'green', 'yellow', 'blue']:
+    t.color(c)
+    t.forward(75)
+    t.left(90)
     </textarea>
   </div>
 </div>
 <button type="button" onclick="runit()">Run</button>
-<pre id="output" ></pre>
-<!-- If you want turtle graphics include a canvas -->
-<canvas id="mycanvas" ></mycanvas>
+<div class="row">
+  <div class="large-9 columns">
+    <div class="panel">
+      <pre id="output" class="code-output" ></pre>
+      <canvas id="mycanvas" class="code-output"></mycanvas>
+    </div>
+  </div>
+</div>
 
 
 {% endblock base_body %}
