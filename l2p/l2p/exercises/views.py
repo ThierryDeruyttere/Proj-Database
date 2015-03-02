@@ -59,10 +59,23 @@ def createExercise(request, listId=0):
         exercise_penalty = request.POST.get('penalty')
         exercise_question = request.POST.get('Question')
         exercise_type = request.POST.get('exercise_type')
+
+        hints = []
+        for j in range(1,int(exercise_max_score)+1):
+            if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
+                    hints.append((j,request.POST.get("hint"+str(j))))
+
         if(exercise_type == 'Open Question'):
-            print("open")
+            answer = []
+            for i in range(1,6):
+                if request.POST.get("answer_no_"+str(i)) != "" and request.POST.get("answer_no_"+str(i)) != None:
+                    answer.append((i,request.POST.get("answer_no_"+str(i))))
+
+            selected_answer = request.POST.get("corr_answer")
+            print(selected_answer)
         else:
-            print("code")
+            code_for_user = request.POST.get("code")
+            expected_answer = request.POST.get("output")
 
 
     exercise_list = object_manager.createExerciseList(listId)
