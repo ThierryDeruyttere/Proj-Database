@@ -19,8 +19,8 @@ def createExerciseList(request):
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
         user = logged_user(request)
-        prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang)["id"]
-        exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
+        exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang)
+        print(exlist_id)
         return redirect("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html',{"languages": languages})
@@ -49,6 +49,8 @@ def list(request, id=0):
 
 @require_login
 def createExercise(request, listId=0):
+    exercise_list = object_manager.createExerciseList(listId)
+    user = logged_user(request)
     if request.method == 'POST':
         exercise_difficulty = request.POST.get('difficulty')
         exercise_max_score = request.POST.get('max')
@@ -58,24 +60,24 @@ def createExercise(request, listId=0):
         hints = []
         for j in range(1,int(exercise_max_score)+1):
             if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
-                    hints.append((j,request.POST.get("hint"+str(j))))
+                hints.append(request.POST.get("hint"+str(j)))
 
         if(exercise_type == 'Open Question'):
             answer = []
             for i in range(1,6):
                 if request.POST.get("answer_no_"+str(i)) != "" and request.POST.get("answer_no_"+str(i)) != None:
-                    answer.append((i,request.POST.get("answer_no_"+str(i))))
+                    answer.append(request.POST.get("answer_no_"+str(i)))
 
             selected_answer = request.POST.get("corr_answer")
-            object_manager.insertExerciseList()
+            exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id
+                                        ,str(time.strftime("%Y-%m-%d")), exercise_number, programming_language,exercise_question,answer,selected_answer
+                                         ,hints,language_code)
+
         else:
             code_for_user = request.POST.get("code")
             expected_answer = request.POST.get("output")
 
-    exercise_list = object_manager.createExerciseList(listId)
-
     if exercise_list:
-        user = logged_user(request)
         if exercise_list.created_by != user.id:
             return redirect('/')
         else:
