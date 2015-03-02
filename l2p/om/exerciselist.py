@@ -47,10 +47,10 @@ class ExerciseList:
 
 #TODO: how to add subjects
 
-    def addSubject():
+    def addSubject(self):
         pass
 
-    def deleteSubject():
+    def deleteSubject(self):
         pass
 
     def insertExercise(self,difficulty, max_score, penalty, exercise_type,created_by
