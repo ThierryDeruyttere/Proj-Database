@@ -74,6 +74,10 @@ class User:
         else:
             return None
 
+    def save(self):
+        dbw.updateUser(self.id,self.first_name,self.last_name
+        ,self.password,self.email,self.is_active,self.permissions)
+
     def __str__(self):
          return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
 
@@ -95,10 +99,10 @@ class PersonalList:
         # self.last_made = None
 
     # Object which represents the actual list of personal exercises (SQL function)
-    def allExercises(self):
+    def allExercises(self,language_code):
         exercise_info = dbw.getExerciseScoreFor(self.user_id,self.exercises_list.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id']) for x in exercise_info]
+            personal_exercises_list = [PersonalExercise(x['solved'],x['exercise_score'],x['rating'],x['exercise_id'],language_code) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
@@ -107,21 +111,19 @@ class PersonalList:
          return str(self.rating)+' '+str(self.score)+' '+str(self.user_id)+' '+self.exercises_list.name+' '+str(self.exercises_list.difficulty)+' '+self.exercises_list.description
 
 class PersonalExercise:
-    def __init__(self,solved,score,rating,exercise_id):
+    def __init__(self,solved,score,rating,exercise_id,language_code):
         # bool to check if exercise was solved
         self.solved = solved
         # obtained score
         self.score = score
         # given rating
         self.rating = rating
-
-        exercise_info = dbw.getExerciseInformation(exercise_id)
+        exercise_info = dbw.getExerciseInformation(exercise_id,language_code)
         # Actual exercises-object (make with SQL queries)
         self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
         exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
         ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-        ,exercise_info['language_code'],exercise_info['answer_text'],exercise_info['language_name'])
-
+        ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
 
     def __str__(self):
          return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+str(self.exercise)
