@@ -62,7 +62,7 @@ def createExercise(request, listId=0):
             if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
                 hints.append(request.POST.get("hint"+str(j)))
 
-        exercise_number = object_manager.getLastExercise() + 1
+        exercise_number = exercise_list.getLastExercise() + 1
 
         exercise_answer = None
         correct_answer = None
