@@ -40,13 +40,15 @@ def list(request, id=0):
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
-
+        all_exercises = exercise_list.allExercises("en")
+        print(all_exercises)
         return render(request, 'list.html', {'id' : id, 'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
                                              'list_programming_lang': prog_lang,
                                              'correct_user': True,
-                                             'id': exercise_list.id})
+                                             'id': exercise_list.id,
+                                             'all_exercises': all_exercises})
     else:
         return redirect('/')
 
@@ -93,6 +95,7 @@ def createExercise(request, listId=0):
                                          ,str(time.strftime("%Y-%m-%d")), exercise_number
                                          ,exercise_question,exercise_answer,correct_answer
                                          ,hints,"en",code)
+        return redirect("/l/" + str(listId))
 
     if exercise_list:
         if exercise_list.created_by != user.id:

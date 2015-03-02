@@ -64,13 +64,21 @@ def getGroupInformation(id):
     cursor.execute('SELECT * FROM groups WHERE id = {id};'.format(id = id))
     return processOne()
 
+def getExerciseType(id):
+    cursor.execute('SELECT exercise_type FROM exercise WHERE id={id}'.format(id=id))
+    return processOne()
+
 def getExerciseInformation(id, language_code):
     '''
     @brief get the information from Exercise given an exercise id
     @param id the id of the exercise
     @return returns a dict with information
     '''
-    cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
+    exercise_type = getExerciseType(id)["exercise_type"]
+    if(exercise_type == "Open Question"):
+        cursor.execute('SELECT e.*, "" AS code_text, q.question_text, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, exercise e, language l, question q WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
+    else:
+        cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}";'.format(id = id, lang_name = language_code))
     return processOne()
 
 def getExerciseProgLanguage(id):

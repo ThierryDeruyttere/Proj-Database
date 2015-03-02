@@ -1,5 +1,13 @@
 import dbw
 
+def decodeString(fromVar):
+    decoded = ""
+    try:
+        decoded = fromVar.decode('ascii')
+    except AttributeError:
+        decoded = fromVar
+    return decoded
+
 class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
@@ -17,9 +25,9 @@ class Exercise:
         # Programming language the question is about (string)
         self.programming_language = programming_language
         # the given code to add upon (string)
-        self.code = code.decode('ascii')
+        self.code = decodeString(code)
         # Question asked to the user (string)
-        self.question = question.decode('ascii')
+        self.question = decodeString(question)
         # Language the question is in (string)
         self.language_name = language_name
         # ID of the correct answer
