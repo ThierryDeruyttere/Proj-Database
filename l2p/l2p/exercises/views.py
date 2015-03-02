@@ -67,13 +67,13 @@ def createExercise(request, listId=0):
                     answer.append((i,request.POST.get("answer_no_"+str(i))))
 
             selected_answer = request.POST.get("corr_answer")
-            print(selected_answer)
+            object_manager.insertExerciseList()
         else:
             code_for_user = request.POST.get("code")
             expected_answer = request.POST.get("output")
 
-
     exercise_list = object_manager.createExerciseList(listId)
+
     if exercise_list:
         user = logged_user(request)
         if exercise_list.created_by != user.id:
