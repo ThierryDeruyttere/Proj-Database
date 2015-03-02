@@ -62,7 +62,8 @@ class ExerciseList:
         # AssociatedWith relation
         l_id = dbw.getIdFromLanguage(language_code)['id']
         # Code (default "")
-        dbw.insertCode(code,exercise_id)
+        if(code != ""):
+            dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
         from om import objectmanager
