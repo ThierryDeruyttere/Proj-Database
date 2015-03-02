@@ -1,27 +1,29 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+
 import sys
-from om import *
-import dbw
-object_manager = objectmanager.ObjectManager()
 import time
 
+import dbw
+from om import *
+from l2p.authentication import require_login, logged_user
 
+object_manager = objectmanager.ObjectManager()
+
+@require_login
 def createExerciseList(request):
-    if 'current_user' not in request.session:
-        return redirect("/login")
-    else:
-        languages = object_manager.allProgrammingLanguages()
-        if request.method == 'POST':
-            list_name = request.POST.get('list_name', '')
-            list_description = request.POST.get('description_text', '')
-            diff_text = request.POST.get('diff_text', '')
-            prog_lang = request.POST.get('prog_lang', '')
-            user = object_manager.createUser(id = request.session['current_user'])
-            exlist_id = object_manager.insertExerciseList(list_name,list_description,int(diff_text),user.id,str(time.strftime("%Y-%m-%d")),prog_lang)
-            return redirect("/l/" + str(exlist_id))
+    languages = dbw.getAll("programmingLanguage")
+    if request.method == 'POST':
+        list_name = request.POST.get('list_name', '')
+        list_description = request.POST.get('description_text', '')
+        difficulty = request.POST.get('difficulty', '')
+        prog_lang = request.POST.get('prog_lang', '')
+        user = logged_user(request)
+        prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang)["id"]
+        exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang_id)
+        return redirect("/l/" + str(exlist_id))
 
-        return render(request, 'createExerciseList.html',{"languages": languages})
+    return render(request, 'createExerciseList.html',{"languages": languages})
 
 
 def list(request, id=0):
@@ -45,17 +47,25 @@ def list(request, id=0):
     else:
         return redirect('/')
 
-
+@require_login
 def createExercise(request, listId=0):
-    if 'current_user' not in request.session:
-       return redirect("/login")
+    if request.method == 'POST':
+        exercise_difficulty = request.POST.get('difficulty')
+        exercise_max_score = request.POST.get('max')
+        exercise_penalty = request.POST.get('penalty')
+        exercise_question = request.POST.get('Question')
+        exercise_type = request.POST.get('exercise_type')
+        if(exercise_type == 'Open Question'):
+            print("open")
+        else:
+            print("code")
+
 
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list:
-        user = object_manager.createUser(id = request.session['current_user'])
+        user = logged_user(request)
         if exercise_list.created_by != user.id:
             return redirect('/')
         else:
-
             return render(request, 'createExercise.html','')
     return redirect('/')
