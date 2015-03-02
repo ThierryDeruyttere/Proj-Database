@@ -219,6 +219,7 @@ def getIdFromLanguage(language_code):
     cursor.execute('SELECT id FROM language WHERE language.language_code = "{language_code}";'.format(language_code = language_code))
     return processOne()
 
+
 def getMaxIdFromExListForUserID(user_id):
     '''
 

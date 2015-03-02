@@ -152,7 +152,7 @@
               <div class ="row">
                 <div class="large-8 large-offset-1 columns">
 
-                    <u>Expected output</u>
+                  <u>Expected output</u>
                 <textarea id="output" name="output">
 
                 </textarea>
@@ -179,10 +179,14 @@
                     {{ i }}.
                   </div>
                   <div class="large-5 columns">
-                    <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="subject_name">
+                    <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="answer_no_{{ i }}">
                   </div>
                   <div class="large-6 columns">
-                    <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" ><label for="answer_no_{{ i }}">Correct answer</label>
+                    {% if i == "1"  %}
+                      <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" checked><label for="answer_no_{{ i }}">Correct answer</label>
+                    {% else %}
+                      <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" ><label for="answer_no_{{ i }}">Correct answer</label>
+                    {% endif %}
                   </div>
                 </div>
               {% endfor %}
@@ -237,9 +241,10 @@
             }
             var element=document.createElement("input");
             element.setAttribute("type",type);
-            element.setAttribute("name",type+(hint_nmbr+1));
+
+            element.setAttribute("name","hint"+(hint_nmbr+1));
             var foo=document.getElementById("Hints");
-            element.setAttribute("value","Tip"+ (hint_nmbr+1));
+            element.setAttribute("placeholder","Tip"+ (hint_nmbr+1));
 
 //create div
             var div = document.createElement("div");
