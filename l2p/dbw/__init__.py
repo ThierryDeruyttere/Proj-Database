@@ -210,6 +210,15 @@ def getIdFromProgrammingLanguage(name):
     cursor.execute('SELECT id FROM programmingLanguage WHERE programmingLanguage.name = "{name}";'.format(name = name))
     return processOne()
 
+def getIdFromLanguage(language_code):
+    '''
+    @brief gets the id that corresponds to a given language
+    @param name the name of the programming_language
+    @return returns an integer (the id)
+    '''
+    cursor.execute('SELECT id FROM language WHERE language.name = "{language_code}";'.format(language_code = language_code))
+    return processOne()
+
 def getMaxIdFromExListForUserID(user_id):
     '''
 
@@ -288,3 +297,21 @@ def updateExerciseList(list_id,name, description ,difficulty, prog_lang_id):
 
 def updateExercise(exercise_id,difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
     cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exercise_list_id = {exerciseList_id}) WHERE id = {ex_id};'.format(ex_id = exercise_id,diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
+
+#DELETE
+
+def deleteAnswers(exercise_id):
+    cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id = exercise_id))
+
+def deleteHints(hint_id):
+    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint))
+
+#TRIVIA
+
+def latestAnswer(exercise_id,language_id):
+    cursor.execute('SELECT MAX(answer_number) AS highest FROM answer WHERE answer.language_id = {l_id} AND answer.is_answer_for = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))
+    return processOne()
+
+def latestHint(exercise_id,language_code):
+    cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))
+    return processOne()

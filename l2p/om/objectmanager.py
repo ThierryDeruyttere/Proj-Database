@@ -80,21 +80,6 @@ class ObjectManager:
 
     # UPDATE functions will update the info stored in the DB
 
-# NOTE : Make these with the info stored in the HTML boxes
-class AnswerContainer():
-    def __init__(self,answer_number, answer_text, language_id, is_answer_for):
-        self.answer_number = answer_number
-        self.answer_text = answer_text
-        self.language_id = language_id
-        self.is_answer_for = is_answer_for
-
-# NOTE : Make these with the info stored in the HTML boxes
-class HintContainer():
-    def __init__(self,hint_text, hint_number, exercise_id):
-        self.hint_text = hint_text
-        self.hint_number = hint_number
-        self.exercise_id = exercise_id
-
 class QuestionContainer():
     def __init__(self,question_text,language_id):
         self.question_text = question_text
