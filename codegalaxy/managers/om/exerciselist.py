@@ -54,7 +54,7 @@ class ExerciseList:
         pass
 
     def insertExercise(self,difficulty, max_score, penalty, exercise_type,created_by
-        , created_on, exercise_number,programming_language,question,answers,correct_answer
+        , created_on, exercise_number,question,answers,correct_answer
         ,hints,language_code,code = ""):
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
@@ -65,7 +65,20 @@ class ExerciseList:
         dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
+
         import managers.om.objectmanager
-        object_manager = objectmanager.ObjectManager()
+        object_manager = managers.om.objectmanager.ObjectManager()
         exercise = object_manager.createExercise(exercise_id)
         exercise.update(correct_answer,answers,hints)
+
+        for answer in answers:
+            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
+
+        for hint in hints:
+            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
+
+    def getLastExercise(self):
+        if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:
+            return 0
+        else:
+           return dbw.getLastExerciseFromList(self.id)["last_exercise_number"]

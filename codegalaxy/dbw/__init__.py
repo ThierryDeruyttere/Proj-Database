@@ -236,6 +236,11 @@ def getAllUserIDs():
     cursor.execute('SELECT id FROM user')
     return processData()
 
+def getLastExerciseFromList(ID):
+    cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id = ID))
+    return processOne()
+
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
