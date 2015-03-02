@@ -62,7 +62,6 @@ class Exercise:
     def updateAnswers(self,answers):
         dbw.deleteAnswers(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
-        print(language_id)
         for i in range(1,len(answers)+1):
             dbw.insertAnswer(i, answers[i-1], language_id, self.id)
 
@@ -70,7 +69,6 @@ class Exercise:
     def updateHints(self,hints):
         dbw.deleteHints(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
-        print(language_id)
         for i in range(1,len(hints)+1):
             dbw.insertHint(hints[i-1], i, self.id, language_id)
 
