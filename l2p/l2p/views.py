@@ -6,6 +6,7 @@ import hashlib
 import sys
 
 from managers.om import *
+from managers.gm import *
 from l2p.authentication import require_login, logged_user, authenticate
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
@@ -182,4 +183,11 @@ def tables(request):
 
 
 def graphs(request):
-    return render(request, 'graphs.html',{})
+    #We'll use the graph maker to make pretty graphs with statistical data
+    graph_manager = graphmanager.GraphManager()
+    color_info = graphmanager.lineColorInfo()
+    test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
+    ,["January","February","March","April","May","June"]
+    ,[203,156,99,251,305,247])
+    print(test_line_graph)
+    return render(request, 'graphs.html',{'teststr': test_line_graph})
