@@ -30,10 +30,6 @@ urlpatterns = patterns('codegalaxy.views',
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
-    ## QUESTIONS ##
-    # Submit question answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
-
 
     ## TESTING ##
     # Zurb Foundation test pages
@@ -57,5 +53,5 @@ urlpatterns += patterns('',
     # Question page (/l/<id>/<question>)
     url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'codegalaxy.exercises.views.answerQuestion'),
     # Submit question answer (/l/<id>/<question>/submit)
-    #url(r'^l/(?P<id>\d+)/(?P<question>\d+)/submit$', 'submit'),
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'l2p.exercises.views.submit'),
 )

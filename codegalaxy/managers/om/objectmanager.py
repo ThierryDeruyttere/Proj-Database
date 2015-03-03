@@ -94,3 +94,17 @@ class ObjectManager:
 
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
+
+
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, rating=0):
+        exercise = dbw.getMadeExericse(user_id, exercise_id)
+        if exercise:
+            #update
+            pass
+
+        else:
+            dbw.insertMadeExercise(user_id,exercise_id, made_exercise, exercise_score, rating)
+
+    def getInfoForUserForExericse(self, exercise_id, user_id):
+        return dbw.getMadeExericse(user_id, exercise_id)
+
