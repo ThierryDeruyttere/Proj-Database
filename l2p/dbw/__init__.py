@@ -238,7 +238,7 @@ def insertUser(first_name, last_name, password, email, is_active = 1):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
 
 def insertFriendsWith(user_id, friend_id):
-    cursor.execute('INSERT INTO friendsWith(first_id,second_id) VALUES ({u_id}, {f_id});'.format(u_id = user_id, f_id = friend_id))
+    cursor.execute('INSERT INTO friendsWith(user_id,friend_id) VALUES ({u_id}, {f_id});'.format(u_id = user_id, f_id = friend_id))
 
 def insertGroup(group_name, group_type):
     cursor.execute('INSERT INTO groups(group_name,group_type) VALUES ("{name}", {type});'.format(name = group_name, type = group_type))

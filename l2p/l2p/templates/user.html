@@ -9,6 +9,13 @@
         {% if logged_in %}
           <h3>We are logged in!</h3>
         {% endif %}
+
+        {% if not already_friends %}
+          <form method="post" action="/u/{{user.id}}/">
+         {% csrf_token %}
+          <input type="submit" value="Become friends" class="button"/>
+          </form>
+        {% endif %}
       </div>
   </div>
 </div>

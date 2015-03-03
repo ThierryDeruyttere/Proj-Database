@@ -15,16 +15,28 @@ def home(request):
     return render(request, 'home.html', {})
 
 def user(request, id = 0):
+    current_user = logged_user(request)
+
     # Make id an int
     id = int(id)
     # Get the user object for that id
+
     user = object_manager.createUser(id = id)
 
+    already_friends = False
+
+    if request.method == 'POST':
+        user.addFriend(current_user.id)
     if user:
         friend_list = user.allFriends()
+        #if friend_list:
+        #    print("Vriendenlijst is niet leeg")
+        #    if current_user.id in friend_list[friend_id]:
+        #        already_friends = True
         group_list = user.allGroups()
         exercise_list = user.allPersonalLists()
-        context = {'user':user, 'group_list':group_list, 'friend_list': friend_list, 'exercise_list':exercise_list}
+        context = {'user':user, 'group_list':group_list, 'friend_list': friend_list, 'exercise_list':exercise_list, 'already_friends': already_friends}
+
         if request.session['current_user'] == id:
             context['logged_in'] = True
         return render(request, 'user.html', context)
@@ -121,7 +133,7 @@ def group(request, id = 0):
             for x in range(0, group_size):
                 if user.email == user_list[x].email:
                     is_member = True
-                    
+
         return render(request, 'group.html', {'id':id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member})
 
     else:
