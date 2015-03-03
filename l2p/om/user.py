@@ -32,6 +32,9 @@ class User:
         else:
             return None
 
+    def addFriend(self, idd):
+        dbw.insertFriendsWith(self.id, idd)
+    
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)

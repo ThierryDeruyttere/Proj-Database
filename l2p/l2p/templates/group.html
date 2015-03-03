@@ -22,10 +22,10 @@
 		  {% endfor %}
 		</table>
 		{% if not is_member %}
-		<div class="vcard-img large-12 medium-12 small-12 columns">
-			<a href=""></a>
-			<img class="reponsive-image" src="https://cdn4.iconfinder.com/data/icons/e-commerce-icon-set/48/More-512.png" height="42" width="42">
-		</div>
+		<form method="post" action="/g/{{group.id}}/">
+         {% csrf_token %}
+		 <input type="submit" value="Become member" class="button"/>
+		 </form>
 		{% endif %}
     </div>
   </div>

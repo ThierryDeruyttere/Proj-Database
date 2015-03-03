@@ -98,13 +98,18 @@ def group(request, id = 0):
 
     #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
+
     user = logged_user(request)
 
     group = object_manager.createGroup(id)
 
+    if request.method == 'POST':
+        group.insertMember(user.id, id)
+
     is_member = False
     if group:
         user_list = group.allMembers()
+        
 
         try:
             group_size = len(user_list)
@@ -112,7 +117,11 @@ def group(request, id = 0):
         except:
             group_size = 0
 
-        print(is_member)
+        if group_size > 0:
+            for x in range(0, group_size):
+                if user.email == user_list[x].email:
+                    is_member = True
+                    
         return render(request, 'group.html', {'id':id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member})
 
     else:
