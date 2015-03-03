@@ -67,11 +67,10 @@
               <ul class="accordion" data-accordion>
                 {% for exercise in all_exercises %}
                   <li class="accordion-navigation">
-                    <a href="#Exerc{{ exercise.id }}">{{ exercise.difficulty }}</a>
-                    <div id="Exerc{{ exercise.id }}" class="content active">
+                    <a href="#Exerc{{ exercise.id }}"> {{ exercise.question }}</a>
+                    <div id="Exerc{{ exercise.id }}" class="content">
                         <div class="row">
-                            {{ exercise.question }}
-                            <a href="#" class="button tiny radius">Solve exercise</a>
+                            <a href="/l/{{ id }}/{{ exercise.id }}" class="button tiny radius">Solve exercise</a>
                         </div>
                     </div>
                   </li>

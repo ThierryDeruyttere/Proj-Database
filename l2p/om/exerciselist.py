@@ -33,7 +33,7 @@ class ExerciseList:
             exercises = []
             for exercise_id in exercises_infos:
                 exercise_info = dbw.getExerciseInformation(exercise_id['id'],language_code)
-                exercise_object = om.exercise.Exercise(self.id,exercise_info['difficulty'],
+                exercise_object = om.exercise.Exercise(exercise_id['id'],exercise_info['difficulty'],
                 exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
                 ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
                 ,language_code,exercise_info['correct_answer'],exercise_info['language_name'])

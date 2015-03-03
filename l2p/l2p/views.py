@@ -100,10 +100,6 @@ def list(request, id = 0):
     return render(request, 'list.html', {'id':id})
 
 @require_login
-def question(request, id, question):
-    return render(request, 'question.html', {})
-
-@require_login
 def submit(request, id, question):
     return render(request, 'submit.html', {})
 
