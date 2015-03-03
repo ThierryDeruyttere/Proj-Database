@@ -1,4 +1,5 @@
 #NOTE: the \n's in the strings are mostly for debugging clarity
+#Data and labels need to be equally long lists!
 
 #Colors+highlighted colors
 #Order: Red,Green,Yellow
@@ -66,18 +67,34 @@ class GraphManager:
 
 # PIECHART=========================================================================================================
 
-    def addPieData(self,labels,data):
+    # Colorinfo's will be a list of tuples here
+    def addPieData(self,labels,data,colorInfos):
         data_string = ''
-        data_string += 'var '+self.addDatavar('D') + ' = {\n'
+        data_string += 'var '+self.addDatavar('D') + ' = [\n'
+        for i in range(len(data)):
+            data_string += '{ value: '+str(data[i])+',\ncolor: "'+colorInfos[i][0]+'",\nhighlight: "'+colorInfos[i][1]+'",\nlabel :"'+labels[i]+'"},\n'
+        data_string = data_string[:-1]
+        data_string += '];\n'
         return data_string
-        
+
+    def addExtras(self):
+        extras_string = ''
+        extras_string += 'var options = { \n'
+        extras_string += 'segmentShowStroke : false,\n'
+        # add more stuff here
+        extras_string += 'animationEasing : "easeOutBounce",'
+        extras_string += 'animateScale : true\n'
+        extras_string += '};\n'
+        return extras_string
+
     # Colorinfo's will be a list of tuples here
     def makePieChart(self,name,width,height,colorInfos,labels,data):
         total_string = ''
-        total_string += self.addPieData(labels,data)
+        total_string += self.addPieData(labels,data,colorInfos)
+        total_string += self.addExtras()
         # The objects themself have postfix O
         total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
-        total_string += 'new Chart('+self.addDatavar('O')+').Pie('+self.addDatavar('D')+');\n'
+        total_string += 'new Chart('+self.addDatavar('O')+').Pie('+self.addDatavar('D')+',options);\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name,width,height) + total_string
         self.count += 1

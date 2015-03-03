@@ -84,3 +84,6 @@ class ObjectManager:
 
     def allUsers(self):
         return dbw.getAll("user")
+
+    def countExerciseListsForProgrammingLanguageID(self,id):
+        return dbw.countExerciseListsForProgrammingLanguageID(id)
