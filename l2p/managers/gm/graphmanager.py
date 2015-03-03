@@ -1,5 +1,9 @@
 #NOTE: the \n's in the strings are mostly for debugging clarity
 
+#Colors+highlighted colors
+#Order: Red,Green,Yellow
+color_tuples = [("#F7464A","#FF5A5E"),("#46BFBD","#5AD3D1"),("#FDB45C","#FFC870")]
+
 class lineColorInfo:
     def __init__(self,fillColor = "rgba(172,194,132,0.4)",strokeColor = "#ACC26D"
     ,pointColor =  "#fff",pointStrokeColor = "#9DB86D"):
@@ -21,7 +25,10 @@ class GraphManager:
     def addDatavar(self,postfix):
         return 'Data' + str(self.count) + postfix
 
-# LINEGRAPH==================================================================================
+    def addScript(self,html):
+        return '<script>\n'+html+'</script>\n'
+
+# LINEGRAPH======================================================================================================================
 
     def addLabels(self,labels):
         labels_string = 'labels : ['
@@ -48,12 +55,30 @@ class GraphManager:
 
     def makeLineChart(self,name,width,height,colorInfos,labels,data):
         total_string = ''
-        total_string += self.canvasString(name,width,height)
-        total_string += '<script>\n'
         total_string += self.addLineData(labels,colorInfos,data)
         # The objects themself have postfix O
         total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
         total_string += 'new Chart('+self.addDatavar('O')+').Line('+self.addDatavar('D')+');\n'
-        total_string += '</script>\n'
+        total_string = self.addScript(total_string)
+        total_string = self.canvasString(name,width,height) + total_string
+        self.count += 1
+        return total_string
+
+# PIECHART=========================================================================================================
+
+    def addPieData(self,labels,data):
+        data_string = ''
+        data_string += 'var '+self.addDatavar('D') + ' = {\n'
+        return data_string
+        
+    # Colorinfo's will be a list of tuples here
+    def makePieChart(self,name,width,height,colorInfos,labels,data):
+        total_string = ''
+        total_string += self.addPieData(labels,data)
+        # The objects themself have postfix O
+        total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
+        total_string += 'new Chart('+self.addDatavar('O')+').Pie('+self.addDatavar('D')+');\n'
+        total_string = self.addScript(total_string)
+        total_string = self.canvasString(name,width,height) + total_string
         self.count += 1
         return total_string
