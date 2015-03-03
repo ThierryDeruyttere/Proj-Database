@@ -1,3 +1,5 @@
+#NOTE: the \n's in the strings are mostly for debugging clarity
+
 class lineColorInfo:
     def __init__(self,fillColor = "rgba(172,194,132,0.4)",strokeColor = "#ACC26D"
     ,pointColor =  "#fff",pointStrokeColor = "#9DB86D"):
@@ -28,50 +30,30 @@ class GraphManager:
         return labels_string[:-1] + '],'
 
     def addLineColors(self,colorInfos):
-        return '                fillColor : "' + colorInfos.fillColor + '",\n               strokeColor : "' + colorInfos.strokeColor + '",\n               pointColor : "' + colorInfos.pointColor +'",\n               pointStrokeColor : "' + colorInfos.pointStrokeColor+'",\n'
+        return 'fillColor : "' + colorInfos.fillColor + '",\nstrokeColor : "' + colorInfos.strokeColor + '",\npointColor : "' + colorInfos.pointColor +'",\n               pointStrokeColor : "' + colorInfos.pointStrokeColor+'",\n'
 
     # colors is a special class
     def addLineData(self,labels,colorInfos,data):
         data_string = ''
         # D postfix for data
-        data_string += '        var '+self.addDatavar('D') + ' = {\n            '
+        data_string += 'var '+self.addDatavar('D') + ' = {\n'
         data_string += self.addLabels(labels) + '\n'
-        data_string += '            datasets : [ { \n'
+        data_string += 'datasets : [ { \n'
         data_string += self.addLineColors(colorInfos)
-        data_string += '                data : ['
+        data_string += 'data : ['
         for info in data:
             data_string += str(info) + ','
-        data_string = data_string[:-1] + ']\n               }\n            ]\n        }\n'
+        data_string = data_string[:-1] + ']\n}\n]\n}\n'
         return data_string
 
     def makeLineChart(self,name,width,height,colorInfos,labels,data):
         total_string = ''
         total_string += self.canvasString(name,width,height)
-        total_string += '   <script>\n'
+        total_string += '<script>\n'
         total_string += self.addLineData(labels,colorInfos,data)
         # The objects themself have postfix O
-        total_string += '       var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
-        total_string += '       new Chart('+self.addDatavar('O')+').Line('+self.addDatavar('D')+');\n'
-        total_string += '   </script>\n'
+        total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
+        total_string += 'new Chart('+self.addDatavar('O')+').Line('+self.addDatavar('D')+');\n'
+        total_string += '</script>\n'
         self.count += 1
         return total_string
-
-'''<script>
-// line chart data
-var buyerData = {
-labels : ["January","February","March","April","May","June"],
-    datasets : [
-        {
-            fillColor : "rgba(172,194,132,0.4)",
-            strokeColor : "#ACC26D",
-            pointColor : "#fff",
-            pointStrokeColor : "#9DB86D",
-            data : [203,156,99,251,305,247]
-        }
-    ]
-}
-// get line chart canvas
-var buyers = document.getElementById('buyers').getContext('2d');
-// draw line chart
-new Chart(buyers).Line(buyerData);
-</script>'''
