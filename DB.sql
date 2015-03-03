@@ -153,6 +153,20 @@ INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'S
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Tristan', 'Vandeputte', '21232f297a57a5a743894a0e4a801fc3', 'tristanvandeputte@hotmail.com');
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', '21232f297a57a5a743894a0e4a801fc3', 'marie@.');
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Dirk', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'dirk@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thomas', 'Vandelanotte', '21232f297a57a5a743894a0e4a801fc3', 'Thomas@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Pieter', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'Pieter@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bart', 'De Wever', '21232f297a57a5a743894a0e4a801fc3', 'Bart@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Chris', 'Brys', '21232f297a57a5a743894a0e4a801fc3', 'Chris@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Jommeke', 'Hegre', '21232f297a57a5a743894a0e4a801fc3', 'Jommeke@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Fany', 'Kiekeboe', '21232f297a57a5a743894a0e4a801fc3', 'Fany@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Wouter', 'Vanuitdebroeken', '21232f297a57a5a743894a0e4a801fc3', 'Wouter@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Kalm', 'Zalm', '21232f297a57a5a743894a0e4a801fc3', 'Kalm@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alaise', 'Pladijs', '21232f297a57a5a743894a0e4a801fc3', 'Alaise@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alain', 'Drissens', '21232f297a57a5a743894a0e4a801fc3', 'Alain@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Rudy', 'Verboven', '21232f297a57a5a743894a0e4a801fc3', 'Rudy@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bruno', 'Tobback', '21232f297a57a5a743894a0e4a801fc3', 'Bruno@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@.');
 
 # Friend data
 INSERT INTO friendsWith(user_id, friend_id) VALUES (1,2);
@@ -160,9 +174,54 @@ INSERT INTO friendsWith(user_id, friend_id) VALUES (3,2);
 INSERT INTO friendsWith(user_id, friend_id) VALUES (3,4);
 INSERT INTO friendsWith(user_id, friend_id) VALUES (3,5);
 INSERT INTO friendsWith(user_id, friend_id) VALUES (3,6);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,7);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,8);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,9);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,10);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,11);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,12);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,13);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,14);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,15);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,16);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,17);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,18);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,19);
+INSERT INTO friendsWith(user_id, friend_id) VALUES (3,20);
+
 
 # Group data
 INSERT INTO groups(group_name, group_type) VALUES ('Admins', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('OLVE', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('OLVC', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Sint-Michielscollege', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Universiteit Antwerpen', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Universiteit Gent', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('KDG', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('VUB', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('De bende van de bosklapper', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('NVA sympathisanten', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Groen! sympathisanten', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('PVDA sympathisanten', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Open-VLD sympathisanten', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('sp.a sympathisanten', 1);
+INSERT INTO groups(group_name, group_type) VALUES ('Vlaanderen', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Wallonie', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Brussel', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Antwerpen', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Russia', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Nederland', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Great-Britain', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('USA', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Wilrijk', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Edegem', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Mechelen', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Brasschaat', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Merksem', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Schoten', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Knokke', 0);
+INSERT INTO groups(group_name, group_type) VALUES ('Aartselaar', 0);
+
 
 # UserInGroup data
 # Group creator is 0
