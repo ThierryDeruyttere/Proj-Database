@@ -244,6 +244,10 @@ def getLastExerciseFromList(ID):
     cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id = ID))
     return processOne()
 
+def getMadeExericse(user_id, exercise_id):
+    cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
+    return processOne()
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
@@ -299,6 +303,9 @@ def insertHasSubject(exerciseList_id, subject_id):
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score) VALUES ({el_id},{u_id},{rating},{score});'.format(el_id = exerciseList_id, u_id = user_id, rating = rating, score = score))
+
+def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating):
+    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating) VALUES({user},{ex_id},{solved},{exerc_score},{rating});'.format(user = user_id, ex_id = exercise_id, solved = solved, exerc_score = exercise_score, rating = rating  ))
 
 #UPDATE
 

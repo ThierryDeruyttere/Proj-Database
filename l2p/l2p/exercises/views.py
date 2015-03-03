@@ -89,9 +89,9 @@ def createExercise(request, listId=0):
             code = code_for_user
 
         exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id
-                                         ,str(time.strftime("%Y-%m-%d")), exercise_number
-                                         ,exercise_question,exercise_answer,correct_answer
-                                         ,hints,"en",code)
+                                     ,str(time.strftime("%Y-%m-%d")), exercise_number
+                                     ,exercise_question,exercise_answer,correct_answer
+                                     ,hints,"en",code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -104,8 +104,10 @@ def createExercise(request, listId=0):
 
 @require_login
 def answerQuestion(request, list_id, question_id):
+    if request.method == "POST":
+            return redirect('/l/'+list_id+'/'+question_id+'/submit')
+
     exercise_list = object_manager.createExerciseList(list_id)
-    print(list_id, question_id)
     if exercise_list:
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
@@ -114,11 +116,60 @@ def answerQuestion(request, list_id, question_id):
                 current_exercise = i
                 break
 
-        print(current_exercise.exercise_type)
+
+
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise" : current_exercise,
-                                                           "answers": current_exercise.allAnswers})
+                                                           "answers": current_exercise.allAnswers,
+                                                           "list_id": list_id})
 
     #Just redirect if list doesn't exist/exericse doens't exist
     return redirect('/')
 
+@require_login
+def submit(request, list_id, question_id):
+    user = logged_user(request)
+    exercise_list = object_manager.createExerciseList(list_id)
+    if exercise_list:
+        all_exercise = exercise_list.allExercises("en")
+        current_exercise = None
+        for i in all_exercise:
+            if i.id == int(question_id):
+                current_exercise = i
+                break
+
+        if current_exercise is None:
+            return redirect('/')
+
+
+        if request.method == "POST":
+            info = object_manager.getInfoForUserForExericse(question_id, user.id)
+            penalty= current_exercise.penalty
+            current_score = 0
+
+            if info is not None:
+                current_score = info['exercise_score']
+
+            if current_score is None:
+                current_score = current_exercise.max
+
+            if current_exercise.exercise_type == "Open Question":
+                selected_answer = request.POST.get("corr_answer")
+
+                if current_exercise.correct_answer == int(selected_answer):
+                    #Woohoo right answer!
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
+
+                else:
+                    current_score -= penalty
+                    if current_score < 0:
+                        current_score = 0
+
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
+                    return redirect('/l/'+ list_id+ '/'+ question_id)
+
+            elif current_exercise.exercise_type == "Code":
+                pass
+
+    print("render")
+    return render(request, 'submit.html',)

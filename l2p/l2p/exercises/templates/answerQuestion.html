@@ -17,42 +17,51 @@
           </div>
         </div>
 
-        <div class="row" id="Open Question" hidden="True">
+        <form method="post" action="{{ exercise.id }}/submit">
+          {% csrf_token %}
+          <div class="row" id="Open Question" hidden="True">
 
-          {% for i in answers %}
-            <div class="row">
-              <div class="large-6 large-offset-1 columns">
-                {{ forloop.counter }}
-                {{ i }}
-                {% if forloop.counter == 1  %}
-                  <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" checked><label for="answer_no_{{ i }}">Correct answer</label>
-                {% else %}
-                  <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" ><label for="answer_no_{{ i }}">Correct answer</label>
-                {% endif %}
+            {% for i in answers %}
+              <div class="row">
+                <div class="large-6 large-offset-1 columns">
+                  {{ forloop.counter }}
+                  {{ i }}
+                  {% if forloop.counter == 1  %}
+                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                  {% else %}
+                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                  {% endif %}
+                </div>
               </div>
+            {% endfor %}
+          </div>
+
+          <div class="row" id="Code" hidden="True">
+
+          </div>
+
+          <script>
+            function unhide(name){
+              document.getElementById(name).hidden = false
+            }
+          </script>
+
+          {% if exercise.exercise_type == "Open Question" %}
+            <script>
+              unhide("Open Question")
+            </script>
+          {% else %}
+            <script>
+              unhide("Code")
+            </script>
+          {% endif %}
+
+          <div class="row">
+            <div class="large-text-center">
+              <input type="submit" name="submit" class="button tiny radius" value="Answer">
             </div>
-          {% endfor %}
-        </div>
-
-        <div class="row" id="Code" hidden="True">
-
-        </div>
-
-        <script>
-          function unhide(name){
-            document.getElementById(name).hidden = false
-          }
-        </script>
-
-        {% if exercise.exercise_type == "Open Question" %}
-          <script>
-            unhide("Open Question")
-          </script>
-        {% else %}
-          <script>
-            unhide("Code")
-          </script>
-        {% endif %}
+          </div>
+        </form>
 
 
       </div>
