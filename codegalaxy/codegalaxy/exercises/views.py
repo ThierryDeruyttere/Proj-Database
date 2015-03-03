@@ -23,7 +23,6 @@ def createExerciseList(request):
         prog_lang = request.POST.get('prog_lang', '')
         user = logged_user(request)
         exlist_id = object_manager.insertExerciseList(list_name,list_description,int(difficulty),user.id,str(time.strftime("%Y-%m-%d")),prog_lang)
-        print(exlist_id)
         return redirect("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html',{"languages": languages})
@@ -41,7 +40,6 @@ def list(request, id=0):
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
-        print(all_exercises)
         return render(request, 'list.html', {'id' : id, 'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
@@ -103,3 +101,25 @@ def createExercise(request, listId=0):
         else:
             return render(request, 'createExercise.html','')
     return redirect('/')
+
+
+@require_login
+def answerQuestion(request, list_id, question_id):
+    exercise_list = object_manager.createExerciseList(list_id)
+    print(list_id, question_id)
+    if exercise_list:
+        all_exercise = exercise_list.allExercises("en")
+        current_exercise = None
+        for i in all_exercise:
+            if i.id == int(question_id):
+                current_exercise = i
+                break
+
+        print(current_exercise.exercise_type)
+        if current_exercise:
+            return render(request, 'answerQuestion.html', {"exercise" : current_exercise,
+                                                           "answers": current_exercise.allAnswers})
+
+    #Just redirect if list doesn't exist/exericse doens't exist
+    return redirect('/')
+
