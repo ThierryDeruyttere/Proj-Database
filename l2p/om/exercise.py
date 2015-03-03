@@ -8,6 +8,18 @@ def decodeString(fromVar):
         decoded = fromVar
     return decoded
 
+
+def removeEscapeChars(string):
+    s = string
+    replace_from = ['\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z']
+    replace_to = ['\\', "\0", "\n", "\r", "'", '"', "\x1a"]
+    for i, replace in enumerate(replace_from):
+
+        s = s.replace(replace, replace_to[i])
+
+    return s
+
+
 class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
@@ -25,9 +37,9 @@ class Exercise:
         # Programming language the question is about (string)
         self.programming_language = programming_language
         # the given code to add upon (string)
-        self.code = decodeString(code)
+        self.code = removeEscapeChars(decodeString(code))
         # Question asked to the user (string)
-        self.question = decodeString(question)
+        self.question = removeEscapeChars(decodeString(question))
         # Language the question is in (string)
         self.language_name = language_name
         # ID of the correct answer

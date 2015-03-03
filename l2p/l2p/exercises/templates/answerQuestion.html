@@ -1,6 +1,13 @@
 {% extends "codegalaxy.html" %}
 
 {% block base_body %}
+{% load staticfiles %}
+
+
+  <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+  <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+  <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+  <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 
   <div class="row">
     <div class="large-12 columns">
@@ -38,6 +45,17 @@
 
           <div class="row" id="Code" hidden="True">
 
+            <textarea id="code" name="code">
+                {{ exercise.code }}
+            </textarea>
+            <script>
+              var myCodeMirror = CodeMirror.fromTextArea(code,
+                      {
+                        lineNumbers: true,
+                        mode: "python",
+                        theme: "monokai"
+                      });
+            </script>
           </div>
 
           <script>

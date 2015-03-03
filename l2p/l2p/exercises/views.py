@@ -12,6 +12,8 @@ from pymysql import escape_string
 
 object_manager = objectmanager.ObjectManager()
 
+
+
 @require_login
 def createExerciseList(request):
     languages = dbw.getAll("programmingLanguage")
