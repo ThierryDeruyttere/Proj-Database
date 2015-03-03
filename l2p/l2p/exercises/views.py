@@ -119,11 +119,11 @@ def answerQuestion(request, list_id, question_id):
                 break
 
 
-
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise" : current_exercise,
-                                                           "answers": current_exercise.allAnswers,
-                                                           "list_id": list_id})
+                                                           "answers": current_exercise.allAnswers(),
+                                                           "list_id": list_id,
+                                                           "hints": current_exercise.allHints()})
 
     #Just redirect if list doesn't exist/exericse doens't exist
     return redirect('/')
@@ -147,19 +147,27 @@ def submit(request, list_id, question_id):
         if request.method == "POST":
             info = object_manager.getInfoForUserForExericse(question_id, user.id)
             penalty= current_exercise.penalty
-            current_score = 0
+            current_score = None
 
             if info is not None:
                 current_score = info['exercise_score']
 
             if current_score is None:
-                current_score = current_exercise.max
+                current_score = current_exercise.max_score
+
+            max_score = current_exercise.max_score
+            hints = []
+            for i in range(1,max_score+1):
+                hint = request.POST.get("hint"+str(i))
+                print(hint)
 
             if current_exercise.exercise_type == "Open Question":
                 selected_answer = request.POST.get("corr_answer")
 
                 if current_exercise.correct_answer == int(selected_answer):
                     #Woohoo right answer!
+                    #remove points from using hints
+
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
 
                 else:
@@ -173,5 +181,4 @@ def submit(request, list_id, question_id):
             elif current_exercise.exercise_type == "Code":
                 pass
 
-    print("render")
     return render(request, 'submit.html',)

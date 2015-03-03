@@ -1,13 +1,63 @@
 {% extends "codegalaxy.html" %}
 
 {% block base_body %}
-{% load staticfiles %}
+  {% load staticfiles %}
+  {% block head_js %}
+    <script src="{% static "skulpt.min.js" %}" type="text/javascript"></script>
+    <script src="{% static "skulpt-stdlib.js" %}" type="text/javascript"></script>
+  {% endblock head_js %}
 
 
   <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
   <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
   <script src="{% static "codemirror/mode/python/python.js" %}"></script>
   <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
+  <script type="text/javascript">
+    // output functions are configurable.  This one just appends some text
+    // to a pre element.
+    function outf(text) {
+      var mypre = document.getElementById("output");
+      mypre.innerHTML = mypre.innerHTML + text;
+    }
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
+
+    // Here's everything you need to run a python program in skulpt
+    // grab the code from your textarea
+    // get a reference to your pre element for output
+    // configure the output function
+    // call Sk.importMainWithBody()
+    function runit() {
+      var prog = myCodeMirror.getValue();
+      console.log(prog)
+      var mypre = document.getElementById("output");
+      mypre.innerHTML = '';
+      Sk.canvas = "mycanvas";
+      Sk.pre = "output";
+      Sk.configure({output:outf, read:builtinRead});
+      try {
+        eval(Sk.importMainWithBody("<stdin>",false,prog));
+      }
+      catch(e) {
+        alert(e.toString())
+      }
+    }
+
+    var curr_hint = 1;
+    function addHint(){
+        document.getElementById("hint"+curr_hint).hidden = false;
+        ++curr_hint;
+    }
+
+    function unhide(name){
+      document.getElementById(name).hidden = false;
+    }
+
+  </script>
 
   <div class="row">
     <div class="large-12 columns">
@@ -45,24 +95,46 @@
 
           <div class="row" id="Code" hidden="True">
 
-            <textarea id="code" name="code">
-                {{ exercise.code }}
-            </textarea>
+                <textarea id="user_code" name="user_code">
+                  {{ exercise.code }}
+                </textarea>
+
             <script>
-              var myCodeMirror = CodeMirror.fromTextArea(code,
+              var myCodeMirror = CodeMirror.fromTextArea(user_code,
                       {
                         lineNumbers: true,
                         mode: "python",
                         theme: "monokai"
                       });
             </script>
+
+            <div class="row">
+              <div class="large-9 columns">
+                <div class="panel">
+                  <pre id="output" class="code-output" ></pre>
+                  <canvas id="mycanvas" class="code-output"></canvas>
+                </div>
+              </div>
+
+            </div>
           </div>
 
-          <script>
-            function unhide(name){
-              document.getElementById(name).hidden = false
-            }
-          </script>
+          <hr>
+          <div class="row">
+            <div class="row">
+              <div class="large-10 columns">
+                <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
+              </div>
+            </div>
+            <div class="large-10 columns">
+            <ul>
+              {% for hint in hints %}
+                <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+              {% endfor %}
+            </ul>
+            </div>
+          </div>
+
 
           {% if exercise.exercise_type == "Open Question" %}
             <script>
@@ -76,6 +148,7 @@
 
           <div class="row">
             <div class="large-text-center">
+              <input name="run" class="button tiny radius"  onclick="javascript:runit()" value="run">
               <input type="submit" name="submit" class="button tiny radius" value="Answer">
             </div>
           </div>
