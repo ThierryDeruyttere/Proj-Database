@@ -2,8 +2,8 @@
 #Data and labels need to be equally long lists!
 
 #Colors+highlighted colors
-#Order: Red,Green,Yellow
-color_tuples = [("#F7464A","#FF5A5E"),("#46BFBD","#5AD3D1"),("#FDB45C","#FFC870")]
+#Order: Red,Green,Yellow,Dark Grey,Purple,Grey
+color_tuples = [("#F7464A","#FF5A5E"),("#46BFBD","#5AD3D1"),("#FDB45C","#FFC870"),("#4D5360","#616774"),("#B48EAD","#C69CBE"),("#949FB1","#A8B3C5")]
 
 class lineColorInfo:
     def __init__(self,fillColor = "rgba(172,194,132,0.4)",strokeColor = "#ACC26D"
