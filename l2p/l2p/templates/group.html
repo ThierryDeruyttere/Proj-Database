@@ -5,7 +5,28 @@
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
-      <h1>Group page: id = {{ id }}</h1>
+      <h1>{{ group.group_name }} has {{ group_size }} members</h1>
+      	<table id="my_table" table border="5">
+		  <tr>
+		  	<th>First Name</th>
+		  	<th>Last Name</th>
+		    <th>Email</th>
+		  </tr>
+		  {% for user in user_list %}
+		  <tr>
+		  	<a href="../overview"></a>
+		    <td>{{ user.first_name }}</td>
+		    <td>{{ user.last_name }}</td>
+		    <td>{{ user.email }}</td>
+		  </tr>
+		  {% endfor %}
+		</table>
+		{% if not is_member %}
+		<div class="vcard-img large-12 medium-12 small-12 columns">
+			<a href=""></a>
+			<img class="reponsive-image" src="https://cdn4.iconfinder.com/data/icons/e-commerce-icon-set/48/More-512.png" height="42" width="42">
+		</div>
+		{% endif %}
     </div>
   </div>
 </div>

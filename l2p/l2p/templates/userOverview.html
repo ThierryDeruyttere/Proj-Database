@@ -2,6 +2,7 @@
 
 {% block base_body %}
 
+<!--
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
@@ -10,6 +11,31 @@
       {% endfor %}
     </div>
   </div>
+</div>
+-->
+
+<div class="row">
+	<div class="small-12 medium-12 large-12 columns vcard-container ">
+
+    <div class="panel">
+        <h1>ALL USERS</h1>
+    	<div class="row">
+    		{% for user in users %}
+    		<article class="vcard">
+    			<a href="../{{ user.id }}"/>
+    			<div class="vcard-img large-12 medium-12 small-12 columns">
+    				<img class="reponsive-image" src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png" height="42" width="42">
+    			</div>
+    			<div class="large-12 medium-12 small-12 text-center">
+    				<ul class="vcard-text" .text-center>
+                        <li .text-center><strong>{{ user.first_name }} {{ user.last_name}}</strong></li>
+                    </ul> <!-- vcard-text -->
+    			</div>
+    		</article>
+    		{% endfor %}
+    		</div>
+    	</div>
+  	</div>
 </div>
 
 {% endblock base_body %}

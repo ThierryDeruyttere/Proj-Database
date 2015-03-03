@@ -25,6 +25,8 @@ urlpatterns = patterns('l2p.views',
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
+    # Group overview (/g/overview)
+    url(r'^g/overview/$', 'groupOverview'),
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 

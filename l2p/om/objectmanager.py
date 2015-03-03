@@ -84,3 +84,6 @@ class ObjectManager:
 
     def allUsers(self):
         return dbw.getAll("user")
+
+    def allGroups(self):
+        return dbw.getAll("groups")

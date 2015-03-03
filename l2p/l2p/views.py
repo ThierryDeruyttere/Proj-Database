@@ -21,7 +21,10 @@ def user(request, id = 0):
     user = object_manager.createUser(id = id)
 
     if user:
-        context = {'user':user}
+        friend_list = user.allFriends()
+        group_list = user.allGroups()
+        exercise_list = user.allPersonalLists()
+        context = {'user':user, 'group_list':group_list, 'friend_list': friend_list, 'exercise_list':exercise_list}
         if request.session['current_user'] == id:
             context['logged_in'] = True
         return render(request, 'user.html', context)
@@ -89,11 +92,60 @@ def me(request):
     user_url = '/u/{id}'.format(id = logged_user(request).id)
     return redirect(user_url)
 
+@require_login
 def group(request, id = 0):
-    return render(request, 'group.html', {'id':id})
+    #https://cdn4.iconfinder.com/data/icons/e-commerce-icon-set/48/More-512.png
+
+    #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
+    #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
+    user = logged_user(request)
+
+    group = object_manager.createGroup(id)
+
+    is_member = False
+    if group:
+        user_list = group.allMembers()
+
+        try:
+            group_size = len(user_list)
+
+        except:
+            group_size = 0
+
+        print(is_member)
+        return render(request, 'group.html', {'id':id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member})
+
+    else:
+        return redirect('/')
+    
+@require_login 
+def groupOverview(request):
+    #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
+    #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
+    groups = object_manager.allGroups()
+
+    if groups:
+        return render(request, 'groupOverview.html', {'groups': groups})
+    #else:
+        #return redirect('/')
+    return redirect('/g/create')
 
 @require_login
 def groupCreate(request, id = 0):
+
+    if request.method == 'POST':
+        group_name = request.POST.get('group_name', '')
+
+        #!!!!!!
+        #iemand een idee hoe ik uit een switch een waarde haal?
+        group_type = 0
+
+        try:
+            object_manager.insertGroup(group_name, group_type)
+            return redirect('/g/overview')
+        except:
+            return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
+
     return render(request, 'groupCreate.html', {})
 
 def list(request, id = 0):
