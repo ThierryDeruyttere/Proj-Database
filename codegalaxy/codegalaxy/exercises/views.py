@@ -5,7 +5,7 @@ import sys
 import time
 
 import dbw
-from om import *
+from managers.om import *
 from codegalaxy.authentication import require_login, logged_user
 
 object_manager = objectmanager.ObjectManager()

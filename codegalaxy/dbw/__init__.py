@@ -232,6 +232,9 @@ def getNameFromProgLangID(ID):
     cursor.execute('SELECT p.name FROM programmingLanguage p WHERE p.id = {id};'.format(id = ID))
     return processOne()
 
+def getAllUserIDs():
+    cursor.execute('SELECT id FROM user')
+    return processData()
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
