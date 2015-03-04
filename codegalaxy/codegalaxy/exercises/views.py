@@ -205,7 +205,7 @@ def submit(request, list_id, question_id):
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
 
             next_exercise = int(question_id)+1
-            if(next_exercise > len(all_exercise)):
+            if((next_exercise-1) > len(all_exercise)):
                 next_exercise = ""
 
             return render(request, 'submit.html', {"solved" : solved,

@@ -1,0 +1,122 @@
+{% extends "codegalaxy.html" %}
+
+{% block base_body %}
+  {% load staticfiles %}
+
+  <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+  <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+  <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="panel">
+        {% if solved %}
+          <div class="row">
+            <div class="large-text-center">
+              <h1>Correct answer!</h1>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-7 columns large-centered">
+              <div class="panel">
+                <div class="large-text-center">
+                  <h2>Your score:</h2>
+                  <br/>
+                  <br/>
+                  <h1>{{ current_score }}/{{ max_score }}</h1>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-6 large-text-center columns">
+              <a href=".." class="button small radius">Return to list</a>
+            </div>
+            <div class="large-6 large-text-center columns">
+              <a href="../{{ next_exercise }}" class="button success small radius">Next exercise</a>
+            </div>
+          </div>
+
+        {% else %}
+          <div class="row">
+
+          </div>
+          <div class="row">
+            <div class="large-text-center">
+              <h2>Wrong answer</h2>
+              <img src="{% static "media/Icons8-Ios7-Messaging-Sad.ico" %}" height="100px" width="100px">
+            </div>
+          </div>
+
+          {% if question_type == "Code" %}
+            <div class="row">
+              <div class="large-3 columns">
+                Your code outputted:
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-5 columns">
+                <textarea id="user_code" name="user_code">{{ user_output }}</textarea>
+
+                <script>
+                  var myCodeMirror = CodeMirror.fromTextArea(user_code,
+                          {
+                            lineNumbers: true,
+                            mode: "python",
+                            theme: "monokai"
+                          });
+                </script>
+              </div>
+
+              <div class="large-7 columns">
+                <div class="panel">
+                  <div class="large-text-center">
+                    <h2>Your current score:</h2>
+                    <br/>
+                    <br/>
+                    <h1>{{ current_score }}/{{ max_score }}</h1>
+                    <br/>
+                    <br/>
+                    <br/>
+                    <br/>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          {% elif question_type == "Open Question" %}
+            <br/>
+            <div class="large-7 columns large-centered">
+              <div class="panel">
+                <div class="large-text-center">
+                  <h2>Your current score:</h2>
+                  <br/>
+                  <br/>
+                  <h1>{{ current_score }}/{{ max_score }}</h1>
+                  <br/>
+                  <br/>
+                  <br/>
+                  <br/>
+                </div>
+
+              </div>
+            </div>
+          {% endif %}
+
+          <div class="large-text-center">
+            <a href="../{{ question_id }}" class="button alert small radius">Try again</a>
+          </div>
+
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+{% endblock base_body %}
