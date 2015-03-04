@@ -21,13 +21,13 @@ def user(request, id = 0):
     # Make id an int
     id = int(id)
     # Get the user object for that id
-
     user = object_manager.createUser(id = id)
-
-    already_friends = False
 
     if request.method == 'POST':
         current_user.addFriend(user)
+
+    already_friends = current_user.isFriend(user)
+
     if user:
         friend_list = user.allFriends()
         #if friend_list:

@@ -29,12 +29,20 @@ class User:
                 friends_list.append(friend_object)
         return friends_list
 
+    def isFriend(self, friend):
+        '''
+        @brief Check if a User is a friend of this user
+        @param friend The User to be checked if this User is friends with
+        @return True if the users are friends, False otherwise
+        '''
+        return friend.id in [f.id for f in self.allFriends()]
+
     def addFriend(self, friend):
-        if friend.id not in [f.id for f in self.allFriends()]:
+        '''
+        @brief Add a friend of this User
+        '''
+        if not self.isFriend(friend):
             dbw.insertFriendsWith(self.id, friend.id)
-            print("yes")
-        else:
-            print("nope")
 
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
