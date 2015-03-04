@@ -5,11 +5,12 @@
 #Order: Red,Green,Yellow,Dark Grey,Purple,Grey
 color_tuples = [("#F7464A","#FF5A5E"),("#46BFBD","#5AD3D1"),("#FDB45C","#FFC870"),("#4D5360","#616774"),("#B48EAD","#C69CBE"),("#949FB1","#A8B3C5")]
 
-class lineColorInfo:
+class ColorInfo:
     def __init__(self,fillColor = "rgba(172,194,132,0.4)",strokeColor = "#ACC26D"
     ,pointColor =  "#fff",pointStrokeColor = "#9DB86D"):
         self.fillColor = fillColor
         self.strokeColor = strokeColor
+        # Ok so this is a bit fked, use these as highlightFill and highlightStroke for bars
         self.pointColor = pointColor
         self.pointStrokeColor = pointStrokeColor
 
@@ -29,6 +30,8 @@ class GraphManager:
     def addScript(self,html):
         return '<script>\n'+html+'</script>\n'
 
+    def addGetID(self,name):
+        return 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
 # LINEGRAPH======================================================================================================================
 
     def addLabels(self,labels):
@@ -58,7 +61,7 @@ class GraphManager:
         total_string = ''
         total_string += self.addLineData(labels,colorInfos,data)
         # The objects themself have postfix O
-        total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
+        total_string += self.addGetID(name)
         total_string += 'new Chart('+self.addDatavar('O')+').Line('+self.addDatavar('D')+');\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name,width,height) + total_string
@@ -93,9 +96,38 @@ class GraphManager:
         total_string += self.addPieData(labels,data,colorInfos)
         total_string += self.addExtras()
         # The objects themself have postfix O
-        total_string += 'var '+self.addDatavar('O') + " = document.getElementById('"+name+"').getContext('2d');\n"
+        total_string += self.addGetID(name)
         total_string += 'new Chart('+self.addDatavar('O')+').Pie('+self.addDatavar('D')+',options);\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name,width,height) + total_string
         self.count += 1
+        return total_string
+
+# BARCHART==================================================================================================
+
+    # data is a list of lists here (multiple different coloured bars -> colorinfos is list of Barcolors (see above))
+    def addBarData(self,labels,data,colorInfos):
+        data_string = ''
+        data_string += 'var '+self.addDatavar('D') + ' = {\n'
+        data_string += self.addLabels(labels) + '\n'
+        data_string += 'datasets : [  \n'
+        # loop over lists of data
+        for i in range(len(data)):
+            data_string += '{ fillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
+            data_string += 'data : ['
+            # per list, do:
+            for info in data[i]:
+                data_string += str(info) + ','
+            data_string = data_string[:-1] + ']\n},\n'
+        data_string += ']\n}\n'
+        return data_string
+
+
+    def makeBarChart(self,name,width,height,colorInfos,labels,data):
+        total_string = ''
+        total_string += self.addBarData(labels,data,colorInfos)
+        total_string += self.addGetID(name)
+        total_string += 'new Chart('+self.addDatavar('O')+').Bar('+self.addDatavar('D')+');\n'
+        total_string = self.addScript(total_string)
+        total_string = self.canvasString(name,width,height) + total_string
         return total_string

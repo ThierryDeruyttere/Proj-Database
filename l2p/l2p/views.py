@@ -187,7 +187,7 @@ def graphs(request):
     graph_manager = graphmanager.GraphManager()
 
     # LINE CHART
-    color_info = graphmanager.lineColorInfo()
+    color_info = graphmanager.ColorInfo()
     test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
     ,["January","February","March","April","May","June"]
     ,[203,156,99,251,305,247])
@@ -200,7 +200,11 @@ def graphs(request):
         count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
         languages.append(prog_lang['name'])
         amount_of_exercises.append(count['amount'])
-    print(languages)
-    print(amount_of_exercises)
     test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,languages,amount_of_exercises)
-    return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph})
+
+    #BARCHART
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],["January","February","March","April","May","June"],[[456,479,324,569,702,600],[364,504,605,400,345,320]])
+
+    return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph})
