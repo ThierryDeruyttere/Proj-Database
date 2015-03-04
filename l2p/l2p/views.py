@@ -80,6 +80,7 @@ def register(request):
 
         if not request.POST.get('your_password'):
             error_password = True
+
         if not error_email:
             try:
                 object_manager.insertUser(first_name, last_name, email, password)
@@ -98,8 +99,21 @@ def login(request):
 
     # There has been a request to log in
     if request.method == 'POST':
+        error_email = True
+        error_password = True
+
         email = request.POST.get('your_email', '')
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
+
+        if re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+            error_email = False
+
+        if request.POST.get('your_password'):
+            error_password = False
+
+        if error_email or error_password:
+            return render(request, 'login.html', {'error_password': error_password, 'error_email': error_email})
+
 
         user = authenticate(email, password)
 
@@ -107,6 +121,8 @@ def login(request):
         if user:
             request.session['current_user'] = user.id
             return redirect('/me/')
+        else:
+            return render(request, 'login.html', {'error_login': True})
 
     # We just landed on the login page
     elif request.method == 'GET':

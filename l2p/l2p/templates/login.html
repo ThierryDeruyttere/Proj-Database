@@ -22,6 +22,9 @@
                 <div class="large-12 columns">
                   <div class="signup-panel">
                     <p class="welcome">Welcome back!</p>
+                    {% if error_login %}
+                      <small class="error">You entered a wrong email and/or password</small>
+                    {% endif %}
                     <form method="post" action="/login/">
                     {% csrf_token %}
                       <div class="row collapse">
@@ -30,6 +33,9 @@
                         </div>
                         <div class="small-11  columns">
                           <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                          {% if error_email %}
+                          <small class="error">Enter a valid Email Address.</small>
+                          {% endif %}
                         </div>
                       </div>
                       <div class="row collapse">
@@ -38,6 +44,9 @@
                         </div>
                         <div class="small-11 columns ">
                           <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
+                          {% if error_password %}
+                          <small class="error">Enter a valid Password.</small>
+                          {% endif %}
                         </div>
                       </div>
                       <input type="submit" value="Log In" class="button"/>
