@@ -108,7 +108,7 @@ def createExercise(request, listId=0):
 @require_login
 def answerQuestion(request, list_id, question_id):
     if request.method == "POST":
-            return redirect('/l/'+list_id+'/'+question_id+'/submit')
+        return redirect('/l/'+list_id+'/'+question_id+'/submit')
 
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
@@ -128,6 +128,18 @@ def answerQuestion(request, list_id, question_id):
 
     #Just redirect if list doesn't exist/exericse doens't exist
     return redirect('/')
+
+def stripStr(string):
+    strip = ["\n", "\r"]
+    s = string
+    for i in strip:
+        s.replace(i, "")
+    return s
+
+def returnScore(current_score):
+    if current_score < 0:
+        return 0
+    return current_score
 
 @require_login
 def submit(request, list_id, question_id):
@@ -156,11 +168,9 @@ def submit(request, list_id, question_id):
             if current_score is None:
                 current_score = current_exercise.max_score
 
+
             max_score = current_exercise.max_score
-            hints = []
-            for i in range(1,max_score+1):
-                hint = request.POST.get("hint"+str(i))
-                print(hint)
+            hint = request.POST.get("used_hints")
 
             if current_exercise.exercise_type == "Open Question":
                 selected_answer = request.POST.get("corr_answer")
@@ -168,18 +178,25 @@ def submit(request, list_id, question_id):
                 if current_exercise.correct_answer == int(selected_answer):
                     #Woohoo right answer!
                     #remove points from using hints
-
-                    object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
+                    current_score = returnScore(current_score - int(hint)*penalty)
+                    object_manager.userMadeExercise(question_id, user.id,  returnScore(current_score), 1, 0)
 
                 else:
-                    current_score -= penalty
-                    if current_score < 0:
-                        current_score = 0
+                    current_score = returnScore(current_score - penalty)
 
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
-                    return redirect('/l/'+ list_id+ '/'+ question_id)
+                    #return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
-                pass
+                #For code you only have one answer so lets get it
+                correct_answer = stripStr(current_exercise.allAnswers()[0])
+                user_output = stripStr(request.POST.get("code_output"))
+                if correct_answer == user_output:
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
+                else:
+                    #not the right answer! Deduct points!
+                    current_score = returnScore(current_score - penalty)
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
+
 
     return render(request, 'submit.html',)
