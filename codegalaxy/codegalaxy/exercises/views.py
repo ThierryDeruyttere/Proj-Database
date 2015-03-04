@@ -192,10 +192,12 @@ def submit(request, list_id, question_id):
                 #For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
-                
+
                 if correct_answer == user_output:
+                    current_score = returnScore(current_score - int(hint)*penalty)
                     solved = True
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
+                    
                 else:
                     #not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
