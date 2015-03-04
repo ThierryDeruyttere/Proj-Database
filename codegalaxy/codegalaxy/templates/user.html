@@ -3,7 +3,21 @@
 {% block base_body %}
 
 <div class="row">
-  <div class="large-12 columns">
+<div class="large-3 columns ">
+<div class="panel">
+<a href="#"><img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/></a>
+<h5><a href="#" large-text-center>{{ user.first_name }} {{ user.last_name }}</a></h5>
+<div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+<section class="section">
+<h5 class="title"><a href="#Friends">Friends</a></h5>
+</section>
+<section class="section">
+<h5 class="title"><a href="#Groups">Groups</a></h5>
+</section>
+</div>
+</div>
+</div>
+  <div class="large-9 columns">
       <div class="panel">
         <h1>User page: {{ user.id }} {{ user.first_name }} {{ user.last_name }}</h1>
         {% if logged_in %}
@@ -16,12 +30,15 @@
           <input type="submit" value="Become friends" class="button"/>
           </form>
         {% endif %}
+
       </div>
   </div>
 </div>
 
+
 <div class="row">
-	<div class="small-12 medium-12 large-12 columns vcard-container ">
+  <a name="Friends"></a>
+	<div class="large-12 columns">
 
     <div class="panel">
             <h1>Friends:</h1>
@@ -46,6 +63,7 @@
 </div>
 
 <div class="row">
+<a name="Groups"></a>
   <div class="large-12 columns">
       <div class="panel">
       <h1>Groups:</h1>

@@ -93,6 +93,13 @@ class ObjectManager:
             users.append(self.createUser(id = user_id['id']))
         return users
 
+    def allGroups(self):
+        groups = []
+        group_info = dbw.getAllGroupIDs()
+        for group_id in group_info:
+            groups.append(self.createGroup(id = group_id['id']))
+        return groups
+        
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 

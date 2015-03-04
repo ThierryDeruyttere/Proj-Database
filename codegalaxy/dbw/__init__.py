@@ -244,6 +244,10 @@ def getAllUserIDs():
     cursor.execute('SELECT id FROM user')
     return processData()
 
+def getAllGroupIDs():
+    cursor.execute('SELECT id FROM groups')
+    return processData()
+
 def getLastExerciseFromList(ID):
     cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id = ID))
     return processOne()
