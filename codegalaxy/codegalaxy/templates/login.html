@@ -28,7 +28,7 @@
                   <div class="signup-panel">
                     <p class="welcome">Welcome back!</p>
                     {% if error_login %}
-                      <small class="error">Incorrect email and/or password.</small>
+                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
                     {% endif %}
                     <form method="post" action="/login/" data-abide>
                     {% csrf_token %}
