@@ -17,7 +17,7 @@
               <div class="row">
                 <div class="large-12 columns">
                   <div class="signup-panel">
-                    <p class="welcome">Welcome back!</p>
+                    <p class="welcome">Welcome at CodeGalaxy!</p>
                   <form method="post" action="/register/">
                   {% csrf_token %}
                     <div class="row collapse">
@@ -26,6 +26,9 @@
                       </div>
                       <div class="small-10  columns">
                         <input type="text" placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                        {% if error_first_name %}
+                        <small class="error">Enter a valid First Name.</small>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -34,6 +37,9 @@
                       </div>
                       <div class="small-10  columns">
                         <input type="text" placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                        {% if error_last_name %}
+                        <small class="error">Enter a valid Last Name.</small>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -42,6 +48,9 @@
                       </div>
                       <div class="small-10  columns">
                         <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                        {% if error_email %}
+                        <small class="error">Enter a valid Email Address.</small>
+                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -50,6 +59,9 @@
                       </div>
                       <div class="small-10 columns ">
                         <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
+                        {% if error_password %}
+                        <small class="error">Enter a valid password.</small>
+                        {% endif %}
                       </div>
                     </div>
                   <input type="submit" value="Sign Up" name="SignUp" class="button"/>

@@ -4,6 +4,7 @@ from django.contrib.auth.hashers import make_password
 
 import hashlib
 import sys
+import re
 
 from om import *
 from l2p.authentication import require_login, logged_user, authenticate
@@ -50,6 +51,7 @@ def userOverview(request):
 def register(request):
     user = logged_user(request)
 
+    
     if user:
         return redirect('/u/{id}'.format(id = user.id))
     # There has been a request to register a new user
@@ -58,13 +60,35 @@ def register(request):
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
+
+        #"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
+        
+        error_email = True
+        error_first_name = False
+        error_last_name = False
+        error_password = False
+
+        if re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
+            error_email = False
+
+        if not first_name:
+            error_first_name = True
+        if not last_name:
+            error_last_name = True
+        
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
-        try:
-            object_manager.insertUser(first_name, last_name, email, password)
+        if not request.POST.get('your_password'):
+            error_password = True
+        if not error_email:
+            try:
+                object_manager.insertUser(first_name, last_name, email, password)
 
-        except:
-            return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
+            except:
+                return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
+        else:
+            return render(request, 'register.html', {'error_email': error_email, 'error_first_name': error_first_name, 'error_last_name': error_last_name, 'error_password':error_password})
+        
 
     return render(request, 'register.html', {})
 
