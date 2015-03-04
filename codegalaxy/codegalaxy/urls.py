@@ -53,5 +53,5 @@ urlpatterns += patterns('',
     # Question page (/l/<id>/<question>)
     url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'codegalaxy.exercises.views.answerQuestion'),
     # Submit question answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'l2p.exercises.views.submit'),
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'codegalaxy.exercises.views.submit'),
 )

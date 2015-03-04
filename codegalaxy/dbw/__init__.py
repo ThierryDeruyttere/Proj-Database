@@ -248,12 +248,9 @@ def getLastExerciseFromList(ID):
     cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id = ID))
     return processOne()
 
-<<<<<<< HEAD:codegalaxy/dbw/__init__.py
-=======
 def getMadeExericse(user_id, exercise_id):
     cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
     return processOne()
->>>>>>> Open question => Done:l2p/dbw/__init__.py
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
