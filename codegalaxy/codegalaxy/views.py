@@ -30,7 +30,8 @@ def user(request, id = 0):
 
     already_friends = None
     if current_user:
-        already_friends = current_user.isFriend(user)
+        #already_friends = current_user.isFriend(user)
+        pass
 
     if user:
         friend_list = user.allFriends()

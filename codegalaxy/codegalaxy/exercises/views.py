@@ -32,6 +32,7 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+
     if request.method == 'POST':
         subject_name = request.POST.get('subject_name', '')
         dbw.insertSubject(subject_name)
@@ -42,7 +43,8 @@ def list(request, id=0):
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
-        return render(request, 'list.html', {'id' : id, 'list_name' : exercise_list.name,
+
+        return render(request, 'list.html', {'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
                                              'list_programming_lang': prog_lang,
@@ -118,7 +120,6 @@ def answerQuestion(request, list_id, question_id):
             if i.id == int(question_id):
                 current_exercise = i
                 break
-
 
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise" : current_exercise,
