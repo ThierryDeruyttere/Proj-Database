@@ -1,3 +1,16 @@
+{% extends "foundation/base.html" %}
+{% load staticfiles %}
+
+{# Title #}
+{% block title %} Code Galaxy {% endblock title %}
+
+{# Custom CSS #}
+{% block css %}
+<link href="{% static "foundation/css/custom.css" %}" rel="stylesheet"/>
+{% endblock css %}
+
+{# Top Bar #}
+{% block top_bar %}
 <div class="contain-to-grid sticky">
     <nav class="top-bar" data-topbar>
         <ul class="title-area">
@@ -21,13 +34,4 @@
         </section>
     </nav>
 </div>
-
-
-{% extends "foundation/base.html" %}
-{% load staticfiles %}
-{# Title #}
-{% block title %} Code Galaxy {% endblock title %}
-{# Custom CSS #}
-{% block css %}
-<link href="{% static "foundation/css/custom.css" %}" rel="stylesheet"/>
-{% endblock css %}
+{% endblock top_bar %}
