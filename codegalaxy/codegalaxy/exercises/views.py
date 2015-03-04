@@ -133,7 +133,7 @@ def stripStr(string):
     strip = ["\n", "\r"]
     s = string
     for i in strip:
-        s.replace(i, "")
+        s = s.replace(i, "")
     return s
 
 def returnScore(current_score):
@@ -146,6 +146,7 @@ def submit(request, list_id, question_id):
     user = logged_user(request)
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
+        solved = False
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
         for i in all_exercise:
@@ -155,7 +156,6 @@ def submit(request, list_id, question_id):
 
         if current_exercise is None:
             return redirect('/')
-
 
         if request.method == "POST":
             info = object_manager.getInfoForUserForExericse(question_id, user.id)
@@ -168,9 +168,9 @@ def submit(request, list_id, question_id):
             if current_score is None:
                 current_score = current_exercise.max_score
 
-
             max_score = current_exercise.max_score
             hint = request.POST.get("used_hints")
+            user_output = request.POST.get("code_output")
 
             if current_exercise.exercise_type == "Open Question":
                 selected_answer = request.POST.get("corr_answer")
@@ -178,6 +178,7 @@ def submit(request, list_id, question_id):
                 if current_exercise.correct_answer == int(selected_answer):
                     #Woohoo right answer!
                     #remove points from using hints
+                    solved = True
                     current_score = returnScore(current_score - int(hint)*penalty)
                     object_manager.userMadeExercise(question_id, user.id,  returnScore(current_score), 1, 0)
 
@@ -190,13 +191,28 @@ def submit(request, list_id, question_id):
             elif current_exercise.exercise_type == "Code":
                 #For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
-                user_output = stripStr(request.POST.get("code_output"))
+                user_output = stripStr(user_output)
+                
                 if correct_answer == user_output:
+                    solved = True
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
                 else:
                     #not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
 
+            next_exercise = int(question_id)+1
+            if(next_exercise > len(all_exercise)):
+                next_exercise = ""
 
-    return render(request, 'submit.html',)
+            return render(request, 'submit.html', {"solved" : solved,
+                                               "list_id": list_id,
+                                               "question_id": question_id,
+                                               "current_score": current_score,
+                                               "max_score": max_score,
+                                               "question_type": current_exercise.exercise_type,
+                                               "user_output": user_output,
+                                               "next_exercise": next_exercise})
+
+    else:
+        return redirect('/')

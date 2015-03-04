@@ -99,7 +99,7 @@
           {% else %}
             <div class="row" id="Code">
 
-              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+             <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
 
               <script>
                 var myCodeMirror = CodeMirror.fromTextArea(user_code,
@@ -110,7 +110,7 @@
                         });
               </script>
 
-              <div class="row">
+              <div class="row" hidden="True">
                 <div class="large-9 columns">
                   <div class="panel">
                     <pre id="output" class="code-output" ></pre>
@@ -129,7 +129,7 @@
             <div class="row">
               <div class="large-10 columns">
                 <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
-                <textarea id="used_hints" name="used_hints" hidden="True"></textarea>
+                <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
               </div>
             </div>
             <div class="large-10 columns">
@@ -143,8 +143,11 @@
 
           <div class="row">
             <div class="large-text-center">
-              <input name="run" class="button tiny radius"  onclick="javascript:runit()" value="run">
-              <input type="submit" name="submit" class="button tiny radius" value="Answer">
+              {% if exercise.exercise_type == "Open Question" %}
+                <input type="submit" name="submit" class="button tiny radius" value="Answer">
+              {% else %}
+                <input type="submit" name="submit" class="button tiny radius" onclick="javascript:runit()" value="Answer">
+              {% endif %}
             </div>
           </div>
         </form>
