@@ -51,7 +51,7 @@ def userOverview(request):
 def register(request):
     user = logged_user(request)
 
-    
+
     if user:
         return redirect('/u/{id}'.format(id = user.id))
     # There has been a request to register a new user
@@ -61,35 +61,15 @@ def register(request):
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
 
-        #"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$"
-        
-        error_email = True
-        error_first_name = False
-        error_last_name = False
-        error_password = False
+        password = hashlib.md5(request.POST.get('your_password').encode('utf-8')).hexdigest()
 
-        if re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
-            error_email = False
-
-        if not first_name:
-            error_first_name = True
-        if not last_name:
-            error_last_name = True
-        
-        password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
-
-        if not request.POST.get('your_password'):
+        if not password:
             error_password = True
 
-        if not error_email:
-            try:
-                object_manager.insertUser(first_name, last_name, email, password)
-
-            except:
-                return render(request, 'register.html', {'error_message': 'This email address is alread in use. Try again.'})
-        else:
-            return render(request, 'register.html', {'error_email': error_email, 'error_first_name': error_first_name, 'error_last_name': error_last_name, 'error_password':error_password})
-        
+        try:
+            object_manager.insertUser(first_name, last_name, email, password)
+        except:
+            return render(request, 'register.html', {'error_message': 'This email address is alread in use.'})
 
     return render(request, 'register.html', {})
 
@@ -105,16 +85,6 @@ def login(request):
         email = request.POST.get('your_email', '')
         password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
-        if re.match(r"^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$", email):
-            error_email = False
-
-        if request.POST.get('your_password'):
-            error_password = False
-
-        if error_email or error_password:
-            return render(request, 'login.html', {'error_password': error_password, 'error_email': error_email})
-
-
         user = authenticate(email, password)
 
         # Successful login attempt
@@ -122,7 +92,7 @@ def login(request):
             request.session['current_user'] = user.id
             return redirect('/me/')
         else:
-            return render(request, 'login.html', {'error_login': True})
+            return render(request, 'login.html', {'error_login': True, 'your_email': email})
 
     # We just landed on the login page
     elif request.method == 'GET':
@@ -161,7 +131,7 @@ def group(request, id = 0):
     is_member = False
     if group:
         user_list = group.allMembers()
-        
+
 
         try:
             group_size = len(user_list)
@@ -178,8 +148,8 @@ def group(request, id = 0):
 
     else:
         return redirect('/')
-    
-@require_login 
+
+@require_login
 def groupOverview(request):
     #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     #https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png

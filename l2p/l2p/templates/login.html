@@ -1,4 +1,9 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block head_js %}
+<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
+{% endblock head_js %}
 
 {% block base_body %}
 
@@ -23,19 +28,17 @@
                   <div class="signup-panel">
                     <p class="welcome">Welcome back!</p>
                     {% if error_login %}
-                      <small class="error">You entered a wrong email and/or password</small>
+                      <small class="error">Incorrect email and/or password.</small>
                     {% endif %}
-                    <form method="post" action="/login/">
+                    <form method="post" action="/login/" data-abide>
                     {% csrf_token %}
                       <div class="row collapse">
                         <div class="small-1 columns">
                           <span class="prefix"><i class="fi-mail size-28"></i></span>
                         </div>
                         <div class="small-11  columns">
-                          <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                          {% if error_email %}
+                          <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
                           <small class="error">Enter a valid Email Address.</small>
-                          {% endif %}
                         </div>
                       </div>
                       <div class="row collapse">
@@ -43,10 +46,8 @@
                           <span class="prefix"><i class="fi-lock size-28"></i></span>
                         </div>
                         <div class="small-11 columns ">
-                          <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                          {% if error_password %}
+                          <input type="password" required placeholder="Password" id="your_password" name="your_password">
                           <small class="error">Enter a valid Password.</small>
-                          {% endif %}
                         </div>
                       </div>
                       <input type="submit" value="Log In" class="button"/>

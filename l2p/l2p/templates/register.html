@@ -1,4 +1,9 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block head_js %}
+<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
+{% endblock head_js %}
 
 {% block base_body %}
 
@@ -18,17 +23,15 @@
                 <div class="large-12 columns">
                   <div class="signup-panel">
                     <p class="welcome">Welcome at CodeGalaxy!</p>
-                  <form method="post" action="/register/">
+                  <form method="post" action="/register/" data-abide>
                   {% csrf_token %}
                     <div class="row collapse">
                       <div class="small-2  columns">
                         <span class="prefix"><i class="fi-torso size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="text" placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                        {% if error_first_name %}
+                        <input type="text" required placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
                         <small class="error">Enter a valid First Name.</small>
-                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -36,10 +39,8 @@
                         <span class="prefix"><i class="fi-torso size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="text" placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                        {% if error_last_name %}
+                        <input type="text" required placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
                         <small class="error">Enter a valid Last Name.</small>
-                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -47,10 +48,8 @@
                         <span class="prefix"><i class="fi-mail size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="text" placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                        {% if error_email %}
+                        <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
                         <small class="error">Enter a valid Email Address.</small>
-                        {% endif %}
                       </div>
                     </div>
                     <div class="row collapse">
@@ -58,10 +57,8 @@
                         <span class="prefix"><i class="fi-lock size-28"></i></span>
                       </div>
                       <div class="small-10 columns ">
-                        <input type="password" placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                        {% if error_password %}
+                        <input type="password" required placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
                         <small class="error">Enter a valid password.</small>
-                        {% endif %}
                       </div>
                     </div>
                   <input type="submit" value="Sign Up" name="SignUp" class="button"/>
