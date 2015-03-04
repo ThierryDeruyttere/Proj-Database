@@ -3,7 +3,7 @@
 {% block base_body %}
 
 <div class="row">
-<div class="large-3 columns ">
+<div class="large-3 small-2 columns ">
 <div class="panel">
 <a href="#"><img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/></a>
 <h5><a href="#" large-text-center>{{ user.first_name }} {{ user.last_name }}</a></h5>
@@ -36,52 +36,45 @@
 </div>
 
 
+<div class="panel">
+<a name="Friends"></a>
+<div class="large-12 columns">
+<div class="row text.center">
+<h1>Friends:</h1>
+</div>
+</div>
 <div class="row">
-  <a name="Friends"></a>
-	<div class="large-12 columns">
-
-    <div class="panel">
-            <h1>Friends:</h1>
-    	<div class="row">
-
-    		{% for user in friend_list %}
-    		<article class="vcard">
-    			<a href="../{{ user.id }}"/>
-    			<div class="vcard-img large-12 medium-12 small-12 columns">
-    				<img class="reponsive-image" src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png" height="42" width="42">
-    			</div>
-    			<div class="large-12 medium-12 small-12 text-center">
-    				<ul class="vcard-text" .text-center>
-                        <li .text-center><strong>{{ user.first_name }}</strong></li>
-                    </ul>
-    			</div>
-    		</article>
-    		{% endfor %}
-    		</div>
-    	</div>
-  	</div>
+{% for user in friend_list %}
+<div class="large-2 small-2 columns">
+<a href="../{{ user.id }}"/>
+<img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+<div class="panel">
+<h5>{{ user.first_name }}</h5>
+<h6 class="subheader">{{ user.last_name }}</h6>
+</div>
+</div>
+{% endfor %}
+</div>
 </div>
 
-<div class="row">
+<div class="panel">
 <a name="Groups"></a>
-  <div class="large-12 columns">
-      <div class="panel">
-      <h1>Groups:</h1>
-              {% for group in group_list %}
-        <article class="vcard">
-          <a href="../../g/{{ group.id }}"/>
-          <div class="vcard-img large-12 medium-12 small-12 columns">
-            <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png" height="42" width="42">
-          </div>
-          <div class="large-12 medium-12 small-12 text-center">
-            <ul class="vcard-text" .text-center>
-                        <li .text-center><strong>{{ group.group_name }}</strong></li>
-                    </ul>
-          </div>
-        </article>
-      {% endfor %}
-      </div>
-  </div>
+<div class="large-12 columns">
+<div class="row">
+<h1>Groups:</h1>
+</div>
+</div>
+<div class="row">
+{% for group in group_list %}
+<div class="large-2 small-2 columns">
+<a href="../../g/{{ group.id }}"/>
+<img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+<div class="panel">
+<h5>{{ group.group_name }}</h5>
+</div>
+</div>
+{% endfor %}
+</div>
 </div>
 
 {% endblock base_body %}
