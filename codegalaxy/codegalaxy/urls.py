@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
 from django.contrib import admin
 
-urlpatterns = patterns('l2p.views',
+urlpatterns = patterns('codegalaxy.views',
 
     ## HOME ##
     # Home page (/)
@@ -47,13 +47,13 @@ urlpatterns = patterns('l2p.views',
 )
 
 urlpatterns += patterns('',
-    url(r'^l/create$', 'l2p.exercises.views.createExerciseList'),
+    url(r'^l/create$', 'codegalaxy.exercises.views.createExerciseList'),
     ## QUESTIONS ##
     # List page with overview of questions (/l/<id>)
-    url(r'^l/(?P<id>\d*)/$', 'l2p.exercises.views.list'),
+    url(r'^l/(?P<id>\d*)/$', 'codegalaxy.exercises.views.list'),
 
     #Create exercise for list
-    url(r'^l/(?P<listId>\d*)/createExercise/$', 'l2p.exercises.views.createExercise')
+    url(r'^l/(?P<listId>\d*)/createExercise/$', 'codegalaxy.exercises.views.createExercise')
     # Question page (/l/<id>/<question>)
     #url(r'^l/(?P<id>\d+)/(?P<question>\d+)$', 'question'),
     # Submit question answer (/l/<id>/<question>/submit)

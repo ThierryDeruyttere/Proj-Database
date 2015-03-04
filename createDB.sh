@@ -1,2 +1,2 @@
 mysql -u root -pruien9690 < DB.sql
-python3 l2p/manage.py migrate
+python3 codegalaxy/manage.py migrate

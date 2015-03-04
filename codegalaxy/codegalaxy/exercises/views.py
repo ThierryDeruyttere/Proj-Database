@@ -6,7 +6,7 @@ import time
 
 import dbw
 from om import *
-from l2p.authentication import require_login, logged_user
+from codegalaxy.authentication import require_login, logged_user
 
 object_manager = objectmanager.ObjectManager()
 

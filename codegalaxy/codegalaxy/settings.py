@@ -1,5 +1,5 @@
 """
-Django settings for l2p project.
+Django settings for CodeGalaxy project.
 
 For more information on this file, see
 https://docs.djangoproject.com/en/1.7/topics/settings/
@@ -12,8 +12,11 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'l2p/templates'), os.path.join(BASE_DIR, 'l2p/exercises/templates')]
-STATICFILES_DIRS = (os.path.join(BASE_DIR, "l2p/static"),)
+import pymysql
+pymysql.install_as_MySQLdb()
+
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'), os.path.join(BASE_DIR, 'codegalaxy/exercises/templates')]
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.7/howto/deployment/checklist/
@@ -53,9 +56,9 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
-ROOT_URLCONF = 'l2p.urls'
+ROOT_URLCONF = 'codegalaxy.urls'
 
-WSGI_APPLICATION = 'l2p.wsgi.application'
+WSGI_APPLICATION = 'codegalaxy.wsgi.application'
 
 
 # Database
