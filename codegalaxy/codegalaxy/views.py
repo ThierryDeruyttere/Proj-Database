@@ -27,7 +27,7 @@ def user(request, id = 0):
     already_friends = False
 
     if request.method == 'POST':
-        user.addFriend(current_user.id)
+        current_user.addFriend(user)
     if user:
         friend_list = user.allFriends()
         #if friend_list:

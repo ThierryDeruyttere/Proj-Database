@@ -27,11 +27,11 @@ def getUserOnEmail(email):
 def processData():
     '''
     @brief gets the data from a sql query
-    @return returns a dict with the retrieved data
+    @return returns a list of dicts with the retrieved data
     '''
     info = dictfetchall()
     if not info:
-        return None
+        return []
     else:
         return info
 
@@ -133,7 +133,7 @@ def getFriendsIdForID(id):
     @param id the id of the user
     @return returns a dict with friends (hopefully)
     '''
-    cursor.execute('SELECT f.friend_id FROM friendsWith f, user u WHERE u.id = f.user_id AND u.id = {id};'.format(id = id))
+    cursor.execute('SELECT f.friend_id FROM friendsWith f WHERE f.user_id = {id} UNION SELECT f.user_id FROM friendsWith f WHERE f.friend_id = {id};'.format(id = id))
     return processData()
 
 def getExercisesForList(list_id):

@@ -18,53 +18,48 @@ class User:
     # List with other users this user is befriended with
     def allFriends(self):
         friends_info = dbw.getFriendsIdForID(self.id)
-        if friends_info:
-            friends_list = []
-            # We'll make objects of the friends and put them in a list
-            for friend in friends_info:
-                friend_info = dbw.getUserOnId(friend['friend_id'])
-                if friend_info:
-                    # If the info is legit, we add a User object with the info to the list
-                    friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
-                    friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
-                    friends_list.append(friend_object)
-            return friends_list
-        else:
-            return None
+        friends_list = []
+        # We'll make objects of the friends and put them in a list
+        for friend in friends_info:
+            friend_info = dbw.getUserOnId(friend['friend_id'])
+            if friend_info:
+                # If the info is legit, we add a User object with the info to the list
+                friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
+                friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
+                friends_list.append(friend_object)
+        return friends_list
 
-    def addFriend(self, idd):
-        dbw.insertFriendsWith(self.id, idd)
-    
+    def addFriend(self, friend):
+        if friend.id not in [f.id for f in self.allFriends()]:
+            dbw.insertFriendsWith(self.id, friend.id)
+            print("yes")
+        else:
+            print("nope")
+
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)
-        if groups_info:
-            groups_list = []
-            # We'll make objects of the friends and put them in a list
-            for group in groups_info:
-                group_info = dbw.getGroupInformation(group['group_id'])
-                if group_info:
-                    # If the info is legit, we add a Group object with the info to the list
-                    group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
-                    groups_list.append(group_object)
-            return groups_list
-        else:
-            return None
+        groups_list = []
+        # We'll make objects of the friends and put them in a list
+        for group in groups_info:
+            group_info = dbw.getGroupInformation(group['group_id'])
+            if group_info:
+                # If the info is legit, we add a Group object with the info to the list
+                group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
+                groups_list.append(group_object)
+        return groups_list
 
     # List with all the lists of exercises this user has completed/is working on (SQL function)
     def allPersonalLists(self):
         exercises_lists_info = dbw.getMadeListForUser(self.id)
-        if exercises_lists_info:
-            exercises_lists_list = []
-            # We'll make objects of the friends and put them in a list
-            for exercises_list in exercises_lists_info:
-                # If the info is legit, we add a User object with the info to the list
-                exercises_list_object = PersonalList(exercises_list['rating'],exercises_list['score']
-                ,exercises_list['exerciseList_id'],self.id)
-                exercises_lists_list.append(exercises_list_object)
-            return exercises_lists_list
-        else:
-            return None
+        exercises_lists_list = []
+        # We'll make objects of the friends and put them in a list
+        for exercises_list in exercises_lists_info:
+            # If the info is legit, we add a User object with the info to the list
+            exercises_list_object = PersonalList(exercises_list['rating'],exercises_list['score']
+            ,exercises_list['exerciseList_id'],self.id)
+            exercises_lists_list.append(exercises_list_object)
+        return exercises_lists_list
 
     # returns TRUE for admin and FALSE for regular user
     def checkPermission(self,group_id):
