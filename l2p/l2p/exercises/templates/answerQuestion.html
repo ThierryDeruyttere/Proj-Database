@@ -19,6 +19,8 @@
     function outf(text) {
       var mypre = document.getElementById("output");
       mypre.innerHTML = mypre.innerHTML + text;
+      var code_output = document.getElementById("code_output");
+      code_output.innerHTML = mypre.innerHTML;
     }
     function builtinRead(x) {
       if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
@@ -33,7 +35,6 @@
     // call Sk.importMainWithBody()
     function runit() {
       var prog = myCodeMirror.getValue();
-      console.log(prog)
       var mypre = document.getElementById("output");
       mypre.innerHTML = '';
       Sk.canvas = "mycanvas";
@@ -49,8 +50,9 @@
 
     var curr_hint = 1;
     function addHint(){
-        document.getElementById("hint"+curr_hint).hidden = false;
-        ++curr_hint;
+      document.getElementById("hint"+curr_hint).hidden = false;
+      ++curr_hint;
+      document.getElementById("used_hints").value = (curr_hint-1).toString();
     }
 
     function unhide(name){
@@ -76,75 +78,68 @@
 
         <form method="post" action="{{ exercise.id }}/submit">
           {% csrf_token %}
-          <div class="row" id="Open Question" hidden="True">
 
-            {% for i in answers %}
-              <div class="row">
-                <div class="large-6 large-offset-1 columns">
-                  {{ forloop.counter }}
-                  {{ i }}
-                  {% if forloop.counter == 1  %}
-                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
-                  {% else %}
-                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
-                  {% endif %}
+          {% if exercise.exercise_type == "Open Question" %}
+            <div class="row" id="Open Question">
+
+              {% for i in answers %}
+                <div class="row">
+                  <div class="large-6 large-offset-1 columns">
+                    {{ forloop.counter }}
+                    {{ i }}
+                    {% if forloop.counter == 1  %}
+                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                    {% else %}
+                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                    {% endif %}
+                  </div>
                 </div>
-              </div>
-            {% endfor %}
-          </div>
-
-          <div class="row" id="Code" hidden="True">
-
-                <textarea id="user_code" name="user_code">
-                  {{ exercise.code }}
-                </textarea>
-
-            <script>
-              var myCodeMirror = CodeMirror.fromTextArea(user_code,
-                      {
-                        lineNumbers: true,
-                        mode: "python",
-                        theme: "monokai"
-                      });
-            </script>
-
-            <div class="row">
-              <div class="large-9 columns">
-                <div class="panel">
-                  <pre id="output" class="code-output" ></pre>
-                  <canvas id="mycanvas" class="code-output"></canvas>
-                </div>
-              </div>
-
+              {% endfor %}
             </div>
-          </div>
+          {% else %}
+            <div class="row" id="Code">
+
+              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+
+              <script>
+                var myCodeMirror = CodeMirror.fromTextArea(user_code,
+                        {
+                          lineNumbers: true,
+                          mode: "python",
+                          theme: "monokai"
+                        });
+              </script>
+
+              <div class="row">
+                <div class="large-9 columns">
+                  <div class="panel">
+                    <pre id="output" class="code-output" ></pre>
+                    <canvas id="mycanvas" class="code-output"></canvas>
+                    <textarea id="code_output" name="code_output" hidden="True"></textarea>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+          {% endif %}
 
           <hr>
           <div class="row">
             <div class="row">
               <div class="large-10 columns">
                 <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
+                <textarea id="used_hints" name="used_hints" hidden="True"></textarea>
               </div>
             </div>
             <div class="large-10 columns">
-            <ul>
-              {% for hint in hints %}
-                <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
-              {% endfor %}
-            </ul>
+              <ul>
+                {% for hint in hints %}
+                  <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+                {% endfor %}
+              </ul>
             </div>
           </div>
-
-
-          {% if exercise.exercise_type == "Open Question" %}
-            <script>
-              unhide("Open Question")
-            </script>
-          {% else %}
-            <script>
-              unhide("Code")
-            </script>
-          {% endif %}
 
           <div class="row">
             <div class="large-text-center">
