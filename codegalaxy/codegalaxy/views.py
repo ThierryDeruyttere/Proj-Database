@@ -27,14 +27,13 @@ def user(request, id = 0):
     if request.method == 'POST':
         current_user.addFriend(user)
 
-    already_friends = current_user.isFriend(user)
+    already_friends = None
+    if current_user:
+        already_friends = current_user.isFriend(user)
 
     if user:
         friend_list = user.allFriends()
-        #if friend_list:
-        #    print("Vriendenlijst is niet leeg")
-        #    if current_user.id in friend_list[friend_id]:
-        #        already_friends = True
+        
         group_list = user.allGroups()
         exercise_list = user.allPersonalLists()
         context = {'user':user, 'group_list':group_list, 'friend_list': friend_list, 'exercise_list':exercise_list, 'already_friends': already_friends}
@@ -45,6 +44,7 @@ def user(request, id = 0):
     else:
         return redirect('/')
 
+@require_login
 def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users':users})
