@@ -16,6 +16,7 @@ object_manager = objectmanager.ObjectManager()
 def home(request):
     return render(request, 'home.html', {})
 
+@require_login
 def user(request, id = 0):
     current_user = logged_user(request)
 
@@ -51,7 +52,6 @@ def userOverview(request):
 
 def register(request):
     user = logged_user(request)
-
 
     if user:
         return redirect('/u/{id}'.format(id = user.id))
