@@ -151,22 +151,22 @@ INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'r
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com');
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Sten', 'Verbois', '21232f297a57a5a743894a0e4a801fc3', 'stenverbois@gmail.com');
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Tristan', 'Vandeputte', '21232f297a57a5a743894a0e4a801fc3', 'tristanvandeputte@hotmail.com');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', '21232f297a57a5a743894a0e4a801fc3', 'marie@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Dirk', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'dirk@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thomas', 'Vandelanotte', '21232f297a57a5a743894a0e4a801fc3', 'Thomas@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Pieter', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'Pieter@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bart', 'De Wever', '21232f297a57a5a743894a0e4a801fc3', 'Bart@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Chris', 'Brys', '21232f297a57a5a743894a0e4a801fc3', 'Chris@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Jommeke', 'Hegre', '21232f297a57a5a743894a0e4a801fc3', 'Jommeke@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Fany', 'Kiekeboe', '21232f297a57a5a743894a0e4a801fc3', 'Fany@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Wouter', 'Vanuitdebroeken', '21232f297a57a5a743894a0e4a801fc3', 'Wouter@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Kalm', 'Zalm', '21232f297a57a5a743894a0e4a801fc3', 'Kalm@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alaise', 'Pladijs', '21232f297a57a5a743894a0e4a801fc3', 'Alaise@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alain', 'Drissens', '21232f297a57a5a743894a0e4a801fc3', 'Alain@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Rudy', 'Verboven', '21232f297a57a5a743894a0e4a801fc3', 'Rudy@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bruno', 'Tobback', '21232f297a57a5a743894a0e4a801fc3', 'Bruno@.');
-INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@.');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Marie', 'Kegeleers', '21232f297a57a5a743894a0e4a801fc3', 'marie@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Dirk', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'dirk@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thomas', 'Vandelanotte', '21232f297a57a5a743894a0e4a801fc3', 'Thomas@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Pieter', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'Pieter@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bart', 'De Wever', '21232f297a57a5a743894a0e4a801fc3', 'Bart@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Chris', 'Brys', '21232f297a57a5a743894a0e4a801fc3', 'Chris@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Jommeke', 'Hegre', '21232f297a57a5a743894a0e4a801fc3', 'Jommeke@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Fany', 'Kiekeboe', '21232f297a57a5a743894a0e4a801fc3', 'Fany@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Wouter', 'Vanuitdebroeken', '21232f297a57a5a743894a0e4a801fc3', 'Wouter@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Kalm', 'Zalm', '21232f297a57a5a743894a0e4a801fc3', 'Kalm@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alaise', 'Pladijs', '21232f297a57a5a743894a0e4a801fc3', 'Alaise@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Alain', 'Drissens', '21232f297a57a5a743894a0e4a801fc3', 'Alain@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Rudy', 'Verboven', '21232f297a57a5a743894a0e4a801fc3', 'Rudy@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Bruno', 'Tobback', '21232f297a57a5a743894a0e4a801fc3', 'Bruno@hotmail.com');
+INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@hotmail.com');
 
 # Friend data
 INSERT INTO friendsWith(user_id, friend_id) VALUES (1,2);
