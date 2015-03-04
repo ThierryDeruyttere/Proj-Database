@@ -28,14 +28,14 @@ def user(request, id = 0):
     if request.method == 'POST':
         current_user.addFriend(user)
 
-    already_friends = None
+    already_friends = False
     if current_user:
         #already_friends = current_user.isFriend(user)
         pass
 
     if user:
         friend_list = user.allFriends()
-        
+
         group_list = user.allGroups()
         exercise_list = user.allPersonalLists()
         context = {'user':user, 'group_list':group_list, 'friend_list': friend_list, 'exercise_list':exercise_list, 'already_friends': already_friends}
