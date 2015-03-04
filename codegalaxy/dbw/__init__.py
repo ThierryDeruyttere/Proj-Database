@@ -272,7 +272,6 @@ def insertHint(hint_text, hint_number, exercise_id, language_id):
 
 def insertExerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id):
     cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name = name, desc = description, diff = difficulty, crtd_by = created_by, crtd_on = created_on, prog_lang_id = prog_lang_id))
-
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by = created_by))
     return processOne()
 
@@ -308,6 +307,10 @@ def deleteHints(hint_id):
     cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint_id))
 
 #TRIVIA
+
+def countExerciseListsForProgrammingLanguageID(prog_lang_id):
+    cursor.execute('SELECT COUNT(id) AS amount FROM exerciseList WHERE exerciseList.prog_lang_id = {id} ;'.format(id = prog_lang_id))
+    return processOne()
 
 def latestAnswer(exercise_id,language_id):
     cursor.execute('SELECT MAX(answer_number) AS highest FROM answer WHERE answer.language_id = {l_id} AND answer.is_answer_for = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))

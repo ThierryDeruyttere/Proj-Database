@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'foundation',
     'dbw',
     'skulpt',
+    'chartjs',
 )
 
 MIDDLEWARE_CLASSES = (

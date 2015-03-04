@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from om import *
+from managers.om import *
 
 object_manager = objectmanager.ObjectManager()
 
@@ -40,7 +40,7 @@ def require_login(*args):
         return arg_wrapper(args[0])
     else:
         link = args[0]
-        
+
     return arg_wrapper
 
 def logged_user(request):

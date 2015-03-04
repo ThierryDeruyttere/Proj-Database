@@ -1,7 +1,7 @@
-import om.exerciselist
-import om.exercise
-import om.user
-import om.group
+import managers.om.exerciselist
+import managers.om.exercise
+import managers.om.user
+import managers.om.group
 import dbw
 # Class that will build and work with the various objects representing the site
 # will use SQL
@@ -27,7 +27,7 @@ class ObjectManager:
             user_info = dbw.getUserOnEmail(kwargs['email'])
 
         if user_info:
-            user_object = om.user.User(user_info['id'],user_info['first_name'],user_info['last_name'],
+            user_object = managers.om.user.User(user_info['id'],user_info['first_name'],user_info['last_name'],
             user_info['is_active'],user_info['email'],user_info['permission'], user_info['password'])
             return user_object
         else:
@@ -37,7 +37,7 @@ class ObjectManager:
     def createGroup(self,id):
         group_info = dbw.getGroupInformation(id)
         if group_info:
-            group_object = om.group.Group(id,group_info['group_name'],group_info['group_type'])
+            group_object = managers.om.group.Group(id,group_info['group_name'],group_info['group_type'])
             return group_object
         else:
             return None
@@ -46,7 +46,7 @@ class ObjectManager:
     def createExercise(self,id,language_code):
         exercise_info = dbw.getExerciseInformation(id,language_code)
         if exercise_info:
-            exercise_object = om.exercise.Exercise(id,exercise_info['difficulty'],
+            exercise_object = managers.om.exercise.Exercise(id,exercise_info['difficulty'],
             exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
             ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
             ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
@@ -58,7 +58,7 @@ class ObjectManager:
     def createExerciseList(self,id):
         exercise_list_info = dbw.getExerciseListInformation(id)
         if exercise_list_info:
-            exercise_list_object = om.exerciselist.ExerciseList(id,exercise_list_info['name'],
+            exercise_list_object = managers.om.exerciselist.ExerciseList(id,exercise_list_info['name'],
             exercise_list_info['difficulty'],exercise_list_info['description'],
             exercise_list_info['created_by'], exercise_list_info['created_on'],
             exercise_list_info['prog_lang_id'])
@@ -85,5 +85,5 @@ class ObjectManager:
     def allUsers(self):
         return dbw.getAll("user")
 
-    def allGroups(self):
-        return dbw.getAll("groups")
+    def countExerciseListsForProgrammingLanguageID(self,id):
+        return dbw.countExerciseListsForProgrammingLanguageID(id)

@@ -240,7 +240,14 @@ INSERT INTO programmingLanguage(name) VALUES ('SQL');
 # ExerciseList data
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
-
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++ fer masterhekkers', 'HAKKKKK', 4, 3, "2014-3-5", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++ is ez', '2 ez', 3, 3, "2014-3-5", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C+++++++', '3spooky5me', 3, 3, "2014-3-5", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL u wot?', 'DROP TABLE;', 2, 3, "2014-3-5", 3);
 
 # Exercise data
 # Difficulty range 1-5?

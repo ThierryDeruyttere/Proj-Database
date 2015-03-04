@@ -1,6 +1,6 @@
-import om.exerciselist
-import om.exercise
-import om.group
+import managers.om.exerciselist
+import managers.om.exercise
+import managers.om.group
 import dbw
 
 class User:
@@ -18,56 +18,50 @@ class User:
     # List with other users this user is befriended with
     def allFriends(self):
         friends_info = dbw.getFriendsIdForID(self.id)
-        friends_list = []
-        # We'll make objects of the friends and put them in a list
-        for friend in friends_info:
-            friend_info = dbw.getUserOnId(friend['friend_id'])
-            if friend_info:
-                # If the info is legit, we add a User object with the info to the list
-                friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
-                friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
-                friends_list.append(friend_object)
-        return friends_list
-
-    def isFriend(self, friend):
-        '''
-        @brief Check if a User is a friend of this user
-        @param friend The User to be checked if this User is friends with
-        @return True if the users are friends, False otherwise
-        '''
-        return friend.id in [f.id for f in self.allFriends()]
-
-    def addFriend(self, friend):
-        '''
-        @brief Add a friend of this User
-        '''
-        if not self.isFriend(friend):
-            dbw.insertFriendsWith(self.id, friend.id)
+        if friends_info:
+            friends_list = []
+            # We'll make objects of the friends and put them in a list
+            for friend in friends_info:
+                friend_info = dbw.getUserOnId(friend['friend_id'])
+                if friend_info:
+                    # If the info is legit, we add a User object with the info to the list
+                    friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
+                    friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
+                    friends_list.append(friend_object)
+            return friends_list
+        else:
+            return None
 
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)
-        groups_list = []
-        # We'll make objects of the friends and put them in a list
-        for group in groups_info:
-            group_info = dbw.getGroupInformation(group['group_id'])
-            if group_info:
-                # If the info is legit, we add a Group object with the info to the list
-                group_object = om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
-                groups_list.append(group_object)
-        return groups_list
+        if groups_info:
+            groups_list = []
+            # We'll make objects of the friends and put them in a list
+            for group in groups_info:
+                group_info = dbw.getGroupInformation(group['group_id'])
+                if group_info:
+                    # If the info is legit, we add a Group object with the info to the list
+                    group_object = managers.om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
+                    groups_list.append(group_object)
+            return groups_list
+        else:
+            return None
 
     # List with all the lists of exercises this user has completed/is working on (SQL function)
     def allPersonalLists(self):
         exercises_lists_info = dbw.getMadeListForUser(self.id)
-        exercises_lists_list = []
-        # We'll make objects of the friends and put them in a list
-        for exercises_list in exercises_lists_info:
-            # If the info is legit, we add a User object with the info to the list
-            exercises_list_object = PersonalList(exercises_list['rating'],exercises_list['score']
-            ,exercises_list['exerciseList_id'],self.id)
-            exercises_lists_list.append(exercises_list_object)
-        return exercises_lists_list
+        if exercises_lists_info:
+            exercises_lists_list = []
+            # We'll make objects of the friends and put them in a list
+            for exercises_list in exercises_lists_info:
+                # If the info is legit, we add a User object with the info to the list
+                exercises_list_object = PersonalList(exercises_list['rating'],exercises_list['score']
+                ,exercises_list['exerciseList_id'],self.id)
+                exercises_lists_list.append(exercises_list_object)
+            return exercises_lists_list
+        else:
+            return None
 
     # returns TRUE for admin and FALSE for regular user
     def checkPermission(self,group_id):
@@ -96,7 +90,7 @@ class PersonalList:
         # Needed to use the allExercises function
         self.user_id = user_id
         exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
-        exercise_list_object = om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
+        exercise_list_object = managers.om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
         exercise_list_info['difficulty'],exercise_list_info['description'],exercise_list_info['created_by']
         ,exercise_list_info['created_on'],exercise_list_info['prog_lang_id'])
         # Actual exercises-object (make with SQL queries)
@@ -126,7 +120,7 @@ class PersonalExercise:
         self.rating = rating
         exercise_info = dbw.getExerciseInformation(exercise_id,language_code)
         # Actual exercises-object (make with SQL queries)
-        self.exercise = om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
+        self.exercise = managers.om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
         exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
         ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
         ,language_code,exercise_info['answer_text'],exercise_info['language_name'])

@@ -1,5 +1,5 @@
 import dbw
-import om.exercise
+import managers.om.exercise
 
 class ExerciseList:
     def __init__(self,id,name,difficulty,description, created_by, created_on, programming_lang):
@@ -33,7 +33,7 @@ class ExerciseList:
             exercises = []
             for exercise_id in exercises_infos:
                 exercise_info = dbw.getExerciseInformation(exercise_id['id'],language_code)
-                exercise_object = om.exercise.Exercise(self.id,exercise_info['difficulty'],
+                exercise_object = managers.om.exercise.Exercise(self.id,exercise_info['difficulty'],
                 exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
                 ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
                 ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
@@ -47,10 +47,10 @@ class ExerciseList:
 
 #TODO: how to add subjects
 
-    def addSubject(self):
+    def addSubject():
         pass
 
-    def deleteSubject(self):
+    def deleteSubject():
         pass
 
     def insertExercise(self,difficulty, max_score, penalty, exercise_type,created_by
@@ -65,9 +65,7 @@ class ExerciseList:
         dbw.insertCode(code,exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
-        # answers is a list of AnswerContainer objects (see below)
-        for answer in answers:
-            dbw.insertAnswer(answer.answer_number, answer.answer_text, answer.language_id, answer.is_answer_for)
-        # hints, like answers, is a list of HintContainer objects
-        for hint in hints:
-            dbw.insertHint(hint.hint_text, hint.hint_number, hint.exercise_id,l_id)
+        import managers.om.objectmanager
+        object_manager = objectmanager.ObjectManager()
+        exercise = object_manager.createExercise(exercise_id)
+        exercise.update(correct_answer,answers,hints)

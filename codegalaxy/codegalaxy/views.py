@@ -6,8 +6,9 @@ import hashlib
 import sys
 import re
 
-from om import *
 from codegalaxy.authentication import require_login, logged_user, authenticate
+from managers.om import *
+from managers.gm import *
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -263,5 +264,35 @@ def tables(request):
 
     return render(request, 'tables.html',{})
 
+<<<<<<< HEAD:codegalaxy/codegalaxy/views.py
 def python(request):
     return render(request, 'python.html', {})
+=======
+
+def graphs(request):
+    #We'll use the graph maker to make pretty graphs with statistical data
+    graph_manager = graphmanager.GraphManager()
+
+    # LINE CHART
+    color_info = graphmanager.ColorInfo()
+    test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
+    ,["January","February","March","April","May","June"]
+    ,[203,156,99,251,305,247])
+
+    #PIE CHART
+    all_prog_languages = object_manager.allProgrammingLanguages()
+    languages = []
+    amount_of_exercises = []
+    for prog_lang in all_prog_languages:
+        count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
+        languages.append(prog_lang['name'])
+        amount_of_exercises.append(count['amount'])
+    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,languages,amount_of_exercises)
+
+    #BARCHART
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],["January","February","March","April","May","June"],[[456,479,324,569,702,600],[364,504,605,400,345,320]])
+
+    return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph})
+>>>>>>> Graphs:l2p/l2p/views.py
