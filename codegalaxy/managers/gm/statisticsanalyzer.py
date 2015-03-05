@@ -26,4 +26,18 @@ class StatisticsAnalyzer:
 
 # Used with Bar Charts
 
+    # Return the X biggest groups
+    def BiggestGroupsTopX(self,X):
+        result = {}
+        result['labels'] = []
+        result['data'] = []
+        result['data'].append([])
+        groups = object_manager.allGroups()
+        groups.sort(key=lambda x: len(x.allMembers()), reverse=True)
+        groups = groups[:X]
+        for i in range(X):
+            result['data'][0].append(len(groups[i].allMembers()))
+            result['labels'].append(groups[i].group_name)
+        return result
+        
 # Used with Line Graphs

@@ -278,8 +278,9 @@ def graphs(request):
     test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,stats1['labels'],stats1['data'])
 
     #BARCHART
+    stats2 = statistics_analyzer.BiggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
-    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],["January","February","March","April","May","June"],[[456,479,324,569,702,600],[364,504,605,400,345,320]])
+    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],stats2['labels'],stats2['data'])
 
     return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph})
