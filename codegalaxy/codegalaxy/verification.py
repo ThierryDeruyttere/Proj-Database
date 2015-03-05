@@ -4,7 +4,7 @@ import hashlib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
-def send(email):
+def sendVerification(email):
     sender = 'info.codegalaxy@gmail.com'
     password = 'ruien9690'
 
@@ -49,3 +49,6 @@ def send(email):
     # and message to send - here it is sent as one string.
     server.sendmail(sender, receiver, msg.as_string())
     server.quit()
+
+def sendVerificationAccepted(email):
+    pass

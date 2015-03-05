@@ -99,7 +99,7 @@ class ObjectManager:
         for group_id in group_info:
             groups.append(self.createGroup(id = group_id['id']))
         return groups
-        
+
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
@@ -116,3 +116,11 @@ class ObjectManager:
     def getInfoForUserForExericse(self, exercise_id, user_id):
         return dbw.getMadeExericse(user_id, exercise_id)
 
+    def needsVerification(self, hash):
+        return dbw.needsVerification(hash)
+
+    def addVerification(self, email, hash):
+        dbw.addVerification(email, hash)
+
+    def acceptVerification(self, hash):
+        dbw.removeVerification(hash)

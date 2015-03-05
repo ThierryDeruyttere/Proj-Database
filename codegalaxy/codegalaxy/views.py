@@ -7,7 +7,7 @@ import sys
 import re
 
 from codegalaxy.authentication import require_login, logged_user, authenticate
-from codegalaxy.verification import send
+from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
 
@@ -65,10 +65,10 @@ def register(request):
 
         password = hashlib.md5(request.POST.get('your_password').encode('utf-8')).hexdigest()
 
-        send(email)
-
         try:
             object_manager.insertUser(first_name, last_name, email, password)
+            object_manager.addVerification(email, hashlib.md5(email.encode('utf-8')).hexdigest())
+            sendVerification(email)
         except:
             return render(request, 'register.html', {'error_register': 'This email address is alread in use.'})
 
@@ -186,7 +186,12 @@ def submit(request, id, question):
     return render(request, 'submit.html', {})
 
 def verify(request, hash_seq):
-    return render(request, 'verify.html', {'hash':hash_seq})
+    if object_manager.needsVerification(hash_seq):
+        email = object_manager.acceptVerification(hash_seq)
+        sendVerificationAccepted(email)
+        return render(request, 'verify.html', {})
+
+    return redirect('/')
 
 def test(request, id = 0):
     # Quick tests/changes
