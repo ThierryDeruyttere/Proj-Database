@@ -7,6 +7,7 @@ import sys
 import re
 
 from codegalaxy.authentication import require_login, logged_user, authenticate
+from codegalaxy.verification import send
 from managers.om import *
 from managers.gm import *
 
@@ -51,12 +52,12 @@ def userOverview(request):
     return render(request, 'userOverview.html', {'users':users})
 
 def register(request):
+    # Check if we are already logged in
     user = logged_user(request)
-
     if user:
         return redirect('/u/{id}'.format(id = user.id))
-    # There has been a request to register a new user
 
+    # There has been a request to register a new user
     if request.method == 'POST':
         first_name = request.POST.get('your_first_name', '')
         last_name = request.POST.get('your_last_name', '')
@@ -64,13 +65,12 @@ def register(request):
 
         password = hashlib.md5(request.POST.get('your_password').encode('utf-8')).hexdigest()
 
-        if not password:
-            error_password = True
+        send(email)
 
         try:
             object_manager.insertUser(first_name, last_name, email, password)
         except:
-            return render(request, 'register.html', {'error_message': 'This email address is alread in use.'})
+            return render(request, 'register.html', {'error_register': 'This email address is alread in use.'})
 
     return render(request, 'register.html', {})
 
@@ -184,6 +184,9 @@ def list(request, id = 0):
 @require_login
 def submit(request, id, question):
     return render(request, 'submit.html', {})
+
+def verify(request, hash_seq):
+    return render(request, 'verify.html', {'hash':hash_seq})
 
 def test(request, id = 0):
     # Quick tests/changes

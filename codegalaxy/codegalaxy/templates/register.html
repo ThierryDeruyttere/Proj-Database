@@ -23,6 +23,9 @@
                 <div class="large-12 columns">
                   <div class="signup-panel">
                     <p class="welcome">Welcome at CodeGalaxy!</p>
+                    {% if error_register %}
+                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
+                    {% endif %}
                   <form method="post" action="/register/" data-abide>
                   {% csrf_token %}
                     <div class="row collapse">
