@@ -132,8 +132,6 @@ def group(request, id = 0):
     is_member = False
     if group:
         user_list = group.allMembers()
-
-
         try:
             group_size = len(user_list)
 
