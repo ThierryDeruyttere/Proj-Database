@@ -44,7 +44,6 @@ class ObjectManager:
 
     # Uses the DB to create an object representing an Exercise
     def createExercise(self,id,language_code):
-        print(id)
         exercise_info = dbw.getExerciseInformation(id,language_code)
         if exercise_info:
             exercise_object = managers.om.exercise.Exercise(id,exercise_info['difficulty'],

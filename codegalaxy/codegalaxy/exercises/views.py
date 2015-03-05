@@ -13,8 +13,6 @@ from pymysql import escape_string
 
 object_manager = objectmanager.ObjectManager()
 
-
-
 @require_login
 def createExerciseList(request):
     languages = dbw.getAll("programmingLanguage")
@@ -62,7 +60,7 @@ def createExercise(request, listId=0):
         exercise_difficulty = request.POST.get('difficulty')
         exercise_max_score = 1
         exercise_penalty = 1
-        exercise_question_text = escape_string(request.POST.get('Question'))
+        exercise_question_text = request.POST.get('Question')
         exercise_type = request.POST.get('exercise_type')
         hints = []
         exercise_title = request.POST.get('title')
@@ -70,7 +68,6 @@ def createExercise(request, listId=0):
         exercise_number = exercise_list.getLastExercise() + 1
 
         exercise_question = Question(exercise_question_text,1)
-        print(escape_string(exercise_question_text))
         exercise_answer = None
         correct_answer = None
         code = ""
@@ -82,7 +79,6 @@ def createExercise(request, listId=0):
                 if request.POST.get("answer_no_"+str(i)) != "" and request.POST.get("answer_no_"+str(i)) != None:
                     answer.append(escape_string(request.POST.get("answer_no_"+str(i))))
 
-            print(answer)
             selected_answer = request.POST.get("corr_answer")
             exercise_answer = answer
             correct_answer = selected_answer
@@ -91,8 +87,8 @@ def createExercise(request, listId=0):
 
         else:
             exercise_max_score = request.POST.get('max')
-            code_for_user = escape_string(request.POST.get("code"))
-            expected_answer = escape_string(request.POST.get("output"))
+            code_for_user = request.POST.get("code")
+            expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
             correct_answer = 1
             code = code_for_user

@@ -9,17 +9,6 @@ def decodeString(fromVar):
     return decoded
 
 
-def removeEscapeChars(string):
-    s = string
-    replace_from = ['\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z']
-    replace_to = ['\\', "\0", "\n", "\r", "'", '"', "\x1a"]
-    for i, replace in enumerate(replace_from):
-
-        s = s.replace(replace, replace_to[i])
-
-    return s
-
-
 class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
@@ -37,9 +26,9 @@ class Exercise:
         # Programming language the question is about (string)
         self.programming_language = programming_language
         # the given code to add upon (string)
-        self.code = removeEscapeChars(decodeString(code))
+        self.code = decodeString(code)
         # Question asked to the user (string)
-        self.question = removeEscapeChars(decodeString(question))
+        self.question = decodeString(question)
         # Language the question is in (string)
         self.language_name = language_name
         # ID of the correct answer
@@ -71,7 +60,7 @@ class Exercise:
         hint_info = dbw.getExerciseHints(self.id,self.language_name)
         if hint_info:
             # first we add the data to a list of tuples
-            hint_unordered_list = [(removeEscapeChars(x['hint_text']),x['hint_number']) for x in hint_info]
+            hint_unordered_list = [(x['hint_text'],x['hint_number']) for x in hint_info]
             # We sort on the second element of every tuple
             sorted_hints = sorted(hint_unordered_list, key=lambda tup: tup[1])
             # We don't need the number anymore
