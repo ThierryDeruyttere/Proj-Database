@@ -1,5 +1,6 @@
 import dbw
 import managers.om.user
+import managers.om.objectmanager
 
 class Group:
     def __init__(self,id,group_name,group_type):
@@ -11,14 +12,11 @@ class Group:
     # list of users
     def allMembers(self):
         members_infos = dbw.getUsersInGroup(self.id)
+        object_manager = managers.om.objectmanager.ObjectManager()
+        user_list = []
         if members_infos:
-            user_list = []
             for members_info in members_infos:
-                user_id = members_info['user_id']
-                user_info = dbw.getUserOnId(user_id)
-                user_object = managers.om.user.User(user_id,user_info['first_name'],user_info['last_name'],
-                user_info['is_active'],user_info['email'],user_info['permission'], user_info['password'])
-                user_list.append(user_object)
+                user_list.append(object_manager.createUser(id = members_info['user_id']))
             return user_list
         else:
             return None

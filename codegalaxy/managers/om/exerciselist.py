@@ -28,16 +28,13 @@ class ExerciseList:
     # List of exercises
     def allExercises(self, language_code):
         exercises_infos = dbw.getExercisesForList(self.id)
+        object_manager = managers.om.objectmanager.ObjectManager()
+        exercises = []
         if exercises_infos:
             # We'll put the info in a regular list
             exercises = []
             for exercise_id in exercises_infos:
-                exercise_info = dbw.getExerciseInformation(exercise_id['id'],language_code)
-                exercise_object = managers.om.exercise.Exercise(exercise_id['id'],exercise_info['difficulty'],
-                exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
-                ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-                ,language_code,exercise_info['correct_answer'],exercise_info['language_name'])
-                exercises.append(exercise_object)
+                exercises.append(object_manager.createExercise(exercise_id['id'],language_code))
             return exercises
         else:
             return None
@@ -76,11 +73,9 @@ class ExerciseList:
         for i, hint in enumerate(hints):
             dbw.insertHint(hint, i+1, exercise_id,l_id)
 
-
         exercise = object_manager.createExercise(exercise_id, language_code)
 
         exercise.update(correct_answer,answers,hints)
-
 
 
     def getLastExercise(self):

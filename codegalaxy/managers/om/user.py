@@ -1,6 +1,7 @@
 import managers.om.exerciselist
 import managers.om.exercise
 import managers.om.group
+import managers.om.objectmanager
 import dbw
 
 class User:
@@ -19,14 +20,10 @@ class User:
     def allFriends(self):
         friends_info = dbw.getFriendsIdForID(self.id)
         friends_list = []
+        object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for friend in friends_info:
-            friend_info = dbw.getUserOnId(friend['friend_id'])
-            if friend_info:
-                # If the info is legit, we add a User object with the info to the list
-                friend_object = User(friend['friend_id'],friend_info['first_name'],friend_info['last_name'],
-                friend_info['is_active'],friend_info['email'],friend_info['permission'],friend_info['password'])
-                friends_list.append(friend_object)
+            friends_list.append(object_manager.createUser(id = friend['friend_id']))
         return friends_list
 
     def isFriend(self, friend):
@@ -48,13 +45,11 @@ class User:
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)
         groups_list = []
+        object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for group in groups_info:
-            group_info = dbw.getGroupInformation(group['group_id'])
-            if group_info:
-                # If the info is legit, we add a Group object with the info to the list
-                group_object = managers.om.group.Group(group['group_id'],group_info['group_name'],group_info['group_type'])
-                groups_list.append(group_object)
+            # If the info is legit, we add a Group object with the info to the list
+            groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
     # List with all the lists of exercises this user has completed/is working on (SQL function)
@@ -95,12 +90,9 @@ class PersonalList:
         self.score = score
         # Needed to use the allExercises function
         self.user_id = user_id
-        exercise_list_info = dbw.getExerciseListInformation(exercise_list_id)
-        exercise_list_object = managers.om.exerciselist.ExerciseList(exercise_list_id,exercise_list_info['name'],
-        exercise_list_info['difficulty'],exercise_list_info['description'],exercise_list_info['created_by']
-        ,exercise_list_info['created_on'],exercise_list_info['prog_lang_id'])
-        # Actual exercises-object (make with SQL queries)
-        self.exercises_list = exercise_list_object
+        # Actual exercises-object
+        object_manager = managers.om.objectmanager.ObjectManager()
+        self.exercises_list = object_manager.createExerciseList(exercise_list_id)
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None
 
@@ -124,12 +116,9 @@ class PersonalExercise:
         self.score = score
         # given rating
         self.rating = rating
-        exercise_info = dbw.getExerciseInformation(exercise_id,language_code)
         # Actual exercises-object (make with SQL queries)
-        self.exercise = managers.om.exercise.Exercise(exercise_id,exercise_info['difficulty'],
-        exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
-        ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-        ,language_code,exercise_info['answer_text'],exercise_info['language_name'])
+        object_manager = managers.om.objectmanager.ObjectManager()
+        self.exercise = object_manager.createExercise(exercise_id,language_code)
 
     def __str__(self):
          return str(self.rating)+" "+str(self.score)+" "+str(self.solved)+" "+str(self.exercise)
