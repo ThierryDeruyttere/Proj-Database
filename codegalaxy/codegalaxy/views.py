@@ -12,6 +12,7 @@ from managers.gm import *
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
+statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 
 def home(request):
     return render(request, 'home.html', {})
@@ -273,14 +274,8 @@ def graphs(request):
     ,[203,156,99,251,305,247])
 
     #PIE CHART
-    all_prog_languages = object_manager.allProgrammingLanguages()
-    languages = []
-    amount_of_exercises = []
-    for prog_lang in all_prog_languages:
-        count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
-        languages.append(prog_lang['name'])
-        amount_of_exercises.append(count['amount'])
-    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,languages,amount_of_exercises)
+    stats1 = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
+    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,stats1['labels'],stats1['data'])
 
     #BARCHART
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")

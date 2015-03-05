@@ -1,3 +1,3 @@
 
 
-__all__ = ['graphmanager']
+__all__ = ['graphmanager','statisticsanalyzer']
