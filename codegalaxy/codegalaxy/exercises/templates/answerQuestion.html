@@ -99,7 +99,7 @@
           {% else %}
             <div class="row" id="Code">
 
-             <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
 
               <script>
                 var myCodeMirror = CodeMirror.fromTextArea(user_code,
@@ -120,26 +120,31 @@
                 </div>
 
               </div>
+
+                <br/>
+              <div class="row">
+                <div class="row">
+                  <div class="large-10 columns">
+                    <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
+                    <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+                  </div>
+                </div>
+                <div class="large-10 columns">
+                  <ul>
+                    {% for hint in hints %}
+                      <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+
             </div>
+
+
 
           {% endif %}
 
           <hr>
-          <div class="row">
-            <div class="row">
-              <div class="large-10 columns">
-                <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
-                <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
-              </div>
-            </div>
-            <div class="large-10 columns">
-              <ul>
-                {% for hint in hints %}
-                  <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
 
           <div class="row">
             <div class="large-text-center">

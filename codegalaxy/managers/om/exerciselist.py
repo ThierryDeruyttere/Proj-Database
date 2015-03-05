@@ -52,10 +52,10 @@ class ExerciseList:
 
     def insertExercise(self,difficulty, max_score, penalty, exercise_type,created_by
         , created_on, exercise_number,question,answers,correct_answer
-        ,hints,language_code,code = ""):
+        ,hints,language_code,title,code = ""):
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type
-        ,created_by, created_on, exercise_number,correct_answer,self.id)['highest_id']
+        ,created_by, created_on, exercise_number,correct_answer,self.id, title)['highest_id']
         # AssociatedWith relation
         l_id = dbw.getIdFromLanguage(language_code)['id']
         # Code (default "")

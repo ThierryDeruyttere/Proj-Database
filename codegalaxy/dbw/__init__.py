@@ -272,8 +272,10 @@ def insertUserInGroup(group_id, user_id, user_permissions):
 def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))
 
-def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, "{crtd_on}", {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id))
+def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
+    sql = 'INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, "{crtd_on}", {exerc_nmbr}, {corr_answer}, {exerciseList_id}, %s);'.format(diff = difficulty, m = max_score, pen = penalty, e_type = exercise_type, crtd_by = created_by, crtd_on = created_on, exerc_nmbr = exercise_number, corr_answer =correct_answer, exerciseList_id = exerciseList_id)
+
+    cursor.execute(sql, [title])
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise WHERE exercise.created_by = {created_by};'.format(created_by = created_by))
     return processOne()

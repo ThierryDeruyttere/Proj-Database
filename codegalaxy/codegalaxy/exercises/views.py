@@ -65,9 +65,7 @@ def createExercise(request, listId=0):
         exercise_question_text = escape_string(request.POST.get('Question'))
         exercise_type = request.POST.get('exercise_type')
         hints = []
-        for j in range(1,int(exercise_max_score)+1):
-            if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
-                hints.append(escape_string(request.POST.get("hint"+str(j))))
+        exercise_title = request.POST.get('title')
 
         exercise_number = exercise_list.getLastExercise() + 1
 
@@ -99,10 +97,15 @@ def createExercise(request, listId=0):
             correct_answer = 1
             code = code_for_user
 
+            for j in range(1,int(exercise_max_score)+1):
+                if request.POST.get("hint"+str(j)) != "" and request.POST.get("hint"+str(j)) != None:
+                    hints.append(escape_string(request.POST.get("hint"+str(j))))
+
+
         exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id
                                      ,str(time.strftime("%Y-%m-%d")), exercise_number
                                      ,exercise_question,exercise_answer,correct_answer
-                                     ,hints,"en",code)
+                                     ,hints,"en",exercise_title, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -184,9 +187,7 @@ def submit(request, list_id, question_id):
 
                 if current_exercise.correct_answer == int(selected_answer):
                     #Woohoo right answer!
-                    #remove points from using hints
                     solved = True
-                    current_score = returnScore(current_score - int(hint)*penalty)
                     object_manager.userMadeExercise(question_id, user.id,  returnScore(current_score), 1, 0)
 
                 else:

@@ -62,6 +62,7 @@ CREATE TABLE exerciseList(
 
 CREATE TABLE exercise(
   id INT NOT NULL AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
   difficulty INT NOT NULL,
   max_score INT NOT NULL,
   penalty INT NOT NULL,
@@ -240,18 +241,10 @@ INSERT INTO programmingLanguage(name) VALUES ('SQL');
 # ExerciseList data
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-2-5", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++ fer masterhekkers', 'HAKKKKK', 4, 3, "2014-3-5", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++ is ez', '2 ez', 3, 3, "2014-3-5", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C+++++++', '3spooky5me', 3, 3, "2014-3-5", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL u wot?', 'DROP TABLE;', 2, 3, "2014-3-5", 3);
 
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (1,5,1,'code',1, '2015-02-1', 1,1,1);
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (1,5,1,'code',1, '2015-02-1', 1,1,1, "test");
 
 # Code data
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);

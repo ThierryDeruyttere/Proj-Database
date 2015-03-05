@@ -22,6 +22,21 @@
               </div>
             </div>
 
+
+            <div class="row">
+              <div class="large-4 large-centered columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-4 columns">
+                    <span class="prefix">Exercise title</span>
+                  </div>
+                  <div class="small-8 columns">
+                    <input type="text" id="title" name="title"  class="text-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
             <div class="Diff">
               <div class="row">
                 <div class="large-4 large-centered columns">
@@ -140,6 +155,21 @@
 
               </div>
 
+
+              <!--
+                Tips
+                -->
+              <div class="row" id="Tips_Row" hidden="True">
+                <h3>Tips:</h3>
+                <div class="large-4 right columns">
+                  <input type="button" class="button tiny radius" value="Add Tip" onclick="javascript:add('text');">
+                </div>
+                <div class="row">
+                  <span id="Hints"> </span>
+
+                </div>
+              </div>
+
             </div>
 
             <div class="row" id="Open_Question" hidden="True">
@@ -183,21 +213,6 @@
             </div>
             <hr>
 
-            <!--
-            Tips
-            -->
-            <div class="row" id="Tips_Row" hidden="True">
-              <h3>Tips:</h3>
-              <div class="large-4 right columns">
-                <input type="button" class="button tiny radius" value="Add Tip" onclick="javascript:add('text');">
-              </div>
-              <div class="row">
-                <span id="Hints"> </span>
-
-              </div>
-            </div>
-
-            <hr>
             <div class="row">
               <div class="large-text-center">
                 <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
@@ -222,7 +237,7 @@
           }
 
           function removeAnswer(){
-             if(answers <= 1){
+            if(answers <= 1){
               return;
             }
 

@@ -24,7 +24,7 @@ class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
     def __init__(self,id,difficulty,max_score,penalty,exercise_type,programming_language
-    ,code,question,language_code,correct_answer,language_name):
+    ,code,question,language_code,correct_answer,language_name, title):
         self.id = id
         # (Integer ranging from 1-5)
         self.difficulty = difficulty
@@ -46,6 +46,8 @@ class Exercise:
         self.correct_answer = correct_answer
         # Django code for the name
         self.language_code = language_code
+        #Exercise title
+        self.title = title
 
     def __str__(self):
         return str(self.difficulty)+' '+str(self.max_score)+' '+str(self.penalty)+' '+str(self.exercise_type)+' '+str(self.programming_language)+' '+self.code+' '+self.question+' '+self.language_name+' '+str(self.correct_answer)+' '+str(self.language_code)
