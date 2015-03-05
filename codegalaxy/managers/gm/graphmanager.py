@@ -106,6 +106,7 @@ class GraphManager:
 # BARCHART==================================================================================================
 
     # data is a list of lists here (multiple different coloured bars -> colorinfos is list of Barcolors (see above))
+    # labels still 1 list
     def addBarData(self,labels,data,colorInfos):
         data_string = ''
         data_string += 'var '+self.addDatavar('D') + ' = {\n'

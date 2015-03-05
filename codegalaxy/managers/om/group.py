@@ -14,12 +14,10 @@ class Group:
         members_infos = dbw.getUsersInGroup(self.id)
         object_manager = managers.om.objectmanager.ObjectManager()
         user_list = []
-        if members_infos:
-            for members_info in members_infos:
-                user_list.append(object_manager.createUser(id = members_info['user_id']))
-            return user_list
-        else:
-            return None
+        for members_info in members_infos:
+            user_list.append(object_manager.createUser(id = members_info['user_id']))
+        return user_list
+
 
     def save(self):
         dbw.updateGroup(self.id,self.group_name,self.group_type)
