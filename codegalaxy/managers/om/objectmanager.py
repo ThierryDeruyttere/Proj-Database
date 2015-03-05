@@ -115,3 +115,8 @@ class ObjectManager:
     def getInfoForUserForExericse(self, exercise_id, user_id):
         return dbw.getMadeExericse(user_id, exercise_id)
 
+    def addSubject(self, name):
+         dbw.insertSubject(name)
+
+    def getIdOfSubject(self,name):
+        return dbw.getSubjectID(name)["id"]

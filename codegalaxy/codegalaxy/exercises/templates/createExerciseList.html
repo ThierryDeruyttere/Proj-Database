@@ -2,59 +2,103 @@
 
 {% block base_body %}
 
-<div class="row">
-  <div class="panel">
-    <form method="post">
-      {% csrf_token %}
-      <div class="row">
-        <div class="large-4 large-centered columns">
+  <div class="row">
+    <div class="panel">
+      <form method="post">
+        {% csrf_token %}
+        <div class="row">
+          <div class="large-4 large-centered columns">
 
-          <input type="text" placeholder="Enter list name" name="list_name">
+            <input type="text" placeholder="Enter list name" name="list_name">
 
-          <textarea placeholder="Enter description of exercise list" name="description_text"></textarea>
+            <textarea placeholder="Enter description of exercise list" name="description_text"></textarea>
+            <div class="row">
+              <div class="small-10 medium-11 columns">
+                <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
+                </div>
+              </div>
+            </div>
+          </div>
           <div class="row">
-            <div class="small-10 medium-11 columns">
-              <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
-                <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                <span class="range-slider-active-segment"></span>
+            <div class="large-4 large-centered columns">
+              <div class="row collapse prefix-radius">
+                <div class="small-3 columns">
+                  <span class="prefix">Difficulty</span>
+                </div>
+                <div class="small-9 columns">
+                  <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="row">
-          <div class="large-4 large-centered columns">
-            <div class="row collapse prefix-radius">
-              <div class="small-3 columns">
-                <span class="prefix">Difficulty</span>
-              </div>
-              <div class="small-9 columns">
-                <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
-              </div>
+
+          <div class="row">
+            <div class="large-4 large-centered columns">
+              <label>Programming language</label>
+              <select name="prog_lang">
+                {% for lang in languages %}
+                  <option value="{{ lang.name }}">{{ lang.name }}</option>
+                {% endfor %}
+              </select>
+
             </div>
           </div>
-        </div>
 
-        <div class="row">
-          <div class="large-4 large-centered columns">
-            <label>Programming language</label>
-            <select name="prog_lang">
-              {% for lang in languages %}
-              <option value="{{ lang.name }}">{{ lang.name }}</option>
-              {% endfor %}
-            </select>
+
+          <div class="row">
+            <div class="large-4 large-centered columns">
+              <div class="row collapse prefix-radius">
+                <div class="small-3 columns">
+                  <span class="prefix">Subject</span>
+                </div>
+                <div class="small-6 columns">
+                  <input type="text" id="subject" name="subject" class="text-center">
+
+                </div>
+                <div class="small-3  columns">
+                  <span class="postfix"><i class="fi-plus" onclick="javascript:addSubject()"></i></span>
+                </div>
+              </div>
+            </div>
+            <div class="large-4 large-centered columns">
+              <fieldset>
+                <legend>Subjects</legend>
+                <div class="row" id="subjects">
+
+                </div>
+              </fieldset>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="large-2 large-centered columns">
+              <input type="submit" class="button" value="Create list">
+            </div>
 
           </div>
-        </div>
 
-        <div class="row">
-          <div class="large-2 large-centered columns">
-            <input type="submit" class="button" value="Create list">
-          </div>
+
 
         </div>
-      </div>
-    </form>
+      </form>
 
+    <script>
+      var subjects = 0;
+      function addSubject(){
+        var label = document.createElement("span");
+        label.setAttribute("class", "success label");
+        label.innerHTML = document.getElementById("subject").value;
+        document.getElementById("subject").value = "";
+        label.setAttribute("id", "subject"+subjects);
+        label.setAttribute("name", "subject"+subjects);
+        subjects++;
+
+        document.getElementById("subjects").appendChild(label);
+      }
+
+    </script>
+    </div>
   </div>
-</div>
 {% endblock base_body %}

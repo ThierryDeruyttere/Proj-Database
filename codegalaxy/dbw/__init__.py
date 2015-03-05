@@ -256,6 +256,10 @@ def getMadeExericse(user_id, exercise_id):
     cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
     return processOne()
 
+def getSubjectID(name):
+    cursor.execute('select id from subject WHERE name = "{name}"'.format(name = name))
+    return processOne()
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active = 1):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
