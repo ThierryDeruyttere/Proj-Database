@@ -3,6 +3,8 @@
 {% block base_body %}
   {% load staticfiles %}
 
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+
   <div class="row" xmlns="http://www.w3.org/1999/html">
     <div class="large-12 columns">
       <div class="panel">
@@ -48,66 +50,12 @@
               </div>
             </div>
 
-            <div class="max_score">
-              <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="javascript:removeHints()">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
 
-              <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row collapse prefix-radius">
-                    <div class="small-3 columns">
-                      <span class="prefix">Max score</span>
-                    </div>
-                    <div class="small-9 columns">
-                      <input type="text" id="max" name="max" readonly="True" class="text-center">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="penalty_score">
-              <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" id="range_slider" data-slider data-options="display_selector: #penalty; start: 1; end: 10;">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row collapse prefix-radius">
-                    <div class="small-3 columns">
-                      <span class="prefix">Penalty</span>
-                    </div>
-                    <div class="small-9 columns">
-                      <input type="text" id="penalty" name="penalty" readonly="True" class="text-center">
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
 
             <div class="row">
               <div class="large-5 large-centered columns">
                 Question
-            <textarea name="Question"></textarea>
+                <textarea name="Question"></textarea>
               </div>
             </div>
 
@@ -124,6 +72,36 @@
             <hr>
 
             <div class="row" id="Code_Question" hidden="True">
+
+
+              <div class="max_score">
+                <div class="row">
+                  <div class="large-4 large-centered columns">
+                    <div class="row">
+                      <div class="small-10 medium-11 columns">
+                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="javascript:removeHints()">
+                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                          <span class="range-slider-active-segment"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="large-4 large-centered columns">
+                    <div class="row collapse prefix-radius">
+                      <div class="small-3 columns">
+                        <span class="prefix">Max score</span>
+                      </div>
+                      <div class="small-9 columns">
+                        <input type="text" id="max" name="max" readonly="True" class="text-center">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
               <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
               <script src="{% static "codemirror/mode/python/python.js" %}"></script>
@@ -134,7 +112,7 @@
 
                   <u>Code the user gets to see:</u>
 
-                <textarea id="code" name="code"></textarea>
+                  <textarea id="code" name="code"></textarea>
                   <script>
                     var myCodeMirror = CodeMirror.fromTextArea(code,
                             {
@@ -149,7 +127,7 @@
                 <div class="large-8 large-offset-1 columns">
 
                   <u>Expected output</u>
-                <textarea id="output" name="output"></textarea>
+                  <textarea id="output" name="output"></textarea>
                   <script>
                     var myCodeMirror = CodeMirror.fromTextArea(output,
                             {
@@ -165,25 +143,43 @@
             </div>
 
             <div class="row" id="Open_Question" hidden="True">
-              <u>Possible answers</u>
-
-              {% for i in "12345" %}
-                <div class ="row">
-                  <div class="large-1 columns">
-                    {{ i }}.
-                  </div>
-                  <div class="large-5 columns">
-                    <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="answer_no_{{ i }}">
-                  </div>
-                  <div class="large-6 columns">
-                    {% if i == "1"  %}
-                      <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" checked><label for="answer_no_{{ i }}">Correct answer</label>
-                    {% else %}
-                      <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" ><label for="answer_no_{{ i }}">Correct answer</label>
-                    {% endif %}
+              <div class="row">
+                <div class="large-4 large-centered columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-3 columns">
+                      <span class="prefix">Max score</span>
+                    </div>
+                    <div class="small-9 columns">
+                      <input type="text" id="max_open" name="max_open" readonly="True" class="text-center" value="0">
+                    </div>
                   </div>
                 </div>
-              {% endfor %}
+              </div>
+              <div class="row">
+                <div class="large-8 large-offset-2 columns">
+
+                  <u>Possible answers</u>    <i class="fi-plus" onclick="javascript:addAnswer()"></i> <i class="fi-minus" onclick="javascript:removeAnswer()"></i>
+                  {% for i in "12345" %}
+                    <div class ="row" id="answer{{ i }}" hidden="True">
+                      <div class="large-1 columns">
+                        {{ i }}.
+                      </div>
+                      <div class="large-5 columns">
+                        <input type="text" id="answer_no_{{ i }}" placeholder="Possible Answer" name="answer_no_{{ i }}">
+                      </div>
+                      <div class="large-6 columns">
+                        {% if i == "1"  %}
+                          <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" checked><label for="answer_no_{{ i }}">Correct answer</label>
+                        {% else %}
+                          <input type="radio" name="corr_answer" value="{{ i }}" id="corr_answer_no_{{ i }}" ><label for="answer_no_{{ i }}">Correct answer</label>
+                        {% endif %}
+                      </div>
+                    </div>
+                  {% endfor %}
+                </div>
+                <br/>
+              </div>
+
             </div>
             <hr>
 
@@ -211,6 +207,31 @@
         </form>
 
         <script language="javascript">
+
+          var answers = 0;
+          function addAnswer(){
+            if(answers >= 5){
+              return;
+            }
+
+            var currentAnswer = document.getElementById("answer" + (answers +1));
+            currentAnswer.hidden = false;
+            answers++;
+            document.getElementById("max_open").value = answers;
+            console.log(document.getElementById("max_open").value)
+          }
+
+          function removeAnswer(){
+             if(answers <= 1){
+              return;
+            }
+
+            var currentAnswer = document.getElementById("answer" + answers);
+            currentAnswer.hidden = true;
+            --answers;
+            document.getElementById("max_open").value = answers;
+          }
+
           function ShowContent(){
             if(document.getElementById("Tips_Row").hidden){
               document.getElementById("Tips_Row").hidden = false;
@@ -218,6 +239,9 @@
 
             if(document.getElementById("exercise_type_code").checked){
               document.getElementById("Code_Question").hidden = false;
+              //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
+              //so we need to reset it
+              $('#slider').foundation('slider','set_value',5);
               document.getElementById("Open_Question").hidden = true;
             }else if(document.getElementById('exercise_type_open').checked){
               document.getElementById("Code_Question").hidden = true;

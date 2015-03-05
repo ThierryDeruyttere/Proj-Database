@@ -60,8 +60,8 @@ def createExercise(request, listId=0):
     user = logged_user(request)
     if request.method == 'POST':
         exercise_difficulty = request.POST.get('difficulty')
-        exercise_max_score = request.POST.get('max')
-        exercise_penalty = request.POST.get('penalty')
+        exercise_max_score = 1
+        exercise_penalty = 1
         exercise_question_text = escape_string(request.POST.get('Question'))
         exercise_type = request.POST.get('exercise_type')
         hints = []
@@ -78,15 +78,21 @@ def createExercise(request, listId=0):
         code = ""
         if(exercise_type == 'Open Question'):
             answer = []
-            for i in range(1,6):
+            exercise_max_score = request.POST.get("max_open")
+
+            for i in range(1,(int(exercise_max_score)+1)):
                 if request.POST.get("answer_no_"+str(i)) != "" and request.POST.get("answer_no_"+str(i)) != None:
                     answer.append(escape_string(request.POST.get("answer_no_"+str(i))))
 
+            print(answer)
             selected_answer = request.POST.get("corr_answer")
             exercise_answer = answer
             correct_answer = selected_answer
+            exercise_penalty = 3
+
 
         else:
+            exercise_max_score = request.POST.get('max')
             code_for_user = escape_string(request.POST.get("code"))
             expected_answer = escape_string(request.POST.get("output"))
             exercise_answer = [expected_answer]
