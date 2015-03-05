@@ -64,6 +64,17 @@ class User:
             exercises_lists_list.append(exercises_list_object)
         return exercises_lists_list
 
+    #List with all the exercises this user has completed
+    def allPersonalExercises(self):
+        # list of dicts with the key ['prog_lang_id']
+        prog_lang_ids = dbw.getProgrammingLanguageIDsOfMadeExForUser(self.id)
+        print(len(prog_lang_ids))
+        real_names = []
+        for prog_id in prog_lang_ids:
+            print(prog_id['prog_lang_id'])
+            real_names.append(dbw.getNameFromProgLangID(prog_id['prog_lang_id']))
+        return real_names
+
     # returns TRUE for admin and FALSE for regular user
     def checkPermission(self,group_id):
         permissions_info = dbw.getPermForUserInGroup(self.id,group_id)

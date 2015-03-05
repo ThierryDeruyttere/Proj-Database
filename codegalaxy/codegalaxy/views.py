@@ -276,19 +276,28 @@ def graphs(request):
     graph_manager = graphmanager.GraphManager()
 
     # LINE CHART
-    color_info = graphmanager.ColorInfo()
-    test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
-    ,["January","February","March","April","May","June"]
-    ,[203,156,99,251,305,247])
+    #color_info = graphmanager.ColorInfo()
+    #test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
+    #,["January","February","March","April","May","June"]
+    #,[203,156,99,251,305,247])
 
     #PIE CHART
-    stats1 = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,stats1['labels'],stats1['data'])
+    stats = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
+    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,stats['labels'],stats['data'])
 
     #BARCHART
-    stats2 = statistics_analyzer.BiggestGroupsTopX(5)
+    stats = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
-    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],stats2['labels'],stats2['data'])
+    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],stats['labels'],stats['data'],"#members")
 
-    return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph})
+    #BARCHART 2
+    stats = statistics_analyzer.mostExerciseListsTopX(5)
+    test_bar_graph2 = graph_manager.makeBarChart('kek2',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["#exercises"])
+
+    #BARCHART 3
+    stats = statistics_analyzer.compareUserExercisesPerProgrammingLanguageWithFriend(1,2)
+    test_bar_graph3 = graph_manager.makeBarChart('kek3',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["user","friend"])
+
+
+    return render(request, 'graphs.html',{'teststr': test_bar_graph2,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph,'teststr4' : test_bar_graph3})

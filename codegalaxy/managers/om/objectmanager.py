@@ -102,7 +102,6 @@ class ObjectManager:
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
-
     def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, rating=0):
         exercise = dbw.getMadeExericse(user_id, exercise_id)
         if exercise:
@@ -129,3 +128,6 @@ class ObjectManager:
 
     def acceptVerification(self, hash):
         dbw.removeVerification(hash)
+
+    def getProgrammingLanguageCodeOnName(self,name):
+        return dbw.getProgrammingLanguageCodeOnName(name)['language_code']

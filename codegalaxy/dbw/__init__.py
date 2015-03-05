@@ -162,6 +162,10 @@ def getMadeListForUser(id):
     cursor.execute('SELECT * FROM user u, madeList m WHERE  u.id = {id} AND u.id = m.user_id;'.format(id = id))
     return processData()
 
+def getProgrammingLanguageIDsOfMadeExForUser(user_id):
+    cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_id = e.id AND e.exerciseList_id = l.id AND solved = 1;'.format(id = user_id))
+    return processData()
+
 def getExerciseScoreFor(id, exercise_list):
     '''
     @brief gets the scores of exercises from a user in a certain exercise list
@@ -253,7 +257,11 @@ def getLastExerciseFromList(ID):
     return processOne()
 
 def getMadeExericse(user_id, exercise_id):
-    cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
+    return processOne()
+
+def getProgrammingLanguageCodeOnName(name):
+    cursor.execute('SELECT language_code FROM programmingLanguage WHERE programmingLanguage.name = "{name}" ;'.format(name = name))
     return processOne()
 
 def getSubjectID(name):

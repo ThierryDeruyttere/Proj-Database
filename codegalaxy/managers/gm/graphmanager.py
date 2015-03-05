@@ -107,14 +107,14 @@ class GraphManager:
 
     # data is a list of lists here (multiple different coloured bars -> colorinfos is list of Barcolors (see above))
     # labels still 1 list
-    def addBarData(self,labels,data,colorInfos):
+    def addBarData(self,labels,data,colorInfos,datalabels):
         data_string = ''
         data_string += 'var '+self.addDatavar('D') + ' = {\n'
         data_string += self.addLabels(labels) + '\n'
         data_string += 'datasets : [  \n'
         # loop over lists of data
         for i in range(len(data)):
-            data_string += '{ fillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
+            data_string += '{ label: "'+ datalabels[i]+ '",\nfillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'+'legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<datasets.length; i++){%><li><span style=\"background-color:<%=datasets[i].fillColor%>\"></span><%if(datasets[i].label){%><%=datasets[i].label%><%}%></li><%}%></ul>",\n'
             data_string += 'data : ['
             # per list, do:
             for info in data[i]:
@@ -124,9 +124,9 @@ class GraphManager:
         return data_string
 
 
-    def makeBarChart(self,name,width,height,colorInfos,labels,data):
+    def makeBarChart(self,name,width,height,colorInfos,labels,data,datalabels):
         total_string = ''
-        total_string += self.addBarData(labels,data,colorInfos)
+        total_string += self.addBarData(labels,data,colorInfos,datalabels)
         total_string += self.addGetID(name)
         total_string += 'new Chart('+self.addDatavar('O')+').Bar('+self.addDatavar('D')+');\n'
         total_string = self.addScript(total_string)
