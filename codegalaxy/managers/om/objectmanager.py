@@ -99,10 +99,9 @@ class ObjectManager:
         for group_id in group_info:
             groups.append(self.createGroup(id = group_id['id']))
         return groups
-        
+
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
-
 
     def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, rating=0):
         exercise = dbw.getMadeExericse(user_id, exercise_id)
@@ -116,3 +115,5 @@ class ObjectManager:
     def getInfoForUserForExericse(self, exercise_id, user_id):
         return dbw.getMadeExericse(user_id, exercise_id)
 
+    def getProgrammingLanguageCodeOnName(self,name):
+        return dbw.getProgrammingLanguageCodeOnName(name)['language_code']
