@@ -100,6 +100,12 @@ class ObjectManager:
             groups.append(self.createGroup(id = group_id['id']))
         return groups
 
+    def allSubjects(self):
+        return dbw.getAllSubjects()
+
+    def occurencesOfSubject(self,subject_id):
+        return dbw.getOccurenceOfSubject(subject_id)
+
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
