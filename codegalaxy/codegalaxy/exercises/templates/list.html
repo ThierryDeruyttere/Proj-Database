@@ -56,14 +56,52 @@
           </div>
           <div class="large-2 left columns">
             {% if correct_user %}
-              <a href="#" data-reveal-id="Subject_Modal" class="button tiny radius">Add Subject</a>
+              <a href="#" data-reveal-id="Subject_Modal" class="button tiny radius">Edit list</a>
 
               <div id="Subject_Modal" class="reveal-modal" data-reveal>
-                <h2>Subject name:</h2>
+                <h2>List editor</h2>
                 <form method="POST">
                   {% csrf_token %}
-                  <input type="text" placeholder="Subject name" name="subject_name">
-                  <input type="submit" class="secondary button tiny radius" value="Add Subject">
+                  <div class="row">
+                    <div class="large-4 large-centered columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-3 columns">
+                          <span class="prefix">List name</span>
+                        </div>
+                        <div class="small-9 columns">
+                          <input type="text" id="list_name" name="list_name" class="text-center" value="{{ list_name }}">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="large-4 large-centered columns">
+
+                    <textarea placeholder="Enter description of exercise list" name="description_text">{{ list_description }}</textarea>
+
+                    <div class="row">
+                      <div class="small-10 medium-11 columns">
+                        <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                          <span class="range-slider-active-segment"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-4 large-centered columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-3 columns">
+                          <span class="prefix">Difficulty</span>
+                        </div>
+                        <div class="small-9 columns">
+                          <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <input type="submit" class="secondary button tiny radius" value="Edit">
                   <a class="close-reveal-modal">&#215;</a>
                 </form>
               </div>
