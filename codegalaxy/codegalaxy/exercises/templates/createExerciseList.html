@@ -58,16 +58,14 @@
 
                 </div>
                 <div class="small-3  columns">
-                  <span class="postfix" onclick="javascript:addSubject()"><i class="fi-plus" onclick="javascript:addSubject()"></i></span>
+                  <span class="postfix" id="add-subject"><i class="fi-plus"></i></span>
                 </div>
               </div>
             </div>
             <div class="large-4 large-centered columns">
               <fieldset>
                 <legend>Subjects</legend>
-                <div class="row" id="subjects">
-
-                </div>
+                <div class="row" id="subjects"></div>
               </fieldset>
             </div>
           </div>
@@ -76,34 +74,35 @@
             <div class="large-2 large-centered columns">
               <input type="submit" class="button" value="Create list">
             </div>
-
           </div>
-
-
-
         </div>
       </form>
 
-      <script>
-        var subjects = 0;
-        function addSubject(){
-          var label = document.createElement("span");
-          label.setAttribute("class", "success label");
-          label.innerHTML = document.getElementById("subject").value;
-          label.setAttribute("id", "subject"+subjects);
-          var input = document.createElement("input");
-          input.setAttribute("class", "text");
-          input.setAttribute("hidden", "True");
-          input.value = document.getElementById("subject").value;
-          input.setAttribute("name", "subject"+subjects);
-          document.getElementById("subject").value = "";
-          subjects++;
-
-          document.getElementById("subjects").appendChild(label);
-          document.getElementById("subjects").appendChild(input);
-        }
-
-      </script>
     </div>
   </div>
+
 {% endblock base_body %}
+
+{% block body_js %}
+<script>
+$(document).ready(function(){
+  var subjects = 0;
+  $("#add-subject").click(function(){
+    var label = document.createElement("span");
+    label.setAttribute("class", "success label");
+    label.innerHTML = document.getElementById("subject").value;
+    label.setAttribute("id", "subject"+subjects);
+    var input = document.createElement("input");
+    input.setAttribute("class", "text");
+    input.setAttribute("hidden", "True");
+    input.value = document.getElementById("subject").value;
+    input.setAttribute("name", "subject"+subjects);
+    document.getElementById("subject").value = "";
+    subjects++;
+
+    document.getElementById("subjects").appendChild(label);
+    document.getElementById("subjects").appendChild(input);
+  });
+});
+</script>
+{% endblock body_js %}
