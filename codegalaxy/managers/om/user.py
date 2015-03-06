@@ -68,10 +68,10 @@ class User:
     def allPersonalExercises(self):
         # list of dicts with the key ['prog_lang_id']
         prog_lang_ids = dbw.getProgrammingLanguageIDsOfMadeExForUser(self.id)
-        print(len(prog_lang_ids))
+        print(self.first_name+' '+str(len(prog_lang_ids)))
         real_names = []
         for prog_id in prog_lang_ids:
-            print(prog_id['prog_lang_id'])
+            print('lang: '+ str(prog_id['prog_lang_id']))
             real_names.append(dbw.getNameFromProgLangID(prog_id['prog_lang_id']))
         return real_names
 
