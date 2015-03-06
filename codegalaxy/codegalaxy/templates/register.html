@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
 <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
@@ -22,9 +23,9 @@
               <div class="row">
                 <div class="large-12 columns">
                   <div class="signup-panel">
-                    <p class="welcome">Welcome at CodeGalaxy!</p>
+                    <p class="welcome">{% trans "Welcome at CodeGalaxy!" %}</p>
                     {% if error_register %}
-                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
+                      <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
                     {% endif %}
                   <form method="post" action="/register/" data-abide>
                   {% csrf_token %}
@@ -33,8 +34,8 @@
                         <span class="prefix"><i class="fi-torso size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="text" required placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                        <small class="error">Enter a valid First Name.</small>
+                        <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                        <small class="error">{% trans "Enter a valid First Name." %}</small>
                       </div>
                     </div>
                     <div class="row collapse">
@@ -42,8 +43,8 @@
                         <span class="prefix"><i class="fi-torso size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="text" required placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                        <small class="error">Enter a valid Last Name.</small>
+                        <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                        <small class="error">{% trans "Enter a valid Last Name." %}</small>
                       </div>
                     </div>
                     <div class="row collapse">
@@ -51,8 +52,8 @@
                         <span class="prefix"><i class="fi-mail size-28"></i></span>
                       </div>
                       <div class="small-10  columns">
-                        <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                        <small class="error">Enter a valid Email Address.</small>
+                        <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                        <small class="error">{% trans "Enter a valid Email Address." %}</small>
                       </div>
                     </div>
                     <div class="row collapse">
@@ -60,11 +61,11 @@
                         <span class="prefix"><i class="fi-lock size-28"></i></span>
                       </div>
                       <div class="small-10 columns ">
-                        <input type="password" required placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                        <small class="error">Enter a valid password.</small>
+                        <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password" value="{{ your_password }}">
+                        <small class="error">{% trans "Enter a valid password." %}</small>
                       </div>
                     </div>
-                  <input type="submit" value="Sign Up" name="SignUp" class="button"/>
+                  <input type="submit" value="{% trans "Sign Up" %}" name="SignUp" class="button"/>
                     </form>
                   </div>
                 </div>
@@ -73,7 +74,19 @@
     </div>
 </div>
 
-
+<form action="{% url 'set_language' %}" method="post">
+{% csrf_token %}
+<input name="next" type="hidden" value="{{ redirect_to }}" />
+<select name="language">
+{% get_language_info_list for LANGUAGES as languages %}
+{% for language in languages %}
+<option value="{{ language.code }}"{% if language.code == LANGUAGE_CODE %} selected="selected"{% endif %}>
+    {{ language.name_local }} ({{ language.code }})
+</option>
+{% endfor %}
+</select>
+<input type="submit" value="Go" />
+</form>
 
 
 {% endblock base_body %}

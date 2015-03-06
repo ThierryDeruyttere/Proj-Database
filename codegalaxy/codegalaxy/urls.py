@@ -32,6 +32,9 @@ urlpatterns = patterns('codegalaxy.views',
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
+    # TRANSLATIONS ##
+    (r'^i18n/', include('django.conf.urls.i18n')),
+
     ## TESTING ##
     # Zurb Foundation test pages
     url(r'zurb/', include('foundation.urls')),
@@ -39,7 +42,8 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^test', 'test'),
     url(r'^tables/', 'tables'),
     url(r'^python$', 'python'),
-    url(r'^graphs', 'graphs')
+    url(r'^graphs', 'graphs'),
+    url(r'translation', 'translation')
 )
 
 urlpatterns += patterns('',

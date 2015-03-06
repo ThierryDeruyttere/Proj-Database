@@ -1,0 +1,67 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-03-06 18:46+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: codegalaxy/templates/register.html:26
+msgid "Welcome at CodeGalaxy!"
+msgstr "Welkom bij CodeGalaxy!"
+
+#: codegalaxy/templates/register.html:28
+msgid "Incorrect email and/or password."
+msgstr "Er bestaat al een gebruiker met dit email adres."
+
+#: codegalaxy/templates/register.html:37
+msgid "First Name"
+msgstr "Voornaam"
+
+#: codegalaxy/templates/register.html:38
+msgid "Enter a valid First Name."
+msgstr "Vul je voornaam in."
+
+#: codegalaxy/templates/register.html:46
+msgid "Last Name"
+msgstr "Achternaam"
+
+#: codegalaxy/templates/register.html:47
+msgid "Enter a valid Last Name."
+msgstr "Vul je achternaam in."
+
+#: codegalaxy/templates/register.html:55
+msgid "Email Address"
+msgstr "Email adres"
+
+#: codegalaxy/templates/register.html:56
+msgid "Enter a valid Email Address."
+msgstr "Vul een geldig email adres in."
+
+#: codegalaxy/templates/register.html:64
+msgid "Password"
+msgstr "Paswoord"
+
+#: codegalaxy/templates/register.html:65
+msgid "Enter a valid password."
+msgstr "Vul een geldig paswoord in."
+
+#: codegalaxy/templates/register.html:68
+msgid "Sign Up"
+msgstr "Registreer"
+
+#: codegalaxy/views.py:302
+msgid "ENGLISH"
+msgstr "NEDERLANDS"

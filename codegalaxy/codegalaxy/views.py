@@ -1,5 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.translation import ugettext as _
 from django.contrib.auth.hashers import make_password
 
 import hashlib
@@ -70,7 +71,7 @@ def register(request):
             object_manager.addVerification(email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
         except:
-            return render(request, 'register.html', {'error_register': 'This email address is alread in use.'})
+            return render(request, 'register.html', {'error_register': True})
 
     return render(request, 'register.html', {})
 
@@ -296,3 +297,6 @@ def graphs(request):
     test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],["January","February","March","April","May","June"],[[456,479,324,569,702,600],[364,504,605,400,345,320]])
 
     return render(request, 'graphs.html',{'teststr': test_line_graph,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph})
+
+def translation(request):
+    return HttpResponse(_("ENGLISH"));
