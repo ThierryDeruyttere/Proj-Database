@@ -70,17 +70,19 @@ class StatisticsAnalyzer:
         all_prog_languages = object_manager.allProgrammingLanguages()
         user = object_manager.createUser(id = user_id)
         friend = object_manager.createUser(id = friend_id)
+        user_ex = user.allPersonalExercises()
+        friend_ex = friend.allPersonalExercises()
         #allPersonalExercises
         for prog_lang in all_prog_languages:
             result['labels'].append(prog_lang['name'])
             user_count = 0
-            for ex in user.allPersonalExercises():
-                if ex == prog_lang['name']:
+            for ex in user_ex :
+                if ex['name'] == prog_lang['name']:
                     user_count += 1
             result['data'][0].append([user_count])
             friend_count = 0
-            for ex in friend.allPersonalExercises():
-                if ex == prog_lang['name']:
+            for ex in friend_ex :
+                if ex['name'] == prog_lang['name']:
                     friend_count += 1
             result['data'][1].append([friend_count])
         return result
