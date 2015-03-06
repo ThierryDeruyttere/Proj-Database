@@ -101,6 +101,19 @@
                     </div>
                   </div>
 
+                  <div class="large-4 large-centered columns">
+                    <fieldset>
+                      <legend>Subjects</legend>
+                      <div class="row" id="subjects">
+                        {% for subject in subjects %}
+                          <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
+                          <input type="hidden" id="{{ subject }}_text" name="subject{{ forloop.counter0 }}" hidden="True" class="text-center" value="{{ subject }}">
+                        {% endfor %}
+                      </div>
+                    </fieldset>
+                    <h6>click on a subject to delete it</h6>
+                  </div>
+
                   <input type="submit" class="secondary button tiny radius" value="Edit">
                   <a class="close-reveal-modal">&#215;</a>
                 </form>
@@ -137,3 +150,19 @@
   </div>
 
 {% endblock base_body %}
+
+{% block body_js %}
+  <script>
+
+    function removeSubject(obj){
+
+      $( '#' + obj.id ).fadeOut( "slow", function() {
+        // Animation complete.
+        obj.parentNode.removeChild(obj);
+        var text = document.getElementById(obj.id + "_text" );
+        text.parentNode.removeChild(text);
+      });
+    }
+
+  </script>
+{% endblock %}
