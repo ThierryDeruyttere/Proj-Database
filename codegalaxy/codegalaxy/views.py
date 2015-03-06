@@ -303,5 +303,4 @@ def graphs(request):
     stats = statistics_analyzer.mostPopularSubjectsTopX(1)
     test_bar_graph4 = graph_manager.makeBarChart('kek4',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["subject"])
 
-
     return render(request, 'graphs.html',{'teststr': test_bar_graph2,'teststr2' : test_pie_graph,'teststr3' : test_bar_graph,'teststr4' : test_bar_graph3,'teststr5' : test_bar_graph4})
