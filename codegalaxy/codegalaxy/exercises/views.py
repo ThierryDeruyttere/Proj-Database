@@ -30,7 +30,7 @@ def createExerciseList(request):
         while(request.POST.get("subject"+str(current_subject)) != None):
             exericse_list.addSubject(request.POST.get("subject"+ str(current_subject)))
             current_subject += 1
-            
+
         return redirect("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html',{"languages": languages})
@@ -50,13 +50,15 @@ def list(request, id=0):
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
         correct_user = (request.session['current_user'] == exercise_list.created_by)
+        subjects = exercise_list.allSubjects()
         return render(request, 'list.html', {'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
                                              'list_programming_lang': prog_lang,
                                              'correct_user': correct_user,
                                              'id': exercise_list.id,
-                                             'all_exercises': all_exercises})
+                                             'all_exercises': all_exercises,
+                                             'subjects': subjects})
     else:
         return redirect('/')
 

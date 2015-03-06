@@ -34,6 +34,18 @@
             </ul>
           </div>
         </div>
+        <div class ="row">
+          <div class="large-6 large-centered text-center columns">
+            <ul class="pricing-table">
+              <li class="title">Subjects</li>
+              <li class="price">
+                {% for subject in subjects %}
+                  <span class="success label">{{ subject }}</span>
+                {% endfor %}
+              </li>
+            </ul>
+          </div>
+        </div>
         <hr>
 
         <div class="row">
