@@ -29,8 +29,8 @@ def createExerciseList(request):
 
         while(request.POST.get("subject"+str(current_subject)) != None):
             exericse_list.addSubject(request.POST.get("subject"+ str(current_subject)))
-            ++current_subject
-
+            current_subject += 1
+            
         return redirect("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html',{"languages": languages})

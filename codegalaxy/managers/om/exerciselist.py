@@ -46,7 +46,8 @@ class ExerciseList:
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
-        subject_id = int(dbw.getSubjectID(subject_name))
+        subject_id = int(dbw.getSubjectID(subject_name)["id"])
+
         dbw.insertHasSubject(self.id, subject_id)
 
     def deleteSubject(self):
