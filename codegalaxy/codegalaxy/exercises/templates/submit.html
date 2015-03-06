@@ -2,6 +2,7 @@
 
 {% block base_body %}
   {% load staticfiles %}
+  {% load custom_filters %}
 
   <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
   <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
@@ -32,6 +33,13 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="row">
+            Rating:
+            {% for i in 5|get_range %}
+                
+            {% endfor %}
           </div>
 
           <div class="row">

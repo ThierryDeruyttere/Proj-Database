@@ -45,6 +45,8 @@ INSTALLED_APPS = (
     'dbw',
     'skulpt',
     'chartjs',
+    'custom_filters',
+
 )
 
 MIDDLEWARE_CLASSES = (
