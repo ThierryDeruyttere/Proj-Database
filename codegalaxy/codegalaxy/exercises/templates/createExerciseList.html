@@ -84,21 +84,26 @@
         </div>
       </form>
 
-    <script>
-      var subjects = 0;
-      function addSubject(){
-        var label = document.createElement("span");
-        label.setAttribute("class", "success label");
-        label.innerHTML = document.getElementById("subject").value;
-        document.getElementById("subject").value = "";
-        label.setAttribute("id", "subject"+subjects);
-        label.setAttribute("name", "subject"+subjects);
-        subjects++;
+      <script>
+        var subjects = 0;
+        function addSubject(){
+          var label = document.createElement("span");
+          label.setAttribute("class", "success label");
+          label.innerHTML = document.getElementById("subject").value;
+          label.setAttribute("id", "subject"+subjects);
+          var input = document.createElement("input");
+          input.setAttribute("class", "text");
+          input.setAttribute("hidden", "True");
+          input.value = document.getElementById("subject").value;
+          input.setAttribute("name", "subject"+subjects);
+          document.getElementById("subject").value = "";
+          subjects++;
 
-        document.getElementById("subjects").appendChild(label);
-      }
+          document.getElementById("subjects").appendChild(label);
+          document.getElementById("subjects").appendChild(input);
+        }
 
-    </script>
+      </script>
     </div>
   </div>
 {% endblock base_body %}

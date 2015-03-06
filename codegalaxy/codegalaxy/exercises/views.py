@@ -26,6 +26,7 @@ def createExerciseList(request):
         #get subjects
         current_subject = 0
         exericse_list = object_manager.createExerciseList(exlist_id)
+
         while(request.POST.get("subject"+str(current_subject)) != None):
             exericse_list.addSubject(request.POST.get("subject"+ str(current_subject)))
             ++current_subject
