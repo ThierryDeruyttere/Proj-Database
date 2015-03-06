@@ -87,5 +87,21 @@ class StatisticsAnalyzer:
             result['data'][1].append([friend_count])
         return result
 
+    #WIP
+    def mostPopularSubjectsTopX(self,X):
+        result = {}
+        # Names of Users
+        result['labels'] = []
+        # Amount of exerciselists
+        result['data'] = []
+        result['data'].append([])
+        subjects = object_manager.allSubjects()
+        subjects_list = [(item['name'],object_manager.occurencesOfSubject(item['id'])['amount']) for item in subjects]
+        subjects_list.sort(key=lambda x: x[1], reverse=True)
+        subjects_list = subjects_list[:X]
+        for i in range(X):
+            result['data'][0].append(subjects_list[i][1])
+            result['labels'].append(subjects_list[i][0])
+        return result
 
 # Used with Line Graphs

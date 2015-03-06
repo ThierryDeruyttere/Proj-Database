@@ -266,6 +266,13 @@ def getProgrammingLanguageCodeOnName(name):
 
 def getSubjectID(name):
     cursor.execute('select id from subject WHERE name = "{name}"'.format(name = name))
+
+def getAllSubjects():
+    cursor.execute('SELECT * FROM subject')
+    return processData()
+
+def getOccurenceOfSubject(subject_id):
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject WHERE hasSubject.subject_id = {id};'.format(id = subject_id))
     return processOne()
 
 ##INSERT
