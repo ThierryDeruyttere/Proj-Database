@@ -38,19 +38,27 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+    subjects = exercise_list.allSubjects()
 
     if request.method == 'POST':
-        subject_name = request.POST.get('subject_name', '')
-        dbw.insertSubject(subject_name)
-        #get subjectID
-        #link with exerciseLIST
-        #TODO how to add?
+        updated_list_name = request.POST.get('updated_list_name')
+        updated_difficulty = request.POST.get('updated_difficulty')
+        updated_subjects_amount = int(request.POST.get('current_subjects'))
+        updated_subjects = []
+        for i in range(updated_subjects_amount):
+            subject = request.POST.get('subject' + str(i))
+            if(subject is not None):
+                updated_subjects.append(subject)
+
+
+        removed_subjects = set(subjects) - set(updated_subjects)
+        for subject in removed_subjects:
+            exercise_list.removeSubject(subject)
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
         correct_user = (request.session['current_user'] == exercise_list.created_by)
-        subjects = exercise_list.allSubjects()
         return render(request, 'list.html', {'list_name' : exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,

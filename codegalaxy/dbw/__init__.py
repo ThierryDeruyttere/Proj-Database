@@ -342,6 +342,9 @@ def deleteAnswers(exercise_id):
 def deleteHints(hint_id):
     cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id = hint_id))
 
+def deleteSubjectFromHasSubject(list_id, subject_id):
+    cursor.execute('DELETE FROM hasSubject WHERE exerciseList_id = {list_id} AND subject_id = {subject_id}'.format(subject_id = subject_id, list_id = list_id))
+
 #TRIVIA
 
 def countExerciseListsForProgrammingLanguageID(prog_lang_id):

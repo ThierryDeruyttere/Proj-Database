@@ -69,7 +69,7 @@
                           <span class="prefix">List name</span>
                         </div>
                         <div class="small-9 columns">
-                          <input type="text" id="list_name" name="list_name" class="text-center" value="{{ list_name }}">
+                          <input type="text" id="list_name" name="updated_list_name" class="text-center" value="{{ list_name }}">
                         </div>
                       </div>
                     </div>
@@ -95,7 +95,7 @@
                           <span class="prefix">Difficulty</span>
                         </div>
                         <div class="small-9 columns">
-                          <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                          <input type="text" id="difficulty" name="updated_difficulty" readonly="True" class="text-center">
                         </div>
                       </div>
                     </div>
@@ -112,10 +112,47 @@
                       </div>
                     </fieldset>
                     <h6>click on a subject to delete it</h6>
+                    <div class="row collapse prefix-radius">
+                      <div class="small-4 columns">
+                        <span class="prefix">New subject</span>
+                      </div>
+                      <div class="small-6 columns">
+                        <input type="text" id="subject" name="subject" class="text-center">
+
+                      </div>
+                      <div class="small-2  columns">
+                        <span class="postfix" id="add-subject"><i class="fi-plus"></i></span>
+                      </div>
+                    </div>
+                  </div>
+
+
+                  <div class ="row">
+                    <div class="large-10 large-centered columns">
+                      <ul class="pricing-table" id="drag_drop" ondrop="javascript:drop(event)" ondragover="javascript:allowDrop(event)">
+                        <li class="title">Exercises</li>
+                        <div class="row">
+                          <ul class="accordion" data-accordion>
+                            {% for exercise in all_exercises %}
+                              <li class="accordion-navigation" draggable="true" ondragstart="javascript:startdrag(event)">
+                                <a href="#Exerc{{ exercise.id }}"> {{ exercise.title }}</a>
+                                <div id="Exerc{{ exercise.id }}" class="content">
+                                  <div class="row">
+                                    <a href="#" class="button tiny radius">Edit exercise</a>
+                                  </div>
+                                </div>
+                              </li>
+                            {% endfor %}
+                          </ul>
+                          <li class="price"></li>
+                        </div>
+                      </ul>
+                    </div>
                   </div>
 
                   <input type="submit" class="secondary button tiny radius" value="Edit">
                   <a class="close-reveal-modal">&#215;</a>
+                  <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
                 </form>
               </div>
             {% endif %}
@@ -123,7 +160,7 @@
         </div>
 
         <div class ="row">
-          <div class="large-10 large-centered columns"">
+          <div class="large-10 large-centered columns">
           <ul class="pricing-table">
             <li class="title">Exercises</li>
             <div class="row">
@@ -154,6 +191,42 @@
 {% block body_js %}
   <script>
 
+    var subjects = {{ subjects|length }};
+
+    $(document).ready(function(){
+      $("#add-subject").click(function(){
+        var label = document.createElement("span");
+        label.setAttribute("class", "success label");
+        label.innerHTML = document.getElementById("subject").value;
+        label.setAttribute("id", "subject"+subjects);
+        label.onclick = function(){
+          $( '#' + label.id ).fadeOut( "slow", function() {
+            // Animation complete.
+            var elem = document.getElementById(label.id);
+            elem.parentNode.removeChild(elem);
+            var text = document.getElementById(label.id +"_text");
+            text.parentNode.removeChild(text);
+          });
+        };
+
+        var input = document.createElement("input");
+        input.setAttribute("class", "text");
+        input.setAttribute("hidden", "True");
+        input.setAttribute("id", "subject"+subjects+"_text");
+        input.value = document.getElementById("subject").value;
+        input.setAttribute("name", "subject"+subjects);
+        document.getElementById("subject").value = "";
+        subjects++;
+
+        document.getElementById("current_subjects").value = subjects;
+        document.getElementById("subjects").appendChild(label);
+        document.getElementById("subjects").appendChild(input);
+        //$(document).foundation();
+        //$(document).foundation('span', 'reflow');
+
+      });
+    });
+
     function removeSubject(obj){
 
       $( '#' + obj.id ).fadeOut( "slow", function() {
@@ -161,8 +234,22 @@
         obj.parentNode.removeChild(obj);
         var text = document.getElementById(obj.id + "_text" );
         text.parentNode.removeChild(text);
+
       });
     }
 
+    function allowDrop(event) {
+      ev.preventDefault();
+    }
+
+    function startdrag(event) {
+      event.dataTransfer.setData("text", event.target.id);
+    }
+
+    function drop(event) {
+      event.preventDefault();
+      var data = event.dataTransfer.getData("text");
+      event.target.appendChild(document.getElementById(data));
+    }
   </script>
 {% endblock %}
