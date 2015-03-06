@@ -355,3 +355,18 @@ def latestAnswer(exercise_id,language_id):
 def latestHint(exercise_id,language_code):
     cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id = language_id,ex_id = exercise_id))
     return processOne()
+
+# USER VERIFICATION
+def needsVerification(hash):
+    cursor.execute('SELECT email FROM verification WHERE hash = "{hash}";'.format(hash = hash))
+    result = processOne()
+    if result:
+        return result['email']
+    else:
+        return None
+
+def removeVerification(hash):
+    cursor.execute('DELETE FROM verification WHERE hash = "{hash}";'.format(hash = hash))
+
+def addVerification(email, hash):
+    cursor.execute('INSERT INTO verification(email, hash) VALUES ("{email}","{hash}");'.format(email = email, hash = hash))

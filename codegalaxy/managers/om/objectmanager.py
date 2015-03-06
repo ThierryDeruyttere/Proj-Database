@@ -98,7 +98,7 @@ class ObjectManager:
         for group_id in group_info:
             groups.append(self.createGroup(id = group_id['id']))
         return groups
-        
+
     def countExerciseListsForProgrammingLanguageID(self,id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
@@ -120,3 +120,12 @@ class ObjectManager:
 
     def getIdOfSubject(self,name):
         return dbw.getSubjectID(name)["id"]
+
+    def needsVerification(self, hash):
+        return dbw.needsVerification(hash)
+
+    def addVerification(self, email, hash):
+        dbw.addVerification(email, hash)
+
+    def acceptVerification(self, hash):
+        dbw.removeVerification(hash)

@@ -147,6 +147,13 @@ CREATE TABLE madeList(
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
+CREATE TABLE verification(
+  email VARCHAR(255) NOT NULL UNIQUE,
+  hash VARCHAR(255) NOT NULL UNIQUE,
+  PRIMARY KEY(hash),
+  FOREIGN KEY (email) REFERENCES user(email)
+);
+
 # User data
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'root', 'admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com');
 INSERT INTO user(is_active, first_name, last_name, password, email) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com');

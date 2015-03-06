@@ -21,6 +21,8 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^me', 'me'),
     # Register (/register)
     url(r'^register', 'register'),
+    # Email verification
+    url(r'^verification/(?P<hash_seq>[a-zA-Z0-9_]{32})$', 'verify'),
 
     ## GROUPS ##
     # Group page (/g/<id>)
@@ -29,7 +31,6 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^g/overview/$', 'groupOverview'),
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
-
 
     ## TESTING ##
     # Zurb Foundation test pages
