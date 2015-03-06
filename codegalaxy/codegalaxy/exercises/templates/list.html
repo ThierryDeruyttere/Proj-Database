@@ -77,7 +77,7 @@
 
                   <div class="large-4 large-centered columns">
 
-                    <textarea placeholder="Enter description of exercise list" name="description_text">{{ list_description }}</textarea>
+                    <textarea placeholder="Enter description of exercise list" name="updated_description_text">{{ list_description }}</textarea>
 
                     <div class="row">
                       <div class="small-10 medium-11 columns">
@@ -98,6 +98,22 @@
                           <input type="text" id="difficulty" name="updated_difficulty" readonly="True" class="text-center">
                         </div>
                       </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="large-4 large-centered columns">
+                      <label>Programming language</label>
+                      <select name="prog_lang">
+                        {% for lang in programming_languages %}
+                          {% if lang.name == current_prog_lang %}
+                            <option value="{{ lang.name }}" selected>{{ lang.name }}</option>
+                          {% else %}
+                            <option value="{{ lang.name }}">{{ lang.name }}</option>
+                          {% endif %}
+
+                        {% endfor %}
+                      </select>
                     </div>
                   </div>
 
@@ -161,29 +177,29 @@
 
         <div class ="row">
           <div class="large-10 large-centered columns">
-          <ul class="pricing-table">
-            <li class="title">Exercises</li>
-            <div class="row">
-              <ul class="accordion" data-accordion>
-                {% for exercise in all_exercises %}
-                  <li class="accordion-navigation">
-                    <a href="#Exerc{{ exercise.id }}"> {{ exercise.title }}</a>
-                    <div id="Exerc{{ exercise.id }}" class="content">
-                      <div class="row">
-                        <a href="/l/{{ id }}/{{ exercise.id }}" class="button tiny radius">Solve exercise</a>
+            <ul class="pricing-table">
+              <li class="title">Exercises</li>
+              <div class="row">
+                <ul class="accordion" data-accordion>
+                  {% for exercise in all_exercises %}
+                    <li class="accordion-navigation">
+                      <a href="#Exerc{{ exercise.id }}"> {{ exercise.title }}</a>
+                      <div id="Exerc{{ exercise.id }}" class="content">
+                        <div class="row">
+                          <a href="/l/{{ id }}/{{ exercise.id }}" class="button tiny radius">Solve exercise</a>
+                        </div>
                       </div>
-                    </div>
-                  </li>
-                {% endfor %}
-              </ul>
-              <li class="price"></li>
-            </div>
-          </ul>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <li class="price"></li>
+              </div>
+            </ul>
+          </div>
         </div>
-      </div>
 
+      </div>
     </div>
-  </div>
   </div>
 
 {% endblock base_body %}
@@ -251,5 +267,7 @@
       var data = event.dataTransfer.getData("text");
       event.target.appendChild(document.getElementById(data));
     }
+
+
   </script>
 {% endblock %}

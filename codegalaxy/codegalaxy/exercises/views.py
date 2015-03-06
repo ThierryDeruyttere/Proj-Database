@@ -15,7 +15,7 @@ object_manager = objectmanager.ObjectManager()
 
 @require_login
 def createExerciseList(request):
-    languages = dbw.getAll("programmingLanguage")
+    languages = object_manager.allProgrammingLanguages()
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
@@ -39,21 +39,37 @@ def createExerciseList(request):
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
     subjects = exercise_list.allSubjects()
+    languages = object_manager.allProgrammingLanguages()
+    current_language = exercise_list.programming_language_string
+
+    if subjects is None:
+        subjects = []
 
     if request.method == 'POST':
         updated_list_name = request.POST.get('updated_list_name')
         updated_difficulty = request.POST.get('updated_difficulty')
         updated_subjects_amount = int(request.POST.get('current_subjects'))
         updated_subjects = []
+        updated_prog_lang = request.POST.get('prog_lang', '')
+        updated_description = request.POST.get('updated_description_text')
+
         for i in range(updated_subjects_amount):
             subject = request.POST.get('subject' + str(i))
-            if(subject is not None):
+            if subject is not None:
                 updated_subjects.append(subject)
 
 
         removed_subjects = set(subjects) - set(updated_subjects)
+        intersection = set(subjects) & set(updated_subjects)
+        subjects_to_add = set(updated_subjects) - intersection
+
         for subject in removed_subjects:
-            exercise_list.removeSubject(subject)
+            exercise_list.deleteSubject(subject)
+
+        for subject in subjects_to_add:
+            exercise_list.addSubject(subject)
+
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
@@ -66,7 +82,9 @@ def list(request, id=0):
                                              'correct_user': correct_user,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises,
-                                             'subjects': subjects})
+                                             'subjects': subjects,
+                                             'programming_languages': languages,
+                                             'current_prog_lang': current_language})
     else:
         return redirect('/')
 

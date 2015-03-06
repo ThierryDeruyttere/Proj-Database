@@ -309,7 +309,9 @@ def insertExerciseList(name, description ,difficulty, created_by, created_on, pr
     return processOne()
 
 def insertSubject(name):
-    cursor.execute('INSERT INTO subject(name) VALUES ("{name}");'.format(name = name))
+    #First check if subject is already in db
+    if( getSubjectID(name) is None):
+        cursor.execute('INSERT INTO subject(name) VALUES ("{name}");'.format(name = name))
 
 def insertHasSubject(exerciseList_id, subject_id):
     cursor.execute('INSERT INTO hasSubject(exerciseList_id,subject_id) VALUES ({e_id},{s_id});'.format(e_id = exerciseList_id, s_id = subject_id))
