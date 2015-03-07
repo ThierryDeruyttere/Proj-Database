@@ -6,8 +6,12 @@ object_manager = objectmanager.ObjectManager()
 # MULTIPLIERS==============================================================================================
 
 #ARBITRAIR MULTIPLIERSYSTEEM:
-#Dates ouder dan week / 2
+#avg vd Dates ouder dan week / 2
 #Dates ouder dan maand / 4
+
+def timeMultiplier(user, subject_id):
+    pass
+
 #AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
 #Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
 
@@ -35,7 +39,10 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
     subject_ids = object_manager.getAllSubjectIDs()
     for subject_id in subject_ids:
         subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id, dates, ratings)
+        # taking ratings of the subject into account
         subject_scores[subject_id] *= ratingMultiplier(user)
+        # taking into account how old the lists with that subject are
+        #subject_scores[subject_id] *= timeMultiplier(user)
 
 # friends are taken into account a bit more for the overlap_scores
 def friendsMultiplier(user_id, other_user_id):
