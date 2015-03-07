@@ -7,6 +7,7 @@
   <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
   <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
   <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+  <link rel="stylesheet" href="{% static "custom_css/exercise_style.css" %}">
 
   <div class="row">
     <div class="large-12 columns">
@@ -36,18 +37,26 @@
           </div>
 
           <div class="row">
-            Rating:
-            {% for i in 5|get_range %}
-                <i class="fi-star" id="star{{ i }}"></i>
-            {% endfor %}
+            <div class="large-12 columns large-text-center">
+              Rating:<br/>
+              <div class="rating">
+                {% for i in 5|get_range %}
+                  <i class="fi-star" id="star{{ i }}" onclick="javascript:rate(this)"></i>
+                {% endfor %}
+                <form id="user_rating" method="POST">
+                  {% csrf_token %}
+                  <input id="current_rating" name="current_rating" value="1" type="hidden">
+                </form>
+              </div>
+            </div>
           </div>
 
           <div class="row">
             <div class="large-6 large-text-center columns">
-              <a href=".." class="button small radius">Return to list</a>
+              <a href="#" id="exercise_list" class="button small radius">Return to list</a>
             </div>
             <div class="large-6 large-text-center columns">
-              <a href="../{{ next_exercise }}" class="button success small radius">Next exercise</a>
+              <a id="next_exercise" href="#" class="button success small radius">Next exercise</a>
             </div>
           </div>
 
@@ -128,3 +137,29 @@
   </div>
 
 {% endblock base_body %}
+{% block body_js %}
+  <script>
+    function rate(obj){
+      var id = obj.id;
+      var value = id.replace("star","");
+      var current_rating = 5 - value;
+      document.getElementById("current_rating").value = current_rating.toString();
+    }
+
+    function sendForm(){
+      var form =  document.getElementById("user_rating");
+      form.submit();
+      return true;
+    }
+    
+    $("#exercise_list").on('click', function() {
+      sendForm();
+      window.location = "../{{ next_exercise }}";
+    });
+
+    $("#next_exercise").on('click', function() {
+      sendForm();
+      window.location = "..";
+    });
+  </script>
+{% endblock body_js %}

@@ -199,11 +199,18 @@ def submit(request, list_id, question_id):
         if current_exercise is None:
             return redirect('/')
 
+
+
         if request.method == "POST":
+            rating = request.POST.get("current_rating")
+            print("DID RATE")
+            print(rating)
+            if rating is not None:
+                return redirect('/')
+
             info = object_manager.getInfoForUserForExericse(question_id, user.id)
             penalty= current_exercise.penalty
             current_score = None
-
             if info is not None:
                 current_score = info['exercise_score']
 
@@ -248,13 +255,14 @@ def submit(request, list_id, question_id):
                 next_exercise = ""
 
             return render(request, 'submit.html', {"solved" : solved,
-                                               "list_id": list_id,
-                                               "question_id": question_id,
-                                               "current_score": current_score,
-                                               "max_score": max_score,
-                                               "question_type": current_exercise.exercise_type,
-                                               "user_output": user_output,
-                                               "next_exercise": next_exercise})
+                                                   "list_id": list_id,
+                                                   "question_id": question_id,
+                                                   "current_score": current_score,
+                                                   "max_score": max_score,
+                                                   "question_type": current_exercise.exercise_type,
+                                                   "user_output": user_output,
+                                                   "next_exercise": next_exercise})
+
 
     else:
         return redirect('/')
