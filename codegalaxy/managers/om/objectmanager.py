@@ -8,8 +8,10 @@ import dbw
 
 
 class ObjectManager:
+
     '''Class which will consist of a few make-functions for objects by using SQL queries
     then some info-gathering functions for the views'''
+
     def __init__(self):
         pass
 
@@ -27,70 +29,66 @@ class ObjectManager:
             user_info = dbw.getUserOnEmail(kwargs['email'])
 
         if user_info:
-            user_object = managers.om.user.User(user_info['id'],user_info['first_name'],user_info['last_name'],
-            user_info['is_active'],user_info['email'],user_info['permission'], user_info['password']
-            , user_info['joined_on'], user_info['last_login'], user_info['gender'])
+            user_object = managers.om.user.User(user_info['id'], user_info['first_name'], user_info['last_name'],
+                                                user_info['is_active'], user_info['email'], user_info['permission'], user_info['password'], user_info['joined_on'], user_info['last_login'], user_info['gender'])
             return user_object
         else:
             return None
 
     # Uses the DB to create an object representing a Group
-    def createGroup(self,id):
+    def createGroup(self, id):
         group_info = dbw.getGroupInformation(id)
         if group_info:
-            group_object = managers.om.group.Group(id,group_info['group_name'],group_info['group_type'],group_info['created_on'])
+            group_object = managers.om.group.Group(id, group_info['group_name'], group_info['group_type'], group_info['created_on'])
             return group_object
         else:
             return None
 
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self,id,language_code):
-        exercise_info = dbw.getExerciseInformation(id,language_code)
+    def createExercise(self, id, language_code):
+        exercise_info = dbw.getExerciseInformation(id, language_code)
         if exercise_info:
-            exercise_object = managers.om.exercise.Exercise(id,exercise_info['difficulty'],
-            exercise_info['max_score'],exercise_info['penalty'],exercise_info['exercise_type']
-            ,exercise_info['programming_language'],exercise_info['code_text'],exercise_info['question_text']
-            ,language_code,exercise_info['correct_answer'],exercise_info['language_name'], exercise_info['title'])
+            exercise_object = managers.om.exercise.Exercise(id, exercise_info['difficulty'],
+                                                            exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'])
             return exercise_object
         else:
             return None
 
     # Uses the DB to create an object representing a ExerciseList
-    def createExerciseList(self,id):
+    def createExerciseList(self, id):
         exercise_list_info = dbw.getExerciseListInformation(id)
         if exercise_list_info:
 
-            exercise_list_object = managers.om.exerciselist.ExerciseList(id,exercise_list_info['name'],
-            exercise_list_info['difficulty'],exercise_list_info['description'],
-            exercise_list_info['created_by'], exercise_list_info['created_on'],
-            exercise_list_info['prog_lang_id'])
+            exercise_list_object = managers.om.exerciselist.ExerciseList(id, exercise_list_info['name'],
+                                                                         exercise_list_info['difficulty'], exercise_list_info['description'],
+                                                                         exercise_list_info['created_by'], exercise_list_info['created_on'],
+                                                                         exercise_list_info['prog_lang_id'])
             return exercise_list_object
         else:
             return None
 
-
     # INSERT functions will insert info into the DB by calling dbw functions
 
-    def insertUser(self,first_name, last_name, email, password,joined_on,last_login,gender):
-        dbw.insertUser(first_name, last_name,password, email,1,joined_on,last_login,gender)
+    def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
+        dbw.insertUser(first_name, last_name, password, email, 1, joined_on, last_login, gender)
 
-    def insertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_name):
+    def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
-        return dbw.insertExerciseList(name, description ,difficulty,created_by,created_on,prog_lang_id)["highest_id"]
+        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id)["highest_id"]
 
-    def insertGroup(self,group_name, group_type,created_on):
-        dbw.insertGroup(group_name, group_type,created_on)
+    def insertGroup(self, group_name, group_type, created_on):
+        dbw.insertGroup(group_name, group_type, created_on)
 
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
         # do you just need the name? id?
-        #return [x['name'] for x in dbw.getAll("programmingLanguage")]
+        # return [x['name'] for x in dbw.getAll("programmingLanguage")]
 
     def allUsers(self):
         users = []
         user_info = dbw.getAllUserIDs()
         for user_id in user_info:
-            users.append(self.createUser(id = user_id['id']))
+            users.append(self.createUser(id=user_id['id']))
         return users
 
     def allSubjectIDs(self):
@@ -101,28 +99,27 @@ class ObjectManager:
         groups = []
         group_info = dbw.getAllGroupIDs()
         for group_id in group_info:
-            groups.append(self.createGroup(id = group_id['id']))
+            groups.append(self.createGroup(id=group_id['id']))
         return groups
 
-    def countExerciseListsForProgrammingLanguageID(self,id):
+    def countExerciseListsForProgrammingLanguageID(self, id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
-
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise,completed_on, rating=0):
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, rating=0):
         exercise = dbw.getMadeExericse(user_id, exercise_id)
         if exercise:
-            #update
+            # update
             pass
         else:
-            dbw.insertMadeExercise(user_id,exercise_id, made_exercise, exercise_score, rating,completed_on)
+            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on)
 
     def getInfoForUserForExericse(self, exercise_id, user_id):
         return dbw.getMadeExericse(user_id, exercise_id)
 
     def addSubject(self, name):
-         dbw.insertSubject(name)
+        dbw.insertSubject(name)
 
-    def getIdOfSubject(self,name):
+    def getIdOfSubject(self, name):
         return dbw.getSubjectID(name)["id"]
 
     def needsVerification(self, hash):

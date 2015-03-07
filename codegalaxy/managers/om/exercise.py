@@ -10,10 +10,11 @@ def decodeString(fromVar):
 
 
 class Exercise:
+
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
-    def __init__(self,id,difficulty,max_score,penalty,exercise_type,programming_language
-    ,code,question,language_code,correct_answer,language_name, title):
+
+    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title):
         self.id = id
         # (Integer ranging from 1-5)
         self.difficulty = difficulty
@@ -35,18 +36,18 @@ class Exercise:
         self.correct_answer = correct_answer
         # Django code for the name
         self.language_code = language_code
-        #Exercise title
+        # Exercise title
         self.title = title
 
     def __str__(self):
-        return str(self.difficulty)+' '+str(self.max_score)+' '+str(self.penalty)+' '+str(self.exercise_type)+' '+str(self.programming_language)+' '+self.code+' '+self.question+' '+self.language_name+' '+str(self.correct_answer)+' '+str(self.language_code)
+        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' ' + str(self.correct_answer) + ' ' + str(self.language_code)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
-        answer_info = dbw.getExerciseAnswers(self.id,self.language_name)
+        answer_info = dbw.getExerciseAnswers(self.id, self.language_name)
         if answer_info:
             # first we add the data to a list of tuples
-            answer_unordered_list = [(x['answer_text'],x['answer_number']) for x in answer_info]
+            answer_unordered_list = [(x['answer_text'], x['answer_number']) for x in answer_info]
             # We sort on the second element of every tuple
             sorted_answers = sorted(answer_unordered_list, key=lambda tup: tup[1])
             # We don't need the number anymore
@@ -57,10 +58,10 @@ class Exercise:
 
     # List of strings depicting hints
     def allHints(self):
-        hint_info = dbw.getExerciseHints(self.id,self.language_name)
+        hint_info = dbw.getExerciseHints(self.id, self.language_name)
         if hint_info:
             # first we add the data to a list of tuples
-            hint_unordered_list = [(x['hint_text'],x['hint_number']) for x in hint_info]
+            hint_unordered_list = [(x['hint_text'], x['hint_number']) for x in hint_info]
             # We sort on the second element of every tuple
             sorted_hints = sorted(hint_unordered_list, key=lambda tup: tup[1])
             # We don't need the number anymore
@@ -69,30 +70,31 @@ class Exercise:
         else:
             return None
 
-    #inserts a list of answer_texts (also deletes the previous ones)
-    def updateAnswers(self,answers):
+    # inserts a list of answer_texts (also deletes the previous ones)
+    def updateAnswers(self, answers):
         dbw.deleteAnswers(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
-        for i in range(1,len(answers)+1):
-            dbw.insertAnswer(i, answers[i-1], language_id, self.id)
+        for i in range(1, len(answers) + 1):
+            dbw.insertAnswer(i, answers[i - 1], language_id, self.id)
 
-    #inserts a list of answer_texts (also deletes the previous ones)
-    def updateHints(self,hints):
+    # inserts a list of answer_texts (also deletes the previous ones)
+    def updateHints(self, hints):
         dbw.deleteHints(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
-        for i in range(1,len(hints)+1):
-            dbw.insertHint(hints[i-1], i, self.id, language_id)
+        for i in range(1, len(hints) + 1):
+            dbw.insertHint(hints[i - 1], i, self.id, language_id)
 
-    def update(self,correct_answer,answers,hints):
+    def update(self, correct_answer, answers, hints):
         self.correct_answer = correct_answer
         self.updateAnswers(answers)
         self.updateHints(hints)
 
     def save(self):
-        dbw.updateExercise(id,self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
+        dbw.updateExercise(id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
 
 
 class Question:
-    def __init__(self,question_text,language_id):
+
+    def __init__(self, question_text, language_id):
         self.question_text = question_text
         self.language_id = language_id

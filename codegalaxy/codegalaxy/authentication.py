@@ -13,7 +13,7 @@ def authenticate(email, password):
     @param password the password to log in
     @return A user object if successful, None otherwise
     '''
-    user = object_manager.createUser(email = email)
+    user = object_manager.createUser(email=email)
 
     if user and user.password == password:
         user.last_login = str(time.strftime("%Y-%m-%d"))
@@ -25,12 +25,12 @@ def require_login(*args):
     '''
     @brief A decorator to check for a logged in user, else redirect to a specified page
     '''
-    def arg_wrapper(function = None):
+    def arg_wrapper(function=None):
         def f_wrapper(*args, **kwargs):
             user = None
 
             if 'current_user' in args[0].session:
-                user = object_manager.createUser(id = args[0].session['current_user'])
+                user = object_manager.createUser(id=args[0].session['current_user'])
 
             if user:
                 return function(*args, **kwargs)
@@ -54,7 +54,7 @@ def logged_user(request):
     '''
     user = None
     try:
-        user = object_manager.createUser(id = request.session['current_user'])
+        user = object_manager.createUser(id=request.session['current_user'])
     except:
         return None
 
