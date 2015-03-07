@@ -2,6 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from managers.om import *
+import time
 
 object_manager = objectmanager.ObjectManager()
 
@@ -15,6 +16,8 @@ def authenticate(email, password):
     user = object_manager.createUser(email = email)
 
     if user and user.password == password:
+        user.last_login = str(time.strftime("%Y-%m-%d"))
+        user.save()
         return user
     return None
 

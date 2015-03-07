@@ -264,8 +264,8 @@ def getSubjectID(name):
 def insertUser(first_name, last_name, password, email, is_active = 1):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
 
-def insertFriendsWith(user_id, friend_id):
-    cursor.execute('INSERT INTO friendsWith(user_id,friend_id) VALUES ({u_id}, {f_id});'.format(u_id = user_id, f_id = friend_id))
+def insertFriendsWith(user_id, friend_id,status):
+    cursor.execute('INSERT INTO friendsWith(user_id,friend_id,status) VALUES ({u_id}, {f_id},"{status}");'.format(u_id = user_id, f_id = friend_id,status = status))
 
 def insertGroup(group_name, group_type,created_on):
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name = group_name, type = group_type,created_on = created_on))
@@ -324,12 +324,12 @@ def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating):
 
 #UPDATE
 
-def updateUser(user_id,first_name, last_name, password, email, is_active,permissions):
-    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm} WHERE  id = {id};'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email,id = user_id,perm = permissions))
+def updateUser(user_id,first_name, last_name, password, email, is_active,permissions,joined_on,last_login,gender):
+    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email,id = user_id,perm = permissions,joined_on = joined_on,last_login = last_login,gender = gender ))
 
-def updateGroup(group_id,group_name,group_type):
+def updateGroup(group_id,group_name,group_type,created_on):
     #updateGroup does not change the created_on
-    cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t} WHERE id = {id};'.format(id = group_id,gr_t = group_type,gr_n=group_name))
+    cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t},created_on = "{created_on}" WHERE id = {id};'.format(id = group_id,gr_t = group_type,gr_n=group_name,created_on=created_on))
 
 def updateExerciseList(list_id,name, description ,difficulty, prog_lang_id):
     cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id = list_id,desc = description,name=name,diff = difficulty,prg_id = prog_lang_id))

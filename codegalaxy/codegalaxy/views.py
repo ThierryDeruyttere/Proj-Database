@@ -212,6 +212,9 @@ def test(request, id = 0):
     user_test.password = "peswert"
     user_test.permissions = 1
     user_test.email = "lol@test.fk"
+    user_test.joined_on = "2-2-2"
+    user_test.last_login = str(time.strftime("%Y-%m-%d"))
+    user_test.gender = "F"
     user_test.save()
     #testfunction
     friends = user_test.allFriends()
@@ -232,9 +235,11 @@ def test(request, id = 0):
     #testfunction8
     answers = exercise_test.allAnswers()
     #testfunction9
+    #TODO 31 ns testen
     group_test = object_manager.createGroup(1)
     group_test.group_name = "Testgroup"
     group_test.group_type = 5
+    group_test.created_on = str(time.strftime("%Y-%m-%d"))
     group_test.save()
     #testfunction10
     exercise_list_test = object_manager.createExerciseList(1)

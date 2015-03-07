@@ -23,7 +23,7 @@ class Group:
             return None
 
     def save(self):
-        dbw.updateGroup(self.id,self.group_name,self.group_type)
+        dbw.updateGroup(self.id,self.group_name,self.group_type,self.created_on)
 
     def insertMember(self, user_id, user_permissions):
         dbw.insertUserInGroup(self.id, user_id, user_permissions)

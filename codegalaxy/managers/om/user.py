@@ -5,7 +5,8 @@ import managers.om.objectmanager
 import dbw
 
 class User:
-    def __init__(self,id,first_name,last_name,is_active,email,permissions,password):
+    def __init__(self,id,first_name,last_name,is_active,email,permissions,password
+    ,joined_on,last_login,gender):
         # Plain info on the user
         self.id = id
         self.first_name = first_name
@@ -14,6 +15,9 @@ class User:
         self.email = email
         self.permissions = permissions
         self.password = password
+        self.joined_on = joined_on
+        self.last_login = last_login
+        self.gender = gender
 
 
     # List with other users this user is befriended with
@@ -39,7 +43,7 @@ class User:
         @brief Add a friend of this User
         '''
         if not self.isFriend(friend):
-            dbw.insertFriendsWith(self.id, friend.id)
+            dbw.insertFriendsWith(self.id, friend.id,'Friends')
 
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
@@ -77,10 +81,11 @@ class User:
 
     def save(self):
         dbw.updateUser(self.id,self.first_name,self.last_name
-        ,self.password,self.email,self.is_active,self.permissions)
+        ,self.password,self.email,self.is_active,self.permissions,self.joined_on
+        ,self.last_login,self.gender)
 
     def __str__(self):
-         return str(self.id)+' '+self.first_name+' '+self.last_name+'\n'+str(self.is_active)+'\n'+self.email+'\n'+str(self.permissions)
+         return str(self.id)+' '+self.first_name+' '+self.last_name+' '+str(self.is_active)+' '+self.email+' '+str(self.permissions)+' '+str(self.joined_on)+' '+str(self.last_login)+' '+self.gender
 
 class PersonalList:
     def __init__(self,rating,score,exercise_list_id,user_id):
