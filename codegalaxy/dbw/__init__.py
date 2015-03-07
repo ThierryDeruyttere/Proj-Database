@@ -267,8 +267,8 @@ def insertUser(first_name, last_name, password, email, is_active = 1):
 def insertFriendsWith(user_id, friend_id):
     cursor.execute('INSERT INTO friendsWith(user_id,friend_id) VALUES ({u_id}, {f_id});'.format(u_id = user_id, f_id = friend_id))
 
-def insertGroup(group_name, group_type):
-    cursor.execute('INSERT INTO groups(group_name,group_type) VALUES ("{name}", {type});'.format(name = group_name, type = group_type))
+def insertGroup(group_name, group_type,created_on):
+    cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name = group_name, type = group_type,created_on = created_on))
 
 def insertUserInGroup(group_id, user_id, user_permissions):
     cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions) VALUES ({g_id}, {u_id}, {u_perm});'.format(g_id = group_id, u_id = user_id, u_perm = user_permissions))
@@ -328,6 +328,7 @@ def updateUser(user_id,first_name, last_name, password, email, is_active,permiss
     cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm} WHERE  id = {id};'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email,id = user_id,perm = permissions))
 
 def updateGroup(group_id,group_name,group_type):
+    #updateGroup does not change the created_on
     cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t} WHERE id = {id};'.format(id = group_id,gr_t = group_type,gr_n=group_name))
 
 def updateExerciseList(list_id,name, description ,difficulty, prog_lang_id):

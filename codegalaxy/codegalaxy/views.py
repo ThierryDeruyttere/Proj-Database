@@ -5,6 +5,7 @@ from django.contrib.auth.hashers import make_password
 import hashlib
 import sys
 import re
+import time
 
 from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
@@ -171,7 +172,7 @@ def groupCreate(request, id = 0):
         group_type = 0
 
         try:
-            object_manager.insertGroup(group_name, group_type)
+            object_manager.insertGroup(group_name, group_type,str(time.strftime("%Y-%m-%d")))
             return redirect('/g/overview')
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})

@@ -3,11 +3,12 @@ import managers.om.user
 import managers.om.objectmanager
 
 class Group:
-    def __init__(self,id,group_name,group_type):
+    def __init__(self,id,group_name,group_type,created_on):
         self.id = id
         self.group_name = group_name
         # private/public/...
         self.group_type = group_type
+        self.created_on = created_on
 
     # list of users
     def allMembers(self):
@@ -28,4 +29,4 @@ class Group:
         dbw.insertUserInGroup(self.id, user_id, user_permissions)
 
     def __str__(self):
-         return str(self.id)+' '+self.group_name+' '+str(self.group_type)
+         return str(self.id)+' '+self.group_name+' '+str(self.group_type)+" "+str(self.created_on)
