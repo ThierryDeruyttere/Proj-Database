@@ -1,5 +1,5 @@
 
-__all__ = ['objectmanager', 'group', 'user','exercise','exerciselist']
+__all__ = ['objectmanager', 'group', 'user', 'exercise', 'exerciselist']
 
 #import os
 #import glob

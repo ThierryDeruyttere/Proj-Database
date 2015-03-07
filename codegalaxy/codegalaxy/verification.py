@@ -19,7 +19,7 @@ def sendVerification(email):
     msg['To'] = receiver
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = "Hi!\nH/verification/{hash}".format(hash = hash_sequence)
+    text = "Hi!\nH/verification/{hash}".format(hash=hash_sequence)
     html = """\
     <html>
       <head></head>
@@ -29,7 +29,7 @@ def sendVerification(email):
         </p>
       </body>
     </html>
-    """.format(hash = hash_sequence)
+    """.format(hash=hash_sequence)
 
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
@@ -44,7 +44,7 @@ def sendVerification(email):
     # Send the message via local SMTP server.
     server = smtplib.SMTP('smtp.gmail.com:587')
     server.starttls()
-    server.login(sender,password)
+    server.login(sender, password)
     # sendmail function takes 3 arguments: sender's address, recipient's address
     # and message to send - here it is sent as one string.
     server.sendmail(sender, receiver, msg.as_string())
