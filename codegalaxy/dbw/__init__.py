@@ -169,7 +169,7 @@ def getExerciseScoreFor(id, exercise_list):
     @param exercise_list the id of the exercise list
     @return returns a dict with lists
     '''
-    cursor.execute('SELECT mE.exercise_id, mE.solved, mE.exercise_score, mE.rating FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.id =  mE.exercise_id AND mE.user_id = u.id;'.format(u_id = id, el_id = exercise_list))
+    cursor.execute('SELECT mE.exercise_id, mE.solved, mE.exercise_score, mE.rating,mE.completed_on FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.id =  mE.exercise_id AND mE.user_id = u.id;'.format(u_id = id, el_id = exercise_list))
     return processData()
 
 def getSubjectsForList(list_id):
@@ -261,7 +261,7 @@ def getSubjectID(name):
     return processOne()
 
 ##INSERT
-def insertUser(first_name, last_name, password, email, is_active = 1):
+def insertUser(first_name, last_name, password, email, is_active,joined_on,last_login,gender):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
 
 def insertFriendsWith(user_id, friend_id,status):
@@ -270,8 +270,8 @@ def insertFriendsWith(user_id, friend_id,status):
 def insertGroup(group_name, group_type,created_on):
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name = group_name, type = group_type,created_on = created_on))
 
-def insertUserInGroup(group_id, user_id, user_permissions):
-    cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions) VALUES ({g_id}, {u_id}, {u_perm});'.format(g_id = group_id, u_id = user_id, u_perm = user_permissions))
+def insertUserInGroup(group_id, user_id, user_permissions,joined_on):
+    cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id = group_id, u_id = user_id, u_perm = user_permissions,joined_on=joined_on))
 
 def insertProgrammingLanguage(name):
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name = name))

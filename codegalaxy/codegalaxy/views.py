@@ -67,7 +67,7 @@ def register(request):
         password = hashlib.md5(request.POST.get('your_password').encode('utf-8')).hexdigest()
 
         try:
-            object_manager.insertUser(first_name, last_name, email, password)
+            object_manager.insertUser(first_name, last_name, email, password,str(time.strftime("%Y-%m-%d")),str(time.strftime("%Y-%m-%d")),'U')
             object_manager.addVerification(email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
         except:
@@ -128,7 +128,7 @@ def group(request, id = 0):
     group = object_manager.createGroup(id)
 
     if request.method == 'POST':
-        group.insertMember(user.id, id)
+        group.insertMember(user.id, id,str(time.strftime("%Y-%m-%d")))
 
     is_member = False
     if group:

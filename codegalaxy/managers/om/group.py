@@ -25,8 +25,8 @@ class Group:
     def save(self):
         dbw.updateGroup(self.id,self.group_name,self.group_type,self.created_on)
 
-    def insertMember(self, user_id, user_permissions):
-        dbw.insertUserInGroup(self.id, user_id, user_permissions)
+    def insertMember(self, user_id, user_permissions,joined_on):
+        dbw.insertUserInGroup(self.id, user_id, user_permissions,joined_on)
 
     def __str__(self):
          return str(self.id)+' '+self.group_name+' '+str(self.group_type)+" "+str(self.created_on)

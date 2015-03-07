@@ -220,12 +220,12 @@ def submit(request, list_id, question_id):
                 if current_exercise.correct_answer == int(selected_answer):
                     #Woohoo right answer!
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id,  returnScore(current_score), 1, 0)
+                    object_manager.userMadeExercise(question_id, user.id,  returnScore(current_score), 1,str(time.strftime("%Y-%m-%d")),0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0,str(time.strftime("%Y-%m-%d")),0)
                     #return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
@@ -236,12 +236,12 @@ def submit(request, list_id, question_id):
                 if correct_answer == user_output:
                     current_score = returnScore(current_score - int(hint)*penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id,  current_score, 1, 0)
-                    
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 1,str(time.strftime("%Y-%m-%d")), 0)
+
                 else:
                     #not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0, 0)
+                    object_manager.userMadeExercise(question_id, user.id,  current_score, 0,str(time.strftime("%Y-%m-%d")), 0)
 
             next_exercise = int(question_id)+1
             if((next_exercise-1) > len(all_exercise)):

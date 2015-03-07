@@ -72,7 +72,7 @@ class ObjectManager:
     # INSERT functions will insert info into the DB by calling dbw functions
 
     def insertUser(self,first_name, last_name, email, password,joined_on,last_login,gender):
-        dbw.insertUser(first_name, last_name,password, email,joined_on,last_login,gender)
+        dbw.insertUser(first_name, last_name,password, email,1,joined_on,last_login,gender)
 
     def insertExerciseList(self,name, description ,difficulty,created_by,created_on,prog_lang_name):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
@@ -104,14 +104,13 @@ class ObjectManager:
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
 
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, rating=0):
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise,completed_on, rating=0):
         exercise = dbw.getMadeExericse(user_id, exercise_id)
         if exercise:
             #update
             pass
-
         else:
-            dbw.insertMadeExercise(user_id,exercise_id, made_exercise, exercise_score, rating)
+            dbw.insertMadeExercise(user_id,exercise_id, made_exercise, exercise_score, rating,completed_on)
 
     def getInfoForUserForExericse(self, exercise_id, user_id):
         return dbw.getMadeExericse(user_id, exercise_id)
