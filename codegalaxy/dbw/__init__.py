@@ -150,7 +150,7 @@ def getFriendshipsForID(id):
     @param id the id of the user
     @return returns a dict with friendships
     '''
-    cursor.execute('SELECT * FROM friendsWith f WHERE f.user_id = {id} UNION SELECT * FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
+    cursor.execute('SELECT * FROM friendsWith f, user u WHERE f.user_id = {id} AND u.id = f.friend_id UNION SELECT * FROM friendsWith f, user u WHERE f.friend_id = {id} AND u.id = f.user_id;'.format(id=id))
     return processData()
 
 
@@ -170,6 +170,15 @@ def getMadeListForUser(id):
     @return returns a dict with lists
     '''
     cursor.execute('SELECT * FROM user u, madeList m WHERE  u.id = {id} AND u.id = m.user_id;'.format(id=id))
+    return processData()
+
+def getMadeListForUser2(id):
+    '''
+    @brief gets the exercises list a user finished given a user id
+    @param id the id of the user
+    @return returns a dict with lists
+    '''
+    cursor.execute('SELECT * FROM user u, madeList m, exerciseList e WHERE  u.id = {id} AND u.id = m.user_id AND m.exerciseList_id = e.id;'.format(id=id))
     return processData()
 
 def getExerciseScoreFor(id, exercise_list):
@@ -211,7 +220,12 @@ def getUsersInGroup(group_id):
     return processData()
 
 def getGroupsMemberOf(user_id):
-    cursor.execute('SELECT * FROM userInGroup u WHERE u.user_id = {id};'.format(id=user_id))
+    '''
+    @brief gets the groups a user is member of
+    @param user_id the id of the user
+    @return returns a dict with groups
+    '''
+    cursor.execute('SELECT * FROM userInGroup u, groups g WHERE u.user_id = {id} AND u.group_id = g.id;'.format(id=user_id))
     return processData()
 
 def getGroupsFromUser(user_id):

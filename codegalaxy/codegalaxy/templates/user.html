@@ -1,41 +1,74 @@
 {% extends "codegalaxy.html" %}
+
 {%load staticfiles%}
+
 {% block base_body %}
 
-
-    <div class="row">
-        <div class="large-3 small-2 columns ">
-            <div class="panel">
-                <a href="#"><img src="{% static "media/user.png" %}"/></a>
-                <h5><a href="#" large-text-center>{{ user.first_name }} {{ user.last_name }}</a></h5>
-                <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-                    <section class="section">
-                        <h5 class="title"><a href="#Friends">Friends</a></h5>
-                    </section>
-                    <section class="section">
-                        <h5 class="title"><a href="#Groups">Groups</a></h5>
-                    </section>
-                </div>
-            </div>
-        </div>
-        <div class="large-9 columns">
-            <div class="panel">
-                <h1>User page: {{ user.id }} {{ user.first_name }} {{ user.last_name }}</h1>
-                {% if logged_in %}
-                    <h3>We are logged in!</h3>
-                {% endif %}
+<div class="row">
+    <div class="large-3 columns ">
+        <div class="panel">
+            <a href="#"><img src="{% static "media/user.png" %}"/></a>
+            <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
+            <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
+                <section class="section">
+                    <h5 class="title"><a href="#Friends">Friends</a></h5>
+                </section>
+                <section class="section">
+                    <h5 class="title"><a href="#Groups">Groups</a></h5>
+                </section>
 
                 {% if not already_friends and not logged_in %}
-                    <form method="post" action="/u/{{user.id}}/">
-                        {% csrf_token %}
-                        <input type="submit" value="Become friends" class="button"/>
-                    </form>
+                <form method="post" action="/u/{{user.id}}/">
+                    {% csrf_token %}
+                    <input type="submit" value="Become friends" class="button"/>
+                </form>
                 {% endif %}
-
             </div>
         </div>
     </div>
 
+
+    <div class="large-8 columns">
+        {% for item in all_data %}
+        {% if item.type == 'friendship' %}
+        <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+            <div class="large-10 columns">
+
+                <p><strong>{{ user.first_name }} {{ user.last_name }} became friends with <a href="../{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+                
+            </div>
+        </div>
+
+        <hr/>
+        {% endif %}
+        {% if item.type == 'group_member'%}
+        <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+            <div class="large-10 columns">
+
+                <p><strong>{{ user.first_name }} {{ user.last_name }} was added to group: {{ item.group_name }}</p>
+                
+            </div>
+        </div>
+
+        <hr/>
+        {% endif %}
+        {% if item.type == 'exerciseList'%}
+        <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+            <div class="large-10 columns">
+
+            <p><strong>{{ user.first_name }} {{ user.last_name }} made an exercise list: {{ item.name }}</p>
+                
+            </div>
+        </div>
+
+        <hr/>
+        {% endif %}
+        {% endfor %}
+
+    </div>
 
     <div class="panel">
         <a name="Friends"></a>
@@ -45,15 +78,15 @@
             </div>
         </div>
         <div class="row">
-            {% for user in friend_list %}
-                <div class="large-2 small-2 columns">
-                    <a href="../{{ user.id }}"/>
-                    <img src="{% static "media/user.png" %}">
-                    <div class="panel">
-                        <h5>{{ user.first_name }}</h5>
-                        <h6 class="subheader">{{ user.last_name }}</h6>
-                    </div>
+            {% for friend in friend_list %}
+            <div class="large-2 small-2 columns">
+                <a href="../{{ user.id }}"/>
+                <img src="{% static "media/user.png" %}">
+                <div class="panel">
+                    <h5>{{ friend.first_name }}</h5>
+                    <h6 class="subheader">{{ friend.last_name }}</h6>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
@@ -67,15 +100,17 @@
         </div>
         <div class="row">
             {% for group in group_list %}
-                <div class="large-2 small-2 columns">
-                    <a href="../../g/{{ group.id }}"/>
-                    <img src="{% static "media/group.png" %}">
-                    <div class="panel">
-                        <h5>{{ group.group_name }}</h5>
-                    </div>
+            <div class="large-2 small-2 columns">
+                <a href="../../g/{{ group.id }}"/>
+                <img src="{% static "media/group.png" %}">
+                <div class="panel">
+                    <h5>{{ group.group_name }}</h5>
                 </div>
+            </div>
             {% endfor %}
         </div>
     </div>
+</div>
+
 
 {% endblock base_body %}

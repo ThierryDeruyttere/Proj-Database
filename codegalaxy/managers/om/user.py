@@ -86,11 +86,13 @@ class User:
             exercises_lists_list.append(exercises_list_object)
         return exercises_lists_list
 
-    def allExercisesMade(self):
-        exercise_list_date = dbw.getMadeListsForUser(self.id)
-        exercise_lists_list = []
 
-        
+    def allExerciseListsMade(self):
+        exercise_list_date = dbw.getMadeListForUser2(self.id)
+        for exerciseList in exercise_list_date:
+            exerciseList.update({'type': 'exerciseList'})
+            exerciseList.update({'datetime': exerciseList['made_on']})
+        return exercise_list_date
 
 
     # returns TRUE for admin and FALSE for regular user

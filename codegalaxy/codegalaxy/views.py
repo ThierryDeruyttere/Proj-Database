@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
-
+from collections import OrderedDict
 import hashlib
 import sys
 import re
@@ -15,11 +15,14 @@ from managers.gm import *
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
 
+
 def home(request):
     return render(request, 'home.html', {})
 
+
 @require_login
 def user(request, id=0):
+    time.strftime('%Y-%m-%d')
     current_user = logged_user(request)
 
     # Make id an int
@@ -36,10 +39,21 @@ def user(request, id=0):
 
     if user:
         friend_list = user.allFriends()
-
         group_list = user.allGroups()
-        exercise_list = user.allPersonalLists()
-        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'exercise_list': exercise_list, 'already_friends': already_friends}
+        exercise_list = user.allPersonalLists() 
+
+        accepted_friendships = sorted(user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
+        member_of_groups = sorted(user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
+        exercises_made = sorted(user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
+        
+        accepted_friendships.extend(member_of_groups)
+        accepted_friendships.extend(exercises_made)
+
+        all_data = accepted_friendships
+
+        all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+        
+        context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends}
 
         if request.session['current_user'] == id:
             context['logged_in'] = True
@@ -47,10 +61,12 @@ def user(request, id=0):
     else:
         return redirect('/')
 
+
 @require_login
 def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users': users})
+
 
 def register(request):
     # Check if we are already logged in
@@ -64,18 +80,22 @@ def register(request):
         last_name = request.POST.get('your_last_name', '')
         email = request.POST.get('your_email', '')
 
-        password = hashlib.md5(request.POST.get('your_password').encode('utf-8')).hexdigest()
+        password = hashlib.md5(
+            request.POST.get('your_password').encode('utf-8')).hexdigest()
 
         gender = request.POST.get('sex')
 
         try:
-            object_manager.insertUser(first_name, last_name, email, password,str(time.strftime("%Y-%m-%d")),str(time.strftime("%Y-%m-%d")),gender)
-            object_manager.addVerification(email, hashlib.md5(email.encode('utf-8')).hexdigest())
+            object_manager.insertUser(first_name, last_name, email, password, str(
+                time.strftime("%Y-%m-%d")), str(time.strftime("%Y-%m-%d")), gender)
+            object_manager.addVerification(
+                email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
         except:
             return render(request, 'register.html', {'error_register': 'This email address is alread in use.'})
 
     return render(request, 'register.html', {})
+
 
 def login(request):
     if 'current_user' not in request.session:
@@ -87,7 +107,8 @@ def login(request):
         error_password = True
 
         email = request.POST.get('your_email', '')
-        password = hashlib.md5(request.POST.get('your_password', '').encode('utf-8')).hexdigest()
+        password = hashlib.md5(
+            request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         user = authenticate(email, password)
 
@@ -105,6 +126,7 @@ def login(request):
 
     return render(request, 'login.html', {})
 
+
 @require_login('/')
 def logout(request):
     # flush zorgt ervoor dat er geen restjes achterblijven
@@ -113,10 +135,12 @@ def logout(request):
     request.session['current_user'] = None
     return render(request, 'logout.html', {})
 
+
 @require_login
 def me(request):
     user_url = '/u/{id}'.format(id=logged_user(request).id)
     return redirect(user_url)
+
 
 @require_login
 def group(request, id=0):
@@ -151,6 +175,7 @@ def group(request, id=0):
     else:
         return redirect('/')
 
+
 @require_login
 def groupOverview(request):
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
@@ -163,6 +188,7 @@ def groupOverview(request):
         # return redirect('/')
     return redirect('/g/create')
 
+
 @require_login
 def groupCreate(request, id=0):
 
@@ -174,19 +200,23 @@ def groupCreate(request, id=0):
         group_type = request.POST.get('group_type')
 
         try:
-            object_manager.insertGroup(group_name, group_type, str(time.strftime("%Y-%m-%d")))
+            object_manager.insertGroup(
+                group_name, group_type, str(time.strftime("%Y-%m-%d")))
             return redirect('/g/overview')
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
 
     return render(request, 'groupCreate.html', {})
 
+
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})
+
 
 @require_login
 def submit(request, id, question):
     return render(request, 'submit.html', {})
+
 
 def verify(request, hash_seq):
     if object_manager.needsVerification(hash_seq):
@@ -195,6 +225,7 @@ def verify(request, hash_seq):
         return render(request, 'verify.html', {})
 
     return redirect('/')
+
 
 def test(request, id=0):
     # Quick tests/changes
@@ -258,6 +289,7 @@ def test(request, id=0):
 
     return render(request, 'test.html', {'test': str(user_test), 'testfunction': ' '.join([str(friend) for friend in friends]), 'testfunction2': ' '.join([str(group) for group in groups]), 'testfunction3': ' '.join([str(list_) for list_ in lists]), 'testfunction4': permission, 'testfunction5': ' '.join([str(ex) for ex in personalexercises]), 'testfunction6': str(exercise_test), 'testfunction7': hints, 'testfunction8': answers, 'testfunction9': 'Group: ' + str(group_test), 'testfunction10': 'List: ' + str(exercise_list_test), 'testfunction11': subjects, 'testfunction12': ' '.join([str(exercise) for exercise in exercises]), 'testfunction13': ' '.join([str(member) for member in members])})
 
+
 def tables(request):
     import dbw
     if request.method == 'GET':
@@ -267,6 +299,7 @@ def tables(request):
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
 
     return render(request, 'tables.html', {})
+
 
 def python(request):
     return render(request, 'python.html', {})
@@ -278,21 +311,27 @@ def graphs(request):
 
     # LINE CHART
     color_info = graphmanager.ColorInfo()
-    test_line_graph = graph_manager.makeLineChart('Buyers', 600, 400, color_info, ["January", "February", "March", "April", "May", "June"], [203, 156, 99, 251, 305, 247])
+    test_line_graph = graph_manager.makeLineChart('Buyers', 600, 400, color_info, [
+                                                  "January", "February", "March", "April", "May", "June"], [203, 156, 99, 251, 305, 247])
 
     # PIE CHART
     all_prog_languages = object_manager.allProgrammingLanguages()
     languages = []
     amount_of_exercises = []
     for prog_lang in all_prog_languages:
-        count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
+        count = object_manager.countExerciseListsForProgrammingLanguageID(
+            prog_lang['id'])
         languages.append(prog_lang['name'])
         amount_of_exercises.append(count['amount'])
-    test_pie_graph = graph_manager.makePieChart('colours', 600, 400, graphmanager.color_tuples, languages, amount_of_exercises)
+    test_pie_graph = graph_manager.makePieChart(
+        'colours', 600, 400, graphmanager.color_tuples, languages, amount_of_exercises)
 
     # BARCHART
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
-    test_bar_graph = graph_manager.makeBarChart('kek', 600, 400, [color_info2, color_info1], ["January", "February", "March", "April", "May", "June"], [[456, 479, 324, 569, 702, 600], [364, 504, 605, 400, 345, 320]])
+    color_info1 = graphmanager.ColorInfo(
+        "rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo(
+        "rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
+    test_bar_graph = graph_manager.makeBarChart('kek', 600, 400, [color_info2, color_info1], [
+                                                "January", "February", "March", "April", "May", "June"], [[456, 479, 324, 569, 702, 600], [364, 504, 605, 400, 345, 320]])
 
     return render(request, 'graphs.html', {'teststr': test_line_graph, 'teststr2': test_pie_graph, 'teststr3': test_bar_graph})
