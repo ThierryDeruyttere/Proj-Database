@@ -1,10 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-import sys
 import time
 
-import dbw
 from managers.om import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
@@ -92,8 +89,7 @@ def createExercise(request, listId=0):
     exercise_list = object_manager.createExerciseList(listId)
     user = logged_user(request)
     if request.method == 'POST':
-        exercise_difficulty = request.POST.get('difficulty')
-        exercise_max_score = 1
+        exercise_difficulty = int(request.POST.get('difficulty'))
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
         exercise_type = request.POST.get('exercise_type')
@@ -105,14 +101,16 @@ def createExercise(request, listId=0):
         exercise_question = Question(exercise_question_text, 1)
         exercise_answer = None
         correct_answer = None
-        code = ""
+
+        code = request.POST.get('code', '')
+        exercise_max_score = int(request.POST.get('max', '1'))
+
         if(exercise_type == 'Open Question'):
             answer = []
-            exercise_max_score = request.POST.get("max_open")
-
-            for i in range(1, (int(exercise_max_score) + 1)):
-                if request.POST.get("answer_no_" + str(i)) != "" and request.POST.get("answer_no_" + str(i)) != None:
-                    answer.append(escape_string(request.POST.get("answer_no_" + str(i))))
+            for i in range(1, exercise_max_score + 1):
+                cur_answer = request.POST.get("answer" + str(i), "")
+                if cur_answer != "":
+                    answer.append(escape_string(cur_answer))
 
             selected_answer = request.POST.get("corr_answer")
             exercise_answer = answer
@@ -120,18 +118,15 @@ def createExercise(request, listId=0):
             exercise_penalty = 3
 
         else:
-            exercise_max_score = request.POST.get('max')
-            code_for_user = request.POST.get("code")
             expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
             correct_answer = 1
-            code = code_for_user
 
-            for j in range(1, int(exercise_max_score) + 1):
+            for j in range(1, exercise_max_score + 1):
                 if request.POST.get("hint" + str(j)) != "" and request.POST.get("hint" + str(j)) != None:
                     hints.append(escape_string(request.POST.get("hint" + str(j))))
 
-        exercise_list.insertExercise(int(exercise_difficulty), int(exercise_max_score), int(exercise_penalty), exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
+        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
