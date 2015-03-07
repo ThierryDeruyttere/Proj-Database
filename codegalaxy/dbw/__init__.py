@@ -319,8 +319,8 @@ def insertHasSubject(exerciseList_id, subject_id):
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score) VALUES ({el_id},{u_id},{rating},{score});'.format(el_id = exerciseList_id, u_id = user_id, rating = rating, score = score))
 
-def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating):
-    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating) VALUES({user},{ex_id},{solved},{exerc_score},{rating});'.format(user = user_id, ex_id = exercise_id, solved = solved, exerc_score = exercise_score, rating = rating  ))
+def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating,completed_on):
+    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}");'.format(user = user_id, ex_id = exercise_id, solved = solved, exerc_score = exercise_score, rating = rating,completed_on = completed_on))
 
 #UPDATE
 
