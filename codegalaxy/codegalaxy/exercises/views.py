@@ -70,7 +70,6 @@ def list(request, id=0):
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
-
         if logged_user(request):
             for exercise in all_exercises:
                 print(object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id))
@@ -126,7 +125,6 @@ def createExercise(request, listId=0):
         else:
             expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
-
             for j in range(1, exercise_max_score + 1):
                 cur_hint = request.POST.get("hint" + str(j), "")
                 if cur_hint != "":
@@ -195,7 +193,6 @@ def submit(request, list_id, question_id):
 
         if current_exercise is None:
             return redirect('/')
-
         if request.method == 'POST':
             rating = request.POST.get("score")
 

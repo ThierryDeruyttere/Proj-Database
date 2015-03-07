@@ -31,13 +31,13 @@ def user(request, id=0):
     if request.method == 'POST':
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
-            
+
         elif 'confirm_friendship' in request.POST:
             request.POST.get('your_email', '')
             #print(request.POST['confirm_friendshipon'])
             #current_user.confirm_friendship(request.POST)
 
-    
+
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -46,11 +46,10 @@ def user(request, id=0):
         friend_list = user.allFriends()
         group_list = user.allGroups()
         exercise_list = user.allPersonalLists()
-
         accepted_friendships = sorted(user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
         member_of_groups = sorted(user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
         exercises_made = sorted(user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
-        
+
         accepted_friendships.extend(member_of_groups)
         accepted_friendships.extend(exercises_made)
 
@@ -61,7 +60,6 @@ def user(request, id=0):
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = current_user.allPendingFriendships()
-        
         context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
         if request.session['current_user'] == id:
@@ -72,15 +70,14 @@ def user(request, id=0):
         return redirect('/')
 
 
-    
-    
+
+
 
 
 @require_login
 def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users': users})
-
 
 def register(request):
     # Check if we are already logged in
@@ -240,7 +237,6 @@ def verify(request, hash_seq):
 
     return redirect('/')
 
-
 def test(request, id=0):
     # Quick tests/changes
     exercise_test = object_manager.createExercise(1, 'en')
@@ -311,9 +307,7 @@ def tables(request):
         if(table != ''):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
-
     return render(request, 'tables.html', {})
-
 
 def python(request):
     return render(request, 'python.html', {})

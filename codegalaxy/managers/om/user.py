@@ -52,7 +52,7 @@ class User:
         @brief Add a friend of this User
         '''
         if not self.isFriend(friend):
-            dbw.insertFriendsWith(self.id, friend.id, 'Pending')
+            dbw.insertFriendsWith(self.id, friend.id, 'Friends')
 
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
