@@ -151,6 +151,7 @@ CREATE TABLE madeList(
   user_id INT,
   rating INT NOT NULL,
   score INT NOT NULL,
+  made_on DATE NOT NULL,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
   FOREIGN KEY (user_id) REFERENCES user(id)
 );
@@ -287,8 +288,8 @@ INSERT INTO subject(name) VALUES ('Printing');
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 
 #insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,1,5,5);
-INSERT INTO madeList(exerciseList_id, user_id, rating, score) VALUES (1,3,5,5);
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,5, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,5,5, "2015-03-05");
 
 #insert into madeEx
 INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating, completed_on) VALUES(1,1,1,5,5,"2015-03-06");

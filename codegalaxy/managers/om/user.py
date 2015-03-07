@@ -29,6 +29,16 @@ class User:
             friends_list.append(object_manager.createUser(id=friend['friend_id']))
         return friends_list
 
+    def allFriendships(self):
+        friendship_info = dbw.getFriendshipsForID(self.id)
+        accepted_friendship = []
+        for friendship in friendship_info:
+            if friendship['status'] == 'Friends':
+                friendship.update({'type': 'friendship'})
+                friendship.update({'datetime': friendship['befriended_on']})
+                accepted_friendship.append(friendship)
+        return accepted_friendship
+
     def isFriend(self, friend):
         '''
         @brief Check if a User is a friend of this user
@@ -55,6 +65,16 @@ class User:
             groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
+    def allUserAdded(self):
+        group_members = dbw.getGroupsMemberOf(self.id)
+
+        for group_member in group_members:
+            group_member.update({'type': 'group_member'})
+            group_member.update({'datetime': group_member['joined_on']})
+
+        return group_members
+
+
     # List with all the lists of exercises this user has completed/is working on (SQL function)
     def allPersonalLists(self):
         exercises_lists_info = dbw.getMadeListForUser(self.id)
@@ -65,6 +85,13 @@ class User:
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list['score'], exercises_list['exerciseList_id'], self.id)
             exercises_lists_list.append(exercises_list_object)
         return exercises_lists_list
+
+    def allExercisesMade(self):
+        exercise_list_date = dbw.getMadeListsForUser(self.id)
+        exercise_lists_list = []
+
+        
+
 
     # returns TRUE for admin and FALSE for regular user
     def checkPermission(self, group_id):
