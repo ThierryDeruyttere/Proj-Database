@@ -1,4 +1,5 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
 
 {% block base_body %}
   {% load staticfiles %}
@@ -50,7 +51,7 @@
               </div>
             </div>
           </div>
-
+          <div id="raty"></div>
           <div class="row">
             <div class="large-6 large-text-center columns">
               <a href="#" id="exercise_list" class="button small radius">Return to list</a>
@@ -138,6 +139,7 @@
 
 {% endblock base_body %}
 {% block body_js %}
+<script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
     function rate(obj){
       var id = obj.id;
@@ -146,12 +148,17 @@
       document.getElementById("current_rating").value = current_rating.toString();
     }
 
+    $(document).ready(function() {
+      $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
+      $('#raty').raty();
+    });
+
     function sendForm(){
       var form =  document.getElementById("user_rating");
       form.submit();
       return true;
     }
-    
+
     $("#exercise_list").on('click', function() {
       sendForm();
       window.location = "../{{ next_exercise }}";
