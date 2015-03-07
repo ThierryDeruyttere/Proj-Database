@@ -1,11 +1,12 @@
 {% extends "codegalaxy.html" %}
-
+{%load staticfiles%}
 {% block base_body %}
+
 
 <div class="row">
 <div class="large-3 small-2 columns ">
 <div class="panel">
-<a href="#"><img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/></a>
+<a href="#"><img src="{% static "media/user.png" %}"/></a>
 <h5><a href="#" large-text-center>{{ user.first_name }} {{ user.last_name }}</a></h5>
 <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
 <section class="section">
@@ -47,7 +48,7 @@
 {% for user in friend_list %}
 <div class="large-2 small-2 columns">
 <a href="../{{ user.id }}"/>
-<img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+<img src="{% static "media/user.png" %}">
 <div class="panel">
 <h5>{{ user.first_name }}</h5>
 <h6 class="subheader">{{ user.last_name }}</h6>
@@ -68,7 +69,7 @@
 {% for group in group_list %}
 <div class="large-2 small-2 columns">
 <a href="../../g/{{ group.id }}"/>
-<img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+<img src="{% static "media/group.png" %}">
 <div class="panel">
 <h5>{{ group.group_name }}</h5>
 </div>

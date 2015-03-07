@@ -169,7 +169,7 @@ def groupCreate(request, id = 0):
 
         #!!!!!!
         #iemand een idee hoe ik uit een switch een waarde haal?
-        group_type = 0
+        group_type = request.POST.get('group_type')
 
         try:
             object_manager.insertGroup(group_name, group_type,str(time.strftime("%Y-%m-%d")))

@@ -50,7 +50,7 @@
 {% for user in users %}
 <div class="large-2 small-2 columns">
 <a href="../{{ user.id }}"/>
-<img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+<img src="{% static "media/user.png" %}">
 <div class="panel">
 <h5>{{ user.first_name }}</h5>
 <h6 class="subheader">{{ user.last_name }}</h6>
