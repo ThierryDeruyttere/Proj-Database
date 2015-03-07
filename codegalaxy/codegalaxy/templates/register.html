@@ -15,62 +15,68 @@
   </div>
 </div>
 
- <div class="row">
-   <div class="large-6 columns">
-        <div class="content" data-section-content>
-            <p>
-              <div class="row">
-                <div class="large-12 columns">
-                  <div class="signup-panel">
-                    <p class="welcome">Welcome at CodeGalaxy!</p>
-                    {% if error_register %}
-                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
-                    {% endif %}
-                  <form method="post" action="/register/" data-abide>
-                  {% csrf_token %}
-                    <div class="row collapse">
-                      <div class="small-2  columns">
-                        <span class="prefix"><i class="fi-torso size-28"></i></span>
-                      </div>
-                      <div class="small-10  columns">
-                        <input type="text" required placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                        <small class="error">Enter a valid First Name.</small>
-                      </div>
-                    </div>
-                    <div class="row collapse">
-                      <div class="small-2  columns">
-                        <span class="prefix"><i class="fi-torso size-28"></i></span>
-                      </div>
-                      <div class="small-10  columns">
-                        <input type="text" required placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                        <small class="error">Enter a valid Last Name.</small>
-                      </div>
-                    </div>
-                    <div class="row collapse">
-                      <div class="small-2 columns">
-                        <span class="prefix"><i class="fi-mail size-28"></i></span>
-                      </div>
-                      <div class="small-10  columns">
-                        <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                        <small class="error">Enter a valid Email Address.</small>
-                      </div>
-                    </div>
-                    <div class="row collapse">
-                      <div class="small-2 columns ">
-                        <span class="prefix"><i class="fi-lock size-28"></i></span>
-                      </div>
-                      <div class="small-10 columns ">
-                        <input type="password" required placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                        <small class="error">Enter a valid password.</small>
-                      </div>
-                    </div>
-                  <input type="submit" value="Sign Up" name="SignUp" class="button"/>
-                    </form>
-                  </div>
+<div class="row">
+ <div class="large-6 columns">
+  <div class="content" data-section-content>
+    <p>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="signup-panel">
+            <p class="welcome">Welcome at CodeGalaxy!</p>
+            {% if error_register %}
+            <div class="alert-box alert radius">Incorrect email and/or password.</div>
+            {% endif %}
+            <form method="post" action="/register/" data-abide>
+              {% csrf_token %}
+              <div class="row collapse">
+                <div class="small-2  columns">
+                  <span class="prefix"><i class="fi-torso size-28"></i></span>
                 </div>
-            </div></p>
+                <div class="small-10  columns">
+                  <input type="text" required placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                  <small class="error">Enter a valid First Name.</small>
+                </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-2  columns">
+                  <span class="prefix"><i class="fi-torso size-28"></i></span>
+                </div>
+                <div class="small-10  columns">
+                  <input type="text" required placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                  <small class="error">Enter a valid Last Name.</small>
+                </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-2 columns">
+                  <span class="prefix"><i class="fi-mail size-28"></i></span>
+                </div>
+                <div class="small-10  columns">
+                  <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                  <small class="error">Enter a valid Email Address.</small>
+                </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-2 columns ">
+                  <span class="prefix"><i class="fi-lock size-28"></i></span>
+                </div>
+                <div class="small-10 columns ">
+                  <input type="password" required placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
+                  <small class="error">Enter a valid password.</small>
+                </div>
+              </div>
+              <div>
+                <input type="radio" name="sex" value="M" >Male
+                <input type="radio" name="sex" value="F">Female
+                <input type="radio" name="sex" value="U" checked>Other
+              </div>
+
+              <input type="submit" value="Sign Up" name="SignUp" class="button"/>
+            </form>
+          </div>
         </div>
+      </div></p>
     </div>
+  </div>
 </div>
 
 
