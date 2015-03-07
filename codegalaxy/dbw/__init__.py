@@ -144,6 +144,16 @@ def getFriendsIdForID(id):
     cursor.execute('SELECT f.friend_id FROM friendsWith f WHERE f.user_id = {id} UNION SELECT f.user_id FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
     return processData()
 
+def getFriendshipsForID(id):
+    '''
+    @brief gets the friends of a user a user id
+    @param id the id of the user
+    @return returns a dict with friendships
+    '''
+    cursor.execute('SELECT * FROM friendsWith f WHERE f.user_id = {id} UNION SELECT * FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
+    return processData()
+
+
 def getExercisesForList(list_id):
     '''
     @brief gets the exercises in a list given a list id
@@ -269,7 +279,7 @@ def insertUser(first_name, last_name, password, email, is_active,joined_on,last_
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active = is_active, fname = first_name, lname = last_name, passw = password, email = email))
 
 def insertFriendsWith(user_id, friend_id, status):
-    cursor.execute('INSERT INTO friendsWith(user_id,friend_id,status) VALUES ({u_id}, {f_id},"{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
+    cursor.execute('INSERT INTO friendsWith(user_id,friend_id, befriended_on, status) VALUES ({u_id}, {f_id}, CURDATE(), "{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
 
 def insertGroup(group_name, group_type, created_on):
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
