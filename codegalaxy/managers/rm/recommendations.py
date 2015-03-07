@@ -3,6 +3,25 @@ from managers.om import *
 
 object_manager = objectmanager.ObjectManager()
 
+# MULTIPLIERS==============================================================================================
+
+# returns the amount of exerciselists a user has made with a certain subject
+# if the dates parameter is true, older lists will count for less
+def amountOfListsPerSubjectForUser(user_id,dates):
+    # list of subjectIDs
+    subjects = object_manager.getAllSubjectIDs()
+
+# friends are taken into account a bit more for the overlap_scores
+def friendsMultiplier(user_id,other_user_id):
+    user = object_manager.createUser(user_id)
+    friends = user.allFriends()
+    for friend in friends:
+        if other_user_id = friend.id
+            # NOTE: RANDOM VALUE
+            return 1.2
+    # not a friend -> no multiplier
+    return 1
+
 # BASIC OVERLAP SCORE=====================================================================================
 
 # returns the id's of all the lists the user with user_id made
@@ -33,21 +52,37 @@ def compareListWithOtherUsers(user_id):
         results.append(result)
     return results
 
-# MULTIPLIERS==============================================================================================
-
-# friends are taken into account a bit more for the overlap_scores
-def friendsMultiplier(user_id,other_user_id):
-    user = object_manager.createUser(user_id)
-    friends = user.allFriends()
-    for friend in friends:
-        if other_user_id = friend.id
-            # NOTE: RANDOM VALUE
-            return 1.2
-    # not a friend -> no multiplier
-    return 1
+    # returns a dictionary with key->list_id and value -> highest overlap score
+    def splitListIds(user_id,comparison_tuples,friends):
+        score_per_list_id = {}
+        # for every tuple (comparison with other user)
+        for comparison_tuple in comparison_tuples:
+            # if we need to add the friends multiplier
+            if friends:
+                comparison_tuple[1] *= friendsMultiplier(user_id,comparison_tuple[2])
+            # for every list_id in the difference
+            for list_id in comparison_tuple[0]:
+                # if the list is already in the dict
+                if list_id in score_per_list_id:
+                    # check if the score is lower than this one
+                    if score_per_list_id[list_id]<comparison_tuple[1]:
+                        # if so, chenge it
+                        score_per_list_id[list_id]=comparison_tuple[1]
+                # if it's not in the dict yet
+                else:
+                    # add it
+                    score_per_list_id[list_id]=comparison_tuple[1]
+        return score_per_list_id
 
 # MAIN FUNCTIONS===========================================================================================
 
-def recommendListsForUser(user_id):
+#parameters are the things held in account for the recommendations
+# you can then either just list the ones with the highest score or random ones out of the top X highest
+def recommendListsForUser(user_id,friends=True,dates=True,subjects=True,rating=True,highest=True):
     comparison_tuples = compareListWithOtherUsers(user_id)
-    # we split this result such that each list only occurs once, it gets
+    # we split this result such that each list only occurs once, it gets the highest
+    # overlap_score out of all the tuples it is in
+    score_per_list_id = splitListIds(user_id,comparison_tuples,friends)
+    # now we can start adding the other multipliers
+
+    # dates will give higher values to subjects/languages in recent exercises

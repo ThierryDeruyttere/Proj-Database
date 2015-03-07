@@ -93,6 +93,10 @@ class ObjectManager:
             users.append(self.createUser(id = user_id['id']))
         return users
 
+    def allSubjectIDs(self):
+        subjects = dbw.getAllSubjectIDs()
+        return [subject['id'] for subject in subjects]
+
     def allGroups(self):
         groups = []
         group_info = dbw.getAllGroupIDs()

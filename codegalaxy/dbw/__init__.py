@@ -241,11 +241,11 @@ def getNameFromProgLangID(ID):
     return processOne()
 
 def getAllUserIDs():
-    cursor.execute('SELECT id FROM user')
+    cursor.execute('SELECT id FROM user;')
     return processData()
 
 def getAllGroupIDs():
-    cursor.execute('SELECT id FROM groups')
+    cursor.execute('SELECT id FROM groups;')
     return processData()
 
 def getLastExerciseFromList(ID):
@@ -253,12 +253,16 @@ def getLastExerciseFromList(ID):
     return processOne()
 
 def getMadeExericse(user_id, exercise_id):
-    cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
     return processOne()
 
 def getSubjectID(name):
-    cursor.execute('select id from subject WHERE name = "{name}"'.format(name = name))
+    cursor.execute('SELECT id FROM subject WHERE name = "{name}"'.format(name = name))
     return processOne()
+
+def getAllSubjectIDs():
+    cursor.execute('SELECT id FROM subject;')
+    return processData()
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active,joined_on,last_login,gender):
