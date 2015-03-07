@@ -19,44 +19,44 @@
 
 
 
- <div class="row">
-   <div class="large-6 columns">
-        <div class="content" data-section-content>
-            <p>
-              <div class="row">
-                <div class="large-12 columns">
-                  <div class="signup-panel">
-                    <p class="welcome">Welcome back!</p>
-                    {% if error_login %}
-                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
-                    {% endif %}
-                    <form method="post" action="/login/" data-abide>
-                    {% csrf_token %}
-                      <div class="row collapse">
-                        <div class="small-1 columns">
-                          <span class="prefix"><i class="fi-mail size-28"></i></span>
-                        </div>
-                        <div class="small-11  columns">
-                          <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                          <small class="error">Enter a valid Email Address.</small>
-                        </div>
-                      </div>
-                      <div class="row collapse">
-                        <div class="small-1 columns ">
-                          <span class="prefix"><i class="fi-lock size-28"></i></span>
-                        </div>
-                        <div class="small-11 columns ">
-                          <input type="password" required placeholder="Password" id="your_password" name="your_password">
-                          <small class="error">Enter a valid Password.</small>
-                        </div>
-                      </div>
-                      <input type="submit" value="Log In" class="button"/>
-                    </form>
-                  </div>
+<div class="row">
+ <div class="large-6 columns">
+  <div class="content" data-section-content>
+    <p>
+      <div class="row">
+        <div class="large-12 columns">
+          <div class="signup-panel">
+            <p class="welcome">Welcome back!</p>
+            {% if error_login %}
+            <div class="alert-box alert radius">Incorrect email and/or password.</div>
+            {% endif %}
+            <form method="post" action="/login/" data-abide>
+              {% csrf_token %}
+              <div class="row collapse">
+                <div class="small-1 columns">
+                  <span class="prefix"><i class="fi-mail size-28"></i></span>
                 </div>
-            </div></p>
+                <div class="small-11  columns">
+                  <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
+                  <small class="error">Enter a valid Email Address.</small>
+                </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-1 columns ">
+                  <span class="prefix"><i class="fi-lock size-28"></i></span>
+                </div>
+                <div class="small-11 columns ">
+                  <input type="password" required placeholder="Password" id="your_password" name="your_password">
+                  <small class="error">Enter a valid Password.</small>
+                </div>
+              </div>
+              <input type="submit" value="Log In" class="button"/>
+            </form>
+          </div>
         </div>
+      </div></p>
     </div>
+  </div>
 </div>
 
 {% endblock base_body %}
