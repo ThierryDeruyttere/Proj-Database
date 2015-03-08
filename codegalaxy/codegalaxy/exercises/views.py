@@ -72,13 +72,12 @@ def list(request, id=0):
         all_exercises = exercise_list.allExercises("en")
 
         if logged_user(request):
-            print("hai")
             for exercise in all_exercises:
                 print(object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id))
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id):
                     exercise.solved = True
 
-        correct_user = (logged_user(request) == exercise_list.created_by)
+        correct_user = (logged_user(request).id == exercise_list.created_by)
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
