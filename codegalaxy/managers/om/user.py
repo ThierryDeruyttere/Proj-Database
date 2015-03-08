@@ -77,6 +77,9 @@ class User:
         else:
             return None
 
+    def rateSubject(subject_id):
+         return dbw.amountOfListsWithSubjectForUser(subject_id,user_id)
+
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 

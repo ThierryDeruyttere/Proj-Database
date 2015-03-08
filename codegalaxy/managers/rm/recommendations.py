@@ -7,9 +7,15 @@ object_manager = objectmanager.ObjectManager()
 
 # returns the amount of exerciselists a user has made with a certain subject
 # if the dates parameter is true, older lists will count for less
-def amountOfListsPerSubjectForUser(user_id,dates):
+# Subjects with a lower rating also count for less (no rating->count for half)
+def scorePerSubjectForUser(user_id,dates,ratings):
+    # map with key: subjectID and value:amount*multipliers
+    subject_scores = {}
     # list of subjectIDs
-    subjects = object_manager.getAllSubjectIDs()
+    subject_ids=object_manager.getAllSubjectIDs()
+    for subject_id in subject_ids:
+        subject_scores[subject_id]=
+
 
 # friends are taken into account a bit more for the overlap_scores
 def friendsMultiplier(user_id,other_user_id):

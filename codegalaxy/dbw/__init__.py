@@ -366,6 +366,10 @@ def latestHint(exercise_id, language_code):
     cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id=language_id, ex_id=exercise_id))
     return processOne()
 
+def amountOfListsWithSubjectForUser(subject_id,user_id):
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id,u_id=user_id))
+
+
 # USER VERIFICATION
 def needsVerification(hash):
     cursor.execute('SELECT email FROM verification WHERE hash = "{hash}";'.format(hash=hash))
