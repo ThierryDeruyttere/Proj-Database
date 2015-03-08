@@ -175,24 +175,24 @@
                     <u>Possible answers</u>
                     <i class="fi-plus" id="add_answer"></i>
                   </div>
-                  <div class="row" id="answer_wrapper">
+                  <div class="row" id="wrapper_answer">
                     <div class="row collapse prefix-radius" id="answer1">
                       <div class="small-10 columns">
                         <input type="text" name="answer1" />
                       </div>
-                      <div class="small-1 columns remove_answer" hidden></div>
                       <div class="small-1 columns">
-                        <input type="radio" name="correct_answer" value="1" checked />
+                        <span class="postfix"><input type="radio" name="correct_answer" value="1" checked /></span>
                       </div>
+                      <div class="small-1 columns remove_answer" hidden></div>
                     </div>
                     <div class="row collapse prefix-radius" id="answer2">
                       <div class="small-10 columns">
                         <input type="text" name="answer2" />
                       </div>
-                      <div class="small-1 columns remove_answer" hidden></div>
                       <div class="small-1 columns">
-                        <input type="radio" name="correct_answer" value="2" />
+                        <span class="postfix"><input type="radio" name="correct_answer" value="2" /></span>
                       </div>
+                      <div class="small-1 columns remove_answer" hidden></div>
                     </div>
                   </div>
                 </div>
@@ -218,11 +218,11 @@
     <div class="small-10 columns">
       <input type="text" name="answer" />
     </div>
+    <div class="small-1 columns">
+      <span class="postfix"><input type="radio" name="correct_answer" /></span>
+    </div>
     <div class="small-1 columns remove_answer">
       <span class="postfix fi-x" />
-    </div>
-    <div class="small-1 columns">
-      <input type="radio" name="correct_answer" style="display:inline-block" />
     </div>
   </div>
 {% endblock base_body %}
@@ -234,7 +234,7 @@
   $("#add_answer").click(function(e) {
     if(answers < 5) {
       $("#max").val(++answers);
-      $("#answer_wrapper").append(
+      $("#wrapper_answer").append(
         // Add the question template to the answer wrapper but change its id and the name of the unpit element :3
         $("#question_template").clone().attr("id","answer"+answers).show()
       );
@@ -245,14 +245,27 @@
   function reassignIDs() {
     var x = 0;
     $.each($("[id^='answer']"), function() {
+      $(this).find("div.remove_answer").remove();
+      if(answers > 2) {
+        $(this).append(
+          $("<div/>", {"class":"small-1 columns remove_answer"}).append(
+            $("<span/>", {"class":"postfix fi-x"})
+          )
+        );
+      }
+      else {
+        $(this).append(
+          $("<div/>", {"class":"small-1 columns"})
+        );
+      }
       $(this).find("div > input[type='text']").attr("name", "answer"+x);
       $(this).find("div > input[type='radio']").attr("value", x.toString());
       x++;
     });
   }
 
-  $("#answer_wrapper").on("click", ".remove_answer", function(e) {
-    if(answers > 2) {
+  $("#wrapper_answer").on("click", ".remove_answer", function(e) {
+    if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
       $(this).parent().remove();
       $("#max").val(--answers);
       reassignIDs();
