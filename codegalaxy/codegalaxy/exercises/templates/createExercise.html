@@ -102,7 +102,7 @@
                   <div class="large-4 large-centered columns">
                     <div class="row">
                       <div class="small-10 medium-11 columns">
-                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="removeHints()">
+                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
                           <span class="range-slider-handle" role="slider" tabindex="0"></span>
                           <span class="range-slider-active-segment"></span>
                         </div>
@@ -228,110 +228,111 @@
 {% endblock base_body %}
 
 {% block body_js %}
-<script>
+  <script>
 
-  var answers = 2
-  $("#add_answer").click(function(e) {
-    if(answers < 5) {
-      $("#max").val(++answers);
-      $("#wrapper_answer").append(
-        // Add the question template to the answer wrapper but change its id and the name of the unpit element :3
-        $("#question_template").clone().attr("id","answer"+answers).show()
-      );
-      reassignIDs();
-    }
-  });
-
-  function reassignIDs() {
-    var x = 0;
-    $.each($("[id^='answer']"), function() {
-      $(this).find("div.remove_answer").remove();
-      if(answers > 2) {
-        $(this).append(
-          $("<div/>", {"class":"small-1 columns remove_answer"}).append(
-            $("<span/>", {"class":"postfix fi-x"})
-          )
+    var answers = 2
+    $("#add_answer").click(function(e) {
+      if(answers < 5) {
+        $("#max").val(++answers);
+        $("#wrapper_answer").append(
+                // Add the question template to the answer wrapper but change its id and the name of the unpit element :3
+                $("#question_template").clone().attr("id","answer"+answers).show()
         );
+        reassignIDs();
       }
-      else {
-        $(this).append(
-          $("<div/>", {"class":"small-1 columns"})
-        );
-      }
-      $(this).find("div > input[type='text']").attr("name", "answer"+x);
-      $(this).find("div > input[type='radio']").attr("value", x.toString());
-      x++;
     });
-  }
 
-  $("#wrapper_answer").on("click", ".remove_answer", function(e) {
-    if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
-      $(this).parent().remove();
-      $("#max").val(--answers);
-      reassignIDs();
-    }
-  });
-
-  $("input[type='radio'][name='exercise_type']").change(function() {
-    $("#Tips_Row").toggle();
-
-    if($("#exercise_type_code").is(":checked")) {
-      $("#Code_Question").show();
-      //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
-      //so we need to reset it
-      $('#slider').foundation('slider', 'set_value', 5);
-      $("#Open_Question").hide();
-    }
-    else if($('#exercise_type_open').is(":checked")) {
-      $("#Code_Question").hide();
-      $("#Open_Question").show();
-      $('#slider').foundation('slider', 'set_value', 2);
-    }
-  });
-
-  var hint_nmbr = 0;
-  $("#add_hint").click(function() {
-    if(hint_nmbr >= $("#max").val()){
-      return;
+    function reassignIDs() {
+      var x = 0;
+      $.each($("[id^='answer']"), function() {
+        $(this).find("div.remove_answer").remove();
+        if(answers > 2) {
+          $(this).append(
+                  $("<div/>", {"class":"small-1 columns remove_answer"}).append(
+                          $("<span/>", {"class":"postfix fi-x"})
+                  )
+          );
+        }
+        else {
+          $(this).append(
+                  $("<div/>", {"class":"small-1 columns"})
+          );
+        }
+        $(this).find("div > input[type='text']").attr("name", "answer"+x);
+        $(this).find("div > input[type='radio']").attr("value", x.toString());
+        x++;
+      });
     }
 
-    $("#Hints").append(
-      $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
-        $("<div/>", {"class":"large-5 large-centered columns"}).append(
-          $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
-        )
-      )
-    );
+    $("#wrapper_answer").on("click", ".remove_answer", function(e) {
+      if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
+        $(this).parent().remove();
+        $("#max").val(--answers);
+        reassignIDs();
+      }
+    });
 
-    ++hint_nmbr;
-  });
+    $("input[type='radio'][name='exercise_type']").change(function() {
+      $("#Tips_Row").toggle();
 
-  // NOT WORKING FOR SOME REASON
-  // $("#slider").change(function() {
-  //   var value = $(this).val();
-  //   if((hint_nmbr - value) > 0) {
-  //     for(i = 0; i < (hint_nmbr-value);++i) {
-  //       $("#row"+(hint_nmbr-i)).remove();
-  //       hint_nmbr--;
-  //     }
-  //   }
-  // });
+      if($("#exercise_type_code").is(":checked")) {
+        $("#Code_Question").show();
+        //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
+        //so we need to reset it
+        $('#slider').foundation('slider', 'set_value', 5);
+        $("#Open_Question").hide();
+      }
+      else if($('#exercise_type_open').is(":checked")) {
+        $("#Code_Question").hide();
+        $("#Open_Question").show();
+        $('#slider').foundation('slider', 'set_value', 2);
+      }
+    });
 
-  function removeHints(){
-    var value = document.getElementById("max").value;
-    if((hint_nmbr-value) > 0){
-      var span = document.getElementById("Hints");
-      for(i = 0; i < (hint_nmbr-value);++i){
+    var hint_nmbr = 0;
+    $("#add_hint").click(function() {
+      if(hint_nmbr >= $("#max").val()){
+        return;
+      }
 
-        var name = "row"+ (hint_nmbr-i);
+      $("#Hints").append(
+              $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+                      $("<div/>", {"class":"large-5 large-centered columns"}).append(
+                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+                      )
+              )
+      );
 
-        var obj = document.getElementById(name);
-        if(obj){
-          obj.parentNode.removeChild(obj);
+      ++hint_nmbr;
+    });
+
+
+    $("#slider").change(function() {
+      var value = $(this).attr("data-slider") //Value of slider;
+      console.log(value);
+      if((hint_nmbr - value) > 0) {
+        for(i = 0; i < (hint_nmbr-value);++i) {
+          $("#row"+(hint_nmbr-i)).remove();
           hint_nmbr--;
         }
       }
+    });
+
+    function removeHints(){
+      var value = document.getElementById("max").value;
+      if((hint_nmbr-value) > 0){
+        var span = document.getElementById("Hints");
+        for(i = 0; i < (hint_nmbr-value);++i){
+
+          var name = "row"+ (hint_nmbr-i);
+
+          var obj = document.getElementById(name);
+          if(obj){
+            obj.parentNode.removeChild(obj);
+            hint_nmbr--;
+          }
+        }
+      }
     }
-  }
-</script>
+  </script>
 {% endblock body_js %}
