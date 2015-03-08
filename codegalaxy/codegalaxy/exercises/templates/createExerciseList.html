@@ -84,53 +84,34 @@
 {% endblock base_body %}
 
 {% block body_js %}
-  <script>
+<script>
 
-    function removeSubject(obj){
-      console.loge(obj);
-      $( '#' + obj ).fadeOut( "slow", function() {
-        // Animation complete.
-        var elem = document.getElementById(obj);
-        elem.parentNode.removeChild(elem);
-        var text = document.getElementById(obj + "_text" );
-        text.parentNode.removeChild(text);
-      });
-    }
+  $(document).ready(function() {
 
-    $(document).ready(function(){
-      var subjects = 0;
-      $("#add-subject").click(function(){
-        var label = document.createElement("span");
-        label.setAttribute("class", "success label");
-        label.innerHTML = document.getElementById("subject").value;
-        label.setAttribute("id", "subject"+subjects);
-        label.onclick = function(){
-          $( '#' + label.id ).fadeOut( "slow", function() {
-            // Animation complete.
-            var elem = document.getElementById(label.id);
-            elem.parentNode.removeChild(elem);
-            var text = document.getElementById(label.id +"_text");
-            text.parentNode.removeChild(text);
-          });
-        };
+    var subjects = 0;
+    $("#add-subject").click(function() {
+      var label = $("<span/>", {"class":"success label","id":"subject"+subjects});
+      var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":$("#subject").val(),"name":"subject"+subjects});
 
-        var input = document.createElement("input");
-        input.setAttribute("class", "text");
-        input.setAttribute("hidden", "True");
-        input.setAttribute("id", "subject"+subjects+"_text");
-        input.value = document.getElementById("subject").value;
-        input.setAttribute("name", "subject"+subjects);
-        document.getElementById("subject").value = "";
-        subjects++;
+      label.html($("#subject").val());
 
-        document.getElementById("subjects").appendChild(label);
-        document.getElementById("subjects").appendChild(input);
-        //$(document).foundation('span', 'reflow');
 
-      });
+      $("#subject").val("");
+      subjects++;
 
+      $("#subjects").append(label);
+      $("#subjects").append(input);
+      //$(document).foundation('span', 'reflow');
     });
 
+    $(document).on("click", "span[id^='subject']", function() {
+      $(this).fadeOut("slow", function() {
+        $("#" + $(this).attr("id") + "_text").remove();
+        $(this).remove();
+      });
+    });
 
-  </script>
+  });
+
+</script>
 {% endblock body_js %}
