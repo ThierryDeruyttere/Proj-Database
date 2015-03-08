@@ -52,7 +52,7 @@ class User:
         @brief Add a friend of this User
         '''
         if not self.isFriend(friend):
-            dbw.insertFriendsWith(self.id, friend.id, 'Friends')
+            dbw.insertFriendsWith(self.id, friend.id, 'Pending')
 
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
@@ -64,6 +64,12 @@ class User:
             # If the info is legit, we add a Group object with the info to the list
             groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
+
+    def allPendingFriendships(self):
+        pending_friendships = dbw.getPendingFriendships(self.id)
+
+
+        return pending_friendships
 
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)

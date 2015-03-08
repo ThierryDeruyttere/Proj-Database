@@ -9,18 +9,12 @@
         <div class="panel">
             <a href="#"><img src="{% static "media/user.png" %}"/></a>
             <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
+            
             <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-                <section class="section">
-                    <h5 class="title"><a href="#Friends">Friends</a></h5>
-                </section>
-                <section class="section">
-                    <h5 class="title"><a href="#Groups">Groups</a></h5>
-                </section>
-
                 {% if not already_friends and not logged_in %}
-                <form method="post" action="/u/{{user.id}}/">
+                <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
                     {% csrf_token %}
-                    <input type="submit" value="Become friends" class="button"/>
+                    <input type="submit" name ='add_friend' value="Become friends" class="button"/>
                 </form>
                 {% endif %}
             </div>
@@ -29,85 +23,69 @@
 
 
     <div class="large-8 columns">
-        {% for item in all_data %}
-        {% if item.type == 'friendship' %}
-        <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-            <div class="large-10 columns">
-
-                <p><strong>{{ user.first_name }} {{ user.last_name }} became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
-                
-            </div>
-        </div>
+        <ul class="tabs" data-tab>
+            <li class="tab-title active"><a href="#feed">Feed</a></li>
+            <li class="tab-title"><a href="#friends">Friends</a></li>
+            <li class="tab-title"><a href="#groups">Groups</a></li>
+        </ul>
 
         <hr/>
-        {% endif %}
-        {% if item.type == 'group_member'%}
-        <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-            <div class="large-10 columns">
 
-                <p><strong>{{ user.first_name }} {{ user.last_name }} was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
-                
-            </div>
-        </div>
+        <div class="tabs-content">
+            <div class="content active" id="feed">
+                {% for item in all_data %}
+                {% if item.type == 'friendship' %}
+                <div class="row">
+                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+                    <div class="large-10 columns">
 
-        <hr/>
-        {% endif %}
-        {% if item.type == 'exerciseList'%}
-        <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-            <div class="large-10 columns">
+                    <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
 
-                <p><strong>{{ user.first_name }} {{ user.last_name }} made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
-                
-            </div>
-        </div>
-
-        <hr/>
-        {% endif %}
-        {% endfor %}
-
-    </div>
-
-    <div class="panel">
-        <a name="Friends"></a>
-        <div class="large-12 columns">
-            <div class="row text.center">
-                <h1>Friends:</h1>
-            </div>
-        </div>
-        <div class="row">
-            {% for friend in friend_list %}
-            <div class="large-2 small-2 columns">
-                <a href="../{{ user.id }}"/>
-                <img src="{% static "media/user.png" %}">
-                <div class="panel">
-                    <h5>{{ friend.first_name }}</h5>
-                    <h6 class="subheader">{{ friend.last_name }}</h6>
+                    </div>
                 </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
 
-    <div class="panel">
-        <a name="Groups"></a>
-        <div class="large-12 columns">
-            <div class="row">
-                <h1>Groups:</h1>
-            </div>
-        </div>
-        <div class="row">
-            {% for group in group_list %}
-            <div class="large-2 small-2 columns">
-                <a href="../../g/{{ group.id }}"/>
-                <img src="{% static "media/group.png" %}">
-                <div class="panel">
-                    <h5>{{ group.group_name }}</h5>
+                <hr/>
+                {% endif %}
+                {% if item.type == 'group_member'%}
+                <div class="row">
+                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+                    <div class="large-10 columns">
+
+                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+
+                    </div>
                 </div>
+
+                <hr/>
+                {% endif %}
+                {% if item.type == 'exerciseList'%}
+                <div class="row">
+                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+                    <div class="large-10 columns">
+
+                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+
+                    </div>
+                </div>
+
+                <hr/>
+                {% endif %}
+                {% endfor %}
             </div>
-            {% endfor %}
+            <div class="content active" id="friends">
+                {% for friendship in pending_friendships %}
+                <div class="row">
+                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+                    <div class="large-10 columns">
+                        <p><strong>{{ friendship.first_name }} {{ friendsip.last_name }} <a href="/u/{{ friendship.id }}"></a></strong>wants to be your friend, do you want to accept? </p>
+                        <form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                            {% csrf_token %}
+                            <input type="submit" name ='confirm_friendship' value="Confirm" class="button"/>
+                        </form>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
 </div>
