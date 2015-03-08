@@ -77,8 +77,32 @@ class User:
         else:
             return None
 
-    def rateSubject(subject_id):
-         return dbw.amountOfListsWithSubjectForUser(subject_id,user_id)
+    def amountOfListsWithSubjectForUser(self, subject_id, dates, ratings):
+        int amount_of_lists = dbw.amountOfListsWithSubjectForUser(subject_id, user_id)['amount']
+
+    def ratingCounter(self, ratings, default):
+        total_rating = 0
+        illegit_lists = 0
+        for rating in ratings:
+            if rating['rating'] == 0:
+                if default:
+                    #default counts for 50%
+                    total_rating += 2.5
+                else:
+                    #we need to count one less
+                    illegit_lists += 1
+            else:
+                total_rating += rating['rating']
+        return total_rating / (len(ratings) - illegit_lists)
+
+    # average score on any subject
+    def averageRating(self, default):
+        ratings = dbw.listOfRatingsForUser(self.id)
+        return ratingCounter(ratings, default)
+
+    def subjectRating(self, subject_id):
+        ratings = dbw.listOfRatingsForUserForSubject(self.id)
+        return ratingCounter(ratings, default)
 
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)

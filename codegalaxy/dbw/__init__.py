@@ -366,9 +366,17 @@ def latestHint(exercise_id, language_code):
     cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id=language_id, ex_id=exercise_id))
     return processOne()
 
-def amountOfListsWithSubjectForUser(subject_id,user_id):
-    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id,u_id=user_id))
+def amountOfListsWithSubjectForUser(subject_id, user_id):
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processOne()
 
+def listOfRatingsForUser(user_id):
+    cursor.execute('SELECT rating FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
+    return processData()
+
+def listOfRatingsForUserForSubject(user_id, subject_id):
+    cursor.execute('SELECT rating FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processData()
 
 # USER VERIFICATION
 def needsVerification(hash):
