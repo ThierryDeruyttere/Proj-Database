@@ -174,17 +174,24 @@
                   <div class="row">
                     <u>Possible answers</u>
                     <i class="fi-plus" id="add_answer"></i>
-                    <!-- <i class="fi-minus" id="remove_answer"></i> -->
                   </div>
                   <div class="row" id="answer_wrapper">
                     <div class="row collapse prefix-radius" id="answer1">
-                      <div class="small-11 columns">
+                      <div class="small-10 columns">
                         <input type="text" name="answer1" />
+                      </div>
+                      <div class="small-1 columns remove_answer" hidden></div>
+                      <div class="small-1 columns">
+                        <input type="radio" name="correct_answer" value="1" checked />
                       </div>
                     </div>
                     <div class="row collapse prefix-radius" id="answer2">
-                      <div class="small-11 columns">
+                      <div class="small-10 columns">
                         <input type="text" name="answer2" />
+                      </div>
+                      <div class="small-1 columns remove_answer" hidden></div>
+                      <div class="small-1 columns">
+                        <input type="radio" name="correct_answer" value="2" />
                       </div>
                     </div>
                   </div>
@@ -208,11 +215,14 @@
 
   <!-- Question template -->
   <div class="row collapse prefix-radius" id="question_template" hidden>
-    <div class="small-11 columns">
+    <div class="small-10 columns">
       <input type="text" name="answer" />
     </div>
     <div class="small-1 columns remove_answer">
       <span class="postfix fi-x" />
+    </div>
+    <div class="small-1 columns">
+      <input type="radio" name="correct_answer" style="display:inline-block" />
     </div>
   </div>
 {% endblock base_body %}
@@ -226,15 +236,17 @@
       $("#max").val(++answers);
       $("#answer_wrapper").append(
         // Add the question template to the answer wrapper but change its id and the name of the unpit element :3
-        $("#question_template > div > input").attr("name", "answer"+answers).parent().parent().clone().attr("id","answer"+answers).show()
+        $("#question_template").clone().attr("id","answer"+answers).show()
       );
+      reassignIDs();
     }
   });
 
   function reassignIDs() {
-    var x = 1;
-    $.each($("[id^=answer] > div > input"), function() {
-      $(this).attr("name", "answer"+x);
+    var x = 0;
+    $.each($("[id^='answer']"), function() {
+      $(this).find("div > input[type='text']").attr("name", "answer"+x);
+      $(this).find("div > input[type='radio']").attr("value", x.toString());
       x++;
     });
   }
