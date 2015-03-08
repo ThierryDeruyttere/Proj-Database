@@ -38,7 +38,7 @@ class ExerciseList:
                 exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
             return exercises
         else:
-            return None
+            return []
 
     def getExercise(self, id, language_code):
         for ex in allExercises(language_code):
