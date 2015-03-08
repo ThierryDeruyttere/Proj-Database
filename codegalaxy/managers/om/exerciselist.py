@@ -40,6 +40,13 @@ class ExerciseList:
         else:
             return None
 
+    def getExercise(self, id, language_code):
+        for ex in allExercises(language_code):
+            if ex.id == id:
+                return ex
+            else:
+                return None
+
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 

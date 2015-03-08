@@ -114,7 +114,6 @@ def createExercise(request, listId=0):
 
             exercise_answer = answer
             correct_answer = request.POST.get("correct_answer")
-            print(correct_answer)
             exercise_penalty = 3
 
         else:
@@ -122,8 +121,9 @@ def createExercise(request, listId=0):
             exercise_answer = [expected_answer]
 
             for j in range(1, exercise_max_score + 1):
-                if request.POST.get("hint" + str(j)) != "" and request.POST.get("hint" + str(j)) != None:
-                    hints.append(escape_string(request.POST.get("hint" + str(j))))
+                cur_hint = request.POST.get("hint" + str(j), "")
+                if cur_hint != "":
+                    hints.append(escape_string(cur_hint))
 
         exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
         return redirect("/l/" + str(listId))
@@ -155,8 +155,10 @@ def answerQuestion(request, list_id, question_id):
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
                                                            "hints": current_exercise.allHints()})
-
-    # Just redirect if list doesn't exist/exericse doens't exist
+        # If the exercise doesn't exist, redirect to the list page
+        else:
+            return redirect('/l/' + list_id)
+    # Redirect to home if exercise list does't exist
     return redirect('/')
 
 def stripStr(string):
@@ -187,12 +189,17 @@ def submit(request, list_id, question_id):
         if current_exercise is None:
             return redirect('/')
 
-        if request.method == "POST":
-            rating = request.POST.get("current_rating")
-            print("DID RATE")
-            print(rating)
-            if rating is not None:
-                return redirect('/')
+        if request.method == 'POST':
+            rating = request.POST.get("score")
+
+            # Check which button has been pressed
+            if 'b_tryagain' in request.POST:
+                # Redirect to the same exercise
+                return redirect('/l/' + list_id + '/' + question_id)
+            elif 'b_returntolist' in request.POST:
+                return redirect('/l/' + list_id)
+            elif 'b_nextexercise' in request.POST:
+                return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
 
             info = object_manager.getInfoForUserForExericse(question_id, user.id)
             penalty = current_exercise.penalty
@@ -206,7 +213,6 @@ def submit(request, list_id, question_id):
             max_score = current_exercise.max_score
             hint = request.POST.get("used_hints")
             user_output = request.POST.get("code_output")
-
             if current_exercise.exercise_type == "Open Question":
                 selected_answer = request.POST.get("corr_answer")
 
@@ -225,8 +231,7 @@ def submit(request, list_id, question_id):
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
-
-                if correct_answer == user_output:
+                if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
                     object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), 0)

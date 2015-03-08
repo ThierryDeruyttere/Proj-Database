@@ -13,6 +13,8 @@
   <div class="row">
     <div class="large-12 columns">
       <div class="panel">
+        <form id="submit_page" method="POST">
+        {% csrf_token %}
         {% if solved %}
           <div class="row">
             <div class="large-text-center">
@@ -41,23 +43,21 @@
             <div class="large-12 columns large-text-center">
               Rating:<br/>
               <div class="rating">
-                {% for i in 5|get_range %}
+              <div id="raty"></div>
+                <!-- {% for i in 5|get_range %}
                   <i class="fi-star" id="star{{ i }}" onclick="javascript:rate(this)"></i>
                 {% endfor %}
-                <form id="user_rating" method="POST">
-                  {% csrf_token %}
-                  <input id="current_rating" name="current_rating" value="1" type="hidden">
-                </form>
+                <input id="current_rating" name="current_rating" value="1" type="hidden"> -->
               </div>
             </div>
           </div>
-          <div id="raty"></div>
           <div class="row">
+            <input type="hidden" name="solved" value="True"></input>
             <div class="large-6 large-text-center columns">
-              <a href="#" id="exercise_list" class="button small radius">Return to list</a>
+              <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="Return to list"></input>
             </div>
             <div class="large-6 large-text-center columns">
-              <a id="next_exercise" href="#" class="button success small radius">Next exercise</a>
+              <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="Next exercise"></input>
             </div>
           </div>
 
@@ -71,7 +71,6 @@
               <img src="{% static "media/Icons8-Ios7-Messaging-Sad.ico" %}" height="100px" width="100px">
             </div>
           </div>
-
           {% if question_type == "Code" %}
             <div class="row">
               <div class="large-3 columns">
@@ -129,7 +128,8 @@
           {% endif %}
 
           <div class="large-text-center">
-            <a href="../{{ question_id }}" class="button alert small radius">Try again</a>
+            <input type="hidden" name="solved" value="False"></input>
+            <input type="submit" name="b_tryagain" class="button alert small radius" value="Try again"></input>
           </div>
 
         {% endif %}
@@ -151,22 +151,6 @@
     $(document).ready(function() {
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
       $('#raty').raty();
-    });
-
-    function sendForm(){
-      var form =  document.getElementById("user_rating");
-      form.submit();
-      return true;
-    }
-
-    $("#exercise_list").on('click', function() {
-      sendForm();
-      window.location = "../{{ next_exercise }}";
-    });
-
-    $("#next_exercise").on('click', function() {
-      sendForm();
-      window.location = "..";
     });
   </script>
 {% endblock body_js %}

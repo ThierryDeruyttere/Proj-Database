@@ -42,17 +42,17 @@ urlpatterns = patterns('codegalaxy.views',
    url(r'^graphs', 'graphs')
 )
 
-urlpatterns += patterns('',
-    url(r'^l/create$', 'codegalaxy.exercises.views.createExerciseList'),
+urlpatterns += patterns('codegalaxy.exercises.views',
+    url(r'^l/create$', 'createExerciseList'),
     ## QUESTIONS ##
     # List page with overview of questions (/l/<id>)
-    url(r'^l/(?P<id>\d*)/$', 'codegalaxy.exercises.views.list'),
+    url(r'^l/(?P<id>\d*)/$', 'list'),
 
     # Create exercise for list
-    url(r'^l/(?P<listId>\d*)/createExercise/$', 'codegalaxy.exercises.views.createExercise'),
+    url(r'^l/(?P<listId>\d*)/createExercise/$', 'createExercise'),
 
     # Question page (/l/<id>/<question>)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'codegalaxy.exercises.views.answerQuestion'),
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'answerQuestion'),
     # Submit question answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'codegalaxy.exercises.views.submit'),
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit'),
 )
