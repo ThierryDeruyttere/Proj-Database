@@ -153,6 +153,14 @@ def getFriendshipsForID(id):
     cursor.execute('SELECT * FROM friendsWith f, user u WHERE f.user_id = {id} AND u.id = f.friend_id UNION SELECT * FROM friendsWith f, user u WHERE f.friend_id = {id} AND u.id = f.user_id;'.format(id=id))
     return processData()
 
+def getPendingFriendships(id):
+    '''
+    @brief gets the friendships of a user that are pending
+    @param id the id of the user
+    @return returns a dict with friendship and user
+    '''
+    cursor.execute('SELECT * FROM friendsWith f, user u WHERE f.friend_id = {id} AND status = "Pending" AND f.user_id = u.id ;'.format(id=id))
+    return processData()
 
 def getExercisesForList(list_id):
     '''

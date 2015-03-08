@@ -19,10 +19,8 @@ object_manager = objectmanager.ObjectManager()
 def home(request):
     return render(request, 'home.html', {})
 
-
 @require_login
 def user(request, id=0):
-    time.strftime('%Y-%m-%d')
     current_user = logged_user(request)
 
     # Make id an int
@@ -31,8 +29,15 @@ def user(request, id=0):
     user = object_manager.createUser(id=id)
 
     if request.method == 'POST':
-        current_user.addFriend(user)
+        if 'add_friend' in request.POST:
+            current_user.addFriend(user)
+            
+        elif 'confirm_friendship' in request.POST:
+            request.POST.get('your_email', '')
+            #print(request.POST['confirm_friendshipon'])
+            #current_user.confirm_friendship(request.POST)
 
+    
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -40,7 +45,7 @@ def user(request, id=0):
     if user:
         friend_list = user.allFriends()
         group_list = user.allGroups()
-        exercise_list = user.allPersonalLists() 
+        exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
         member_of_groups = sorted(user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
@@ -52,14 +57,23 @@ def user(request, id=0):
         all_data = accepted_friendships
 
         all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+
+        pending_friendships = []
+        if current_user.id == user.id:
+            pending_friendships = current_user.allPendingFriendships()
         
-        context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends}
+        context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
         if request.session['current_user'] == id:
             context['logged_in'] = True
         return render(request, 'user.html', context)
+
     else:
         return redirect('/')
+
+
+    
+    
 
 
 @require_login
