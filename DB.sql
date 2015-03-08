@@ -260,10 +260,12 @@ VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-02-05", 1);
 
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (1,5,1,'Code',1, '2015-02-1', 1,1,1, "test");
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (1,5,1,'Code',1, '2015-02-1', 1,1,1, "Question 1");
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (2,5,1,'Code',1, '2015-02-1', 2,1,1, "Question 2");
 
 # Code data
 INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
+INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 2);
 
 # Language data
 INSERT INTO language(name,language_code) VALUES ('English','en');
@@ -271,11 +273,15 @@ INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
 
 # Question data
 INSERT INTO question(question_text, language_id, exercise_id)
-    VALUES ('Print your name', 1,1);
+    VALUES ('Print your name.', 1,1);
+INSERT INTO question(question_text, language_id, exercise_id)
+    VALUES ('Print something else.', 1,2);
 
 # Anwer data
 INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
     VALUES (1,'*', 1,1);
+INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
+    VALUES (1,'*', 1,2);
 
 # Hint data
 INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)

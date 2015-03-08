@@ -70,7 +70,15 @@ def list(request, id=0):
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
-        correct_user = (request.session['current_user'] == exercise_list.created_by)
+
+        if logged_user(request):
+            print("hai")
+            for exercise in all_exercises:
+                print(object_manager.getInfoForUserForExericse(logged_user(request).id, exercise.id))
+                if object_manager.getInfoForUserForExericse(logged_user(request).id, exercise.id):
+                    exercise.solved = True
+
+        correct_user = (logged_user(request) == exercise_list.created_by)
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
@@ -201,7 +209,7 @@ def submit(request, list_id, question_id):
             elif 'b_nextexercise' in request.POST:
                 return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
 
-            info = object_manager.getInfoForUserForExericse(question_id, user.id)
+            info = object_manager.getInfoForUserForExericse(user.id, question_id)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:

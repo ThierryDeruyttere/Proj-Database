@@ -183,7 +183,11 @@
                 <ul class="accordion" data-accordion>
                   {% for exercise in all_exercises %}
                     <li class="accordion-navigation">
-                      <a href="#Exerc{{ exercise.id }}"> {{ exercise.title }}</a>
+                      <a href="#Exerc{{ exercise.id }}">{{ exercise.title }}
+                        {% if exercise.solved %}
+                        <div class="label success right"><i class="fi-checkbox"></i></div>
+                        {% endif %}
+                      </a>
                       <div id="Exerc{{ exercise.id }}" class="content">
                         <div class="row">
                           <a href="/l/{{ id }}/{{ exercise.id }}" class="button tiny radius">Solve exercise</a>

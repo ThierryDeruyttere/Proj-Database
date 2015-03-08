@@ -113,7 +113,7 @@ class ObjectManager:
         else:
             dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on)
 
-    def getInfoForUserForExericse(self, exercise_id, user_id):
+    def getInfoForUserForExericse(self, user_id, exercise_id):
         return dbw.getMadeExericse(user_id, exercise_id)
 
     def addSubject(self, name):
