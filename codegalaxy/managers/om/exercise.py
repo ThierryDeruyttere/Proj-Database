@@ -39,6 +39,10 @@ class Exercise:
         # Exercise title
         self.title = title
 
+        # Exercise is solved
+        # Only for giving info to html templates
+        self.solved = False
+
     def __str__(self):
         return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' ' + str(self.correct_answer) + ' ' + str(self.language_code)
 
@@ -91,7 +95,6 @@ class Exercise:
 
     def save(self):
         dbw.updateExercise(id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
-
 
 class Question:
 
