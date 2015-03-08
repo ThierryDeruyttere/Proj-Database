@@ -404,3 +404,23 @@ def removeVerification(hash):
 
 def addVerification(email, hash):
     cursor.execute('INSERT INTO verification(email, hash) VALUES ("{email}","{hash}");'.format(email=email, hash=hash))
+
+
+#Filtering
+def filterOnTitle(forValue):
+    cursor.execute('SELECT * FROM exerciseList WHERE name LIKE "%{value}%";'.format(value = forValue))
+    return processData()
+
+
+def filterOnSubject(forSubject):
+    cursor.execute('SELECT e.* FROM exerciseList e, hasSubject h, subject s WHERE s.name = "%{subject}%" AND s.id = h.subject_id AND h.exerciseList_id = e.id;'.format(subject = forSubject))
+    return processData()
+
+def filterOnDifficulty(difficulty):
+    cursor.execute('SELECT * FROM exerciseList WHERE difficulty LIKE "%{diff}%";'.format(diff = difficulty))
+    return processData()
+
+
+def filterOnProgLang(progLang):
+    cursor.execute('SELECT * FROM exerciseList e, programmingLanguage p WHERE p.id = e.prog_lang_id AND p.name = "{name}";'.format(name = progLang))
+    return processData()
