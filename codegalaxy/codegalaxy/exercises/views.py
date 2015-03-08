@@ -263,3 +263,6 @@ def submit(request, list_id, question_id):
 
     else:
         return redirect('/')
+
+def listOverview(request):
+    return render(request, 'listOverview.html', {})

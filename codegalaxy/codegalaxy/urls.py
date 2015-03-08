@@ -43,16 +43,18 @@ urlpatterns = patterns('codegalaxy.views',
 )
 
 urlpatterns += patterns('codegalaxy.exercises.views',
-    url(r'^l/create$', 'createExerciseList'),
     ## QUESTIONS ##
+    # Lists overview
+    url(r'^l/$', 'listOverview'),
     # List page with overview of questions (/l/<id>)
     url(r'^l/(?P<id>\d*)/$', 'list'),
-
+    # Create list (/l/create)
+    url(r'^l/create/$', 'createExerciseList'),
     # Create exercise for list
     url(r'^l/(?P<listId>\d*)/createExercise/$', 'createExercise'),
 
-    # Question page (/l/<id>/<question>)
+    # Exercise page (/l/<id>/<question>)
     url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'answerQuestion'),
-    # Submit question answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit'),
+    # Submit exercise answer (/l/<id>/<question>/submit)
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit')
 )
