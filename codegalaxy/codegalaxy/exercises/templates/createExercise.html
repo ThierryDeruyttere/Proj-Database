@@ -75,8 +75,8 @@
             <div class="row">
               <div class="large-6 large-centered columns">
                 <label>Exercise Type:</label>
-                <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" onchange="javascript:ShowContent();"><label for="exercise_type_code">Code question</label>
-                <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open" onchange="javascript:ShowContent()"><label for="exercise_type_open">Open question</label>
+                <input type="radio" name="exercise_type" value="Code" id="exercise_type_code"><label for="exercise_type_code">Code question</label>
+                <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open"><label for="exercise_type_open">Open question</label>
 
               </div>
             </div>
@@ -102,7 +102,7 @@
                   <div class="large-4 large-centered columns">
                     <div class="row">
                       <div class="small-10 medium-11 columns">
-                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="javascript:removeHints()">
+                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" onchange="removeHints()">
                           <span class="range-slider-handle" role="slider" tabindex="0"></span>
                           <span class="range-slider-active-segment"></span>
                         </div>
@@ -155,10 +155,10 @@
               <!--
                 Tips
                 -->
-              <div class="row" id="Tips_Row" hidden="True">
+              <div class="row" id="Tips_Row" hidden>
                 <h3>Tips:</h3>
                 <div class="large-4 right columns">
-                  <input type="button" class="button tiny radius" value="Add Tip" onclick="javascript:add('text');">
+                  <input type="button" class="button tiny radius" id="add_hint" value="Add Hint">
                 </div>
                 <div class="row">
                   <span id="Hints"> </span>
@@ -259,49 +259,50 @@
     }
   });
 
-  function ShowContent(){
-    if(document.getElementById("Tips_Row").hidden){
-      document.getElementById("Tips_Row").hidden = false;
-    }
+  $("input[type='radio'][name='exercise_type']").change(function() {
+    $("#Tips_Row").toggle();
 
-    if(document.getElementById("exercise_type_code").checked){
-      document.getElementById("Code_Question").hidden = false;
+    if($("#exercise_type_code").is(":checked")) {
+      $("#Code_Question").show();
       //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
       //so we need to reset it
-      $('#slider').foundation('slider','set_value',5);
-      document.getElementById("Open_Question").hidden = true;
-    }else if(document.getElementById('exercise_type_open').checked){
-      document.getElementById("Code_Question").hidden = true;
-      document.getElementById("Open_Question").hidden = false;
+      $('#slider').foundation('slider', 'set_value', 5);
+      $("#Open_Question").hide();
     }
-
-  }
+    else if($('#exercise_type_open').is(":checked")) {
+      $("#Code_Question").hide();
+      $("#Open_Question").show();
+      $('#slider').foundation('slider', 'set_value', 2);
+    }
+  });
 
   var hint_nmbr = 0;
-  function add(type){
-
-    if(hint_nmbr >= document.getElementById("max").value){
+  $("#add_hint").click(function() {
+    if(hint_nmbr >= $("#max").val()){
       return;
     }
-    var element=document.createElement("input");
-    element.setAttribute("type",type);
 
-    element.setAttribute("name","hint"+(hint_nmbr+1));
-    var foo=document.getElementById("Hints");
-    element.setAttribute("placeholder","Tip"+ (hint_nmbr+1));
+    $("#Hints").append(
+      $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+        $("<div/>", {"class":"large-5 large-centered columns"}).append(
+          $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+        )
+      )
+    );
 
-    //create div
-    var div = document.createElement("div");
-    div.setAttribute("class", "large-5 large-centered columns");
-
-    var row = document.createElement("div");
-    row.setAttribute("class", "row");
-    row.setAttribute("id", "row"+(hint_nmbr+1));
-    div.appendChild(element);
-    row.appendChild(div);
-    foo.appendChild(row);
     ++hint_nmbr;
-  }
+  });
+
+  // NOT WORKING FOR SOME REASON
+  // $("#slider").change(function() {
+  //   var value = $(this).val();
+  //   if((hint_nmbr - value) > 0) {
+  //     for(i = 0; i < (hint_nmbr-value);++i) {
+  //       $("#row"+(hint_nmbr-i)).remove();
+  //       hint_nmbr--;
+  //     }
+  //   }
+  // });
 
   function removeHints(){
     var value = document.getElementById("max").value;
