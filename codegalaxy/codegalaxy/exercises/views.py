@@ -100,7 +100,7 @@ def createExercise(request, listId=0):
 
         exercise_question = Question(exercise_question_text, 1)
         exercise_answer = None
-        correct_answer = None
+        correct_answer = 1
 
         code = request.POST.get('code', '')
         exercise_max_score = int(request.POST.get('max', '1'))
@@ -112,15 +112,14 @@ def createExercise(request, listId=0):
                 if cur_answer != "":
                     answer.append(escape_string(cur_answer))
 
-            selected_answer = request.POST.get("corr_answer")
             exercise_answer = answer
-            correct_answer = selected_answer
+            correct_answer = request.POST.get("correct_answer")
+            print(correct_answer)
             exercise_penalty = 3
 
         else:
             expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
-            correct_answer = 1
 
             for j in range(1, exercise_max_score + 1):
                 if request.POST.get("hint" + str(j)) != "" and request.POST.get("hint" + str(j)) != None:
