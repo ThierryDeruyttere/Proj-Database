@@ -1,23 +1,38 @@
 
 from managers.om import *
+import datetime
 
 object_manager = objectmanager.ObjectManager()
 
 # MULTIPLIERS==============================================================================================
 
 #ARBITRAIR MULTIPLIERSYSTEEM:
-#avg vd Dates ouder dan week / 2
-#Dates ouder dan maand / 4
+#avg vd Dates ouder dan week -> / 2
+#Dates ouder dan maand -> / 4
+#Recenter dan avg -> *1.2
 
 def timeMultiplier(user, subject_id):
-    pass
+    multiplier = 1
+    avg_date_age = user.avgDateAge()
+    avg_subject_date_age = user.avgSubjectDateAge(subject_id)
+    week = datetime.timedelta(days=7)
+    month = datetime.timedelta(days=31)
+    if avg_subject_date_age >= month:
+        multiplier = 0.25
+    elif avg_subject_date_age >= week:
+        multiplier = 0.5
+    if avg_subject_date_age < avg_date_age:
+        multiplier *= 1.2
+    return multiplier
 
 #AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
 #Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
 
-def ratingMultiplier(user, subject_id):
-    avg_rating = user.averageRating()
-    subject_rating = user.subjectRating(subject_id)
+def ratingMultiplier(user, subject_id, default):
+    avg_rating = user.averageRating(default)
+    print('avg rating = ' + str(avg_rating))
+    subject_rating = user.subjectRating(subject_id, default)
+    print('avg sub rating = ' + str(subject_rating))
     subject_score = subject_rating * 0.2
     if subject_rating > avg_rating:
         subject_score += subject_rating * 0.05
@@ -34,22 +49,22 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
     # map with key: subjectID and value:amount*multipliers
     subject_scores = {}
     # avg score on any subject
-    int avg_score =
+    avg_score = 0
     # list of subjectIDs
     subject_ids = object_manager.getAllSubjectIDs()
     for subject_id in subject_ids:
         subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id, dates, ratings)
         # taking ratings of the subject into account
-        subject_scores[subject_id] *= ratingMultiplier(user)
+        subject_scores[subject_id] *= ratingMultiplier(user, subject_id)
         # taking into account how old the lists with that subject are
-        #subject_scores[subject_id] *= timeMultiplier(user)
+        subject_scores[subject_id] *= timeMultiplier(user, subject_id)
 
 # friends are taken into account a bit more for the overlap_scores
 def friendsMultiplier(user_id, other_user_id):
     user = object_manager.createUser(user_id)
     friends = user.allFriends()
     for friend in friends:
-        if other_user_id = friend.id:
+        if other_user_id == friend.id:
             # NOTE: RANDOM VALUE
             return 1.2
     # not a friend -> no multiplier

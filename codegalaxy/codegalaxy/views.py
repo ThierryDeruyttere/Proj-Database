@@ -11,6 +11,7 @@ from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
+from managers.rm.recommendations import *
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -312,6 +313,13 @@ def tables(request):
 def python(request):
     return render(request, 'python.html', {})
 
+def recommendations(request):
+    user_test = object_manager.createUser(id=1)
+    a = timeMultiplier(user_test, 1)
+    print(a)
+    a = ratingMultiplier(user_test, 1, 1)
+    print(a)
+    return render(request, 'recommendations.html', {'test': 'e'})
 
 def graphs(request):
     # We'll use the graph maker to make pretty graphs with statistical data

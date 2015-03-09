@@ -3,9 +3,13 @@ import managers.om.exercise
 import managers.om.user
 import managers.om.group
 import dbw
+import datetime
 # Class that will build and work with the various objects representing the site
 # will use SQL
 
+def timeFromToday(compare_date):
+    now = datetime.datetime.now().date()
+    return compare_date - now
 
 class ObjectManager:
 

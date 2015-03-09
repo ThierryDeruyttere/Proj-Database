@@ -3,6 +3,7 @@ import managers.om.exercise
 import managers.om.group
 import managers.om.objectmanager
 import dbw
+import datetime
 
 class User:
 
@@ -67,19 +68,15 @@ class User:
 
     def allPendingFriendships(self):
         pending_friendships = dbw.getPendingFriendships(self.id)
-
-
         return pending_friendships
 
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)
-
         for group_member in group_members:
             group_member.update({'type': 'group_member'})
             group_member.update({'datetime': group_member['joined_on']})
 
         return group_members
-
 
     # List with all the lists of exercises this user has completed/is working on (SQL function)
     def allPersonalLists(self):
@@ -92,14 +89,12 @@ class User:
             exercises_lists_list.append(exercises_list_object)
         return exercises_lists_list
 
-
     def allExerciseListsMade(self):
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         for exerciseList in exercise_list_date:
             exerciseList.update({'type': 'exerciseList'})
             exerciseList.update({'datetime': exerciseList['made_on']})
         return exercise_list_date
-
 
     # returns TRUE for admin and FALSE for regular user
     def checkPermission(self, group_id):
@@ -111,6 +106,45 @@ class User:
                 return False
         else:
             return None
+
+    def ratingCounter(self, ratings, default):
+        total_rating = 0
+        illegit_lists = 0
+        for rating in ratings:
+            if rating['rating'] == 0:
+                if default:
+                    #default counts for 50%
+                    total_rating += 2.5
+                else:
+                    #we need to count one less
+                    illegit_lists += 1
+            else:
+                total_rating += rating['rating']
+        return total_rating / (len(ratings) - illegit_lists)
+
+    # average score on any subject
+    def averageRating(self, default):
+        ratings = dbw.listOfRatingsForUser(self.id)
+        return self.ratingCounter(ratings, default)
+
+    def subjectRating(self, subject_id, default):
+        ratings = dbw.listOfRatingsForUserForSubject(self.id, subject_id)
+        return self.ratingCounter(ratings, default)
+
+    def avgOfDates(self, dates):
+        total_time = datetime.timedelta()
+        for date in dates:
+            total_time += managers.om.objectmanager.timeFromToday(date['made_on'])
+        total_time /= len(dates)
+        return total_time
+
+    def avgDateAge(self):
+        dates = dbw.listOfDatesForUser(self.id)
+        return self.avgOfDates(dates)
+
+    def avgSubjectDateAge(self, subject_id):
+        dates = dbw.listOfDatesForUserForSubject(self.id, subject_id)
+        return self.avgOfDates(dates)
 
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)

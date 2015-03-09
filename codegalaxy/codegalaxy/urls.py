@@ -39,6 +39,7 @@ urlpatterns = patterns('codegalaxy.views',
    url(r'^test', 'test'),
    url(r'^tables/', 'tables'),
    url(r'^python$', 'python'),
+   url(r'^recommendations$', 'recommendations'),
    url(r'^graphs', 'graphs')
 )
 
