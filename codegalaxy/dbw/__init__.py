@@ -413,7 +413,14 @@ def removeVerification(hash):
 def addVerification(email, hash):
     cursor.execute('INSERT INTO verification(email, hash) VALUES ("{email}","{hash}");'.format(email=email, hash=hash))
 
-# Filtering
-def filterOn(list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%'):
-    cursor.execute('SELECT DISTINCT * FROM exerciseList e, hasSubject h, subject s, programmingLanguage pL, user u WHERE e.name LIKE "{name}" AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff} AND u.id = e.created_by AND u.first_name LIKE "{first_name}" AND u.last_name LIKE "{last_name}" AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}" AND e.id = h.exerciseList_id AND h.subject_id = s.id AND s.name LIKE "{subject}";'.format(name = list_name, min_diff = min_list_difficulty, max_diff = max_list_difficulty, first_name = user_first_name, last_name = user_last_name, prog_lang = prog_lang_name, subject = subject_name))
+#Filtering
+def filterOn(list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode = "ASC"):
+    cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) as popularity FROM exerciseList e, hasSubject h, subject s, programmingLanguage pL, madeList mL user u WHERE e.name LIKE "{name}"'
+                   ' AND u.id = e.created_by AND u.first_name LIKE "{first_name}" AND u.last_name LIKE "{last_name}"'
+                   ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
+                   ' AND e.id = h.exerciseList_id AND h.subject_id = s.id AND s.name LIKE "{subject}" AND e.id = mL.exerciseList_id AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
+                   ' GROUP BY e.name ORDER BY popularity {order_mode};'
+                   .format(name = list_name, min_diff = min_list_difficulty, max_diff = max_list_difficulty, first_name = user_first_name, last_name = user_last_name,
+                           prog_lang = prog_lang_name, subject = subject_name, order_mode = order_mode))
+
     return processData()
