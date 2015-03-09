@@ -39,6 +39,13 @@ class User:
                 accepted_friendship.append(friendship)
         return accepted_friendship
 
+    def confirmFriendship(self, friend_id):
+        dbw.updateFriendship(self.id, friend_id)
+        pending_friendships = self.allPendingFriendships()
+
+        for friendship in pending_friendships:
+            print(friendship)
+
     def isFriend(self, friend):
         '''
         @brief Check if a User is a friend of this user

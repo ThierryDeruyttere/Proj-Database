@@ -33,9 +33,8 @@ def user(request, id=0):
             current_user.addFriend(user)
             
         elif 'confirm_friendship' in request.POST:
-            request.POST.get('your_email', '')
-            #print(request.POST['confirm_friendshipon'])
-            #current_user.confirm_friendship(request.POST)
+            friend_id = request.POST.get('user_id_to_confirm')
+            user.confirmFriendship(friend_id)
 
     
     already_friends = False
@@ -60,7 +59,7 @@ def user(request, id=0):
 
         pending_friendships = []
         if current_user.id == user.id:
-            pending_friendships = current_user.allPendingFriendships()
+            pending_friendships = user.allPendingFriendships()
         
         context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
