@@ -53,8 +53,9 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
     # list of subjectIDs
     subject_ids = object_manager.allSubjectIDs()
     for subject_id in subject_ids:
+        subject_scores[subject_id] = 1
         subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id)
-        if subject_scores[subject_id] == None:
+        if subject_scores[subject_id] is None:
             subject_scores[subject_id] = 0
         # taking ratings of the subject into account
         subject_scores[subject_id] *= ratingMultiplier(user, subject_id, default)
@@ -129,6 +130,27 @@ def splitListIds(user_id, comparison_tuples, friends):
 
 # MAIN FUNCTIONS===========================================================================================
 
+def applySubjectScoresToLists(score_per_list_id, subject_scores):
+    # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
+    for list_id in score_per_list_id:
+        ex_list = object_manager.createExerciseList(list_id)
+        # 0 default? idk
+        total_multiplier = 0
+        for subject in subject_scores:
+            if ex_list.hasSubject(subject):
+                total_multiplier += subject_scores[subject]
+        score_per_list_id[list_id] *= total_multiplier
+
+def selectExercises(pool, highest, amount=10):
+    if highest:
+        sorted_pool = sorted(pool, key=lambda ex: ex[1])
+        sorted_pool = sorted_pool[:amount]
+        # we only need the exerciselist_ids
+        return [ex[0] for ex in sorted_pool]
+    # select random ones out of the pool
+    else:
+        pass
+
 #parameters are the things held in account for the recommendations
 # you can then either just list the ones with the highest score or random ones out of the top X highest
 def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, ratings=True, highest=True, default=False):
@@ -138,5 +160,12 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
     # now we can start adding the other multipliers
     subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
-    fuuu
-    # dates will give higher values to subjects/languages in recent exercises
+    print(score_per_list_id)
+    print(subject_scores)
+    # dates will determine how long ago a user was interested in a subject(checking madelist)
+    applySubjectScoresToLists(score_per_list_id, subject_scores)
+    print(score_per_list_id)
+    #addDefault function to add basic exercises with low priority to recommend?
+
+    recommended_exercises = selectExercises(score_per_list_id.items(), highest)
+    return recommended_exercises

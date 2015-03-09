@@ -47,6 +47,13 @@ class ExerciseList:
             else:
                 return None
 
+    def hasSubject(self, subject_id):
+        subjects_info = dbw.getSubjectIDsForList(self.id)
+        if subjects_info:
+            # We'll put the info in a regular list
+            subjects_list = [x['id'] for x in subjects_info]
+            return subject_id in subjects_list
+
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 

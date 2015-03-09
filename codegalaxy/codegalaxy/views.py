@@ -316,11 +316,9 @@ def python(request):
 def recommendations(request):
     user_test = object_manager.createUser(id=1)
     a = timeMultiplier(user_test, 1)
-    print(a)
     a = ratingMultiplier(user_test, 1, 1)
-    print(a)
     b = recommendListsForUser(1)
-    return render(request, 'recommendations.html', {'test': 'e'})
+    return render(request, 'recommendations.html', {'test': str(b)})
 
 def graphs(request):
     # We'll use the graph maker to make pretty graphs with statistical data
