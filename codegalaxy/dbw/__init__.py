@@ -415,7 +415,12 @@ def listOfRatingsForUserForSubject(user_id, subject_id):
     return processData()
 
 def listOfDatesForUser(user_id):
-    cursor.execute('SELECT rating FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
+    cursor.execute('SELECT made_on FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
+    return processData()
+
+def listOfDatesForUserForSubject(user_id, subject_id):
+    cursor.execute('SELECT made_on FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processData()
 
 # USER VERIFICATION
 def needsVerification(hash):
