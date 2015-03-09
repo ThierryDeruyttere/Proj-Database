@@ -319,6 +319,7 @@ def recommendations(request):
     print(a)
     a = ratingMultiplier(user_test, 1, 1)
     print(a)
+    b = recommendListsForUser(1)
     return render(request, 'recommendations.html', {'test': 'e'})
 
 def graphs(request):

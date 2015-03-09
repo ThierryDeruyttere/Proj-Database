@@ -146,6 +146,9 @@ class User:
         dates = dbw.listOfDatesForUserForSubject(self.id, subject_id)
         return self.avgOfDates(dates)
 
+    def amountOfListsWithSubjectForUser(self, subject_id):
+        amount_of_lists = dbw.amountOfListsWithSubjectForUser(subject_id, self.id)['amount']
+
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 

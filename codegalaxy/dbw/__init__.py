@@ -403,7 +403,7 @@ def latestHint(exercise_id, language_code):
     return processOne()
 
 def amountOfListsWithSubjectForUser(subject_id, user_id):
-    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    cursor.execute('SELECT COUNT(madeList.exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
     return processOne()
 
 def listOfRatingsForUser(user_id):
