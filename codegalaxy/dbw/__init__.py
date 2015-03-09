@@ -419,16 +419,6 @@ def filterOnTitle(forValue):
     cursor.execute('SELECT * FROM exerciseList WHERE name LIKE "%{value}%";'.format(value = forValue))
     return processData()
 
-
-def filterOnSubject(forSubject):
-    cursor.execute('SELECT e.* FROM exerciseList e, hasSubject h, subject s WHERE s.name = "%{subject}%" AND s.id = h.subject_id AND h.exerciseList_id = e.id;'.format(subject = forSubject))
-    return processData()
-
-def filterOnDifficulty(difficulty):
-    cursor.execute('SELECT * FROM exerciseList WHERE difficulty LIKE "%{diff}%";'.format(diff = difficulty))
-    return processData()
-
-
-def filterOnProgLang(progLang):
-    cursor.execute('SELECT * FROM exerciseList e, programmingLanguage p WHERE p.id = e.prog_lang_id AND p.name = "{name}";'.format(name = progLang))
+def filterOn(list_name, list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name):
+    cursor.execute('SELECT DISTINCT * FROM exerciseList e, hasSubject h, subject s, programmingLanguage pL, user u WHERE e.name LIKE "{name}" AND e.difficulty LIKE {diff} AND u.id = e.created_by AND u.first_name LIKE "{first_name}" AND u.last_name LIKE "{last_name}" AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}" AND e.id = h.exerciseList_id AND h.subject_id = s.id AND s.name LIKE "{subject}";'.format(name = list_name, diff = list_difficulty, first_name = user_first_name, last_name = user_last_name, prog_lang = prog_lang_name, subject = subject_name))
     return processData()
