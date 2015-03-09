@@ -33,13 +33,13 @@
 
         <div class="tabs-content">
             <div class="content active" id="feed">
-                {% for item in all_data %}
+                {% for item in data %}
                 {% if item.type == 'friendship' %}
                 <div class="row">
                     <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
                     <div class="large-10 columns">
 
-                    <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
 
                     </div>
                 </div>
@@ -71,6 +71,19 @@
                 <hr/>
                 {% endif %}
                 {% endfor %}
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if data.has_previous %}
+                        <a href="?page={{ data.previous_page_number }}">previous</a>
+                        {% endif %}
+                        <span class="current">
+                        Page {{ data.number }} of {{ data.paginator.num_pages }} x3
+                        </span>
+                        {% if data.has_next %}
+                        <a href="?page={{ data.next_page_number }}">next</a>
+                        {% endif %}
+                    </span>
+                </div>
             </div>
             <div class="content" id="friends">
                 {% for friendship in pending_friendships %}
@@ -85,11 +98,32 @@
                         </form>
                     </div>
                 </div>
+                <hr/>
+                {% endfor %}
+                {% for user in friend_list %}
+                <div class="large-2 small-2 columns">
+                    <a href="../{{ user.id }}"/>
+                    <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+                    <div class="panel">
+                        <h5>{{ user.first_name }}</h5>
+                        <h6 class="subheader">{{ user.last_name }}</h6>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="content" id="groups">
+                {% for group in group_list %}
+                <div class="large-2 small-2 columns">
+                    <a href="../../g/{{ group.id }}"/>
+                    <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+                    <div class="panel">
+                        <h5>{{ group.group_name }}</h5>
+                    </div>
+                </div>
                 {% endfor %}
             </div>
         </div>
     </div>
 </div>
-
 
 {% endblock base_body %}

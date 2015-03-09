@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.hashers import make_password
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 from collections import OrderedDict
 import hashlib
 import sys
@@ -57,11 +59,23 @@ def user(request, id=0):
 
         all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
 
+        paginator = Paginator(all_data, 10) #10 items per page
+
+        page = request.GET.get('page')
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            #geef de eerste pagina
+            data = paginator.page(1)
+        except EmptyPage:
+            #geen resultaten->laatste page
+            data = paginator.page(paginator.num_pages)
+
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
         
-        context = {'user': user, 'all_data': all_data, 'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
+        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
         if request.session['current_user'] == id:
             context['logged_in'] = True
