@@ -139,6 +139,12 @@ class User:
         ratings = dbw.listOfRatingsForUserForSubject(self.id)
         return ratingCounter(ratings, default)
 
+    def avgDate():
+        pass
+
+    def subjectDate():
+        pass
+
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 
