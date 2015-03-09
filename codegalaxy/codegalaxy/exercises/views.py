@@ -71,13 +71,15 @@ def list(request, id=0):
         prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises("en")
 
+        correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
                 print(object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id))
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id):
                     exercise.solved = True
 
-        correct_user = (logged_user(request).id == exercise_list.created_by)
+            correct_user = (logged_user(request).id == exercise_list.created_by)
+
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
@@ -265,4 +267,7 @@ def submit(request, list_id, question_id):
         return redirect('/')
 
 def listOverview(request):
-    return render(request, 'listOverview.html', {})
+    #list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode = "ASC")
+    all_lists = object_manager.filterOn()
+
+    return render(request, 'listOverview.html', {"all_lists": all_lists})
