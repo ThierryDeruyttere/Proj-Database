@@ -6,6 +6,28 @@
     <div class="panel">
       <div class="row">
         <div class ="row">
+          <div class="large-12 columns">
+            <fieldset>
+              <legend>Search</legend>
+              <div class="row" id="search">
+                <div class="large-4 columns">
+                  <select id="search_options">
+                    <option>List name</option>
+                    <option>Created by</option>
+                    <option>Min difficulty</option>
+                    <option>Max difficulty</option>
+                    <option>Programming language</option>
+                    <option>Subject</option>
+                    <option>Order mode</option>
+                  </select>
+                </div>
+                <button class="small round button" id="search_button">Add option</button>
+              </div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class ="row">
           <div class="large-10 large-centered columns">
             <ul class="pricing-table">
               <li class="title">Lists</li>
@@ -30,4 +52,14 @@
       </div>
     </div>
   </div>
+{% endblock %}
+
+{% block body_js %}
+  <script>
+
+  $("#search_button").click(function(){
+    var options = $("#search_options");
+  });
+
+  </script>
 {% endblock %}
