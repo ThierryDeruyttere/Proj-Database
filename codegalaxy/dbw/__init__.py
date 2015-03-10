@@ -304,8 +304,8 @@ def insertUser(first_name, last_name, password, email, is_active, joined_on, las
 def insertFriendsWith(user_id, friend_id, status):
     cursor.execute('INSERT INTO friendsWith(user_id,friend_id, befriended_on, status) VALUES ({u_id}, {f_id}, CURDATE(), "{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
 
-def insertGroup(group_name, group_type, created_on):
-    cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
+def insertGroup(group_name, group_type):
+    cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type}, CURDATE());'.format(name=group_name, type=group_type))
 
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
     cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))

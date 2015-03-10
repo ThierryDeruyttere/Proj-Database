@@ -225,10 +225,12 @@ def groupCreate(request, id=0):
         #!!!!!!
         # iemand een idee hoe ik uit een switch een waarde haal?
         group_type = request.POST.get('group_type')
-
         try:
-            object_manager.insertGroup(
-                group_name, group_type, str(time.strftime("%Y-%m-%d")))
+            if group_type == 'on':
+                object_manager.insertGroup(group_name, 1)
+            else:
+                object_manager.insertGroup(group_name, 0)
+            
             return redirect('/g/overview')
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})

@@ -76,8 +76,8 @@ class ObjectManager:
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
         return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id)["highest_id"]
 
-    def insertGroup(self, group_name, group_type, created_on):
-        dbw.insertGroup(group_name, group_type, created_on)
+    def insertGroup(self, group_name, group_type):
+        dbw.insertGroup(group_name, group_type)
 
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
