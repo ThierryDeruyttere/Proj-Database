@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect
 
 import time
-
+import json
 from managers.om import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
 from pymysql import escape_string
-
+from django.http import HttpResponse
 
 object_manager = objectmanager.ObjectManager()
 
@@ -275,6 +275,28 @@ def listOverview(request):
     prog_lang_name='%'
     subject_name='%'
     order_mode = "ASC"
+
+    if request.method == "POST" and request.is_ajax():
+        list_name = request.POST.get('list_name', '%')
+        min_list_difficulty = int(request.POST.get('min_difficulty', 1))
+        max_list_difficulty = int(request.POST.get('max_difficulty', 5))
+        prog_lang_name = request.POST.get('prog_lang')
+        if prog_lang_name == '':
+            prog_lang_name = '%'
+
+        user_name = request.POST.get('user', ['%', '%'])
+
+        #subjects = request.POST.get('subjects', '%').split(',')
+        #TODO make query accept multiple subjects at once!
+        order_mode = request.POST.get('order_mode')
+        if order_mode == "Ascending":
+            order_mode = "ASC"
+        else:
+            order_mode = "DESC"
+
+        all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+        
+        return HttpResponse(json.dumps(all_lists), content_type="application/json")
 
     all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
 

@@ -9,107 +9,111 @@
           <div class="large-12 columns">
             <fieldset>
               <legend>Search</legend>
-              <div class="row" id="search">
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">Title</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="title" name="title" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">User</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="user" name="user" class="text-center">
+              <form method="POST" id="search_options">
+                {% csrf_token %}
+                <div class="row" id="search">
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-3 columns">
+                          <span class="prefix">Title</span>
+                        </div>
+                        <div class="small-9 columns">
+                          <input type="text" id="title" name="title" class="text-center">
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="large-4 columns">
-                    <select id="order_mode" name="order_mode">
-                      <option>Ascending</option>
-                      <option>Descending</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="large-4 columns">
-                    <label>Programming language</label>
-                    <select name="prog_lang">
-                      {% for lang in languages %}
-                        <option value="{{ lang.name }}">{{ lang.name }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="large-4 columns">
-                    <label>Separate subjects by comma</label>
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">Subjects</span>
+                    <div class="large-4 columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-3 columns">
+                          <span class="prefix">User</span>
+                        </div>
+                        <div class="small-9 columns">
+                          <input type="text" id="user" name="user" class="text-center">
+                        </div>
                       </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="subjects" name="subjects" class="text-center">
-                      </div>
+                    </div>
+                    <div class="large-4 columns">
+                      <select id="order_mode" name="order_mode">
+                        <option>Ascending</option>
+                        <option>Descending</option>
+                      </select>
                     </div>
                   </div>
 
-                </div>
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <label>Programming language</label>
+                      <select name="prog_lang">
+                        <option value="" selected></option>
+                        {% for lang in languages %}
+                          <option value="{{ lang.name }}">{{ lang.name }}</option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="large-4 columns">
+                      <label>Separate subjects by comma</label>
+                      <div class="row collapse prefix-radius">
+                        <div class="small-3 columns">
+                          <span class="prefix">Subjects</span>
+                        </div>
+                        <div class="small-9 columns">
+                          <input type="text" id="subjects" name="subjects" class="text-center">
+                        </div>
+                      </div>
+                    </div>
 
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #min_difficulty; start: 1; end: 5; initial:1">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
                   </div>
-                </div>
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-5 columns">
-                        <span class="prefix">Min difficulty</span>
-                      </div>
-                      <div class="small-7 columns">
-                        <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #max_difficulty; start: 1; end: 5; initial:5">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-5 columns">
-                        <span class="prefix">Max difficulty</span>
-                      </div>
-                      <div class="small-7 columns">
-                        <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <button class="small round button" id="search_button">Search</button>
-              </div>
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <div class="small-10 medium-11 columns">
+                        <div class="range-slider round" data-slider data-options="display_selector: #min_difficulty; start: 1; end: 5; initial:1">
+                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                          <span class="range-slider-active-segment"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-5 columns">
+                          <span class="prefix">Min difficulty</span>
+                        </div>
+                        <div class="small-7 columns">
+                          <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <div class="small-10 medium-11 columns">
+                        <div class="range-slider round" data-slider data-options="display_selector: #max_difficulty; start: 1; end: 5; initial:5">
+                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                          <span class="range-slider-active-segment"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="large-4 columns">
+                      <div class="row collapse prefix-radius">
+                        <div class="small-5 columns">
+                          <span class="prefix">Max difficulty</span>
+                        </div>
+                        <div class="small-7 columns">
+                          <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <button class="small round button" id="search_button">Search</button>
+                </div>
           </div>
+          </form>
           </fieldset>
         </div>
       </div>
@@ -118,7 +122,7 @@
         <div class="large-10 large-centered columns">
           <ul class="pricing-table">
             <li class="title">Lists</li>
-            <div class="row">
+            <div class="row" id="filtered_lists">
               <ul class="accordion" data-accordion>
                 {% for list in all_lists %}
                   <li class="accordion-navigation">
@@ -143,6 +147,65 @@
 {% block body_js %}
   <script>
 
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+
+    $("#search_button").click(function()
+    {
+      $(function(){
+        $('#search_options').submit(function(e){
+          e.preventDefault();
+          var form = $(this);
+          var post_data = form.serialize();
+          console.log(post_data);
+          $.ajax({
+            type: 'POST',
+            url: "",
+            data: post_data,
+            dataType: "json",
+
+            success: function(msg) {
+              console.log(msg);
+            }
+          });
+        });
+      });
+    });
+
+    //Django stuff
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
 
   </script>
 {% endblock %}
