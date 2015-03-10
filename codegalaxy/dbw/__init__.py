@@ -415,6 +415,10 @@ def amountOfListsWithSubjectForUser(subject_id, user_id):
     cursor.execute('SELECT COUNT(madeList.exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {sub_id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(sub_id=subject_id, u_id=user_id))
     return processOne()
 
+def amountOfListsWithProgrammingLanguageForUser(prog_lang, id):
+    cursor.execute('SELECT COUNT(exerciseList.id) AS amount FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {prog_id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(prog_id=prog_lang, u_id=id))
+    return processOne()
+
 def listOfRatingsForUser(user_id):
     cursor.execute('SELECT rating FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
     return processData()
@@ -423,12 +427,20 @@ def listOfRatingsForUserForSubject(user_id, subject_id):
     cursor.execute('SELECT rating FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
     return processData()
 
+def listOfRatingsForUserForProgrammingLanguage(user_id, prog_lang_id):
+    cursor.execute('SELECT rating FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=user_id))
+    return processData()
+
 def listOfDatesForUser(user_id):
     cursor.execute('SELECT made_on FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
     return processData()
 
 def listOfDatesForUserForSubject(user_id, subject_id):
     cursor.execute('SELECT made_on FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processData()
+
+def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
+    cursor.execute('SELECT made_on FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=user_id))
     return processData()
 
 # USER VERIFICATION

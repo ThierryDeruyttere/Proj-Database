@@ -86,7 +86,10 @@ class ObjectManager:
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
         # do you just need the name? id?
-        # return [x['name'] for x in dbw.getAll("programmingLanguage")]
+        #
+
+    def allProgrammingLanguageIDs(self):
+        return [x['id'] for x in dbw.getAll("programmingLanguage")]
 
     def allUsers(self):
         users = []

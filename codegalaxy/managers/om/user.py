@@ -131,6 +131,10 @@ class User:
         ratings = dbw.listOfRatingsForUserForSubject(self.id, subject_id)
         return self.ratingCounter(ratings, default)
 
+    def progLangRating(self, prog_lang_id, default):
+        ratings = dbw.listOfRatingsForUserForProgrammingLanguage(self.id, prog_lang_id)
+        return self.ratingCounter(ratings, default)
+
     def avgOfDates(self, dates):
         total_time = datetime.timedelta()
         for date in dates:
@@ -146,8 +150,15 @@ class User:
         dates = dbw.listOfDatesForUserForSubject(self.id, subject_id)
         return self.avgOfDates(dates)
 
+    def avgProgrammingLanguageDateAge(self, prog_lang_id):
+        dates = dbw.listOfDatesForUserForProgrammingLanguage(self.id, prog_lang_id)
+        return self.avgOfDates(dates)
+
     def amountOfListsWithSubjectForUser(self, subject_id):
         return dbw.amountOfListsWithSubjectForUser(subject_id, self.id)['amount']
+
+    def amountOfListsWithProgrammingLanguageForUser(self, prog_lang):
+        return dbw.amountOfListsWithProgrammingLanguageForUser(prog_lang, self.id)['amount']
 
     def save(self):
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)

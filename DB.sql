@@ -304,6 +304,8 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,5,5, "2015-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,3,5,5, "2015-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,5, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,3,5,5, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,3,5,5, "2015-03-05");
 
 #insert into madeEx
 INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating, completed_on) VALUES(1,1,1,5,5,"2015-03-06");
