@@ -161,16 +161,18 @@ def splitListIds(user_id, comparison_tuples, friends):
 
 # MAIN FUNCTIONS===========================================================================================
 
-def applyScoresToLists(score_per_list_id, subject_scores):
+def applyScoresToLists(score_per_list_id, scores, X_type):
     # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
     for list_id in score_per_list_id:
         ex_list = object_manager.createExerciseList(list_id)
         # 0 default? idk
-        total_SubjectMultiplier = 0
-        for subject in subject_scores:
-            if ex_list.hasSubject(subject):
-                total_SubjectMultiplier += subject_scores[subject]
-        score_per_list_id[list_id] *= total_SubjectMultiplier
+        total_multiplier = 0
+        amount_of_scores_counted = 0
+        for score in scores:
+            if ex_list.hasX(score, X_type):
+                total_multiplier += scores[score]
+                amount_of_scores_counted += 1
+        score_per_list_id[list_id] *= (total_multiplier / amount_of_scores_counted)
 
 def selectExercises(pool, highest, amount=10):
     if highest:
@@ -196,9 +198,9 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     print(subject_scores)
     print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
-    applyScoresToLists(score_per_list_id, subject_scores)
+    applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
     print(score_per_list_id)
-    applyScoresToLists(score_per_list_id, prog_lang_scores)
+    applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
     print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend?
 
