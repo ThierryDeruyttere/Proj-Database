@@ -2,6 +2,12 @@
 
 {%load staticfiles%}
 
+{% block head_js %}
+<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
+{% endblock head_js %}
+
+
+
 {% block base_body %}
 
 <div class="row">
@@ -11,7 +17,7 @@
             <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
             
             <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-                {% if not already_friends and not logged_in %}
+                {% if not already_friends and not my_profile %}
                 <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
                     {% csrf_token %}
                     <input type="submit" name ='add_friend' value="Become friends" class="button"/>
@@ -27,103 +33,134 @@
             <li class="tab-title active"><a href="#feed">Feed</a></li>
             <li class="tab-title"><a href="#friends">Friends</a></li>
             <li class="tab-title"><a href="#groups">Groups</a></li>
+            {% if my_profile %}
+            <li class="tab-title"><a href="#edit_profile">Edit Information</a></li>
+            {% endif %}
         </ul>
 
         <hr/>
 
         <div class="tabs-content">
-            <div class="content active" id="feed">
-                {% for item in data %}
-                {% if item.type == 'friendship' %}
-                <div class="row">
-                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-                    <div class="large-10 columns">
+            {% if my_profile %}
+            <div class="content" id="edit_profile">
+                <form method="POST" action="/u/{{user.id}}/" data-abide>
+                  {% csrf_token %}
+                  <div class="row collapse">
+                    <div class="small-2 columns">
+                      <span class="prefix"><i class="fi-mail size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                      <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
+                      <small class="error">Enter a valid Email Address.</small>
+                  </div>
+              </div>
+              <div class="row collapse">
+                <div class="small-2 columns ">
+                  <span class="prefix"><i class="fi-lock size-28"></i></span>
+              </div>
+              <div class="small-10 columns ">
+                  <input type="password" required placeholder="Password" id="new_password" name="new_password" value="{{ new_password }}">
+                  <small class="error">Enter a valid password.</small>
+              </div>
+          </div>
+          <input type="submit" value="Edit" name="update_profile" class="button"/>
+      </form>
+      <hr/>
+  </div>
+  {% endif %}
+  <div class="content active" id="feed">
+    {% for item in data %}
+    {% if item.type == 'friendship' %}
+    <div class="row">
+        <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+        <div class="large-10 columns">
 
-                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
 
-                    </div>
-                </div>
-
-                <hr/>
-                {% endif %}
-                {% if item.type == 'group_member'%}
-                <div class="row">
-                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-                    <div class="large-10 columns">
-
-                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
-
-                    </div>
-                </div>
-
-                <hr/>
-                {% endif %}
-                {% if item.type == 'exerciseList'%}
-                <div class="row">
-                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-                    <div class="large-10 columns">
-
-                        <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
-
-                    </div>
-                </div>
-
-                <hr/>
-                {% endif %}
-                {% endfor %}
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if data.has_previous %}
-                        <a href="?page={{ data.previous_page_number }}">previous</a>
-                        {% endif %}
-                        <span class="current">
-                            Page {{ data.number }} of {{ data.paginator.num_pages }}
-                        </span>
-                        {% if data.has_next %}
-                        <a href="?page={{ data.next_page_number }}">next</a>
-                        {% endif %}
-                    </span>
-                </div>
-            </div>
-            <div class="content" id="friends">
-                {% for friendship in pending_friendships %}
-                <div class="row">
-                    <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-                    <div class="large-10 columns">
-                        <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
-                        <form method="POST" id='confirm_friendship' name='confirm_friendship'>
-                            {% csrf_token %}
-                            <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
-                            <input type="submit" name ='confirm_friendship' value="Confirm" class="button">
-                        </form>
-                    </div>
-                </div>
-                <hr/>
-                {% endfor %}
-                {% for user in friend_list %}
-                <div class="large-2 small-2 columns">
-                    <a href="../{{ user.id }}"/>
-                    <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
-                    <div class="panel">
-                        <h5>{{ user.first_name }}</h5>
-                        <h6 class="subheader">{{ user.last_name }}</h6>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="content" id="groups">
-                {% for group in group_list %}
-                <div class="large-2 small-2 columns">
-                    <a href="../../g/{{ group.id }}"/>
-                    <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
-                    <div class="panel">
-                        <h5>{{ group.group_name }}</h5>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
         </div>
     </div>
+
+    <hr/>
+    {% endif %}
+    {% if item.type == 'group_member'%}
+    <div class="row">
+        <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+        <div class="large-10 columns">
+
+            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+
+        </div>
+    </div>
+
+    <hr/>
+    {% endif %}
+    {% if item.type == 'exerciseList'%}
+    <div class="row">
+        <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+        <div class="large-10 columns">
+
+            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+
+        </div>
+    </div>
+
+    <hr/>
+    {% endif %}
+    {% endfor %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if data.has_previous %}
+            <a href="?page={{ data.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ data.number }} of {{ data.paginator.num_pages }}
+            </span>
+            {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+<div class="content" id="friends">
+    {% for friendship in pending_friendships %}
+    <div class="row">
+        <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+        <div class="large-10 columns">
+            <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
+            <form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                {% csrf_token %}
+                <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
+                <input type="submit" name ='confirm_friendship' value="Confirm" class="button">
+            </form>
+        </div>
+    </div>
+    <hr/>
+    {% endfor %}
+    {% for user in friend_list %}
+    <div class="large-2 small-2 columns">
+        <a href="../{{ user.id }}"/>
+        <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+        <div class="panel">
+            <h5>{{ user.first_name }}</h5>
+            <h6 class="subheader">{{ user.last_name }}</h6>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="content" id="groups">
+    {% for group in group_list %}
+    <div class="large-2 small-2 columns">
+        <a href="../../g/{{ group.id }}"/>
+        <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+        <div class="panel">
+            <h5>{{ group.group_name }}</h5>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+</div>
+</div>
 </div>
 
 {% endblock base_body %}

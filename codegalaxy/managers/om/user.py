@@ -19,6 +19,10 @@ class User:
         self.last_login = last_login
         self.gender = gender
 
+    def updateProfile(self, email, password):
+        dbw.updateUserInformation(self.id, email, password)
+        return True
+
     # List with other users this user is befriended with
     def allFriends(self):
         friends_info = dbw.getFriendsIdForID(self.id)

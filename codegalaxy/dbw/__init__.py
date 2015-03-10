@@ -376,6 +376,9 @@ def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, com
 
 # UPDATE
 
+def updateUserInformation(user_id, email, password):
+    cursor.execute('UPDATE user SET email="{email}",password="{passw}" WHERE id = {id};'.format(passw=password, email=email, id=user_id))
+
 def updateUser(user_id, first_name, last_name, password, email, is_active, permissions, joined_on, last_login, gender):
     cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
 

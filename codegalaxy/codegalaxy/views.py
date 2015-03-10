@@ -31,6 +31,9 @@ def user(request, id=0):
     # Get the user object for that id
     user = object_manager.createUser(id=id)
 
+    
+
+
     if request.method == 'POST':
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
@@ -39,14 +42,25 @@ def user(request, id=0):
             friend_id = request.POST.get('user_id_to_confirm')
             user.confirmFriendship(friend_id)
 
+        elif 'update_profile' in request.POST:
+            new_password = hashlib.md5(
+            request.POST.get('new_password').encode('utf-8')).hexdigest()
+            print(new_password)
+            new_email = request.POST.get('new_email')
+            print(new_email)
+            user.updateProfile(new_email, new_password)
+
+
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
 
     if user:
+        
+
         friend_list = user.allFriends()
         group_list = user.allGroups()
-        exercise_list = user.allPersonalLists()
+        exercise_list = user.allPersonalLists()        
 
         accepted_friendships = sorted(
             user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
@@ -81,8 +95,9 @@ def user(request, id=0):
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
-        if request.session['current_user'] == id:
-            context['logged_in'] = True
+        if current_user.id == user.id:
+            context['my_profile'] = True
+            context['old_email'] = user.email
         return render(request, 'user.html', context)
 
     else:
