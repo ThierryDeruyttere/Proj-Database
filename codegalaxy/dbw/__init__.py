@@ -440,7 +440,7 @@ def listOfDatesForUserForSubject(user_id, subject_id):
     return processData()
 
 def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
-    cursor.execute('SELECT made_on FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=user_id))
+    cursor.execute('SELECT made_on FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=id))
     return processData()
 
 # USER VERIFICATION

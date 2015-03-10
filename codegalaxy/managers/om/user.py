@@ -120,7 +120,10 @@ class User:
                     illegit_lists += 1
             else:
                 total_rating += rating['rating']
-        return total_rating / (len(ratings) - illegit_lists)
+        if len(ratings) > 0:
+            return total_rating / (len(ratings) - illegit_lists)
+        else:
+            return 1
 
     # average score on any subject
     def averageRating(self, default):
@@ -139,8 +142,11 @@ class User:
         total_time = datetime.timedelta()
         for date in dates:
             total_time += managers.om.objectmanager.timeFromToday(date['made_on'])
-        total_time /= len(dates)
-        return total_time
+        if len(dates) > 0:
+            total_time /= len(dates)
+            return total_time
+        else:
+            return total_time
 
     def avgDateAge(self):
         dates = dbw.listOfDatesForUser(self.id)

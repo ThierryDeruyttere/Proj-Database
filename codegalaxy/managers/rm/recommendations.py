@@ -12,6 +12,7 @@ object_manager = objectmanager.ObjectManager()
 #Recenter dan avg -> *1.2
 
 def timeMultiplier(avg_date, avg_param_date):
+    print('hm')
     param_multiplier = 1
     week = datetime.timedelta(days=7)
     month = datetime.timedelta(days=31)
@@ -31,7 +32,7 @@ def timeSubjectMultiplier(user, subject_id):
 def timeProgrammingLanguageMultiplier(user, prog_lang_id):
     avg_date_age = user.avgDateAge()
     avg_prog_lang_date_age = user.avgProgrammingLanguageDateAge(prog_lang_id)
-    return timeMultiplier(avg_date_age, avg_subject_date_age)
+    return timeMultiplier(avg_date_age, avg_prog_lang_date_age)
 
 #AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
 #Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
@@ -51,8 +52,8 @@ def ratingSubjectMultiplier(user, subject_id, default):
 
 def ratingProgrammingLanguageMultiplier(user, subject_id, default):
     avg_rating = user.averageRating(default)
-    subject_rating = user.progLangRating(subject_id, default)
-    return ratingMultiplier(avg_rating, subject_rating)
+    prog_lang_rating = user.progLangRating(subject_id, default)
+    return ratingMultiplier(avg_rating, prog_lang_rating)
 
 # returns the amount of exerciselists a user has made with a certain subject
 # if the dates parameter is true, older lists will count for less
@@ -87,10 +88,10 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
         prog_lang_scores[prog_lang_id] = 1
         prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)
         # taking ratings of the subject into account
-        subject_scores[subject_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
+        prog_lang_scores[prog_lang_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
         # taking into account how old the lists with that subject are
-        subject_scores[subject_id] *= timeProgrammingLanguageMultiplier(user, prog_lang_id)
-    return subject_scores
+        prog_lang_scores[prog_lang_id] *= timeProgrammingLanguageMultiplier(user, prog_lang_id)
+    return prog_lang_scores
 
 
 # friends are taken into account a bit more for the overlap_scores
@@ -160,7 +161,7 @@ def splitListIds(user_id, comparison_tuples, friends):
 
 # MAIN FUNCTIONS===========================================================================================
 
-def applySubjectScoresToLists(score_per_list_id, subject_scores):
+def applyScoresToLists(score_per_list_id, subject_scores):
     # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
     for list_id in score_per_list_id:
         ex_list = object_manager.createExerciseList(list_id)
@@ -195,7 +196,9 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     print(subject_scores)
     print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
-    applySubjectScoresToLists(score_per_list_id, subject_scores)
+    applyScoresToLists(score_per_list_id, subject_scores)
+    print(score_per_list_id)
+    applyScoresToLists(score_per_list_id, prog_lang_scores)
     print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend?
 

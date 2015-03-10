@@ -315,8 +315,6 @@ def python(request):
 
 def recommendations(request):
     user_test = object_manager.createUser(id=1)
-    a = timeMultiplier(user_test, 1)
-    a = ratingMultiplier(user_test, 1, 1)
     b = recommendListsForUser(1)
     return render(request, 'recommendations.html', {'test': str(b)})
 
