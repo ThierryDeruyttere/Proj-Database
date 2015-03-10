@@ -36,6 +36,9 @@ class User:
             if friendship['status'] == 'Friends':
                 friendship.update({'type': 'friendship'})
                 friendship.update({'datetime': friendship['befriended_on']})
+                friendship.update({'user_first_name': self.first_name})
+                friendship.update({'user_last_name': self.last_name})
+                friendship.update({'user_id': self.id})
                 accepted_friendship.append(friendship)
         return accepted_friendship
 
@@ -84,6 +87,9 @@ class User:
         for group_member in group_members:
             group_member.update({'type': 'group_member'})
             group_member.update({'datetime': group_member['joined_on']})
+            group_member.update({'user_first_name': self.first_name})
+            group_member.update({'user_last_name': self.last_name})
+            group_member.update({'user_id': self.id})
 
         return group_members
 
@@ -97,6 +103,7 @@ class User:
             # If the info is legit, we add a User object with the info to the list
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list['score'], exercises_list['exerciseList_id'], self.id)
             exercises_lists_list.append(exercises_list_object)
+
         return exercises_lists_list
 
 
@@ -105,6 +112,9 @@ class User:
         for exerciseList in exercise_list_date:
             exerciseList.update({'type': 'exerciseList'})
             exerciseList.update({'datetime': exerciseList['made_on']})
+            exerciseList.update({'user_first_name': self.first_name})
+            exerciseList.update({'user_last_name': self.last_name})
+            exerciseList.update({'user_id': self.id})
         return exercise_list_date
 
 

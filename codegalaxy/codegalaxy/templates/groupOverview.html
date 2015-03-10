@@ -7,52 +7,31 @@
     <div class="panel">
       <h1>Group overview</h1>
       <article class="vcard">
-          <a href="../create"/>
-          <div class="vcard-img large-12 medium-12 small-12 columns">
-             <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png" height="42" width="42">
-         </div>
-         <div class="large-12 medium-12 small-12 text-center">
-            <ul class="vcard-text" .text-center>
-                <li .text-center><strong>Create new group</strong></li>
-            </ul>
-        </div>
+        <a href="../create"/>
+        <div class="vcard-img large-12 medium-12 small-12 columns">
+         <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png" height="42" width="42">
+       </div>
+       <div class="large-12 medium-12 small-12 text-center">
+        <ul class="vcard-text" .text-center>
+          <li .text-center><strong>Create new group</strong></li>
+        </ul>
+      </div>
     </article>
     {% for group in groups %}
     <article class="vcard">
      <a href="/g/{{ group.id }}"/>
      <div class="vcard-img large-12 medium-12 small-12 columns">
-        <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png" height="42" width="42">
+      <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png" height="42" width="42">
     </div>
     <div class="large-12 medium-12 small-12 text-center">
-        <ul class="vcard-text" .text-center>
-            <li .text-center><strong>{{ group.group_name }}</strong></li>
-        </ul>
+      <ul class="vcard-text" .text-center>
+        <li .text-center><strong>{{ group.group_name }}</strong></li>
+      </ul>
     </div>
-</article>
-{% endfor %}
-</table>
+  </article>
+  {% endfor %}
 </div>
 </div>
-</div>
-
-<div class="panel">
-    <a name="Friends"></a>
-    <div class="large-24 columns">
-        <div class="row text.center">
-            <h1>All users:</h1>
-        </div>
-    </div>
-    <div class="row">
-        {% for group in groups %}
-        <div class="large-1 small-1 columns">
-            <a href="/g/{{ group.id }}"/>
-            <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
-            <div class="panel">
-                <h5>{{ group.group_name }}</h5>
-            </div>
-        </div>
-        {% endfor %}
-    </div>
 </div>
 
 

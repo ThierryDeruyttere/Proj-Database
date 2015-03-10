@@ -64,6 +64,17 @@ def getGroupInformation(id):
     cursor.execute('SELECT * FROM groups WHERE id = {id};'.format(id=id))
     return processOne()
 
+def getGroupInformationOnName(group_name):
+    '''
+    @brief get the information from Groups given an group_name
+    @param name of the group
+    @return returns a dict with information
+    '''
+    print("GEEN IDEE.....")
+    cursor.execute('SELECT * FROM groups WHERE group_name = {group_name};'.format(group_name=group_name))
+    print('MAAR HOE?')
+    return processOne()
+
 def getExerciseType(id):
     cursor.execute('SELECT exercise_type FROM exercise WHERE id={id}'.format(id=id))
     return processOne()
@@ -278,11 +289,15 @@ def getNameFromProgLangID(ID):
     return processOne()
 
 def getAllUserIDs():
-    cursor.execute('SELECT id FROM user')
+    cursor.execute('SELECT id FROM user;')
     return processData()
 
 def getAllGroupIDs():
-    cursor.execute('SELECT id FROM groups')
+    cursor.execute('SELECT id FROM groups;')
+    return processData()
+
+def getAllPublicGroupIDs():
+    cursor.execute('SELECT id FROM groups WHERE group_type = 0;')
     return processData()
 
 def getLastExerciseFromList(ID):

@@ -44,6 +44,19 @@ class ObjectManager:
         else:
             return None
 
+    def createGroupOnName(self, group_name):
+        print("EN WE BEGINNfadsafdsfsdafsdaEN ERAAN!")
+        group_info = dbw.getGroupInformationOnName(group_name)
+        print("Ldhgsoilfdhgsfdilug")
+        print(group_info)
+        if group_info:
+            group_object = managers.om.group.Group(group_info['id'], group_name, group_info['group_type'], group_info['created_on'])
+            print("Alles ok?")
+            return group_object
+        else:
+            return None
+
+
     # Uses the DB to create an object representing an Exercise
     def createExercise(self, id, language_code):
         exercise_info = dbw.getExerciseInformation(id, language_code)
@@ -92,8 +105,16 @@ class ObjectManager:
         return users
 
     def allGroups(self):
+
         groups = []
         group_info = dbw.getAllGroupIDs()
+        for group_id in group_info:
+            groups.append(self.createGroup(id=group_id['id']))
+        return groups
+
+    def allPublicGroups(self):
+        groups = []
+        group_info = dbw.getAllPublicGroupIDs()
         for group_id in group_info:
             groups.append(self.createGroup(id=group_id['id']))
         return groups

@@ -21,6 +21,7 @@ object_manager = objectmanager.ObjectManager()
 def home(request):
     return render(request, 'home.html', {})
 
+
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
@@ -33,12 +34,11 @@ def user(request, id=0):
     if request.method == 'POST':
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
-            
+
         elif 'confirm_friendship' in request.POST:
             friend_id = request.POST.get('user_id_to_confirm')
             user.confirmFriendship(friend_id)
 
-    
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -48,10 +48,13 @@ def user(request, id=0):
         group_list = user.allGroups()
         exercise_list = user.allPersonalLists()
 
-        accepted_friendships = sorted(user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
-        member_of_groups = sorted(user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
-        exercises_made = sorted(user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
-        
+        accepted_friendships = sorted(
+            user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
+        member_of_groups = sorted(
+            user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
+        exercises_made = sorted(
+            user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
+
         accepted_friendships.extend(member_of_groups)
         accepted_friendships.extend(exercises_made)
 
@@ -59,23 +62,24 @@ def user(request, id=0):
 
         all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
 
-        paginator = Paginator(all_data, 10) #10 items per page
+        paginator = Paginator(all_data, 10)  # 10 items per page
 
         page = request.GET.get('page')
         try:
             data = paginator.page(page)
         except PageNotAnInteger:
-            #geef de eerste pagina
+            # geef de eerste pagina
             data = paginator.page(1)
         except EmptyPage:
-            #geen resultaten->laatste page
+            # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
-        
-        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
+
+        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
 
         if request.session['current_user'] == id:
             context['logged_in'] = True
@@ -83,10 +87,6 @@ def user(request, id=0):
 
     else:
         return redirect('/')
-
-
-    
-    
 
 
 @require_login
@@ -197,7 +197,40 @@ def group(request, id=0):
                 if user.email == user_list[x].email:
                     is_member = True
 
-        return render(request, 'group.html', {'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member})
+
+        accepted_friendships = []
+        member_of_groups = []
+        exercises_made = []
+        all_data = []
+
+        if group_size > 0:
+            for one_user in user_list:
+                accepted_friendships = one_user.allFriendships()
+                member_of_groups = one_user.allUserAdded()
+                exercises_made = one_user.allExerciseListsMade()
+
+                all_data.extend(accepted_friendships)
+                all_data.extend(member_of_groups)
+                all_data.extend(exercises_made)
+
+            all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+
+
+        paginator = Paginator(all_data, 15)  # 10 items per page
+
+        page = request.GET.get('page')
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            # geef de eerste pagina
+            data = paginator.page(1)
+        except EmptyPage:
+            # geen resultaten->laatste page
+            data = paginator.page(paginator.num_pages)
+
+            
+        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member}
+        return render(request, 'group.html', context)
 
     else:
         return redirect('/')
@@ -207,7 +240,7 @@ def group(request, id=0):
 def groupOverview(request):
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
-    groups = object_manager.allGroups()
+    groups = object_manager.allPublicGroups()
 
     if groups:
         return render(request, 'groupOverview.html', {'groups': groups})
@@ -218,7 +251,7 @@ def groupOverview(request):
 
 @require_login
 def groupCreate(request, id=0):
-
+    user = logged_user(request)
     if request.method == 'POST':
         group_name = request.POST.get('group_name', '')
 
@@ -228,9 +261,16 @@ def groupCreate(request, id=0):
         try:
             if group_type == 'on':
                 object_manager.insertGroup(group_name, 1)
+                print("WORKED!")
             else:
                 object_manager.insertGroup(group_name, 0)
-            
+
+            # auto add user when making a private group?
+
+            #print('voeg member toe')
+            #group = object_manager.createGroupOnName(group_name)
+            # print("WUT")
+            #group.insertMember(user.id, group.group_name, str(time.strftime("%Y-%m-%d")))
             return redirect('/g/overview')
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
