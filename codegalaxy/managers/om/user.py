@@ -5,6 +5,7 @@ import managers.om.objectmanager
 import dbw
 import datetime
 
+
 class User:
 
     def __init__(self, id, first_name, last_name, is_active, email, permissions, password, joined_on, last_login, gender):
@@ -31,7 +32,19 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for friend in friends_info:
-            friends_list.append(object_manager.createUser(id=friend['friend_id']))
+            friends_list.append(
+                object_manager.createUser(id=friend['friend_id']))
+        return friends_list
+
+    def allFriendsNotMemberOfGroupWithID(self, group_id):
+        friends_info = dbw.getFriendsNotMemberOfGroupWithID(self.id, group_id)
+        print(len(friends_info))
+        friends_list = []
+        object_manager = managers.om.objectmanager.ObjectManager()
+        # We'll make objects of the friends and put them in a list
+        for friend in friends_info:
+            friends_list.append(
+                object_manager.createUser(id=friend['id']))
         return friends_list
 
     def allFriendships(self):
@@ -76,7 +89,8 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for group in groups_info:
-            # If the info is legit, we add a Group object with the info to the list
+            # If the info is legit, we add a Group object with the info to the
+            # list
             groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
@@ -96,14 +110,17 @@ class User:
 
         return group_members
 
-    # List with all the lists of exercises this user has completed/is working on (SQL function)
+    # List with all the lists of exercises this user has completed/is working
+    # on (SQL function)
     def allPersonalLists(self):
         exercises_lists_info = dbw.getMadeListForUser(self.id)
         exercises_lists_list = []
         # We'll make objects of the friends and put them in a list
         for exercises_list in exercises_lists_info:
-            # If the info is legit, we add a User object with the info to the list
-            exercises_list_object = PersonalList(exercises_list['rating'], exercises_list['score'], exercises_list['exerciseList_id'], self.id)
+            # If the info is legit, we add a User object with the info to the
+            # list
+            exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
+                                                 'score'], exercises_list['exerciseList_id'], self.id)
             exercises_lists_list.append(exercises_list_object)
 
         return exercises_lists_list
@@ -118,15 +135,16 @@ class User:
             exerciseList.update({'user_id': self.id})
         return exercise_list_date
 
-    #List with all the exercises this user has completed
+    # List with all the exercises this user has completed
     def allPersonalExercises(self):
         # list of dicts with the key ['prog_lang_id']
         prog_lang_ids = dbw.getProgrammingLanguageIDsOfMadeExForUser(self.id)
-        print(self.first_name+' '+str(len(prog_lang_ids)))
+        print(self.first_name + ' ' + str(len(prog_lang_ids)))
         real_names = []
         for prog_id in prog_lang_ids:
-            print('lang: '+ str(prog_id['prog_lang_id']))
-            real_names.append(dbw.getNameFromProgLangID(prog_id['prog_lang_id']))
+            print('lang: ' + str(prog_id['prog_lang_id']))
+            real_names.append(
+                dbw.getNameFromProgLangID(prog_id['prog_lang_id']))
         return real_names
 
     # returns TRUE for admin and FALSE for regular user
@@ -146,10 +164,10 @@ class User:
         for rating in ratings:
             if rating['rating'] == 0:
                 if default:
-                    #default counts for 50%
+                    # default counts for 50%
                     total_rating += 2.5
                 else:
-                    #we need to count one less
+                    # we need to count one less
                     illegit_lists += 1
             else:
                 total_rating += rating['rating']
@@ -168,13 +186,15 @@ class User:
         return self.ratingCounter(ratings, default)
 
     def progLangRating(self, prog_lang_id, default):
-        ratings = dbw.listOfRatingsForUserForProgrammingLanguage(self.id, prog_lang_id)
+        ratings = dbw.listOfRatingsForUserForProgrammingLanguage(
+            self.id, prog_lang_id)
         return self.ratingCounter(ratings, default)
 
     def avgOfDates(self, dates):
         total_time = datetime.timedelta()
         for date in dates:
-            total_time += managers.om.objectmanager.timeFromToday(date['made_on'])
+            total_time += managers.om.objectmanager.timeFromToday(
+                date['made_on'])
         if len(dates) > 0:
             total_time /= len(dates)
             return total_time
@@ -190,7 +210,8 @@ class User:
         return self.avgOfDates(dates)
 
     def avgProgrammingLanguageDateAge(self, prog_lang_id):
-        dates = dbw.listOfDatesForUserForProgrammingLanguage(self.id, prog_lang_id)
+        dates = dbw.listOfDatesForUserForProgrammingLanguage(
+            self.id, prog_lang_id)
         return self.avgOfDates(dates)
 
     def amountOfListsWithSubjectForUser(self, subject_id):
@@ -200,10 +221,12 @@ class User:
         return dbw.amountOfListsWithProgrammingLanguageForUser(prog_lang, self.id)['amount']
 
     def save(self):
-        dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email, self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
+        dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email,
+                       self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 
     def __str__(self):
         return str(self.id) + ' ' + self.first_name + ' ' + self.last_name + ' ' + str(self.is_active) + ' ' + self.email + ' ' + str(self.permissions) + ' ' + str(self.joined_on) + ' ' + str(self.last_login) + ' ' + self.gender
+
 
 class PersonalList:
 
@@ -216,21 +239,26 @@ class PersonalList:
         self.user_id = user_id
         # Actual exercises-object
         object_manager = managers.om.objectmanager.ObjectManager()
-        self.exercises_list = object_manager.createExerciseList(exercise_list_id)
+        self.exercises_list = object_manager.createExerciseList(
+            exercise_list_id)
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None
 
-    # Object which represents the actual list of personal exercises (SQL function)
+    # Object which represents the actual list of personal exercises (SQL
+    # function)
     def allExercises(self, language_code):
-        exercise_info = dbw.getExerciseScoreFor(self.user_id, self.exercises_list.id)
+        exercise_info = dbw.getExerciseScoreFor(
+            self.user_id, self.exercises_list.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x['rating'], x['exercise_id'], language_code, x['completed_on']) for x in exercise_info]
+            personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x[
+                                                        'rating'], x['exercise_id'], language_code, x['completed_on']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
 
     def __str__(self):
         return str(self.rating) + ' ' + str(self.score) + ' ' + str(self.user_id) + ' ' + self.exercises_list.name + ' ' + str(self.exercises_list.difficulty) + ' ' + self.exercises_list.description
+
 
 class PersonalExercise:
 
@@ -245,7 +273,8 @@ class PersonalExercise:
         self.completed_on = completed_on
         # Actual exercises-object (make with SQL queries)
         object_manager = managers.om.objectmanager.ObjectManager()
-        self.exercise = object_manager.createExercise(exercise_id, language_code)
+        self.exercise = object_manager.createExercise(
+            exercise_id, language_code)
 
     def __str__(self):
         return str(self.rating) + " " + str(self.score) + " " + str(self.solved) + " " + str(self.exercise) + ' ' + str(self.completed_on)

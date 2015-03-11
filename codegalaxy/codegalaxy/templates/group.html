@@ -6,15 +6,23 @@
 
 <div class="row">
   <div class="large-12 columns">
+
     <ul class="tabs" data-tab>
       <li class="tab-title active"><a href="#feed">Feed</a></li>
       <li class="tab-title"><a href="#members">Members</a></li>
+      <li class="tab-title"><a href="#add_members">Add New Members</a></li>
     </ul>
 
     <hr/>
 
     <div class="tabs-content">
       <div class="content active" id="feed">
+        {% if not is_member %}
+        <form method="post" action="/g/{{group.id}}/">
+          {% csrf_token %}
+          <input type="submit" name="become_member" value="Become member" class="button"/>
+        </form>
+        {% endif %}
         {% for item in data %}
         {% if item.type == 'friendship' %}
         <div class="row">
@@ -67,10 +75,28 @@
           </span>
         </div>
       </div>
+      <div class="content" id="add_members">
+        {% for user in currentuser_friend_list %}
+        <div class="small-12 columns">
+          <div class="small-2 large-2 columns">
+            <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+          </div>
+          <div class="small-4 large-8 columns">{{user.first_name}} {{user.last_name}}</div>
+          <form method="POST" action="/g/{{group.id}}/">
+            {% csrf_token %}
+            <div class="small-6 large-4 columns">
+              <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
+              <input type="submit" name="add_friend" value="Add User" class="button round"/>
+            </div>
+          </form>
+          <hr/>
+        </div>
+        {% endfor %}
+      </div>
       <div class="content" id="members">
         {% for member in user_list %}
         <div class="large-2 small-2 columns">
-          <a href="../{{ user.id }}"/>
+          <a href="/u/{{ member.id }}"/>
           <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
           <div class="panel">
             <h5>{{ member.first_name }}</h5>
@@ -79,6 +105,7 @@
         </div>
         {% endfor %}
       </div>
+
     </div>
   </div>
 </div>

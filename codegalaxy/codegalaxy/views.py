@@ -192,7 +192,13 @@ def group(request, id=0):
     group = object_manager.createGroup(id)
 
     if request.method == 'POST':
-        group.insertMember(user.id, id, str(time.strftime("%Y-%m-%d")))
+        if 'become_member' in request.POST:
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
+
+        elif 'add_friend' in request.POST:
+            print("PROBEREN DEZE PERSOON TOE TE VOEGEN")
+            friend_id = request.POST.get('user_id_to_add', '')
+            group.insertMember(friend_id, 0 , str(time.strftime("%Y-%m-%d")))
 
     is_member = False
     if group:
@@ -239,8 +245,9 @@ def group(request, id=0):
             # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
+        currentuser_friend_list = user.allFriendsNotMemberOfGroupWithID(id)
 
-        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member}
+        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'currentuser_friend_list': currentuser_friend_list, 'is_member': is_member}
         return render(request, 'group.html', context)
 
     else:

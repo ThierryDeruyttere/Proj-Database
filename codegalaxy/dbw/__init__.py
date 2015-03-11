@@ -156,6 +156,10 @@ def getFriendsIdForID(id):
     cursor.execute('SELECT f.friend_id FROM friendsWith f WHERE f.user_id = {id} UNION SELECT f.user_id FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
     return processData()
 
+def getFriendsNotMemberOfGroupWithID(me_id, group_id):
+    cursor.execute('SELECT DISTINCT u.id FROM user u, userInGroup t WHERE u.id != t.user_id AND t.group_id = {group_id};'.format(me_id=me_id, group_id=group_id))
+    return processData()
+
 def getFriendshipsForID(id):
     '''
     @brief gets the friends of a user a user id
