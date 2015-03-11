@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
 <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
@@ -12,7 +13,7 @@
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
-      <h1>Login...</h1>
+      <h1>{% trans "Sign in..." %}</h1>
     </div>
   </div>
 </div>
@@ -26,9 +27,9 @@
               <div class="row">
                 <div class="large-12 columns">
                   <div class="signup-panel">
-                    <p class="welcome">Welcome back!</p>
+                    <p class="welcome">{% trans "Welcome back!" %}</p>
                     {% if error_login %}
-                      <div class="alert-box alert radius">Incorrect email and/or password.</div>
+                      <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
                     {% endif %}
                     <form method="post" action="/login/" data-abide>
                     {% csrf_token %}
@@ -38,7 +39,7 @@
                         </div>
                         <div class="small-11  columns">
                           <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                          <small class="error">Enter a valid Email Address.</small>
+                          <small class="error">{% trans "Enter a valid Email Address." %}</small>
                         </div>
                       </div>
                       <div class="row collapse">
@@ -47,7 +48,7 @@
                         </div>
                         <div class="small-11 columns ">
                           <input type="password" required placeholder="Password" id="your_password" name="your_password">
-                          <small class="error">Enter a valid Password.</small>
+                          <small class="error">{% trans "Enter a valid Password." %}</small>
                         </div>
                       </div>
                       <input type="submit" value="Log In" class="button"/>
