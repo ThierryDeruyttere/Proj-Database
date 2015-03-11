@@ -295,10 +295,16 @@ def listOverview(request):
         if prog_lang_name == '':
             prog_lang_name = '%'
 
-        user_name = request.POST.get('user', ['%', '%'])
+        user_name = request.POST.get('user')
+        if user_name != "":
+            user_name = user_name.split(' ')
+            user_first_name = user_name[0]
+            user_last_name = user_name[1]
 
-        #subjects = request.POST.get('subjects', '%').split(',')
-        #TODO make query accept multiple subjects at once!
+        subjects = request.POST.get('subjects')
+        if subjects != "":
+            subject_name = subjects.split(',')
+
         order_mode = request.POST.get('order_mode')
         if order_mode == "Ascending":
             order_mode = "ASC"

@@ -443,16 +443,35 @@ def addVerification(email, hash):
 #Filtering
 def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode):
 
+    subject_search = ""
+    if isinstance(subject_name, list):
+        subs = ""
+        if len(subject_name) > 1:
+            for i, s in enumerate(subject_name):
+                if i == len(subject_name)-1:
+                    subs += '"' + s + '"'
+                else:
+                    subs += '"' + s + '"' + ','
+            subject_search =  'IN ({subject})'.format(subject = subs)
+        else:
+             subject_search =  'LIKE "%{subject}%"'.format(subject = subject_name[0])
+
+    else:
+        subject_search =  'LIKE "%{subject}%"'.format(subject = subject_name)
+
+    print(subject_search)
+
+
     cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) as popularity FROM (exerciseList e, programmingLanguage pL, user u) '
                     ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
-                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id AND s.name LIKE "{subject}"'
                     ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
-                    ' WHERE e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
+                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
+                    ' WHERE s.name {subject} AND e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
                     ' AND u.last_name LIKE "%{last_name}%"'
                     ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
                     ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
                     ' GROUP BY e.name ORDER BY popularity {order_mode};'
                     .format(name = list_name, min_diff = min_list_difficulty, max_diff = max_list_difficulty, first_name = user_first_name, last_name = user_last_name,
-                           prog_lang = prog_lang_name, subject = subject_name, order_mode = order_mode))
+                           prog_lang = prog_lang_name, subject = subject_search, order_mode = order_mode))
 
     return processData()
