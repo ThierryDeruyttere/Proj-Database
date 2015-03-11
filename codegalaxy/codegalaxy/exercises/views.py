@@ -25,7 +25,7 @@ def createExerciseList(request):
         current_subject = 0
         exercise_list = object_manager.createExerciseList(exlist_id)
 
-        while(request.POST.get("subject" + str(current_subject)) != None):
+        while(request.POST.get("subject" + str(current_subject)) is not None):
             exercise_list.addSubject(request.POST.get("subject" + str(current_subject)))
             current_subject += 1
 

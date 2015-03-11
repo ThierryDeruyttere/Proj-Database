@@ -328,6 +328,7 @@ def getProgrammingLanguageCodeOnName(name):
 
 def getSubjectID(name):
     cursor.execute('select id from subject WHERE name = "{name}"'.format(name = name))
+    return processOne()
 
 def getAllSubjects():
     cursor.execute('SELECT * FROM subject')

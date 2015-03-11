@@ -4,7 +4,7 @@
 
   <div class="row">
     <div class="panel">
-      <form method="post">
+      <form method="post" id="list_form">
         {% csrf_token %}
         <div class="row">
           <div class="large-4 large-centered columns">
@@ -46,7 +46,6 @@
             </div>
           </div>
 
-
           <div class="row">
             <div class="large-4 large-centered columns">
               <div class="row collapse prefix-radius">
@@ -72,7 +71,7 @@
 
           <div class="row">
             <div class="large-2 large-centered columns">
-              <input type="submit" class="button" value="Create list">
+              <input id="submitButton" class="button" value="Create list">
             </div>
           </div>
         </div>
@@ -94,11 +93,8 @@
       var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":$("#subject").val(),"name":"subject"+subjects});
 
       label.html($("#subject").val());
-
-
       $("#subject").val("");
       subjects++;
-
       $("#subjects").append(label);
       $("#subjects").append(input);
       //$(document).foundation('span', 'reflow');
@@ -109,6 +105,16 @@
         $("#" + $(this).attr("id") + "_text").remove();
         $(this).remove();
       });
+    });
+
+    $("#submitButton").click(function(){
+      if(subjects == 0){
+        window.alert("You need to add at least one subject!");
+      }else{
+        var list = $("#list_form");
+        list.submit();
+        console.log("submit");
+      }
     });
 
   });
