@@ -266,6 +266,17 @@ def submit(request, list_id, question_id):
     else:
         return redirect('/')
 
+def createListElem(elem):
+    return """<li class=\"accordion-navigation\">
+      <a href=\"#Exerc{id}\">{list_name}</a>
+      <div id=\"Exerc{id}\" class=\"content\">
+      <div class=\"row\">
+      <a href=\"{id}\" class=\"button tiny radius\">Open list</a>
+      </div>
+      </div>
+      </li>""".format(id = elem['id'], list_name = elem['name'])
+
+
 def listOverview(request):
     list_name='%'
     min_list_difficulty=1
@@ -277,7 +288,7 @@ def listOverview(request):
     order_mode = "ASC"
 
     if request.method == "POST" and request.is_ajax():
-        list_name = request.POST.get('list_name', '%')
+        list_name = request.POST.get('title', '%')
         min_list_difficulty = int(request.POST.get('min_difficulty', 1))
         max_list_difficulty = int(request.POST.get('max_difficulty', 5))
         prog_lang_name = request.POST.get('prog_lang')
@@ -295,8 +306,12 @@ def listOverview(request):
             order_mode = "DESC"
 
         all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
-        
-        return HttpResponse(json.dumps(all_lists), content_type="application/json")
+        html = ""
+        for obj in all_lists:
+            obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
+            html += createListElem(obj)
+
+        return HttpResponse(html)
 
     all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
 

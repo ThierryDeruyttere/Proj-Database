@@ -123,7 +123,7 @@
           <ul class="pricing-table">
             <li class="title">Lists</li>
             <div class="row" id="filtered_lists">
-              <ul class="accordion" data-accordion>
+              <ul class="accordion" id="list_accordion" data-accordion>
                 {% for list in all_lists %}
                   <li class="accordion-navigation">
                     <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
@@ -166,10 +166,11 @@
             type: 'POST',
             url: "",
             data: post_data,
-            dataType: "json",
+            dataType: "text",
 
-            success: function(msg) {
-              console.log(msg);
+            success: function(response) {
+              $("#list_accordion").empty();
+              $("#list_accordion").append(response);
             }
           });
         });
