@@ -137,3 +137,7 @@ class ObjectManager:
 
     def acceptVerification(self, hash):
         dbw.removeVerification(hash)
+
+    def getExerciseListsOnProgLang(self, prog_lang):
+        lists = dbw.getExerciseListsOnProgLang(prog_lang)
+        return [list_id['id'] for list_id in lists]

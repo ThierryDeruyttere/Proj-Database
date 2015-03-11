@@ -315,8 +315,10 @@ def python(request):
 
 def recommendations(request):
     user_test = object_manager.createUser(id=1)
+    lists = user_test.allPersonalLists()
     b = recommendListsForUser(1)
-    return render(request, 'recommendations.html', {'test': str(b)})
+    recommended = recommendNextExerciseLists(lists[0], 2)
+    return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
 
 def graphs(request):
     # We'll use the graph maker to make pretty graphs with statistical data

@@ -12,7 +12,6 @@ object_manager = objectmanager.ObjectManager()
 #Recenter dan avg -> *1.2
 
 def timeMultiplier(avg_date, avg_param_date):
-    print('hm')
     param_multiplier = 1
     week = datetime.timedelta(days=7)
     month = datetime.timedelta(days=31)
@@ -194,15 +193,80 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # now we can start adding the other SubjectMultipliers
     subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
     prog_lang_scores = scorePerProgrammingLanguageForUser(user_id, dates, ratings, default)
-    print(score_per_list_id)
-    print(subject_scores)
-    print(prog_lang_scores)
+    #print(score_per_list_id)
+    #print(subject_scores)
+    #print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
-    print(score_per_list_id)
+    #print(score_per_list_id)
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
-    print(score_per_list_id)
+    #print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend?
 
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
     return recommended_exercises
+
+
+# RECOMMEND NEXT EXERCISE====================================================================================================
+
+# For this algorithm, we will only consider lists with the same language as
+# the last one, many of the subjects will match and lastly, the difficulty
+# will be dependant on the score the user got + the difficulty of the previous list
+
+# score in %, difficulty in [1,2,3,4,5]
+def decideDifficulty(difficulty, score):
+    # >60% -> +1 diff
+    # 40%-60% -> same diff
+    # <40% -> -1 diff
+    # nothing higher than 5/lower than 1
+    if score >= 60 & difficulty < 5:
+        return difficulty + 1
+    elif score <= 40 & difficulty > 1:
+        return difficulty - 1
+    else:
+        return difficulty
+
+# previous-> of the made list, new -> of a possible list
+# ok, since we don't want to give too much advantage/disadvantage to long
+# or short lists, depending on how many both lists have, a % overlap needed is calculated
+def overlapNeeded(previous):
+    # only 1-3 subjects -> new needs all of them
+    amount_of_overlap_needed = len(previous)
+    # 4-5 subjects -> amount - 1
+    if len(previous) >= 4 & len(previous) <= 5:
+        amount_of_overlap_needed = len(previous) - 1
+    # 6-8 subjects -> amount - 2
+    if len(previous) >= 6 & len(previous) <= 8:
+        amount_of_overlap_needed = len(previous) - 2
+    # 9-10 subjects -> amount - 3
+    if len(previous) >= 9 & len(previous) <= 10:
+        amount_of_overlap_needed = len(previous) - 3
+    # 10+ subjects -> amount/2
+    if len(previous) > 10:
+        amount_of_overlap_needed = len(previous) / 2
+    print('overlap = ' + str(amount_of_overlap_needed))
+    return amount_of_overlap_needed
+
+def subjectsMatch(previous, new):
+    overlap_needed = overlapNeeded(previous)
+    overlap = [subject for subject in previous if subject in new]
+    if overlap_needed <= len(overlap):
+        return True
+    else:
+        return False
+
+# parameter: personalExerciseListobject(or id?)
+def recommendNextExerciseLists(previous_made_list, amount):
+    new_exercise_lists = []
+    new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
+    prog_language_id = previous_made_list.exercises_list.programming_language
+    subjects = previous_made_list.exercises_list.allSubjectIDs()
+    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
+    for list_id in possible_list_ids:
+        possible_list = object_manager.createExerciseList(list_id)
+        if possible_list.difficulty == new_difficulty:
+            other_subjects = possible_list.allSubjectIDs()
+            if subjectsMatch(subjects, other_subjects):
+                new_exercise_lists.append(list_id)
+    new_exercise_lists = new_exercise_lists[:amount]
+    return new_exercise_lists
