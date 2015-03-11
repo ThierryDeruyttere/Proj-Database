@@ -77,8 +77,6 @@ class ExerciseList:
         prog_lang_id = int(dbw.getIdFromProgrammingLanguage(updated_prog_lang)["id"])
         dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, prog_lang_id)
 
-# TODO: how to add subjects
-
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
         subject_id = int(dbw.getSubjectID(subject_name)["id"])
