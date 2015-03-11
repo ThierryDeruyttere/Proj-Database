@@ -292,6 +292,8 @@ INSERT INTO subject(name) VALUES ('Printing');
 
 # HasSubject data
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,1);
 
 #insert into madeList
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,5, "2015-03-05");

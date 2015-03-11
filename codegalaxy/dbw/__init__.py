@@ -73,6 +73,7 @@ def getGroupInformationOnName(group_name):
     print("GEEN IDEE.....")
     cursor.execute('SELECT * FROM groups WHERE group_name = {group_name};'.format(group_name=group_name))
     print('MAAR HOE?')
+    print('IRRUMIRATI')
     return processOne()
 
 def getExerciseType(id):
@@ -220,6 +221,15 @@ def getSubjectsForList(list_id):
     cursor.execute('SELECT s.name FROM exerciseList e, subject s, hasSubject hS WHERE e.id = hS.exerciseList_id AND hS.subject_id = s.id AND e.id = {id};'.format(id=list_id))
     return processData()
 
+def getSubjectIDsForList(list_id):
+    '''
+    @brief gets the subject of exercise list
+    @param list_id the id of the exercise list
+    @return returns a dict with lists
+    '''
+    cursor.execute('SELECT s.id FROM exerciseList e, subject s, hasSubject hS WHERE e.id = hS.exerciseList_id AND hS.subject_id = s.id AND e.id = {id};'.format(id=list_id))
+    return processData()
+
 def getPermForUserInGroup(user_id, group_id):
     '''
     @brief gets the permission for a certain user in a certain group
@@ -305,22 +315,30 @@ def getLastExerciseFromList(ID):
     return processOne()
 
 def getMadeExercise(user_id, exercise_id):
-    cursor.execute('select * from madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user=user_id, exerc=exercise_id))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user=user_id, exerc=exercise_id))
     return processOne()
 
 def getSubjectID(name):
-    cursor.execute('select id from subject WHERE name = "{name}"'.format(name=name))
+    cursor.execute('SELECT id FROM subject WHERE name = "{name}"'.format(name=name))
     return processOne()
 
-# INSERT
+def getAllSubjectIDs():
+    cursor.execute('SELECT id FROM subject;')
+    return processData()
+
+def getExerciseListsOnProgLang(progLang):
+    cursor.execute('SELECT e.id FROM exerciseList e, programmingLanguage p WHERE p.id = e.prog_lang_id AND p.name = "{name}";'.format(name=progLang))
+    return processData()
+
+##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email))
 
 def insertFriendsWith(user_id, friend_id, status):
     cursor.execute('INSERT INTO friendsWith(user_id,friend_id, befriended_on, status) VALUES ({u_id}, {f_id}, CURDATE(), "{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
 
-def insertGroup(group_name, group_type):
-    cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type}, CURDATE());'.format(name=group_name, type=group_type))
+def insertGroup(group_name, group_type, created_on):
+    cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
 
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
     cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
@@ -425,6 +443,38 @@ def latestHint(exercise_id, language_code):
     cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id=language_id, ex_id=exercise_id))
     return processOne()
 
+def amountOfListsWithSubjectForUser(subject_id, user_id):
+    cursor.execute('SELECT COUNT(madeList.exerciseList_id) AS amount FROM hasSubject,madeList WHERE hasSubject.subject_id = {sub_id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(sub_id=subject_id, u_id=user_id))
+    return processOne()
+
+def amountOfListsWithProgrammingLanguageForUser(prog_lang, id):
+    cursor.execute('SELECT COUNT(exerciseList.id) AS amount FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {prog_id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(prog_id=prog_lang, u_id=id))
+    return processOne()
+
+def listOfRatingsForUser(user_id):
+    cursor.execute('SELECT rating FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
+    return processData()
+
+def listOfRatingsForUserForSubject(user_id, subject_id):
+    cursor.execute('SELECT rating FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processData()
+
+def listOfRatingsForUserForProgrammingLanguage(user_id, prog_lang_id):
+    cursor.execute('SELECT rating FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=user_id))
+    return processData()
+
+def listOfDatesForUser(user_id):
+    cursor.execute('SELECT made_on FROM madeList WHERE madeList.user_id={u_id};'.format(u_id=user_id))
+    return processData()
+
+def listOfDatesForUserForSubject(user_id, subject_id):
+    cursor.execute('SELECT made_on FROM hasSubject,madeList WHERE hasSubject.subject_id = {id} AND hasSubject.exerciseList_id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=subject_id, u_id=user_id))
+    return processData()
+
+def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
+    cursor.execute('SELECT made_on FROM exerciseList,madeList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id={u_id};'.format(id=prog_lang_id, u_id=id))
+    return processData()
+
 # USER VERIFICATION
 def needsVerification(hash):
     cursor.execute('SELECT email FROM verification WHERE hash = "{hash}";'.format(hash=hash))
@@ -473,5 +523,4 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
                     ' GROUP BY e.name ORDER BY popularity {order_mode};'
                     .format(name = list_name, min_diff = min_list_difficulty, max_diff = max_list_difficulty, first_name = user_first_name, last_name = user_last_name,
                            prog_lang = prog_lang_name, subject = subject_search, order_mode = order_mode))
-
     return processData()

@@ -26,6 +26,15 @@ class ExerciseList:
         else:
             return None
 
+    def allSubjectIDs(self):
+        subjects_info = dbw.getSubjectIDsForList(self.id)
+        if subjects_info:
+            # We'll put the info in a regular list
+            subjects_list = [x['id'] for x in subjects_info]
+            return subjects_list
+        else:
+            return None
+
     # List of exercises
     def allExercises(self, language_code):
         exercises_infos = dbw.getExercisesForList(self.id)
@@ -46,6 +55,19 @@ class ExerciseList:
                 return ex
             else:
                 return None
+
+    def hasX(self, id, X_type):
+        if X_type == 'Subject':
+            return self.hasSubject(id)
+        elif X_type == 'Programming Language':
+            return self.programming_language == id
+
+    def hasSubject(self, subject_id):
+        subjects_info = dbw.getSubjectIDsForList(self.id)
+        if subjects_info:
+            # We'll put the info in a regular list
+            subjects_list = [x['id'] for x in subjects_info]
+            return subject_id in subjects_list
 
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)

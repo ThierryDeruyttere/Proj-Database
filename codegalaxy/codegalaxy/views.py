@@ -13,6 +13,7 @@ from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
+from managers.rm.recommendations import *
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -30,9 +31,6 @@ def user(request, id=0):
     id = int(id)
     # Get the user object for that id
     user = object_manager.createUser(id=id)
-
-    
-
 
     if request.method == 'POST':
         if 'add_friend' in request.POST:
@@ -56,11 +54,9 @@ def user(request, id=0):
         already_friends = current_user.isFriend(user)
 
     if user:
-        
-
         friend_list = user.allFriends()
         group_list = user.allGroups()
-        exercise_list = user.allPersonalLists()        
+        exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(
             user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
@@ -108,7 +104,6 @@ def user(request, id=0):
 def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users': users})
-
 
 def register(request):
     # Check if we are already logged in
@@ -243,7 +238,7 @@ def group(request, id=0):
             # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
-            
+
         context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'is_member': is_member}
         return render(request, 'group.html', context)
 
@@ -263,7 +258,6 @@ def groupOverview(request):
         # return redirect('/')
     return redirect('/g/create')
 
-
 @require_login
 def groupCreate(request, id=0):
     user = logged_user(request)
@@ -275,10 +269,10 @@ def groupCreate(request, id=0):
         group_type = request.POST.get('group_type')
         try:
             if group_type == 'on':
-                object_manager.insertGroup(group_name, 1)
+                object_manager.insertGroup(group_name, 1, str(time.strftime("%Y-%m-%d")))
                 print("WORKED!")
             else:
-                object_manager.insertGroup(group_name, 0)
+                object_manager.insertGroup(group_name, 0, str(time.strftime("%Y-%m-%d")))
 
             # auto add user when making a private group?
 
@@ -309,7 +303,6 @@ def verify(request, hash_seq):
         return render(request, 'verify.html', {})
 
     return redirect('/')
-
 
 def test(request, id=0):
     # Quick tests/changes
@@ -381,13 +374,18 @@ def tables(request):
         if(table != ''):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
-
     return render(request, 'tables.html', {})
 
 
 def python(request):
     return render(request, 'python.html', {})
 
+def recommendations(request):
+    user_test = object_manager.createUser(id=1)
+    lists = user_test.allPersonalLists()
+    b = recommendListsForUser(1)
+    recommended = recommendNextExerciseLists(lists[0], 2)
+    return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
 
 def graphs(request):
     # We'll use the graph maker to make pretty graphs with statistical data

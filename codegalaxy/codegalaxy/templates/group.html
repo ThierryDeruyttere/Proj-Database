@@ -5,82 +5,82 @@
 {% block base_body %}
 
 <div class="row">
-	<div class="large-12 columns">
-		<ul class="tabs" data-tab>
-			<li class="tab-title active"><a href="#feed">Feed</a></li>
-			<li class="tab-title"><a href="#members">Members</a></li>
-		</ul>
+  <div class="large-12 columns">
+    <ul class="tabs" data-tab>
+      <li class="tab-title active"><a href="#feed">Feed</a></li>
+      <li class="tab-title"><a href="#members">Members</a></li>
+    </ul>
 
-		<hr/>
+    <hr/>
 
-		<div class="tabs-content">
-			<div class="content active" id="feed">
-				{% for item in data %}
-				{% if item.type == 'friendship' %}
-				<div class="row">
-					<div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-					<div class="large-10 columns">
+    <div class="tabs-content">
+      <div class="content active" id="feed">
+        {% for item in data %}
+        {% if item.type == 'friendship' %}
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-10 columns">
 
-						<p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
 
-					</div>
-				</div>
+          </div>
+        </div>
 
-				<hr/>
-				{% endif %}
-				{% if item.type == 'group_member'%}
-				<div class="row">
-					<div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-					<div class="large-10 columns">
+        <hr/>
+        {% endif %}
+        {% if item.type == 'group_member'%}
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-10 columns">
 
-						<p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
 
-					</div>
-				</div>
+          </div>
+        </div>
 
-				<hr/>
-				{% endif %}
-				{% if item.type == 'exerciseList'%}
-				<div class="row">
-					<div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-					<div class="large-10 columns">
+        <hr/>
+        {% endif %}
+        {% if item.type == 'exerciseList'%}
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-10 columns">
 
-						<p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
 
-					</div>
-				</div>
+          </div>
+        </div>
 
-				<hr/>
-				{% endif %}
-				{% endfor %}
-				<div class="pagination">
-					<span class="step-links">
-						{% if data.has_previous %}
-						<a href="?page={{ data.previous_page_number }}">previous</a>
-						{% endif %}
-						<span class="current">
-							Page {{ data.number }} of {{ data.paginator.num_pages }}
-						</span>
-						{% if data.has_next %}
-						<a href="?page={{ data.next_page_number }}">next</a>
-						{% endif %}
-					</span>
-				</div>
-			</div>
-			<div class="content" id="members">
-				{% for member in user_list %}
-				<div class="large-2 small-2 columns">
-					<a href="../{{ user.id }}"/>
-					<img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
-					<div class="panel">
-						<h5>{{ member.first_name }}</h5>
-						<h6 class="subheader">{{ member.last_name }}</h6>
-					</div>
-				</div>
-				{% endfor %}
-			</div>
-		</div>
-	</div>
+        <hr/>
+        {% endif %}
+        {% endfor %}
+        <div class="pagination">
+          <span class="step-links">
+            {% if data.has_previous %}
+            <a href="?page={{ data.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+              Page {{ data.number }} of {{ data.paginator.num_pages }}
+            </span>
+            {% if data.has_next %}
+            <a href="?page={{ data.next_page_number }}">next</a>
+            {% endif %}
+          </span>
+        </div>
+      </div>
+      <div class="content" id="members">
+        {% for member in user_list %}
+        <div class="large-2 small-2 columns">
+          <a href="../{{ user.id }}"/>
+          <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+          <div class="panel">
+            <h5>{{ member.first_name }}</h5>
+            <h6 class="subheader">{{ member.last_name }}</h6>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock base_body %}

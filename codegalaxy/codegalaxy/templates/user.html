@@ -15,7 +15,7 @@
         <div class="panel">
             <a href="#"><img src="{% static "media/user.png" %}"/></a>
             <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
-            
+
             <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
                 {% if not already_friends and not my_profile %}
                 <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
@@ -76,7 +76,6 @@
         <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
-
         </div>
     </div>
 

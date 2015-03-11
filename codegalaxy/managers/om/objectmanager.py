@@ -3,9 +3,13 @@ import managers.om.exercise
 import managers.om.user
 import managers.om.group
 import dbw
+import datetime
 # Class that will build and work with the various objects representing the site
 # will use SQL
 
+def timeFromToday(compare_date):
+    now = datetime.datetime.now().date()
+    return compare_date - now
 
 class ObjectManager:
 
@@ -45,6 +49,7 @@ class ObjectManager:
             return None
 
     def createGroupOnName(self, group_name):
+        # enthousiast
         print("EN WE BEGINNfadsafdsfsdafsdaEN ERAAN!")
         group_info = dbw.getGroupInformationOnName(group_name)
         print("Ldhgsoilfdhgsfdilug")
@@ -89,13 +94,15 @@ class ObjectManager:
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
         return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id)["highest_id"]
 
-    def insertGroup(self, group_name, group_type):
-        dbw.insertGroup(group_name, group_type)
+    def insertGroup(self, group_name, group_type, created_on):
+        dbw.insertGroup(group_name, group_type, created_on)
 
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
         # do you just need the name? id?
-        # return [x['name'] for x in dbw.getAll("programmingLanguage")]
+
+    def allProgrammingLanguageIDs(self):
+        return [x['id'] for x in dbw.getAll("programmingLanguage")]
 
     def allUsers(self):
         users = []
@@ -103,6 +110,10 @@ class ObjectManager:
         for user_id in user_info:
             users.append(self.createUser(id=user_id['id']))
         return users
+
+    def allSubjectIDs(self):
+        subjects = dbw.getAllSubjectIDs()
+        return [subject['id'] for subject in subjects]
 
     def allGroups(self):
 
@@ -150,3 +161,7 @@ class ObjectManager:
 
     def filterOn(self,list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode = 'ASC'):
         return dbw.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+
+    def getExerciseListsOnProgLang(self, prog_lang):
+        lists = dbw.getExerciseListsOnProgLang(prog_lang)
+        return [list_id['id'] for list_id in lists]
