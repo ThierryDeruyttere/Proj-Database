@@ -133,8 +133,14 @@ class ObjectManager:
     def countExerciseListsForProgrammingLanguageID(self, id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, rating=0):
-        exercise = dbw.getMadeExercise(user_id, exercise_id)
+    def allSubjects(self):
+        return dbw.getAllSubjects()
+
+    def occurencesOfSubject(self,subject_id):
+        return dbw.getOccurenceOfSubject(subject_id)
+
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, rating=0):
+        exercise = dbw.getMadeExericse(user_id, exercise_id)
         if exercise:
             # update
             pass
@@ -165,3 +171,6 @@ class ObjectManager:
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
+
+    def getProgrammingLanguageCodeOnName(self,name):
+        return dbw.getProgrammingLanguageCodeOnName(name)['language_code']

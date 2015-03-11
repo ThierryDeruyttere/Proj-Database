@@ -15,19 +15,19 @@ class ColorInfo:
         self.pointStrokeColor = pointStrokeColor
 
 class GraphManager:
-
+    count = 0
     '''Class which will build strings that can be used to generate graphs in an html page'''
 
     def __init__(self):
         # To avoid variables with the same name
-        self.count = 0
+        pass
 
     def canvasString(self, name, width, height):
         return '<canvas id= "' + name + '" width="' + str(width) + '" height="' + str(height) + '"></canvas>\n'
 
     # postfix to identify between variables of the same graph
-    def addDatavar(self, postfix):
-        return 'Data' + str(self.count) + postfix
+    def addDatavar(self,postfix):
+        return 'Data' + str(GraphManager.count) + postfix
 
     def addScript(self, html):
         return '<script>\n' + html + '</script>\n'
@@ -42,8 +42,8 @@ class GraphManager:
             labels_string += '"' + label + '",'
         return labels_string[:-1] + '],'
 
-    def addLineColors(self, colorInfos):
-        return 'fillColor : "' + colorInfos.fillColor + '",\nstrokeColor : "' + colorInfos.strokeColor + '",\npointColor : "' + colorInfos.pointColor + '",\n               pointStrokeColor : "' + colorInfos.pointStrokeColor + '",\n'
+    def addLineColors(self,colorInfos):
+        return 'fillColor : "' + colorInfos.fillColor + '",\nstrokeColor : "' + colorInfos.strokeColor + '",\npointColor : "' + colorInfos.pointColor +'",\npointStrokeColor : "' + colorInfos.pointStrokeColor+'",\n'
 
     # colors is a special class
     def addLineData(self, labels, colorInfos, data):
@@ -66,8 +66,8 @@ class GraphManager:
         total_string += self.addGetID(name)
         total_string += 'new Chart(' + self.addDatavar('O') + ').Line(' + self.addDatavar('D') + ');\n'
         total_string = self.addScript(total_string)
-        total_string = self.canvasString(name, width, height) + total_string
-        self.count += 1
+        total_string = self.canvasString(name,width,height) + total_string
+        GraphManager.count += 1
         return total_string
 
 # PIECHART=========================================================================================================
@@ -82,7 +82,7 @@ class GraphManager:
         data_string += '];\n'
         return data_string
 
-    def addExtras(self):
+    def addPieExtras(self):
         extras_string = ''
         extras_string += 'var options = { \n'
         extras_string += 'segmentShowStroke : false,\n'
@@ -95,27 +95,39 @@ class GraphManager:
     # Colorinfo's will be a list of tuples here
     def makePieChart(self, name, width, height, colorInfos, labels, data):
         total_string = ''
-        total_string += self.addPieData(labels, data, colorInfos)
-        total_string += self.addExtras()
+        total_string += self.addPieData(labels,data,colorInfos)
+        total_string += self.addPieExtras()
         # The objects themself have postfix O
         total_string += self.addGetID(name)
         total_string += 'new Chart(' + self.addDatavar('O') + ').Pie(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
-        total_string = self.canvasString(name, width, height) + total_string
-        self.count += 1
+        total_string = self.canvasString(name,width,height) + total_string
+        GraphManager.count += 1
         return total_string
 
 # BARCHART==================================================================================================
 
+    def addBarExtras(self):
+        extras_string = ''
+        extras_string += 'var options = { \n'
+        #extras_string += 'responsive : true,\n'
+        extras_string += 'animation: true,\n'
+        #extras_string += 'tooltipFillColor: "rgba(0,0,0,0.8)",\n'
+        #extras_string += 'multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"\n'
+        # add more stuff here
+        extras_string += '};\n'
+        return extras_string
+
     # data is a list of lists here (multiple different coloured bars -> colorinfos is list of Barcolors (see above))
-    def addBarData(self, labels, data, colorInfos):
+    # labels still 1 list
+    def addBarData(self,labels,data,colorInfos,datalabels):
         data_string = ''
         data_string += 'var ' + self.addDatavar('D') + ' = {\n'
         data_string += self.addLabels(labels) + '\n'
         data_string += 'datasets : [  \n'
         # loop over lists of data
         for i in range(len(data)):
-            data_string += '{ fillColor: "' + colorInfos[i].fillColor + '",\nstrokeColor: "' + colorInfos[i].strokeColor + '",\nhighlightFill: "' + colorInfos[i].pointColor + '",\nhighlightStroke: "' + colorInfos[i].pointStrokeColor + '",\n'
+            data_string += '{ label: "'+ datalabels[i]+ '",\nfillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
             data_string += 'data : ['
             # per list, do:
             for info in data[i]:
@@ -124,11 +136,14 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-    def makeBarChart(self, name, width, height, colorInfos, labels, data):
+
+    def makeBarChart(self,name,width,height,colorInfos,labels,data,datalabels):
         total_string = ''
-        total_string += self.addBarData(labels, data, colorInfos)
-        total_string += self.addGetID(name)
-        total_string += 'new Chart(' + self.addDatavar('O') + ').Bar(' + self.addDatavar('D') + ');\n'
+        total_string += self.addBarData(labels,data,colorInfos,datalabels)
+        total_string += self.addBarExtras()
+        total_string += 'var '+self.addDatavar('O')+' = new Chart(document.getElementById("'+name+'").getContext("2d")).Bar('+self.addDatavar('D')+',options);\n'
         total_string = self.addScript(total_string)
-        total_string = self.canvasString(name, width, height) + total_string
+        total_string =  '<div id="legendDiv'+str(GraphManager.count)+'"></div>\n' + total_string
+        total_string = self.canvasString(name,width,height) + total_string
+        GraphManager.count += 1
         return total_string
