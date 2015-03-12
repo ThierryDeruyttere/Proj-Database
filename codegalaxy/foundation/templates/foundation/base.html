@@ -25,6 +25,12 @@
   <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
   {% endblock foundation_modernizer %}
 
+  {# Override if you need another version of jQuery #}
+  {% block foundation_jquery %}
+  <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
+  <script src="{% static "jquery.cookie.js" %}"></script>
+  {% endblock foundation_jquery %}
+
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
 </head>
@@ -35,10 +41,8 @@
   {# Main content goes here #}
   {% block base_body %}{% endblock base_body %}
 
-  {# Override if you need another version of jQuery #}
-  {% block foundation_jquery %}
-  <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
-  {% endblock foundation_jquery %}
+  {% block footer %}{% endblock footer %}
+
 
   {# Foundation JS #}
   {% block foundation_js %}
