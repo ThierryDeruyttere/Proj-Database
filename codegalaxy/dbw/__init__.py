@@ -322,7 +322,7 @@ def getLastExerciseFromList(ID):
     cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id=ID))
     return processOne()
 
-def getMadeExericse(user_id, exercise_id):
+def getMadeExercise(user_id, exercise_id):
     cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))
     return processOne()
 

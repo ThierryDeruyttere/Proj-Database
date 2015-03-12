@@ -1,4 +1,6 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
 
 {% block base_body %}
 
@@ -6,17 +8,15 @@
   <div class="large-12 columns">
     <div class="panel">
       <h1>Create a new group</h1>
-      
+
       <div class="create_group-panel">
         <p>Add a name for your new group and select a group type</p>
-        <form method="post" action="/g/create">
+        <form method="post" action="/g/create" data-abide>
           {% csrf_token %}
           <div class="row collapse">
             <div class="small-11  columns">
-              <input type="text" placeholder="Group Name" id="group_name" name="group_name" value="{{ group_name }}">
-              {% if error_group_name %}
-              <small class="error"> {{ error_group_name }}</small>
-              {% endif %}
+              <input type="text" required placeholder="Group Name" id="group_name" name="group_name" value="{{ group_name }}">
+              <small class="error">{{ error_group_name }}</small>
             </div>
           </div>
 
@@ -24,13 +24,13 @@
           <div class="switch">
             <input id="group_type" name="group_type" type="checkbox" checked>
             <label for="group_type">Private</label>
-          </div> 
-          
+          </div>
+
           <p></p>
           <input type="submit" value="Create Group" class="button"/>
         </form>
       </div>
-      
+
     </div>
   </div>
 </div>

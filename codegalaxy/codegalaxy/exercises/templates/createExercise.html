@@ -266,9 +266,11 @@
 
   $("#wrapper_answer").on("click", ".remove_answer", function(e) {
     if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
-      $(this).parent().remove();
-      $("#max").val(--answers);
-      reassignIDs();
+      $(this).parent().fadeOut("slow", function() {
+        $(this).remove();
+        $("#max").val(--answers);
+        reassignIDs();
+      })
     }
   });
 

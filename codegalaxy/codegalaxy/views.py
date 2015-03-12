@@ -287,7 +287,7 @@ def groupCreate(request, id=0):
             #print('voeg member toe')
             #group = object_manager.createGroupOnName(group_name)
             # print("WUT")
-            #group.insertMember(user.id, group.group_name, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(user.id, 2, str(time.strftime("%Y-%m-%d")))
             return redirect('/g/overview')
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
