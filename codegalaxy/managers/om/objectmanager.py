@@ -165,12 +165,16 @@ class ObjectManager:
     def acceptVerification(self, hash):
         dbw.removeVerification(hash)
 
-    def filterOn(self,list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode = 'ASC'):
-        return dbw.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+    def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC'):
+        return dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
 
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
 
-    def getProgrammingLanguageCodeOnName(self,name):
+    def getProgrammingLanguageCodeOnName(self, name):
         return dbw.getProgrammingLanguageCodeOnName(name)['language_code']
+
+    def getAllScoresForList(self, exercise_list_id):
+        scores = dbw.getAllScoresForList(exercise_list_id)
+        return [score['score'] for score in scores]

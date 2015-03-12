@@ -255,9 +255,15 @@ def subjectsMatch(previous, new):
     else:
         return False
 
+
 # parameter: personalExerciseListobject(or id?)
 def recommendNextExerciseLists(previous_made_list, amount):
     new_exercise_lists = []
+    # checking to make sure we dont try to suggest an already made list
+    # we'll need the previously made lists
+    user = object_manager.createUser(previous_made_list.exercises_list.user_id)
+    made_lists = user.allPersonalLists()
+    made_ids = [pers.exercises_list.id for pers in made_lists]
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language_id = previous_made_list.exercises_list.programming_language
     subjects = previous_made_list.exercises_list.allSubjectIDs()
@@ -267,6 +273,7 @@ def recommendNextExerciseLists(previous_made_list, amount):
         if possible_list.difficulty == new_difficulty:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
-                new_exercise_lists.append(list_id)
+                if list_id not in made_ids:
+                    new_exercise_lists.append(list_id)
     new_exercise_lists = new_exercise_lists[:amount]
     return new_exercise_lists

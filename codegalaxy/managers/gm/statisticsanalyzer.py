@@ -4,7 +4,7 @@ object_manager = objectmanager.ObjectManager()
 
 class StatisticsAnalyzer:
     '''Class that will use the om to query+analyze data (and put it into proper formats
-    for the graphmanager to use?)'''
+    for the graphmanager to use)'''
     def __init__(self):
         pass
 
@@ -26,8 +26,27 @@ class StatisticsAnalyzer:
 
 # Used with Bar Charts
 
+    # Return the spread of scores on a certain exerciselist
+    def listScoreSpread(self, exercise_list_id):
+        result = {}
+        # Names of "score"-groups (0%-10%, 10%-20%,...)
+        result['labels'] = []
+        result['data'] = []
+        result['data'].append([])
+        scores = object_manager.getAllScoresForList(exercise_list_id)
+        # adding the correct strings
+        for i in range(10):
+            result['labels'].append(str(i * 10) + '%-' + str((i + 1) * 10) + '%')
+            result['data'][0].append([0])
+        for score in scores:
+            for i in range(10):
+                if (score >= i * 10) & (score < (i + 1) * 10):
+                    result['data'][0][i][0] += 1
+                    break
+        return result
+
     # Return the X biggest groups
-    def biggestGroupsTopX(self,X):
+    def biggestGroupsTopX(self, X):
         result = {}
         # Names of groups
         result['labels'] = []

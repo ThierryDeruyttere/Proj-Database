@@ -1,7 +1,40 @@
-# NOTE: the \n's in the strings are mostly for debugging clarity
-# Data and labels need to be equally long lists!
 
+# Making Graphs (parameters):
+# every graph uses:
+# name: no use at the moment, could be used for legend
+# width/height: self explanatory: dimensions of the graph
+# specifics of graphs:
+
+# All graphs use the function prototype
+#
+# -makeLine/Pie/BarChart(name, width, height, colorInfos, labels, data)
+# only the barchart has an extra parameter "datalabels"
+# every color is a string of following structure: "rgba(*values for the color*)" or "#*hexagonal value*"
+# LINECHART:
+#   colorInfo's -> list of ColorInfo(fillColor, strokeColor, pointColor, pointStrokeColor) objects
+#       fillcolor = color under the line
+#       strokecolor = color of the line
+#       point(stroke)color = color of the point (unhovered/hovered over)
+#   labels -> list of strings displayed on the x-axis of the graph
+#   data -> list of values(ints/flots) which will determine the relative height of the point
+# PIECHART:
+#   colorInfo's -> list of tuples with (color, highlightcolor) of a piece of the pie
+#   labels -> list of strings displayed on the pie
+#   data -> list of values(ints/flots) which will determine size of the piece of pie
+# BARCHART:
+#   colorInfo's -> colorInfo(fillColor, strokeColor, highlightFill, highlightStroke) object
+#       fillcolor = color of the bar
+#       strokecolor = color of the line
+#       highlightFill = hover color of the bar
+#       highlightStroke = hover color of the line
+#       NOTE: lists of lists for data/labels/colors (used for comparing but still needed if talking about one thing)
+#   labels -> list of strings displayed on the pie
+#   data -> list of values(ints/flots) which will determine the height of the bar
+#   datalabels -> currently useless, feel free to make a list of empty strings for now(= the amount of things you are comparing, could be used for legend)
+# Data and labels need to be equally long lists!
+# Date[i] will match with label[i] and with colorinfos[i]
 # Colors+highlighted colors
+
 # Order: Red,Green,Yellow,Dark Grey,Purple,Grey
 color_tuples = [("#F7464A", "#FF5A5E"), ("#46BFBD", "#5AD3D1"), ("#FDB45C", "#FFC870"), ("#4D5360", "#616774"), ("#B48EAD", "#C69CBE"), ("#949FB1", "#A8B3C5")]
 
@@ -95,13 +128,13 @@ class GraphManager:
     # Colorinfo's will be a list of tuples here
     def makePieChart(self, name, width, height, colorInfos, labels, data):
         total_string = ''
-        total_string += self.addPieData(labels,data,colorInfos)
+        total_string += self.addPieData(labels, data, colorInfos)
         total_string += self.addPieExtras()
         # The objects themself have postfix O
         total_string += self.addGetID(name)
         total_string += 'new Chart(' + self.addDatavar('O') + ').Pie(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
-        total_string = self.canvasString(name,width,height) + total_string
+        total_string = self.canvasString(name, width, height) + total_string
         GraphManager.count += 1
         return total_string
 
@@ -120,14 +153,14 @@ class GraphManager:
 
     # data is a list of lists here (multiple different coloured bars -> colorinfos is list of Barcolors (see above))
     # labels still 1 list
-    def addBarData(self,labels,data,colorInfos,datalabels):
+    def addBarData(self, labels, data, colorInfos, datalabels):
         data_string = ''
         data_string += 'var ' + self.addDatavar('D') + ' = {\n'
         data_string += self.addLabels(labels) + '\n'
         data_string += 'datasets : [  \n'
         # loop over lists of data
         for i in range(len(data)):
-            data_string += '{ label: "'+ datalabels[i]+ '",\nfillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
+            data_string += '{ label: "'+ datalabels[i] + '",\nfillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
             data_string += 'data : ['
             # per list, do:
             for info in data[i]:
@@ -136,14 +169,13 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-
-    def makeBarChart(self,name,width,height,colorInfos,labels,data,datalabels):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels):
         total_string = ''
-        total_string += self.addBarData(labels,data,colorInfos,datalabels)
+        total_string += self.addBarData(labels, data, colorInfos, datalabels)
         total_string += self.addBarExtras()
-        total_string += 'var '+self.addDatavar('O')+' = new Chart(document.getElementById("'+name+'").getContext("2d")).Bar('+self.addDatavar('D')+',options);\n'
+        total_string += 'var ' + self.addDatavar('O') + ' = new Chart(document.getElementById("' + name + '").getContext("2d")).Bar(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
-        total_string =  '<div id="legendDiv'+str(GraphManager.count)+'"></div>\n' + total_string
-        total_string = self.canvasString(name,width,height) + total_string
+        total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string
+        total_string = self.canvasString(name, width, height) + total_string
         GraphManager.count += 1
         return total_string
