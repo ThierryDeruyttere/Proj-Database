@@ -1,3 +1,23 @@
+Openshift.com
+
+username:  projdbua@gmail.com
+pass: ruien9690
+
+MYSQL:
+MySQL 5.5 database added.  Please make note of these credentials:
+
+       Root User: adminzW3mT4b
+   Root Password: SKHQHfLMYPlr
+   Database Name: python
+
+Connection URL: mysql://$OPENSHIFT_MYSQL_DB_HOST:$OPENSHIFT_MYSQL_DB_PORT/
+
+You can manage your new MySQL database by also embedding phpmyadmin.
+The phpmyadmin username and password will be the same as the MySQL credentials above.
+
+
+
+
 http://www.freesqldatabase.com/
 username: projdbua@gmail.com
 pass: 2yoKnTDQsCxD
