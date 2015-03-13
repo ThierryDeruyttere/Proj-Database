@@ -1,11 +1,12 @@
 {% extends "codegalaxy.html" %}
+{% load i18n %}
 
 {% block base_body %}
 
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
-      <h1>Group overview</h1>
+      <h1>{% trans "Group overview" %}</h1>
       <article class="vcard">
         <a href="../create"/>
         <div class="vcard-img large-12 medium-12 small-12 columns">
@@ -13,7 +14,7 @@
        </div>
        <div class="large-12 medium-12 small-12 text-center">
         <ul class="vcard-text" .text-center>
-          <li .text-center><strong>Create new group</strong></li>
+          <li .text-center><strong>{% trans "Create new group" %}</strong></li>
         </ul>
       </div>
     </article>

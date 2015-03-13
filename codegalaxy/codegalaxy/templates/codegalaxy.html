@@ -1,5 +1,6 @@
 {% extends "foundation/base.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {# Title #}
 {% block title %} Code Galaxy {% endblock title %}
@@ -35,3 +36,24 @@
     </nav>
 </div>
 {% endblock top_bar %}
+
+{# Footer #}
+{% block footer %}
+<footer class="row">
+  <div class="large-10 columns small-centered">
+    <hr>
+    <div class="row">
+      <div class="text-center">
+        <a class="setlang" name="en">{% trans "English" %}</a> | <a class="setlang" name="nl">{% trans "Dutch" %}</a>
+      </div>
+    </div>
+  </div>
+</footer>
+<script>
+  $(".setlang").click(function() {
+    $.post("{% url 'set_language' %}", {language:$(this).attr("name"), csrfmiddlewaretoken: "{{ csrf_token }}"}).done(function() {
+      location.reload(true);
+    });
+  });
+</script>
+{% endblock footer %}

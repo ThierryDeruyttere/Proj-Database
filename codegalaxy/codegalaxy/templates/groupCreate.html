@@ -1,17 +1,17 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
-
+{% load i18n %}
 
 {% block base_body %}
 
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
-      <h1>Create a new group</h1>
+      <h1>{% trans "Create a new group" %}</h1>
 
       <div class="create_group-panel">
-        <p>Add a name for your new group and select a group type</p>
-        <form method="post" action="/g/create" data-abide>
+        <p>{% trans "Add a name for your new group and select a group type" %}</p>
+          <form method="post" action="/g/create" data-abide>
           {% csrf_token %}
           <div class="row collapse">
             <div class="small-11  columns">
@@ -20,10 +20,10 @@
             </div>
           </div>
 
-          <p>Do you want to create a private group?</p>
+          <p>{% trans "Do you want to create a private group?" %}</p>
           <div class="switch">
-            <input id="group_type" name="group_type" type="checkbox" checked>
-            <label for="group_type">Private</label>
+          <input id="group_type" name="group_type" type="checkbox" checked>
+          <label for="group_type">{% trans "Private" %}</label>
           </div>
 
           <p></p>

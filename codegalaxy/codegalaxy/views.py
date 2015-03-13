@@ -1,5 +1,7 @@
 from django.http import HttpResponse
+from django.template import RequestContext
 from django.shortcuts import render, redirect
+from django.utils.translation import ugettext as _
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
@@ -130,7 +132,7 @@ def register(request):
                 email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
         except:
-            return render(request, 'register.html', {'error_register': 'This email address is alread in use.'})
+            return render(request, 'register.html', {'error_register': True})
 
     return render(request, 'register.html', {})
 
@@ -434,3 +436,6 @@ def graphs(request):
     return render(request, 'graphs.html', {'teststr': test_bar_graph2
     , 'teststr2': test_pie_graph, 'teststr3': test_bar_graph
     , 'teststr4': test_bar_graph3, 'teststr5': test_bar_graph4, 'teststr6': test_bar_graph5})
+
+def translation(request):
+    return HttpResponse(_("ENGLISH"));

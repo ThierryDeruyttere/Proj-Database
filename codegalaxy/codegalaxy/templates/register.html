@@ -1,6 +1,7 @@
 {% extends "codegalaxy.html" %}
 
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
 <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
@@ -11,21 +12,20 @@
 <div class="row">
   <div class="large-12 columns">
     <div class="panel">
-      <h1>Register...</h1>
+      <h1>{% trans "Register..." %}</h1>
     </div>
   </div>
 </div>
 
 <div class="row">
- <div class="large-6 columns">
-  <div class="content" data-section-content>
-    <p>
+  <div class="large-6 columns">
+    <div class="content" data-section-content>
       <div class="row">
         <div class="large-12 columns">
           <div class="signup-panel">
-            <p class="welcome">Welcome at CodeGalaxy!</p>
+            <p class="welcome">{% trans "Welcome at CodeGalaxy!" %}</p>
             {% if error_register %}
-            <div class="alert-box alert radius">Incorrect email and/or password.</div>
+            <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
             {% endif %}
             <form method="post" action="/register/" data-abide>
               {% csrf_token %}
@@ -34,8 +34,8 @@
                   <span class="prefix"><i class="fi-torso size-28"></i></span>
                 </div>
                 <div class="small-10  columns">
-                  <input type="text" required placeholder="First Name" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                  <small class="error">Enter a valid First Name.</small>
+                  <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                  <small class="error">{% trans "Enter a valid First Name." %}</small>
                 </div>
               </div>
               <div class="row collapse">
@@ -43,8 +43,8 @@
                   <span class="prefix"><i class="fi-torso size-28"></i></span>
                 </div>
                 <div class="small-10  columns">
-                  <input type="text" required placeholder="Last Name" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                  <small class="error">Enter a valid Last Name.</small>
+                  <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                  <small class="error">{% trans "Enter a valid Last Name." %}</small>
                 </div>
               </div>
               <div class="row collapse">
@@ -52,8 +52,8 @@
                   <span class="prefix"><i class="fi-mail size-28"></i></span>
                 </div>
                 <div class="small-10  columns">
-                  <input type="email" required placeholder="Email Address" id="your_email" name="your_email" value="{{ your_email }}">
-                  <small class="error">Enter a valid Email Address.</small>
+                  <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                  <small class="error">{% trans "Enter a valid Email Address." %}</small>
                 </div>
               </div>
               <div class="row collapse">
@@ -61,26 +61,16 @@
                   <span class="prefix"><i class="fi-lock size-28"></i></span>
                 </div>
                 <div class="small-10 columns ">
-                  <input type="password" required placeholder="Password" id="your_password" name="your_password" value="{{ your_password }}">
-                  <small class="error">Enter a valid password.</small>
+                  <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password" value="{{ your_password }}">
+                  <small class="error">{% trans "Enter a valid password." %}</small>
                 </div>
               </div>
-              <div>
-                <input type="radio" name="sex" value="M" >Male
-                <input type="radio" name="sex" value="F">Female
-                <input type="radio" name="sex" value="U" checked>Other
-              </div>
-
-              <input type="submit" value="Sign Up" name="SignUp" class="button"/>
+              <input type="submit" value="{% trans "Sign Up" %}" name="SignUp" class="button"/>
             </form>
           </div>
         </div>
-      </div></p>
+      </div>
     </div>
   </div>
 </div>
-
-
-
-
 {% endblock base_body %}
