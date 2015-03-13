@@ -50,13 +50,9 @@ class ObjectManager:
 
     def createGroupOnName(self, group_name):
         # enthousiast
-        print("EN WE BEGINNfadsafdsfsdafsdaEN ERAAN!")
         group_info = dbw.getGroupInformationOnName(group_name)
-        print("Ldhgsoilfdhgsfdilug")
-        print(group_info)
         if group_info:
             group_object = managers.om.group.Group(group_info['id'], group_name, group_info['group_type'], group_info['created_on'])
-            print("Alles ok?")
             return group_object
         else:
             return None

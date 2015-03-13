@@ -280,17 +280,15 @@ def groupCreate(request, id=0):
         try:
             if group_type == 'on':
                 object_manager.insertGroup(group_name, 1, str(time.strftime("%Y-%m-%d")))
-                print("WORKED!")
             else:
                 object_manager.insertGroup(group_name, 0, str(time.strftime("%Y-%m-%d")))
 
             # auto add user when making a private group?
 
-            #print('voeg member toe')
-            #group = object_manager.createGroupOnName(group_name)
-            # print("WUT")
+            group = object_manager.createGroupOnName(group_name)
             group.insertMember(user.id, 2, str(time.strftime("%Y-%m-%d")))
-            return redirect('/g/overview')
+            return redirect('/g/'+str(group.id))
+
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
 

@@ -87,10 +87,7 @@ def getGroupInformationOnName(group_name):
     @return returns a dict with information
     '''
     cursor = connection.cursor()
-    print("GEEN IDEE.....")
-    cursor.execute('SELECT * FROM groups WHERE group_name = {group_name};'.format(group_name=group_name))
-    print('MAAR HOE?')
-    print('IRRUMIRATI')
+    cursor.execute('SELECT * FROM groups WHERE group_name = "{group_name}";'.format(group_name=group_name))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
