@@ -95,3 +95,4 @@ __pycache__/
 local_settings.py
 
 *~
+DB-old.sql
