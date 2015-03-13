@@ -773,7 +773,6 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     else:
         subject_search =  'LIKE "%{subject}%"'.format(subject = subject_name)
 
-    print(subject_search)
 
     cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u) '
                     ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'

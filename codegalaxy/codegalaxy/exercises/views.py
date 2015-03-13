@@ -314,7 +314,7 @@ def listOverview(request):
 
         all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
         html = ""
-        for obj in all_lists:
+        for obj in reversed(all_lists):
             obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
             html += createListElem(obj)
 
