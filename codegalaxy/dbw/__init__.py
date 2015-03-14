@@ -519,7 +519,9 @@ def insertGroup(group_name, group_type, created_on):
 
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
+    if not userIsInGroup(user_id, group_id):
+        cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
+
 
 def insertProgrammingLanguage(name):
     cursor = connection.cursor()
@@ -648,8 +650,17 @@ def deleteSubjectFromHasSubject(list_id, subject_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM hasSubject WHERE exerciseList_id = {list_id} AND subject_id = {subject_id}'.format(subject_id=subject_id, list_id=list_id))
 
-
 # TRIVIA
+
+def userIsInGroup(user_id, group_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM user u, userInGroup uIG WHERE u.id = {user_id} AND uIG.group_id = {group_id} AND u.id = uIG.user_id;'.format(user_id = user_id, group_id=group_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    if fetched is None:
+        return False
+    return True
+
 
 def countExerciseListsForProgrammingLanguageID(prog_lang_id):
     cursor = connection.cursor()
