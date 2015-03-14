@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/1.7/ref/settings/
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
 import pymysql
 pymysql.install_as_MySQLdb()
@@ -48,6 +49,8 @@ INSTALLED_APPS = (
     'custom_filters',
 
 )
+
+TEMPLATE_CONTEXT_PROCESSORS += ("django.core.context_processors.request",)
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
