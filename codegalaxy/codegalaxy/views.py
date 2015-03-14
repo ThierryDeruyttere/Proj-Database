@@ -193,6 +193,7 @@ def group(request, id=0):
 
     group = object_manager.createGroup(id)
 
+
     if request.method == 'POST':
         if 'become_member' in request.POST:
             group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
@@ -204,7 +205,19 @@ def group(request, id=0):
 
     is_member = False
     if group:
+
         user_list = group.allMembers()
+
+        if group.group_type == 1:
+            #Only users in this group can access this page
+            correct_user = False
+            for u in user_list:
+                if u.id == user.id:
+                    correct_user = True
+
+            if not correct_user:
+                return redirect('/')
+
         try:
             group_size = len(user_list)
 
@@ -249,7 +262,18 @@ def group(request, id=0):
 
         currentuser_friend_list = user.allFriendsNotMemberOfGroupWithID(id)
 
-        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'currentuser_friend_list': currentuser_friend_list, 'is_member': is_member}
+        remaining_friends = []
+        for friend in currentuser_friend_list:
+            print(friend.first_name)
+            inList = False
+            for user in user_list:
+                if friend.id == user.id:
+                    inList = True
+
+            if not inList:
+                remaining_friends.append(friend)
+
+        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member}
         return render(request, 'group.html', context)
 
     else:

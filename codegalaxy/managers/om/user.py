@@ -38,7 +38,6 @@ class User:
 
     def allFriendsNotMemberOfGroupWithID(self, group_id):
         friends_info = dbw.getFriendsNotMemberOfGroupWithID(self.id, group_id)
-        print(len(friends_info))
         friends_list = []
         object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list

@@ -201,7 +201,8 @@ def getFriendsIdForID(id):
 
 def getFriendsNotMemberOfGroupWithID(me_id, group_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT DISTINCT u.id FROM user u, userInGroup t WHERE u.id != t.user_id AND t.group_id = {group_id};'.format(me_id=me_id, group_id=group_id))
+    print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
+    cursor.execute('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -516,16 +517,13 @@ def insertGroup(group_name, group_type, created_on):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
 
-
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
 
-
 def insertProgrammingLanguage(name):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name=name))
-
 
 def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
     cursor = connection.cursor()
