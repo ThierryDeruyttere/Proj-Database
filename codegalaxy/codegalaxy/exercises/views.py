@@ -36,6 +36,9 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+    if exercise_list is None:
+         return redirect('/')
+    
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language_string
