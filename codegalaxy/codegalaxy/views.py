@@ -20,6 +20,8 @@ from managers.rm.recommendations import *
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
+# We'll use the graph maker to make pretty graphs with statistical data
+graph_manager = graphmanager.GraphManager()
 
 
 def home(request):
@@ -282,12 +284,19 @@ def group(request, id=0):
 
 @require_login
 def groupOverview(request):
+    # Biggest Groups
+    biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    bar_chart = graph_manager.makeBarChart('groups',270,180,[color_info2,color_info1]
+    ,biggest_groups['labels'],biggest_groups['data'],"#members")
+
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
     groups = object_manager.allPublicGroups()
 
     if groups:
-        return render(request, 'groupOverview.html', {'groups': groups})
+        return render(request, 'groupOverview.html', {'groups': groups, 'biggest_groups': bar_chart})
     # else:
         # return redirect('/')
     return redirect('/g/create')
@@ -420,9 +429,6 @@ def recommendations(request):
     return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
 
 def graphs(request):
-    # We'll use the graph maker to make pretty graphs with statistical data
-    graph_manager = graphmanager.GraphManager()
-
     # LINE CHART
     #color_info = graphmanager.ColorInfo()
     #test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
