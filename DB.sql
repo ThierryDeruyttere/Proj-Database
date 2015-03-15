@@ -22,7 +22,8 @@ CREATE TABLE friendsWith(
   befriended_on DATE NOT NULL,
   status ENUM('Pending', 'Blocked', 'Friends') NOT NULL,
   FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (friend_id) REFERENCES user(id)
+  FOREIGN KEY (friend_id) REFERENCES user(id),
+  PRIMARY KEY (user_id, friend_id)
 );
 
 CREATE TABLE groups(
@@ -39,7 +40,8 @@ CREATE TABLE userInGroup(
   user_permissions INT,
   joined_on DATE,
   FOREIGN KEY (group_id) REFERENCES groups(id),
-  FOREIGN KEY (user_id) REFERENCES user(id)
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  PRIMARY KEY(group_id, user_id)
 );
 
 CREATE TABLE programmingLanguage(
@@ -109,7 +111,8 @@ CREATE TABLE madeEx(
   rating INT,
   completed_on DATE,
   FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+  PRIMARY KEY(user_id, exercise_id)
 );
 
 CREATE TABLE question(
@@ -129,7 +132,8 @@ CREATE TABLE hint(
   exercise_id INT,
   language_id INT,
   FOREIGN KEY (language_id) REFERENCES language(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id)
+  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
+  PRIMARY KEY (hint_number, exercise_id, language_id)
 );
 
 
@@ -143,7 +147,8 @@ CREATE TABLE hasSubject(
   exerciseList_id INT,
   subject_id INT,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (subject_id) REFERENCES subject(id)
+  FOREIGN KEY (subject_id) REFERENCES subject(id),
+  PRIMARY KEY (exerciseList_id, subject_id)
 );
 
 CREATE TABLE madeList(
@@ -153,7 +158,8 @@ CREATE TABLE madeList(
   score INT NOT NULL,
   made_on DATE NOT NULL,
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (user_id) REFERENCES user(id)
+  FOREIGN KEY (user_id) REFERENCES user(id),
+  PRIMARY KEY (exerciseList_id, user_id)
 );
 
 CREATE TABLE verification(
@@ -161,6 +167,7 @@ CREATE TABLE verification(
   hash VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY(hash),
   FOREIGN KEY (email) REFERENCES user(email)
+
 );
 
 # User data
