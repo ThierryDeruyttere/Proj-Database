@@ -1,11 +1,12 @@
 {% extends "codegalaxy.html" %}
 
+{% load staticfiles %}
+
 {% block base_body %}
 
 <div class="row">
   <div class="large-12 columns">
-    <div class="panel">
-      <h1>Vaarwel! Tot wederziens...</h1>
+    <h1><a href="/"><img src={% static "SeeYou.png" %}/></a></h1>
     </div>
   </div>
 </div>

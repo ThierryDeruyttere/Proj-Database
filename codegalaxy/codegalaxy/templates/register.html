@@ -11,19 +11,18 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <div class="panel">
-      <h1>{% trans "Register..." %}</h1>
+    <h1><a href="#"><img src={% static "WelcomeTo.png" %}/></a></h1>
     </div>
   </div>
 </div>
 
 <div class="row">
-  <div class="large-6 columns">
+  <div class="large-6 large-centered columns">
     <div class="content" data-section-content>
       <div class="row">
         <div class="large-12 columns">
           <div class="signup-panel">
-            <p class="welcome">{% trans "Welcome at CodeGalaxy!" %}</p>
+            <p class="welcome">{% trans "Register" %}</p>
             {% if error_register %}
             <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
             {% endif %}

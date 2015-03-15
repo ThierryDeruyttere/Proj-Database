@@ -12,20 +12,20 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <div class="panel">
-      <h1>{% trans "Sign in..." %}</h1>
-    </div>
+    <h1><a href="#"><img src={% static "WelcomeBack.png" %}/></a></h1>
   </div>
 </div>
 
 <div class="row">
- <div class="large-6 columns">
+ <div class="large-12 columns">
+  <ul class="centered">
   <div class="content" data-section-content>
     <p>
       <div class="row">
-        <div class="large-12 columns">
+        <div class="large-4 large-centered columns">
+          <ul class="centered">
           <div class="signup-panel">
-            <p class="welcome">{% trans "Welcome back!" %}</p>
+            <p class="welcome">{% trans "Log in" %}</p>
             {% if error_login %}
             <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
             {% endif %}
@@ -49,12 +49,14 @@
                   <small class="error">{% trans "Enter a valid Password." %}</small>
                 </div>
               </div>
-              <input type="submit" value="Log In" class="button"/>
+              <input type="submit" value="Log In" class="button small round"/>
             </form>
           </div>
+        </ul>
         </div>
       </div></p>
     </div>
+  </ul>
   </div>
 </div>
 
