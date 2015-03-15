@@ -4,12 +4,15 @@ import time
 import json
 
 from managers.om import *
+from managers.gm import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
 from pymysql import escape_string
 from django.http import HttpResponse
 
 object_manager = objectmanager.ObjectManager()
+statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
+graph_manager = graphmanager.GraphManager()
 
 @require_login
 def createExerciseList(request):
@@ -38,7 +41,7 @@ def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
     if exercise_list is None:
          return redirect('/')
-    
+
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language_string
@@ -282,6 +285,23 @@ def createListElem(elem):
 
 
 def listOverview(request):
+    # Amount of lists per programming language
+    lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
+    pie_graph = graph_manager.makePieChart('colours', 180
+    , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
+    # Amount of subjects:
+    # colors
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
+    # data
+    most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
+    bar_chart = graph_manager.makeBarChart('subjects', 180, 110,
+    [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
+    # users with most made lists
+    users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
+    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info2,color_info1],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
+
+
     list_name='%'
     min_list_difficulty=1
     max_list_difficulty=5
@@ -326,4 +346,7 @@ def listOverview(request):
     all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
-                                                 "languages": object_manager.allProgrammingLanguages()})
+                                                 "languages": object_manager.allProgrammingLanguages(),
+                                                 'lists_per_prog_lang_graph': pie_graph,
+                                                 'most_popular_subjects': bar_chart,
+                                                 'users_with_mosts_made_lists': bar_chart2})

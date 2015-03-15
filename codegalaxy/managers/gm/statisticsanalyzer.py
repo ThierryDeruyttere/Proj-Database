@@ -55,8 +55,9 @@ class StatisticsAnalyzer:
         result['data'].append([])
         groups = object_manager.allGroups()
         groups.sort(key=lambda x: len(x.allMembers()), reverse=True)
-        groups = groups[:X]
-        for i in range(X):
+        if(X < len(groups)):
+            groups = groups[:X]
+        for i in range(len(groups)):
             result['data'][0].append(len(groups[i].allMembers()))
             result['labels'].append(groups[i].group_name)
         return result
@@ -70,8 +71,9 @@ class StatisticsAnalyzer:
         result['data'].append([])
         users = object_manager.allUsers()
         users.sort(key=lambda x: len(x.allPersonalLists()), reverse=True)
-        users = users[:X]
-        for i in range(X):
+        if(X < len(users)):
+            users = users[:X]
+        for i in range(len(users)):
             result['data'][0].append(len(users[i].allPersonalLists()))
             result['labels'].append(users[i].first_name+users[i].last_name)
         return result
@@ -117,8 +119,9 @@ class StatisticsAnalyzer:
         subjects = object_manager.allSubjects()
         subjects_list = [(item['name'],object_manager.occurencesOfSubject(item['id'])['amount']) for item in subjects]
         subjects_list.sort(key=lambda x: x[1], reverse=True)
-        subjects_list = subjects_list[:X]
-        for i in range(X):
+        if(X < len(subjects_list)):
+            subjects_list = subjects_list[:X]
+        for i in range(len(subjects_list)):
             result['data'][0].append(subjects_list[i][1])
             result['labels'].append(subjects_list[i][0])
         return result

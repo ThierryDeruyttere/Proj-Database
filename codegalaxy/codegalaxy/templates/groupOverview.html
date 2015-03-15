@@ -1,10 +1,26 @@
 {% extends "codegalaxy.html" %}
+
+{% load staticfiles %}
+
+{% block head_js %}
+<script src="{% static "Chart.min.js" %}"></script>
+{% endblock head_js %}
+
 {% load i18n %}
 
 {% block base_body %}
 
 <div class="row">
-  <div class="large-12 columns">
+
+  <div class="row">
+    <div class="large-4 columns">
+      <div class="panel">
+        <legend>Biggest Groups</legend>
+        {{ biggest_groups | safe }}
+      </div class="panel">
+    </div>
+
+  <div class="large-8 columns">
     <div class="panel">
       <h1>{% trans "Group overview" %}</h1>
       <article class="vcard">
