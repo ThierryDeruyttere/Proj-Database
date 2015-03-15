@@ -287,7 +287,7 @@ def createListElem(elem):
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    pie_graph = graph_manager.makePieChart('colours', 150
+    pie_graph = graph_manager.makePieChart('colours', 180
     , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
@@ -295,8 +295,11 @@ def listOverview(request):
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
-    bar_chart = graph_manager.makeBarChart('kek4', 150, 100,
+    bar_chart = graph_manager.makeBarChart('subjects', 180, 110,
     [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
+    # users with most made lists
+    users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
+    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info2,color_info1],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
 
 
     list_name='%'
@@ -345,4 +348,5 @@ def listOverview(request):
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
                                                  'lists_per_prog_lang_graph': pie_graph,
-                                                 'most_popular_subjects': bar_chart})
+                                                 'most_popular_subjects': bar_chart,
+                                                 'users_with_mosts_made_lists': bar_chart2})
