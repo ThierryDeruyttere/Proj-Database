@@ -11,7 +11,7 @@
 
 <div class="row">
   <div class="large-12 columns">
-    <h1><a href="#"><img src={% static "WelcomeTo.png" %}/></a></h1>
+    <a href="#"><img src={% static "WelcomeTo.png" %}/></a>
     </div>
   </div>
 </div>
@@ -19,10 +19,12 @@
 <div class="row">
   <div class="large-6 large-centered columns">
     <div class="content" data-section-content>
+      <div class="text-center">
       <div class="row">
         <div class="large-12 columns">
           <div class="signup-panel">
             <p class="welcome">{% trans "Register" %}</p>
+            <div class="text-center">
             {% if error_register %}
             <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
             {% endif %}
@@ -68,8 +70,10 @@
             </form>
           </div>
         </div>
+        </div>
       </div>
     </div>
+  </div>
   </div>
 </div>
 {% endblock base_body %}
