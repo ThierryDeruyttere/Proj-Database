@@ -8,6 +8,8 @@
 
 [*Database model*](https://drive.draw.io/#G0BzFlD8HmM6i9OXh6amc2b1NWUlE)
 
+[*UML Diagram*](https://drive.google.com/file/d/0BzFlD8HmM6i9QXFCVFE1VE5yclU/view?usp=sharing)
+
 ## Useful git setting
 Zoda we ni constant die merge branch commits krijgen.
 ```sh
@@ -59,7 +61,7 @@ From https://github.com/Mari3/ProjectT-A
 
 Ge kunt dan gaan kijken in een van die branches met **git checkout `naam`**.
 ```
-$ git checkout State_ID 
+$ git checkout State_ID
 Branch State_ID set up to track remote branch State_ID from origin.
 Switched to a new branch 'State_ID'
 ```
@@ -102,7 +104,7 @@ Een commit message in Vim scrijven kan nog wel handig zijn om een uitgebreid ber
 **NIEUW: Gebruik die extra uitleg dan ook als da nuttig is (waarom die change, wa zijn de gevolgen, etc)**
 
 ###### Updates pushen
-Na een aantal commits hebt ge meestal al een wel een presentabel deel van u feature af en kunt ge het pushen naar github met **git push `remote` `naam`**. Hierbij is `naam` de naam van u branch die ge wilt pushen op de remote branch met dezelfde naam. Dan wordt heel die branch met al zijn commit geschiedenis gepusht naar de remote. Als 'origin' de naam is van u remote kunt ge ook **git push** gebruiken, dan is de remote als default origin en de branch naam de branch waar ge momenteel in zit. 
+Na een aantal commits hebt ge meestal al een wel een presentabel deel van u feature af en kunt ge het pushen naar github met **git push `remote` `naam`**. Hierbij is `naam` de naam van u branch die ge wilt pushen op de remote branch met dezelfde naam. Dan wordt heel die branch met al zijn commit geschiedenis gepusht naar de remote. Als 'origin' de naam is van u remote kunt ge ook **git push** gebruiken, dan is de remote als default origin en de branch naam de branch waar ge momenteel in zit.
 Ge kunt ook **git push -u `remote`**, en dan wordt de remote branch op `remote` de default branch waarnaar gepusht wordt, dus dan kunt ge de volgende keren gewoon **git push** runnen.
 Moest het zijn da ge u branch wilt pushen en nen andere naam geven op de remote kunt ge **git push `remote` `lokale_branch`:`remote branch`** gebruiken.
 
