@@ -2,159 +2,160 @@
 {% load staticfiles %}
 
 {% block head_js %}
-<script src="{% static "skulpt.min.js" %}" type="text/javascript"></script>
-<script src="{% static "skulpt-stdlib.js" %}" type="text/javascript"></script>
+  <script src="{% static "skulpt.min.js" %}" type="text/javascript"></script>
+  <script src="{% static "skulpt-stdlib.js" %}" type="text/javascript"></script>
 {% endblock head_js %}
 
 {% block base_body %}
-<script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-<link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-<script src="{% static "codemirror/mode/python/python.js" %}"></script>
-<link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+  <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+  <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+  <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+  <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 
-<div class="row">
-  <div class="large-12 columns">
-    <div class="panel">
-      <div class="row">
-        <h3>Question</h3>
-        <hr>
-      </div>
-
-      <div class="row">
-        <div class="large-6 columns">
-          {{ exercise.question }}
+  <div class="row">
+    <div class="large-12 columns">
+      <div class="panel">
+        <div class="row">
+          <h3>Question</h3>
           <hr>
         </div>
-      </div>
 
-      <form id="answer_question" method="post" action="{{ exercise.id }}/submit">
-        {% csrf_token %}
+        <div class="row">
+          <div class="large-6 columns">
+            {{ exercise.question }}
+            <hr>
+          </div>
+        </div>
 
-        {% if exercise.exercise_type == "Open Question" %}
-        <div class="row" id="Open Question">
+        <form id="answer_question" method="post" action="{{ exercise.id }}/submit">
+          {% csrf_token %}
 
-          {% for i in answers %}
+          {% if exercise.exercise_type == "Open Question" %}
+            <div class="row" id="Open Question">
+
+              {% for i in answers %}
+                <div class="row">
+                  <div class="large-6 large-offset-1 columns">
+                    {{ forloop.counter }}
+                    {{ i }}
+                    {% if forloop.counter == 1  %}
+                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                    {% else %}
+                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+
+          {% else %}
+            <div class="row" id="Code">
+
+              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+
+              <script>
+                var myCodeMirror = CodeMirror.fromTextArea(user_code,
+                        {
+                          lineNumbers: true,
+                          mode: "python",
+                          theme: "monokai"
+                        });
+              </script>
+
+              <div class="large-9 columns">
+                <!-- <div class="row">
+                To be used if we have turtle graphics
+                <canvas id="mycanvas" class="code-output"></canvas> -->
+                <textarea id="code_output" name="code_output" hidden="True"></textarea>
+              </div>
+            </div>
+            <div id="output_alert" class="alert-box alert radius" data-alert></div>
+
+            <div class="row">
+              <div class="row">
+                <div class="large-10 columns">
+                  <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
+                  <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+                </div>
+              </div>
+              <div class="large-10 columns">
+                <ul>
+                  {% for hint in hints %}
+                    <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+                  {% endfor %}
+                </ul>
+              </div>
+            </div>
+          {% endif %}
+
+          <hr>
+
           <div class="row">
-            <div class="large-6 large-offset-1 columns">
-              {{ forloop.counter }}
-              {{ i }}
-              {% if forloop.counter == 1  %}
-              <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+            <div class="large-text-center">
+              {% if exercise.exercise_type == "Open Question" %}
+                <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
               {% else %}
-              <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
               {% endif %}
             </div>
           </div>
-          {% endfor %}
-        </div>
-        {% else %}
-        <div class="row" id="Code">
-
-          <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
-
-          <script>
-            var myCodeMirror = CodeMirror.fromTextArea(user_code,
-            {
-              lineNumbers: true,
-              mode: "python",
-              theme: "monokai"
-            });
-          </script>
-
-            <div class="large-9 columns">
-              <!-- <div class="row">
-              To be used if we have turtle graphics
-              <canvas id="mycanvas" class="code-output"></canvas> -->
-              <textarea id="code_output" name="code_output" hidden="True"></textarea>
-            </div>
-          </div>
-          <div id="output_alert" class="alert-box alert radius" data-alert></div>
-
-        </div>
-        <div class="row">
-          <div class="row">
-            <div class="large-10 columns">
-              <input name="get_hint" class="button tiny radius" value="Get hint" onclick="javascript:addHint()">
-              <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
-            </div>
-          </div>
-          <div class="large-10 columns">
-            <ul>
-              {% for hint in hints %}
-              <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-        {% endif %}
-
-        <hr>
-
-        <div class="row">
-          <div class="large-text-center">
-            {% if exercise.exercise_type == "Open Question" %}
-            <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
-            {% else %}
-            <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
-            {% endif %}
-          </div>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
   </div>
-</div>
 
 {% endblock base_body %}
 
 {% block body_js %}
-<script type="text/javascript">
-function outf(text) {
-  var code_output = document.getElementById("code_output");
-  code_output.innerHTML = text;
-}
-function builtinRead(x) {
-  if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-  throw "File not found: '" + x + "'";
-  return Sk.builtinFiles["files"][x];
-}
+  <script type="text/javascript">
+    function outf(text) {
+      var code_output = document.getElementById("code_output");
+      code_output.innerHTML += text;
+    }
 
-// Here's everything you need to run a python program in skulpt
-// grab the code from your textarea
-// get a reference to your pre element for output
-// configure the output function
-// call Sk.importMainWithBody()
-function runit() {
-  var prog = myCodeMirror.getValue();
-  Sk.canvas = "mycanvas";
-  Sk.pre = "output";
-  Sk.configure({output:outf, read:builtinRead});
-  eval(Sk.importMainWithBody("<stdin>",false,prog));
-}
+    function builtinRead(x) {
+      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+        throw "File not found: '" + x + "'";
+      return Sk.builtinFiles["files"][x];
+    }
 
-var curr_hint = 1;
-function addHint(){
-  document.getElementById("hint"+curr_hint).hidden = false;
-  ++curr_hint;
-  document.getElementById("used_hints").value = (curr_hint-1).toString();
-}
+    // Here's everything you need to run a python program in skulpt
+    // grab the code from your textarea
+    // get a reference to your pre element for output
+    // configure the output function
+    // call Sk.importMainWithBody()
+    function runit() {
+      var prog = myCodeMirror.getValue();
+      Sk.canvas = "mycanvas";
+      Sk.pre = "output";
+      Sk.configure({output:outf, read:builtinRead});
+      eval(Sk.importMainWithBody("<stdin>",false,prog));
+    }
 
-function unhide(name){
-  document.getElementById(name).hidden = false;
-}
+    var curr_hint = 1;
+    function addHint(){
+      document.getElementById("hint"+curr_hint).hidden = false;
+      ++curr_hint;
+      document.getElementById("used_hints").value = (curr_hint-1).toString();
+    }
 
-$("#output_alert").hide();
-$("#submit_answer_code").click(function() {
-  try {
-    runit();
-    $("#answer_question").submit();
-  }
-  catch(e) {
-    $("#output_alert").text(e.toString());
-    $("#output_alert").show();
-  }
-});
+    function unhide(name){
+      document.getElementById(name).hidden = false;
+    }
 
-</script>
+    $("#output_alert").hide();
+    $("#submit_answer_code").click(function() {
+      try {
+        runit();
+        $("#answer_question").submit();
+      }
+      catch(e) {
+        $("#output_alert").text(e.toString());
+        $("#output_alert").show();
+      }
+    });
+
+  </script>
 
 
 {% endblock body_js %}

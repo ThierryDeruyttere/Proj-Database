@@ -236,6 +236,7 @@ def submit(request, list_id, question_id):
             max_score = current_exercise.max_score
             hint = request.POST.get("used_hints")
             user_output = request.POST.get("code_output")
+
             if current_exercise.exercise_type == "Open Question":
                 selected_answer = request.POST.get("corr_answer")
 
@@ -254,6 +255,7 @@ def submit(request, list_id, question_id):
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
+  
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
