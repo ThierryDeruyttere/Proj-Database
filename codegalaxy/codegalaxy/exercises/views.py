@@ -39,6 +39,10 @@ def createExerciseList(request):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
+    avg_score = round(exercise_list.averageOfUsersForThisList())
+    avg_rating = round(exercise_list.averageRatingOfUsersForThisList())
+    number_of_users = round(exercise_list.amountOfUsersWhoMadeThisList())
+
     if exercise_list is None:
          return redirect('/')
 
@@ -96,7 +100,10 @@ def list(request, id=0):
                                              'all_exercises': all_exercises,
                                              'subjects': subjects,
                                              'programming_languages': languages,
-                                             'current_prog_lang': current_language})
+                                             'current_prog_lang': current_language,
+                                             'avg_score': avg_score,
+                                             'avg_rating': avg_rating,
+                                             'number_of_users': number_of_users})
     else:
         return redirect('/')
 
