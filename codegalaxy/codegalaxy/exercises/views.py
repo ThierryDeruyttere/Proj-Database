@@ -37,14 +37,22 @@ def createExerciseList(request):
     return render(request, 'createExerciseList.html', {"languages": languages})
 
 
+def InvalidOrRound(object):
+    if object is None:
+        object = "N/A"
+    else:
+        object = round(object)
+    return object
+
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
-    avg_score = round(exercise_list.averageOfUsersForThisList())
-    avg_rating = round(exercise_list.averageRatingOfUsersForThisList())
-    number_of_users = round(exercise_list.amountOfUsersWhoMadeThisList())
-
+    #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
-         return redirect('/')
+        return redirect('/')
+
+    avg_score = InvalidOrRound(exercise_list.averageOfUsersForThisList())
+    avg_rating = InvalidOrRound(exercise_list.averageRatingOfUsersForThisList())
+    number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
 
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
@@ -255,7 +263,7 @@ def submit(request, list_id, question_id):
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
-  
+
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
@@ -297,7 +305,7 @@ def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
     pie_graph = graph_manager.makePieChart('colours', 180
-    , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
+                                           , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
@@ -305,7 +313,7 @@ def listOverview(request):
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjects', 180, 110,
-    [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
+                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
     # users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
     bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info2,color_info1],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
