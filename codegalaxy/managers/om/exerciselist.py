@@ -41,6 +41,9 @@ class ExerciseList:
     def averageOfUsersForThisList(self):
         return dbw.getAvgScoreOfUsersWhoMadeList(self.id)['average']
 
+    def averageRatingOfUsersForThisList(self):
+        return dbw.averageRatingOfUsersWhoMadeList(self.id)['average']
+
     # List of exercises
     def allExercises(self, language_code):
         exercises_infos = dbw.getExercisesForList(self.id)
