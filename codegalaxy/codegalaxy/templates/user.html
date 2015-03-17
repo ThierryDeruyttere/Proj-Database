@@ -135,15 +135,26 @@
     </div>
     <hr/>
     {% endfor %}
-    {% for user in friend_list %}
-    <div class="large-2 small-2 columns">
-        <a href="../{{ user.id }}"/>
-        <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
-        <div class="panel">
-            <h5>{{ user.first_name }}</h5>
-            <h6 class="subheader">{{ user.last_name }}</h6>
+    {% for user_list in friend_list %}
+      <div class="large-12 columns">
+      {% for user in user_list %}
+        <div class="small-2 columns text-centered end">
+            <a href="../{{ user.id }}"/>
+            <div class="right">
+              <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+            </div>
+            <div class="left">
+            <div class="panel">
+                <pre>{{ user.first_name | safe }}</pre>
+                <pre>{{ user.last_name  | safe }}</pre>
+            </div>
+          </div>
         </div>
-    </div>
+        <div class="small-1 columns">
+          <h5> </h5>
+        </div>
+      {% endfor %}
+      </div>
     {% endfor %}
 </div>
 <div class="content" id="groups">
@@ -151,9 +162,11 @@
     <div class="large-2 small-2 columns">
         <a href="../../g/{{ group.id }}"/>
         <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+        <div class="left">
         <div class="panel">
-            <h5>{{ group.group_name }}</h5>
+            <h6>{{ group.group_name }}</h6>
         </div>
+      </div>
     </div>
     {% endfor %}
 </div>

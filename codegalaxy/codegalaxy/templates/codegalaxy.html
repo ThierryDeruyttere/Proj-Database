@@ -22,15 +22,19 @@
         </ul>
         <section class="top-bar-section">
           <ul class="right">
+            <li><a href="/me">Profile</a></li>
             <li class="has-dropdown"><a href="#">Groups</a>
               <ul class="dropdown">
                 <li><a href="/g/create">Create Group</a></li>
                 <li><a href="/g/overview">Group Overview</a></li>
-                <li><a href="/g/1">Admin Group</a></li>
               </ul>
             </li>
-            <li><a href="/tables/">Tables</a></li>
-            <li><a href="/test">Test</a></li>
+            <li class="has-dropdown"><a href="#">Lists</a>
+              <ul class="dropdown">
+                <li><a href="/l/create">Create List</a></li>
+                <li><a href="/l/">List Overview</a></li>
+              </ul>
+            </li>
             <li class="has-dropdown"><a href="/login/">User</a>
               <ul class="dropdown">
                 {% if logged_in%}
