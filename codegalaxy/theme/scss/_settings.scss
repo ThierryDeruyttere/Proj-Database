@@ -3,6 +3,13 @@
 // Licensed under MIT Open Source
 
 //
+#bg {
+  position: fixed;
+  top: 10;
+  left: 0;
+  min-width: 100%;
+  min-height: 100%;
+}
 
 // Table of Contents
 // Foundation Settings
@@ -116,8 +123,9 @@ $include-html-global-classes: $include-html-classes;
  $oil         : #333333;
  $jet         : #222222;
  $black       : #000000;
- $blue        : #001460;
- $darkblue    : #000f46;
+ $blue        : #000b32;
+ $darkblue    : #000826;
+ $red         : #ff0000;
 
 // We use these as default colors throughout
 // $primary-color: #008CBA;
@@ -128,8 +136,8 @@ $include-html-global-classes: $include-html-classes;
 // $info-color: #a0d3e8;
 
 // We use these to control various global styles
- $body-bg: $smoke;
- $body-font-color: $jet;
+ $body-bg: $darkblue;
+ $body-font-color: $white;
  $body-font-family: $font-family-sans-serif;
  $body-font-weight: $font-weight-normal;
  $body-font-style: normal;
@@ -454,7 +462,7 @@ $button-font-sml: rem-calc(15);
 // We use these to control button border styles.
 // $button-border-width: 0;
 // $button-border-style: solid;
-$button-bg-color: $darkblue;
+$button-bg-color: $steel;
 // $button-bg-hover: scale-color($button-bg-color, $lightness: $button-function-factor);
 // $button-border-color: $button-bg-hover;
 // $secondary-button-bg-hover: scale-color($secondary-color, $lightness: $button-function-factor);
@@ -970,7 +978,7 @@ $button-bg-color: $darkblue;
 // $include-html-panel-classes: $include-html-classes;
 
 // We use these to control the background and border styles
-// $panel-bg: scale-color($white, $lightness: -5%);
+$panel-bg: $monsoon;
 // $panel-border-style: solid;
 // $panel-border-size: 1px;
 
@@ -983,7 +991,7 @@ $button-bg-color: $darkblue;
 // $panel-padding: rem-calc(20);
 
 // We use these to set default font colors
-// $panel-font-color: $oil;
+$panel-font-color: $darkblue;
 // $panel-font-color-alt: $white;
 
 // $panel-header-adjust: true;
@@ -1383,7 +1391,7 @@ $button-bg-color: $darkblue;
 $include-html-top-bar-classes: $include-html-classes;
 
 // Background color for the top bar
-$topbar-bg-color: rgba(245,245,245,0.7);
+$topbar-bg-color: rgba(105,105,105,0.7);
 $topbar-bg: $topbar-bg-color;
 
 // Height and margin
@@ -1395,15 +1403,15 @@ $topbar-margin-bottom: 0;
 //$topbar-title-font-size: rem-calc(17);
 
 // Set the link colors and styles for top-level nav
-$topbar-link-color: $blue;
+$topbar-link-color: $white;
 $topbar-link-color-hover: $white;
 $topbar-link-color-active: $white;
 $topbar-link-color-active-hover: $white;
 // $topbar-link-weight: $font-weight-normal;
 // $topbar-link-font-size: rem-calc(13);
 // $topbar-link-hover-lightness: -10%; // Darken by 10%
-$topbar-link-bg: rgba(245,245,245,1);
-$topbar-link-bg-hover: $darkblue;
+$topbar-link-bg: rgba(105,105,105,0);
+$topbar-link-bg-hover: $blue;
 // $topbar-link-bg-color-hover: $charcoal;
 // $topbar-link-bg-active: $primary-color;
 // $topbar-link-bg-active-hover: scale-color($primary-color, $lightness: -14%);
@@ -1416,14 +1424,14 @@ $topbar-link-bg-hover: $darkblue;
 // $topbar-button-top: 7px;
 
 // Style the top bar dropdown elements
-$topbar-dropdown-bg: $blue;
+$topbar-dropdown-bg: rgba(105,105,105,0);
 $topbar-dropdown-link-color: $white;
 $topbar-dropdown-link-color-hover: $topbar-link-color-hover;
 $topbar-dropdown-link-bg: $blue;
 $topbar-dropdown-link-bg-hover: $darkblue;
 // $topbar-dropdown-link-weight: $font-weight-normal;
 // $topbar-dropdown-toggle-size: 5px;
-$topbar-dropdown-toggle-color: $darkblue;
+$topbar-dropdown-toggle-color: $white;
 // $topbar-dropdown-toggle-alpha: 0.4;
 
 // $topbar-dropdown-label-color: $monsoon;
