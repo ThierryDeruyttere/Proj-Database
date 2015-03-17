@@ -60,9 +60,6 @@ def user(request, id=0):
 
     if user:
         friend_list_temp = user.allFriends()
-        for friend in friend_list_temp:
-            friend.first_name = '<h5 style="width: 120px;">' + friend.first_name  + '</h5>'
-            friend.last_name = '<h6 class="subheader" style="width: 120px;">' + friend.last_name + '</h6>'
         # making into a list of lists to facilitate looping/ordering (6 friends/row?)
         friend_list = [friend_list_temp[i:i + 4] for i in range(0, len(friend_list_temp), 4)]
 
