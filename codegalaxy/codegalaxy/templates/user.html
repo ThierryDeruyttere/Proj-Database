@@ -153,25 +153,31 @@
 </div>
 <div class="content" id="groups">
     {% if group_list %}
-      {% for group_sub_list in group_list %}
-      <div class="row">
-        {% for group in group_sub_list %}
-        <div class="large-3 columns end">
-          <a href="/g/{{ group.id }}">
-            <img src="{% static "Group-icon.png" %}">
-            <div class="left">
-              <div class="panel" style="width: 129px;">
-                <h6 style="width: 129px;">{{ group.group_name }}</h6>
+        {% for group_sub_list in group_list %}
+        <div class="row">
+          {% for group in group_sub_list %}
+          <div class="large-3 columns end">
+            <a href="/g/{{ group.id }}">
+              <img src="{% static "Group-icon.png" %}">
+              <div class="left">
+                <div class="panel" style="width: 129px;">
+                  <h6 style="width: 129px;">{{ group.group_name }}</h6>
+                </div>
               </div>
-            </div>
-          </a>
+            </a>
+          </div>
+          {% endfor %}
         </div>
         {% endfor %}
-      </div>
-      {% endfor %}
     {% else %}
-      <h4>You have not joined a group yet.</h4>
-      <a href="/g/overview" class="button">Take a look!</a>
+      {% if my_profile %}
+        <h4>You have not joined a group yet.</h4>
+        <a href="/g/overview" class="button">Take a look!</a>
+      {% else %}
+        <div class="row">
+          <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
+        </div>
+      {% endif %}
     {% endif %}
 </div>
 </div>
