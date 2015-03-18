@@ -60,10 +60,20 @@ def user(request, id=0):
 
     if user:
         friend_list_temp = user.allFriends()
+        # names seems too long? -> fix by chenging the last part to '...'
+        for friend in friend_list_temp:
+            if len(friend.last_name)>12:
+                friend.last_name = friend.last_name[:10]+'...'
+            if len(friend.first_name)>12:
+                friend.first_name = friend.first_name[:10]+'...'
         # making into a list of lists to facilitate looping/ordering (6 friends/row?)
         friend_list = [friend_list_temp[i:i + 4] for i in range(0, len(friend_list_temp), 4)]
 
-        group_list = user.allGroups()
+        group_list_temp = user.allGroups()
+        for group in group_list_temp:
+            if len(group.group_name)>12:
+                group.group_name = group.group_name[:10]+'...'
+        group_list = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
         exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(

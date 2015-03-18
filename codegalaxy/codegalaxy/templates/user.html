@@ -11,7 +11,7 @@
 {% block base_body %}
 
 <div class="row">
-    <div class="large-3 columns ">
+    <div class="large-3 columns text-center ">
         <div class="panel">
             <a href="#"><img src="{% static "media/user.png" %}"/></a>
             <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
@@ -135,38 +135,37 @@
     </div>
     <hr/>
     {% endfor %}
+    <div class="large-12 columns">
     {% for user_list in friend_list %}
-      <div class="large-12 columns">
+      <div class="row">
       {% for user in user_list %}
-        <div class="small-2 columns end">
+        <div class="large-3 columns ">
             <a href="../{{ user.id }}"/>
-            <div class="right">
-              <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+              <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
+            <div class="panel" style="width: 129px;">
+              <h5 style="width: 129px;"> {{ user.first_name }} </h5>
+              <h6 style="width: 129px;">{{ user.last_name }}</h6>
             </div>
-            <div class="left">
-            <div class="panel">
-              <h5 style="width: 120px;"> {{ user.first_name }} </h5>
-              <h6 class="subheader" style="width: 120px;">{{ user.last_name }}</h6>
-            </div>
-          </div>
-        </div>
-        <div class="small-1 columns">
-          <h5> </h5>
         </div>
       {% endfor %}
       </div>
     {% endfor %}
+  </div>
 </div>
 <div class="content" id="groups">
-    {% for group in group_list %}
-    <div class="large-2 small-2 columns">
-        <a href="../../g/{{ group.id }}"/>
-        <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
-        <div class="left">
-        <div class="panel">
-            <h6>{{ group.group_name }}</h6>
+    {% for group_sub_list in group_list %}
+    <div class="row">
+      {% for group in group_sub_list %}
+      <div class="large-3 columns">
+          <a href="../../g/{{ group.id }}"/>
+          <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+          <div class="left">
+          <div class="panel" style="width: 129px;">
+              <h6 style="width: 129px;">{{ group.group_name }}</h6>
+          </div>
         </div>
       </div>
+      {% endfor %}
     </div>
     {% endfor %}
 </div>
