@@ -1,7 +1,6 @@
 
 
 body{
-    background: #2C3E50 !important;
 
 }
 
@@ -11,7 +10,16 @@ body{
 }
 
 h2{
+    color: #ECF0F1 !important;
+}
+
+h3{
     color: #3498DB !important;
+}
+
+#Arrow{
+    width: 25px;
+    height: 25px;
 }
 
 #Icon{
@@ -34,7 +42,11 @@ h2{
     margin: -10px;
 }
 
+.exercise:hover{
+     background-color: #ECF0F1 !important;
+}
 
-#Start{
+
+.Start{
     background-color: #E74C3C !important;
 }

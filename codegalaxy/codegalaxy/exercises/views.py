@@ -99,6 +99,20 @@ def list(request, id=0):
 
             correct_user = (logged_user(request).id == exercise_list.created_by)
 
+        found = False
+        cur_exercise = 0
+        for e in all_exercises:
+            if e.solved:
+                found = True
+                if cur_exercise < e.id:
+                    cur_exercise = e.id
+
+        if found:
+            cur_exercise+=1
+            if len(all_exercises) < cur_exercise:
+                found = False
+                cur_exercise = 1
+
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,
@@ -111,7 +125,9 @@ def list(request, id=0):
                                              'current_prog_lang': current_language,
                                              'avg_score': avg_score,
                                              'avg_rating': avg_rating,
-                                             'number_of_users': number_of_users})
+                                             'number_of_users': number_of_users,
+                                             'found': found,
+                                             'cur_exercise': cur_exercise})
     else:
         return redirect('/')
 
