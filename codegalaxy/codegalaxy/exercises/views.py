@@ -304,6 +304,20 @@ def submit(request, list_id, question_id):
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
+                made_list_by_user = user.allExerciseListsMade()
+                found = False
+                for l in made_list_by_user:
+                    if int(l['exerciseList_id']) == int(exercise_list.id):
+                        found = True
+                        break
+
+                if not found:
+                    all_exercise = exercise_list.getAllExercForUserForList(user.id)
+                    score = 0
+                    for ex in all_exercise:
+                        score += int(ex['exercise_score'])
+                    user.madeList(exercise_list.id,score,5)
+
                 next_exercise = ""
 
             return render(request, 'submit.html', {"solved": solved,

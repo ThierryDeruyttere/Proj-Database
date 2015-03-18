@@ -509,6 +509,14 @@ def getAvgScoreOfUsersWhoMadeList(exercise_list_id):
     cursor.close()
     return fetched
 
+def getAllExercForUserForList(user_id, list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_id = e.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()

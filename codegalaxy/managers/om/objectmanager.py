@@ -139,6 +139,7 @@ class ObjectManager:
         exercise = dbw.getMadeExercise(user_id, exercise_id)
         if exercise:
             # update
+            #TODO REMOVE
             pass
         else:
             dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on)
