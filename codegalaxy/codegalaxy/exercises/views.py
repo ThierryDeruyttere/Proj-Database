@@ -166,7 +166,7 @@ def createExercise(request, listId=0):
 
         if(exercise_type == 'Open Question'):
             answer = []
-            for i in range(1, exercise_max_score + 1):
+            for i in range(exercise_max_score + 1):
                 cur_answer = request.POST.get("answer" + str(i), "")
                 if cur_answer != "":
                     answer.append(cur_answer)

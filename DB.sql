@@ -296,19 +296,19 @@ INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
 
 # Question data
 INSERT INTO question(question_text, language_id, exercise_id)
-    VALUES ('Print your name.', 1,1);
+VALUES ('Print your name.', 1,1);
 INSERT INTO question(question_text, language_id, exercise_id)
-    VALUES ('Print something else.', 1,2);
+VALUES ('Print something else.', 1,2);
 
 # Anwer data
 INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
-    VALUES (1,'*', 1,1);
+VALUES (1,'*', 1,1);
 INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
-    VALUES (1,'*', 1,2);
+VALUES (1,'*', 1,2);
 
 # Hint data
 INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
-    VALUES ('write print("your name here")', 1, 1, 1);
+VALUES ('write print("your name here")', 1, 1, 1);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');

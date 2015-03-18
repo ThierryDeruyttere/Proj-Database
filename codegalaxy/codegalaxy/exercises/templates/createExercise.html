@@ -235,7 +235,7 @@
     if(answers < 5) {
       $("#max").val(++answers);
       $("#wrapper_answer").append(
-        // Add the question template to the answer wrapper but change its id and the name of the unpit element :3
+        // Add the question template to the answer wrapper but change its id and the name of the input element :3
         $("#question_template").clone().attr("id","answer"+answers).show()
       );
       reassignIDs();
