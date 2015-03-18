@@ -124,6 +124,9 @@ def list(request, id=0):
             if percent > 100:
                 percent = 100
 
+
+        print(prog_lang)
+
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_difficulty': exercise_list.difficulty,

@@ -20,7 +20,13 @@
         <div class="row">
           <div class="large-6 large-centered text-center columns">
             <br/>
-            <img id="Icon" src="{% static "media/python.png" %}">
+            {% if list_programming_lang == "Python" %}
+              <img id="Icon" src="{% static "media/python.png" %}">
+            {% elif list_programming_lang == "C++" %}
+              <img id="Icon" src="{% static "media/C++.png" %}">
+            {% elif list_programming_lang == "SQL" %}
+              <img id="Icon" src="{% static "media/SQL.png" %}">
+            {% endif %}
           </div>
           <br/>
           {% if all_exercises|length > 0 %}

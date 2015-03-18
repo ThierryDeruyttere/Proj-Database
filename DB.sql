@@ -277,7 +277,7 @@ VALUES ('Advanced Templating Stuff', 'Aw yisss', 1, 1, "2014-02-12", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++ for Grandmothers', 'Dont touch the screen gramps', 3, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++ -> C += 1', 'i C u like puns', 1, 1, "2020-02-05", 1);
+VALUES ('C++ -> C += 1', 'i C u like puns', 1, 1, "2020-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('SQL injections: a short guide', 'Learn all about sql injections with this exercise list', 1, 1, "2014-02-05", 3);
 
