@@ -139,7 +139,7 @@
     {% for user_list in friend_list %}
       <div class="row">
       {% for user in user_list %}
-        <div class="large-3 columns ">
+        <div class="large-3 columns end">
           <a href="/u/{{ user.id }}">
             <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
             <div class="panel" style="width: 129px;">
@@ -158,7 +158,7 @@
       {% for group_sub_list in group_list %}
       <div class="row">
         {% for group in group_sub_list %}
-        <div class="large-3 columns">
+        <div class="large-3 columns end">
           <a href="/g/{{ group.id }}">
             <img src="{% static "Group-icon.png" %}">
             <div class="left">
