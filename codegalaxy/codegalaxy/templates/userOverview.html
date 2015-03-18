@@ -15,48 +15,45 @@
 
 
 <div class="row">
-	<div class="small-12 medium-12 large-12 columns vcard-container ">
+  <div class="small-12 medium-12 large-12 columns vcard-container ">
     <div class="panel">
         <h1>ALL USERS</h1>
-    	<div class="row">
-    		{% for user in users %}
-    		<article class="vcard">
-    			<a href="../{{ user.id }}"/>
-    			<div class="vcard-img large-12 medium-12 small-12 columns">
-    				<img class="reponsive-image" src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png" height="42" width="42">
-    			</div>
-    			<div class="large-12 medium-12 small-12 text-center">
-    				<ul class="vcard-text" .text-center>
+      <div class="row">
+        {% for user in users %}
+        <article class="vcard">
+          <a href="../{{ user.id }}"/>
+          <div class="vcard-img large-12 medium-12 small-12 columns">
+            <img class="reponsive-image" src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png" height="42" width="42">
+          </div>
+          <div class="large-12 medium-12 small-12 text-center">
+            <ul class="vcard-text" .text-center>
                         <li .text-center><strong>{{ user.first_name }} {{ user.last_name}}</strong></li>
-                    </ul> 
-    			</div>
-    		</article>
-    		{% endfor %}
-    		</div>
-    	</div>
-  	</div>
+                    </ul>
+          </div>
+        </article>
+        {% endfor %}
+        </div>
+      </div>
+    </div>
 </div>
 -->
 <div class="row">
-    <div class="panel">
-        <a name="Friends"></a>
-        <div class="large-12 columns">
-            <div class="row text.center">
-                <h1>All users:</h1>
-            </div>
-        </div>
-        <div class="row">
-            {% for user in users %}
-            <div class="large-2 small-2 columns">
-                <a href="../{{ user.id }}"/>
-                <img src="{% static "media/user.png" %}">
-                <div class="panel">
-                    <h5>{{ user.first_name }}</h5>
-                    <h6 class="subheader">{{ user.last_name }}</h6>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+  <div class="large-12 columns">
+      <div class="row text.center">
+          <h1>All users:</h1>
+      </div>
+  </div>
+  <div class="row">
+      {% for user in users %}
+      <div class="large-2 small-2 columns">
+          <a href="../{{ user.id }}"/>
+          <img src="{% static "media/user.png" %}">
+          <div class="panel">
+              <h5>{{ user.first_name }}</h5>
+              <h6 class="subheader">{{ user.last_name }}</h6>
+          </div>
+      </div>
+      {% endfor %}
+  </div>
 </div>
 {% endblock base_body %}
