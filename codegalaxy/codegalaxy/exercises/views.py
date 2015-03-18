@@ -169,7 +169,7 @@ def createExercise(request, listId=0):
             for i in range(1, exercise_max_score + 1):
                 cur_answer = request.POST.get("answer" + str(i), "")
                 if cur_answer != "":
-                    answer.append(escape_string(cur_answer))
+                    answer.append(cur_answer)
 
             exercise_answer = answer
             correct_answer = request.POST.get("correct_answer")
@@ -182,7 +182,7 @@ def createExercise(request, listId=0):
             for j in range(1, exercise_max_score + 1):
                 cur_hint = request.POST.get("hint" + str(j), "")
                 if cur_hint != "":
-                    hints.append(escape_string(cur_hint))
+                    hints.append(cur_hint)
 
         exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
         return redirect("/l/" + str(listId))
