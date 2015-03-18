@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-03-12 20:31+0100\n"
+"POT-Creation-Date: 2015-03-18 22:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,98 +18,132 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: codegalaxy/templates/codegalaxy.html:46
+#: codegalaxy/templates/codegalaxy.html:61
 msgid "English"
 msgstr "Engels"
 
-#: codegalaxy/templates/codegalaxy.html:46
+#: codegalaxy/templates/codegalaxy.html:61
 msgid "Dutch"
 msgstr "Nederlands"
 
-#: codegalaxy/templates/groupCreate.html:9
+#: codegalaxy/templates/groupCreate.html:10
 msgid "Create a new group"
 msgstr "Maak een nieuwe groep"
 
-#: codegalaxy/templates/groupCreate.html:12
-msgid "Add a name for your new group and select a group type"
+#: codegalaxy/templates/groupCreate.html:13
+#, fuzzy
+#| msgid "Add a name for your new group and select a group type"
+msgid "Add a name for your new group"
 msgstr "Voeg een naam toe voor je groep en selecteer een type"
 
-#: codegalaxy/templates/groupCreate.html:24
+#: codegalaxy/templates/groupCreate.html:23
 msgid "Do you want to create a private group?"
 msgstr "Wil je de groep prive maken?"
 
-#: codegalaxy/templates/groupCreate.html:27
+#: codegalaxy/templates/groupCreate.html:26
 msgid "Private"
 msgstr "Prive"
 
-#: codegalaxy/templates/groupOverview.html:9
+#: codegalaxy/templates/groupOverview.html:24
 msgid "Group overview"
 msgstr "Overzicht groepen "
 
-#: codegalaxy/templates/groupOverview.html:17
+#: codegalaxy/templates/groupOverview.html:25
 msgid "Create new group"
 msgstr "Maak een nieuwe groep"
 
-#: codegalaxy/templates/login.html:16
-msgid "Sign in..."
-msgstr "Log in..."
+#: codegalaxy/templates/home.html:79
+msgid "Already a member"
+msgstr "Al een gebruiker"
 
-#: codegalaxy/templates/login.html:30
-msgid "Welcome back!"
-msgstr "Welkom terug!"
-
-#: codegalaxy/templates/login.html:32 codegalaxy/templates/register.html:28
+#: codegalaxy/templates/home.html:83 codegalaxy/templates/home.html.py:123
+#: codegalaxy/templates/login.html:30 codegalaxy/templates/register.html:29
 msgid "Incorrect email and/or password."
 msgstr "Ongeldig email en/of paswoord."
 
-#: codegalaxy/templates/login.html:42 codegalaxy/templates/register.html:56
-msgid "Enter a valid Email Address."
-msgstr "Vul een gedig email adres in."
-
-#: codegalaxy/templates/login.html:51
-msgid "Enter a valid Password."
-msgstr "Vul een geldig paswoord in."
-
-#: codegalaxy/templates/register.html:14
-msgid "Register..."
-msgstr "Registreer"
-
-#: codegalaxy/templates/register.html:26
-msgid "Welcome at CodeGalaxy!"
-msgstr "Welkon bij CodeGalaxy!"
-
-#: codegalaxy/templates/register.html:37
-msgid "First Name"
-msgstr "Voornaam"
-
-#: codegalaxy/templates/register.html:38
-msgid "Enter a valid First Name."
-msgstr "Vul een geldige achternaam in."
-
-#: codegalaxy/templates/register.html:46
-msgid "Last Name"
-msgstr "Achternaam"
-
-#: codegalaxy/templates/register.html:47
-msgid "Enter a valid Last Name."
-msgstr "Vul een geldige achternaam in."
-
-#: codegalaxy/templates/register.html:55
+#: codegalaxy/templates/home.html:92 codegalaxy/templates/home.html.py:150
+#: codegalaxy/templates/login.html:39 codegalaxy/templates/register.html:56
 msgid "Email Address"
 msgstr "Email adres"
 
-#: codegalaxy/templates/register.html:64
+#: codegalaxy/templates/home.html:93 codegalaxy/templates/home.html.py:151
+#: codegalaxy/templates/login.html:40 codegalaxy/templates/register.html:57
+msgid "Enter a valid Email Address."
+msgstr "Vul een gedig email adres in."
+
+#: codegalaxy/templates/home.html:101 codegalaxy/templates/home.html.py:159
+#: codegalaxy/templates/login.html:48 codegalaxy/templates/register.html:65
 msgid "Password"
 msgstr "Paswoord"
 
-#: codegalaxy/templates/register.html:65
+#: codegalaxy/templates/home.html:102 codegalaxy/templates/login.html:49
+msgid "Enter a valid Password."
+msgstr "Vul een geldig paswoord in."
+
+#: codegalaxy/templates/home.html:105
+msgid "Continue journey"
+msgstr "Zet je reis verder"
+
+#: codegalaxy/templates/home.html:119
+msgid "New member"
+msgstr "Nieuwe gebruiker"
+
+#: codegalaxy/templates/home.html:132 codegalaxy/templates/register.html:38
+msgid "First Name"
+msgstr "Voornaam"
+
+#: codegalaxy/templates/home.html:133 codegalaxy/templates/register.html:39
+msgid "Enter a valid First Name."
+msgstr "Vul een geldige achternaam in."
+
+#: codegalaxy/templates/home.html:141 codegalaxy/templates/register.html:47
+msgid "Last Name"
+msgstr "Achternaam"
+
+#: codegalaxy/templates/home.html:142 codegalaxy/templates/register.html:48
+msgid "Enter a valid Last Name."
+msgstr "Vul een geldige achternaam in."
+
+#: codegalaxy/templates/home.html:160 codegalaxy/templates/register.html:66
 msgid "Enter a valid password."
 msgstr "Vul een geldig paswoord in."
 
-#: codegalaxy/templates/register.html:68
+#: codegalaxy/templates/home.html:163
+msgid "Lift off"
+msgstr "Lanceer"
+
+#: codegalaxy/templates/home.html:177
+
+msgid "Learn to program with CodeGalaxy!"
+msgstr "Leer programmeren met CodeGalaxy!"
+
+#: codegalaxy/templates/home.html:181
+msgid "Learn to program in a fun and interactive way..."
+msgstr ""
+"Leer programmeren op een toffe en interactieve manier... Wat is de init "
+"class? --Maarten"
+
+#: codegalaxy/templates/login.html:28
+msgid "Log in"
+msgstr "Meld je aan"
+
+#: codegalaxy/templates/register.html:26
+msgid "Register"
+msgstr "Registreer"
+
+#: codegalaxy/templates/register.html:69
 msgid "Sign Up"
 msgstr "Maak een account?"
 
-#: codegalaxy/views.py:303
+#: codegalaxy/views.py:493
 msgid "ENGLISH"
 msgstr "NEDERLANDS"
+
+#~ msgid "Sign in..."
+#~ msgstr "Log in..."
+
+#~ msgid "Welcome back!"
+#~ msgstr "Welkom terug!"
+
+#~ msgid "Welcome at CodeGalaxy!"
+#~ msgstr "Welkom bij CodeGalaxy!"
