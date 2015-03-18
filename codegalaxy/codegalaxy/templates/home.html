@@ -60,7 +60,7 @@
 
 <div class="row">
 <div class="large-12 columns">
- <img src={% static "HomePage.png" %}/>
+ <img id="rocket" src={% static "HomePage.png" %}/>
 
 <hr/>
 </div>
@@ -189,3 +189,9 @@
 {% endif%}
 
 {% endblock base_body %}
+{% block body_js %}
+  <script>
+
+    $('img').on('dragstart', function(event) { event.preventDefault(); });
+  </script>
+{% endblock %}
