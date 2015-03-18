@@ -216,13 +216,11 @@ def group(request, id=0):
 
     group = object_manager.createGroup(id)
 
-
     if request.method == 'POST':
         if 'become_member' in request.POST:
             group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
 
         elif 'add_friend' in request.POST:
-            print("PROBEREN DEZE PERSOON TOE TE VOEGEN")
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(friend_id, 0 , str(time.strftime("%Y-%m-%d")))
 

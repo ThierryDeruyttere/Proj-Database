@@ -3,7 +3,7 @@
 {% load staticfiles %}
 
 {% block head_js %}
-<script src="{% static "Chart.min.js" %}"></script>
+  <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
 {% block base_body  %}
@@ -139,24 +139,20 @@
 
         <div class ="row">
           <div class="large-10 large-centered columns">
-            <ul class="pricing-table">
-              <li class="title">Lists</li>
-              <div class="row" id="filtered_lists">
-                <ul class="accordion" id="list_accordion" data-accordion>
-                  {% for list in all_lists %}
-                    <li class="accordion-navigation">
-                      <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
-                      <div id="Exerc{{ list.id }}" class="content">
-                        <div class="row">
-                          <a href="{{ list.id }}" class="button tiny radius">Open list</a>
-                        </div>
+            <div class="row" id="filtered_lists">
+              <ul class="accordion" id="list_accordion" data-accordion>
+                {% for list in all_lists %}
+                  <li class="accordion-navigation">
+                    <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
+                    <div id="Exerc{{ list.id }}" class="content">
+                      <div class="row">
+                        <a href="{{ list.id }}" class="button tiny radius">Open list</a>
                       </div>
-                    </li>
-                  {% endfor %}
-                </ul>
-                <li class="price"></li>
-              </div>
-            </ul>
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
