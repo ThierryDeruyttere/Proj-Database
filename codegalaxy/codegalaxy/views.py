@@ -27,7 +27,9 @@ graph_manager = graphmanager.GraphManager()
 def home(request):
     current_user = logged_user(request)
 
-    friends = current_user.allFriends()
+    friends = []
+    if current_user:
+        friends = current_user.allFriends()
 
     return render(request, 'home.html', {"user":current_user, "friends":friends})
 
