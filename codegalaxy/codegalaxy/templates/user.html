@@ -136,9 +136,8 @@
     <hr/>
     {% endfor %}
     <div class="large-12 columns">
-    {% for user_list in friend_list %}
       <div class="row">
-      {% for user in user_list %}
+      {% for user in accepted_friendships %}
         <div class="large-3 columns end">
           <a href="/u/{{ user.id }}">
             <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
@@ -150,7 +149,6 @@
         </div>
       {% endfor %}
       </div>
-    {% endfor %}
   </div>
 </div>
 <div class="content" id="groups">

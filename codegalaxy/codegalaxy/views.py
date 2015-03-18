@@ -89,10 +89,10 @@ def user(request, id=0):
         exercises_made = sorted(
             user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
 
-        accepted_friendships.extend(member_of_groups)
-        accepted_friendships.extend(exercises_made)
-
-        all_data = accepted_friendships
+        all_data = []
+        all_data.extend(accepted_friendships)
+        all_data.extend(member_of_groups)
+        all_data.extend(exercises_made)
 
         all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
 
@@ -113,7 +113,7 @@ def user(request, id=0):
             pending_friendships = user.allPendingFriendships()
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
-                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships}
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
 
         if current_user.id == user.id:
             context['my_profile'] = True
