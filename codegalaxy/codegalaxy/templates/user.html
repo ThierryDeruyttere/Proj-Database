@@ -139,13 +139,14 @@
     {% for user_list in friend_list %}
       <div class="row">
       {% for user in user_list %}
-        <div class="large-3 columns ">
-            <a href="../{{ user.id }}"/>
-              <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
+        <div class="large-3 columns end">
+          <a href="/u/{{ user.id }}">
+            <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
             <div class="panel" style="width: 129px;">
               <h5 style="width: 129px;"> {{ user.first_name }} </h5>
               <h6 style="width: 129px;">{{ user.last_name }}</h6>
             </div>
+          </a>
         </div>
       {% endfor %}
       </div>
@@ -153,22 +154,27 @@
   </div>
 </div>
 <div class="content" id="groups">
-  <div class="large-12 columns">
-    {% for group_sub_list in group_list %}
-    <div class="row">
-      {% for group in group_sub_list %}
-      <div class="large-3 columns">
-          <a href="../../g/{{ group.id }}"/>
-          <img src="{% static "Group-icon.png" %}">
-          <div class="left">
-          <div class="panel" style="width: 129px;">
-              <h6 style="width: 129px;">{{ group.group_name }}</h6>
-          </div>
+    {% if group_list %}
+      {% for group_sub_list in group_list %}
+      <div class="row">
+        {% for group in group_sub_list %}
+        <div class="large-3 columns end">
+          <a href="/g/{{ group.id }}">
+            <img src="{% static "Group-icon.png" %}">
+            <div class="left">
+              <div class="panel" style="width: 129px;">
+                <h6 style="width: 129px;">{{ group.group_name }}</h6>
+              </div>
+            </div>
+          </a>
         </div>
+        {% endfor %}
       </div>
       {% endfor %}
-    </div>
-    {% endfor %}
+    {% else %}
+      <h4>You have not joined a group yet.</h4>
+      <a href="/g/overview" class="button">Take a look!</a>
+    {% endif %}
 </div>
 </div>
 </div>
