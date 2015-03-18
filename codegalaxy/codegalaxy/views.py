@@ -25,7 +25,11 @@ graph_manager = graphmanager.GraphManager()
 
 
 def home(request):
-    return render(request, 'home.html', {})
+    current_user = logged_user(request)
+
+    friends = current_user.allFriends()
+
+    return render(request, 'home.html', {"user":current_user, "friends":friends})
 
 
 @require_login
