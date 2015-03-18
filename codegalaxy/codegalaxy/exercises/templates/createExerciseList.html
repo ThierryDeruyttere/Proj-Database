@@ -2,7 +2,13 @@
 
 {% block base_body %}
 
+
   <div class="row">
+    <div class="large-12 columns text-center">
+      <div class="panel">
+        <h1>Create a new list</h1>
+      </div>
+    </div>
     <div class="panel">
       <form method="post" id="list_form">
         {% csrf_token %}
