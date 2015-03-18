@@ -153,12 +153,13 @@
   </div>
 </div>
 <div class="content" id="groups">
+  <div class="large-12 columns">
     {% for group_sub_list in group_list %}
     <div class="row">
       {% for group in group_sub_list %}
       <div class="large-3 columns">
           <a href="../../g/{{ group.id }}"/>
-          <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+          <img src="{% static "Group-icon.png" %}">
           <div class="left">
           <div class="panel" style="width: 129px;">
               <h6 style="width: 129px;">{{ group.group_name }}</h6>
@@ -169,7 +170,7 @@
     </div>
     {% endfor %}
 </div>
-
+</div>
 </div>
 </div>
 </div>
