@@ -21,14 +21,14 @@
     </div>
 
   <div class="large-8 columns">
-      <h1>{% trans "Group overview" %}</h1>
+    <h1>{% trans "Group overview" %}</h1>
     <a href="/g/create" class="button large">{% trans "Create new group" %}</a>
     {% for group_sub_list in groups %}
     <div class="row">
       {% for group in group_sub_list %}
       <div class="large-3 columns">
           <a href="../../g/{{ group.id }}"/>
-          <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+          <img src="{% static "Group-icon.png" %}">
           <div class="left">
           <div class="panel" style="width: 129px;">
               <h6 style="width: 129px;">{{ group.group_name }}</h6>

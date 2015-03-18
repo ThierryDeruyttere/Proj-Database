@@ -30,8 +30,8 @@ class StatisticsAnalyzer:
             if not set_item:
                 result['labels'].append(prog_lang['name'])
                 result['data'].append(count['amount'])
-        result['labels'] = result['labels'][::-1]
-        result['data'] = result['data'][::-1]
+        result['labels'].reverse()
+        result['data'].reverse()
         return result
 
 # Used with Bar Charts
