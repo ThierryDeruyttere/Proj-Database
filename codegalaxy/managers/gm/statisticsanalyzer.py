@@ -20,8 +20,16 @@ class StatisticsAnalyzer:
         all_prog_languages = object_manager.allProgrammingLanguages()
         for prog_lang in all_prog_languages:
             count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
-            result['labels'].append(prog_lang['name'])
-            result['data'].append(count['amount'])
+            set_item = False
+            # ordering from small to large
+            for i in range(len(result['data'])-1):
+                if result['data'][i] >= count['amount']:
+                    result['labels'].insert(i,prog_lang['name'])
+                    result['data'].insert(i,count['amount'])
+                    set_item = True
+            if not set_item:
+                result['labels'].append(prog_lang['name'])
+                result['data'].append(count['amount'])
         return result
 
 # Used with Bar Charts
@@ -75,7 +83,7 @@ class StatisticsAnalyzer:
             users = users[:X]
         for i in range(len(users)):
             result['data'][0].append(len(users[i].allPersonalLists()))
-            result['labels'].append(users[i].first_name+users[i].last_name)
+            result['labels'].append(users[i].first_name + ' ' + users[i].last_name)
         return result
 
     def compareUserExercisesPerProgrammingLanguageWithFriend(self,user_id,friend_id):

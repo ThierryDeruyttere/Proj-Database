@@ -308,15 +308,15 @@ def listOverview(request):
                                            , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
+    color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
+    color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
-    bar_chart = graph_manager.makeBarChart('subjects', 180, 110,
+    bar_chart = graph_manager.makeBarChart('subjects', 200, 200,
                                            [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
     # users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info2,color_info1],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
+    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info1,color_info2],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
 
 
     list_name='%'

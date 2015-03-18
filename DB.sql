@@ -171,7 +171,7 @@ CREATE TABLE verification(
 );
 
 # User data
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'root', 'admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com',"0-01-01","9999-12-31","U");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Root', 'Admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com',"0-01-01","9999-12-31","U");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com',"2015-03-06","2015-03-06","F");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Sten', 'Verbois', '21232f297a57a5a743894a0e4a801fc3', 'stenverbois@gmail.com',"2015-03-06","2015-03-06","M");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Tristan', 'Vandeputte', '21232f297a57a5a743894a0e4a801fc3', 'tristanvandeputte@hotmail.com',"2015-03-06","2015-03-06","M");
@@ -264,6 +264,22 @@ INSERT INTO programmingLanguage(name) VALUES ('SQL');
 # ExerciseList data
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('The continuation of that journey...', '...', 1, 1, "2014-03-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Still not there yet...', '.......', 1, 1, "2014-02-06", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python for dummies', 'For those who are new', 3, 1, "2015-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python for actual retards', 'Dude no', 1, 1, "2014-03-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Advanced Templating Stuff', 'Aw yisss', 1, 1, "2014-02-12", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++ for Grandmothers', 'Dont touch the screen gramps', 3, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++ -> C += 1', 'i C u like puns', 1, 1, "2020-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL injections: a short guide', 'hakkkk', 1, 1, "2014-02-05", 3);
 
 # Exercise data
 # Difficulty range 1-5?
@@ -296,13 +312,33 @@ INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
+INSERT INTO subject(name) VALUES ('Tutorial');
+INSERT INTO subject(name) VALUES ('42');
+INSERT INTO subject(name) VALUES ('Awesomeness');
+INSERT INTO subject(name) VALUES ('Yourneying');
 
 # HasSubject data
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,4);
 
 #insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,75, "2015-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,3,75, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,2,5,50, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,6,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,6,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,6,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,12,5,30, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,12,5,30, "2015-03-05");
 
 #insert into madeEx
 INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating, completed_on) VALUES(1,1,1,5,5,"2015-03-06");
