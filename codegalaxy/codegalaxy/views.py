@@ -299,14 +299,19 @@ def group(request, id=0):
 def groupOverview(request):
     # Biggest Groups
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
+    color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
     bar_chart = graph_manager.makeBarChart('groups',270,180,[color_info2,color_info1]
     ,biggest_groups['labels'],biggest_groups['data'],"#members")
 
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
-    groups = object_manager.allPublicGroups()
+    group_list_temp = object_manager.allPublicGroups()
+    for group in group_list_temp:
+        if len(group.group_name)>12:
+            group.group_name = group.group_name[:10]+'...'
+
+    groups = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
 
     if groups:
         return render(request, 'groupOverview.html', {'groups': groups, 'biggest_groups': bar_chart})

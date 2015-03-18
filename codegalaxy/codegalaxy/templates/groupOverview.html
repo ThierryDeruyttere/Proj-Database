@@ -21,33 +21,23 @@
     </div>
 
   <div class="large-8 columns">
-    <div class="panel">
       <h1>{% trans "Group overview" %}</h1>
-      <article class="vcard">
-        <a href="../create"/>
-        <div class="vcard-img large-12 medium-12 small-12 columns">
-         <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png" height="42" width="42">
-       </div>
-       <div class="large-12 medium-12 small-12 text-center">
-        <ul class="vcard-text" .text-center>
-          <li .text-center><strong>{% trans "Create new group" %}</strong></li>
-        </ul>
+    <a href="/g/create" class="button large">{% trans "Create new group" %}</a>
+    {% for group_sub_list in groups %}
+    <div class="row">
+      {% for group in group_sub_list %}
+      <div class="large-3 columns">
+          <a href="../../g/{{ group.id }}"/>
+          <img src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png">
+          <div class="left">
+          <div class="panel" style="width: 129px;">
+              <h6 style="width: 129px;">{{ group.group_name }}</h6>
+          </div>
+        </div>
       </div>
-    </article>
-    {% for group in groups %}
-    <article class="vcard">
-     <a href="/g/{{ group.id }}"/>
-     <div class="vcard-img large-12 medium-12 small-12 columns">
-      <img class="reponsive-image" src="https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png" height="42" width="42">
+      {% endfor %}
     </div>
-    <div class="large-12 medium-12 small-12 text-center">
-      <ul class="vcard-text" .text-center>
-        <li .text-center><strong>{{ group.group_name }}</strong></li>
-      </ul>
-    </div>
-  </article>
   {% endfor %}
-</div>
 </div>
 </div>
 
