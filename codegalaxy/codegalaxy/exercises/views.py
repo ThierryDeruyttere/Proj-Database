@@ -107,11 +107,18 @@ def list(request, id=0):
                 if cur_exercise < e.id:
                     cur_exercise = e.id
 
+
+        percent = 0
+        if len(all_exercises) > 0:
+            percent = round(cur_exercise/len(all_exercises)) * 100
+
         if found:
             cur_exercise+=1
+
             if len(all_exercises) < cur_exercise:
                 found = False
                 cur_exercise = 1
+
 
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
@@ -127,7 +134,8 @@ def list(request, id=0):
                                              'avg_rating': avg_rating,
                                              'number_of_users': number_of_users,
                                              'found': found,
-                                             'cur_exercise': cur_exercise})
+                                             'cur_exercise': cur_exercise,
+                                             'percent': percent})
     else:
         return redirect('/')
 
