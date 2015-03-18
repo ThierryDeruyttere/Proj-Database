@@ -1,71 +1,69 @@
 {% extends "codegalaxy.html" %}
-
+{% load staticfiles %}
 {% block base_body %}
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static "custom_css/list.css" %}" />
+  </head>
 
   <div class="row">
     <div class="large-12 columns">
-      <div class="panel">
-        <div class="text-center">
-          <div class="row">
-            <h1><u>{{ list_name }}</u></h1>
-          </div>
-          <div class="row">
-            <div class="large-6 large-centered text-center columns">
-              <ul class="pricing-table">
-                <li class="title">Description</li>
-                <li class="price">{{ list_description }}</li>
-              </ul>
-            </div>
-          </div>
+      <div class="text-center">
+        <div class="row">
+          <h2>{{ list_name }}</h2>
         </div>
         <div class="row">
           <div class="large-6 large-centered text-center columns">
-            <ul class="pricing-table">
-              <li class="title">List difficulty</li>
-              <li class="price">{{ list_difficulty }}</li>
-            </ul>
+            <i>{{ list_description }}</i>
           </div>
         </div>
-        <div class ="row">
+
+        <div class="row">
           <div class="large-6 large-centered text-center columns">
-            <ul class="pricing-table">
-              <li class="title">Programming language</li>
-              <li class="price">{{ list_programming_lang }}</li>
-            </ul>
+            <br/>
+            <img id="Icon" src="{% static "media/python.png" %}">
           </div>
+          <br/>
+          <button class="small button" id="Start">Start</button>
         </div>
         <div class ="row">
-          <div class="large-6 large-centered text-center columns">
-            <ul class="pricing-table">
-              <li class="title">Subjects</li>
-              <li class="price">
+          <div class="large-4 large-centered columns">
+            <div class="panel callout radius">
+              <img id="subjects" src="{% static "media/subjects.png" %}">
+              <div class="text-center">
                 {% for subject in subjects %}
                   <span class="success label">{{ subject }}</span>
                 {% endfor %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class ="row">
+        <div class="large-7 large-centered text-center columns">
+          <div class="panel callout radius">
+
+            <ul class="large-block-grid-3">
+              <li>
+                <h2>{{ avg_score }}</h2>
+                <br/>
+                Average Score
+              </li>
+
+              <li>
+                <h2>{{ avg_rating }}</h2>
+                <br/>
+                Average rating
+              </li>
+              <li>
+                <h2>{{ number_of_users }}</h2>
+                <br/>
+                Users that finished list
               </li>
             </ul>
           </div>
-        </div>
-        <div class ="row">
-          <div class="large-6 large-centered text-center columns">
-            <div class="small-4 columns">
-              <ul class="pricing-table">
-                <li class="title">Average Score</li>
-                <li class="price">{{ avg_score }}</li>
-              </ul>
-          </div>
-          <div class="small-4 columns">
-            <ul class="pricing-table">
-              <li class="title">Average rating</li>
-              <li class="price">{{ avg_rating }}</li>
-            </ul>
-        </div>
-        <div class="small-4 columns">
-          <ul class="pricing-table">
-            <li class="title">Amount of users who completed this list</li>
-            <li class="price">{{ number_of_users }}</li>
-          </ul>
-      </div>
+
         </div>
         <hr>
 
@@ -206,7 +204,7 @@
                     <li class="accordion-navigation">
                       <a href="#Exerc{{ exercise.id }}">{{ exercise.title }}
                         {% if exercise.solved %}
-                        <div class="label success right"><i class="fi-checkbox"></i></div>
+                          <div class="label success right"><i class="fi-checkbox"></i></div>
                         {% endif %}
                       </a>
                       <div id="Exerc{{ exercise.id }}" class="content">
@@ -226,7 +224,6 @@
       </div>
     </div>
   </div>
-</div>
 {% endblock base_body %}
 
 {% block body_js %}
@@ -292,6 +289,7 @@
       var data = event.dataTransfer.getData("text");
       event.target.appendChild(document.getElementById(data));
     }
+
 
 
   </script>
