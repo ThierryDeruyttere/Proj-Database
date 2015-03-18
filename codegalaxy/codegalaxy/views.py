@@ -66,7 +66,7 @@ def user(request, id=0):
 
     if user:
         friend_list_temp = user.allFriends()
-        # names seems too long? -> fix by chenging the last part to '...'
+        # names seems too long? -> fix by changing the last part to '...'
         for friend in friend_list_temp:
             if len(friend.last_name)>12:
                 friend.last_name = friend.last_name[:10]+'...'
@@ -152,10 +152,12 @@ def register(request):
             object_manager.addVerification(
                 email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
+
         except:
             return render(request, 'register.html', {'error_register': True})
 
-    return render(request, 'register.html', {})
+
+    return redirect('/')
 
 
 def login(request):
