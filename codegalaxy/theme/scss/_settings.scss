@@ -211,7 +211,7 @@ $include-html-global-classes: $include-html-classes;
 // $header-font-family: $body-font-family;
 // $header-font-weight: $font-weight-normal;
 // $header-font-style: normal;
-// $header-font-color: $jet;
+$header-font-color: $white-smoke;
 // $header-line-height: 1.4;
 // $header-top-margin: .2rem;
 // $header-bottom-margin: .5rem;
@@ -665,7 +665,7 @@ $button-bg-color: $steel;
 // $fieldset-margin: rem-calc(18 0);
 
 // We use these to style the legends when you use them
-$legend-bg: $oil;
+// $legend-bg: $white;
 // $legend-font-weight: $font-weight-bold;
 // $legend-padding: rem-calc(0 3);
 

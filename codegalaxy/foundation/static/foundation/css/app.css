@@ -4333,7 +4333,7 @@ fieldset {
 /* line 272, ../../../../theme/bower_components/foundation/scss/foundation/components/_forms.scss */
 fieldset legend {
   font-weight: bold;
-  background: #333333;
+  background: #FFFFFF;
   padding: 0 0.1875rem;
   margin: 0;
   margin-left: -0.1875rem;
@@ -7663,7 +7663,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #222222;
+  color: #F5F5F5;
   text-rendering: optimizeLegibility;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
@@ -7672,7 +7672,7 @@ h1, h2, h3, h4, h5, h6 {
 /* line 262, ../../../../theme/bower_components/foundation/scss/foundation/components/_type.scss */
 h1 small, h2 small, h3 small, h4 small, h5 small, h6 small {
   font-size: 60%;
-  color: #6f6f6f;
+  color: #f9f9f9;
   line-height: 0;
 }
 
@@ -7709,7 +7709,7 @@ h6 {
 /* line 276, ../../../../theme/bower_components/foundation/scss/foundation/components/_type.scss */
 .subheader {
   line-height: 1.4;
-  color: #6f6f6f;
+  color: #f9f9f9;
   font-weight: normal;
   margin-top: 0.2rem;
   margin-bottom: 0.5rem;
@@ -7869,7 +7869,7 @@ blockquote {
 blockquote cite {
   display: block;
   font-size: 0.8125rem;
-  color: #555555;
+  color: #f7f7f7;
 }
 /* line 408, ../../../../theme/bower_components/foundation/scss/foundation/components/_type.scss */
 blockquote cite:before {
@@ -7878,14 +7878,14 @@ blockquote cite:before {
 /* line 412, ../../../../theme/bower_components/foundation/scss/foundation/components/_type.scss */
 blockquote cite a,
 blockquote cite a:visited {
-  color: #555555;
+  color: #f7f7f7;
 }
 
 /* line 418, ../../../../theme/bower_components/foundation/scss/foundation/components/_type.scss */
 blockquote,
 blockquote p {
   line-height: 1.6;
-  color: #6f6f6f;
+  color: #f9f9f9;
 }
 
 /* Microformats */
