@@ -65,6 +65,12 @@ class GraphManager:
     def addScript(self, html):
         return '<script>\n' + html + '</script>\n'
 
+    def globalOptions(self):
+        options = ''
+        options += 'scaleLineColor: "rgba(255,255,255,0.5)",\n'
+        options += 'scaleFontColor: "rgba(255,255,255,1)",\n'
+        return options
+
     def addGetID(self, name):
         return 'var ' + self.addDatavar('O') + " = document.getElementById('" + name + "').getContext('2d');\n"
 # LINEGRAPH======================================================================================================================
@@ -121,7 +127,8 @@ class GraphManager:
         extras_string += 'segmentShowStroke : false,\n'
         # add more stuff here
         extras_string += 'animationEasing : "easeOutBounce",'
-        extras_string += 'animateScale : true\n'
+        extras_string += 'animateScale : true\n,'
+        extras_string += self.globalOptions()
         extras_string += '};\n'
         return extras_string
 
@@ -145,6 +152,7 @@ class GraphManager:
         extras_string += 'var options = { \n'
         #extras_string += 'responsive : true,\n'
         extras_string += 'animation: true,\n'
+        extras_string += self.globalOptions()
         #extras_string += 'tooltipFillColor: "rgba(0,0,0,0.8)",\n'
         #extras_string += 'multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"\n'
         # add more stuff here
