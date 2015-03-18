@@ -17,15 +17,15 @@
       <div class="panel">
         <div class="row">
           <h3>Question</h3>
-          <hr>
         </div>
 
+        <hr>
         <div class="row">
           <div class="large-6 columns">
             {{ exercise.question }}
-            <hr>
           </div>
         </div>
+        <hr>
 
         <form id="answer_question" method="post" action="{{ exercise.id }}/submit">
           {% csrf_token %}
