@@ -109,8 +109,6 @@ def list(request, id=0):
 
 
         percent = 0
-        if len(all_exercises) > 0:
-            percent = round(cur_exercise/len(all_exercises)) * 100
 
         if found:
             cur_exercise+=1

@@ -271,7 +271,7 @@ VALUES ('Still not there yet...', '.......', 1, 1, "2014-02-06", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Python for dummies', 'For those who are new', 3, 1, "2015-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python for actual retards', 'Dude no', 1, 1, "2014-03-05", 1);
+VALUES ('Python for experts', 'Yer a wizard Harry', 1, 1, "2014-03-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Advanced Templating Stuff', 'Aw yisss', 1, 1, "2014-02-12", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
@@ -279,7 +279,7 @@ VALUES ('C++ for Grandmothers', 'Dont touch the screen gramps', 3, 1, "2014-02-0
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++ -> C += 1', 'i C u like puns', 1, 1, "2020-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL injections: a short guide', 'hakkkk', 1, 1, "2014-02-05", 3);
+VALUES ('SQL injections: a short guide', 'Learn all about sql injections with this exercise list', 1, 1, "2014-02-05", 3);
 
 # Exercise data
 # Difficulty range 1-5?
@@ -328,6 +328,7 @@ INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,2);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,2);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,3);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,4);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (9,4);
 
 #insert into madeList
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,3,75, "2015-03-05");
