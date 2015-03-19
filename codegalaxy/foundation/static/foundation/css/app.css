@@ -93,7 +93,7 @@ body {
 
 /* line 417, ../../../../theme/bower_components/foundation/scss/foundation/components/_global.scss */
 body {
-  background: #000826;
+  background: #131a2d;
   color: #FFFFFF;
   padding: 0;
   margin: 0;
@@ -5476,7 +5476,7 @@ ul.pagination li {
   margin-bottom: 1.25rem;
   padding: 1.25rem;
   background: #ecfaff;
-  color: #000826;
+  color: #131a2d;
 }
 /* line 55, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout > :first-child {
@@ -5488,7 +5488,7 @@ ul.pagination li {
 }
 /* line 61, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6, .panel.callout p, .panel.callout li, .panel.callout dl {
-  color: #000826;
+  color: #131a2d;
 }
 /* line 68, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout h1, .panel.callout h2, .panel.callout h3, .panel.callout h4, .panel.callout h5, .panel.callout h6 {
@@ -7286,7 +7286,7 @@ meta.foundation-mq-topbar {
   .top-bar-section .dropdown li:not(.has-form):not(.active):hover > a:not(.button) {
     color: #FFFFFF;
     background-color: #555555;
-    background: #000826;
+    background: #131a2d;
   }
   /* line 615, ../../../../theme/bower_components/foundation/scss/foundation/components/_top-bar.scss */
   .top-bar-section .dropdown li label {
