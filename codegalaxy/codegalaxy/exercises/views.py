@@ -44,6 +44,8 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
+
+
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
     #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
@@ -62,29 +64,35 @@ def list(request, id=0):
         subjects = []
 
     if request.method == 'POST':
-        updated_list_name = request.POST.get('updated_list_name')
-        updated_difficulty = request.POST.get('updated_difficulty')
-        updated_subjects_amount = int(request.POST.get('current_subjects'))
-        updated_subjects = []
-        updated_prog_lang = request.POST.get('prog_lang', '')
-        updated_description = request.POST.get('updated_description_text')
 
-        for i in range(updated_subjects_amount):
-            subject = request.POST.get('subject' + str(i))
-            if subject is not None:
-                updated_subjects.append(subject)
+        if request.POST.get('rating') is not None and logged_user(request) is not None:
+            print("rating")
+            logged_user(request).updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
-        removed_subjects = set(subjects) - set(updated_subjects)
-        intersection = set(subjects) & set(updated_subjects)
-        subjects_to_add = set(updated_subjects) - intersection
+        else:
+            updated_list_name = request.POST.get('updated_list_name')
+            updated_difficulty = request.POST.get('updated_difficulty')
+            updated_subjects_amount = int(request.POST.get('current_subjects'))
+            updated_subjects = []
+            updated_prog_lang = request.POST.get('prog_lang', '')
+            updated_description = request.POST.get('updated_description_text')
 
-        for subject in removed_subjects:
-            exercise_list.deleteSubject(subject)
+            for i in range(updated_subjects_amount):
+                subject = request.POST.get('subject' + str(i))
+                if subject is not None:
+                    updated_subjects.append(subject)
 
-        for subject in subjects_to_add:
-            exercise_list.addSubject(subject)
+            removed_subjects = set(subjects) - set(updated_subjects)
+            intersection = set(subjects) & set(updated_subjects)
+            subjects_to_add = set(updated_subjects) - intersection
 
-        exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
+            for subject in removed_subjects:
+                exercise_list.deleteSubject(subject)
+
+            for subject in subjects_to_add:
+                exercise_list.addSubject(subject)
+
+            exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
@@ -93,7 +101,6 @@ def list(request, id=0):
         correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
-                print(object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id))
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id):
                     exercise.solved = True
 
@@ -124,9 +131,11 @@ def list(request, id=0):
             if percent > 100:
                 percent = 100
 
+        solved_all = False
+        if percent == 100:
+            solved_all = True
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
-                                             'list_difficulty': exercise_list.difficulty,
                                              'list_programming_lang': prog_lang,
                                              'correct_user': correct_user,
                                              'id': exercise_list.id,
@@ -139,7 +148,8 @@ def list(request, id=0):
                                              'number_of_users': number_of_users,
                                              'found': found,
                                              'cur_exercise': cur_exercise,
-                                             'percent': percent})
+                                             'percent': percent,
+                                             'solved_all': solved_all})
     else:
         return redirect('/')
 
@@ -316,7 +326,7 @@ def submit(request, list_id, question_id):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    user.madeList(exercise_list.id,score,5)
+                    user.madeList(exercise_list.id,score,0)
 
                 next_exercise = ""
 

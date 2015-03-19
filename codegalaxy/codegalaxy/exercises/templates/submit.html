@@ -40,14 +40,6 @@
           </div>
 
           <div class="row">
-            <div class="large-12 columns large-text-center">
-              Rating:<br/>
-              <div class="rating">
-                <div id="raty"></div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
             <input type="hidden" name="solved" value="True"></input>
             <div class="large-6 large-text-center columns">
               <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="Return to list"></input>
@@ -134,7 +126,6 @@
 
 {% endblock base_body %}
 {% block body_js %}
-<script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
     function rate(obj){
       var id = obj.id;
@@ -142,10 +133,5 @@
       var current_rating = 5 - value;
       document.getElementById("current_rating").value = current_rating.toString();
     }
-
-    $(document).ready(function() {
-      $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
-      $('#raty').raty();
-    });
   </script>
 {% endblock body_js %}

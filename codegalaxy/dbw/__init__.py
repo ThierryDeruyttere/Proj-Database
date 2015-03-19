@@ -634,6 +634,10 @@ def updateExerciseList(list_id, name, description, difficulty, prog_lang_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id=list_id, desc=description, name=name, diff=difficulty, prg_id=prog_lang_id))
 
+def updateListRating(list_id, user_id, list_rating):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE madeList SET rating = {rating} WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(rating = list_rating, list_id = list_id, user_id = user_id))
+
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
     cursor = connection.cursor()

@@ -54,6 +54,20 @@
         </div>
       </div>
 
+      {% if solved_all %}
+        <div class="row">
+          <div class="large-5 columns large-centered large-text-center">
+            <div class="panel callout radius info">
+              Rating:<br/>
+              <form id="Rating" method="POST">
+                <div class="rating">
+                  <div id="raty"></div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      {% endif %}
 
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
@@ -238,12 +252,12 @@
           </div>
         </div>
       </div>
-
     </div>
   </div>
 {% endblock base_body %}
 
 {% block body_js %}
+  <script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
 
     var subjects = {{ subjects|length }};
@@ -298,30 +312,75 @@
       window.location += id;
     });
 
-    $("#Edit").click(function(){
-
-    });
-
-    function allowDrop(event) {
-      ev.preventDefault();
-    }
-
-    function startdrag(event) {
-      event.dataTransfer.setData("text", event.target.id);
-    }
-
-    function drop(event) {
-      event.preventDefault();
-      var data = event.dataTransfer.getData("text");
-      event.target.appendChild(document.getElementById(data));
-    }
-
     $(".Start").click(function(){
       var id = this.id;
       window.location += id;
     });
 
-     $('img').on('dragstart', function(event) { event.preventDefault(); });
+    $('img').on('dragstart', function(event) { event.preventDefault(); });
+
+    $(document).ready(function() {
+      $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
+      $('#raty').raty({
+        click: function(score){
+          //AJAX -> post to server that the user rated
+
+          $(function(){
+            $.ajax({
+              type: 'POST',
+              url: "",
+              data: {"rating" : score},
+
+              success: function(response) {
+                console.log("yay");
+              },
+
+              error: function(xhr, textStatus, errorThrown){
+                console.log("failed");
+              }
+
+            });
+          });
+
+        }
+      });
+    });
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+    //Django stuff
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+
 
   </script>
 {% endblock %}

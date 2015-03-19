@@ -112,6 +112,8 @@ class User:
     def madeList(self, list_id, list_score, list_rating):
         dbw.insertMadeList(list_id,self.id,list_rating,list_score)
 
+    def updateListRating(self, list_id, list_rating):
+        dbw.updateListRating(list_id, self.id, list_rating)
 
     # List with all the lists of exercises this user has completed/is working
     # on (SQL function)
