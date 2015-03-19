@@ -516,6 +516,13 @@ def getAllExercForUserForList(user_id, list_id):
     cursor.close()
     return fetched
 
+def getMadeListForUserForList(user_id, list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM madeList WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):

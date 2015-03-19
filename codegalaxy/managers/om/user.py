@@ -229,6 +229,13 @@ class User:
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email,
                        self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 
+
+    def getRatingForList(self,list_id):
+        rating = dbw.getMadeListForUserForList(self.id, list_id)
+        if rating is None:
+            return 0
+        return rating['rating']
+
     def __str__(self):
         return str(self.id) + ' ' + self.first_name + ' ' + self.last_name + ' ' + str(self.is_active) + ' ' + self.email + ' ' + str(self.permissions) + ' ' + str(self.joined_on) + ' ' + str(self.last_login) + ' ' + self.gender
 

@@ -134,6 +134,9 @@ def list(request, id=0):
         solved_all = False
         if percent == 100:
             solved_all = True
+
+        user_rating = logged_user(request).getRatingForList(exercise_list.id)
+
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_programming_lang': prog_lang,
@@ -149,7 +152,8 @@ def list(request, id=0):
                                              'found': found,
                                              'cur_exercise': cur_exercise,
                                              'percent': percent,
-                                             'solved_all': solved_all})
+                                             'solved_all': solved_all,
+                                             'user_rating': user_rating})
     else:
         return redirect('/')
 

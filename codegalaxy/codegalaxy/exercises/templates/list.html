@@ -322,6 +322,7 @@
     $(document).ready(function() {
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
       $('#raty').raty({
+        score : {{ user_rating }},
         click: function(score){
           //AJAX -> post to server that the user rated
 
