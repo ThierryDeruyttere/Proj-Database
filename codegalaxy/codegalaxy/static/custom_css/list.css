@@ -25,10 +25,10 @@ h3{
 #Icon{
     background-repeat: no-repeat;
     background-position: 50%;
-    border-radius: 50%;
+
+    /*border-radius: 50%;*/
     width: 100px;
     height: 100px;
-    background-color: #ECF0F1;
 }
 
 #subjects{

@@ -25,7 +25,7 @@
             {% elif list_programming_lang == "C++" %}
               <img id="Icon" src="{% static "media/C++.png" %}">
             {% elif list_programming_lang == "SQL" %}
-              <img id="Icon" src="{% static "media/SQL.png" %}">
+              <img id="Icon" src="{% static "media/sql.png" %}">
             {% endif %}
           </div>
           <br/>
@@ -213,7 +213,7 @@
                   </div>
                 </div>
 
-                <input type="submit" class="secondary button tiny radius" value="Edit">
+                <input id="submit" class="secondary button tiny radius" value="Edit">
                 <a class="close-reveal-modal">&#215;</a>
                 <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
               </form>
@@ -298,6 +298,9 @@
       window.location += id;
     });
 
+    $("#Edit").click(function(){
+
+    });
 
     function allowDrop(event) {
       ev.preventDefault();

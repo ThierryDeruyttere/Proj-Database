@@ -25,12 +25,12 @@ def createExerciseList(request):
         user = logged_user(request)
         exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang)
         # get subjects
-        current_subject = 0
         exercise_list = object_manager.createExerciseList(exlist_id)
-
-        while(request.POST.get("subject" + str(current_subject)) is not None):
-            exercise_list.addSubject(request.POST.get("subject" + str(current_subject)))
-            current_subject += 1
+        max_subjects = int(request.POST.get("subjects_amount"))
+        for i in range(max_subjects):
+            subj = request.POST.get("subject" + str(i))
+            if subj is not None:
+                exercise_list.addSubject(subj)
 
         return redirect("/l/" + str(exlist_id))
 
@@ -341,7 +341,6 @@ def createListElem(elem):
       </div>
       </div>
       </li>""".format(id = elem['id'], list_name = elem['name'])
-
 
 def listOverview(request):
     # Amount of lists per programming language

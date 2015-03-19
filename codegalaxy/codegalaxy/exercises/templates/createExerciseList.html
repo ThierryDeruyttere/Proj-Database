@@ -118,8 +118,11 @@
         window.alert("You need to add at least one subject!");
       }else{
         var list = $("#list_form");
+        var input = $("<input>")
+               .attr("type", "hidden")
+               .attr("name", "subjects_amount").val(subjects);
+        list.append(input);
         list.submit();
-        console.log("submit");
       }
     });
 
