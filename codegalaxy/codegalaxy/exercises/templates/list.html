@@ -56,7 +56,7 @@
 
       {% if solved_all %}
         <div class="row">
-          <div class="large-5 columns large-centered large-text-center">
+          <div class="large-4 columns large-centered large-text-center">
             <div class="panel callout radius info">
               Rating:<br/>
               <form id="Rating" method="POST">
@@ -121,7 +121,7 @@
 
             <div id="Subject_Modal" class="reveal-modal" data-reveal>
               <h2>List editor</h2>
-              <form method="POST">
+              <form method="POST" id="list_editor">
                 {% csrf_token %}
                 <div class="row">
                   <div class="large-4 large-centered columns">
@@ -227,7 +227,7 @@
                   </div>
                 </div>
 
-                <input id="submit" class="secondary button tiny radius" value="Edit">
+                <button id="submit" class="secondary button tiny radius" value="Edit">Edit</button>
                 <a class="close-reveal-modal">&#215;</a>
                 <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
               </form>
@@ -288,7 +288,7 @@
         input.setAttribute("name", "subject"+subjects);
         document.getElementById("subject").value = "";
         subjects++;
-        
+
         document.getElementById("current_subjects").value = subjects;
         document.getElementById("subjects_list").appendChild(label);
         document.getElementById("subjects_list").appendChild(input);
@@ -317,6 +317,28 @@
     $(".Start").click(function(){
       var id = this.id;
       window.location += id;
+    });
+
+
+    $("#submit").click(function(){
+      $(function(){
+        $('#list_editor').submit(function(e){
+          e.preventDefault();
+          var form = $(this);
+          var post_data = form.serialize();
+          console.log(post_data);
+          $.ajax({
+            type: 'POST',
+            url: "",
+            data: post_data,
+            dataType: "text",
+
+            success: function(response) {
+              location.reload();
+            }
+          });
+        });
+      });
     });
 
     $('img').on('dragstart', function(event) { event.preventDefault(); });
