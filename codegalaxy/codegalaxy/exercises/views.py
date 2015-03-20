@@ -111,13 +111,15 @@ def editExercise(request, listId, exercise_id):
                                                         'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints})
 
+def importExercise(request, listId):
+    return render(request, 'importExercise.html')
+
 def InvalidOrRound(object):
     if object is None:
         object = "N/A"
     else:
         object = round(object)
     return object
-
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)

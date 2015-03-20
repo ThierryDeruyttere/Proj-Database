@@ -112,7 +112,12 @@
       <div class="row">
         <div class="large-2 right columns">
           {% if correct_user %}
-            <a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a>
+            <ul class="large-block-grid-3">
+              <li><a href="/l/{{ id }}/importExercise" class="button tiny radius">Import exercise</a></li>
+              <li></li>
+              <li><a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a></li>
+
+            </ul>
           {% endif %}
         </div>
         <div class="large-2 left columns">
