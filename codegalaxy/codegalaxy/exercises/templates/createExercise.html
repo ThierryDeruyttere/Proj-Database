@@ -1,108 +1,50 @@
 {% extends "codegalaxy.html" %}
 
 {% block base_body %}
-{% load staticfiles %}
+  {% load staticfiles %}
 
-<div class="row" xmlns="http://www.w3.org/1999/html">
-  <div class="large-12 columns">
-    <div class="panel">
-      <form method="post">
+  <div class="row" xmlns="http://www.w3.org/1999/html">
+    <div class="large-12 columns">
+      <div class="panel">
+        <form method="post">
 
-        {% csrf_token %}
-        <div class="row">
-
-          <hr>
+          {% csrf_token %}
           <div class="row">
-            <div class="text-center column">
-              <h3>
-                Create exercise
-              </h3>
-            </div>
-          </div>
 
-
-          <div class="row">
-            <div class="large-4 large-centered columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-4 columns">
-                  <span class="prefix">Exercise title</span>
-                </div>
-                <div class="small-8 columns">
-                  <input type="text" id="title" name="title"  class="text-center">
-                </div>
-              </div>
-            </div>
-          </div>
-
-
-          <div class="Diff">
+            <hr>
             <div class="row">
-              <div class="large-4 large-centered columns">
-                <div class="row">
-                  <div class="small-10 medium-11 columns">
-                    <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
-                      <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                      <span class="range-slider-active-segment"></span>
-                    </div>
-                  </div>
-                </div>
+              <div class="text-center column">
+                <h3>
+                  {% if edit %}
+                    Edit exercise
+                  {% else %}
+                    Create exercise
+                  {% endif %}
+                </h3>
               </div>
             </div>
+
 
             <div class="row">
               <div class="large-4 large-centered columns">
                 <div class="row collapse prefix-radius">
-                  <div class="small-3 columns">
-                    <span class="prefix">Difficulty</span>
+                  <div class="small-4 columns">
+                    <span class="prefix">Exercise title</span>
                   </div>
-                  <div class="small-9 columns">
-                    <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                  <div class="small-8 columns">
+                    <input type="text" id="title" name="title"  class="text-center" value="{{ exercise.title }}">
                   </div>
                 </div>
               </div>
             </div>
-          </div>
 
 
-
-          <div class="row">
-            <div class="large-5 large-centered columns">
-              Question
-              <textarea name="Question"></textarea>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-6 large-centered columns">
-              <label>Exercise Type:</label>
-              <input type="radio" name="exercise_type" value="Code" id="exercise_type_code"><label for="exercise_type_code">Code question</label>
-              <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open"><label for="exercise_type_open">Open question</label>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-4 large-centered columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-3 columns">
-                  <span class="prefix">Max score</span>
-                </div>
-                <div class="small-9 columns">
-                  <input type="text" id="max" name="max" readonly="True" class="text-center">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <hr>
-
-          <div class="row" id="Code_Question" hidden="True">
-            <div class="max_score">
+            <div class="Diff">
               <div class="row">
                 <div class="large-4 large-centered columns">
                   <div class="row">
                     <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
+                      <div class="range-slider round" data-slider="{{ exercise.difficulty }}" data-options="display_selector: #difficulty; start: 1; end: 5;">
                         <span class="range-slider-handle" role="slider" tabindex="0"></span>
                         <span class="range-slider-active-segment"></span>
                       </div>
@@ -111,26 +53,88 @@
                 </div>
               </div>
 
+              <div class="row">
+                <div class="large-4 large-centered columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-3 columns">
+                      <span class="prefix">Difficulty</span>
+                    </div>
+                    <div class="small-9 columns">
+                      <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-            <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-            <script src="{% static "codemirror/mode/python/python.js" %}"></script>
-            <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 
-            <div class ="row">
-              <div class="large-8 large-offset-1 columns">
 
-                <u>Code the user gets to see:</u>
+            <div class="row">
+              <div class="large-5 large-centered columns">
+                Question
+                <textarea name="Question">{{ exercise.question }}</textarea>
+              </div>
+            </div>
 
-                <textarea id="code" name="code"></textarea>
-                <script>
-                var myCodeMirror = CodeMirror.fromTextArea(code,
-                  {
-                    lineNumbers: true,
-                    mode: "python",
-                    theme: "monokai"
-                  });
+            <div class="row">
+              <div class="large-6 large-centered columns">
+                <label>Exercise Type:</label>
+                <input type="radio" name="exercise_type" value="Code" id="exercise_type_code"><label for="exercise_type_code">Code question</label>
+                <input type="radio" name="exercise_type" value="Open Question" id="exercise_type_open"><label for="exercise_type_open">Open question</label>
+
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="large-4 large-centered columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-3 columns">
+                    <span class="prefix">Max score</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" id="max" name="max" readonly="True" class="text-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <hr>
+
+            <div class="row" id="Code_Question" hidden="True">
+              <div class="max_score">
+                <div class="row">
+                  <div class="large-4 large-centered columns">
+                    <div class="row">
+                      <div class="small-10 medium-11 columns">
+                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
+                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                          <span class="range-slider-active-segment"></span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+
+              <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+              <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+              <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+              <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
+              <div class ="row">
+                <div class="large-8 large-offset-1 columns">
+
+                  <u>Code the user gets to see:</u>
+
+                  <textarea id="code" name="code">{{ exercise.code }}</textarea>
+                  <script>
+                    var myCodeMirror = CodeMirror.fromTextArea(code,
+                            {
+                              lineNumbers: true,
+                              mode: "python",
+                              theme: "monokai"
+                            });
                   </script>
                 </div>
               </div>
@@ -138,23 +142,23 @@
                 <div class="large-8 large-offset-1 columns">
 
                   <u>Expected output</u>
-                  <textarea id="output" name="output"></textarea>
+                  <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
                   <script>
-                  var myCodeMirror = CodeMirror.fromTextArea(output,
-                    {
-                      lineNumbers: true,
-                      mode: "python",
-                      theme: "monokai"
-                    });
-                    </script>
-                  </div>
-
+                    var myCodeMirror = CodeMirror.fromTextArea(output,
+                            {
+                              lineNumbers: true,
+                              mode: "python",
+                              theme: "monokai"
+                            });
+                  </script>
                 </div>
 
+              </div>
 
-                <!--
-                Tips
-              -->
+
+              <!--
+              Tips
+            -->
               <div class="row" id="Tips_Row" hidden>
                 <h3>Tips:</h3>
                 <div class="large-4 right columns">
@@ -225,116 +229,162 @@
       <span class="postfix fi-x" />
     </div>
   </div>
-  {% endblock base_body %}
+{% endblock base_body %}
 
-  {% block body_js %}
+{% block body_js %}
   <script>
 
-  var answers = 2
-  $("#add_answer").click(function(e) {
-    if(answers < 5) {
-      $("#max").val(++answers);
-      $("#wrapper_answer").append(
-        // Add the question template to the answer wrapper but change its id and the name of the input element :3
-        $("#question_template").clone().attr("id","answer"+answers).show()
-      );
-      reassignIDs();
-    }
-  });
-
-  function reassignIDs() {
-    var x = 0;
-    $.each($("[id^='answer']"), function() {
-      $(this).find("div.remove_answer").remove();
-      if(answers > 2) {
-        $(this).append(
-          $("<div/>", {"class":"small-1 columns remove_answer"}).append(
-            $("<span/>", {"class":"postfix fi-x"})
-          )
+    var answers = 2;
+    $("#add_answer").click(function(e) {
+      if(answers < 5) {
+        $("#max").val(++answers);
+        $("#wrapper_answer").append(
+                // Add the question template to the answer wrapper but change its id and the name of the input element :3
+                $("#question_template").clone().attr("id","answer"+answers).show()
         );
-      }
-      else {
-        $(this).append(
-          $("<div/>", {"class":"small-1 columns"})
-        );
-      }
-      $(this).find("div > input[type='text']").attr("name", "answer"+x);
-      $(this).find("div > input[type='radio']").attr("value", x.toString());
-      x++;
-    });
-  }
-
-  $("#wrapper_answer").on("click", ".remove_answer", function(e) {
-    if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
-      $(this).parent().fadeOut("slow", function() {
-        $(this).remove();
-        $("#max").val(--answers);
         reassignIDs();
-      })
-    }
-  });
-
-  $("input[type='radio'][name='exercise_type']").change(function() {
-    $("#Tips_Row").toggle();
-
-    if($("#exercise_type_code").is(":checked")) {
-      $("#Code_Question").show();
-      //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
-      //so we need to reset it
-      $('#slider').foundation('slider', 'set_value', 5);
-      $("#Open_Question").hide();
-    }
-    else if($('#exercise_type_open').is(":checked")) {
-      $("#Code_Question").hide();
-      $("#Open_Question").show();
-      $('#slider').foundation('slider', 'set_value', 2);
-    }
-  });
-
-  var hint_nmbr = 0;
-  $("#add_hint").click(function() {
-    if(hint_nmbr >= $("#max").val()){
-      return;
-    }
-
-    $("#Hints").append(
-      $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
-        $("<div/>", {"class":"large-5 large-centered columns"}).append(
-          $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
-        )
-      )
-    );
-
-    ++hint_nmbr;
-  });
-
-
-  $("#slider").change(function() {
-    var value = $(this).attr("data-slider"); //Value of slider;
-    console.log(value);
-    if((hint_nmbr - value) > 0) {
-      for(i = 0; i < (hint_nmbr-value);++i) {
-        $("#row"+(hint_nmbr-i)).remove();
-        hint_nmbr--;
       }
+    });
+
+    function reassignIDs() {
+      var x = 0;
+      $.each($("[id^='answer']"), function() {
+        $(this).find("div.remove_answer").remove();
+        if(answers > 2) {
+          $(this).append(
+                  $("<div/>", {"class":"small-1 columns remove_answer"}).append(
+                          $("<span/>", {"class":"postfix fi-x"})
+                  )
+          );
+        }
+        else {
+          $(this).append(
+                  $("<div/>", {"class":"small-1 columns"})
+          );
+        }
+        $(this).find("div > input[type='text']").attr("name", "answer"+x);
+        $(this).find("div > input[type='radio']").attr("value", x.toString());
+        x++;
+      });
     }
-  });
 
-  function removeHints(){
-    var value = document.getElementById("max").value;
-    if((hint_nmbr-value) > 0){
-      var span = document.getElementById("Hints");
-      for(i = 0; i < (hint_nmbr-value);++i){
+    $("#wrapper_answer").on("click", ".remove_answer", function(e) {
+      if(answers > 2 && $(this).parent().find("div>span>input:checked").length == 0) {
+        $(this).parent().fadeOut("slow", function() {
+          $(this).remove();
+          $("#max").val(--answers);
+          reassignIDs();
+        })
+      }
+    });
 
-        var name = "row"+ (hint_nmbr-i);
+    $("input[type='radio'][name='exercise_type']").change(function() {
+      $("#Tips_Row").toggle();
 
-        var obj = document.getElementById(name);
-        if(obj){
-          obj.parentNode.removeChild(obj);
+      if($("#exercise_type_code").is(":checked")) {
+        $("#Code_Question").show();
+        //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
+        //so we need to reset it
+        $('#slider').foundation('slider', 'set_value', 5);
+        $("#Open_Question").hide();
+      }
+      else if($('#exercise_type_open').is(":checked")) {
+        $("#Code_Question").hide();
+        $("#Open_Question").show();
+        $('#slider').foundation('slider', 'set_value', 2);
+      }
+    });
+
+    var hint_nmbr = 0;
+    $("#add_hint").click(function() {
+      if(hint_nmbr >= $("#max").val()){
+        return;
+      }
+
+      $("#Hints").append(
+              $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+                      $("<div/>", {"class":"large-5 large-centered columns"}).append(
+                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+                      )
+              )
+      );
+
+      ++hint_nmbr;
+    });
+
+    $("#slider").change(function() {
+      var value = $(this).attr("data-slider"); //Value of slider;
+      console.log(value);
+      if((hint_nmbr - value) > 0) {
+        for(i = 0; i < (hint_nmbr-value);++i) {
+          $("#row"+(hint_nmbr-i)).remove();
           hint_nmbr--;
         }
       }
+    });
+
+    function removeHints(){
+      var value = document.getElementById("max").value;
+      if((hint_nmbr-value) > 0){
+        var span = document.getElementById("Hints");
+        for(i = 0; i < (hint_nmbr-value);++i){
+
+          var name = "row"+ (hint_nmbr-i);
+
+          var obj = document.getElementById(name);
+          if(obj){
+            obj.parentNode.removeChild(obj);
+            hint_nmbr--;
+          }
+        }
+      }
     }
-  }
+
+    $(document).ready(function(){
+      {%  if exercise.exercise_type == "Open Question" %}
+        $("#Open_Question").show();
+        $('#exercise_type_open').prop('checked', true);
+        //Get the correct number of answers
+
+        var current_answers = {{ all_answers|length }};
+        for(var i = 0; i < (current_answers - answers); ++i){
+          $('#add_answer').trigger('click');
+        }
+
+        //Now lets fill these answers with the correct text!
+        var all_answers = [];
+        {% for a in all_answers %}
+          all_answers.push("{{ a }}");
+        {% endfor %}
+
+        for(var i = 0 ; i < all_answers.length; ++i){
+          $("input[name=" + '"answer' + i +"\"]").val(all_answers[i]);
+          if(i == {{ exercise.correct_answer }}){
+            //If correct answer, select this answers
+            $("input[value = i][type='radio']").prop("checked", true);
+          }
+        }
+
+        //set the right max score
+        $('#slider').foundation('slider', 'set_value', {{ exercise.max_score }});
+
+      {% else %}
+        $("#Code_Question").show();
+        $("#exercise_type_code").prop('checked', true);
+
+        //Same for hints!
+
+        var all_hints = [];
+        {% for h in all_hints %}
+          all_hints.push("{{ h }}");
+        {% endfor %}
+
+        var hints_length = {{ all_hints|length }};
+        for(var i = 0 ; i < hints_length; ++i){
+           $("#add_hint").trigger('click');
+
+        }
+      {% endif %}
+    });
   </script>
-  {% endblock body_js %}
+{% endblock body_js %}

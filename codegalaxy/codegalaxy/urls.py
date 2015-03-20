@@ -59,5 +59,8 @@ urlpatterns += patterns('codegalaxy.exercises.views',
     # Exercise page (/l/<id>/<question>)
     url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'answerQuestion'),
     # Submit exercise answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit')
+    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit'),
+
+    url(r'^l/(?P<listId>\d*)/(?P<exercise_id>\d*)/editExercise/$', 'editExercise'),
+
 )

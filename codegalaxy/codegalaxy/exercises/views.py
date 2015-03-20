@@ -1,3 +1,4 @@
+from django.core.context_processors import request
 from django.shortcuts import render, redirect
 
 import time
@@ -36,6 +37,77 @@ def createExerciseList(request):
 
     return render(request, 'createExerciseList.html', {"languages": languages})
 
+@require_login
+def createExercise(request, listId=0):
+    exercise_list = object_manager.createExerciseList(listId)
+    user = logged_user(request)
+    if request.method == 'POST':
+        exercise_difficulty = int(request.POST.get('difficulty'))
+        exercise_penalty = 1
+        exercise_question_text = request.POST.get('Question')
+        exercise_type = request.POST.get('exercise_type')
+        hints = []
+        exercise_title = request.POST.get('title')
+        exercise_number = exercise_list.getLastExercise() + 1
+        exercise_question = Question(exercise_question_text, 1)
+        exercise_answer = None
+        correct_answer = 1
+
+        code = request.POST.get('code', '')
+        exercise_max_score = int(request.POST.get('max', '1'))
+
+        if(exercise_type == 'Open Question'):
+            answer = []
+            for i in range(exercise_max_score + 1):
+                cur_answer = request.POST.get("answer" + str(i), "")
+                if cur_answer != "":
+                    answer.append(cur_answer)
+
+            exercise_answer = answer
+            correct_answer = request.POST.get("correct_answer")
+            exercise_penalty = 3
+
+        else:
+            expected_answer = request.POST.get("output")
+            exercise_answer = [expected_answer]
+
+            for j in range(1, exercise_max_score + 1):
+                cur_hint = request.POST.get("hint" + str(j), "")
+                if cur_hint != "":
+                    hints.append(cur_hint)
+
+        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
+        return redirect("/l/" + str(listId))
+
+    if exercise_list:
+        if exercise_list.created_by != user.id:
+            return redirect('/')
+        else:
+            return render(request, 'createExercise.html', {'edit': False})
+
+    return redirect('/')
+
+@require_login
+def editExercise(request, listId, exercise_id):
+    #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
+    languages = object_manager.allProgrammingLanguages()
+    exercise_list = object_manager.createExerciseList(listId)
+    if exercise_list and logged_user(request).id == exercise_list.created_by:
+        #Extra check so you can't just surf to the url and edit the exercise
+        language = request.META['LANGUAGE'].split('_')[0]
+        exercise = object_manager.createExercise(exercise_id, language)
+        all_answers = exercise.allAnswers()
+        expected_code_answer = None
+        for i,ans in enumerate(all_answers):
+            if i == exercise.correct_answer-1:
+                expected_code_answer = ans
+                break
+
+        return render(request, 'createExercise.html', {'edit': True,
+                                                       'exercise': exercise,
+                                                       'all_answers': all_answers,
+                                                        'expected_code_answer': expected_code_answer,
+                                                       'all_hints': exercise.allHints()})
 
 def InvalidOrRound(object):
     if object is None:
@@ -43,7 +115,6 @@ def InvalidOrRound(object):
     else:
         object = round(object)
     return object
-
 
 
 def list(request, id=0):
@@ -151,63 +222,11 @@ def list(request, id=0):
                                              'number_of_users': number_of_users,
                                              'found': found,
                                              'cur_exercise': cur_exercise,
-                                             'percent': percent,
+                                             'percent': int(percent),
                                              'solved_all': solved_all,
                                              'user_rating': user_rating})
     else:
         return redirect('/')
-
-@require_login
-def createExercise(request, listId=0):
-    exercise_list = object_manager.createExerciseList(listId)
-    user = logged_user(request)
-    if request.method == 'POST':
-        exercise_difficulty = int(request.POST.get('difficulty'))
-        exercise_penalty = 1
-        exercise_question_text = request.POST.get('Question')
-        exercise_type = request.POST.get('exercise_type')
-        hints = []
-        exercise_title = request.POST.get('title')
-
-        exercise_number = exercise_list.getLastExercise() + 1
-
-        exercise_question = Question(exercise_question_text, 1)
-        exercise_answer = None
-        correct_answer = 1
-
-        code = request.POST.get('code', '')
-        exercise_max_score = int(request.POST.get('max', '1'))
-
-        if(exercise_type == 'Open Question'):
-            answer = []
-            for i in range(exercise_max_score + 1):
-                cur_answer = request.POST.get("answer" + str(i), "")
-                if cur_answer != "":
-                    answer.append(cur_answer)
-
-            exercise_answer = answer
-            correct_answer = request.POST.get("correct_answer")
-            exercise_penalty = 3
-
-        else:
-            expected_answer = request.POST.get("output")
-            exercise_answer = [expected_answer]
-
-            for j in range(1, exercise_max_score + 1):
-                cur_hint = request.POST.get("hint" + str(j), "")
-                if cur_hint != "":
-                    hints.append(cur_hint)
-
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
-        return redirect("/l/" + str(listId))
-
-    if exercise_list:
-        if exercise_list.created_by != user.id:
-            return redirect('/')
-        else:
-            return render(request, 'createExercise.html', '')
-    return redirect('/')
-
 
 @require_login
 def answerQuestion(request, list_id, question_id):

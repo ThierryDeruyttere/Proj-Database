@@ -30,13 +30,13 @@ class Exercise:
         @param language_name the name of the language (English, etc..)
         @param title the title of the exercise
         '''
-        self.id = id
+        self.id = int(id)
         # (Integer ranging from 1-5)
-        self.difficulty = difficulty
+        self.difficulty = int(difficulty)
         # you start at the max_score, and with each wrong guess
         # the penalty gets substracted from it
-        self.max_score = max_score
-        self.penalty = penalty
+        self.max_score = int(max_score)
+        self.penalty = int(penalty)
         # states whether an exercise is multiple choice or a coding one
         self.exercise_type = exercise_type
         # Programming language the question is about (string)
@@ -48,7 +48,7 @@ class Exercise:
         # Language the question is in (string)
         self.language_name = language_name
         # ID of the correct answer
-        self.correct_answer = correct_answer
+        self.correct_answer = int(correct_answer)
         # Django code for the name
         self.language_code = language_code
         # Exercise title
