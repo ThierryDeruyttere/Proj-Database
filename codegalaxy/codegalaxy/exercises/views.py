@@ -103,6 +103,7 @@ def editExercise(request, listId, exercise_id):
                 if i == exercise.correct_answer-1:
                     expected_code_answer = ans
                     break
+                    
         all_hints = exercise.allHints()
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,

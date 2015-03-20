@@ -204,7 +204,11 @@
 
             <div class="row">
               <div class="large-text-center">
-                <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
+                {% if edit %}
+                  <input type="submit" name="submit" class="button tiny radius" value="Edit exercise">
+                {% else %}
+                  <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
+                {% endif %}
               </div>
             </div>
           </div>
