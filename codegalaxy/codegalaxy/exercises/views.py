@@ -97,17 +97,18 @@ def editExercise(request, listId, exercise_id):
         language = request.META['LANGUAGE'].split('_')[0]
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
-        expected_code_answer = None
-        for i,ans in enumerate(all_answers):
-            if i == exercise.correct_answer-1:
-                expected_code_answer = ans
-                break
-
+        expected_code_answer = ""
+        if exercise.exercise_type == "code":
+            for i,ans in enumerate(all_answers):
+                if i == exercise.correct_answer-1:
+                    expected_code_answer = ans
+                    break
+        all_hints = exercise.allHints()
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
                                                         'expected_code_answer': expected_code_answer,
-                                                       'all_hints': exercise.allHints()})
+                                                       'all_hints': all_hints})
 
 def InvalidOrRound(object):
     if object is None:
