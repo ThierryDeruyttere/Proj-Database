@@ -523,6 +523,12 @@ def getMadeListForUserForList(user_id, list_id):
     cursor.close()
     return fetched
 
+def getOriginalExercise(list_id, exercise_number):
+    cursor = connection.cursor()
+    cursor.execute('SELECT original_id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number}'.format(list_id=list_id, exercise_number = exercise_number))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
@@ -613,11 +619,13 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, CURDATE());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
-
-def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on):
+def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}");'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on))
+    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id});'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id))
 
+def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number) VALUES({o_id},{l_id},{n_l_e_n});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number))
 
 # UPDATE
 
@@ -686,7 +694,6 @@ def userIsInGroup(user_id, group_id):
     if fetched is None:
         return False
     return True
-
 
 def countExerciseListsForProgrammingLanguageID(prog_lang_id):
     cursor = connection.cursor()
@@ -764,6 +771,18 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
     fetched = processData(cursor)
     cursor.close()
     return fetched
+
+def copyExercise(original_exercise_id):
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id))
+
+    # Returns last added id (keeps on counting even through deletes?) AKA the one just added
+    cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
+    new_id = processOne(cursor)['highest_id']
+    cursor.execute('INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for) SELECT answer_number, answer_text, language_id, {id} AS is_answer_for FROM answer WHERE is_answer_for = {or_id};'.format(id=new_id, or_id=original_exercise_id))
+
+    cursor.close()
+    return new_id
 
 # USER VERIFICATION
 def needsVerification(hash):

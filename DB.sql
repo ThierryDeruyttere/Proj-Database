@@ -85,6 +85,12 @@ CREATE TABLE exercise(
   PRIMARY KEY(id)
 );
 
+CREATE TABLE exercise_references(
+  original_id INT NOT NULL,
+  new_list_id INT NOT NULL,
+  new_list_exercise_number INT NOT NULL
+);
+
 CREATE TABLE answer(
   answer_number INT NOT NULL,
   answer_text BLOB NOT NULL,
@@ -110,6 +116,7 @@ CREATE TABLE madeEx(
   exercise_score INT NOT NULL,
   rating INT,
   completed_on DATE,
+  list_id INT,
   FOREIGN KEY (user_id) REFERENCES user(id),
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   PRIMARY KEY(user_id, exercise_id)

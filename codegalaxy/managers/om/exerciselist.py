@@ -1,5 +1,6 @@
 import dbw
 import managers.om.exercise
+import managers.om.objectmanager
 
 class ExerciseList:
 
@@ -123,6 +124,26 @@ class ExerciseList:
         exercise = object_manager.createExercise(exercise_id, language_code)
 
         exercise.update(correct_answer, answers, hints)
+
+    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number):
+        dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
+
+    def unreferenceExercise(self, exercise_number):
+        # to 'unreference' something, we have to add it to the DB
+        # NOTE: all the answers and questions and stuff will also have to be added!
+        object_manager = managers.om.objectmanager.ObjectManager()
+        # first, we'll have to look up what the original exercise was
+        original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['original_id'])
+        new_id = dbw.copyExercise(original_ex_id)
+        #original = object_manager.createExercise(original_ex_id)
+        # adding all that data to the DB (currently)
+        #unreferenced_exercise['highest_id'] = int(self.insertExercise(original.difficulty, original.max_score, original.penalty
+        #, original.exercise_type, original.created_by, original.created_on
+    #    , original.exercise_number, original.question, original.answers
+    #    , original.correct_answer, original.hints, original.language_code, original.title, original.code))
+        # copying answers (every language)
+        #answers = original.allAnswers()
+        return new_id
 
     def getLastExercise(self):
         if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:
