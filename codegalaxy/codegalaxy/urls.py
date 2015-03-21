@@ -31,6 +31,10 @@ urlpatterns = patterns('codegalaxy.views',
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
+    ## MISC ##
+    # Sandbox page #
+    url(r'^sandbox/$', 'sandbox'),
+
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),
 
