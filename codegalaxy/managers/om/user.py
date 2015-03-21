@@ -21,6 +21,9 @@ class User:
         self.last_login = last_login
         self.gender = gender
 
+    def name(self):
+        return self.first_name + ' ' + self.last_name
+
     def updateProfile(self, email, password):
         dbw.updateUserInformation(self.id, email, password)
         return True

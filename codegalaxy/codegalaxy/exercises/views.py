@@ -103,7 +103,7 @@ def editExercise(request, listId, exercise_id):
                 if i == exercise.correct_answer-1:
                     expected_code_answer = ans
                     break
-                    
+
         all_hints = exercise.allHints()
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
@@ -134,6 +134,8 @@ def list(request, id=0):
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language_string
+    creator = exercise_list.creatorName()
+    created_on = exercise_list.created_on
 
     if subjects is None:
         subjects = []
@@ -210,7 +212,9 @@ def list(request, id=0):
         if percent == 100:
             solved_all = True
 
-        user_rating = logged_user(request).getRatingForList(exercise_list.id)
+        user_rating = 0
+        if logged_user(request):
+            user_rating = logged_user(request).getRatingForList(exercise_list.id)
 
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
@@ -228,7 +232,9 @@ def list(request, id=0):
                                              'cur_exercise': cur_exercise,
                                              'percent': int(percent),
                                              'solved_all': solved_all,
-                                             'user_rating': user_rating})
+                                             'user_rating': user_rating,
+                                             'creator': creator,
+                                             'created_on': created_on})
     else:
         return redirect('/')
 

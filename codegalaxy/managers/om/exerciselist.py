@@ -17,6 +17,11 @@ class ExerciseList:
     def __str__(self):
         return self.name + ' ' + str(self.difficulty) + ' ' + self.description + ' ' + str(self.created_by) + ' ' + str(self.created_on)
 
+    def creatorName(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+        creator = object_manager.createUser(id = self.created_by)
+        return creator.name()
+
     # List of subjects
     def allSubjects(self):
         subjects_info = dbw.getSubjectsForList(self.id)
