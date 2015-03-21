@@ -877,3 +877,11 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     fetched = processData(cursor)
     cursor.close()
     return fetched
+
+
+def filterLists(name):
+    cursor = connection.cursor()
+    cursor.execute('select DISTINCT eL.* from exercise e, exerciseList eL WHERE e.title LIKE "%{name}%" OR eL.name LIKE "%{name}%";'.format(name = name))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched

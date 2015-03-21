@@ -148,7 +148,7 @@ class ExerciseList:
                 return max(dbw.getLastExerciseFromList(self.id)["last_exercise_number"], dbw.getLastReferenceFromList(self.id)["last_exercise_number"])
 
 
-    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number=0):
+    def insertExerciseByReference(self, original_exercise_id):
         new_list_exercise_number = self.getLastExercise() + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
 

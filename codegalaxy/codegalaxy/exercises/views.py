@@ -122,8 +122,39 @@ def editExercise(request, listId, exercise_id):
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
-                                                        'expected_code_answer': expected_code_answer,
+                                                       'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints})
+
+def createImportHTML(all_lists, all_exercises):
+    html = ""
+    for list in all_lists:
+
+        html += """<li class=\"accordion-navigation\">
+            <a href="#Exerc{list_id}">{list_name}</a>
+            <div id="Exerc{list_id}" class="content">
+            <div class="row">
+            <div class="large-centered columns">
+            <table>
+            <thead>
+            <tr>
+            <th width="200">Title</th>
+            <th width="150">copy original</th>
+            <th width="150">reference</th>
+            </tr>
+            </thead>""".format(list_id = list.id, list_name = list.name)
+        for exercise in all_exercises[list.id]:
+            html += """<tbody>
+                <td>{title}</td>
+                <td><input id="checkbox_copy{id}" name="checkbox_copy{id}" type="checkbox"></td>
+                <td><input id="checkbox_import{id}" name="checkbox_import{id}" type="checkbox"></td>
+                </tbody>""".format(title = exercise.title, id=exercise.id)
+
+        html+="""</table>
+                </div>
+                </div>
+                </div>
+                </li>"""
+    return html
 
 @require_login
 def importExercise(request, listId):
@@ -131,6 +162,10 @@ def importExercise(request, listId):
     if exercise_list:
         if exercise_list.created_by == logged_user(request).id:
             all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+            if request.method == "GET":
+                if request.GET['search_input'] != "":
+                    all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
+
             all_lists = []
             for i in all_lists_id:
                 all_lists.append(object_manager.createExerciseList(i))
@@ -138,6 +173,26 @@ def importExercise(request, listId):
             all_exercises = {}
             for i in all_lists:
                 all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
+
+            if request.method == "GET":
+                return HttpResponse(createImportHTML(all_lists, all_exercises))
+
+            if request.method == "POST":
+                copies = []
+                references = []
+                for i in all_exercises.values():
+                    for ex in i:
+                        copy = request.POST.get('checkbox_copy'+str(ex.id))
+                        ref = request.POST.get('checkbox_import'+str(ex.id))
+                        if copy is not None:
+                            copies.append(ex)
+                        else:
+                            if ref is not None:
+                                references.append(ex)
+
+                                #for ref in references:
+                                #    exercise_list.insertExerciseByReference(ref.id)
+
 
             return render(request, 'importExercise.html', {'all_lists': all_lists,
                                                            'all_exercises': all_exercises})
@@ -232,7 +287,7 @@ def list(request, id=0):
             found = False
             cur_exercise = all_exercises[0].id
         elif percent > 0 and len(all_exercises) > percent :
-                cur_exercise = all_exercises[percent].id
+            cur_exercise = all_exercises[percent].id
 
         if len(all_exercises) > 0:
             percent = percent/len(all_exercises) * 100

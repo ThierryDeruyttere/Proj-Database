@@ -178,3 +178,7 @@ class ObjectManager:
 
     def amountOfLists(self):
         return len(dbw.allExerciseListIDs())
+
+    def filterImportsLists(self, name):
+        lists = dbw.filterLists(name)
+        return [list_id['id'] for list_id in lists]
