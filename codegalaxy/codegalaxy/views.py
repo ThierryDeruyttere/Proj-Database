@@ -372,6 +372,7 @@ def verify(request, hash_seq):
 def test(request, id=0):
     # Quick tests/changes
     exercise_test = object_manager.createExercise(1, 'en')
+    print(exercise_test)
     exercise_test2 = object_manager.createExercise(1, 'en')
     #exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
@@ -423,11 +424,11 @@ def test(request, id=0):
     exercise_list_test.description = "no"
     exercise_list_test.programming_language = 2
     #reference test -> copying multiple times???
-    exercise_list_test.insertExerciseByReference(1, 1)
-    new_id = exercise_list_test.unreferenceExercise(1)
-    print(new_id)
-    exercise_test2 = object_manager.createExercise(new_id,'en')
-    print(exercise_test2)
+    #exercise_list_test.insertExerciseByReference(1, 1)
+    #new_id = exercise_list_test.unreferenceExercise(1)
+    #print(new_id)
+    #exercise_test3 = object_manager.createExercise(new_id,'en')
+    #print(exercise_test3)
 
     # testfunction11
     subjects = exercise_list_test.allSubjects()

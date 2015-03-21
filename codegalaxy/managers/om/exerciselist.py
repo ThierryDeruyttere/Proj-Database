@@ -47,8 +47,12 @@ class ExerciseList:
 
     # List of exercises
     def allExercises(self, language_code):
+        # Getting all original exercise_ids
         exercises_infos = dbw.getExercisesForList(self.id)
+        # Getting all references
+        exercise_references_infos = dbw.getExerciseReferencesForList(self.id)
         object_manager = managers.om.objectmanager.ObjectManager()
+        exercises_infos += exercise_references_infos
         exercises = []
         if exercises_infos:
             # We'll put the info in a regular list

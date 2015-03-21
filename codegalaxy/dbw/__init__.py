@@ -239,7 +239,14 @@ def getExercisesForList(list_id):
     @return returns a dict with exercises
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT e.id FROM exerciseList eL, exercise e WHERE eL.id = {id} AND e.exerciseList_id = eL.id;'.format(id=list_id))
+    cursor.execute('SELECT e.id FROM exercise e WHERE e.exerciseList_id = {id};'.format(id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getExerciseReferencesForList(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT e.original_id AS id FROM exercise_references e WHERE e.new_list_id = {id};'.format(id=list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
