@@ -799,6 +799,13 @@ def copyExercise(original_exercise_id, exercise_number):
     cursor.close()
     return new_id
 
+def isReference(list_id, exercise_number):
+    original = getOriginalExercise(list_id, exercise_number)
+    if original:
+        return True
+    else:
+        return False
+
 # USER VERIFICATION
 def needsVerification(hash):
     cursor = connection.cursor()

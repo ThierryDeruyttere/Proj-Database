@@ -137,12 +137,26 @@ class Exercise:
         self.updateAnswers(answers)
         self.updateHints(hints)
 
-    def save(self):
-        # we gotta check if this is a reference i guess?
+    def save(self, user_id = "None"):
         '''
-        @brief saves the exercise in the database
+        @brief saves/dereferences the exercise in the database
         '''
-        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
+        # we gotta check if this is a reference
+        if dbw.isReference(self.exerciseList_id, self.exercise_number):
+            # Now we unreference the exercise
+            import managers.om.objectmanager
+            object_manager = managers.om.objectmanager.ObjectManager()
+            our_list = object_manager.createExerciseList(self.exerciseList_id)
+            new_id = our_list.unreferenceExercise(self.exercise_number)
+            self.id = new_id
+            if user_id is not None:
+                # created_by/on need to be edited
+                self.created_by = user_id
+                import time
+                self.created_on = str(time.strftime("%Y-%m-%d"))
+            dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
+        else:
+            dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
 
 class Question:
 

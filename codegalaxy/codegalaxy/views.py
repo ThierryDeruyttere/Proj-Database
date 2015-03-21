@@ -426,15 +426,17 @@ def test(request, id=0):
     #reference test -> copying multiple times???
     exercise_list_test.insertExerciseByReference(1, 3)
     exercise_list_test.insertExerciseByReference(2, 4)
-    new_id = exercise_list_test.unreferenceExercise(3)
-    print(new_id)
-    exercise_test3 = object_manager.createExercise(new_id,'en')
-    print(exercise_test3)
+    #new_id = exercise_list_test.unreferenceExercise(3)
+    #print(new_id)
+    #exercise_test3 = object_manager.createExercise(new_id,'en')
+    #print(exercise_test3)
 
     # testfunction11
     subjects = exercise_list_test.allSubjects()
     # testfunction12
     exercises = exercise_list_test.allExercises('en')
+    exercises[2].penalty = 3
+    exercises[2].save()
     # testfunction13
     members = group_test.allMembers()
 
