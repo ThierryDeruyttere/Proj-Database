@@ -126,7 +126,6 @@ CREATE TABLE question(
   id INT NOT NULL AUTO_INCREMENT,
   question_text BLOB NOT NULL,
   language_id INT,
-  correct_answer INT,
   exercise_id INT,
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   FOREIGN KEY (language_id) REFERENCES language(id),

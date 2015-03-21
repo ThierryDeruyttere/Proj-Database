@@ -661,11 +661,13 @@ def updateListRating(list_id, user_id, list_rating):
     cursor.execute('UPDATE madeList SET rating = {rating} WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(rating = list_rating, list_id = list_id, user_id = user_id))
 
 
-def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
-    print(created_on)
+def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = "{crtd_on}", exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id} WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id))
+    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = "{crtd_on}", exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id}, title = "{title}" WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
 
+def updateQuestion(question_text,lang_id,ex_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id,question_text=question_text))
 
 def updateFriendship(user_id, friend_id):
     '''

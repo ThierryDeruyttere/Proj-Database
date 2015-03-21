@@ -95,6 +95,17 @@ def editExercise(request, listId, exercise_id):
     #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
+    if request.method == 'POST':
+        language = request.META['LANGUAGE'].split('_')[0]
+        exercise = object_manager.createExercise(exercise_id, language)
+        exercise.difficulty = int(request.POST.get('difficulty'))
+        exercise.question = request.POST.get('Question')
+        exercise.title = request.POST.get('title')
+        print(exercise.question)
+        exercise.save()
+        exercise = object_manager.createExercise(exercise_id)
+        return redirect("/l/" + str(listId))
+
     if exercise_list and logged_user(request).id == exercise_list.created_by:
         #Extra check so you can't just surf to the url and edit the exercise
         language = getBrowserLanguage(request)

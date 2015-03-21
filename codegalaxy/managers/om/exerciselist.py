@@ -138,7 +138,7 @@ class ExerciseList:
 
         exercise.update(correct_answer, answers, hints)
 
-    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number):
+    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number=getLastExercise() + 1):
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
 
     def unreferenceExercise(self, exercise_number):
