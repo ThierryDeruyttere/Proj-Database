@@ -14,7 +14,7 @@
 <div class="row">
   <div class="large-3 columns text-center ">
     <div class="panel">
-      <a href="#"><img src="{% static "media/user.png" %}"/></a>
+      <a href="#"><img src="{% static profile_picture %}"/></a>
       <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
 
       <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
@@ -49,7 +49,7 @@
       {% endfor %}
       {% if my_profile %}
       <div class="content" id="edit_profile">
-        <form method="POST" action="/u/{{user.id}}/" data-abide>
+        <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
           {% csrf_token %}
           <div class="row collapse">
             <div class="small-2 columns">
@@ -60,6 +60,7 @@
               <small class="error">Enter a valid Email Address.</small>
             </div>
           </div>
+
           <div class="row collapse">
             <div class="small-2 columns ">
               <span class="prefix"><i class="fi-lock size-28"></i></span>
@@ -69,6 +70,10 @@
               <small class="error">Enter a valid password.</small>
             </div>
           </div>
+          <h5>Upload profile picture</h5>
+          <p>
+                    <input id="id_image" type="file" class="" name="image">
+                </p>
           <input type="submit" value="Edit" name="update_profile" class="button"/>
         </form>
         <hr/>
@@ -78,7 +83,7 @@
         {% for item in data %}
         {% if item.type == 'friendship' %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static profile_picture %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
@@ -90,7 +95,7 @@
         {% if item.type == 'group_member'%}
         {% if item.group_type == 0 %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static profile_picture %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
@@ -103,7 +108,7 @@
         {% endif %}
         {% if item.type == 'exerciseList'%}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static profile_picture %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
@@ -131,7 +136,7 @@
       <div class="content" id="friends">
         {% for friendship in pending_friendships %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static profile_picture %}"/></div>
           <div class="large-10 columns">
             <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
             <ul class="button-group radius">

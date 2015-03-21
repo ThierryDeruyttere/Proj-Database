@@ -17,12 +17,19 @@ from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
 
+
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
+def defaultContext(id):
+    profile_picture = "profile_pictures/{}.png".format(id)
+
+    context = {'profile_picture': profile_picture}
+    
+    return context
 
 def home(request):
     current_user = logged_user(request)
@@ -56,11 +63,18 @@ def user(request, id=0):
             user.declineFriendship(friend_id)
 
         elif 'update_profile' in request.POST:
+            f = request.FILES['image']
+
+            destination = open(
+                './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png', 'wb+')
+
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
+
             new_password = hashlib.md5(
                 request.POST.get('new_password').encode('utf-8')).hexdigest()
-            print(new_password)
             new_email = request.POST.get('new_email')
-            print(new_email)
             user.updateProfile(new_email, new_password)
 
     already_friends = False
@@ -75,14 +89,17 @@ def user(request, id=0):
                 friend.last_name = friend.last_name[:10] + '...'
             if len(friend.first_name) > 12:
                 friend.first_name = friend.first_name[:10] + '...'
-        # making into a list of lists to facilitate looping/ordering (6 friends/row?)
-        friend_list = [friend_list_temp[i:i + 4] for i in range(0, len(friend_list_temp), 4)]
+        # making into a list of lists to facilitate looping/ordering (6
+        # friends/row?)
+        friend_list = [friend_list_temp[i:i + 4]
+                       for i in range(0, len(friend_list_temp), 4)]
 
         group_list_temp = user.allGroups()
         for group in group_list_temp:
             if len(group.group_name) > 12:
                 group.group_name = group.group_name[:10] + '...'
-        group_list = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
+        group_list = [group_list_temp[i:i + 4]
+                      for i in range(0, len(group_list_temp), 4)]
         exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(
@@ -115,8 +132,11 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
 
+
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
+
+        context.update(defaultContext(id))
 
         if current_user.id == user.id:
             context['my_profile'] = True
@@ -131,6 +151,7 @@ def user(request, id=0):
 def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users': users})
+
 
 def register(request):
     # Check if we are already logged in
@@ -267,7 +288,8 @@ def group(request, id=0):
                 all_data.extend(member_of_groups)
                 all_data.extend(exercises_made)
 
-            all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+            all_data = sorted(
+                all_data, key=lambda k: k['datetime'], reverse=True)
 
         paginator = Paginator(all_data, 15)  # 10 items per page
 
@@ -294,7 +316,8 @@ def group(request, id=0):
             if not inList:
                 remaining_friends.append(friend)
 
-        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list': user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member}
+        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list':
+                   user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member}
         return render(request, 'group.html', context)
 
     else:
@@ -305,9 +328,12 @@ def group(request, id=0):
 def groupOverview(request):
     # Biggest Groups
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
-    color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
-    color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
-    bar_chart = graph_manager.makeBarChart('groups', 270, 180, [color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
+    color_info1 = graphmanager.ColorInfo(
+        "#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
+    color_info2 = graphmanager.ColorInfo(
+        "#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
+    bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
+                                           color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
@@ -316,13 +342,15 @@ def groupOverview(request):
         if len(group.group_name) > 12:
             group.group_name = group.group_name[:10] + '...'
 
-    groups = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
+    groups = [group_list_temp[i:i + 4]
+              for i in range(0, len(group_list_temp), 4)]
 
     if groups:
         return render(request, 'groupOverview.html', {'groups': groups, 'biggest_groups': bar_chart})
     # else:
         # return redirect('/')
     return redirect('/g/create')
+
 
 @require_login
 def groupCreate(request, id=0):
@@ -335,9 +363,11 @@ def groupCreate(request, id=0):
         group_type = request.POST.get('group_type')
         try:
             if group_type == 'on':
-                object_manager.insertGroup(group_name, 1, str(time.strftime("%Y-%m-%d")))
+                object_manager.insertGroup(
+                    group_name, 1, str(time.strftime("%Y-%m-%d")))
             else:
-                object_manager.insertGroup(group_name, 0, str(time.strftime("%Y-%m-%d")))
+                object_manager.insertGroup(
+                    group_name, 0, str(time.strftime("%Y-%m-%d")))
 
             # auto add user when making a private group?
 
@@ -367,6 +397,7 @@ def verify(request, hash_seq):
         return render(request, 'verify.html', {})
 
     return redirect('/')
+
 
 def test(request, id=0):
     # Quick tests/changes
@@ -444,12 +475,14 @@ def tables(request):
 def python(request):
     return render(request, 'python.html', {})
 
+
 def recommendations(request):
     user_test = object_manager.createUser(id=1)
     lists = user_test.allPersonalLists()
     b = recommendListsForUser(1)
     recommended = recommendNextExerciseLists(lists[0], 2)
     return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
+
 
 def graphs(request):
     # LINE CHART
@@ -460,29 +493,38 @@ def graphs(request):
 
     # PIE CHART
     stats = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    test_pie_graph = graph_manager.makePieChart('colours', 600, 400, graphmanager.color_tuples, stats['labels'], stats['data'])
+    test_pie_graph = graph_manager.makePieChart(
+        'colours', 600, 400, graphmanager.color_tuples, stats['labels'], stats['data'])
 
     # BARCHART
     stats = statistics_analyzer.biggestGroupsTopX(5)
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
-    test_bar_graph = graph_manager.makeBarChart('kek', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], "#members")
+    color_info1 = graphmanager.ColorInfo(
+        "rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo(
+        "rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
+    test_bar_graph = graph_manager.makeBarChart(
+        'kek', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], "#members")
 
     # BARCHART 2
     stats = statistics_analyzer.mostExerciseListsTopX(5)
-    test_bar_graph2 = graph_manager.makeBarChart('kek2', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["#exercises"])
+    test_bar_graph2 = graph_manager.makeBarChart('kek2', 600, 400, [
+                                                 color_info2, color_info1], stats['labels'], stats['data'], ["#exercises"])
 
     # BARCHART 3
-    stats = statistics_analyzer.compareUserExercisesPerProgrammingLanguageWithFriend(1, 2)
-    test_bar_graph3 = graph_manager.makeBarChart('kek3', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["user", "friend"])
+    stats = statistics_analyzer.compareUserExercisesPerProgrammingLanguageWithFriend(
+        1, 2)
+    test_bar_graph3 = graph_manager.makeBarChart('kek3', 600, 400, [
+                                                 color_info2, color_info1], stats['labels'], stats['data'], ["user", "friend"])
 
     # BARCHART 3
     stats = statistics_analyzer.mostPopularSubjectsTopX(1)
-    test_bar_graph4 = graph_manager.makeBarChart('kek4', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["subject"])
+    test_bar_graph4 = graph_manager.makeBarChart('kek4', 600, 400, [
+                                                 color_info2, color_info1], stats['labels'], stats['data'], ["subject"])
 
     # BARCHART 4
     stats = statistics_analyzer.listScoreSpread(1)
-    test_bar_graph5 = graph_manager.makeBarChart('kek5', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
+    test_bar_graph5 = graph_manager.makeBarChart(
+        'kek5', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
 
     return render(request, 'graphs.html', {'teststr': test_bar_graph2,
                                            'teststr2': test_pie_graph,
