@@ -439,6 +439,13 @@ def getLastExerciseFromList(ID):
     cursor.close()
     return fetched
 
+def getLastReferenceFromList(ID):
+    cursor = connection.cursor()
+    cursor.execute('SELECT max(new_list_exercise_number) AS last_exercise_number FROM exercise_references WHERE new_list_id = {list_id};'.format(list_id=ID))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def getMadeExercise(user_id, exercise_id):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc};'.format(user = user_id, exerc = exercise_id))

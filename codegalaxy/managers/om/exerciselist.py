@@ -138,7 +138,18 @@ class ExerciseList:
 
         exercise.update(correct_answer, answers, hints)
 
-    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number=getLastExercise() + 1):
+    def getLastExercise(self):
+        if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:
+            return 0
+        else:
+            if dbw.getLastReferenceFromList(self.id)["last_exercise_number"] == None:
+                return dbw.getLastExerciseFromList(self.id)["last_exercise_number"]
+            else:
+                return max(dbw.getLastExerciseFromList(self.id)["last_exercise_number"], dbw.getLastReferenceFromList(self.id)["last_exercise_number"])
+
+
+    def insertExerciseByReference(self, original_exercise_id, new_list_exercise_number=0):
+        new_list_exercise_number = self.getLastExercise() + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
 
     def unreferenceExercise(self, exercise_number):
@@ -151,9 +162,3 @@ class ExerciseList:
         #now we need to delete the reference from the DB
         dbw.deleteReference(self.id, exercise_number)
         return new_id
-
-    def getLastExercise(self):
-        if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:
-            return 0
-        else:
-            return dbw.getLastExerciseFromList(self.id)["last_exercise_number"]
