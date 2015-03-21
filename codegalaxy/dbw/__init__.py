@@ -694,7 +694,7 @@ def deleteSubjectFromHasSubject(list_id, subject_id):
 
 def deleteReference(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('DELETE FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {subject_id}'.format(new_list_exercise_number=exercise_number, list_id=list_id))
+    cursor.execute('DELETE FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {new_list_exercise_number}'.format(new_list_exercise_number=exercise_number, list_id=list_id))
 
 # TRIVIA
 
@@ -784,9 +784,9 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
     cursor.close()
     return fetched
 
-def copyExercise(original_exercise_id):
+def copyExercise(original_exercise_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id))
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number))
 
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
