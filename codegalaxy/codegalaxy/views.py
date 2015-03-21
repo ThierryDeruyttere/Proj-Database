@@ -31,7 +31,7 @@ def home(request):
     if current_user:
         friends = current_user.allFriends()
 
-    return render(request, 'home.html', {"user":current_user, "friends":friends})
+    return render(request, 'home.html', {"user": current_user, "friends": friends})
 
 
 @require_login
@@ -53,12 +53,11 @@ def user(request, id=0):
 
         elif 'update_profile' in request.POST:
             new_password = hashlib.md5(
-            request.POST.get('new_password').encode('utf-8')).hexdigest()
+                request.POST.get('new_password').encode('utf-8')).hexdigest()
             print(new_password)
             new_email = request.POST.get('new_email')
             print(new_email)
             user.updateProfile(new_email, new_password)
-
 
     already_friends = False
     if current_user:
@@ -68,17 +67,17 @@ def user(request, id=0):
         friend_list_temp = user.allFriends()
         # names seems too long? -> fix by changing the last part to '...'
         for friend in friend_list_temp:
-            if len(friend.last_name)>12:
-                friend.last_name = friend.last_name[:10]+'...'
-            if len(friend.first_name)>12:
-                friend.first_name = friend.first_name[:10]+'...'
+            if len(friend.last_name) > 12:
+                friend.last_name = friend.last_name[:10] + '...'
+            if len(friend.first_name) > 12:
+                friend.first_name = friend.first_name[:10] + '...'
         # making into a list of lists to facilitate looping/ordering (6 friends/row?)
         friend_list = [friend_list_temp[i:i + 4] for i in range(0, len(friend_list_temp), 4)]
 
         group_list_temp = user.allGroups()
         for group in group_list_temp:
-            if len(group.group_name)>12:
-                group.group_name = group.group_name[:10]+'...'
+            if len(group.group_name) > 12:
+                group.group_name = group.group_name[:10] + '...'
         group_list = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
         exercise_list = user.allPersonalLists()
 
@@ -156,7 +155,6 @@ def register(request):
         except:
             return render(request, 'register.html', {'error_register': True})
 
-
     return redirect('/')
 
 
@@ -222,7 +220,7 @@ def group(request, id=0):
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
-            group.insertMember(friend_id, 0 , str(time.strftime("%Y-%m-%d")))
+            group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")))
 
     is_member = False
     if group:
@@ -230,7 +228,7 @@ def group(request, id=0):
         user_list = group.allMembers()
 
         if group.group_type == 1:
-            #Only users in this group can access this page
+            # Only users in this group can access this page
             correct_user = False
             for u in user_list:
                 if u.id == user.id:
@@ -250,7 +248,6 @@ def group(request, id=0):
                 if user.email == user_list[x].email:
                     is_member = True
 
-
         accepted_friendships = []
         member_of_groups = []
         exercises_made = []
@@ -267,7 +264,6 @@ def group(request, id=0):
                 all_data.extend(exercises_made)
 
             all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
-
 
         paginator = Paginator(all_data, 15)  # 10 items per page
 
@@ -307,15 +303,14 @@ def groupOverview(request):
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
     color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
-    bar_chart = graph_manager.makeBarChart('groups',270,180,[color_info2,color_info1]
-    ,biggest_groups['labels'],biggest_groups['data'],"#members")
+    bar_chart = graph_manager.makeBarChart('groups', 270, 180, [color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
     group_list_temp = object_manager.allPublicGroups()
     for group in group_list_temp:
-        if len(group.group_name)>12:
-            group.group_name = group.group_name[:10]+'...'
+        if len(group.group_name) > 12:
+            group.group_name = group.group_name[:10] + '...'
 
     groups = [group_list_temp[i:i + 4] for i in range(0, len(group_list_temp), 4)]
 
@@ -331,7 +326,7 @@ def groupCreate(request, id=0):
     if request.method == 'POST':
         group_name = request.POST.get('group_name', '')
 
-        #!!!!!!
+        # !!!!!!
         # iemand een idee hoe ik uit een switch een waarde haal?
         group_type = request.POST.get('group_type')
         try:
@@ -344,7 +339,7 @@ def groupCreate(request, id=0):
 
             group = object_manager.createGroupOnName(group_name)
             group.insertMember(user.id, 2, str(time.strftime("%Y-%m-%d")))
-            return redirect('/g/'+str(group.id))
+            return redirect('/g/' + str(group.id))
 
         except:
             return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
@@ -373,7 +368,7 @@ def test(request, id=0):
     # Quick tests/changes
     exercise_test = object_manager.createExercise(1, 'en')
     exercise_test2 = object_manager.createExercise(1, 'en')
-    #exercise_test.difficulty = 9001
+    # exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
     exercise_test.update(2, new_answers, new_hints)
@@ -454,40 +449,40 @@ def recommendations(request):
 
 def graphs(request):
     # LINE CHART
-    #color_info = graphmanager.ColorInfo()
-    #test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
-    #,["January","February","March","April","May","June"]
-    #,[203,156,99,251,305,247])
+    # color_info = graphmanager.ColorInfo()
+    # test_line_graph = graph_manager.makeLineChart('Buyers',600,400,color_info
+    # ,["January","February","March","April","May","June"]
+    # ,[203,156,99,251,305,247])
 
-    #PIE CHART
+    # PIE CHART
     stats = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    test_pie_graph = graph_manager.makePieChart('colours',600,400,graphmanager.color_tuples,stats['labels'],stats['data'])
+    test_pie_graph = graph_manager.makePieChart('colours', 600, 400, graphmanager.color_tuples, stats['labels'], stats['data'])
 
-    #BARCHART
+    # BARCHART
     stats = statistics_analyzer.biggestGroupsTopX(5)
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
-    test_bar_graph = graph_manager.makeBarChart('kek',600,400,[color_info2,color_info1],stats['labels'],stats['data'],"#members")
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
+    test_bar_graph = graph_manager.makeBarChart('kek', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], "#members")
 
-    #BARCHART 2
+    # BARCHART 2
     stats = statistics_analyzer.mostExerciseListsTopX(5)
-    test_bar_graph2 = graph_manager.makeBarChart('kek2',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["#exercises"])
+    test_bar_graph2 = graph_manager.makeBarChart('kek2', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["#exercises"])
 
-    #BARCHART 3
-    stats = statistics_analyzer.compareUserExercisesPerProgrammingLanguageWithFriend(1,2)
-    test_bar_graph3 = graph_manager.makeBarChart('kek3',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["user","friend"])
+    # BARCHART 3
+    stats = statistics_analyzer.compareUserExercisesPerProgrammingLanguageWithFriend(1, 2)
+    test_bar_graph3 = graph_manager.makeBarChart('kek3', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["user", "friend"])
 
-    #BARCHART 3
+    # BARCHART 3
     stats = statistics_analyzer.mostPopularSubjectsTopX(1)
-    test_bar_graph4 = graph_manager.makeBarChart('kek4',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["subject"])
+    test_bar_graph4 = graph_manager.makeBarChart('kek4', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["subject"])
 
-    #BARCHART 4
+    # BARCHART 4
     stats = statistics_analyzer.listScoreSpread(1)
-    test_bar_graph5 = graph_manager.makeBarChart('kek5',600,400,[color_info2,color_info1],stats['labels'],stats['data'],["score"])
+    test_bar_graph5 = graph_manager.makeBarChart('kek5', 600, 400, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
 
-    return render(request, 'graphs.html', {'teststr': test_bar_graph2
-    , 'teststr2': test_pie_graph, 'teststr3': test_bar_graph
-    , 'teststr4': test_bar_graph3, 'teststr5': test_bar_graph4, 'teststr6': test_bar_graph5})
-
-def translation(request):
-    return HttpResponse(_("ENGLISH"));
+    return render(request, 'graphs.html', {'teststr': test_bar_graph2,
+                                           'teststr2': test_pie_graph,
+                                           'teststr3': test_bar_graph,
+                                           'teststr4': test_bar_graph3,
+                                           'teststr5': test_bar_graph4,
+                                           'teststr6': test_bar_graph5})

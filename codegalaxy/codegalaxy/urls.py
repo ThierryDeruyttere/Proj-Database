@@ -42,7 +42,6 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^tables/', 'tables'),
     url(r'^python$', 'python'),
     url(r'^graphs', 'graphs'),
-    url(r'translation', 'translation')
 )
 
 urlpatterns += patterns('codegalaxy.exercises.views',
