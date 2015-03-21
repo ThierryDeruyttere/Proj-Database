@@ -119,11 +119,15 @@ def editExercise(request, listId, exercise_id):
                     break
 
         all_hints = exercise.allHints()
+        amount_hints = 0
+        if all_hints is not None:
+            amount_hints = len(all_hints)
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
                                                        'expected_code_answer': expected_code_answer,
-                                                       'all_hints': all_hints})
+                                                       'all_hints': all_hints,
+                                                       'am_hints': amount_hints})
 
 def createImportHTML(all_lists, all_exercises):
     html = ""

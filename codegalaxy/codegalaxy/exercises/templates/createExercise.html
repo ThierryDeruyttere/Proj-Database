@@ -383,7 +383,7 @@
 
           all_hints.push("{{ h }}");
         {% endfor %}
-        var hints_length = {{ all_hints|length }};
+        var hints_length = {{ am_hints }};
         $("#output").CodeMirror.setValue("{{ expected_code_answer }}");
 
         for(var i = 1 ; i <= hints_length; ++i){
