@@ -129,11 +129,18 @@
               <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
               <div class="large-10 columns">
                 <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
-                <form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                <ul class="button-group radius">
+                <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
                   {% csrf_token %}
                   <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
-                  <input type="submit" name ='confirm_friendship' value="Confirm" class="button">
-                </form>
+                  <input type="submit" name ='confirm_friendship' value="Confirm" class="button success">
+                </form></li>
+                <li><form method="POST" id='decline_friendship' name='decline_friendship'>
+                  {% csrf_token %}
+                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.id }}">
+                  <input type="submit" name ='decline_friendship' value="Decline" class="button alert">
+                </form></li>
+                </ul>
               </div>
             </div>
             <hr/>

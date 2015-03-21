@@ -66,6 +66,9 @@ class User:
         for friendship in pending_friendships:
             print(friendship)
 
+    def declineFriendship(self, friend_id):
+        dbw.deleteFriendship(self.id, friend_id)
+
     def isFriend(self, friend):
         '''
         @brief Check if a User is a friend of this user

@@ -51,6 +51,10 @@ def user(request, id=0):
             friend_id = request.POST.get('user_id_to_confirm')
             user.confirmFriendship(friend_id)
 
+        elif 'decline_friendship' in request.POST:
+            friend_id = request.POST.get('user_id_to_decline')
+            user.declineFriendship(friend_id)
+
         elif 'update_profile' in request.POST:
             new_password = hashlib.md5(
                 request.POST.get('new_password').encode('utf-8')).hexdigest()

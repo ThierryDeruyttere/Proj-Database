@@ -662,6 +662,10 @@ def updateFriendship(user_id, friend_id):
 
 # DELETE
 
+def deleteFriendship(user_id, friend_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
+
 def deleteAnswers(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id=exercise_id))
