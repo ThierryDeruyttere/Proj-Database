@@ -30,8 +30,11 @@ def home(request):
     friends = []
     if current_user:
         friends = current_user.allFriends()
-
-    return render(request, 'home.html', {"user":current_user, "friends":friends})
+    recommended = recommendListsForUser(current_user.id)
+    recommended_lists = []
+    for recommended_list in recommended:
+        recommended_lists.append(object_manager.createExerciseList(recommended_list))
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists})
 
 
 @require_login
@@ -446,7 +449,7 @@ def tables(request):
     import dbw
     if request.method == 'GET':
         table = request.GET.get('sql_table', '')
-        if(table != ''):
+        if table != '':
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})

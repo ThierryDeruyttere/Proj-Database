@@ -119,6 +119,8 @@ def differenceInLists(list1, list2):
 
 # returns length of overlap by the amount of exercises the user made (*100)<-?
 def checkOverlapScore(user_lists, other_lists):
+    if len(user_lists) == 0:
+        return 0
     return (len([user_list for user_list in user_lists if user_list in other_lists]) / len(user_lists)) * 100
 
 # returns a list of lists with:
@@ -181,6 +183,7 @@ def selectExercises(pool, highest, amount=10):
         return [ex[0] for ex in sorted_pool]
     # select random ones out of the pool
     else:
+        # yet to implement
         pass
 
 #parameters are the things held in account for the recommendations

@@ -9,47 +9,54 @@
 {% block base_body %}
 
 {% if logged_in%}
+<div class="row">
+  <div class="large-3 columns ">
+    <div class="panel">
+      <a href="#"><img src="{% static "media/user.png" %}"/></a>
+      <h5><a href="#">{{user.first_name}} {{user.last_name}}</a></h5>
+    </div>
+  </div>
+  <div class="large-6 columns">
+    {% for userfriend in friends%}
+      {% for friend in userfriend.allFriends %}
       <div class="row">
-        <div class="large-3 columns ">
-          <div class="panel">
-            <a href="#"><img src="{% static "media/user.png" %}"/></a>
-            <h5><a href="#">{{user.first_name}} {{user.last_name}}</a></h5>
-          </div>
+        <div class="large-2 columns small-3"><img src={% static "rocket1.png" %}/></div>
+        <div class="large-10 columns">
+          <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong> {{friend.first_name}} {{friend.last_name}}</p>
+          <ul class="inline-list">
+            <li><a href="">Reply</a></li>
+            <li><a href="">Share</a></li>
+          </ul></strong>
+        <!--
+        <h6>2 Comments</h6>
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+          <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
         </div>
-        <div class="large-6 columns">
-          {% for userfriend in friends%}
-            {% for friend in userfriend.allFriends %}
-            <div class="row">
-              <div class="large-2 columns small-3"><img src={% static "rocket1.png" %}/></div>
-              <div class="large-10 columns">
-                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong> {{friend.first_name}} {{friend.last_name}}</p>
-                <ul class="inline-list">
-                  <li><a href="">Reply</a></li>
-                  <li><a href="">Share</a></li>
-                </ul></strong>
-              <!--
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div> -->
-          </div>
-          </div>
-
-            <hr/>
-            {% endfor %}
-          {% endfor %}
-
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
+          <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
         </div>
-        <aside class="large-3 columns hide-for-small">
-        </aside>
+      </div> -->
+    </div>
+    </div>
 
-      </div>
+      <hr/>
+      {% endfor %}
+    {% endfor %}
+
+  </div>
+  <aside class="large-3 columns hide-for-small">
+  </aside>
+  <div class="large-3 columns ">
+    <div class="panel callout radius">
+      Recommended Lists:<br/>
+      {% for recommended_list in recommended %}
+          <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+      {% endfor %}
+    </div>
+  </div>
+</div>
 
 
 {% else%}
