@@ -87,6 +87,9 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
+def getBrowserLanguage(request):
+    return request.META['LANGUAGE'].split('_')[0]
+
 @require_login
 def editExercise(request, listId, exercise_id):
     #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
@@ -94,7 +97,7 @@ def editExercise(request, listId, exercise_id):
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list and logged_user(request).id == exercise_list.created_by:
         #Extra check so you can't just surf to the url and edit the exercise
-        language = request.META['LANGUAGE'].split('_')[0]
+        language = getBrowserLanguage(request)
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
@@ -111,8 +114,25 @@ def editExercise(request, listId, exercise_id):
                                                         'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints})
 
+@require_login
 def importExercise(request, listId):
-    return render(request, 'importExercise.html')
+    exercise_list = object_manager.createExerciseList(listId)
+    if exercise_list:
+        if exercise_list.created_by == logged_user(request).id:
+            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+            all_lists = []
+            for i in all_lists_id:
+                all_lists.append(object_manager.createExerciseList(i))
+
+            all_exercises = {}
+            for i in all_lists:
+                all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
+
+            return render(request, 'importExercise.html', {'all_lists': all_lists,
+                                                           'all_exercises': all_exercises})
+
+
+    return redirect('/')
 
 def InvalidOrRound(object):
     if object is None:

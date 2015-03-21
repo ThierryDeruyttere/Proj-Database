@@ -1,5 +1,74 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load custom_filters %}
 {% block base_body %}
-k
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static "custom_css/importExercise.css" %}" />
+  </head>
+
+  <div class="row" id="search_panel">
+    <div class="large-10 large-centered columns">
+      <div class="panel callout radius info">
+        <input type="text" id="search_input" name="search_input" placeholder="List or exercise name">
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="search_result">
+    <div class="large-10 large-centered columns">
+      <div class="panel callout radius info">
+        <form>
+          {% csrf_token %}
+          <ul class="accordion" id="list_accordion" data-accordion>
+            {% for list in all_lists %}
+              <li class="accordion-navigation">
+                <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
+                <div id="Exerc{{ list.id }}" class="content">
+                  <div class="row">
+                    <div class="large-centered columns">
+                      <table>
+                        <thead>
+                        <tr>
+                          <th width="200">Title</th>
+                          <th width="150">copy original</th>
+                          <th width="150">reference</th>
+                        </tr>
+                        </thead>
+                        {% for e in all_exercises|for_key:list.id %}
+
+                          <tbody>
+                          <td>{{ e.title }}</td>
+                          <td><input id="checkbox_copy{{ e.id }}" type="checkbox"></td>
+                          <td><input id="checkbox_import{{ e.id }}" type="checkbox"></td>
+                          </tbody>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          <br/>
+          <div class="row">
+            <div class="large-text-center columns">
+              <input type="submit" class="button small radius" id="submit" name="submit" value="Import">
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
 {% endblock base_body %}
+{% block body_js %}
+  <script>
+    $(".accordion-navigation").click(function(event){
+      //Only call the animation when we click on the link
+      if($(event.target).is('a')){
+        $(this).find(".content").slideToggle("slow");
+      }
+    });
+
+  </script>
+{% endblock %}
