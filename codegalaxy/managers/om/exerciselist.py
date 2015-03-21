@@ -52,13 +52,17 @@ class ExerciseList:
         # Getting all references
         exercise_references_infos = dbw.getExerciseReferencesForList(self.id)
         object_manager = managers.om.objectmanager.ObjectManager()
-        exercises_infos += exercise_references_infos
         exercises = []
         if exercises_infos:
             # We'll put the info in a regular list
             exercises = []
             for exercise_id in exercises_infos:
                 exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
+            if exercise_references_infos:
+                for exercise_id in exercise_references_infos:
+                    referenced = object_manager.createExercise(exercise_id['id'], language_code)
+                    referenced.exercise_number = exercise_id['new_list_exercise_number']
+                    exercises.append(referenced)
             return exercises
         else:
             return []
@@ -139,14 +143,8 @@ class ExerciseList:
         # first, we'll have to look up what the original exercise was
         original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['original_id'])
         new_id = dbw.copyExercise(original_ex_id)
-        #original = object_manager.createExercise(original_ex_id)
-        # adding all that data to the DB (currently)
-        #unreferenced_exercise['highest_id'] = int(self.insertExercise(original.difficulty, original.max_score, original.penalty
-        #, original.exercise_type, original.created_by, original.created_on
-    #    , original.exercise_number, original.question, original.answers
-    #    , original.correct_answer, original.hints, original.language_code, original.title, original.code))
-        # copying answers (every language)
-        #answers = original.allAnswers()
+        #now we need to delete the reference from the DB
+        dbw.deleteReference(self.id, exercise_number)
         return new_id
 
     def getLastExercise(self):

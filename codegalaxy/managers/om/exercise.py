@@ -65,7 +65,7 @@ class Exercise:
         '''
         @brief string representation of exercise
         '''
-        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on)
+        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on) + ' ex number:' + str(self.exercise_number)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
@@ -138,6 +138,7 @@ class Exercise:
         self.updateHints(hints)
 
     def save(self):
+        # we gotta check if this is a reference i guess?
         '''
         @brief saves the exercise in the database
         '''

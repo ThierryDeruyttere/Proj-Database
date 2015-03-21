@@ -246,7 +246,7 @@ def getExercisesForList(list_id):
 
 def getExerciseReferencesForList(list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT e.original_id AS id FROM exercise_references e WHERE e.new_list_id = {id};'.format(id=list_id))
+    cursor.execute('SELECT e.original_id AS id,e.new_list_exercise_number FROM exercise_references e WHERE e.new_list_id = {id};'.format(id=list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -662,8 +662,9 @@ def updateListRating(list_id, user_id, list_rating):
 
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
+    print(created_on)
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id} WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id))
+    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = "{crtd_on}", exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id} WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id))
 
 
 def updateFriendship(user_id, friend_id):
@@ -690,6 +691,10 @@ def deleteHints(hint_id):
 def deleteSubjectFromHasSubject(list_id, subject_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM hasSubject WHERE exerciseList_id = {list_id} AND subject_id = {subject_id}'.format(subject_id=subject_id, list_id=list_id))
+
+def deleteReference(list_id, exercise_number):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {subject_id}'.format(new_list_exercise_number=exercise_number, list_id=list_id))
 
 # TRIVIA
 
