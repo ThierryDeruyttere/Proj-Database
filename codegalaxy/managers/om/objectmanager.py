@@ -175,3 +175,6 @@ class ObjectManager:
     def getAllScoresForList(self, exercise_list_id):
         scores = dbw.getAllScoresForList(exercise_list_id)
         return [score['score'] for score in scores]
+
+    def amountOfLists(self):
+        return len(dbw.allExerciseListIDs())

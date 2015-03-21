@@ -806,6 +806,13 @@ def isReference(list_id, exercise_number):
     else:
         return False
 
+def allExerciseListIDs():
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM exerciseList;')
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 # USER VERIFICATION
 def needsVerification(hash):
     cursor = connection.cursor()

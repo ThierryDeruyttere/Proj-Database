@@ -10,6 +10,7 @@ import hashlib
 import sys
 import re
 import time
+from random import randint
 
 from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
@@ -34,7 +35,7 @@ def home(request):
     recommended_lists = []
     for recommended_list in recommended:
         recommended_lists.append(object_manager.createExerciseList(recommended_list))
-    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists})
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': randint(1,object_manager.amountOfLists())})
 
 
 @require_login
