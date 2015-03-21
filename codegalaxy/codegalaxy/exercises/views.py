@@ -162,9 +162,8 @@ def importExercise(request, listId):
     if exercise_list:
         if exercise_list.created_by == logged_user(request).id:
             all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
-            if request.method == "GET":
-                if request.GET['search_input'] != "":
-                    all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
+            if request.method == "GET" and request.GET:
+                all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
             all_lists = []
             for i in all_lists_id:
@@ -174,7 +173,7 @@ def importExercise(request, listId):
             for i in all_lists:
                 all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
 
-            if request.method == "GET":
+            if request.method == "GET" and request.GET:
                 return HttpResponse(createImportHTML(all_lists, all_exercises))
 
             if request.method == "POST":
@@ -190,9 +189,11 @@ def importExercise(request, listId):
                             if ref is not None:
                                 references.append(ex)
 
-                                #for ref in references:
-                                #    exercise_list.insertExerciseByReference(ref.id)
 
+                for ref in references:
+                    exercise_list.insertExerciseByReference(ref.id)
+                for copy in copies:
+                    exercise_list.copyExercise(copy.id)
 
             return render(request, 'importExercise.html', {'all_lists': all_lists,
                                                            'all_exercises': all_exercises})
@@ -229,7 +230,6 @@ def list(request, id=0):
     if request.method == 'POST':
 
         if request.POST.get('rating') is not None and logged_user(request) is not None:
-            print("rating")
             logged_user(request).updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
         else:

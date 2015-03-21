@@ -793,9 +793,9 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
     cursor.close()
     return fetched
 
-def copyExercise(original_exercise_id, exercise_number):
+def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number))
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id = new_exercise_list_id))
 
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')

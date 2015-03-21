@@ -148,9 +148,11 @@ class ExerciseList:
                 return max(dbw.getLastExerciseFromList(self.id)["last_exercise_number"], dbw.getLastReferenceFromList(self.id)["last_exercise_number"])
 
 
+
     def insertExerciseByReference(self, original_exercise_id):
         new_list_exercise_number = self.getLastExercise() + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
+        return new_list_exercise_number
 
     def unreferenceExercise(self, exercise_number):
         # to 'unreference' something, we have to add it to the DB
@@ -158,7 +160,11 @@ class ExerciseList:
         object_manager = managers.om.objectmanager.ObjectManager()
         # first, we'll have to look up what the original exercise was
         original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['original_id'])
-        new_id = dbw.copyExercise(original_ex_id, exercise_number)
+        new_id = dbw.copyExercise(original_ex_id, exercise_number, self.id)
         #now we need to delete the reference from the DB
         dbw.deleteReference(self.id, exercise_number)
         return new_id
+
+    def copyExercise(self, original_exercise_id):
+        number = self.insertExerciseByReference(original_exercise_id)
+        self.unreferenceExercise(number)

@@ -29,12 +29,12 @@ def home(request):
     current_user = logged_user(request)
 
     friends = []
+    recommended_lists = []
     if current_user:
         friends = current_user.allFriends()
-    recommended = recommendListsForUser(current_user.id)
-    recommended_lists = []
-    for recommended_list in recommended:
-        recommended_lists.append(object_manager.createExerciseList(recommended_list))
+        recommended = recommendListsForUser(current_user.id)
+        for recommended_list in recommended:
+            recommended_lists.append(object_manager.createExerciseList(recommended_list))
     return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': randint(1,object_manager.amountOfLists())})
 
 
