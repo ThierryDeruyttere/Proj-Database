@@ -59,11 +59,11 @@ class ObjectManager:
 
 
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self, id, language_code = '%'):
+    def createExercise(self, id, language_code = 'en'):
         exercise_info = dbw.getExerciseInformation(id, language_code)
         if exercise_info:
             exercise_object = managers.om.exercise.Exercise(id, exercise_info['difficulty'],
-                                                            exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'])
+                                                            exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'], exercise_info['created_by'], exercise_info['created_on'], exercise_info['exercise_number'], exercise_info['exerciseList_id'])
             return exercise_object
         else:
             return None

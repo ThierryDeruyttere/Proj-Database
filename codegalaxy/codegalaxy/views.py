@@ -422,10 +422,13 @@ def test(request, id=0):
     exercise_list_test.difficulty = 4
     exercise_list_test.description = "no"
     exercise_list_test.programming_language = 2
+    #reference test -> copying multiple times???
     exercise_list_test.insertExerciseByReference(1, 1)
     new_id = exercise_list_test.unreferenceExercise(1)
-    exercise_test2 = object_manager.createExercise(new_id)
+    print(new_id)
+    exercise_test2 = object_manager.createExercise(new_id,'en')
     print(exercise_test2)
+
     # testfunction11
     subjects = exercise_list_test.allSubjects()
     # testfunction12

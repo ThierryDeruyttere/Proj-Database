@@ -14,7 +14,7 @@ class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
 
-    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title):
+    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title, created_by, created_on, exercise_number, exerciseList_id):
         '''
         @brief init for a exercise
         @param id id of the exercise
@@ -56,12 +56,16 @@ class Exercise:
         # Exercise is solved
         # Only for giving info to html templates
         self.solved = False
+        self.created_by = created_by
+        self.created_on = created_on
+        self.exercise_number = int(exercise_number)
+        self.exerciseList_id = int(exerciseList_id)
 
     def __str__(self):
         '''
         @brief string representation of exercise
         '''
-        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' ' + str(self.correct_answer) + ' ' + str(self.language_code)
+        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
@@ -129,6 +133,7 @@ class Exercise:
         @param hints the hints to update
         '''
         self.correct_answer = correct_answer
+        self.save()
         self.updateAnswers(answers)
         self.updateHints(hints)
 

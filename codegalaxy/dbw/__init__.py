@@ -656,7 +656,7 @@ def updateListRating(list_id, user_id, list_rating):
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exercise_list_id = {exerciseList_id}) WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id))
+    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = {crtd_on}, exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id} WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id))
 
 
 def updateFriendship(user_id, friend_id):
@@ -780,6 +780,9 @@ def copyExercise(original_exercise_id):
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
     new_id = processOne(cursor)['highest_id']
     cursor.execute('INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for) SELECT answer_number, answer_text, language_id, {id} AS is_answer_for FROM answer WHERE is_answer_for = {or_id};'.format(id=new_id, or_id=original_exercise_id))
+    cursor.execute('INSERT INTO hint(hint_text, hint_number, exercise_id, language_id) SELECT hint_text, hint_number,{id} AS exercise_id, language_id FROM hint WHERE exercise_id = {or_id};'.format(id=new_id, or_id=original_exercise_id))
+    cursor.execute('INSERT INTO code(code_text, exercise_id) SELECT code_text, {id} AS exercise_id FROM code WHERE exercise_id = {or_id};'.format(id=new_id, or_id=original_exercise_id))
+    cursor.execute('INSERT INTO question(question_text, language_id, exercise_id) SELECT question_text, language_id, {id} AS exercise_id FROM question WHERE exercise_id = {or_id};'.format(id=new_id, or_id=original_exercise_id))
 
     cursor.close()
     return new_id
