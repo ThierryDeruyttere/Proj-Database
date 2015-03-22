@@ -101,7 +101,6 @@ def editExercise(request, listId, exercise_id):
         exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
-        print(exercise.question)
         exercise.save()
         exercise = object_manager.createExercise(exercise_id)
         return redirect("/l/" + str(listId))
@@ -189,9 +188,9 @@ def importExercise(request, listId):
                         ref = request.POST.get('checkbox_import'+str(ex.id))
                         if copy is not None:
                             copies.append(ex)
-                        else:
-                            if ref is not None:
-                                references.append(ex)
+
+                        if ref is not None:
+                             references.append(ex)
 
 
                 for ref in references:

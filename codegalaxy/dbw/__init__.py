@@ -437,15 +437,16 @@ def getLastExerciseFromList(ID):
     cursor = connection.cursor()
     cursor.execute('SELECT max(exercise_number) AS last_exercise_number FROM exercise WHERE exerciseList_id = {list_id};'.format(list_id=ID))
     fetched = processOne(cursor)
-    cursor.close()
-    return fetched
-
-def getLastReferenceFromList(ID):
-    cursor = connection.cursor()
     cursor.execute('SELECT max(new_list_exercise_number) AS last_exercise_number FROM exercise_references WHERE new_list_id = {list_id};'.format(list_id=ID))
-    fetched = processOne(cursor)
+    reference_fetched = processOne(cursor)
     cursor.close()
-    return fetched
+
+    def max_numb(f):
+        if f['last_exercise_number'] is None:
+            return 0
+        return int(f['last_exercise_number'])
+
+    return max(fetched, reference_fetched, key=max_numb)
 
 def getMadeExercise(user_id, exercise_id):
     cursor = connection.cursor()
@@ -811,6 +812,8 @@ def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
 
 def isReference(list_id, exercise_number):
     original = getOriginalExercise(list_id, exercise_number)
+    print("original")
+    print(original)
     if original:
         return True
     else:

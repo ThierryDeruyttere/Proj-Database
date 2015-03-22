@@ -58,19 +58,18 @@ class ExerciseList:
         exercise_references_infos = dbw.getExerciseReferencesForList(self.id)
         object_manager = managers.om.objectmanager.ObjectManager()
         exercises = []
-        if exercises_infos:
-            # We'll put the info in a regular list
-            exercises = []
-            for exercise_id in exercises_infos:
-                exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
-            if exercise_references_infos:
-                for exercise_id in exercise_references_infos:
-                    referenced = object_manager.createExercise(exercise_id['id'], language_code)
-                    referenced.exercise_number = exercise_id['new_list_exercise_number']
-                    exercises.append(referenced)
-            return exercises
-        else:
-            return []
+        # We'll put the info in a regular list
+        for exercise_id in exercises_infos:
+            exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
+
+        for exercise_id in exercise_references_infos:
+            referenced = object_manager.createExercise(exercise_id['id'], language_code)
+            referenced.exercise_number = exercise_id['new_list_exercise_number']
+            exercises.append(referenced)
+
+        print(exercises)
+        return exercises
+
 
     def getExercise(self, id, language_code):
         for ex in allExercises(language_code):
@@ -139,18 +138,15 @@ class ExerciseList:
         exercise.update(correct_answer, answers, hints)
 
     def getLastExercise(self):
-        if dbw.getLastExerciseFromList(self.id)["last_exercise_number"] == None:
+        last = dbw.getLastExerciseFromList(self.id)["last_exercise_number"]
+        if last is None:
             return 0
         else:
-            if dbw.getLastReferenceFromList(self.id)["last_exercise_number"] == None:
-                return dbw.getLastExerciseFromList(self.id)["last_exercise_number"]
-            else:
-                return max(dbw.getLastExerciseFromList(self.id)["last_exercise_number"], dbw.getLastReferenceFromList(self.id)["last_exercise_number"])
-
+            return last
 
 
     def insertExerciseByReference(self, original_exercise_id):
-        new_list_exercise_number = self.getLastExercise() + 1
+        new_list_exercise_number = int(self.getLastExercise()) + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
         return new_list_exercise_number
 
