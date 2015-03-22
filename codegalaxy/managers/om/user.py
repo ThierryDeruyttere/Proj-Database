@@ -237,7 +237,7 @@ class User:
         return str(self.id) + ' ' + self.first_name + ' ' + self.last_name + ' ' + str(self.is_active) + ' ' + self.email + ' ' + str(self.permissions) + ' ' + str(self.joined_on) + ' ' + str(self.last_login) + ' ' + self.gender
 
     def madeList(self,list_id):
-        if list_id in [made_list.exercises_list.id for made_list in self.allExerciseListsMade()]:
+        if list_id in [made_list.exercises_list.id for made_list in self.allPersonalLists()]:
             return [made_list for made_list in self.allExerciseListsMade() if list_id == made_list.exercises_list.id][0]
         return None
 
