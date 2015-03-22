@@ -234,7 +234,6 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
     #addDefault function to add basic exercises with low priority to recommend
     addDefault(score_per_list_id)
-    print(score_per_list_id)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
     return recommended_exercises
 
@@ -326,14 +325,10 @@ def listsLikeThisOne(list_id, user_id, amount=4):
     prog_language_id = list_obj.programming_language
     subjects = list_obj.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
-    print(possible_list_ids)
-    print(subjects)
     for list_id in possible_list_ids:
         possible_list = object_manager.createExerciseList(list_id)
         if possible_list.difficulty in [list_obj.difficulty - 1, list_obj.difficulty, list_obj.difficulty + 1]:
             other_subjects = possible_list.allSubjectIDs()
-            print(list_id)
-            print(other_subjects)
             if subjectsMatch(subjects, other_subjects):
                 if list_id not in made_ids:
                     new_exercise_lists.append(list_id)

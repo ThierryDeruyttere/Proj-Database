@@ -346,9 +346,7 @@ def list(request, id=0):
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
-            print(list_id)
             similar_lists.append(object_manager.createExerciseList(list_id))
-        print(similar_lists)
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_programming_lang': prog_lang,

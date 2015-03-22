@@ -57,9 +57,7 @@ def user(request, id=0):
         elif 'update_profile' in request.POST:
             new_password = hashlib.md5(
             request.POST.get('new_password').encode('utf-8')).hexdigest()
-            print(new_password)
             new_email = request.POST.get('new_email')
-            print(new_email)
             user.updateProfile(new_email, new_password)
 
 
@@ -288,7 +286,6 @@ def group(request, id=0):
 
         remaining_friends = []
         for friend in currentuser_friend_list:
-            print(friend.first_name)
             inList = False
             for user in user_list:
                 if friend.id == user.id:
@@ -375,13 +372,11 @@ def verify(request, hash_seq):
 def test(request, id=0):
     # Quick tests/changes
     exercise_test = object_manager.createExercise(1, 'en')
-    print(exercise_test)
     exercise_test2 = object_manager.createExercise(1, 'en')
     #exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
     exercise_test.update(2, new_answers, new_hints)
-    print(exercise_test)
 
     # test
     user_test = object_manager.createUser(id=1)
@@ -430,9 +425,7 @@ def test(request, id=0):
     exercise_list_test.insertExerciseByReference(1, 3)
     exercise_list_test.insertExerciseByReference(2, 4)
     #new_id = exercise_list_test.unreferenceExercise(3)
-    #print(new_id)
     #exercise_test3 = object_manager.createExercise(new_id,'en')
-    #print(exercise_test3)
 
     # testfunction11
     subjects = exercise_list_test.allSubjects()

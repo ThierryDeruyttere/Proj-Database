@@ -64,10 +64,6 @@ class User:
 
     def confirmFriendship(self, friend_id):
         dbw.updateFriendship(self.id, friend_id)
-        pending_friendships = self.allPendingFriendships()
-
-        for friendship in pending_friendships:
-            print(friendship)
 
     def isFriend(self, friend):
         '''
@@ -147,10 +143,8 @@ class User:
     def allPersonalExercises(self):
         # list of dicts with the key ['prog_lang_id']
         prog_lang_ids = dbw.getProgrammingLanguageIDsOfMadeExForUser(self.id)
-        print(self.first_name + ' ' + str(len(prog_lang_ids)))
         real_names = []
         for prog_id in prog_lang_ids:
-            print('lang: ' + str(prog_id['prog_lang_id']))
             real_names.append(
                 dbw.getNameFromProgLangID(prog_id['prog_lang_id']))
         return real_names
