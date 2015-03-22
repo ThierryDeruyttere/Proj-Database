@@ -67,7 +67,6 @@ class ExerciseList:
             referenced.exercise_number = exercise_id['new_list_exercise_number']
             exercises.append(referenced)
 
-        print(exercises)
         return exercises
 
 

@@ -91,7 +91,7 @@ def getBrowserLanguage(request):
     return request.META['LANGUAGE'].split('_')[0]
 
 @require_login
-def editExercise(request, listId, exercise_id):
+def editExercise(request, listId, exercise_id, exercise_number):
     #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
@@ -101,8 +101,9 @@ def editExercise(request, listId, exercise_id):
         exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
-        exercise.save()
-        exercise = object_manager.createExercise(exercise_id)
+        exercise.exerciseList_id = int(listId)
+        exercise.exercise_number = int(exercise_number)
+        exercise.save(logged_user(request).id)
         return redirect("/l/" + str(listId))
 
     if exercise_list and logged_user(request).id == exercise_list.created_by:
