@@ -674,6 +674,11 @@ def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, c
     cursor = connection.cursor()
     cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = "{crtd_on}", exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id}, title = "{title}" WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
 
+def updateExerciseCode(code, exercise_id):
+    cursor = connection.cursor()
+    sql = 'UPDATE code SET code_text = %s WHERE exercise_id = {exercise_id}'.format(exercise_id = exercise_id)
+    cursor.execute(sql, [code])
+
 def updateQuestion(question_text,lang_id,ex_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id,question_text=question_text))
@@ -812,8 +817,6 @@ def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
 
 def isReference(list_id, exercise_number):
     original = getOriginalExercise(list_id, exercise_number)
-    print("original")
-    print(original)
     if original:
         return True
     else:

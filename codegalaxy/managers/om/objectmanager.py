@@ -135,14 +135,9 @@ class ObjectManager:
     def occurencesOfSubject(self,subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, rating=0):
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, rating=0):
         exercise = dbw.getMadeExercise(user_id, exercise_id)
-        if exercise:
-            # update
-            #TODO REMOVE
-            pass
-        else:
-            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on)
+        dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id)
 
     def getInfoForUserForExercise(self, user_id, exercise_id):
         return dbw.getMadeExercise(user_id, exercise_id)

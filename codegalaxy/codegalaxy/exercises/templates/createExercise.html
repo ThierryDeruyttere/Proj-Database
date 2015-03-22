@@ -384,8 +384,6 @@
           all_hints.push("{{ h }}");
         {% endfor %}
         var hints_length = {{ am_hints }};
-        $("#output").CodeMirror.setValue("{{ expected_code_answer }}");
-
         for(var i = 1 ; i <= hints_length; ++i){
           $("#add_hint").trigger('click');
           //replace all quotes & other html tags with the right characters.

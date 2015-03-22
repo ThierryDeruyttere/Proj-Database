@@ -103,7 +103,38 @@ def editExercise(request, listId, exercise_id, exercise_number):
         exercise.title = request.POST.get('title')
         exercise.exerciseList_id = int(listId)
         exercise.exercise_number = int(exercise_number)
-        exercise.save(logged_user(request).id)
+        exercise.exercise_type = request.POST.get('exercise_type')
+        hints = []
+        exercise.code = request.POST.get('code', '')
+        exercise.max_score = int(request.POST.get('max', '1'))
+
+        exercise_answer = None
+        correct_answer = 1
+        if(exercise.exercise_type == 'Open Question'):
+            answer = []
+            for i in range(exercise.max_score + 1):
+                cur_answer = request.POST.get("answer" + str(i), "")
+                if cur_answer != "":
+                    answer.append(cur_answer)
+
+            exercise_answer = answer
+            correct_answer = request.POST.get("correct_answer")
+            exercise.penalty = 3
+
+        else:
+            expected_answer = request.POST.get("output")
+            exercise_answer = [expected_answer]
+            exercise.penalty = 1
+            for j in range(1, exercise.max_score + 1):
+                cur_hint = request.POST.get("hint" + str(j), "")
+                if cur_hint != "":
+                    hints.append(cur_hint)
+
+        exercise.update(correct_answer, exercise_answer, hints, logged_user(request).id)
+
+
+
+
         return redirect("/l/" + str(listId))
 
     if exercise_list and logged_user(request).id == exercise_list.created_by:
@@ -200,7 +231,8 @@ def importExercise(request, listId):
                     exercise_list.copyExercise(copy.id)
 
             return render(request, 'importExercise.html', {'all_lists': all_lists,
-                                                           'all_exercises': all_exercises})
+                                                           'all_exercises': all_exercises,
+                                                           'list_id': listId})
 
 
     return redirect('/')
@@ -428,12 +460,12 @@ def submit(request, list_id, question_id):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")),int(list_id), 0)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), 0)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):

@@ -125,7 +125,7 @@ class Exercise:
         for i in range(1, len(hints) + 1):
             dbw.insertHint(hints[i - 1], i, self.id, language_id)
 
-    def update(self, correct_answer, answers, hints):
+    def update(self, correct_answer, answers, hints, user_id = None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
@@ -133,11 +133,16 @@ class Exercise:
         @param hints the hints to update
         '''
         self.correct_answer = correct_answer
-        self.save()
+        self.save(user_id)
         self.updateAnswers(answers)
         self.updateHints(hints)
+        self.updateCode()
 
-    def save(self, user_id = "None"):
+    def updateCode(self):
+        dbw.updateExerciseCode(self.code, self.id)
+
+
+    def save(self, user_id = None):
         '''
         @brief saves/dereferences the exercise in the database
         '''
