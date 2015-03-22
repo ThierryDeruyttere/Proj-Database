@@ -6,6 +6,7 @@ import json
 
 from managers.om import *
 from managers.gm import *
+from managers.rm.recommendations import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
 from pymysql import escape_string
@@ -330,10 +331,24 @@ def list(request, id=0):
         if percent == 100:
             solved_all = True
 
+        # lists like this one
+        similar_lists = []
+        similar_list_ids = []
+
         user_rating = 0
         if logged_user(request):
             user_rating = logged_user(request).getRatingForList(exercise_list.id)
-
+            # for the recommended lists, we'll first check if the user solved the current list
+            if exercise_list:
+                made_list = logged_user(request).madeList(exercise_list.id)
+                if made_list:
+                    similar_list_ids = recommendNextExerciseLists(made_list)
+                else:
+                    similar_list_ids = listsLikeThisOne(exercise_list.id,logged_user(request).id)
+        for list_id in similar_list_ids:
+            print(list_id)
+            similar_lists.append(object_manager.createExerciseList(list_id))
+        print(similar_lists)
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_programming_lang': prog_lang,
@@ -352,7 +367,8 @@ def list(request, id=0):
                                              'solved_all': solved_all,
                                              'user_rating': user_rating,
                                              'creator': creator,
-                                             'created_on': created_on})
+                                             'created_on': created_on,
+                                             'similar_lists': similar_lists})
     else:
         return redirect('/')
 

@@ -265,18 +265,17 @@ def overlapNeeded(previous):
     # only 1-3 subjects -> new needs all of them
     amount_of_overlap_needed = len(previous)
     # 4-5 subjects -> amount - 1
-    if len(previous) >= 4 & len(previous) <= 5:
+    if (len(previous) == 4 | len(previous) == 5):
         amount_of_overlap_needed = len(previous) - 1
     # 6-8 subjects -> amount - 2
-    if len(previous) >= 6 & len(previous) <= 8:
+    if (len(previous) == 6 | len(previous) == 7 | len(previous) == 8):
         amount_of_overlap_needed = len(previous) - 2
     # 9-10 subjects -> amount - 3
-    if len(previous) >= 9 & len(previous) <= 10:
+    if (len(previous) == 9 | len(previous) == 10):
         amount_of_overlap_needed = len(previous) - 3
     # 10+ subjects -> amount/2
     if len(previous) > 10:
         amount_of_overlap_needed = len(previous) / 2
-    print('overlap = ' + str(amount_of_overlap_needed))
     return amount_of_overlap_needed
 
 def subjectsMatch(previous, new):
@@ -288,14 +287,17 @@ def subjectsMatch(previous, new):
         return False
 
 
+def madeIDs(user_id):
+    user_obj = object_manager.createUser(id=user_id)
+    made_lists = user_obj.allPersonalLists()
+    return [pers.exercises_list.id for pers in made_lists]
+
 # parameter: personalExerciseListobject(or id?)
-def recommendNextExerciseLists(previous_made_list, amount):
+def recommendNextExerciseLists(previous_made_list, amount=4):
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
-    user = object_manager.createUser(previous_made_list.exercises_list.user_id)
-    made_lists = user.allPersonalLists()
-    made_ids = [pers.exercises_list.id for pers in made_lists]
+    made_ids = madeIDs(previous_made_list.user_id)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language_id = previous_made_list.exercises_list.programming_language
     subjects = previous_made_list.exercises_list.allSubjectIDs()
@@ -308,4 +310,35 @@ def recommendNextExerciseLists(previous_made_list, amount):
                 if list_id not in made_ids:
                     new_exercise_lists.append(list_id)
     new_exercise_lists = new_exercise_lists[:amount]
+    return new_exercise_lists
+
+# EXERCISES LIKE THIS====================================================================================================================================
+# Last of all, let's say we didnt just make an exercise but we just want a list that looks like this one
+
+def listsLikeThisOne(list_id, user_id, amount=4):
+    l_id = list_id
+    new_exercise_lists = []
+    # checking to make sure we dont try to suggest an already made list
+    # we'll need the previously made lists
+    made_ids = madeIDs(user_id)
+    list_obj = object_manager.createExerciseList(list_id)
+    # difficulties will be current +- 0/1
+    prog_language_id = list_obj.programming_language
+    subjects = list_obj.allSubjectIDs()
+    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
+    for list_id in possible_list_ids:
+        possible_list = object_manager.createExerciseList(list_id)
+        if possible_list.difficulty in [list_obj.difficulty-1, list_obj.difficulty, list_obj.difficulty+1]:
+            other_subjects = possible_list.allSubjectIDs()
+            if subjectsMatch(subjects, other_subjects):
+                if list_id not in made_ids:
+                    new_exercise_lists.append(list_id)
+    if l_id in new_exercise_lists:
+        new_exercise_lists.remove(l_id)
+    new_exercise_lists = new_exercise_lists[:amount]
+    print(new_exercise_lists)
+    print(l_id)
+    if l_id in new_exercise_lists:
+        new_exercise_lists.remove(l_id)
+    print(new_exercise_lists)
     return new_exercise_lists

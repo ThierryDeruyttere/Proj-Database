@@ -326,6 +326,7 @@ INSERT INTO subject(name) VALUES ('Yourneying');
 # HasSubject data
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,5);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,5);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,5);

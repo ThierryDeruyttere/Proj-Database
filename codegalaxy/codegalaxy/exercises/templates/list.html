@@ -278,6 +278,22 @@
           </div>
         </div>
       </div>
+
+      <div class ="row">
+        <div class="large-7 large-centered text-center columns">
+          <div class="panel callout radius info">
+            <h3>ExerciseLists like this one:</h3>
+            <ul class="large-block-grid-{{similar_lists|length}}">
+              {% for similar_list in similar_lists %}
+                <li>
+                  <a href="../l/{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 {% endblock base_body %}
