@@ -12,7 +12,7 @@ class Group:
         @param group_type the type of the group
         @param created_on the date the group was created on
         '''
-        self.id = id
+        self.id = int(id)
         self.group_name = group_name
         # private/public/...
         self.group_type = group_type

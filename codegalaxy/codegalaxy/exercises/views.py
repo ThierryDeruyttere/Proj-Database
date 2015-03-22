@@ -344,7 +344,7 @@ def list(request, id=0):
                 if made_list:
                     similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
-                    similar_list_ids = listsLikeThisOne(exercise_list.id,logged_user(request).id)
+                    similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
             print(list_id)
             similar_lists.append(object_manager.createExerciseList(list_id))
