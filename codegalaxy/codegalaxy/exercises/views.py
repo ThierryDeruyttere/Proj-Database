@@ -242,6 +242,13 @@ def InvalidOrRound(object):
     return object
 
 def list(request, id=0):
+
+    #score spread forthis exercise
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    stats = statistics_analyzer.listScoreSpread(id)
+    bar_chart1 = graph_manager.makeBarChart('spread', 350, 250, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
+
     exercise_list = object_manager.createExerciseList(id)
     #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
@@ -366,7 +373,8 @@ def list(request, id=0):
                                              'user_rating': user_rating,
                                              'creator': creator,
                                              'created_on': created_on,
-                                             'similar_lists': similar_lists})
+                                             'similar_lists': similar_lists,
+                                             'score_spread': bar_chart1})
     else:
         return redirect('/')
 

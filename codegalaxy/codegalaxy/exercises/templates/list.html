@@ -1,5 +1,10 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+
+{% block head_js %}
+<script src="{% static "Chart.min.js" %}"></script>
+{% endblock head_js %}
+
 {% block base_body %}
   <head>
     <link rel="stylesheet" type="text/css" href="{% static "custom_css/list.css" %}" />
@@ -104,6 +109,14 @@
               </li>
             </ul>
           </div>
+        </div>
+      </div>
+
+      <div class ="row">
+        <div class="large-7 large-centered text-center columns">
+          <h2>Score Spread</h2>
+          <br/>
+          {{ score_spread |safe }}
         </div>
       </div>
 
