@@ -27,7 +27,6 @@ graph_manager = graphmanager.GraphManager()
 
 def home(request):
     current_user = logged_user(request)
-
     friends = []
     recommended_lists = []
     if current_user:
@@ -182,7 +181,7 @@ def login(request):
         # Successful login attempt
         if user:
             request.session['current_user'] = user.id
-            return redirect('/me/')
+            return redirect('/')
         else:
             return render(request, 'login.html', {'error_login': True, 'your_email': email})
 
