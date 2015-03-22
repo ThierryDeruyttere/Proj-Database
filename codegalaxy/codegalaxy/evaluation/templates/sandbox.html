@@ -1,0 +1,66 @@
+{% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block base_body %}
+<div class="row text-center">
+  <a href=""><img src="{% static "media/python.png"%}" class="prog-lang-icon" alt="Python"></a>
+  <a href=""><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
+  <a href=""><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
+</div>
+
+<div class="row">
+  <textarea id="user_code" name="user_code"></textarea>
+</div>
+
+<div class="row">
+  <a class="button" id="evaluate">Evaluate</a>
+</div>
+
+<div class="row">
+  <div class="panel" id="output"></div>
+</div>
+
+{% endblock base_body %}
+
+{% block body_js %}
+<script>
+  var code_text = CodeMirror.fromTextArea(user_code,
+    {
+      lineNumbers: true,
+      mode: "python",
+      theme: "monokai",
+      matchBrackets: true,
+      autoCloseBrackets: true
+    });
+
+  function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+  }
+
+  $.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+      if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+        xhr.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+      }
+    }
+  });
+
+
+  $("#evaluate").click(function()
+  {
+    var post_data = {code:code_text.getValue()};
+    $.ajax({
+      type: 'POST',
+      url: "python/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $("#output").append(response);
+      }
+    });
+  });
+
+</script>
+{% endblock body_js %}

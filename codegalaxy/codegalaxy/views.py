@@ -364,9 +364,6 @@ def verify(request, hash_seq):
 
     return redirect('/')
 
-def sandbox(request):
-    return render(request, 'sandbox.html', {})
-
 def test(request, id=0):
     # Quick tests/changes
     exercise_test = object_manager.createExercise(1, 'en')

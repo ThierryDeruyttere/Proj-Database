@@ -1,3 +1,12 @@
+.prog-lang-icon {
+    background-repeat: no-repeat;
+    background-position: 50%;
+
+    /*border-radius: 50%;*/
+    width: 120px;
+    height: 120px;
+}
+
 .size-12 { font-size: 12px; }
 
 .size-14 { font-size: 14px; }
@@ -19,5 +28,3 @@
 .size-60 { font-size: 60px; }
 
 .size-72 { font-size: 72px; }
-
-.code-output{}

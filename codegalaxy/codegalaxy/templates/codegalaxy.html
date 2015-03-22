@@ -5,9 +5,19 @@
 {# Title #}
 {% block title %} Code Galaxy {% endblock title %}
 
+{% block head_js %}
+<script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+<script src="{% static "codemirror/mode/python/python.js" %}"></script>
+<script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+<script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
+{% endblock head_js %}
+
 {# Custom CSS #}
 {% block css %}
-<link href="{% static "foundation/css/custom.css" %}" rel="stylesheet"/>
+<link href="{% static "custom_css/style.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+<link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+
 {% endblock css %}
 
 {# Top Bar #}

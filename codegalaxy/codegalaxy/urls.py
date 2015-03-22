@@ -33,7 +33,6 @@ urlpatterns = patterns('codegalaxy.views',
 
     ## MISC ##
     # Sandbox page #
-    url(r'^sandbox/$', 'sandbox'),
 
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),
@@ -66,4 +65,9 @@ urlpatterns += patterns('codegalaxy.exercises.views',
 
     url(r'^l/(?P<listId>\d*)/(?P<exercise_id>\d*)/editExercise/$', 'editExercise'),
 
+)
+
+urlpatterns += patterns('codegalaxy.evaluation.views',
+    url(r'^sandbox/$', 'sandbox'),
+    url(r'^sandbox/(?P<lang>[a-z]*)/$', 'evaluate')
 )

@@ -16,7 +16,9 @@ from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 import pymysql
 pymysql.install_as_MySQLdb()
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'), os.path.join(BASE_DIR, 'codegalaxy/exercises/templates')]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'),
+                 os.path.join(BASE_DIR, 'codegalaxy/exercises/templates'),
+                 os.path.join(BASE_DIR, 'codegalaxy/evaluation/templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 
 # Quick-start development settings - unsuitable for production

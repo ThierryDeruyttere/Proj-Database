@@ -1,5 +1,6 @@
 from django.core.context_processors import request
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 import time
 import json
@@ -9,7 +10,6 @@ from managers.gm import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
 from pymysql import escape_string
-from django.http import HttpResponse
 
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
@@ -103,7 +103,7 @@ def editExercise(request, listId, exercise_id):
                 if i == exercise.correct_answer-1:
                     expected_code_answer = ans
                     break
-                    
+
         all_hints = exercise.allHints()
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
