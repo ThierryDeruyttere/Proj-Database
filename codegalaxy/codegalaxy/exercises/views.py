@@ -131,10 +131,6 @@ def editExercise(request, listId, exercise_id, exercise_number):
                     hints.append(cur_hint)
 
         exercise.update(correct_answer, exercise_answer, hints, logged_user(request).id)
-
-
-
-
         return redirect("/l/" + str(listId))
 
     if exercise_list and logged_user(request).id == exercise_list.created_by:
@@ -143,9 +139,9 @@ def editExercise(request, listId, exercise_id, exercise_number):
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
-        if exercise.exercise_type == "code":
+        if exercise.exercise_type == "Code":
             for i,ans in enumerate(all_answers):
-                if i == exercise.correct_answer-1:
+                if i == int(exercise.correct_answer)-1:
                     expected_code_answer = ans
                     break
 
