@@ -11,10 +11,12 @@
 <div class="row">
   <textarea id="user_code" name="user_code"></textarea>
 </div>
-
-<div class="row">
-  <a class="button" id="evaluate">Evaluate</a>
-</div>
+<!-- <form action="python"> -->
+  <div class="row">
+    <a class="button" id="evaluate">Evaluate</a>
+  </div>
+  <!-- <input type="submit">
+</form> -->
 
 <div class="row">
   <div class="panel" id="output"></div>
@@ -27,7 +29,7 @@
   var code_text = CodeMirror.fromTextArea(user_code,
     {
       lineNumbers: true,
-      mode: "python",
+      mode: "text/x-c++src",
       theme: "monokai",
       matchBrackets: true,
       autoCloseBrackets: true
@@ -45,7 +47,6 @@
       }
     }
   });
-
 
   $("#evaluate").click(function()
   {
