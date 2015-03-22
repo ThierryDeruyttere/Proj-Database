@@ -182,7 +182,7 @@ def defaultScoreOne(score_per_list_id):
             if score_per_list_id[i+1] < 1:
                 after_default[i+1] = 0.1
             else:
-                after_default[i+1] = score_per_list_id[i]
+                after_default[i+1] = score_per_list_id[i+1]
         else:
             after_default[i+1] = 0.1
     return after_default
@@ -332,6 +332,7 @@ def listsLikeThisOne(list_id, user_id, amount=4):
             if subjectsMatch(subjects, other_subjects):
                 if list_id not in made_ids:
                     new_exercise_lists.append(list_id)
+
     if l_id in new_exercise_lists:
         new_exercise_lists.remove(l_id)
     new_exercise_lists = new_exercise_lists[:amount]
