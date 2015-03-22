@@ -326,19 +326,18 @@ def listsLikeThisOne(list_id, user_id, amount=4):
     prog_language_id = list_obj.programming_language
     subjects = list_obj.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
+    print(possible_list_ids)
+    print(subjects)
     for list_id in possible_list_ids:
         possible_list = object_manager.createExerciseList(list_id)
-        if possible_list.difficulty in [list_obj.difficulty-1, list_obj.difficulty, list_obj.difficulty+1]:
+        if possible_list.difficulty in [list_obj.difficulty - 1, list_obj.difficulty, list_obj.difficulty + 1]:
             other_subjects = possible_list.allSubjectIDs()
+            print(list_id)
+            print(other_subjects)
             if subjectsMatch(subjects, other_subjects):
                 if list_id not in made_ids:
                     new_exercise_lists.append(list_id)
     if l_id in new_exercise_lists:
         new_exercise_lists.remove(l_id)
     new_exercise_lists = new_exercise_lists[:amount]
-    print(new_exercise_lists)
-    print(l_id)
-    if l_id in new_exercise_lists:
-        new_exercise_lists.remove(l_id)
-    print(new_exercise_lists)
     return new_exercise_lists

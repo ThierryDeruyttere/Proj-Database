@@ -275,7 +275,7 @@ VALUES ('The continuation of that journey...', '...', 1, 1, "2014-03-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Still not there yet...', '.......', 1, 1, "2014-02-06", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python for dummies', 'For those who are new', 3, 1, "2015-02-05", 1);
+VALUES ('Python for dummies', 'For those who are new', 2, 1, "2015-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Python for experts', 'Yer a wizard Harry', 1, 1, "2014-03-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
@@ -328,9 +328,12 @@ INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,5);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,5);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,5);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,2);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,2);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,3);

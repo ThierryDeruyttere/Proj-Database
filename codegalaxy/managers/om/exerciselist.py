@@ -5,9 +5,9 @@ import managers.om.objectmanager
 class ExerciseList:
 
     def __init__(self, id, name, difficulty, description, created_by, created_on, programming_lang):
-        self.id = id
+        self.id = int(id)
         self.name = name
-        self.difficulty = difficulty
+        self.difficulty = int(difficulty)
         self.description = description
         self.created_by = created_by
         self.created_on = created_on
