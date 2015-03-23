@@ -450,7 +450,7 @@ def getLastExerciseFromList(ID):
 
 def getMadeExercise(user_id, exercise_id, list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc} AND list_id = list_id AND exercise_number = exercise_number;'.format(user = user_id, exerc = exercise_id, list_id=list_id, exercise_number=exercise_number))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc} AND list_id = {list_id} AND exercise_number = {exercise_number};'.format(user = user_id, exerc = exercise_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -679,7 +679,7 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
 
 def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id,exercise_number) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id},exercise_number);'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number))
+    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id,exercise_number) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id},{exercise_number});'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number))
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()

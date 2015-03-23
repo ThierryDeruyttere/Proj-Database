@@ -445,14 +445,17 @@ def submit(request, list_id, exercise_number):
             # Check which button has been pressed
             if 'b_tryagain' in request.POST:
                 # Redirect to the same exercise
-                return redirect('/l/' + list_id + '/' + str(question_id))
+                return redirect('/l/' + list_id + '/' + str(exercise_number))
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
-                return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
+                if len(all_exercise) < int(exercise_number)+1:
+                    return redirect('/l/' + list_id + '/')
+                else:
+                    return redirect('/l/' + list_id + '/' + str(int(exercise_number) + 1))
 
             # TODO: We need ex_number,ex_id and list_id, this WILL crash
-            info = object_manager.getInfoForUserForExercise(user.id, question_id, id, exercise_number)
+            info = object_manager.getInfoForUserForExercise(user.id, question_id, list_id, exercise_number)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:
@@ -472,12 +475,12 @@ def submit(request, list_id, exercise_number):
                     # Woohoo right answer!
                     solved = True
                     # TODO WILL break here
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), exercise_number, 0)
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), exercise_number,0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number),0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
@@ -488,12 +491,12 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")),int(list_id), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
