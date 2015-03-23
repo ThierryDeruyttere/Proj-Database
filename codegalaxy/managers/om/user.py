@@ -10,12 +10,12 @@ class User:
 
     def __init__(self, id, first_name, last_name, is_active, email, permissions, password, joined_on, last_login, gender):
         # Plain info on the user
-        self.id = id
+        self.id = int(id)
         self.first_name = first_name
         self.last_name = last_name
         self.is_active = is_active
         self.email = email
-        self.permissions = permissions
+        self.permissions = int(permissions)
         self.password = password
         self.joined_on = joined_on
         self.last_login = last_login

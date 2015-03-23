@@ -142,7 +142,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
         expected_code_answer = ""
         if exercise.exercise_type == "Code":
             for i,ans in enumerate(all_answers):
-                if i == int(exercise.correct_answer)-1:
+                if i == exercise.correct_answer-1:
                     expected_code_answer = ans
                     break
 
@@ -193,11 +193,13 @@ def importExercise(request, listId):
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list:
         if exercise_list.created_by == logged_user(request).id:
-            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language)
+            print(all_lists_id)
             if request.method == "GET" and request.GET:
                 all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
             all_lists = []
+
             for i in all_lists_id:
                 all_lists.append(object_manager.createExerciseList(i))
 

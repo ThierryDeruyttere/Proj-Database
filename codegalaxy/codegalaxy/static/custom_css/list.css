@@ -17,12 +17,12 @@ h3{
     color: #3498DB !important;
 }
 
-#Arrow{
+.Arrow{
     width: 25px;
     height: 25px;
 }
 
-#Icon{
+.Icon{
     background-repeat: no-repeat;
     background-position: 50%;
 
