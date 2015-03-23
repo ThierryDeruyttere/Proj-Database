@@ -65,7 +65,7 @@ CREATE TABLE exerciseList(
   created_by INT NOT NULL,
   created_on DATE NOT NULL,
   prog_lang_id INT NOT NULL,
-  default_language_code NOT NULL,
+  default_language_code VARCHAR(255) NOT NULL,
   FOREIGN KEY (prog_lang_id) REFERENCES programmingLanguage(id),
   PRIMARY KEY(id)
 );
