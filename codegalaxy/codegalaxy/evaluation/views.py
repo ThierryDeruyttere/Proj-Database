@@ -9,8 +9,20 @@ def sandbox(request):
 
 def evaluate(request, lang):
     code = request.POST.get('code', '')
-    evaluator = EvaluatorCpp(code)
+
+    # Default Evaluator
+    evaluator = EvaluatorPython(code)
+
+    # Other languages
+    if lang == 'c++':
+        evaluator = EvaluatorCpp(code)
+    elif lang == 'sql':
+        pass
+
+    # Evaluate code
     evaluator.evaluate()
+
+    # Return output
     if evaluator.hasError():
         return HttpResponse(evaluator.getErrorMsg())
     else:

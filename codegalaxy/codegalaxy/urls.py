@@ -69,5 +69,5 @@ urlpatterns += patterns('codegalaxy.exercises.views',
 
 urlpatterns += patterns('codegalaxy.evaluation.views',
     url(r'^sandbox/$', 'sandbox'),
-    url(r'^sandbox/(?P<lang>[a-z]*)/$', 'evaluate')
+    url(r'^sandbox/(?P<lang>[a-z+]*)/$', 'evaluate')
 )

@@ -3,20 +3,21 @@
 
 {% block base_body %}
 <div class="row text-center">
-  <a href=""><img src="{% static "media/python.png"%}" class="prog-lang-icon" alt="Python"></a>
-  <a href=""><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
-  <a href=""><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
+  <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon" alt="Python"></a>
+  <a href="#" id="text/x-c++src" class="lang_button"><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
+  <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
 </div>
 
 <div class="row">
   <textarea id="user_code" name="user_code"></textarea>
 </div>
-<form action="python">
+
+<!-- <form action="python"> -->
   <div class="row">
     <a class="button" id="evaluate">Evaluate</a>
   </div>
-  <input type="submit">
-</form>
+  <!-- <input type="submit">
+</form> -->
 
 <div class="row">
   <div class="panel" id="output"></div>
@@ -53,7 +54,7 @@
     var post_data = {code:code_text.getValue()};
     $.ajax({
       type: 'POST',
-      url: "python/",
+      url: code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/",
       data: post_data,
       dataType: "text",
 
@@ -61,6 +62,10 @@
         $("#output").append(response);
       }
     });
+  });
+
+  $(".lang_button").click(function() {
+    code_text.setOption("mode", $(this).attr("id"));
   });
 
 </script>
