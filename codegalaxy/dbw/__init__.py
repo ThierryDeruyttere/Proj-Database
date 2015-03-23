@@ -535,21 +535,21 @@ def getAllExercForUserForList(user_id, list_id):
 def getAllMadeRefForUserForList(user_id, list_id):
     # TODO: fix this
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.user_id,mE.exercise_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_id = e.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT mE.user_id,mE.exercise_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_id = e.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
 
 def getMadeListForUserForList(user_id, list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeList WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT * FROM madeList WHERE exerciseList_id = {list_id} AND user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getOriginalExercise(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT original_id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number}'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT original_id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -557,17 +557,26 @@ def getOriginalExercise(list_id, exercise_number):
 def getMaxSumForExForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex WHERE ex.id = {id} ;'.format(id=list_id))
-    fetched = processData(cursor)
+    fetched = processOne(cursor)
     cursor.close()
     return fetched['total']
 
 def getMaxSumForRefForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex,exercise_references e WHERE e.new_list_id = {id} AND e.original_id = ex.id;'.format(id=list_id))
-    fetched = processData(cursor)
+    fetched = processOne(cursor)
     cursor.close()
     return fetched['total']
 
+def getAmountOfExercisesForList(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT GREATEST((SELECT MAX(exercise_number) FROM exercise WHERE exerciseList_id={list_id}),(SELECT MAX(new_list_exercise_number) FROM exercise_references WHERE new_list_id={list_id})) AS amount;'.format(list_id=list_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+'''SELECT
+'''
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()

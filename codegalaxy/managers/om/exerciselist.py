@@ -51,8 +51,14 @@ class ExerciseList:
     def averageRatingOfUsersForThisList(self):
         return dbw.averageRatingOfUsersWhoMadeList(self.id)['average']
 
+    def amountOfExercises(self):
+        return getAmountOfExercisesForList(self.id)['amount']
+
     # List of exercises
     def allExercises(self, language_code):
+        # we'll need to check if any numbers are missing, so we get the amount of em
+        #TODO: wtf doe defaultlang?
+        #amount_of_exercises = self.amountOfExercises()
         # Getting all original exercise_ids
         exercises_infos = dbw.getExercisesForList(self.id)
         # Getting all references

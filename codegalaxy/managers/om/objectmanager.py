@@ -181,3 +181,6 @@ class ObjectManager:
     def filterImportsLists(self, name):
         lists = dbw.filterLists(name)
         return [list_id['id'] for list_id in lists]
+
+    def getOriginalExercise(list_id, exercise_number):
+        return  dbw.getOriginalExercise(list_id, exercise_number)['original_id']

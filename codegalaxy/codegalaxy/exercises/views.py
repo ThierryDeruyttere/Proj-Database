@@ -386,7 +386,7 @@ def list(request, id=0):
 
 @require_login
 def answerQuestion(request, list_id, exercise_number):
-    question_id = getOriginalExercise(list_id, exercise_number)
+    question_id = object_manager.getOriginalExercise(list_id, exercise_number)
     if request.method == "POST":
         return redirect('/l/' + list_id + '/' + question_id + '/submit')
 
@@ -423,7 +423,8 @@ def returnScore(current_score):
     return current_score
 
 @require_login
-def submit(request, list_id, question_id):
+def submit(request, list_id, exercise_number):
+    question_id = object_manager.getOriginalExercise(list_id, exercise_number)
     user = logged_user(request)
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
