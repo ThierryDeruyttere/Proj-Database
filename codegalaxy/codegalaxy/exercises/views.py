@@ -193,8 +193,7 @@ def importExercise(request, listId):
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list:
         if exercise_list.created_by == logged_user(request).id:
-            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language)
-            print(all_lists_id)
+            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
             if request.method == "GET" and request.GET:
                 all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
@@ -213,10 +212,11 @@ def importExercise(request, listId):
             if request.method == "POST":
                 copies = []
                 references = []
-                for i in all_exercises.values():
+                for key, i in all_exercises.items():
                     for ex in i:
-                        copy = request.POST.get('checkbox_copy'+str(ex.id))
-                        ref = request.POST.get('checkbox_import'+str(ex.id))
+                        copy = request.POST.get('checkbox_copy/'+str(key)+'/'+str(ex.id))
+                        ref = request.POST.get('checkbox_import/'+str(key)+'/'+str(ex.id))
+                        print(copy, ref)
                         if copy is not None:
                             copies.append(ex)
 
@@ -224,6 +224,7 @@ def importExercise(request, listId):
                              references.append(ex)
 
 
+                print(references)
                 for ref in references:
                     exercise_list.insertExerciseByReference(ref.id)
                 for copy in copies:

@@ -20,7 +20,7 @@
   <div class="row" id="search_result">
     <div class="large-10 large-centered columns">
       <div class="panel callout radius info">
-        <form method="POST">
+        <form method="POST" id="import_list">
           {% csrf_token %}
           <ul class="accordion" id="list_accordion" data-accordion>
             {% for list in all_lists %}
@@ -40,8 +40,8 @@
                         {% for e in all_exercises|for_key:list.id %}
                           <tbody>
                           <td>{{ e.title }}</td>
-                          <td><input id="checkbox_copy{{ e.id }}" name="checkbox_copy{{ e.id }}" type="checkbox"></td>
-                          <td><input id="checkbox_import{{ e.id }}" name="checkbox_import{{ e.id }}" type="checkbox"></td>
+                          <td><input id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          <td><input id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
                           </tbody>
                         {% endfor %}
                       </table>
@@ -55,7 +55,7 @@
           <div class="row">
             <div class="large-text-center columns">
               <a href="/l/{{ list_id }}" class="button small radius">Return</a>
-              <input type="submit" class="button small radius" id="submit" name="submit" value="Import">
+              <button class="button small radius" id="import_submit" name="import_submit">Import</button>
             </div>
           </div>
         </form>
@@ -94,6 +94,12 @@
         }
       });
     });
+
+    $("#import_submit").click(function(){
+      $("#import_list").form.submit();
+      $("#import_list").form.reset();
+    });
+
 
     //Django stuff
     function getCookie(name) {
