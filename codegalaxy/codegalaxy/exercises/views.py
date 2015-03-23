@@ -452,7 +452,7 @@ def submit(request, list_id, exercise_number):
                 return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
 
             # TODO: We need ex_number,ex_id and list_id, this WILL crash
-            info = object_manager.getInfoForUserForExercise(user.id, question_id, list_id, exercise_number)
+            info = object_manager.getInfoForUserForExercise(user.id, question_id, id, exercise.exercise_number)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:
