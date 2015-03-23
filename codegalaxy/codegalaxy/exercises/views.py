@@ -304,6 +304,7 @@ def list(request, id=0):
         correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
+                # TODO WILL break, see previous use of this function
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id):
                     exercise.solved = True
 
@@ -445,7 +446,8 @@ def submit(request, list_id, question_id):
             elif 'b_nextexercise' in request.POST:
                 return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
 
-            info = object_manager.getInfoForUserForExercise(user.id, question_id)
+            # TODO: We need ex_number,ex_id and list_id, this WILL crash
+            info = object_manager.getInfoForUserForExercise(user.id, question_id, list_id, exercise_number)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:
@@ -464,12 +466,13 @@ def submit(request, list_id, question_id):
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), 0)
+                    # TODO WILL break here
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), exercise_number, 0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_number,0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":

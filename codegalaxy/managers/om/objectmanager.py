@@ -135,12 +135,16 @@ class ObjectManager:
     def occurencesOfSubject(self,subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, rating=0):
-        exercise = dbw.getMadeExercise(user_id, exercise_id)
-        dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id)
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, rating=0):
+        exercise = dbw.getMadeExercise(user_id, exercise_id, exercise_number)
+        if exercise:
+            pass
+            #Can't edit exercises
+        else:
+            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id, exercise_number)
 
-    def getInfoForUserForExercise(self, user_id, exercise_id):
-        return dbw.getMadeExercise(user_id, exercise_id)
+    def getInfoForUserForExercise(self, user_id, exercise_id, exercise_list_id, exercise_number):
+        return dbw.getMadeExercise(user_id, exercise_id, exercise_list_id, exercise_number)
 
     def addSubject(self, name):
         dbw.insertSubject(name)
