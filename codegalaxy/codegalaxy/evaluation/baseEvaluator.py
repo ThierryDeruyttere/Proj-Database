@@ -1,14 +1,6 @@
 import os
 import subprocess
 
-class Response:
-    def __init__(self, output, error):
-        self.output = output
-        self.error = error
-
-    def __str__(self):
-        return str({'output': self.output, 'error': self.error})
-
 class Evaluator:
     """Base class for all code evaluators"""
 
@@ -16,6 +8,9 @@ class Evaluator:
         self.type = type
         self.code = code
         self.extension = extension
+
+        self.output = ''
+        self.error = ''
 
         self.codeToFile()
 
@@ -41,4 +36,10 @@ class Evaluator:
         args.insert(0, command)
         p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
         response = p.communicate()
-        return Response(response[0], response[1])
+        self.output, self.error = response
+
+    def hasError(self):
+        return not self.error == ''
+
+    def getErrorMsg(self):
+        return '<pre>' + self.error + '<pre>'

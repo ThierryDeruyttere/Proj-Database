@@ -18,9 +18,9 @@ class EvaluatorCpp(Evaluator):
 
     def evaluate(self):
         # Compile with the file 'g++'
-        response = self.command('g++', ['-Wall', '-o', self.outputFileName(), self.codeFileName()])
+        self.command('g++', ['-Wall', '-o', self.outputFileName(), self.codeFileName()])
         # If the compile command had an error, output it
-        if response.error:
-            return response
+        if self.error:
+            return
         # Run the outputfile and put it in the output
-        return self.command(self.outputFileName())
+        self.command(self.outputFileName())

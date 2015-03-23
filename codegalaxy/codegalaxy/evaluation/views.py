@@ -9,8 +9,9 @@ def sandbox(request):
 
 def evaluate(request, lang):
     code = request.POST.get('code', '')
-    response = EvaluatorCpp(code).evaluate()
-    if response.error:
-        return HttpResponse(response.error)
+    evaluator = EvaluatorCpp(code)
+    evaluator.evaluate()
+    if evaluator.hasError():
+        return HttpResponse(evaluator.getErrorMsg())
     else:
-        return HttpResponse(response.output)
+        return HttpResponse(evaluator.output)
