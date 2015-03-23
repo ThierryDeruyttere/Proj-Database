@@ -5,6 +5,7 @@ Usage:
 - One class per language.
 - Call super in init with (lang_name, file_extension, code).
 - Override 'evaluate' method.
+- Optional: Override getErrorMsg to do error highlighting
 
 Functions to use:
 - command(command, args=[])
@@ -19,7 +20,7 @@ import subprocess
 from codegalaxy.evaluation.baseEvaluator import *
 
 class EvaluatorPython(Evaluator):
-    """docstring for PythonEval"""
+    """ Code Evaluator for Python """
     def __init__(self, code):
         super(EvaluatorPython, self).__init__('python', 'py', code)
 
@@ -27,7 +28,7 @@ class EvaluatorPython(Evaluator):
         return 'success!'
 
 class EvaluatorCpp(Evaluator):
-    """docstring for PythonEval"""
+    """ Coe Evaluator for C++ """
     def __init__(self, code):
         super(EvaluatorCpp, self).__init__('cpp', 'cpp', code)
 
