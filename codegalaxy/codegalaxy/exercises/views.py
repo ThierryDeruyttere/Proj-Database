@@ -308,7 +308,7 @@ def list(request, id=0):
         if logged_user(request):
             for exercise in all_exercises:
                 # TODO WILL break, see previous use of this function
-                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise_number):
+                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
                     exercise.solved = True
 
             correct_user = (logged_user(request).id == exercise_list.created_by)
