@@ -382,7 +382,8 @@ def list(request, id=0):
         return redirect('/')
 
 @require_login
-def answerQuestion(request, list_id, question_id):
+def answerQuestion(request, list_id, exercise_number):
+    question_id = getOriginalExercise(list_id, exercise_number)
     if request.method == "POST":
         return redirect('/l/' + list_id + '/' + question_id + '/submit')
 
