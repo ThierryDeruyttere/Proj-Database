@@ -159,7 +159,7 @@ class ExerciseList:
         # NOTE: all the answers and questions and stuff will also have to be added!
         object_manager = managers.om.objectmanager.ObjectManager()
         # first, we'll have to look up what the original exercise was
-        original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['original_id'])
+        original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['id'])
         new_id = dbw.copyExercise(original_ex_id, exercise_number, self.id)
         #now we need to delete the reference from the DB
         dbw.deleteReference(self.id, exercise_number)

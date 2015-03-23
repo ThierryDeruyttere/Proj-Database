@@ -281,7 +281,7 @@
           Exercises
           <div class="row">
             {% for exercise in all_exercises %}
-              <div class="panel radius callout exercise" id="Exercise{{ exercise.id }}">
+              <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
                 {{ exercise.title }}
                 {% if exercise.solved %}
                   <div class="label success left"><i class="fi-checkbox"></i></div>
@@ -366,8 +366,8 @@
     }
 
     $(".exercise").click(function(){
-      var id = (this.id).replace("Exercise","");
-      window.location += id;
+      var number = (this.id).replace("Exercise","");
+      window.location += number;
     });
 
     $(".Start").click(function(){

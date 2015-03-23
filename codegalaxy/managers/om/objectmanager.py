@@ -136,7 +136,7 @@ class ObjectManager:
         return dbw.getOccurenceOfSubject(subject_id)
 
     def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, rating=0):
-        exercise = dbw.getMadeExercise(user_id, exercise_id, exercise_number)
+        exercise = dbw.getMadeExercise(user_id, exercise_id, list_id, exercise_number)
         if exercise:
             pass
             #Can't edit exercises
@@ -182,5 +182,11 @@ class ObjectManager:
         lists = dbw.filterLists(name)
         return [list_id['id'] for list_id in lists]
 
-    def getOriginalExercise(list_id, exercise_number):
-        return  dbw.getOriginalExercise(list_id, exercise_number)['original_id']
+    def getOriginalExercise(self, list_id, exercise_number):
+        return  dbw.getOriginalExercise(list_id, exercise_number)['id']
+
+
+    def getExerciseID(self, list_id, exercise_number):
+        return dbw.getExerciseInList(list_id, exercise_number)['id']
+
+

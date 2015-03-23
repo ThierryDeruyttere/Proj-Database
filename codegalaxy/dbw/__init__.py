@@ -549,10 +549,21 @@ def getMadeListForUserForList(user_id, list_id):
 
 def getOriginalExercise(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT original_id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT original_id AS id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
+
+def getExerciseInList(list_id, exercise_number):
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM exercise WHERE exerciseList_id = {list_id} AND exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
+    fetched = processOne(cursor)
+    cursor.close()
+    if fetched is None:
+        return getOriginalExercise(list_id, exercise_number)
+
+    return fetched
+
 
 def getMaxSumForExForList(list_id):
     cursor = connection.cursor()

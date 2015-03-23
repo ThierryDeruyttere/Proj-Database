@@ -386,7 +386,7 @@ def list(request, id=0):
 
 @require_login
 def answerQuestion(request, list_id, exercise_number):
-    question_id = object_manager.getOriginalExercise(list_id, exercise_number)
+    question_id = object_manager.getExerciseID(list_id, exercise_number)
     if request.method == "POST":
         return redirect('/l/' + list_id + '/' + question_id + '/submit')
 
@@ -424,7 +424,7 @@ def returnScore(current_score):
 
 @require_login
 def submit(request, list_id, exercise_number):
-    question_id = object_manager.getOriginalExercise(list_id, exercise_number)
+    question_id = object_manager.getExerciseID(list_id, exercise_number)
     user = logged_user(request)
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
@@ -445,7 +445,7 @@ def submit(request, list_id, exercise_number):
             # Check which button has been pressed
             if 'b_tryagain' in request.POST:
                 # Redirect to the same exercise
-                return redirect('/l/' + list_id + '/' + question_id)
+                return redirect('/l/' + list_id + '/' + str(question_id))
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
@@ -517,7 +517,6 @@ def submit(request, list_id, exercise_number):
 
             return render(request, 'submit.html', {"solved": solved,
                                                    "list_id": list_id,
-                                                   "question_id": question_id,
                                                    "current_score": current_score,
                                                    "max_score": max_score,
                                                    "question_type": current_exercise.exercise_type,
