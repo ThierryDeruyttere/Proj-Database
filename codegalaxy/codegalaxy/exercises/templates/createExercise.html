@@ -343,6 +343,7 @@
       }
     }
 
+    {% if edit %}
     $(document).ready(function(){
       {%  if exercise.exercise_type == "Open Question" %}
         $("#Open_Question").show();
@@ -399,6 +400,8 @@
           $("input[name=" + '"hint' + i +"\"]").val(text);
         }
       {% endif %}
+
     });
+    {% endif %}
   </script>
 {% endblock body_js %}

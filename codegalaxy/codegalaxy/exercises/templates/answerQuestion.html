@@ -27,7 +27,7 @@
         </div>
         <hr>
 
-        <form id="answer_question" method="post" action="{{ exercise.id }}/submit">
+        <form id="answer_question" method="post" action="{{ exercise.exercise_number }}/submit">
           {% csrf_token %}
 
           {% if exercise.exercise_type == "Open Question" %}

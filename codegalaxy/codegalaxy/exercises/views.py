@@ -351,7 +351,7 @@ def list(request, id=0):
             user_rating = logged_user(request).getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
-                made_list = logged_user(request).madeList(exercise_list.id)
+                made_list = logged_user(request).getMadeList(exercise_list.id)
                 if made_list:
                     pass
                     # not tested yet
@@ -388,7 +388,8 @@ def list(request, id=0):
 def answerQuestion(request, list_id, exercise_number):
     question_id = object_manager.getExerciseID(list_id, exercise_number)
     if request.method == "POST":
-        return redirect('/l/' + list_id + '/' + question_id + '/submit')
+
+        return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
@@ -440,8 +441,6 @@ def submit(request, list_id, exercise_number):
             return redirect('/')
 
         if request.method == 'POST':
-            rating = request.POST.get("score")
-
             # Check which button has been pressed
             if 'b_tryagain' in request.POST:
                 # Redirect to the same exercise
