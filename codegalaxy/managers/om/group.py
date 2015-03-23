@@ -37,14 +37,14 @@ class Group:
         '''
         dbw.updateGroup(self.id, self.group_name, self.group_type, self.created_on)
 
-    def insertMember(self, user_id, user_permissions, joined_on):
+    def insertMember(self, user_id, user_permissions, joined_on, status):
         '''
         @brief inserts a member in the group
         @param user_id the id of the user
         @param user_permissions the permissions of the user in this group
         @param joined_on the date the user joined on
         '''
-        dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on)
+        dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
 
     def __str__(self):
         '''

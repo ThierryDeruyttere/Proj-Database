@@ -253,11 +253,11 @@ def group(request, id=0):
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
-            group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")), "Pending")
 
     is_member = False
     if group:
