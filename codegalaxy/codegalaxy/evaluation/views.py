@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.core.context_processors import request
 
-from codegalaxy.evaluation.evaluator import *
+from codegalaxy.evaluation.evaluators import *
 
 def sandbox(request):
     return render(request, 'sandbox.html', {})

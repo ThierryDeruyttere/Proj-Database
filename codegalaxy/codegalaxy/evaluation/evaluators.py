@@ -1,3 +1,18 @@
+"""
+File for all custom Evaluator classes.
+
+Usage:
+- One class per language.
+- Call super in init with (lang_name, file_extension, code).
+- Override 'evaluate' method.
+
+Functions to use:
+- command(command, args=[])
+- codeFile[Name]: Handle to code file or filename
+- outputFile[Name]: Handle to output file or filename
+- hasError: bool to check if the last command had an error
+"""
+
 import os
 import subprocess
 
@@ -22,5 +37,5 @@ class EvaluatorCpp(Evaluator):
         # If the compile command had an error, output it
         if self.error:
             return
-        # Run the outputfile and put it in the output
+        # Run the outputfile
         self.command(self.outputFileName())
