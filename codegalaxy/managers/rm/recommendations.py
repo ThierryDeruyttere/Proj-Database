@@ -1,4 +1,4 @@
-
+import random
 from managers.om import *
 import datetime
 
@@ -298,9 +298,9 @@ def recommendNextExerciseLists(previous_made_list, amount=4):
     # we'll need the previously made lists
     made_ids = madeIDs(previous_made_list.user_id)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
-    prog_language_id = previous_made_list.exercises_list.programming_language
+    prog_language = previous_made_list.exercises_list.programming_language_string
     subjects = previous_made_list.exercises_list.allSubjectIDs()
-    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
+    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
         possible_list = object_manager.createExerciseList(list_id)
         if possible_list.difficulty == new_difficulty:
@@ -322,9 +322,9 @@ def listsLikeThisOne(list_id, user_id, amount=4):
     made_ids = madeIDs(user_id)
     list_obj = object_manager.createExerciseList(list_id)
     # difficulties will be current +- 0/1
-    prog_language_id = list_obj.programming_language
+    prog_language = list_obj.programming_language_string
     subjects = list_obj.allSubjectIDs()
-    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language_id)
+    possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
         possible_list = object_manager.createExerciseList(list_id)
         if possible_list.difficulty in [list_obj.difficulty - 1, list_obj.difficulty, list_obj.difficulty + 1]:
@@ -335,5 +335,8 @@ def listsLikeThisOne(list_id, user_id, amount=4):
 
     if l_id in new_exercise_lists:
         new_exercise_lists.remove(l_id)
+    # gives every element in the list an equal chance to appear
+    random.shuffle(new_exercise_lists)
+    # select the nessecary amount
     new_exercise_lists = new_exercise_lists[:amount]
     return new_exercise_lists

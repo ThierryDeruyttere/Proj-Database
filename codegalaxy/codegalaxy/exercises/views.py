@@ -349,11 +349,11 @@ def list(request, id=0):
             if exercise_list:
                 made_list = logged_user(request).madeList(exercise_list.id)
                 if made_list:
-                    similar_list_ids = recommendNextExerciseLists(made_list)
-                else:
                     pass
                     # not tested yet
-                    #similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
+                    #similar_list_ids = recommendNextExerciseLists(made_list)
+                else:
+                    similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
         return render(request, 'list.html', {'list_name': exercise_list.name,

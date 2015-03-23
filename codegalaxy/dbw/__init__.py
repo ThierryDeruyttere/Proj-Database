@@ -490,9 +490,9 @@ def getAllSubjectIDs():
     cursor.close()
     return fetched
 
-def getExerciseListsOnProgLang(progLang):
+def getExerciseListsOnProgLang(name):
     cursor = connection.cursor()
-    cursor.execute('SELECT e.id FROM exerciseList e, programmingLanguage p WHERE p.id = e.prog_lang_id AND p.id = "{id}";'.format(id=progLang))
+    cursor.execute('SELECT e.id FROM exerciseList e, programmingLanguage p WHERE p.id = e.prog_lang_id AND p.name = "{name}";'.format(name=name))
     fetched = processData(cursor)
     cursor.close()
     return fetched
