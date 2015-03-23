@@ -174,7 +174,7 @@ class User:
                     illegit_lists += 1
             else:
                 total_rating += rating['rating']
-        if len(ratings) > 0:
+        if (len(ratings) - illegit_lists) > 0:
             return total_rating / (len(ratings) - illegit_lists)
         else:
             return 1
@@ -239,7 +239,7 @@ class User:
 
     def getMadeList(self,list_id):
         if list_id in [made_list.exercises_list.id for made_list in self.allPersonalLists()]:
-            return [made_list for made_list in self.allExerciseListsMade() if list_id == made_list.exercises_list.id][0]
+            return [made_list for made_list in self.allPersonalLists() if list_id == made_list.exercises_list.id][0]
         return None
 
 class PersonalList:

@@ -23,7 +23,7 @@ def timeMultiplier(avg_date, avg_param_date):
     elif avg_param_date >= week:
         SubjectMultiplier = 0.5
     if avg_param_date < avg_date:
-        SubjectMultiplier *= 1.2
+        SubjectMultiplier = 1.2
     return param_multiplier
 
 def timeSubjectMultiplier(user, subject_id):
