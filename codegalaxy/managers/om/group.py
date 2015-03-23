@@ -46,6 +46,9 @@ class Group:
         '''
         dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
 
+    def deleteMember(self, user_id):
+        dbw.deleteUserFromGroup(self.id, user_id)
+        
     def __str__(self):
         '''
         @brief string representation of the group

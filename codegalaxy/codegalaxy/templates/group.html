@@ -10,7 +10,9 @@
     <ul class="tabs" data-tab>
       <li class="tab-title active"><a href="#feed">Feed</a></li>
       <li class="tab-title"><a href="#members">Members</a></li>
+      {% if is_member %}
       <li class="tab-title"><a href="#add_members">Add New Members</a></li>
+      {% endif %}
     </ul>
 
     <hr/>
@@ -20,7 +22,12 @@
         {% if not is_member %}
         <form method="post" action="/g/{{group.id}}/">
           {% csrf_token %}
-          <input type="submit" name="become_member" value="Become member" class="button"/>
+          <input type="submit" name="become_member" value="Become member" class="button success"/>
+        </form>
+        {% else %}
+        <form method="post" action="/g/{{group.id}}/">
+          {% csrf_token %}
+          <input type="submit" name="leave_group" value="Leave group" class="button alert"/>
         </form>
         {% endif %}
         {% for item in data %}

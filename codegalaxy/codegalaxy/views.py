@@ -141,6 +141,7 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
 
+        pending_group_membership = []
         if current_user.id == user.id:
             pending_group_membership = user.allPendingGroupMemberships()
 
@@ -258,6 +259,9 @@ def group(request, id=0):
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")), "Pending")
+
+        elif 'leave_group' in request.POST:
+            group.deleteMember(user.id)
 
     is_member = False
     if group:

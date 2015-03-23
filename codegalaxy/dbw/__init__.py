@@ -690,6 +690,10 @@ def deleteGroupMembership(user_id, group_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
 
+def deleteUserFromGroup(group_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+    
 def deleteAnswers(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id=exercise_id))
