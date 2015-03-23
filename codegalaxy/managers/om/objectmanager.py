@@ -188,5 +188,3 @@ class ObjectManager:
 
     def getExerciseID(self, list_id, exercise_number):
         return dbw.getExerciseInList(list_id, exercise_number)['id']
-
-
