@@ -69,6 +69,12 @@ class User:
     def declineFriendship(self, friend_id):
         dbw.deleteFriendship(self.id, friend_id)
 
+    def confirmGroupMembership(self, group_id):
+        dbw.updateGroupMembership(self.id, group_id)
+
+    def deleteGroupMembership(self, group_id):
+        dbw.deleteGroupMembership(self.id, group_id)
+
     def isFriend(self, friend):
         '''
         @brief Check if a User is a friend of this user
@@ -91,14 +97,20 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for group in groups_info:
+            if group['status'] == 'Member':
             # If the info is legit, we add a Group object with the info to the
             # list
-            groups_list.append(object_manager.createGroup(group['group_id']))
+                groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
     def allPendingFriendships(self):
         pending_friendships = dbw.getPendingFriendships(self.id)
         return pending_friendships
+
+    def allPendingGroupMemberships(self):
+        pending_group_membership = dbw.getPendingGroupMemberships(self.id)
+        print(pending_group_membership)
+        return pending_group_membership
 
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)

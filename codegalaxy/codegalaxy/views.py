@@ -77,6 +77,15 @@ def user(request, id=0):
             new_email = request.POST.get('new_email')
             user.updateProfile(new_email, new_password)
 
+        elif 'confirm_membership' in request.POST:
+            group_id = request.POST.get('group_id_to_confirm')
+            user.confirmGroupMembership(group_id)
+
+        elif 'decline_membership' in request.POST:
+            group_id = request.POST.get('group_id_to_decline')
+            user.deleteGroupMembership(group_id)
+
+
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -132,9 +141,12 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
 
+        if current_user.id == user.id:
+            pending_group_membership = user.allPendingGroupMemberships()
+
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
-                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
 
         context.update(defaultContext(id))
 

@@ -231,6 +231,17 @@ def getPendingFriendships(id):
     cursor.close()
     return fetched
 
+def getPendingGroupMemberships(id):
+    '''
+    @brief get the groups of a user that are pending
+    @param id the id of the user
+    @return returns a dict with group
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM userInGroup u, groups g WHERE u.user_id = {id} AND u.status = "Pending" AND u.group_id = g.id ;'.format(id=id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
 
 def getExercisesForList(list_id):
     '''
@@ -356,7 +367,7 @@ def getGroupsFromUser(user_id):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT group_id FROM userInGroup u WHERE u.user_id = {id};'.format(id=user_id))
+    cursor.execute('SELECT group_id, status FROM userInGroup u WHERE u.user_id = {id};'.format(id=user_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -542,7 +553,7 @@ def insertGroup(group_name, group_type, created_on):
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
     cursor = connection.cursor()
     if not userIsInGroup(user_id, group_id):
-        cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
+        cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on, status) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}", "Pending");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
 
 
 def insertProgrammingLanguage(name):
@@ -660,11 +671,24 @@ def updateFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE friendsWith SET status="Friends" WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
 
+def updateGroupMembership(user_id, group_id):
+    '''
+    @brief confirms group membership, changes status
+    @param id the id of the user, id of group
+    @return returns nothing
+    '''
+    cursor = connection.cursor()
+    cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+
 # DELETE
 
 def deleteFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
+
+def deleteGroupMembership(user_id, group_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
 
 def deleteAnswers(exercise_id):
     cursor = connection.cursor()

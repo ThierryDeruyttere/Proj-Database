@@ -172,6 +172,27 @@
         </div>
       </div>
       <div class="content" id="groups">
+      {% for group_membership in pending_group_membership %}
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="{% static profile_picture %}"/></div>
+          <div class="large-10 columns">
+            <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group_name }}</a></strong></p>
+            <ul class="button-group radius">
+              <li><form method="POST" id='confirm_membership' name='confirm_membership'>
+                {% csrf_token %}
+                <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.id }}">
+                <input type="submit" name ='confirm_membership' value="Confirm" class="button success">
+              </form></li>
+              <li><form method="POST" id='decline_membership' name='decline_membership'>
+                {% csrf_token %}
+                <input type="hidden" name="group_id_to_decline" value="{{ group_membership.id }}">
+                <input type="submit" name ='decline_membership' value="Decline" class="button alert">
+              </form></li>
+            </ul>
+          </div>
+        </div>
+        <hr/>
+        {% endfor %}
         {% if group_list %}
         {% for group_sub_list in group_list %}
         <div class="row">
