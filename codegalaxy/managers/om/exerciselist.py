@@ -4,7 +4,7 @@ import managers.om.objectmanager
 
 class ExerciseList:
 
-    def __init__(self, id, name, difficulty, description, created_by, created_on, programming_lang):
+    def __init__(self, id, name, difficulty, description, created_by, created_on, programming_lang, default_language_code='en'):
         self.id = int(id)
         self.name = name
         self.difficulty = int(difficulty)
@@ -13,6 +13,7 @@ class ExerciseList:
         self.created_on = created_on
         self.programming_language = programming_lang
         self.programming_language_string = dbw.getNameFromProgLangID(programming_lang)['name']
+        self.default_language_code = default_language_code
 
     def __str__(self):
         return self.name + ' ' + str(self.difficulty) + ' ' + self.description + ' ' + str(self.created_by) + ' ' + str(self.created_on)
@@ -61,12 +62,10 @@ class ExerciseList:
         # We'll put the info in a regular list
         for exercise_id in exercises_infos:
             exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
-
         for exercise_id in exercise_references_infos:
             referenced = object_manager.createExercise(exercise_id['id'], language_code)
             referenced.exercise_number = exercise_id['new_list_exercise_number']
             exercises.append(referenced)
-
         return exercises
 
 
@@ -163,3 +162,6 @@ class ExerciseList:
     def copyExercise(self, original_exercise_id):
         number = self.insertExerciseByReference(original_exercise_id)
         self.unreferenceExercise(number)
+
+    def maxScore(self):
+        return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)

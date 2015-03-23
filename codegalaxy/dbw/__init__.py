@@ -554,6 +554,20 @@ def getOriginalExercise(list_id, exercise_number):
     cursor.close()
     return fetched
 
+def getMaxSumForExForList(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex WHERE ex.id = {id} ;'.format(id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched['total']
+
+def getMaxSumForRefForList(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex,exercise_references e WHERE e.new_list_id = {id} AND e.original_id = ex.id;'.format(id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched['total']
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()

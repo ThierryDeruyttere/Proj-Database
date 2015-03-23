@@ -508,7 +508,9 @@ def submit(request, list_id, question_id):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    user.madeList(exercise_list.id,score,0)
+                    #TODO: dees teste
+                    #score /= exercise_list.maxScore()
+                    user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""
 
