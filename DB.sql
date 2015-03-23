@@ -117,7 +117,7 @@ CREATE TABLE madeEx(
   rating INT,
   completed_on DATE,
   list_id INT,
-  exercise_number,
+  exercise_number INT,
   FOREIGN KEY (user_id) REFERENCES user(id),
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   PRIMARY KEY(user_id, exercise_id)
