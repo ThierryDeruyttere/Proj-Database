@@ -308,7 +308,7 @@ def list(request, id=0):
         if logged_user(request):
             for exercise in all_exercises:
                 # TODO WILL break, see previous use of this function
-                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
+                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise_number):
                     exercise.solved = True
 
             correct_user = (logged_user(request).id == exercise_list.created_by)
@@ -452,7 +452,7 @@ def submit(request, list_id, exercise_number):
                 return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
 
             # TODO: We need ex_number,ex_id and list_id, this WILL crash
-            info = object_manager.getInfoForUserForExercise(user.id, question_id, id, exercise.exercise_number)
+            info = object_manager.getInfoForUserForExercise(user.id, question_id, id, exercise_number)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:
@@ -477,7 +477,7 @@ def submit(request, list_id, exercise_number):
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_number,0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), exercise_number,0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
