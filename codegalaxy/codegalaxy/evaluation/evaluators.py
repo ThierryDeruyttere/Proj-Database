@@ -25,7 +25,7 @@ class EvaluatorPython(Evaluator):
         super(EvaluatorPython, self).__init__('python', 'py', code)
 
     def evaluate(self):
-        return 'success!'
+        self.command('python3', ['-I', '-c', self.code])
 
 class EvaluatorCpp(Evaluator):
     """ Code Evaluator for C++ """
