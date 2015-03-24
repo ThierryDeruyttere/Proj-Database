@@ -11,7 +11,9 @@
       <li class="tab-title active"><a href="#feed">Feed</a></li>
       <li class="tab-title"><a href="#members">Members</a></li>
       {% if is_member %}
-      <li class="tab-title"><a href="#add_members">Add New Members</a></li>
+        {% if group_permissions == 0 %}
+          <li class="tab-title"><a href="#add_members">Add New Members</a></li>
+        {% endif %}
       {% endif %}
     </ul>
 

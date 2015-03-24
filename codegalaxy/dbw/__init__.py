@@ -68,6 +68,18 @@ def getExerciseListInformation(id):
     cursor.close()
     return fetched
 
+def getGroupUserPermissions(id, user_id):
+    '''
+    @brief get the permissions a user has in a group, 
+    @param id the id of the user, and the id of the group
+    @return returns a dict with information
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM groups g, userInGroup u WHERE g.id = {id} AND u.group_id = g.id AND u.user_id = {user_id};'.format(id=id, user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getGroupInformation(id):
     '''
     @brief get the information from Groups given an group id
@@ -551,6 +563,7 @@ def insertGroup(group_name, group_type, created_on):
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
 
 def insertUserInGroup(group_id, user_id, user_permissions, joined_on, status):
+    print("ik begin te twijfelen aan mijzelf")
     cursor = connection.cursor()
     if not userIsInGroup(user_id, group_id):
         cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on, status) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}", "{status}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on, status=status))

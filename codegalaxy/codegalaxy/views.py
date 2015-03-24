@@ -24,12 +24,14 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
+
 def defaultContext(id):
     profile_picture = "profile_pictures/{}.png".format(id)
 
     context = {'profile_picture': profile_picture}
-    
+
     return context
+
 
 def home(request):
     current_user = logged_user(request)
@@ -84,7 +86,6 @@ def user(request, id=0):
         elif 'decline_membership' in request.POST:
             group_id = request.POST.get('group_id_to_decline')
             user.deleteGroupMembership(group_id)
-
 
     already_friends = False
     if current_user:
@@ -144,7 +145,6 @@ def user(request, id=0):
         pending_group_membership = []
         if current_user.id == user.id:
             pending_group_membership = user.allPendingGroupMemberships()
-
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
@@ -254,11 +254,13 @@ def group(request, id=0):
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")), "Member")
+            group.insertMember(
+                user.id, 1, str(time.strftime("%Y-%m-%d")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
-            group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")), "Pending")
+            group.insertMember(
+                friend_id, 1, str(time.strftime("%Y-%m-%d")), "Pending")
 
         elif 'leave_group' in request.POST:
             group.deleteMember(user.id)
@@ -332,8 +334,13 @@ def group(request, id=0):
             if not inList:
                 remaining_friends.append(friend)
 
+        group_permissions = []
+        if is_member:
+            group_permissions = group.getUserPermissions(user.id)
+            print("GROUP PERMISSIONS" + str(group_permissions))
         context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list':
-                   user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member}
+                   user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
+                   'group_permissions': group_permissions}
         return render(request, 'group.html', context)
 
     else:
@@ -377,18 +384,24 @@ def groupCreate(request, id=0):
         # !!!!!!
         # iemand een idee hoe ik uit een switch een waarde haal?
         group_type = request.POST.get('group_type')
+
+        print("DIT WERKT DUIDELIJK NIET")
         try:
             if group_type == 'on':
                 object_manager.insertGroup(
                     group_name, 1, str(time.strftime("%Y-%m-%d")))
+                print("PRIVATE GROUP MAKEN")
             else:
                 object_manager.insertGroup(
                     group_name, 0, str(time.strftime("%Y-%m-%d")))
+                print("PUBLIC GROUP MAKEN")
 
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            group.insertMember(user.id, 2, str(time.strftime("%Y-%m-%d")))
+            print("Hier foort het?")
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
+            print("DIT WERKT DUIDELIJK NIET")
             return redirect('/g/' + str(group.id))
 
         except:

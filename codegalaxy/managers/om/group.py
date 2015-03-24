@@ -44,11 +44,20 @@ class Group:
         @param user_permissions the permissions of the user in this group
         @param joined_on the date the user joined on
         '''
+        print("HIER gaat nog alles goed:")
         dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
 
     def deleteMember(self, user_id):
         dbw.deleteUserFromGroup(self.id, user_id)
         
+    def getUserPermissions(self, user_id):
+        print("GROUP_TYPE= " + str(self.group_type))
+        if self.group_type == 0:
+            return 0
+        else:
+            permissions = dbw.getGroupUserPermissions(self.id, user_id)
+            return permissions[0]['user_permissions']
+
     def __str__(self):
         '''
         @brief string representation of the group
