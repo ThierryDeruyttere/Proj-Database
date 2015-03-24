@@ -31,9 +31,6 @@ urlpatterns = patterns('codegalaxy.views',
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
-    ## MISC ##
-    # Sandbox page #
-
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),
 
@@ -68,6 +65,9 @@ urlpatterns += patterns('codegalaxy.exercises.views',
 )
 
 urlpatterns += patterns('codegalaxy.evaluation.views',
+    # Sandbox page #
     url(r'^sandbox/$', 'sandbox'),
+    # Sandbox code evaluation page
+    # Only for getting the responde of code evaluation
     url(r'^sandbox/(?P<lang>[a-z+]*)/$', 'evaluate')
 )
