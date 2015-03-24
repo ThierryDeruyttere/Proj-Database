@@ -293,8 +293,7 @@ def list(request, id=0):
             new_order = request.POST.get('order')
             if new_order != "":
                 new_order = filterOrder(new_order)
-                print(new_order)
-                
+                exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
 
             for i in range(updated_subjects_amount):
                 subject = request.POST.get('subject' + str(i))
