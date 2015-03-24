@@ -256,6 +256,7 @@
                               <div id="Exerc{{ exercise.exercise_number }}" class="content">
                                 <div class="row">
                                   <a href="{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">Edit exercise</a>
+                                  <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                                 </div>
                               </div>
                             </li>
@@ -268,7 +269,7 @@
                   <input type="hidden" id="order" name="order">
                 </div>
 
-                <button id="submit" class="secondary button tiny radius" value="Edit">Edit</button>
+                <button id="sub_button" class="secondary button tiny radius" value="Edit">Edit</button>
                 <a class="close-reveal-modal">&#215;</a>
                 <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
               </form>
@@ -377,7 +378,7 @@
     });
 
 
-    $("#submit").click(function(){
+    $("#sub_button").click(function(){
       $(function(){
         $('#list_editor').submit(function(e){
           e.preventDefault();
@@ -401,16 +402,31 @@
 
     $(document).ready(function() {
 
+      var updateFunc = function (event,ui){
+        var t = $(this).sortable("toArray").toString();
+        $("#order").val(t);
+      };
+
       $(function() {
         $( "#dragdrop" ).sortable({
-          update: function(event, ui) {
-            var t = $(this).sortable("toArray").toString();
-            $("#order").val(t);
-          }
+          delay:100,
+          update: updateFunc
         });
         $( "#dragdrop" ).disableSelection();
+        $( "#dragdrop").on("callUpdate", updateFunc);
       });
 
+
+
+
+      $(".removal").click(function(){
+        var text = this.id;
+        text = text.replace('remove_', '');
+        console.log(text);
+        var remove = $("#exercise" + text);
+        $(remove).remove();
+        $( "#dragdrop").trigger("callUpdate");
+      });
 
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
       $('#raty').raty({
