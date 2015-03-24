@@ -435,16 +435,7 @@ def test(request, id=0):
     for ex in exercises:
         print(ex)
         print("\n")
-    import random
-    random.shuffle(exercises)
-    print("")
-    print("")
-    print("")
-    print("shuffeled")
-    for ex in exercises:
-        print(ex)
-        print("\n")
-    exercise_list_test.reorderExercises(exercises)
+    exercise_list_test.reorderExercises([3,2,4,1],'en')
     exercises = exercise_list_test.allExercises('en')
     print("remade")
     for ex in exercises:

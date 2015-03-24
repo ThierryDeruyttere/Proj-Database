@@ -150,7 +150,6 @@ class ExerciseList:
         else:
             return last
 
-
     def insertExerciseByReference(self, original_exercise_id):
         new_list_exercise_number = int(self.getLastExercise()) + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
@@ -175,7 +174,24 @@ class ExerciseList:
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
 
     # scrambled_exercises is a list of Exercise objects
-    def reorderExercises(self, scrambled_exercises):
+    def reorderExercises(self, scrambled_exercise_ids, language_code):
+        # First we need to convert the list of integers to actual objects
+        normal_order = self.allExercises(language_code)
+        scrambled_exercises = []
+        for ex_number in scrambled_exercise_ids:
+            for ex in normal_order:
+                if ex.exercise_number == ex_number:
+                    scrambled_exercises.append(ex)
+                    break
+        # First we'll check which exercises were deleted
+        # The amount of exercises we had at first
+        last_exercise = self.getLastExercise()
+        # The missing indices
+        missing = []
+        for i in range(last_exercise):
+            if i not in scrambled_exercise_ids:
+                missing.append(i)
+
         transaction = ''
         for i in range(len(scrambled_exercises)):
             # we simply change the number to the new indice of the list
@@ -183,3 +199,6 @@ class ExerciseList:
             scrambled_exercises[i].exercise_number = (i+1)
             transaction += scrambled_exercises[i].saveExerciseNumber()
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
+
+    def deleteExercise(exercise_number):
+        pass
