@@ -251,7 +251,7 @@
                       <div class="row">
                         <ul class="accordion dragdrop" id="dragdrop" data-accordion>
                           {% for exercise in all_exercises %}
-                            <li class="accordion-navigation" id="pos{{ forloop.counter0 }}_exercise{{ exercise.exercise_number }}">
+                            <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
                               <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
                               <div id="Exerc{{ exercise.exercise_number }}" class="content">
                                 <div class="row">
@@ -388,7 +388,6 @@
             type: 'POST',
             url: "",
             data: post_data,
-            dataType: "text",
 
             success: function(response) {
               location.reload();
@@ -406,7 +405,7 @@
         $( "#dragdrop" ).sortable({
           update: function(event, ui) {
             var t = $(this).sortable("toArray").toString();
-            $("#order").text (t);
+            $("#order").val(t);
           }
         });
         $( "#dragdrop" ).disableSelection();

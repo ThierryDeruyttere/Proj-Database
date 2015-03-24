@@ -244,6 +244,14 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
+def filterOrder(order):
+    new_order = []
+    splitted = order.split(',')
+    for i in splitted:
+        new_order.append(int(i.replace('exercise','')))
+    return new_order
+
+
 def list(request, id=0):
 
     #score spread forthis exercise
@@ -283,7 +291,10 @@ def list(request, id=0):
             updated_prog_lang = request.POST.get('prog_lang', '')
             updated_description = request.POST.get('updated_description_text')
             new_order = request.POST.get('order')
-
+            if new_order != "":
+                new_order = filterOrder(new_order)
+                print(new_order)
+                
 
             for i in range(updated_subjects_amount):
                 subject = request.POST.get('subject' + str(i))
@@ -304,7 +315,7 @@ def list(request, id=0):
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
-        all_exercises = exercise_list.allExercises("en")
+        all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
         correct_user = False
         if logged_user(request):
