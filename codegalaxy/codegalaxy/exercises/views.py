@@ -282,6 +282,8 @@ def list(request, id=0):
             updated_subjects = []
             updated_prog_lang = request.POST.get('prog_lang', '')
             updated_description = request.POST.get('updated_description_text')
+            new_order = request.POST.get('order')
+
 
             for i in range(updated_subjects_amount):
                 subject = request.POST.get('subject' + str(i))

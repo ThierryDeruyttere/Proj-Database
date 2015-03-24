@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block head_js %}
-<script src="{% static "Chart.min.js" %}"></script>
+  <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
 {% block base_body %}
@@ -246,14 +246,14 @@
 
                 <div class ="row">
                   <div class="large-10 large-centered columns">
-                    <ul class="pricing-table" id="drag_drop" ondrop="javascript:drop(event)" ondragover="javascript:allowDrop(event)">
+                    <ul class="pricing-table">
                       <li class="title">Exercises</li>
                       <div class="row">
-                        <ul class="accordion" data-accordion>
+                        <ul class="accordion dragdrop" id="dragdrop" data-accordion>
                           {% for exercise in all_exercises %}
-                            <li class="accordion-navigation" draggable="true" ondragstart="javascript:startdrag(event)">
-                              <a href="#Exerc{{ exercise.id }}"> {{ exercise.title }}</a>
-                              <div id="Exerc{{ exercise.id }}" class="content">
+                            <li class="accordion-navigation" id="pos{{ forloop.counter0 }}_exercise{{ exercise.exercise_number }}">
+                              <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
+                              <div id="Exerc{{ exercise.exercise_number }}" class="content">
                                 <div class="row">
                                   <a href="{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">Edit exercise</a>
                                 </div>
@@ -265,6 +265,7 @@
                       </div>
                     </ul>
                   </div>
+                  <input type="hidden" id="order" name="order">
                 </div>
 
                 <button id="submit" class="secondary button tiny radius" value="Edit">Edit</button>
@@ -400,6 +401,18 @@
     $('img').on('dragstart', function(event) { event.preventDefault(); });
 
     $(document).ready(function() {
+
+      $(function() {
+        $( "#dragdrop" ).sortable({
+          update: function(event, ui) {
+            var t = $(this).sortable("toArray").toString();
+            $("#order").text (t);
+          }
+        });
+        $( "#dragdrop" ).disableSelection();
+      });
+
+
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
       $('#raty').raty({
         score : {{ user_rating }},
@@ -413,11 +426,10 @@
               data: {"rating" : score},
 
               success: function(response) {
-                console.log("yay");
               },
 
               error: function(xhr, textStatus, errorThrown){
-                console.log("failed");
+
               }
 
             });
