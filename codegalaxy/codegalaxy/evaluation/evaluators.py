@@ -28,7 +28,7 @@ class EvaluatorPython(Evaluator):
         return 'success!'
 
 class EvaluatorCpp(Evaluator):
-    """ Coe Evaluator for C++ """
+    """ Code Evaluator for C++ """
     def __init__(self, code):
         super(EvaluatorCpp, self).__init__('cpp', 'cpp', code)
 
