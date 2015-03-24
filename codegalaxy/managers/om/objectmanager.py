@@ -185,6 +185,8 @@ class ObjectManager:
     def getOriginalExercise(self, list_id, exercise_number):
         return  dbw.getOriginalExercise(list_id, exercise_number)['id']
 
-
     def getExerciseID(self, list_id, exercise_number):
         return dbw.getExerciseInList(list_id, exercise_number)['id']
+
+    def getAllReferencesTo(self, exercise_id):
+        return dbw.getAllReferencesToExercise(exercise_id)

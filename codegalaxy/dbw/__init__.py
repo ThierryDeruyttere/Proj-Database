@@ -561,9 +561,7 @@ def getExerciseInList(list_id, exercise_number):
     cursor.close()
     if fetched is None:
         return getOriginalExercise(list_id, exercise_number)
-
     return fetched
-
 
 def getMaxSumForExForList(list_id):
     cursor = connection.cursor()
@@ -586,8 +584,13 @@ def getAmountOfExercisesForList(list_id):
     cursor.close()
     return fetched
 
-'''SELECT
-'''
+def getAllReferencesToExercise(exercise_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT new_list_exercise_number AS exercise_number, new_list_id AS list_id FROM exercise_references WHERE original_exercise_id = {exercise_id} '.format(exercise_id=exercise_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()
@@ -739,11 +742,13 @@ def deleteAnswers(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM answer WHERE answer.is_answer_for={id};'.format(id=exercise_id))
 
-
-def deleteHints(hint_id):
+def deleteExercise(exercise_id):
     cursor = connection.cursor()
-    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id=hint_id))
-
+    cursor.execute('DELETE FROM hint WHERE exercise_id={id};'.format(id=exercise_id))
+    cursor.execute('DELETE FROM question WHERE exercise_id={id};'.format(id=exercise_id))
+    cursor.execute('DELETE FROM code WHERE exercise_id={id};'.format(id=exercise_id))
+    cursor.execute('DELETE FROM answer WHERE is_answer_for={id};'.format(id=exercise_id))
+    cursor.execute('DELETE FROM exercise WHERE id={id};'.format(id=exercise_id))
 
 def deleteSubjectFromHasSubject(list_id, subject_id):
     cursor = connection.cursor()

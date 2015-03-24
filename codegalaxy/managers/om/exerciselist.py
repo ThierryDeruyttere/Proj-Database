@@ -186,11 +186,11 @@ class ExerciseList:
         # First we'll check which exercises were deleted
         # The amount of exercises we had at first
         last_exercise = self.getLastExercise()
-        # The missing indices
+        # The missing indices (exercises)
         missing = []
         for i in range(last_exercise):
             if i not in scrambled_exercise_ids:
-                missing.append(i)
+                self.deleteExercise(i)
 
         transaction = ''
         for i in range(len(scrambled_exercises)):
@@ -201,4 +201,17 @@ class ExerciseList:
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
 
     def deleteExercise(exercise_number):
-        pass
+        if dbw.isReference(self.id, exercise_number):
+            # Ref -> just delete from DB
+            dbw.deleteReference(self.id, exercise_number)
+        else:
+            # Not ref -> delete it (all info about it) and dereference all references to it
+            # First we need to get all the references to this exercise
+            exercise = object_manager.createExercise(dbw.getExerciseInList(self.id, exercise_number)['id'])
+            # list of discts with exercise_number and reference
+            all_references = object_manager.getAllReferencesTo(exercise.id)
+            for reference in all_references:
+                exercise_list = object_manager.createExerciseList(reference['list_id'])
+                exercise_list.unreferenceExercise(reference['exercise_number'])
+            # Now we'll delete the old exercise
+            dbw.deleteExercise(exercise.id)
