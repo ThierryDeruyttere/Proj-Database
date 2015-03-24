@@ -65,7 +65,7 @@ class Exercise:
         '''
         @brief string representation of exercise
         '''
-        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on) + ' ex number:' + str(self.exercise_number)
+        return str(self.exercise_number) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on) + ' ' + str(self.difficulty)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
@@ -140,6 +140,14 @@ class Exercise:
 
     def updateCode(self):
         dbw.updateExerciseCode(self.code, self.id)
+
+    def saveExerciseNumber(self):
+        transaction = ''
+        if dbw.isReference(self.exerciseList_id, self.exercise_number):
+            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=self.exercise_number, list_id=self.exerciseList_id)
+        else:
+            transaction += 'UPDATE exercise SET  exercise_number = {exerc_nmbr} WHERE id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=self.exercise_number)
+        return transaction
 
 
     def save(self, user_id = None):

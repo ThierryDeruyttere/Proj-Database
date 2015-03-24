@@ -376,7 +376,7 @@ def test(request, id=0):
     #exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
-    exercise_test.update(2, new_answers, new_hints)
+    #exercise_test.update(2, new_answers, new_hints)
 
     # test
     user_test = object_manager.createUser(id=1)
@@ -403,7 +403,7 @@ def test(request, id=0):
     for list_ in lists:
         personalexercises += list_.allExercises("en")
     # testfunction6
-    exercise_test = object_manager.createExercise(1, 'en')
+    #exercise_test = object_manager.createExercise(1, 'en')
     # testfunction7
     hints = exercise_test.allHints()
     # testfunction8
@@ -417,13 +417,13 @@ def test(request, id=0):
     group_test.save()
     # testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
-    exercise_list_test.name = "testlist"
-    exercise_list_test.difficulty = 4
-    exercise_list_test.description = "no"
-    exercise_list_test.programming_language = 2
+    #exercise_list_test.name = "testlist"
+    #exercise_list_test.difficulty = 4
+    #exercise_list_test.description = "no"
+    #exercise_list_test.programming_language = 2
     #reference test -> copying multiple times???
-    exercise_list_test.insertExerciseByReference(1, 3)
-    exercise_list_test.insertExerciseByReference(2, 4)
+    exercise_list_test.insertExerciseByReference(1)
+    exercise_list_test.insertExerciseByReference(2)
     #new_id = exercise_list_test.unreferenceExercise(3)
     #exercise_test3 = object_manager.createExercise(new_id,'en')
 
@@ -431,8 +431,27 @@ def test(request, id=0):
     subjects = exercise_list_test.allSubjects()
     # testfunction12
     exercises = exercise_list_test.allExercises('en')
-    exercises[2].penalty = 3
-    exercises[2].save()
+    print("before")
+    for ex in exercises:
+        print(ex)
+        print("\n")
+    import random
+    random.shuffle(exercises)
+    print("")
+    print("")
+    print("")
+    print("shuffeled")
+    for ex in exercises:
+        print(ex)
+        print("\n")
+    exercise_list_test.reorderExercises(exercises)
+    exercises = exercise_list_test.allExercises('en')
+    print("remade")
+    for ex in exercises:
+        print(ex)
+        print("\n")
+    #exercises[2].penalty = 3
+    #exercises[2].save()
     # testfunction13
     members = group_test.allMembers()
 

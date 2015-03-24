@@ -711,10 +711,9 @@ def updateListRating(list_id, user_id, list_rating):
     cursor = connection.cursor()
     cursor.execute('UPDATE madeList SET rating = {rating} WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(rating = list_rating, list_id = list_id, user_id = user_id))
 
-
-def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
+def UpdateExerciseAndReferenceNumbers(sql_string):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty = {diff}, max_score = {m}, penalty = {pen}, exercise_type = "{e_type}", created_by = {crtd_by}, created_on = "{crtd_on}", exercise_number = {exerc_nmbr}, correct_answer = {corr_answer}, exerciseList_id = {exerciseList_id}, title = "{title}" WHERE id = {ex_id};'.format(ex_id=exercise_id, diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
+    cursor.execute('START TRANSACTION;' + sql_string + 'COMMIT;')
 
 def updateExerciseCode(code, exercise_id):
     cursor = connection.cursor()

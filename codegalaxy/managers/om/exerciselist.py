@@ -72,6 +72,8 @@ class ExerciseList:
             referenced = object_manager.createExercise(exercise_id['id'], language_code)
             referenced.exercise_number = exercise_id['new_list_exercise_number']
             exercises.append(referenced)
+        # now we sort the exercises on exercise_number
+        exercises = sorted(exercises, key=lambda ex: ex.exercise_number)
         return exercises
 
 
@@ -171,3 +173,13 @@ class ExerciseList:
 
     def maxScore(self):
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
+
+    # scrambled_exercises is a list of Exercise objects
+    def reorderExercises(self, scrambled_exercises):
+        transaction = ''
+        for i in range(len(scrambled_exercises)):
+            # we simply change the number to the new indice of the list
+            print(str(scrambled_exercises[i].exercise_number) + 'to' + str(i+1))
+            scrambled_exercises[i].exercise_number = (i+1)
+            transaction += scrambled_exercises[i].saveExerciseNumber()
+        dbw.UpdateExerciseAndReferenceNumbers(transaction)
