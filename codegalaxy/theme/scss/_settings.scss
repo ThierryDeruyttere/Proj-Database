@@ -123,14 +123,15 @@ $include-html-global-classes: $include-html-classes;
  $oil         : #333333;
  $jet         : #222222;
  $black       : #000000;
+ $sky         : #A8DAFF;
  $blue        : #000b32;
  $darkblue    : #131a2d;
  $red         : #ff0000;
 
 // We use these as default colors throughout
-// $primary-color: #008CBA;
-// $secondary-color: #e7e7e7;
-// $alert-color: #f04124;
+$primary-color: $sky;
+$secondary-color: #e7e7e7;
+$alert-color: #f04124;
 // $success-color: #43AC6A;
 // $warning-color: #f08a24;
 // $info-color: #a0d3e8;
@@ -436,20 +437,20 @@ $header-font-color: $white-smoke;
 $include-html-button-classes: $include-html-classes;
 
 // We use these to build padding for buttons.
-$button-tny: rem-calc(10);
+$button-tny: rem-calc(11);
 $button-sml: rem-calc(14);
 $button-med: rem-calc(16);
 $button-lrg: rem-calc(18);
 
 // We use this to control the display property.
 // $button-display: inline-block;
-// $button-margin-bottom: rem-calc(20);
+$button-margin-bottom: rem-calc(20);
 
 // We use these to control button text styles.
 // $button-font-family: $body-font-family;
 // $button-font-color: $white;
 // $button-font-color-alt: $oil;
-// $button-font-tny: rem-calc(11);
+$button-font-tny: rem-calc(12);
 $button-font-sml: rem-calc(15);
 // $button-font-med: rem-calc(16);
 // $button-font-lrg: rem-calc(20);
@@ -978,7 +979,7 @@ $legend-bg: $oil;
 // $include-html-panel-classes: $include-html-classes;
 
 // We use these to control the background and border styles
-$panel-bg: $monsoon;
+$panel-bg: $smoke;
 // $panel-border-style: solid;
 // $panel-border-size: 1px;
 
@@ -995,7 +996,7 @@ $panel-font-color: $darkblue;
 // $panel-font-color-alt: $white;
 
 // $panel-header-adjust: true;
-// $callout-panel-link-color: $primary-color;
+// $callout-panel--color: $primary-color;
 // $callout-panel-link-color-hover: scale-color($callout-panel-link-color, $lightness: -14%);
 
 // 22. Pricing Tables
@@ -1089,7 +1090,7 @@ $panel-font-color: $darkblue;
 // $range-slider-bar-border-color: $gainsboro;
 // $range-slider-radius: $global-radius;
 // $range-slider-round: $global-rounded;
-// $range-slider-bar-bg-color: $ghost;
+// $range-slider-bar-bg-color: $alert-color;
 // $range-slider-active-segment-bg-color: scale-color($secondary-color, $lightness: -1%);
 
 // Vertical bar styles
@@ -1100,10 +1101,10 @@ $panel-font-color: $darkblue;
 // $range-slider-handle-width: rem-calc(32);
 // $range-slider-handle-height: rem-calc(22);
 // $range-slider-handle-position-top: rem-calc(-5);
-// $range-slider-handle-bg-color: $primary-color;
+$range-slider-handle-bg-color: $alert-color;
 // $range-slider-handle-border-width: 1px;
 // $range-slider-handle-border-style: solid;
-// $range-slider-handle-border-color: none;
+// $range--handle-border-color: none;
 // $range-slider-handle-radius: $global-radius;
 // $range-slider-handle-round: $global-rounded;
 // $range-slider-handle-bg-hover-color: scale-color($primary-color, $lightness: -12%);
@@ -1262,7 +1263,7 @@ $panel-font-color: $darkblue;
 // $include-html-form-classes: $include-html-classes;
 
 // Controlling background color for the switch container
-// $switch-bg: $gainsboro;
+// $switch-bg: $alert-color;
 
 // We use these to control the switch heights for our default classes
 // $switch-height-tny: 1.5rem;
@@ -1275,7 +1276,7 @@ $panel-font-color: $darkblue;
 // $switch-paddle-bg: $white;
 // $switch-paddle-transition-speed: .15s;
 // $switch-paddle-transition-ease: ease-out;
-// $switch-active-color: $primary-color;
+$switch-active-color: $alert-color;
 
 // 30. Tables
 // - - - - - - - - - - - - - - - - - - - - - - - - -

@@ -28,7 +28,7 @@ def defaultContext(id):
     profile_picture = "profile_pictures/{}.png".format(id)
 
     context = {'profile_picture': profile_picture}
-    
+
     return context
 
 def home(request):

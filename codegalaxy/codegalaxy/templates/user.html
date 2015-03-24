@@ -21,7 +21,7 @@
         {% if not already_friends and not my_profile %}
         <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
           {% csrf_token %}
-          <input type="submit" name ='add_friend' value="Become friends" class="button"/>
+          <input type="submit" name ='add_friend' value="Become friends" class="round button"/>
         </form>
         {% endif %}
       </div>
@@ -55,7 +55,7 @@
             <div class="small-2 columns">
               <span class="prefix"><i class="fi-mail size-28"></i></span>
             </div>
-            <div class="small-10  columns">
+            <div class="small-4  columns left">
               <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
               <small class="error">Enter a valid Email Address.</small>
             </div>
@@ -65,7 +65,7 @@
             <div class="small-2 columns ">
               <span class="prefix"><i class="fi-lock size-28"></i></span>
             </div>
-            <div class="small-10 columns ">
+            <div class="small-4 columns left">
               <input type="password" required placeholder="Password" id="new_password" name="new_password" value="{{ new_password }}">
               <small class="error">Enter a valid password.</small>
             </div>
@@ -74,7 +74,7 @@
           <p>
                     <input id="id_image" type="file" class="" name="image">
                 </p>
-          <input type="submit" value="Edit" name="update_profile" class="button"/>
+          <input type="submit" value="Edit" name="update_profile" class="round button"/>
         </form>
         <hr/>
       </div>
@@ -143,12 +143,12 @@
               <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
                 {% csrf_token %}
                 <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
-                <input type="submit" name ='confirm_friendship' value="Confirm" class="button success">
+                <input type="submit" name ='confirm_friendship' value="Confirm" class="round button success">
               </form></li>
               <li><form method="POST" id='decline_friendship' name='decline_friendship'>
                 {% csrf_token %}
                 <input type="hidden" name="user_id_to_decline" value="{{ friendship.id }}">
-                <input type="submit" name ='decline_friendship' value="Decline" class="button alert">
+                <input type="submit" name ='decline_friendship' value="Decline" class="round button alert">
               </form></li>
             </ul>
           </div>
@@ -193,7 +193,7 @@
           {% else %}
           {% if my_profile %}
           <h4>You have not joined a group yet.</h4>
-          <a href="/g/overview" class="button">Take a look!</a>
+          <a href="/g/overview" class="round button">Take a look!</a>
           {% else %}
           <div class="row">
             <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>

@@ -13,36 +13,36 @@
       <div class="row">
 
 
-        <div class="large-3 columns ">
+        <div class="large-3 columns text-center">
           <div class="panel">
-            <a href="#"><img src="{% static "media/user.png" %}"/></a>
+            <a href="#"><img src="{% static profile_picture %}"/></a>
             <h5><a href="#">{{user.first_name}} {{user.last_name}}</a></h5>
+          <hr/>
           </div>
         </div>
+
         <div class="large-6 columns">
+            <div class="row collapse">
+              <div class="large-9 columns">
+                <input type="text" placeholder="Browse the galaxy...">
+
+              </div>
+                <a href="#" class="tiny alert button">Search</a>
+            </div>
           {% for userfriend in friends%}
             {% for friend in userfriend.allFriends %}
             <div class="row">
               <div class="large-2 columns small-3"><img src={% static "rocket1.png" %}/></div>
               <div class="large-10 columns">
-                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong> {{friend.first_name}} {{friend.last_name}}</p>
+                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong><a href="/u/{{ friend.id }}"> {{friend.first_name}} {{friend.last_name}}</a></p>
+                <!--
                 <ul class="inline-list">
                   <li><a href="">Reply</a></li>
                   <li><a href="">Share</a></li>
                 </ul>
-              <!--
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+              -->
               </div>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div> -->
-          </div>
-          </div>
+            </div>
 
             <hr/>
             {% endfor %}
