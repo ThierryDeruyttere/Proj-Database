@@ -5,11 +5,13 @@ from django.http import HttpResponse
 import time
 import json
 
+from pymysql import escape_string
+
 from managers.om import *
 from managers.gm import *
-from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
-from pymysql import escape_string
+from codegalaxy.evaluation.evaluators import *
+from codegalaxy.authentication import require_login, logged_user
 
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
@@ -306,10 +308,23 @@ def submit(request, list_id, question_id):
 
             max_score = current_exercise.max_score
             hint = request.POST.get("used_hints")
-            user_output = request.POST.get("code_output")
 
-            if current_exercise.exercise_type == "Open Question":
-                selected_answer = request.POST.get("corr_answer")
+            user_code = request.POST.get('user_code', '')
+            evaluator = EvaluatorPython(user_code)
+            if exercise_list.programming_language == 1:
+                evaluator = EvaluatorCpp(user_code)
+            elif exercise_list.programming_language == 2:
+                # evaluator = EvaluatorSql(user_code)
+                pass
+
+            evaluator.evaluate()
+            if evaluator.hasError():
+                user_output = evaluator.error
+            else:
+                user_output = evaluator.output
+
+            if current_exercise.exercise_type == 'Open Question':
+                selected_answer = request.POST.get('corr_answer')
 
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
@@ -322,12 +337,12 @@ def submit(request, list_id, question_id):
                     object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), 0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
-            elif current_exercise.exercise_type == "Code":
+            elif current_exercise.exercise_type == 'Code':
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
 
-                if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
+                if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
                     object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), 0)
