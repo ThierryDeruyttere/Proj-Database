@@ -736,7 +736,15 @@ def updateFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE friendsWith SET status="Friends" WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
 
+def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on={created_on},exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
+
 # DELETE
+
+def deleteHints(exercise_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id=exercise_id))
 
 def deleteAnswers(exercise_id):
     cursor = connection.cursor()

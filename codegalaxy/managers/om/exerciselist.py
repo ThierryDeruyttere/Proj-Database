@@ -220,14 +220,9 @@ class ExerciseList:
         # First we'll check which exercises were deleted
         # The amount of exercises we had at first
         last_exercise = self.getLastExercise()
-        # The missing indices (exercises)
-        missing = []
-        #print(scrambled_exercise_ids)
         for i in range(1,last_exercise+1):
             if i not in scrambled_exercise_ids:
                 self.deleteExercise(i)
-
-        #print(pos_change)
         transaction = self.fixUpdateNumbers(scrambled_exercises, pos_change)
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
 
