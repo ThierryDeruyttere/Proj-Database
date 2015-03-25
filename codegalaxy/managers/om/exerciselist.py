@@ -72,6 +72,7 @@ class ExerciseList:
             referenced = object_manager.createExercise(exercise_id['id'], language_code)
             referenced.exercise_number = exercise_id['new_list_exercise_number']
             referenced.exerciseList_id = self.id
+            referenced.isReference = True
             exercises.append(referenced)
         # now we sort the exercises on exercise_number
         exercises = sorted(exercises, key=lambda ex: ex.exercise_number)
@@ -174,32 +175,60 @@ class ExerciseList:
     def maxScore(self):
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
 
+    def fixUpdateNumbers(self, exercises, pos_change):
+        nextPos = len(exercises)+1
+        #check if there are exercises who might cause problems
+        #The only exercises who can cause problems are the
+
+        transaction = ""
+        after_transaction = ""
+        for i, ex in enumerate(exercises):
+            if pos_change[i] == 0:
+                #If we did not change pos -> no prob!
+                transaction += ex.saveExerciseNumber(i+1)
+
+            else:
+                #Get the exercise on our current spot!
+                distance = pos_change[i]
+                ex_on_new_place = exercises[i + distance]
+                if ex.id == ex_on_new_place.id:
+                     #Ow problem! The exercise on our new spot has the same id...
+                    #fix this with putting us behind the list
+                    transaction += ex.saveExerciseNumber(nextPos)
+                    nextPos += 1
+                    after_transaction += ex.saveExerciseNumber(i+1)
+                else:
+                    #Just update our pos!
+                    after_transaction += ex.saveExerciseNumber(i+1)
+
+        #print(transaction + after_transaction)
+        return transaction + after_transaction
+
     # scrambled_exercises is a list of Exercise objects
     def reorderExercises(self, scrambled_exercise_ids, language_code):
         # First we need to convert the list of integers to actual objects
         normal_order = self.allExercises(language_code)
         scrambled_exercises = []
-        for ex_number in scrambled_exercise_ids:
-            for ex in normal_order:
+        pos_change = []
+
+        for i,ex_number in enumerate(scrambled_exercise_ids):
+            for j,ex in enumerate(normal_order):
                 if ex.exercise_number == ex_number:
                     scrambled_exercises.append(ex)
+                    pos_change.append(j - i)
                     break
         # First we'll check which exercises were deleted
         # The amount of exercises we had at first
         last_exercise = self.getLastExercise()
         # The missing indices (exercises)
         missing = []
-        print(scrambled_exercise_ids)
+        #print(scrambled_exercise_ids)
         for i in range(1,last_exercise+1):
             if i not in scrambled_exercise_ids:
                 self.deleteExercise(i)
 
-        transaction = ''
-        for i in range(len(scrambled_exercises)):
-            # we simply change the number to the new indice of the list
-            print(str(scrambled_exercises[i].exercise_number) + 'to' + str(i+1))
-            scrambled_exercises[i].exercise_number = (i+1)
-            transaction += scrambled_exercises[i].saveExerciseNumber()
+        #print(pos_change)
+        transaction = self.fixUpdateNumbers(scrambled_exercises, pos_change)
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
 
     def deleteExercise(self, exercise_number):

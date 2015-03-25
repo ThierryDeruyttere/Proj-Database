@@ -60,6 +60,7 @@ class Exercise:
         self.created_on = created_on
         self.exercise_number = int(exercise_number)
         self.exerciseList_id = int(exerciseList_id)
+        self.isReference = False
 
     def __str__(self):
         '''
@@ -141,12 +142,13 @@ class Exercise:
     def updateCode(self):
         dbw.updateExerciseCode(self.code, self.id)
 
-    def saveExerciseNumber(self):
+    def saveExerciseNumber(self, newPos):
         transaction = ''
-        if dbw.isReference(self.exerciseList_id, self.exercise_number):
-            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=self.exercise_number, list_id=self.exerciseList_id)
+        if self.isReference:
+            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id} AND new_list_exercise_number= {old_number};'.format(ex_id=self.id, exerc_nmbr=newPos, list_id=self.exerciseList_id, old_number = self.exercise_number)
         else:
-            transaction += 'UPDATE exercise SET  exercise_number = {exerc_nmbr} WHERE id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=self.exercise_number)
+            transaction += 'UPDATE exercise SET  exercise_number = {exerc_nmbr} WHERE id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=newPos)
+        self.exercise_number = newPos
         return transaction
 
 

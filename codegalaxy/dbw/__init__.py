@@ -862,6 +862,7 @@ def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     return new_id
 
 def isReference(list_id, exercise_number):
+    print("isref : " + str(list_id) + ',' +str(exercise_number))
     original = getOriginalExercise(list_id, exercise_number)
     if original:
         return True
