@@ -196,10 +196,8 @@ class ExerciseList:
                     #fix this with putting us behind the list
                     transaction += ex.saveExerciseNumber(nextPos)
                     nextPos += 1
-                    after_transaction += ex.saveExerciseNumber(i+1)
-                else:
-                    #Just update our pos!
-                    after_transaction += ex.saveExerciseNumber(i+1)
+                    
+                after_transaction += ex.saveExerciseNumber(i+1)
 
         #print(transaction + after_transaction)
         return transaction + after_transaction
