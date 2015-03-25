@@ -17,6 +17,10 @@ from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
 
+import os.path
+import os, sys
+from PIL import Image
+
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -28,8 +32,11 @@ graph_manager = graphmanager.GraphManager()
 def defaultContext(id):
     profile_picture = "profile_pictures/{}.png".format(id)
 
-    context = {'profile_picture': profile_picture}
-
+    path = "./codegalaxy/static/" + profile_picture
+    if os.path.isfile(path) == True:
+        context = {'profile_picture': profile_picture}
+    else:
+        context = {'profile_picture': "media/user.png"}
     return context
 
 
@@ -87,6 +94,7 @@ def user(request, id=0):
             group_id = request.POST.get('group_id_to_decline')
             user.deleteGroupMembership(group_id)
 
+
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -104,12 +112,15 @@ def user(request, id=0):
         friend_list = [friend_list_temp[i:i + 4]
                        for i in range(0, len(friend_list_temp), 4)]
 
+
         group_list_temp = user.allGroups()
         for group in group_list_temp:
             if len(group.group_name) > 12:
                 group.group_name = group.group_name[:10] + '...'
         group_list = [group_list_temp[i:i + 4]
                       for i in range(0, len(group_list_temp), 4)]
+
+
         exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(
@@ -146,8 +157,16 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_group_membership = user.allPendingGroupMemberships()
 
-        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
-                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
+        friendships = accepted_friendships
+        friends = []
+        for friendship in friendships:
+            friends.append(object_manager.createUser(id=friendship['friend_id']))
+
+
+        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,
+                   'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
+                   'friends': friends}
 
         context.update(defaultContext(id))
 

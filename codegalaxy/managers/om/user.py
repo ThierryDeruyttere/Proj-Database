@@ -5,6 +5,7 @@ import managers.om.objectmanager
 import dbw
 import datetime
 
+import os.path
 
 class User:
 
@@ -24,6 +25,16 @@ class User:
     def updateProfile(self, email, password):
         dbw.updateUserInformation(self.id, email, password)
         return True
+
+    def getProfilePicture(self):
+        profile_picture = "profile_pictures/{}.png".format(self.id)
+
+        path = "./codegalaxy/static/" + profile_picture
+        if os.path.isfile(path) == True:
+            profile_picture = profile_picture
+        else:
+            profile_picture = "media/user.png"
+        return profile_picture
 
     # List with other users this user is befriended with
     def allFriends(self):

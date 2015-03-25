@@ -14,7 +14,7 @@
 <div class="row">
   <div class="large-3 columns text-center ">
     <div class="panel">
-      <a href="#"><img src="{% static "media/user.png" %}"></a>
+      <a href="#"><img src="{% static profile_picture %}"></a>
       <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
 
       <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
@@ -83,7 +83,7 @@
         {% for item in data %}
         {% if item.type == 'friendship' %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
@@ -95,7 +95,7 @@
         {% if item.type == 'group_member'%}
         {% if item.group_type == 0 %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
@@ -108,7 +108,7 @@
         {% endif %}
         {% if item.type == 'exerciseList'%}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-10 columns">
 
             <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
@@ -157,10 +157,10 @@
         {% endfor %}
         <div class="large-12 columns">
           <div class="row">
-            {% for user in accepted_friendships %}
+            {% for user in friends %}
             <div class="large-3 columns end">
               <a href="/u/{{ user.id }}">
-                <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
+                <img src="{% static user.getProfilePicture %}"/>
                 <div class="panel" style="width: 129px;">
                   <h5 style="width: 129px;"> {{ user.first_name }} </h5>
                   <h6 style="width: 129px;">{{ user.last_name }}</h6>
