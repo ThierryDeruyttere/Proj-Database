@@ -69,5 +69,5 @@ urlpatterns += patterns('codegalaxy.evaluation.views',
     url(r'^sandbox/$', 'sandbox'),
     # Sandbox code evaluation page
     # Only for getting the responde of code evaluation
-    url(r'^sandbox/(?P<lang>[a-z+]*)/$', 'evaluate')
+    url(r'^eval/(?P<lang>[a-z+]*)/$', 'evaluate')
 )
