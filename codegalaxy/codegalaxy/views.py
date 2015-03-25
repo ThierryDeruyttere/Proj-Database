@@ -18,9 +18,6 @@ from managers.gm import *
 from managers.rm.recommendations import *
 
 import os.path
-import os, sys
-from PIL import Image
-
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -81,10 +78,22 @@ def user(request, id=0):
                 destination.write(chunk)
             destination.close()
 
-            new_password = hashlib.md5(
-                request.POST.get('new_password').encode('utf-8')).hexdigest()
-            new_email = request.POST.get('new_email')
-            user.updateProfile(new_email, new_password)
+            new_password1 = hashlib.md5(
+                request.POST.get('new_password1').encode('utf-8')).hexdigest()
+            new_password2 = hashlib.md5(
+                request.POST.get('new_password2').encode('utf-8')).hexdigest()
+
+            old_password = hashlib.md5(
+                request.POST.get('old_password').encode('utf-8')).hexdigest()
+            print(new_password1)
+            print(new_password2)
+
+            print(old_password)
+            print(user.password)
+            if new_password1 == new_password2:
+                if old_password == user.password:
+                    new_email = request.POST.get('new_email')
+                    user.updateProfile(new_email, new_password1)
 
         elif 'confirm_membership' in request.POST:
             group_id = request.POST.get('group_id_to_confirm')
@@ -93,7 +102,6 @@ def user(request, id=0):
         elif 'decline_membership' in request.POST:
             group_id = request.POST.get('group_id_to_decline')
             user.deleteGroupMembership(group_id)
-
 
     already_friends = False
     if current_user:
@@ -112,14 +120,12 @@ def user(request, id=0):
         friend_list = [friend_list_temp[i:i + 4]
                        for i in range(0, len(friend_list_temp), 4)]
 
-
         group_list_temp = user.allGroups()
         for group in group_list_temp:
             if len(group.group_name) > 12:
                 group.group_name = group.group_name[:10] + '...'
         group_list = [group_list_temp[i:i + 4]
                       for i in range(0, len(group_list_temp), 4)]
-
 
         exercise_list = user.allPersonalLists()
 
@@ -160,8 +166,8 @@ def user(request, id=0):
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
-            friends.append(object_manager.createUser(id=friendship['friend_id']))
-
+            friends.append(
+                object_manager.createUser(id=friendship['friend_id']))
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,

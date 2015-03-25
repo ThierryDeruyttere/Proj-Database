@@ -35,8 +35,8 @@
         {% for item in data %}
         {% if item.type == 'friendship' %}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-          <div class="large-10 columns">
+          <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+          <div class="large-11 columns">
 
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
 
@@ -47,8 +47,8 @@
         {% endif %}
         {% if item.type == 'group_member'%}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-          <div class="large-10 columns">
+          <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+          <div class="large-11 columns">
 
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
 
@@ -59,8 +59,8 @@
         {% endif %}
         {% if item.type == 'exerciseList'%}
         <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-          <div class="large-10 columns">
+          <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+          <div class="large-11 columns">
 
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
 
@@ -88,14 +88,14 @@
         {% for user in currentuser_friend_list %}
         <div class="small-12 columns">
           <div class="small-2 large-2 columns">
-            <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+            <img src="{% static user.getProfilePicture %}">
           </div>
           <div class="small-4 large-8 columns">{{user.first_name}} {{user.last_name}}</div>
           <form method="POST" action="/g/{{group.id}}/">
             {% csrf_token %}
             <div class="small-6 large-4 columns">
               <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
-              <input type="submit" name="add_friend" value="Add User" class="button round"/>
+              <input type="submit" name="add_friend" value="Add User" class="button round success"/>
             </div>
           </form>
           <hr/>
@@ -106,7 +106,7 @@
         {% for member in user_list %}
         <div class="large-2 small-2 columns">
           <a href="/u/{{ member.id }}"/>
-          <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png">
+          <img src="{% static member.getProfilePicture %}">
           <div class="panel">
             <h5>{{ member.first_name }}</h5>
             <h6 class="subheader">{{ member.last_name }}</h6>

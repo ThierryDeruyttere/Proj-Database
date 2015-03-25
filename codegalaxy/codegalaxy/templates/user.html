@@ -43,188 +43,208 @@
 
     <div class="tabs-content">
       {% for friendship in pending_friendships %}
-        <div data-alert class="alert-box success round">
+      <div data-alert class="alert-box success round">
         {{ friendship.first_name }} {{ friendsip.last_name }} wants to be your friend!
         <a href="#" class="close">&times;</a></div>
-      {% endfor %}
-      {% if my_profile %}
-      <div class="content" id="edit_profile">
-        <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
-          {% csrf_token %}
-          <div class="row collapse">
-            <div class="small-2 columns">
-              <span class="prefix"><i class="fi-mail size-28"></i></span>
-            </div>
-            <div class="small-10  columns">
-              <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
-              <small class="error">Enter a valid Email Address.</small>
-            </div>
-          </div>
-
-          <div class="row collapse">
-            <div class="small-2 columns ">
-              <span class="prefix"><i class="fi-lock size-28"></i></span>
-            </div>
-            <div class="small-10 columns ">
-              <input type="password" required placeholder="Password" id="new_password" name="new_password" value="{{ new_password }}">
-              <small class="error">Enter a valid password.</small>
-            </div>
-          </div>
-          <h5>Upload profile picture</h5>
-          <p>
-                    <input id="id_image" type="file" class="" name="image">
-                </p>
-          <input type="submit" value="Edit" name="update_profile" class="button"/>
-        </form>
-        <hr/>
-      </div>
-      {% endif %}
-      <div class="content active" id="feed">
-        {% for item in data %}
-        {% if item.type == 'friendship' %}
-        <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
-          <div class="large-10 columns">
-
-            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
-          </div>
-        </div>
-
-        <hr/>
-        {% endif %}
-        {% if item.type == 'group_member'%}
-        {% if item.group_type == 0 %}
-        <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
-          <div class="large-10 columns">
-
-            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
-
-          </div>
-        </div>
-
-        <hr/>
-        {% endif %}
-        {% endif %}
-        {% if item.type == 'exerciseList'%}
-        <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
-          <div class="large-10 columns">
-
-            <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
-
-          </div>
-        </div>
-
-        <hr/>
-        {% endif %}
         {% endfor %}
-        <div class="pagination">
-          <span class="step-links">
-            {% if data.has_previous %}
-            <a href="?page={{ data.previous_page_number }}">previous</a>
-            {% endif %}
-            <span class="current">
-              Page {{ data.number }} of {{ data.paginator.num_pages }}
+        {% if my_profile %}
+        <div class="content" id="edit_profile">
+          <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
+            {% csrf_token %}
+            <div class="row collapse">
+              <div class="small-2 columns">
+                <span class="prefix"><i class="fi-mail size-28"></i></span>
+              </div>
+              <div class="small-10  columns">
+                <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
+                <small class="error">Enter a valid Email Address.</small>
+              </div>
+            </div>
+
+            <div class="row collapse">
+              <div class="small-2 columns ">
+                <span class="prefix"><i class="fi-lock size-28"></i></span>
+              </div>
+              <div class="small-10 columns ">
+                <input type="password" required placeholder="Old Password" id="old_password" name="old_password" value="{{ old_password }}">
+                <small class="error">Enter a valid password.</small>
+              </div>
+            </div>
+            <div class="row collapse">
+              <div class="small-2 columns ">
+                <span class="prefix"><i class="fi-lock size-28"></i></span>
+              </div>
+              <div class="small-10 columns ">
+                <input type="password" required placeholder="New Password" id="new_password1" name="new_password1" value="{{ new_password1 }}">
+                <small class="error">Enter a valid password.</small>
+              </div>
+            </div>
+            <div class="row collapse">
+              <div class="small-2 columns ">
+                <span class="prefix"><i class="fi-lock size-28"></i></span>
+              </div>
+              <div class="small-10 columns ">
+                <input type="password" required placeholder="New Password" id="new_password2" name="new_password2" value="{{ new_password2 }}">
+                <small class="error">Enter a valid password.</small>
+              </div>
+            </div>
+
+
+            <h5>Upload profile picture</h5>
+            <p>
+              <input id="id_image" type="file" class="" name="image">
+            </p>
+            <input type="submit" value="Edit" name="update_profile" class="button"/>
+          </form>
+          <hr/>
+        </div>
+        {% endif %}
+        <div class="content active" id="feed">
+          {% for item in data %}
+          {% if item.type == 'friendship' %}
+          <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-10 columns">
+
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+            </div>
+          </div>
+
+          <hr/>
+          {% endif %}
+          {% if item.type == 'group_member'%}
+          {% if item.group_type == 0 %}
+          <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-10 columns">
+
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+
+            </div>
+          </div>
+
+          <hr/>
+          {% endif %}
+          {% endif %}
+          {% if item.type == 'exerciseList'%}
+          <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-10 columns">
+
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+
+            </div>
+          </div>
+
+          <hr/>
+          {% endif %}
+          {% endfor %}
+          <div class="pagination">
+            <span class="step-links">
+              {% if data.has_previous %}
+              <a href="?page={{ data.previous_page_number }}">previous</a>
+              {% endif %}
+              <span class="current">
+                Page {{ data.number }} of {{ data.paginator.num_pages }}
+              </span>
+              {% if data.has_next %}
+              <a href="?page={{ data.next_page_number }}">next</a>
+              {% endif %}
             </span>
-            {% if data.has_next %}
-            <a href="?page={{ data.next_page_number }}">next</a>
-            {% endif %}
-          </span>
-        </div>
-      </div>
-      <div class="content" id="friends">
-        {% for friendship in pending_friendships %}
-        <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-          <div class="large-10 columns">
-            <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
-            <ul class="button-group radius">
-              <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
-                {% csrf_token %}
-                <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
-                <input type="submit" name ='confirm_friendship' value="Confirm" class="button success">
-              </form></li>
-              <li><form method="POST" id='decline_friendship' name='decline_friendship'>
-                {% csrf_token %}
-                <input type="hidden" name="user_id_to_decline" value="{{ friendship.id }}">
-                <input type="submit" name ='decline_friendship' value="Decline" class="button alert">
-              </form></li>
-            </ul>
           </div>
         </div>
-        <hr/>
-        {% endfor %}
-        <div class="large-12 columns">
+        <div class="content" id="friends">
+          {% for friendship in pending_friendships %}
           <div class="row">
-            {% for user in friends %}
+            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+            <div class="large-10 columns">
+              <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
+              <ul class="button-group radius">
+                <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                  {% csrf_token %}
+                  <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
+                  <input type="submit" name ='confirm_friendship' value="Confirm" class="button success">
+                </form></li>
+                <li><form method="POST" id='decline_friendship' name='decline_friendship'>
+                  {% csrf_token %}
+                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.id }}">
+                  <input type="submit" name ='decline_friendship' value="Decline" class="button alert">
+                </form></li>
+              </ul>
+            </div>
+          </div>
+          <hr/>
+          {% endfor %}
+          <div class="large-12 columns">
+            <div class="row">
+              {% for user in friends %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ user.id }}">
+                  <img src="{% static user.getProfilePicture %}"/>
+                  <div class="panel" style="width: 129px;">
+                    <h5 style="width: 129px;"> {{ user.first_name }} </h5>
+                    <h6 style="width: 129px;">{{ user.last_name }}</h6>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div class="content" id="groups">
+          {% for group_membership in pending_group_membership %}
+          <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
+            <div class="large-10 columns">
+              <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group_name }}</a></strong></p>
+              <ul class="button-group radius">
+                <li><form method="POST" id='confirm_membership' name='confirm_membership'>
+                  {% csrf_token %}
+                  <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.id }}">
+                  <input type="submit" name ='confirm_membership' value="Confirm" class="button success">
+                </form></li>
+                <li><form method="POST" id='decline_membership' name='decline_membership'>
+                  {% csrf_token %}
+                  <input type="hidden" name="group_id_to_decline" value="{{ group_membership.id }}">
+                  <input type="submit" name ='decline_membership' value="Decline" class="button alert">
+                </form></li>
+              </ul>
+            </div>
+          </div>
+          <hr/>
+          {% endfor %}
+          {% if group_list %}
+          {% for group_sub_list in group_list %}
+          <div class="row">
+            {% for group in group_sub_list %}
+            {% if group.group_type == 0 %}
             <div class="large-3 columns end">
-              <a href="/u/{{ user.id }}">
-                <img src="{% static user.getProfilePicture %}"/>
-                <div class="panel" style="width: 129px;">
-                  <h5 style="width: 129px;"> {{ user.first_name }} </h5>
-                  <h6 style="width: 129px;">{{ user.last_name }}</h6>
-                </div>
-              </a>
+              <a href="/g/{{ group.id }}">
+                <img src="{% static "Group-icon.png" %}">
+                <div class="left">
+                  <div class="panel" style="width: 129px;">
+                    <h6 style="width: 129px;">{{ group.group_name }}</h6>
+                  </div>
+                </a>
+              </div>
             </div>
+            {% endif %}
             {% endfor %}
-          </div>
-        </div>
-      </div>
-      <div class="content" id="groups">
-      {% for group_membership in pending_group_membership %}
-        <div class="row">
-          <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
-          <div class="large-10 columns">
-            <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group_name }}</a></strong></p>
-            <ul class="button-group radius">
-              <li><form method="POST" id='confirm_membership' name='confirm_membership'>
-                {% csrf_token %}
-                <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.id }}">
-                <input type="submit" name ='confirm_membership' value="Confirm" class="button success">
-              </form></li>
-              <li><form method="POST" id='decline_membership' name='decline_membership'>
-                {% csrf_token %}
-                <input type="hidden" name="group_id_to_decline" value="{{ group_membership.id }}">
-                <input type="submit" name ='decline_membership' value="Decline" class="button alert">
-              </form></li>
-            </ul>
-          </div>
-        </div>
-        <hr/>
-        {% endfor %}
-        {% if group_list %}
-        {% for group_sub_list in group_list %}
-        <div class="row">
-          {% for group in group_sub_list %}
-          {% if group.group_type == 0 %}
-          <div class="large-3 columns end">
-            <a href="/g/{{ group.id }}">
-              <img src="{% static "Group-icon.png" %}">
-              <div class="left">
-                <div class="panel" style="width: 129px;">
-                  <h6 style="width: 129px;">{{ group.group_name }}</h6>
-                </div>
-              </a>
+            {% endfor %}
+            {% else %}
+            {% if my_profile %}
+            <h4>You have not joined a group yet.</h4>
+            <a href="/g/overview" class="button">Take a look!</a>
+            {% else %}
+            <div class="row">
+              <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
             </div>
+            {% endif %}
+            {% endif %}
           </div>
-          {% endif %}
-          {% endfor %}
-          {% endfor %}
-          {% else %}
-          {% if my_profile %}
-          <h4>You have not joined a group yet.</h4>
-          <a href="/g/overview" class="button">Take a look!</a>
-          {% else %}
-          <div class="row">
-            <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
-          </div>
-          {% endif %}
-          {% endif %}
         </div>
       </div>
     </div>
   </div>
-</div>
 
-{% endblock base_body %}
+  {% endblock base_body %}
