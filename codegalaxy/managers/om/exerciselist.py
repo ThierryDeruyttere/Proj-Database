@@ -71,6 +71,7 @@ class ExerciseList:
         for exercise_id in exercise_references_infos:
             referenced = object_manager.createExercise(exercise_id['id'], language_code)
             referenced.exercise_number = exercise_id['new_list_exercise_number']
+            referenced.exerciseList_id = self.id
             exercises.append(referenced)
         # now we sort the exercises on exercise_number
         exercises = sorted(exercises, key=lambda ex: ex.exercise_number)
@@ -188,6 +189,7 @@ class ExerciseList:
         last_exercise = self.getLastExercise()
         # The missing indices (exercises)
         missing = []
+        print(scrambled_exercise_ids)
         for i in range(1,last_exercise+1):
             if i not in scrambled_exercise_ids:
                 self.deleteExercise(i)
