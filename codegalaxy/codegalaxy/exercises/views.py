@@ -91,18 +91,18 @@ def createExercise(request, listId=0):
 
 @require_login
 def editExercise(request, listId, exercise_id):
-    #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
+    # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list and logged_user(request).id == exercise_list.created_by:
-        #Extra check so you can't just surf to the url and edit the exercise
+        # Extra check so you can't just surf to the url and edit the exercise
         language = request.META['LANGUAGE'].split('_')[0]
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
         if exercise.exercise_type == "code":
-            for i,ans in enumerate(all_answers):
-                if i == exercise.correct_answer-1:
+            for i, ans in enumerate(all_answers):
+                if i == exercise.correct_answer - 1:
                     expected_code_answer = ans
                     break
 
@@ -110,7 +110,7 @@ def editExercise(request, listId, exercise_id):
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
-                                                        'expected_code_answer': expected_code_answer,
+                                                       'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints})
 
 def InvalidOrRound(object):
@@ -123,7 +123,7 @@ def InvalidOrRound(object):
 
 def list(request, id=0):
     exercise_list = object_manager.createExerciseList(id)
-    #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
         return redirect('/')
 
@@ -190,19 +190,18 @@ def list(request, id=0):
         for e in all_exercises:
             if e.solved:
                 found = True
-                percent+=1
+                percent += 1
                 if cur_exercise < e.id:
                     cur_exercise = e.id
-
 
         if len(all_exercises) < percent:
             found = False
             cur_exercise = all_exercises[0].id
-        elif percent > 0 and len(all_exercises) > percent :
+        elif percent > 0 and len(all_exercises) > percent:
                 cur_exercise = all_exercises[percent].id
 
         if len(all_exercises) > 0:
-            percent = percent/len(all_exercises) * 100
+            percent = percent / len(all_exercises) * 100
             if percent > 100:
                 percent = 100
 
@@ -366,7 +365,7 @@ def submit(request, list_id, question_id):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    user.madeList(exercise_list.id,score,0)
+                    user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""
 
@@ -390,13 +389,15 @@ def createListElem(elem):
       <a href=\"{id}\" class=\"button tiny radius\">Open list</a>
       </div>
       </div>
-      </li>""".format(id = elem['id'], list_name = elem['name'])
+      </li>""".format(id=elem['id'], list_name=elem['name'])
 
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    pie_graph = graph_manager.makePieChart('colours', 180
-                                           , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
+    pie_graph = graph_manager.makePieChart('colours', 180, 100,
+                                           graphmanager.color_tuples,
+                                           lists_per_prog_lang['labels'],
+                                           lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
     color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
@@ -407,17 +408,16 @@ def listOverview(request):
                                            [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
     # users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info1,color_info2],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
+    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"])
 
-
-    list_name='%'
-    min_list_difficulty=1
-    max_list_difficulty=5
-    user_first_name='%'
-    user_last_name='%'
-    prog_lang_name='%'
-    subject_name='%'
+    list_name = '%'
+    min_list_difficulty = 1
+    max_list_difficulty = 5
+    user_first_name = '%'
+    user_last_name = '%'
+    prog_lang_name = '%'
     order_mode = "ASC"
+    subject_name = '%'
 
     if request.method == "POST" and request.is_ajax():
         list_name = request.POST.get('title', '%')
@@ -443,7 +443,7 @@ def listOverview(request):
         else:
             order_mode = "DESC"
 
-        all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         html = ""
         for obj in reversed(all_lists):
             obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
@@ -451,7 +451,7 @@ def listOverview(request):
 
         return HttpResponse(html)
 
-    all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+    all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
