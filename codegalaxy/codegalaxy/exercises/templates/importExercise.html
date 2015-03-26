@@ -40,8 +40,8 @@
                         {% for e in all_exercises|for_key:list.id %}
                           <tbody>
                           <td>{{ e.title }}</td>
-                          <td><input id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                          <td><input id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
                           </tbody>
                         {% endfor %}
                       </table>
@@ -66,6 +66,20 @@
 {% endblock base_body %}
 {% block body_js %}
   <script>
+
+    $(".import_check").click(function(event){
+      var id = this.id;
+      if(id.indexOf('checkbox_copy') >= 0){
+        var stripped = id.replace('checkbox_copy', '');
+        console.log("checkbox_import" + stripped);
+        $("#checkbox_import" + stripped).prop('checked', false);
+      }else{
+        var stripped = id.replace('checkbox_import', '');
+        $("#checkbox_copy" + stripped).prop('checked', false);
+      }
+    });
+
+
     $(".accordion-navigation").click(function(event){
       //Only call the animation when we click on the link
       if($(event.target).is('a')){
