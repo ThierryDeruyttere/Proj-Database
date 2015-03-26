@@ -182,22 +182,27 @@ class ExerciseList:
 
         transaction = ""
         after_transaction = ""
+        print("fixing")
+        print(len(exercises))
+        print(len(pos_change))
         for i, ex in enumerate(exercises):
             if pos_change[i] == 0:
-                #If we did not change pos -> no prob!
+                # If we did not change pos -> no prob!
                 transaction += ex.saveExerciseNumber(i+1)
 
             else:
-                #Get the exercise on our current spot!
+                # Get the exercise on our current spot!
                 distance = pos_change[i]
-                ex_on_new_place = exercises[i + distance]
+                print(i, distance)
+                ex_on_new_place = exercises[ex.exercise_number + distance - 1]
                 if ex.id == ex_on_new_place.id:
-                     #Ow problem! The exercise on our new spot has the same id...
-                    #fix this with putting us behind the list
+                    # Ow problem! The exercise on our new spot has the same id...
+                    # fix this with putting us behind the list
                     transaction += ex.saveExerciseNumber(nextPos)
                     nextPos += 1
-                    
-                after_transaction += ex.saveExerciseNumber(i+1)
+                    after_transaction += ex.saveExerciseNumber(i+1)
+                else:
+                    transaction += ex.saveExerciseNumber(i+1)
 
         #print(transaction + after_transaction)
         return transaction + after_transaction
@@ -208,28 +213,35 @@ class ExerciseList:
         normal_order = self.allExercises(language_code)
         scrambled_exercises = []
         pos_change = []
+        remove = []
+        last_exercise = self.getLastExercise()
+        for i in range(1,last_exercise+1):
+            if i not in scrambled_exercise_ids:
+                scrambled_exercise_ids.append(i)
+                remove.append(i)
 
         for i,ex_number in enumerate(scrambled_exercise_ids):
             for j,ex in enumerate(normal_order):
                 if ex.exercise_number == ex_number:
                     scrambled_exercises.append(ex)
-                    pos_change.append(j - i)
+                    pos_change.append(i-j)
                     break
+
         # First we'll check which exercises were deleted
         # The amount of exercises we had at first
-        last_exercise = self.getLastExercise()
-        for i in range(1,last_exercise+1):
-            if i not in scrambled_exercise_ids:
-                self.deleteExercise(i)
         transaction = self.fixUpdateNumbers(scrambled_exercises, pos_change)
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
 
+        for i in range(len(remove)):
+            self.deleteExercise(last_exercise-i)
+
+
     def deleteExercise(self, exercise_number):
+        print(exercise_number)
         if dbw.isReference(self.id, exercise_number):
             # Ref -> just delete from DB
             dbw.deleteReference(self.id, exercise_number)
         else:
-
             object_manager = managers.om.objectmanager.ObjectManager()
             # Not ref -> delete it (all info about it) and dereference all references to it
             # First we need to get all the references to this exercise

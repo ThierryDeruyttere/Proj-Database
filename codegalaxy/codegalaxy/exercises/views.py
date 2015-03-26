@@ -216,15 +216,12 @@ def importExercise(request, listId):
                     for ex in i:
                         copy = request.POST.get('checkbox_copy/'+str(key)+'/'+str(ex.id))
                         ref = request.POST.get('checkbox_import/'+str(key)+'/'+str(ex.id))
-                        print(copy, ref)
                         if copy is not None:
                             copies.append(ex)
 
                         if ref is not None:
                              references.append(ex)
 
-
-                print(references)
                 for ref in references:
                     exercise_list.insertExerciseByReference(ref.id)
                 for copy in copies:
