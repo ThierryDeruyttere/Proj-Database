@@ -182,9 +182,6 @@ class ExerciseList:
 
         transaction = ""
         after_transaction = ""
-        print("fixing")
-        print(len(exercises))
-        print(len(pos_change))
         for i, ex in enumerate(exercises):
             if pos_change[i] == 0:
                 # If we did not change pos -> no prob!
@@ -237,7 +234,6 @@ class ExerciseList:
 
 
     def deleteExercise(self, exercise_number):
-        print(exercise_number)
         if dbw.isReference(self.id, exercise_number):
             # Ref -> just delete from DB
             dbw.deleteReference(self.id, exercise_number)
