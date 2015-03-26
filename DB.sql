@@ -103,11 +103,10 @@ CREATE TABLE answer(
 );
 
 CREATE TABLE code(
-  id INT NOT NULL AUTO_INCREMENT,
   code_text BLOB NOT NULL,
   exercise_id INT,
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  PRIMARY KEY(id)
+  PRIMARY KEY(exercise_id)
 );
 
 CREATE TABLE madeEx(
@@ -125,13 +124,12 @@ CREATE TABLE madeEx(
 );
 
 CREATE TABLE question(
-  id INT NOT NULL AUTO_INCREMENT,
   question_text BLOB NOT NULL,
   language_id INT,
   exercise_id INT,
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   FOREIGN KEY (language_id) REFERENCES language(id),
-  PRIMARY KEY(id)
+  PRIMARY KEY(exercise_id)
 );
 
 CREATE TABLE hint(
