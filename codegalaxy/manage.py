@@ -4,9 +4,7 @@ import sys
 import filecmp
 import shutil
 
-if __name__ == "__main__":
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "codegalaxy.settings")
-
+def refresh():
     if os.path.exists('../DB-old.sql'):
         if filecmp.cmp('../DB.sql', '../DB-old.sql') == False:
             os.system('mysql -u root -pruien9690 < ../DB.sql')
@@ -14,6 +12,13 @@ if __name__ == "__main__":
             os.system('python3 manage.py migrate')
     else:
         shutil.copy2('../DB.sql', '../DB-old.sql')
+        os.system('mysql -u root -pruien9690 < ../DB.sql')
+        os.system('python3 manage.py migrate')
+
+if __name__ == "__main__":
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "codegalaxy.settings")
+
+    refresh()
 
     from django.core.management import execute_from_command_line
 

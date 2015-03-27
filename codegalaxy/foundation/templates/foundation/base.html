@@ -7,15 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   {% block meta %}{% endblock meta %}
   {% block base_title %}
-  <title>{% block title %}Foundation 5.5.0{% endblock title %}</title>
+    <title>{% block title %}Foundation 5.5.0{% endblock title %}</title>
   {% endblock base_title %}
 
 
   {# Base Foundation CSS #}
   {% block foundation_css %}
-  <link href="{% static "foundation/css/normalize.css" %}" rel="stylesheet"/>
-  <link href="{% static "foundation/css/app.css" %}" rel="stylesheet"/>
-  <link href="{% static "foundation/css/foundation-icons.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/css/normalize.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/css/app.css" %}" rel="stylesheet"/>
+    <link href="{% static "foundation/css/foundation-icons.css" %}" rel="stylesheet"/>
   {% endblock foundation_css %}
 
   {# Custom CSS #}
@@ -23,42 +23,47 @@
 
   {# Override if you need another version of modernizr #}
   {% block foundation_modernizer %}
-  <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
+    <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
   {% endblock foundation_modernizer %}
+
 
   {# Override if you need another version of jQuery #}
   {% block foundation_jquery %}
-  <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
-  <script src="{% static "jquery.cookie.js" %}"></script>
+    <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
+    <script src="{% static "jquery.cookie.js" %}"></script>
   {% endblock foundation_jquery %}
+
+  {% block jquery_ui %}
+     <script src="{% static "jquery_ui/jquery-ui.min.js" %}"></script>
+  {% endblock jquery_ui %}
 
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
- {% check_loggedIn as logged_in%}
+  {% check_loggedIn as logged_in%}
 </head>
 <body {% block body_attr %}{% endblock body_attr %}>
 
-  {% block top_bar %}{% endblock top_bar %}
+{% block top_bar %}{% endblock top_bar %}
 
-  {# Main content goes here #}
-  {% block base_body %}{% endblock base_body %}
+{# Main content goes here #}
+{% block base_body %}{% endblock base_body %}
 
-  {% block footer %}{% endblock footer %}
+{% block footer %}{% endblock footer %}
 
 
-  {# Foundation JS #}
-  {% block foundation_js %}
+{# Foundation JS #}
+{% block foundation_js %}
   <script src="{% static "foundation/js/foundation.min.js" %}"></script>
-  {% endblock foundation_js %}
+{% endblock foundation_js %}
 
-  {# Custom JS #}
-  {% block body_js %}{% endblock body_js %}
+{# Custom JS #}
+{% block body_js %}{% endblock body_js %}
 
-  {# Init Foundation #}
-  {% block foundation_js_init %}
+{# Init Foundation #}
+{% block foundation_js_init %}
   <script>
-  $(document).foundation();
+    $(document).foundation();
   </script>
-  {% endblock foundation_js_init %}
+{% endblock foundation_js_init %}
 </body>
 </html>

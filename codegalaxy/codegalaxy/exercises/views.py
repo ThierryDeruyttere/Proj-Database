@@ -6,6 +6,7 @@ import json
 
 from managers.om import *
 from managers.gm import *
+from managers.rm.recommendations import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
 from pymysql import escape_string
@@ -87,29 +88,151 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
+def getBrowserLanguage(request):
+    return request.META['LANGUAGE'].split('_')[0]
+
 @require_login
-def editExercise(request, listId, exercise_id):
+def editExercise(request, listId, exercise_id, exercise_number):
     #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
+    if request.method == 'POST':
+        language = request.META['LANGUAGE'].split('_')[0]
+        exercise = object_manager.createExercise(exercise_id, language)
+        exercise.difficulty = int(request.POST.get('difficulty'))
+        exercise.question = request.POST.get('Question')
+        exercise.title = request.POST.get('title')
+        exercise.exerciseList_id = int(listId)
+        exercise.exercise_number = int(exercise_number)
+        exercise.exercise_type = request.POST.get('exercise_type')
+        hints = []
+        exercise.code = request.POST.get('code', '')
+        exercise.max_score = int(request.POST.get('max', '1'))
+
+        exercise_answer = None
+        correct_answer = 1
+        if(exercise.exercise_type == 'Open Question'):
+            answer = []
+            for i in range(exercise.max_score + 1):
+                cur_answer = request.POST.get("answer" + str(i), "")
+                if cur_answer != "":
+                    answer.append(cur_answer)
+
+            exercise_answer = answer
+            correct_answer = request.POST.get("correct_answer")
+            exercise.penalty = 3
+
+        else:
+            expected_answer = request.POST.get("output")
+            exercise_answer = [expected_answer]
+            exercise.penalty = 1
+            for j in range(1, exercise.max_score + 1):
+                cur_hint = request.POST.get("hint" + str(j), "")
+                if cur_hint != "":
+                    hints.append(cur_hint)
+
+        exercise.update(correct_answer, exercise_answer, hints, logged_user(request).id)
+        return redirect("/l/" + str(listId))
+
     if exercise_list and logged_user(request).id == exercise_list.created_by:
         #Extra check so you can't just surf to the url and edit the exercise
-        language = request.META['LANGUAGE'].split('_')[0]
+        language = getBrowserLanguage(request)
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
-        if exercise.exercise_type == "code":
+        if exercise.exercise_type == "Code":
             for i,ans in enumerate(all_answers):
                 if i == exercise.correct_answer-1:
                     expected_code_answer = ans
                     break
-                    
+
         all_hints = exercise.allHints()
+        amount_hints = 0
+        if all_hints is not None:
+            amount_hints = len(all_hints)
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
-                                                        'expected_code_answer': expected_code_answer,
-                                                       'all_hints': all_hints})
+                                                       'expected_code_answer': expected_code_answer,
+                                                       'all_hints': all_hints,
+                                                       'am_hints': amount_hints})
+
+def createImportHTML(all_lists, all_exercises):
+    html = ""
+    for list in all_lists:
+
+        html += """<li class=\"accordion-navigation\">
+            <a href="#Exerc{list_id}">{list_name}</a>
+            <div id="Exerc{list_id}" class="content">
+            <div class="row">
+            <div class="large-centered columns">
+            <table>
+            <thead>
+            <tr>
+            <th width="200">Title</th>
+            <th width="150">copy original</th>
+            <th width="150">reference</th>
+            </tr>
+            </thead>""".format(list_id = list.id, list_name = list.name)
+        for exercise in all_exercises[list.id]:
+            html += """<tbody>
+                <td>{title}</td>
+                <td><input id="checkbox_copy{id}" name="checkbox_copy{id}" type="checkbox"></td>
+                <td><input id="checkbox_import{id}" name="checkbox_import{id}" type="checkbox"></td>
+                </tbody>""".format(title = exercise.title, id=exercise.id)
+
+        html+="""</table>
+                </div>
+                </div>
+                </div>
+                </li>"""
+    return html
+
+@require_login
+def importExercise(request, listId):
+    exercise_list = object_manager.createExerciseList(listId)
+    if exercise_list:
+        if exercise_list.created_by == logged_user(request).id:
+            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+            if request.method == "GET" and request.GET:
+                all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
+
+            all_lists = []
+
+            for i in all_lists_id:
+                all_lists.append(object_manager.createExerciseList(i))
+
+            all_exercises = {}
+            for i in all_lists:
+                all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
+
+            if request.method == "GET" and request.GET:
+                return HttpResponse(createImportHTML(all_lists, all_exercises))
+
+            if request.method == "POST":
+                copies = []
+                references = []
+                for key, i in all_exercises.items():
+                    for ex in i:
+                        copy = request.POST.get('checkbox_copy/'+str(key)+'/'+str(ex.id))
+                        ref = request.POST.get('checkbox_import/'+str(key)+'/'+str(ex.id))
+                        if copy is not None:
+                            copies.append(ex)
+
+                        if ref is not None:
+                             references.append(ex)
+
+                for ref in references:
+                    exercise_list.insertExerciseByReference(ref.id)
+                for copy in copies:
+                    exercise_list.copyExercise(copy.id)
+
+            return render(request, 'importExercise.html', {'all_lists': all_lists,
+                                                           'all_exercises': all_exercises,
+                                                           'list_id': listId})
+
+
+    return redirect('/')
 
 def InvalidOrRound(object):
     if object is None:
@@ -118,8 +241,22 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
+def filterOrder(order):
+    new_order = []
+    splitted = order.split(',')
+    for i in splitted:
+        new_order.append(int(i.replace('exercise','')))
+    return new_order
+
 
 def list(request, id=0):
+
+    #score spread forthis exercise
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    stats = statistics_analyzer.listScoreSpread(id)
+    bar_chart1 = graph_manager.makeBarChart('spread', 350, 250, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
+
     exercise_list = object_manager.createExerciseList(id)
     #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
@@ -132,6 +269,8 @@ def list(request, id=0):
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language_string
+    creator = exercise_list.creatorName()
+    created_on = exercise_list.created_on
 
     if subjects is None:
         subjects = []
@@ -139,7 +278,6 @@ def list(request, id=0):
     if request.method == 'POST':
 
         if request.POST.get('rating') is not None and logged_user(request) is not None:
-            print("rating")
             logged_user(request).updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
         else:
@@ -149,6 +287,10 @@ def list(request, id=0):
             updated_subjects = []
             updated_prog_lang = request.POST.get('prog_lang', '')
             updated_description = request.POST.get('updated_description_text')
+            new_order = request.POST.get('order')
+            if new_order != "":
+                new_order = filterOrder(new_order)
+                exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
 
             for i in range(updated_subjects_amount):
                 subject = request.POST.get('subject' + str(i))
@@ -169,12 +311,13 @@ def list(request, id=0):
 
     if exercise_list:
         prog_lang = exercise_list.programming_language_string
-        all_exercises = exercise_list.allExercises("en")
+        all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
         correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
-                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id):
+                # TODO WILL break, see previous use of this function
+                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
                     exercise.solved = True
 
             correct_user = (logged_user(request).id == exercise_list.created_by)
@@ -197,7 +340,7 @@ def list(request, id=0):
             found = False
             cur_exercise = all_exercises[0].id
         elif percent > 0 and len(all_exercises) > percent :
-                cur_exercise = all_exercises[percent].id
+            cur_exercise = all_exercises[percent].id
 
         if len(all_exercises) > 0:
             percent = percent/len(all_exercises) * 100
@@ -208,8 +351,24 @@ def list(request, id=0):
         if percent == 100:
             solved_all = True
 
-        user_rating = logged_user(request).getRatingForList(exercise_list.id)
+        # lists like this one
+        similar_lists = []
+        similar_list_ids = []
 
+        user_rating = 0
+        if logged_user(request):
+            user_rating = logged_user(request).getRatingForList(exercise_list.id)
+            # for the recommended lists, we'll first check if the user solved the current list
+            if exercise_list:
+                made_list = logged_user(request).getMadeList(exercise_list.id)
+                if made_list:
+                    pass
+                    # not tested yet
+                    #similar_list_ids = recommendNextExerciseLists(made_list)
+                else:
+                    similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
+        for list_id in similar_list_ids:
+            similar_lists.append(object_manager.createExerciseList(list_id))
         return render(request, 'list.html', {'list_name': exercise_list.name,
                                              'list_description': exercise_list.description,
                                              'list_programming_lang': prog_lang,
@@ -226,14 +385,20 @@ def list(request, id=0):
                                              'cur_exercise': cur_exercise,
                                              'percent': int(percent),
                                              'solved_all': solved_all,
-                                             'user_rating': user_rating})
+                                             'user_rating': user_rating,
+                                             'creator': creator,
+                                             'created_on': created_on,
+                                             'similar_lists': similar_lists,
+                                             'score_spread': bar_chart1})
     else:
         return redirect('/')
 
 @require_login
-def answerQuestion(request, list_id, question_id):
+def answerQuestion(request, list_id, exercise_number):
+    question_id = object_manager.getExerciseID(list_id, exercise_number)
     if request.method == "POST":
-        return redirect('/l/' + list_id + '/' + question_id + '/submit')
+
+        return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
@@ -268,7 +433,8 @@ def returnScore(current_score):
     return current_score
 
 @require_login
-def submit(request, list_id, question_id):
+def submit(request, list_id, exercise_number):
+    question_id = object_manager.getExerciseID(list_id, exercise_number)
     user = logged_user(request)
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
@@ -284,18 +450,20 @@ def submit(request, list_id, question_id):
             return redirect('/')
 
         if request.method == 'POST':
-            rating = request.POST.get("score")
-
             # Check which button has been pressed
             if 'b_tryagain' in request.POST:
                 # Redirect to the same exercise
-                return redirect('/l/' + list_id + '/' + question_id)
+                return redirect('/l/' + list_id + '/' + str(exercise_number))
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
-                return redirect('/l/' + list_id + '/' + str(int(question_id) + 1))
+                if len(all_exercise) < int(exercise_number)+1:
+                    return redirect('/l/' + list_id + '/')
+                else:
+                    return redirect('/l/' + list_id + '/' + str(int(exercise_number) + 1))
 
-            info = object_manager.getInfoForUserForExercise(user.id, question_id)
+            # TODO: We need ex_number,ex_id and list_id, this WILL crash
+            info = object_manager.getInfoForUserForExercise(user.id, question_id, list_id, exercise_number)
             penalty = current_exercise.penalty
             current_score = None
             if info is not None:
@@ -314,12 +482,13 @@ def submit(request, list_id, question_id):
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), 0)
+                    # TODO WILL break here
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number),0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
@@ -330,12 +499,12 @@ def submit(request, list_id, question_id):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
@@ -351,13 +520,14 @@ def submit(request, list_id, question_id):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    user.madeList(exercise_list.id,score,0)
+                    #TODO: dees teste
+                    #score /= exercise_list.maxScore()
+                    user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""
 
             return render(request, 'submit.html', {"solved": solved,
                                                    "list_id": list_id,
-                                                   "question_id": question_id,
                                                    "current_score": current_score,
                                                    "max_score": max_score,
                                                    "question_type": current_exercise.exercise_type,

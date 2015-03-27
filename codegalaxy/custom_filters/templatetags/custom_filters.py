@@ -15,3 +15,7 @@ def check_loggedIn(context):
         return True
     except Exception as e:
         return False
+
+@register.filter
+def for_key(d, key):
+    return d.get(key)

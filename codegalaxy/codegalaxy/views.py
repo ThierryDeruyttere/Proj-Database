@@ -10,6 +10,7 @@ import hashlib
 import sys
 import re
 import time
+from random import randint
 
 from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
@@ -33,12 +34,14 @@ def defaultContext(id):
 
 def home(request):
     current_user = logged_user(request)
-
     friends = []
+    recommended_lists = []
     if current_user:
         friends = current_user.allFriends()
-
-    return render(request, 'home.html', {"user": current_user, "friends": friends})
+        recommended = recommendListsForUser(current_user.id)
+        for recommended_list in recommended:
+            recommended_lists.append(object_manager.createExerciseList(recommended_list))
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': randint(1,object_manager.amountOfLists())})
 
 
 @require_login
@@ -73,7 +76,7 @@ def user(request, id=0):
             destination.close()
 
             new_password = hashlib.md5(
-                request.POST.get('new_password').encode('utf-8')).hexdigest()
+            request.POST.get('new_password').encode('utf-8')).hexdigest()
             new_email = request.POST.get('new_email')
             user.updateProfile(new_email, new_password)
 
@@ -201,7 +204,7 @@ def login(request):
         # Successful login attempt
         if user:
             request.session['current_user'] = user.id
-            return redirect('/me/')
+            return redirect('/')
         else:
             return render(request, 'login.html', {'error_login': True, 'your_email': email})
 
@@ -307,7 +310,6 @@ def group(request, id=0):
 
         remaining_friends = []
         for friend in currentuser_friend_list:
-            print(friend.first_name)
             inList = False
             for user in user_list:
                 if friend.id == user.id:
@@ -406,8 +408,7 @@ def test(request, id=0):
     # exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
-    exercise_test.update(2, new_answers, new_hints)
-    print(exercise_test)
+    #exercise_test.update(2, new_answers, new_hints)
 
     # test
     user_test = object_manager.createUser(id=1)
@@ -434,7 +435,7 @@ def test(request, id=0):
     for list_ in lists:
         personalexercises += list_.allExercises("en")
     # testfunction6
-    exercise_test = object_manager.createExercise(1, 'en')
+    #exercise_test = object_manager.createExercise(1, 'en')
     # testfunction7
     hints = exercise_test.allHints()
     # testfunction8
@@ -448,29 +449,45 @@ def test(request, id=0):
     group_test.save()
     # testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
-    exercise_list_test.name = "testlist"
-    exercise_list_test.difficulty = 4
-    exercise_list_test.description = "no"
-    exercise_list_test.programming_language = 2
+    #exercise_list_test.name = "testlist"
+    #exercise_list_test.difficulty = 4
+    #exercise_list_test.description = "no"
+    #exercise_list_test.programming_language = 2
+    #reference test -> copying multiple times???
+    exercise_list_test.insertExerciseByReference(1)
+    exercise_list_test.insertExerciseByReference(2)
+    #new_id = exercise_list_test.unreferenceExercise(3)
+    #exercise_test3 = object_manager.createExercise(new_id,'en')
+
     # testfunction11
     subjects = exercise_list_test.allSubjects()
     # testfunction12
     exercises = exercise_list_test.allExercises('en')
+    print("before")
+    for ex in exercises:
+        print(ex)
+        print("\n")
+    exercise_list_test.reorderExercises([3,2,4,1],'en')
+    exercises = exercise_list_test.allExercises('en')
+    print("remade")
+    for ex in exercises:
+        print(ex)
+        print("\n")
+    #exercises[2].penalty = 3
+    #exercises[2].save()
     # testfunction13
     members = group_test.allMembers()
 
     return render(request, 'test.html', {'test': str(user_test), 'testfunction': ' '.join([str(friend) for friend in friends]), 'testfunction2': ' '.join([str(group) for group in groups]), 'testfunction3': ' '.join([str(list_) for list_ in lists]), 'testfunction4': permission, 'testfunction5': ' '.join([str(ex) for ex in personalexercises]), 'testfunction6': str(exercise_test), 'testfunction7': hints, 'testfunction8': answers, 'testfunction9': 'Group: ' + str(group_test), 'testfunction10': 'List: ' + str(exercise_list_test), 'testfunction11': subjects, 'testfunction12': ' '.join([str(exercise) for exercise in exercises]), 'testfunction13': ' '.join([str(member) for member in members])})
 
-
 def tables(request):
     import dbw
     if request.method == 'GET':
         table = request.GET.get('sql_table', '')
-        if(table != ''):
+        if table != '':
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})
-
 
 def python(request):
     return render(request, 'python.html', {})

@@ -281,7 +281,7 @@
     //This is the max of the exercise before we changed type
     var current_max = 5;
     $("input[type='radio'][name='exercise_type']").change(function() {
-      $("#Tips_Row").toggle();
+
 
       if($("#exercise_type_code").is(":checked")) {
         $("#Code_Question").show();
@@ -343,6 +343,7 @@
       }
     }
 
+    {% if edit %}
     $(document).ready(function(){
       {%  if exercise.exercise_type == "Open Question" %}
         $("#Open_Question").show();
@@ -383,9 +384,7 @@
 
           all_hints.push("{{ h }}");
         {% endfor %}
-        var hints_length = {{ all_hints|length }};
-        $("#output").CodeMirror.setValue("{{ expected_code_answer }}");
-
+        var hints_length = {{ am_hints }};
         for(var i = 1 ; i <= hints_length; ++i){
           $("#add_hint").trigger('click');
           //replace all quotes & other html tags with the right characters.
@@ -401,6 +400,8 @@
           $("input[name=" + '"hint' + i +"\"]").val(text);
         }
       {% endif %}
+
     });
+    {% endif %}
   </script>
 {% endblock body_js %}
