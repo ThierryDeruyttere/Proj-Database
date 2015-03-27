@@ -175,16 +175,20 @@ def splitListIds(user_id, comparison_tuples, friends):
 
 # we default everything to one,so that in case of a small amount of data,
 # lists are not kinda chosen randomly
-def defaultScoreOne(score_per_list_id):
+def defaultScoreOne(score_per_list_id, user_id):
+    user = object_manager.createUser(id = user_id)
+    dont_add_obj = user.allPersonalLists()
+    dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     after_default = {}
     for i in range(object_manager.amountOfLists()):
-        if i+1 in score_per_list_id:
-            if score_per_list_id[i+1] < 1:
-                after_default[i+1] = 0.1
+        if i + 1 not in dont_add:
+            if i + 1 in score_per_list_id:
+                if score_per_list_id[i + 1] < 1:
+                    after_default[i + 1] = 0.1
+                else:
+                    after_default[i + 1] = score_per_list_id[i + 1]
             else:
-                after_default[i+1] = score_per_list_id[i+1]
-        else:
-            after_default[i+1] = 0.1
+                after_default[i + 1] = 0.1
     return after_default
 
 def addDefault(score_per_list_id):
@@ -203,7 +207,8 @@ def applyScoresToLists(score_per_list_id, scores, X_type):
             if ex_list.hasX(score, X_type):
                 total_multiplier += scores[score]
                 amount_of_scores_counted += 1
-        score_per_list_id[list_id] *= (total_multiplier / amount_of_scores_counted)
+        if amount_of_scores_counted != 0:
+            score_per_list_id[list_id] *= (total_multiplier / amount_of_scores_counted)
 
 def selectExercises(pool, highest, amount=10):
     if highest:
@@ -222,19 +227,28 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # We compare which lists this user has made to the ones others have made
     # ([verchil in lijsten], overlap score, user obj)
     comparison_tuples = compareListWithOtherUsers(user_id)
+    print(comparison_tuples)
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
     score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
-    score_per_list_id = defaultScoreOne(score_per_list_id)
+    print(score_per_list_id)
+    score_per_list_id = defaultScoreOne(score_per_list_id, user_id)
+    print(score_per_list_id)
     # now we can start adding the other SubjectMultipliers
     subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
+    print(subject_scores)
     prog_lang_scores = scorePerProgrammingLanguageForUser(user_id, dates, ratings, default)
+    print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
+    print(score_per_list_id)
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
+    print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend
-    addDefault(score_per_list_id)
+    #addDefault(score_per_list_id)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
+    print(recommended_exercises)
+    # returns a list with all the items that occur in list2 but not list1
     return recommended_exercises
 
 
