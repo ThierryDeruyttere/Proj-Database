@@ -177,12 +177,18 @@ CREATE TABLE verification(
 );
 
 # User data
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'PythonLiker', 'P', '21232f297a57a5a743894a0e4a801fc3', 'p@hotmail.com',"0-01-01","9999-12-31","U");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'PythonLiker2', 'P2', '21232f297a57a5a743894a0e4a801fc3', 'p2@hotmail.com',"0-01-01","9999-12-31","U");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'C++Liker', 'C', '21232f297a57a5a743894a0e4a801fc3', 'c@hotmail.com',"2015-03-06","2015-03-06","F");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User1', 'A', '21232f297a57a5a743894a0e4a801fc3', 'u1@hotmail.com',"2015-03-06","2015-03-06","F");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User2', 'B', '21232f297a57a5a743894a0e4a801fc3', 'u2@hotmail.com',"2015-03-06","2015-03-06","M");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User3', 'C', '21232f297a57a5a743894a0e4a801fc3', 'u3@hotmail.com',"2015-03-06","2015-03-06","F");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User4', 'D', '21232f297a57a5a743894a0e4a801fc3', 'u4@hotmail.com',"2015-03-06","2015-03-06","U");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User5', 'E', '21232f297a57a5a743894a0e4a801fc3', 'u5@hotmail.com',"2015-03-06","2015-03-06","U");
+INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'User6', 'F', '21232f297a57a5a743894a0e4a801fc3', 'u6@hotmail.com',"2015-03-06","2015-03-06","M");
 
 # Friend data
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,2,"2015-03-06",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,3,"2015-03-06",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,4,"2015-03-06",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,6,"2015-03-06",'Friends');
 
 # Group data
 INSERT INTO groups(group_name, group_type, created_on) VALUES ('Admins', 0,"2015-03-06");
@@ -202,39 +208,39 @@ VALUES ('Python1', '...', 1, 1, "2015-03-28", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Python2', '...', 1, 1, "2015-03-28", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python3', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python3', '...', 2, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python4', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python4', '...', 2, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python5', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python5', '...', 3, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python6', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python6', '...', 3, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python7', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python7', '...', 4, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python8', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python8', '...', 5, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++1', '...', 1, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++2', '...', 1, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++3', '...', 1, 1, "2014-02-05", 2);
+VALUES ('C++3', '...', 2, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++4', '...', 1, 1, "2014-02-05", 2);
+VALUES ('C++4', '...', 3, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++5', '...', 1, 1, "2014-02-05", 2);
+VALUES ('C++5', '...', 4, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++6', '...', 1, 1, "2014-02-05", 2);
+VALUES ('C++6', '...', 5, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('SQL1', '...', 1, 1, "2014-02-05", 3);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL2', '...', 1, 1, "2014-02-05", 3);
+VALUES ('SQL2', '...', 2, 1, "2014-02-05", 3);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL3', '...', 1, 1, "2014-02-05", 3);
+VALUES ('SQL3', '...', 3, 1, "2014-02-05", 3);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL4', '...', 1, 1, "2014-02-05", 3);
+VALUES ('SQL4', '...', 4, 1, "2014-02-05", 3);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL5', '...', 1, 1, "2014-02-05", 3);
+VALUES ('SQL5', '...', 5, 1, "2014-02-05", 3);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Sub1');
@@ -247,11 +253,48 @@ INSERT INTO subject(name) VALUES ('Sub5');
 
 
 #insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,5,50, "2014-03-05");
+# user 1 (Python1-5,C1-3 | same ratings)
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,100, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,5,75, "2014-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,1,5,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,1,5,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,1,5,30, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,1,5,0, "2014-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (9,1,5,50, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (10,1,5,50, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (11,1,5,50, "2015-03-28");
+# user 2 (Python1-2, C5, SQL1-5 | SQL low rating, C5 high, Py med)
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,2,4,10, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,2,4,15, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (13,2,5,20, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (15,2,1,35, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (16,2,2,49, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (17,2,3,60, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (14,2,2,80, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (18,2,1,100, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,2,2,50, "2015-03-28");
+# user 3 (niks)
+
+# user 4 (alles)
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,3,4,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,3,1,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,3,2,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (6,3,3,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (7,3,2,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,3,1,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (9,3,2,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (10,3,4,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (11,3,4,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (12,3,4,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (13,3,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (14,3,1,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (15,3,2,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (16,3,3,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (17,3,2,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (18,3,1,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,3,2,50, "2015-03-28");
+# user 5 (Python1-2, C5, SQL1-5)
+# user 6 (Python1-2, C5, SQL1-5)
+# user 7 (Python1-2, C5, SQL1-5)
+# user 8 (Python1-2, C5, SQL1-5)
