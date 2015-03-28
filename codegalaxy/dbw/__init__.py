@@ -213,7 +213,7 @@ def getFriendsIdForID(id):
 
 def getFriendsNotMemberOfGroupWithID(me_id, group_id):
     cursor = connection.cursor()
-    print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
+    #print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     cursor.execute('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     fetched = processData(cursor)
     cursor.close()

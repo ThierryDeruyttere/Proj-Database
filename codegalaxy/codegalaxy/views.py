@@ -68,7 +68,21 @@ def user(request, id=0):
             friend_id = request.POST.get('user_id_to_decline')
             user.declineFriendship(friend_id)
 
-        elif 'update_profile' in request.POST:
+        elif 'update_profile_information' in request.POST:
+            new_password1 = hashlib.md5(
+                request.POST.get('new_password1').encode('utf-8')).hexdigest()
+            new_password2 = hashlib.md5(
+                request.POST.get('new_password2').encode('utf-8')).hexdigest()
+
+            old_password = hashlib.md5(
+                request.POST.get('old_password').encode('utf-8')).hexdigest()
+
+            if new_password1 == new_password2:
+                if old_password == user.password:
+                    new_email = request.POST.get('new_email')
+                    user.updateProfile(new_email, new_password1)
+
+        elif 'update_profile_picture' in request.POST:
             f = request.FILES['image']
 
             destination = open(
@@ -77,23 +91,6 @@ def user(request, id=0):
             for chunk in f.chunks():
                 destination.write(chunk)
             destination.close()
-
-            new_password1 = hashlib.md5(
-                request.POST.get('new_password1').encode('utf-8')).hexdigest()
-            new_password2 = hashlib.md5(
-                request.POST.get('new_password2').encode('utf-8')).hexdigest()
-
-            old_password = hashlib.md5(
-                request.POST.get('old_password').encode('utf-8')).hexdigest()
-            print(new_password1)
-            print(new_password2)
-
-            print(old_password)
-            print(user.password)
-            if new_password1 == new_password2:
-                if old_password == user.password:
-                    new_email = request.POST.get('new_email')
-                    user.updateProfile(new_email, new_password1)
 
         elif 'confirm_membership' in request.POST:
             group_id = request.POST.get('group_id_to_confirm')
@@ -167,7 +164,7 @@ def user(request, id=0):
         friends = []
         for friendship in friendships:
             friends.append(
-                object_manager.createUser(id=friendship['friend_id']))
+                object_manager.createUser(id=friendship['id']))
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,
