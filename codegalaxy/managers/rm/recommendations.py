@@ -5,13 +5,13 @@ import datetime
 object_manager = objectmanager.ObjectManager()
 
 # default lists
-default_lists = [4]
+default_lists = [10]
 # Magic numbers
 # Time-based
 recent = 10
-older_than_month = 2
+older_than_month = 3
 older_than_week = 5
-older_than_average_date = 10 # Added to the two above
+older_than_average_date = 2 # Added to the two above
 # Rating-based
 percents_per_rating_star = 20 # 20% * rating
 difference_avg_rating = 10 # Added to above
@@ -32,12 +32,21 @@ def timeMultiplier(avg_date, avg_param_date):
     param_multiplier = recent
     week = datetime.timedelta(days=7)
     month = datetime.timedelta(days=31)
+    print(avg_param_date)
+    print(avg_date)
+    print(month)
+    print(week)
+    if avg_param_date >= week:
+        print('older_than_week')
+        param_multiplier = older_than_week
     if avg_param_date >= month:
-        SubjectMultiplier = older_than_month
-    elif avg_param_date >= week:
-        SubjectMultiplier = older_than_week
+        print('older_than_month')
+        param_multiplier = older_than_month
     if avg_param_date < avg_date:
-        SubjectMultiplier += older_than_average_date
+        print('older_than_avg')
+        param_multiplier -= older_than_average_date
+    print('param_multiplier')
+    print(param_multiplier)
     return param_multiplier
 
 def timeSubjectMultiplier(user, subject_id):
@@ -84,7 +93,7 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
     subject_ids = object_manager.allSubjectIDs()
     for subject_id in subject_ids:
         subject_scores[subject_id] = 1
-        subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id)/50
+        subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id)
         # taking ratings of the subject into account
         if ratings:
             subject_scores[subject_id] *= ratingSubjectMultiplier(user, subject_id, default)
@@ -107,13 +116,16 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
     prog_lang_ids = object_manager.allProgrammingLanguageIDs()
     for prog_lang_id in prog_lang_ids:
         prog_lang_scores[prog_lang_id] = 1
-        prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)/50
+        prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)
+        print(prog_lang_scores[prog_lang_id])
         # taking ratings of the subject into account
         if ratings:
             prog_lang_scores[prog_lang_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
+            print(prog_lang_scores[prog_lang_id])
         # taking into account how old the lists with that subject are
         if dates:
             prog_lang_scores[prog_lang_id] *= timeProgrammingLanguageMultiplier(user, prog_lang_id)
+            print(prog_lang_scores[prog_lang_id])
         if prog_lang_scores[prog_lang_id] < 1:
             prog_lang_scores[prog_lang_id] = 1
     return prog_lang_scores
@@ -190,10 +202,8 @@ def splitListIds(user_id, comparison_tuples, friends):
 
 # we default everything to one,so that in case of a small amount of data,
 # lists are not kinda chosen randomly
-def defaultScoreOne(score_per_list_id, user_id):
-    user = object_manager.createUser(id = user_id)
-    dont_add_obj = user.allPersonalLists()
-    dont_add = [obj.exercises_list.id for obj in dont_add_obj]
+def defaultScoreOne(score_per_list_id, dont_add):
+
     after_default = {}
     for i in range(object_manager.amountOfLists()):
         if i + 1 not in dont_add:
@@ -206,10 +216,14 @@ def defaultScoreOne(score_per_list_id, user_id):
                 after_default[i + 1] = 1
     return after_default
 
-def addDefault(score_per_list_id):
+def addDefault(score_per_list_id, dont_add):
     for default_list in default_lists:
-        if score_per_list_id[default_list] < 1:
-            score_per_list_id[default_list] = default_list_entry
+        if default_list not in dont_add:
+            if default_list in score_per_list_id:
+                if score_per_list_id[default_list] < 1:
+                    score_per_list_id[default_list] = default_list_entry
+            else:
+                score_per_list_id[default_list] = default_list_entry
 
 def applyScoresToLists(score_per_list_id, scores, X_type):
     # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
@@ -242,12 +256,16 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # We compare which lists this user has made to the ones others have made
     # ([verchil in lijsten], overlap score, user obj)
     comparison_tuples = compareListWithOtherUsers(user_id)
+    # We may not add these lists (made already)
+    user = object_manager.createUser(id = user_id)
+    dont_add_obj = user.allPersonalLists()
+    dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
     score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
     print('After Split')
     print(score_per_list_id)
-    score_per_list_id = defaultScoreOne(score_per_list_id, user_id)
+    score_per_list_id = defaultScoreOne(score_per_list_id, dont_add)
     print('After DefaultOne')
     print(score_per_list_id)
     # now we can start adding the other SubjectMultipliers
@@ -265,7 +283,7 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     print('After ProgrammingLanguageScores')
     print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend
-    addDefault(score_per_list_id)
+    addDefault(score_per_list_id, dont_add)
     print('After Default')
     print(score_per_list_id)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)

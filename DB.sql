@@ -194,12 +194,13 @@ INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (
 # ProgrammingLanguage data
 INSERT INTO programmingLanguage(name) VALUES ('Python');
 INSERT INTO programmingLanguage(name) VALUES ('C++');
+INSERT INTO programmingLanguage(name) VALUES ('SQL');
 
 # ExerciseList data
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python1', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python1', '...', 1, 1, "2015-03-28", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python2', '...', 1, 1, "2014-02-05", 1);
+VALUES ('Python2', '...', 1, 1, "2015-03-28", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Python3', '...', 1, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
@@ -218,19 +219,39 @@ INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, 
 VALUES ('C++2', '...', 1, 1, "2014-02-05", 2);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++3', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++4', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++5', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++6', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL1', '...', 1, 1, "2014-02-05", 3);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL2', '...', 1, 1, "2014-02-05", 3);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL3', '...', 1, 1, "2014-02-05", 3);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL4', '...', 1, 1, "2014-02-05", 3);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('SQL5', '...', 1, 1, "2014-02-05", 3);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Sub1');
-INSERT INTO subject(name) VALUES ('not Sub1');
+INSERT INTO subject(name) VALUES ('Sub2');
+INSERT INTO subject(name) VALUES ('Sub3');
+INSERT INTO subject(name) VALUES ('Sub4');
+INSERT INTO subject(name) VALUES ('Sub5');
 
 # HasSubject data
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,2);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,2);
+
 
 #insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,50, "2015-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,1,50, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,1,5,50, "2014-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (9,1,5,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (10,1,5,50, "2015-03-28");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (11,1,5,50, "2015-03-28");
