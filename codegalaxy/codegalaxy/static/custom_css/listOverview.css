@@ -1,3 +1,41 @@
+@-webkit-keyframes makeVisible {
+    from {
+        visibility:hidden;
+    }
+    50% {
+        visibility:hidden;
+    }
+    to {
+        visibility:visible;
+    }
+}
+
+
+@-moz-keyframes makeVisible {
+    from {
+        visibility:hidden;
+    }
+    50% {
+        visibility:hidden;
+    }
+    to {
+        visibility:visible;
+    }
+}
+
+@keyframes makeVisible {
+    from {
+        visibility:hidden;
+    }
+    50% {
+        visibility:hidden;
+    }
+    to {
+        visibility:visible;
+    }
+}
+
+
 .planet{
     width: 60px;
     height: 60px;
@@ -7,20 +45,29 @@
     background-image: radial-gradient(45px 45px 45deg, circle cover, yellow 0%, orange 100%, red 95%);
     margin-top: 20px;
     opacity: 0.5;
+    text-align: center;
+
 }
 
-.planet:hover + .information{
-    visibility: visible;
+.slick-center > .planet + .information{
+    animation: makeVisible 1s linear;
+    -moz-animation: makeVisible 1s linear;
+    -webkit-animation: makeVisible 1s linear;
+    -ms-animation: makeVisible 1s linear;
+    -o-animation: makeVisible 1s linear;
+    -webkit-animation-fill-mode: forwards;
 }
 
 .information{
+
     visibility: hidden;
+    margin-top: 50px;
+    width: auto;
     position: relative;
-    left: 100px;
 }
 
 
-
+/*Hier*/
 .slick-center > .planet{
     -webkit-transition: all 1s ease-in-out;
     -moz-transition: all 1s ease-in-out;

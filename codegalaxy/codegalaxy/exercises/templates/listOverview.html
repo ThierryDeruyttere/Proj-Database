@@ -69,7 +69,7 @@
 
                     <div class="row">
                       <div class="large-4 columns">
-                        <label>Programming language</label>
+                        <label>Solar system</label>
                         <select name="prog_lang">
                           <option value="" selected></option>
                           {% for lang in languages %}
@@ -144,16 +144,30 @@
       <div class ="row">
         <div class="large-10 large-centered columns">
           <div class="row" id="filtered_lists">
-            <div class="center">
+            <div class="galaxy-navigation">
+              <div class="center">
+                {% for list in all_lists %}
+                  <div>
+                    <div class="planet">
+                      {{ forloop.counter0 }}
+                    </div>
+                    <div class="information panel">
+                      <div class="row">
+                        <div class="text-center">
+                          {{ list.name }}
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="text-center">
+                          <button class="tiny radius">Explore!</button>
+                        </div>
+                      </div>
+                    </div>
 
-              {% for list in all_lists %}
-                <div>
-                  <div class="planet">
-                    {{ forloop.counter0 }}
                   </div>
-                </div>
 
-                <!--<li class="accordion-navigation">
+
+                  <!--<li class="accordion-navigation">
                     <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
                     <div id="Exerc{{ list.id }}" class="content">
                       <div class="row">
@@ -161,8 +175,13 @@
                       </div>
                     </div>
                   </li>-->
-              {% endfor %}
+                {% endfor %}
+              </div>
+              <div class="info">
+
+              </div>
             </div>
+
           </div>
         </div>
       </div>
@@ -175,11 +194,23 @@
   <script>
 
     $(document).ready(function(){
+      $('.center').on('afterChange', function(event, slick, currentSlide, nextSlide){
+        var planet = $(this).find('.slick-center');
+        var info = $(planet).find('.information');
+        offset = $(planet).offset();
+        console.log(offset);
+        offset.top += 150;
+        offset.left = Math.abs(offset.left - $(planet).width()/8);
+        console.log(offset);
+        $(info).offset(offset);
+      });
+
       $('.center').slick({
         centerMode: true,
-        slidesToShow: 3,
-        centerPadding: '60px',
+        slidesToShow: 5,
+        centerPadding: '0px',
         //Pure for other screensizes
+
         responsive: [
           {
             breakpoint: 768,
@@ -199,6 +230,7 @@
               slidesToShow: 1
             }
           }]
+
       });
     });
 
