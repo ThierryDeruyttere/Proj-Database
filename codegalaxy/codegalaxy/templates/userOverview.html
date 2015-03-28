@@ -38,22 +38,21 @@
 </div>
 -->
 <div class="row">
-  <div class="large-12 columns">
-      <div class="row text.center">
-          <h1>All users:</h1>
-      </div>
+  <div class="row text.center">
+    <h1>All users:</h1>
   </div>
   <div class="row">
-      {% for user in users %}
-      <div class="large-2 small-2 columns">
-          <a href="../{{ user.id }}"/>
+    {% for user in users %}
+    <div class="small-2 columns end">
+      <div class="panel radius">
+        <a href="../{{ user.id }}">
           <img src="{% static "media/user.png" %}">
-          <div class="panel">
-              <h5>{{ user.first_name }}</h5>
-              <h6 class="subheader">{{ user.last_name }}</h6>
-          </div>
+          <h5 class="text-cut-off">{{ user.first_name }}</h5>
+          <h6 class="text-cut-off">{{ user.last_name }}</h6>
+        </a>
       </div>
-      {% endfor %}
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock base_body %}

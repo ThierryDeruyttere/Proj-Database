@@ -14,7 +14,7 @@
 <div class="row">
   <div class="large-3 columns text-center ">
     <div class="panel">
-      <a href="#"><img src="{% static profile_picture %}"/></a>
+      <a href="#"><img src="{% static profile_picture %}" /></a>
       <h5><a href="#">{{ user.first_name }} {{ user.last_name }}</a></h5>
 
       <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
@@ -155,52 +155,48 @@
         </div>
         <hr/>
         {% endfor %}
-        <div class="large-12 columns">
-          <div class="row">
-            {% for user in accepted_friendships %}
-            <div class="large-3 columns end">
-              <a href="/u/{{ user.id }}">
+        <div class="row">
+          {% for user in accepted_friendships %}
+          <div class="large-3 columns end">
+            <a href="/u/{{ user.id }}">
+              <div class="panel radius">
                 <img src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png"/>
-                <div class="panel" style="width: 129px;">
-                  <h5 style="width: 129px;"> {{ user.first_name }} </h5>
-                  <h6 style="width: 129px;">{{ user.last_name }}</h6>
-                </div>
-              </a>
-            </div>
-            {% endfor %}
+                <h5 class="text-cut-off">{{ user.first_name }}</h5>
+                <h6 class="text-cut-off">{{ user.last_name }}</h6>
+              </div>
+            </a>
           </div>
+          {% endfor %}
         </div>
       </div>
       <div class="content" id="groups">
         {% if group_list %}
-        {% for group_sub_list in group_list %}
         <div class="row">
-          {% for group in group_sub_list %}
+        {% for group in group_list %}
           {% if group.group_type == 0 %}
           <div class="large-3 columns end">
-            <a href="/g/{{ group.id }}">
-              <img src="{% static "Group-icon.png" %}">
-              <div class="left">
-                <div class="panel" style="width: 129px;">
-                  <h6 style="width: 129px;">{{ group.group_name }}</h6>
+            <div class="panel radius">
+              <a href="/g/{{ group.id }}">
+                <img src="{% static "Group-icon.png" %}" />
+                <div>
+                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
                 </div>
               </a>
             </div>
           </div>
           {% endif %}
-          {% endfor %}
-          {% endfor %}
-          {% else %}
-          {% if my_profile %}
-          <h4>You have not joined a group yet.</h4>
-          <a href="/g/overview" class="round button">Take a look!</a>
-          {% else %}
-          <div class="row">
-            <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
-          </div>
-          {% endif %}
-          {% endif %}
+        {% endfor %}
         </div>
+        {% else %}
+        {% if my_profile %}
+        <h4>You have not joined a group yet.</h4>
+        <a href="/g/overview" class="round button">Take a look!</a>
+        {% else %}
+        <div class="row">
+          <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
+        </div>
+        {% endif %}
+        {% endif %}
       </div>
     </div>
   </div>

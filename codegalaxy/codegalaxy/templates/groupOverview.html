@@ -1,15 +1,13 @@
 {% extends "codegalaxy.html" %}
 
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
 <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
-{% load i18n %}
-
 {% block base_body %}
-
 <div class="row">
 
   <div class="row">
@@ -23,22 +21,21 @@
   <div class="large-8 columns">
     <h1>{% trans "Group overview" %}</h1>
     <a href="/g/create" class="button large">{% trans "Create new group" %}</a>
-    {% for group_sub_list in groups %}
     <div class="row">
-      {% for group in group_sub_list %}
+    {% for group in group_list %}
       <div class="large-3 columns end">
-          <a href="../../g/{{ group.id }}"/>
-          <img src="{% static "Group-icon.png" %}">
-          <div class="left">
-          <div class="panel" style="width: 129px;">
-              <h6 style="width: 129px;">{{ group.group_name }}</h6>
-          </div>
+        <div class="panel radius">
+          <a href="../../g/{{ group.id }}">
+            <img src="{% static "Group-icon.png" %}" />
+            <div>
+                <h6 class="text-cut-off">{{ group.group_name }}</h6>
+            </div>
+          </a>
         </div>
       </div>
-      {% endfor %}
+    {% endfor %}
     </div>
-  {% endfor %}
-</div>
+  </div>
 </div>
 
 

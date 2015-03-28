@@ -85,24 +85,8 @@ def user(request, id=0):
         already_friends = current_user.isFriend(user)
 
     if user:
-        friend_list_temp = user.allFriends()
-        # names seems too long? -> fix by changing the last part to '...'
-        for friend in friend_list_temp:
-            if len(friend.last_name) > 12:
-                friend.last_name = friend.last_name[:10] + '...'
-            if len(friend.first_name) > 12:
-                friend.first_name = friend.first_name[:10] + '...'
-        # making into a list of lists to facilitate looping/ordering (6
-        # friends/row?)
-        friend_list = [friend_list_temp[i:i + 4]
-                       for i in range(0, len(friend_list_temp), 4)]
+        group_list = user.allGroups()
 
-        group_list_temp = user.allGroups()
-        for group in group_list_temp:
-            if len(group.group_name) > 12:
-                group.group_name = group.group_name[:10] + '...'
-        group_list = [group_list_temp[i:i + 4]
-                      for i in range(0, len(group_list_temp), 4)]
         exercise_list = user.allPersonalLists()
 
         accepted_friendships = sorted(
@@ -135,7 +119,7 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
 
-        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
+        context = {'user': user, 'group_list': group_list, 'data': data, 'all_data': all_data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
 
         context.update(defaultContext(id))
@@ -338,20 +322,10 @@ def groupOverview(request):
 
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
-    group_list_temp = object_manager.allPublicGroups()
-    for group in group_list_temp:
-        if len(group.group_name) > 12:
-            group.group_name = group.group_name[:10] + '...'
 
-    groups = [group_list_temp[i:i + 4]
-              for i in range(0, len(group_list_temp), 4)]
+    group_list = object_manager.allPublicGroups()
 
-    if groups:
-        return render(request, 'groupOverview.html', {'groups': groups, 'biggest_groups': bar_chart})
-    # else:
-        # return redirect('/')
-    return redirect('/g/create')
-
+    return render(request, 'groupOverview.html', {'group_list': group_list, 'biggest_groups': bar_chart})
 
 @require_login
 def groupCreate(request, id=0):
