@@ -41,7 +41,7 @@ def home(request):
         recommended = recommendListsForUser(current_user.id)
         for recommended_list in recommended:
             recommended_lists.append(object_manager.createExerciseList(recommended_list))
-    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': randint(1,object_manager.amountOfLists())})
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists, 'random_list': randint(1, object_manager.amountOfLists())})
 
 
 @require_login
@@ -76,7 +76,7 @@ def user(request, id=0):
             destination.close()
 
             new_password = hashlib.md5(
-            request.POST.get('new_password').encode('utf-8')).hexdigest()
+                request.POST.get('new_password').encode('utf-8')).hexdigest()
             new_email = request.POST.get('new_email')
             user.updateProfile(new_email, new_password)
 
@@ -134,7 +134,6 @@ def user(request, id=0):
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
-
 
         context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data, 'all_data': all_data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
@@ -408,7 +407,7 @@ def test(request, id=0):
     # exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
-    #exercise_test.update(2, new_answers, new_hints)
+    # exercise_test.update(2, new_answers, new_hints)
 
     # test
     user_test = object_manager.createUser(id=1)
@@ -435,7 +434,7 @@ def test(request, id=0):
     for list_ in lists:
         personalexercises += list_.allExercises("en")
     # testfunction6
-    #exercise_test = object_manager.createExercise(1, 'en')
+    # exercise_test = object_manager.createExercise(1, 'en')
     # testfunction7
     hints = exercise_test.allHints()
     # testfunction8
@@ -449,15 +448,15 @@ def test(request, id=0):
     group_test.save()
     # testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
-    #exercise_list_test.name = "testlist"
-    #exercise_list_test.difficulty = 4
-    #exercise_list_test.description = "no"
-    #exercise_list_test.programming_language = 2
-    #reference test -> copying multiple times???
+    # exercise_list_test.name = "testlist"
+    # exercise_list_test.difficulty = 4
+    # exercise_list_test.description = "no"
+    # exercise_list_test.programming_language = 2
+    # reference test -> copying multiple times???
     exercise_list_test.insertExerciseByReference(1)
     exercise_list_test.insertExerciseByReference(2)
-    #new_id = exercise_list_test.unreferenceExercise(3)
-    #exercise_test3 = object_manager.createExercise(new_id,'en')
+    # new_id = exercise_list_test.unreferenceExercise(3)
+    # exercise_test3 = object_manager.createExercise(new_id,'en')
 
     # testfunction11
     subjects = exercise_list_test.allSubjects()
@@ -467,14 +466,14 @@ def test(request, id=0):
     for ex in exercises:
         print(ex)
         print("\n")
-    exercise_list_test.reorderExercises([3,2,4,1],'en')
+    exercise_list_test.reorderExercises([3, 2, 4, 1], 'en')
     exercises = exercise_list_test.allExercises('en')
     print("remade")
     for ex in exercises:
         print(ex)
         print("\n")
-    #exercises[2].penalty = 3
-    #exercises[2].save()
+    # exercises[2].penalty = 3
+    # exercises[2].save()
     # testfunction13
     members = group_test.allMembers()
 
