@@ -7,9 +7,6 @@
 {% endblock head_js %}
 
 {% block base_body  %}
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
-  </head>
 
   <div class="row">
 
@@ -140,67 +137,31 @@
           </div>
         </div>
 
-      </div>
-      <div class ="row">
-        <div class="large-10 large-centered columns">
-          <div class="row" id="filtered_lists">
-            <div class="center">
-
-              {% for list in all_lists %}
-                <div>
-                  <div class="planet">
-                    {{ forloop.counter0 }}
-                  </div>
-                </div>
-
-                <!--<li class="accordion-navigation">
+        <div class ="row">
+          <div class="large-10 large-centered columns">
+            <div class="row" id="filtered_lists">
+              <ul class="accordion" id="list_accordion" data-accordion>
+                {% for list in all_lists %}
+                  <li class="accordion-navigation">
                     <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
                     <div id="Exerc{{ list.id }}" class="content">
                       <div class="row">
-                        <a href="{{ list.id }}" class="button tiny radius">Explore list</a>
+                        <a href="{{ list.id }}" class="button tiny radius">Open list</a>
                       </div>
                     </div>
-                  </li>-->
-              {% endfor %}
+                  </li>
+                {% endfor %}
+              </ul>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 {% endblock %}
 
 {% block body_js %}
   <script>
-
-    $(document).ready(function(){
-      $('.center').slick({
-        centerMode: true,
-        slidesToShow: 3,
-        centerPadding: '60px',
-        //Pure for other screensizes
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 3
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 1
-            }
-          }]
-      });
-    });
 
 
     function csrfSafeMethod(method) {
