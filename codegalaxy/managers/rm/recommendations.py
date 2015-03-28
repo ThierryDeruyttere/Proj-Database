@@ -5,7 +5,21 @@ import datetime
 object_manager = objectmanager.ObjectManager()
 
 # default lists
-default_lists = [1,2,3]
+default_lists = [4]
+# Magic numbers
+# Time-based
+recent = 10
+older_than_month = 2
+older_than_week = 5
+older_than_average_date = 10 # Added to the two above
+# Rating-based
+percents_per_rating_star = 20 # 20% * rating
+difference_avg_rating = 10 # Added to above
+#ETC
+programming_language_importance = 3 # In comparison to subjects
+default_list_entry = 2 # 1 is default
+#Friends
+friends_multiplier = 1.2 # (not friends -> this is 1)
 
 # SubjectMultiplierS==============================================================================================
 
@@ -15,15 +29,15 @@ default_lists = [1,2,3]
 #Recenter dan avg -> *1.2
 
 def timeMultiplier(avg_date, avg_param_date):
-    param_multiplier = 1
+    param_multiplier = recent
     week = datetime.timedelta(days=7)
     month = datetime.timedelta(days=31)
     if avg_param_date >= month:
-        SubjectMultiplier = 0.25
+        SubjectMultiplier = older_than_month
     elif avg_param_date >= week:
-        SubjectMultiplier = 0.5
+        SubjectMultiplier = older_than_week
     if avg_param_date < avg_date:
-        SubjectMultiplier = 1.2
+        SubjectMultiplier += older_than_average_date
     return param_multiplier
 
 def timeSubjectMultiplier(user, subject_id):
@@ -34,17 +48,17 @@ def timeSubjectMultiplier(user, subject_id):
 def timeProgrammingLanguageMultiplier(user, prog_lang_id):
     avg_date_age = user.avgDateAge()
     avg_prog_lang_date_age = user.avgProgrammingLanguageDateAge(prog_lang_id)
-    return timeMultiplier(avg_date_age, avg_prog_lang_date_age) * 3
+    return timeMultiplier(avg_date_age, avg_prog_lang_date_age) * programming_language_importance
 
 #AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
 #Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
 
 def ratingMultiplier(avg_rating, param_rating):
-    param_score = param_rating * 0.2
+    param_score = param_rating * percents_per_rating_star
     if param_rating > avg_rating:
-        param_score += param_rating * 0.05
+        param_score += difference_avg_rating
     else:
-        param_score -= param_rating * 0.05
+        param_score -= difference_avg_rating
     return param_score
 
 def ratingSubjectMultiplier(user, subject_id, default):
@@ -55,7 +69,8 @@ def ratingSubjectMultiplier(user, subject_id, default):
 def ratingProgrammingLanguageMultiplier(user, subject_id, default):
     avg_rating = user.averageRating(default)
     prog_lang_rating = user.progLangRating(subject_id, default)
-    return ratingMultiplier(avg_rating, prog_lang_rating) * 3
+    # Programming language is more important than subject
+    return ratingMultiplier(avg_rating, prog_lang_rating) * programming_language_importance
 
 # returns the amount of exerciselists a user has made with a certain subject
 # if the dates parameter is true, older lists will count for less
@@ -69,7 +84,7 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
     subject_ids = object_manager.allSubjectIDs()
     for subject_id in subject_ids:
         subject_scores[subject_id] = 1
-        subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id)
+        subject_scores[subject_id] = user.amountOfListsWithSubjectForUser(subject_id)/50
         # taking ratings of the subject into account
         if ratings:
             subject_scores[subject_id] *= ratingSubjectMultiplier(user, subject_id, default)
@@ -92,7 +107,7 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
     prog_lang_ids = object_manager.allProgrammingLanguageIDs()
     for prog_lang_id in prog_lang_ids:
         prog_lang_scores[prog_lang_id] = 1
-        prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)
+        prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)/50
         # taking ratings of the subject into account
         if ratings:
             prog_lang_scores[prog_lang_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
@@ -111,7 +126,7 @@ def friendsSubjectMultiplier(user_id, other_user_id):
     for friend in friends:
         if other_user_id == friend.id:
             # NOTE: RANDOM VALUE
-            return 1.2
+            return friends_multiplier
     # not a friend -> no SubjectMultiplier
     return 1
 
@@ -184,17 +199,17 @@ def defaultScoreOne(score_per_list_id, user_id):
         if i + 1 not in dont_add:
             if i + 1 in score_per_list_id:
                 if score_per_list_id[i + 1] < 1:
-                    after_default[i + 1] = 0.1
+                    after_default[i + 1] = 1
                 else:
                     after_default[i + 1] = score_per_list_id[i + 1]
             else:
-                after_default[i + 1] = 0.1
+                after_default[i + 1] = 1
     return after_default
 
 def addDefault(score_per_list_id):
     for default_list in default_lists:
         if score_per_list_id[default_list] < 1:
-            score_per_list_id[default_list] = 1
+            score_per_list_id[default_list] = default_list_entry
 
 def applyScoresToLists(score_per_list_id, scores, X_type):
     # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
@@ -227,27 +242,33 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # We compare which lists this user has made to the ones others have made
     # ([verchil in lijsten], overlap score, user obj)
     comparison_tuples = compareListWithOtherUsers(user_id)
-    print(comparison_tuples)
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
     score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
+    print('After Split')
     print(score_per_list_id)
     score_per_list_id = defaultScoreOne(score_per_list_id, user_id)
+    print('After DefaultOne')
     print(score_per_list_id)
     # now we can start adding the other SubjectMultipliers
     subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
+    print('subject scores')
     print(subject_scores)
     prog_lang_scores = scorePerProgrammingLanguageForUser(user_id, dates, ratings, default)
+    print('prog lang scores')
     print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
+    print('After SubjectScores')
     print(score_per_list_id)
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
+    print('After ProgrammingLanguageScores')
     print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend
-    #addDefault(score_per_list_id)
+    addDefault(score_per_list_id)
+    print('After Default')
+    print(score_per_list_id)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
-    print(recommended_exercises)
     # returns a list with all the items that occur in list2 but not list1
     return recommended_exercises
 

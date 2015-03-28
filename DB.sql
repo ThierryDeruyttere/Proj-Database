@@ -205,15 +205,32 @@ VALUES ('Python3', '...', 1, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('Python4', '...', 1, 1, "2014-02-05", 1);
 INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python5', '...', 1, 1, "2014-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python6', '...', 1, 1, "2014-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python7', '...', 1, 1, "2014-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('Python8', '...', 1, 1, "2014-02-05", 1);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
 VALUES ('C++1', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++2', '...', 1, 1, "2014-02-05", 2);
+INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
+VALUES ('C++3', '...', 1, 1, "2014-02-05", 2);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Sub1');
 INSERT INTO subject(name) VALUES ('not Sub1');
 
 # HasSubject data
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,1);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,2);
 
 #insert into madeList
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,5,50, "2015-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,5,50, "2015-03-05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,1,1,50, "2015-03-05");
