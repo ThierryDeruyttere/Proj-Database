@@ -8,25 +8,22 @@ object_manager = objectmanager.ObjectManager()
 default_lists = [10]
 # Magic numbers
 # Time-based
-recent = 10
-older_than_month = 3
-older_than_week = 5
-older_than_average_date = 2 # Added to the two above
+recent = 10.0
+older_than_month = 3.0
+older_than_week = 5.0
+older_than_average_date = 2.0 # Added to the two above
 # Rating-based
-percents_per_rating_star = 20 # 20% * rating
-difference_avg_rating = 10 # Added to above
+percents_per_rating_star = 2.0 # 20% * rating (op 10)
+difference_avg_rating = 0.5 # Added to above
 #ETC
-programming_language_importance = 3 # In comparison to subjects
-default_list_entry = 2 # 1 is default
+programming_language_importance = 3.0 # In comparison to subjects
+default_list_entry = 2.0 # 1 is default
 #Friends
 friends_multiplier = 1.2 # (not friends -> this is 1)
 
 # SubjectMultiplierS==============================================================================================
 
 #ARBITRAIR SubjectMultiplierSYSTEEM:
-#avg vd Dates ouder dan week -> / 2
-#Dates ouder dan maand -> / 4
-#Recenter dan avg -> *1.2
 
 def timeMultiplier(avg_date, avg_param_date):
     param_multiplier = recent
@@ -63,7 +60,7 @@ def timeProgrammingLanguageMultiplier(user, prog_lang_id):
 #Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
 
 def ratingMultiplier(avg_rating, param_rating):
-    param_score = param_rating * percents_per_rating_star
+    param_score = param_rating * percents_per_rating_star #10 max
     if param_rating > avg_rating:
         param_score += difference_avg_rating
     else:
@@ -75,9 +72,9 @@ def ratingSubjectMultiplier(user, subject_id, default):
     subject_rating = user.subjectRating(subject_id, default)
     return ratingMultiplier(avg_rating, subject_rating)
 
-def ratingProgrammingLanguageMultiplier(user, subject_id, default):
+def ratingProgrammingLanguageMultiplier(user, prog_lang_id, default):
     avg_rating = user.averageRating(default)
-    prog_lang_rating = user.progLangRating(subject_id, default)
+    prog_lang_rating = user.progLangRating(prog_lang_id, default)
     # Programming language is more important than subject
     return ratingMultiplier(avg_rating, prog_lang_rating) * programming_language_importance
 
@@ -115,17 +112,18 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
     # list of subjectIDs
     prog_lang_ids = object_manager.allProgrammingLanguageIDs()
     for prog_lang_id in prog_lang_ids:
+        print('prog_lang_id: ' + str(prog_lang_id))
         prog_lang_scores[prog_lang_id] = 1
         prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)
-        print(prog_lang_scores[prog_lang_id])
+        print('after amount: ' + str(prog_lang_scores[prog_lang_id]))
         # taking ratings of the subject into account
         if ratings:
             prog_lang_scores[prog_lang_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
-            print(prog_lang_scores[prog_lang_id])
+            print('after rating: ' + str(prog_lang_scores[prog_lang_id]))
         # taking into account how old the lists with that subject are
         if dates:
             prog_lang_scores[prog_lang_id] *= timeProgrammingLanguageMultiplier(user, prog_lang_id)
-            print(prog_lang_scores[prog_lang_id])
+            print('after dates: ' + str(prog_lang_scores[prog_lang_id]))
         if prog_lang_scores[prog_lang_id] < 1:
             prog_lang_scores[prog_lang_id] = 1
     return prog_lang_scores
