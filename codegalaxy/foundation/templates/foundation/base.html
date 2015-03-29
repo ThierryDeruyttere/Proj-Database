@@ -30,12 +30,12 @@
   {# Override if you need another version of jQuery #}
   {% block foundation_jquery %}
     <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
-    <script src="{% static "jquery.cookie.js" %}"></script>
   {% endblock foundation_jquery %}
 
-  {% block jquery_ui %}
+  {% block custom_jquery %}
+    <script src="{% static "jquery.cookie.js" %}"></script>
     <script src="{% static "jquery_ui/jquery-ui.min.js" %}"></script>
-  {% endblock jquery_ui %}
+  {% endblock custom_jquery %}
 
   {% block slick_ui %}
     <link href="{% static "slick/slick/slick.css" %}" rel="stylesheet"/>

@@ -103,6 +103,10 @@
                 </div>
               </div>
             </div>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+            <div class="row">
+              <div id="slider-range"></div>
+            </div>
             <div class="row">
               <div class="large-4 columns">
                 <div class="row collapse prefix-radius">
@@ -229,5 +233,14 @@ $(document).ready(function(){
       });
     });
   });
+
+  $("#slider-range").slider({
+    range: true,
+    min: 0,
+    max: 10,
+    values: [0, 10],
+    slide: function( event, ui ) {
+    }
+  });
   </script>
-  {% endblock %}
+{% endblock %}
