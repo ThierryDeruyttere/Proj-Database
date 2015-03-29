@@ -38,21 +38,15 @@
           <div class="row" id="search">
             <div class="large-4 columns">
               <div class="row collapse prefix-radius">
-                <div class="small-3 columns">
-                  <span class="prefix"><img  src="{% static "media/planet.png" %}"></span>
-                </div>
-                <div class="small-9 columns">
+                <div class="small-12 columns">
                   <input placeholder="Planet name" type="text" id="title" name="title" class="text-center" />
                 </div>
               </div>
             </div>
             <div class="large-4 columns">
               <div class="row collapse prefix-radius">
-                <div class="small-3 columns">
-                  <span class="prefix">User</span>
-                </div>
-                <div class="small-9 columns">
-                  <input type="text" id="user" name="user" class="text-center">
+                <div class="small-12 columns">
+                  <input placeholder="name" type="text" id="user" name="user" class="text-center">
                 </div>
               </div>
             </div>
@@ -175,13 +169,12 @@
       $(panel).slideUp(0);
     });
 
-
-
-    function createSlick(){
+    function createSlick(slides){
+      slides = slides || 5;
       $('.planets').slick({
         infinite: false,
         centerMode: true,
-        slidesToShow: 5,
+        slidesToShow: slides,
         centerPadding: '0px',
         focusOnSelect: true,
         //Pure for other screensizes
@@ -233,7 +226,15 @@
               $('.planets').slick('unslick');
               $('.planets').empty();
               $('.planets').append(response);
-              createSlick();
+              var slides = 5;
+              //temporary fix
+              //TODO FIX ME
+              var track_am = $(response).find('.information').length;
+              if(track_am < 5){
+                slides = track_am;
+              }
+              createSlick(slides);
+
             }
           });
         });

@@ -51,12 +51,25 @@
     margin-right: auto;
 }
 
+input#title::-webkit-input-placeholder{
+    background-image: url('../media/planet.png');
+    background-repeat: no-repeat;
+    background-position-y: center;
+    text-indent: 20px;
+}
 
+input#user::-webkit-input-placeholder{
+    background-image: url('../media/astronaut.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-indent: 20px;
+}
 
 .information {
     visibility: hidden;
     margin-top: 25px;
     width: auto;
+    max-width: 300px;
 }
 
 .slick-center > .planet {

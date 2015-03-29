@@ -599,7 +599,8 @@ def listOverview(request):
         if user_name != "":
             user_name = user_name.split(' ')
             user_first_name = user_name[0]
-            user_last_name = user_name[1]
+            if len(user_name) > 1:
+                user_last_name = user_name[1]
 
         subjects = request.POST.get('subjects')
         if subjects != "":
