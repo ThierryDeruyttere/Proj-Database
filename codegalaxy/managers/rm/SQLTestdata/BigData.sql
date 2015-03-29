@@ -20,6 +20,40 @@
 # score bepaald, terwijl bij date set multipliers zijn
 # User7: SQL1-5->Python8->SQL6->C++ | OPM: door de zeer lage ratings word
 # SQL voor Python gegeven, SQL mist de overlapscore en komt dus nog wel erna
+#=============================================================================================================
+# Geen subjects/vrienden, geen U3 (-> er zullen nu verschillende overlapscores zijn)
+# User1:
+# User2:
+# User4:
+# User5:
+# User6:
+# User7:
+#=============================================================================================================
+# Geen subjects/ wel vrienden, geen U3
+# User1:
+# User2:
+# User4:
+# User5:
+# User6:
+# User7:
+#=============================================================================================================
+# wel subjects/ geen vrienden, geen U3
+# User1:
+# User2:
+# User4:
+# User5:
+# User6:
+# User7:
+#=============================================================================================================
+# Wel subjects/vrienden, geen U3
+# User1:
+# User2:
+# User4:
+# User5:
+# User6:
+# User7:
+#=============================================================================================================
+
 
 
 # MADELISTS

@@ -268,25 +268,7 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (18,2,1,100, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,2,2,50, "2015-03-28");
 # user 3 (alles)
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,3,4,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,3,1,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (5,3,2,50, "2014-03-05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (6,3,3,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (7,3,2,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,3,1,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (9,3,2,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (10,3,4,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (11,3,4,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (12,3,4,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (13,3,5,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (14,3,1,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (15,3,2,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (16,3,3,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (17,3,2,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (18,3,1,50, "2015-03-28");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,3,2,50, "2015-03-28");
+
 # user 4 (niks)
 
 # user 5 (Python1-6 C2, Python low rating, C1-2 high mr lang geleden)

@@ -5,21 +5,21 @@ import datetime
 object_manager = objectmanager.ObjectManager()
 
 # default lists
-default_lists = [1,9,10,15]
+default_lists = [1, 9, 10, 15]
 # Magic numbers
 # Time-based
 recent = 10.0
 older_than_month = 3.0
 older_than_week = 5.0
-older_than_average_date = 2.0 # Added to the two above
+older_than_average_date = 2.0  # Added to the two above
 # Rating-based
-percents_per_rating_star = 2.0 # 20% * rating (op 10)
-difference_avg_rating = 0.5 # Added to above
+percents_per_rating_star = 2.0  # 20% * rating (op 10)
+difference_avg_rating = 0.5  # Added to above
 #ETC
-programming_language_importance = 3.0 # In comparison to subjects
-default_list_entry = 20.0 # 10 is default vr recente
+programming_language_importance = 3.0  # In comparison to subjects
+default_list_entry = 20.0  # 10 is default vr recente
 #Friends
-friends_multiplier = 1.2 # (not friends -> this is 1)
+friends_multiplier = 1.2  # (not friends -> this is 1)
 
 # SubjectMultiplierS==============================================================================================
 
@@ -256,7 +256,7 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # ([verchil in lijsten], overlap score, user obj)
     comparison_tuples = compareListWithOtherUsers(user_id)
     # We may not add these lists (made already)
-    user = object_manager.createUser(id = user_id)
+    user = object_manager.createUser(id=user_id)
     dont_add_obj = user.allPersonalLists()
     dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     # we split this result such that each list only occurs once, it gets the highest
