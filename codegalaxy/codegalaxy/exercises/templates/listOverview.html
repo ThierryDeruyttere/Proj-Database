@@ -162,6 +162,19 @@
 {% block body_js %}
   <script>
 
+    $('.planets').on('afterChange',function(event, slick, currentSlide, nextSlide){
+      var panel = $(this).find('.slick-center').find('.information')[0];
+      $(panel).slideUp(0);
+      $(panel).css('visibility','visible');
+      $(panel).slideDown();
+    });
+
+    $('.planets').on('beforeChange',function(event, slick, currentSlide, nextSlide){
+      var panel = $(this).find('.slick-center').find('.information')[0];
+      $(panel).css('visibility','hidden');
+      $(panel).slideUp(0);
+    });
+
 
 
     function createSlick(){
@@ -193,6 +206,9 @@
           }]
       });
 
+      var panel = $('.planets').find('.slick-center').find('.information')[0];
+      $(panel).css('visibility','visible');
+      $(panel).slideDown();
     }
 
     $(document).ready(function(){

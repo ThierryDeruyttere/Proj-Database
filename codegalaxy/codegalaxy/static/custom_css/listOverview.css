@@ -51,11 +51,7 @@
     margin-right: auto;
 }
 
-.slick-center > .planet + .information {
-    animation: action 1s linear;
-    -webkit-animation: action 1s linear;
-    -webkit-animation-fill-mode: forwards;
-}
+
 
 .information {
     visibility: hidden;
