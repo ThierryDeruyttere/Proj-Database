@@ -93,7 +93,7 @@ def getBrowserLanguage(request):
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
-    #list_id is required, if someone copies our exercise in an other list we want to know in which list we are
+    # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
     if request.method == 'POST':
@@ -135,14 +135,14 @@ def editExercise(request, listId, exercise_id, exercise_number):
         return redirect("/l/" + str(listId))
 
     if exercise_list and logged_user(request).id == exercise_list.created_by:
-        #Extra check so you can't just surf to the url and edit the exercise
+        # Extra check so you can't just surf to the url and edit the exercise
         language = getBrowserLanguage(request)
         exercise = object_manager.createExercise(exercise_id, language)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
         if exercise.exercise_type == "Code":
-            for i,ans in enumerate(all_answers):
-                if i == exercise.correct_answer-1:
+            for i, ans in enumerate(all_answers):
+                if i == exercise.correct_answer - 1:
                     expected_code_answer = ans
                     break
 
@@ -173,15 +173,15 @@ def createImportHTML(all_lists, all_exercises):
             <th width="150">copy original</th>
             <th width="150">reference</th>
             </tr>
-            </thead>""".format(list_id = list.id, list_name = list.name)
+            </thead>""".format(list_id=list.id, list_name=list.name)
         for exercise in all_exercises[list.id]:
             html += """<tbody>
                 <td>{title}</td>
                 <td><input id="checkbox_copy{id}" name="checkbox_copy{id}" type="checkbox"></td>
                 <td><input id="checkbox_import{id}" name="checkbox_import{id}" type="checkbox"></td>
-                </tbody>""".format(title = exercise.title, id=exercise.id)
+                </tbody>""".format(title=exercise.title, id=exercise.id)
 
-        html+="""</table>
+        html += """</table>
                 </div>
                 </div>
                 </div>
@@ -214,13 +214,13 @@ def importExercise(request, listId):
                 references = []
                 for key, i in all_exercises.items():
                     for ex in i:
-                        copy = request.POST.get('checkbox_copy/'+str(key)+'/'+str(ex.id))
-                        ref = request.POST.get('checkbox_import/'+str(key)+'/'+str(ex.id))
+                        copy = request.POST.get('checkbox_copy/' + str(key) + '/' + str(ex.id))
+                        ref = request.POST.get('checkbox_import/' + str(key) + '/' + str(ex.id))
                         if copy is not None:
                             copies.append(ex)
 
                         if ref is not None:
-                             references.append(ex)
+                            references.append(ex)
 
                 for ref in references:
                     exercise_list.insertExerciseByReference(ref.id)
@@ -230,7 +230,6 @@ def importExercise(request, listId):
             return render(request, 'importExercise.html', {'all_lists': all_lists,
                                                            'all_exercises': all_exercises,
                                                            'list_id': listId})
-
 
     return redirect('/')
 
@@ -245,20 +244,20 @@ def filterOrder(order):
     new_order = []
     splitted = order.split(',')
     for i in splitted:
-        new_order.append(int(i.replace('exercise','')))
+        new_order.append(int(i.replace('exercise', '')))
     return new_order
 
 
 def list(request, id=0):
 
-    #score spread forthis exercise
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)","rgba(151,187,205,0.8)","rgba(151,187,205,0.75)","rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)","rgba(220,220,220,0.8)","rgba(220,220,220,0.75)","rgba(220,220,220,1)")
+    # score spread forthis exercise
+    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
+    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     stats = statistics_analyzer.listScoreSpread(id)
     bar_chart1 = graph_manager.makeBarChart('spread', 350, 250, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
 
     exercise_list = object_manager.createExerciseList(id)
-    #FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
         return redirect('/')
 
@@ -331,19 +330,18 @@ def list(request, id=0):
         for e in all_exercises:
             if e.solved:
                 found = True
-                percent+=1
+                percent += 1
                 if cur_exercise < e.id:
                     cur_exercise = e.id
-
 
         if len(all_exercises) < percent:
             found = False
             cur_exercise = all_exercises[0].id
-        elif percent > 0 and len(all_exercises) > percent :
+        elif percent > 0 and len(all_exercises) > percent:
             cur_exercise = all_exercises[percent].id
 
         if len(all_exercises) > 0:
-            percent = percent/len(all_exercises) * 100
+            percent = percent / len(all_exercises) * 100
             if percent > 100:
                 percent = 100
 
@@ -364,7 +362,7 @@ def list(request, id=0):
                 if made_list:
                     pass
                     # not tested yet
-                    #similar_list_ids = recommendNextExerciseLists(made_list)
+                    # similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
@@ -457,7 +455,7 @@ def submit(request, list_id, exercise_number):
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
-                if len(all_exercise) < int(exercise_number)+1:
+                if len(all_exercise) < int(exercise_number) + 1:
                     return redirect('/l/' + list_id + '/')
                 else:
                     return redirect('/l/' + list_id + '/' + str(int(exercise_number) + 1))
@@ -483,12 +481,12 @@ def submit(request, list_id, exercise_number):
                     # Woohoo right answer!
                     solved = True
                     # TODO WILL break here
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number),0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == "Code":
@@ -499,12 +497,12 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")),int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
@@ -520,8 +518,8 @@ def submit(request, list_id, exercise_number):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    #TODO: dees teste
-                    #score /= exercise_list.maxScore()
+                    # TODO: dees teste
+                    # score /= exercise_list.maxScore()
                     user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""
@@ -545,13 +543,12 @@ def createListElem(elem):
       <a href=\"{id}\" class=\"button tiny radius\">Open list</a>
       </div>
       </div>
-      </li>""".format(id = elem['id'], list_name = elem['name'])
+      </li>""".format(id=elem['id'], list_name=elem['name'])
 
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    pie_graph = graph_manager.makePieChart('colours', 180
-                                           , 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
+    pie_graph = graph_manager.makePieChart('colours', 180, 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
     color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
@@ -562,16 +559,15 @@ def listOverview(request):
                                            [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
     # users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers',200,200,[color_info1,color_info2],users_with_mosts_made_lists['labels'],users_with_mosts_made_lists['data'],["#exercises"])
+    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"])
 
-
-    list_name='%'
-    min_list_difficulty=1
-    max_list_difficulty=5
-    user_first_name='%'
-    user_last_name='%'
-    prog_lang_name='%'
-    subject_name='%'
+    list_name = '%'
+    min_list_difficulty = 1
+    max_list_difficulty = 5
+    user_first_name = '%'
+    user_last_name = '%'
+    prog_lang_name = '%'
+    subject_name = '%'
     order_mode = "ASC"
 
     if request.method == "POST" and request.is_ajax():
@@ -598,7 +594,7 @@ def listOverview(request):
         else:
             order_mode = "DESC"
 
-        all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         html = ""
         for obj in reversed(all_lists):
             obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
@@ -606,7 +602,7 @@ def listOverview(request):
 
         return HttpResponse(html)
 
-    all_lists = object_manager.filterOn(list_name,min_list_difficulty,max_list_difficulty,user_first_name,user_last_name,prog_lang_name,subject_name,order_mode)
+    all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
                                                  'lists_per_prog_lang_graph': pie_graph,
