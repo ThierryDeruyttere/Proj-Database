@@ -558,7 +558,7 @@ def listOverview(request):
     color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
-    bar_chart = graph_manager.makeBarChart('subjects', 200, 200,
+    bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,
                                            [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
     # users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)

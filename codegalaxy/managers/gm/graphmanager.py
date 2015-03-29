@@ -183,7 +183,7 @@ class GraphManager:
         total_string += self.addBarExtras()
         total_string += 'var ' + self.addDatavar('O') + ' = new Chart(document.getElementById("' + name + '").getContext("2d")).Bar(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
-        total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string
+        #total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string
         total_string = self.canvasString(name, width, height) + total_string
         GraphManager.count += 1
         return total_string
