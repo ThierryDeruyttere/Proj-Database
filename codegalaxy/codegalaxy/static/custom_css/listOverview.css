@@ -41,13 +41,14 @@
 }
 
 .planet {
-    width: 60px;
-    height: 60px;
+    width: 65px;
+    height: 65px;
     border-radius: 50%;
     margin-top: 20px;
     opacity: 0.5;
     text-align: center;
-
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .slick-center > .planet + .information {
@@ -73,4 +74,10 @@
 .slick-active > .planet {
     -webkit-transition: all 1s ease-in-out;
     transition: all 1s ease-in-out;
+}
+
+#galaxy-navigation {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
 }
