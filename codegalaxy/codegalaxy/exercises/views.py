@@ -535,15 +535,32 @@ def submit(request, list_id, exercise_number):
     else:
         return redirect('/')
 
-def createListElem(elem):
-    return """<li class=\"accordion-navigation\">
-      <a href=\"#Exerc{id}\">{list_name}</a>
-      <div id=\"Exerc{id}\" class=\"content\">
-      <div class=\"row\">
-      <a href=\"{id}\" class=\"button tiny radius\">Open list</a>
+def createListElem(i, elem):
+    class_name = "planet "
+    if elem['prog_lang_id'] == 1:
+        class_name += "python"
+    elif elem['prog_lang_id'] == 2:
+        class_name += "cpp"
+    elif elem['prog_lang_id'] == 3:
+        class_name += "sql"
+
+    return """<div>
+          <div class=\"{class_name}\">
+          {for_i}
       </div>
+      <div class=\"information panel\">
+        <div class=\"row\">
+          <div class=\"text-center\">
+            {list_name}
+          </div>
+        </div>
+        <div class=\"row\">
+          <div class=\"text-center\">
+            <button class=\"tiny radius\">Explore!</button>
+          </div>
+        </div>
       </div>
-      </li>""".format(id=elem['id'], list_name=elem['name'])
+      </div>""".format(class_name=class_name, list_name=elem['name'], for_i = i+1)
 
 def listOverview(request):
     # Amount of lists per programming language
@@ -596,9 +613,9 @@ def listOverview(request):
 
         all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         html = ""
-        for obj in reversed(all_lists):
+        for i,obj in enumerate(reversed(all_lists)):
             obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
-            html += createListElem(obj)
+            html += createListElem(i,obj)
 
         return HttpResponse(html)
 
