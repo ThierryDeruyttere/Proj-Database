@@ -22,29 +22,18 @@
         </ul>
         <section class="top-bar-section">
           <ul class="right">
+            {% if logged_in%}
             <li><a href="/me">Profile</a></li>
-            <li class="has-dropdown"><a href="#">Groups</a>
-              <ul class="dropdown">
-                <li><a href="/g/create">Create Group</a></li>
-                <li><a href="/g/overview">Group Overview</a></li>
-              </ul>
-            </li>
-            <li class="has-dropdown"><a href="#">Lists</a>
-              <ul class="dropdown">
-                <li><a href="/l/create">Create List</a></li>
-                <li><a href="/l/">List Overview</a></li>
-              </ul>
-            </li>
-            <li class="has-dropdown"><a href="/login/">User</a>
-              <ul class="dropdown">
-                {% if logged_in%}
-                <li><a href="/logout/">Logout</a></li>
-                <li><a href="/u/overview/">Users</a></li>
-                {% else%}
-                <li><a href="/register/">Register</a></li>
-                <li><a href="/login/">Login</a></li>
-                {% endif%}
-            </li>
+            <li><a href="/g/overview">Groups</a></li>
+            <li><a href="/l/">Exercises</a></li>
+            <li><a href="/logout/">Logout</a></li>
+
+            {% else%}
+            <li><a href="/g/overview">Groups</a></li>
+            <li><a href="/l/">Exercises</a></li>
+            <li><a href="/login/">Login</a></li>
+
+            {% endif%}
           </ul>
         </section>
     </nav>

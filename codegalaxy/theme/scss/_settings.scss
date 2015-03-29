@@ -666,9 +666,9 @@ $button-bg-color: $steel;
 // $fieldset-margin: rem-calc(18 0);
 
 // We use these to style the legends when you use them
-$legend-bg: $oil;
-// $legend-font-weight: $font-weight-bold;
-// $legend-padding: rem-calc(0 3);
+$legend-bg: $base;
+$legend-font-weight: $font-weight-bold;
+$legend-padding: rem-calc(0 3);
 
 // We use these to style the prefix and postfix input elements
 // $input-prefix-bg: scale-color($white, $lightness: -5%);
