@@ -392,3 +392,14 @@ def listsLikeThisOne(list_id, user_id, amount=4):
     # select the nessecary amount
     new_exercise_lists = new_exercise_lists[:amount]
     return new_exercise_lists
+
+# I'm feeling Lucky!====================================================================================================================================
+# Picks a random list the user hasn't made yet
+
+def imFeelingLucky(current_user):
+    dont_add_obj = current_user.allPersonalLists()
+    dont_add = [obj.exercises_list.id for obj in dont_add_obj]
+    pool = [i for i in range(object_manager.amountOfLists()) if (i not in dont_add) & (i != 0)]
+    print(pool)
+    if pool:
+        return random.choice(pool)
