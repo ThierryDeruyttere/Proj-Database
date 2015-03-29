@@ -1,4 +1,26 @@
 # GETEST MET/ZONDER VRIENDEN EN MET/ZONDER SUBJECTS
+# default_lists = [1,9,10,15]
+# results: order of occurence
+
+# NOTE: testen zonder persoon die alles heeft gemaakt (User3) mss
+# deze zorgt er nl voor dat iedereen max overlapscore zit vr enlke lijst
+# behalve de laatste SQL lijst
+
+# Geen subjects/vrienden,wel U3:
+# User1: Python(rest)->C++(rest)->SQL | OPM: SQL1 staat vanvoor aan de
+#SQL omdat deze default is, anders event niet
+# User2: Python(rest)->c++(rest)->SQL(laatste) | OPM: main reason dat SQL
+#hier niet gepickt werd was niet de lage rating maar het checken van
+#overlap met anderen, niemand had de laatste oef gemaakt
+# User3: Enkel SQL lijst6 (rest al gemaakt), fav is hier C++ (ratings>aantal in dit geval)
+# User4: In volgorde de recommended (default) ex gevolgd door (in volgorde)
+# de rest vd lijsten (Python->C++->SQL)
+# User5: Python->C++->SQL
+# User6: C++->SQL->Python | OPM: dit is wss omdat # oef lineair een deel vd
+# score bepaald, terwijl bij date set multipliers zijn
+# User7: SQL1-5->Python8->SQL6->C++ | OPM: door de zeer lage ratings word
+# SQL voor Python gegeven, SQL mist de overlapscore en komt dus nog wel erna
+
 
 # MADELISTS
 #insert into madeList
@@ -21,7 +43,7 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (14,2,2,80, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (18,2,1,100, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,2,2,50, "2015-03-28");
-# user 3 (alles)
+# user 3 (alles behalve 1 SQL oef)
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,50, "2014-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,3,4,50, "2014-03-05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,50, "2014-03-05");
@@ -43,7 +65,7 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (19,3,2,50, "2015-03-28");
 # user 4 (niks)
 
-# user 5 (Python1-6 C2, Python low rating, C1-2 high mr lang geleden)
+# user 5 (Python1-6 C1-2, Python low rating, C1-2 high mr lang geleden)
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,2,50, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,3,1,50, "2015-03-28");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,2,50, "2015-03-28");

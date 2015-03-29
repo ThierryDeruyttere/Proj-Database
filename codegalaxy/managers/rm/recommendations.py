@@ -5,7 +5,7 @@ import datetime
 object_manager = objectmanager.ObjectManager()
 
 # default lists
-default_lists = [10]
+default_lists = [1,9,10,15]
 # Magic numbers
 # Time-based
 recent = 10.0
@@ -17,7 +17,7 @@ percents_per_rating_star = 2.0 # 20% * rating (op 10)
 difference_avg_rating = 0.5 # Added to above
 #ETC
 programming_language_importance = 3.0 # In comparison to subjects
-default_list_entry = 2.0 # 1 is default
+default_list_entry = 20.0 # 10 is default vr recente
 #Friends
 friends_multiplier = 1.2 # (not friends -> this is 1)
 
@@ -177,6 +177,7 @@ def compareListWithOtherUsers(user_id):
     # returns a dictionary with key->list_id and value -> highest overlap score
 def splitListIds(user_id, comparison_tuples, friends):
     score_per_list_id = {}
+    print(comparison_tuples)
     # for every tuple (comparison with other user)
     for comparison_tuple in comparison_tuples:
         # if we need to add the friends SubjectMultiplier
@@ -218,7 +219,7 @@ def addDefault(score_per_list_id, dont_add):
     for default_list in default_lists:
         if default_list not in dont_add:
             if default_list in score_per_list_id:
-                if score_per_list_id[default_list] < 1:
+                if score_per_list_id[default_list] <= 10:
                     score_per_list_id[default_list] = default_list_entry
             else:
                 score_per_list_id[default_list] = default_list_entry
