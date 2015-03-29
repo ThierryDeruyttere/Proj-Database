@@ -49,10 +49,14 @@
       <div class="large-3 columns ">
         <div class="panel callout radius">
           Recommended Lists:<br/>
-          {% for recommended_list in recommended %}
-            <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
-          {% endfor %}
-          <a href="/l/{{random_list}}" class="button">I'm feeling lucky!</a>
+          {% if recommended %}
+            {% for recommended_list in recommended %}
+              <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+            {% endfor %}
+            <a href="/l/{{random_list}}" class="button">I'm feeling lucky!</a>
+          {% else %}
+              You have made every single exerciselist!
+          {% endif %}
         </div>
       </div>
     </div>

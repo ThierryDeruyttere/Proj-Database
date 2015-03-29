@@ -22,10 +22,12 @@
 # SQL voor Python gegeven, SQL mist de overlapscore en komt dus nog wel erna
 #=============================================================================================================
 # Geen subjects/vrienden, geen U3 (-> er zullen nu verschillende overlapscores zijn)
-# User1:
-# User2:
-# User4:
-# User5:
+# User1: Python6-7->C++5-6->Python8->C++4->SQL | OPM: Met de nieuwe overlap-
+# scores zien we dat de users die dezelfde oef als U1 hebben gemaakt eerder
+# C++5-6 gemaakt hebben bvb dan Python8
+# User2: Python3-7->C++1-3->Python8->SQL6
+# User4: Zelfde als ervoor (default->rest)
+# User5: Python7->C++3->Python8->C++(rest)->SQL6
 # User6:
 # User7:
 #=============================================================================================================
