@@ -3,289 +3,231 @@
 {% load staticfiles %}
 
 {% block head_js %}
-  <script src="{% static "Chart.min.js" %}"></script>
+<script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
 {% block base_body  %}
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
-  </head>
+<head>
+  <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
+</head>
 
-  <div class="row">
+<div class="row">
 
   <div class="large-4 columns">
     <div class="panel">
       <legend># Lists/Programming Language</legend>
       {{ lists_per_prog_lang_graph | safe }}
-    </div class="panel">
+    </div>
     <div class="panel">
       <legend>Most Popular Subjects</legend>
       {{ most_popular_subjects | safe }}
-    </div class="panel">
+    </div>
     <div class="panel">
       <legend>Users who made the most lists</legend>
       {{ users_with_mosts_made_lists | safe }}
-    </div class="panel">
+    </div>
   </div>
 
   <div class="large-8 columns">
-  <div class="panel">
-    <div class="row">
-      <div class ="row">
-        <div class="large-12 columns">
-          <fieldset>
-            <legend>Search</legend>
-            <form method="POST" id="search_options">
-              {% csrf_token %}
-              <div class="row" id="search">
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">Title</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="title" name="title" class="text-center">
-                      </div>
-                    </div>
+    <div class="panel">
+      <div class="row">
+        <fieldset>
+          <legend>Search</legend>
+          <form method="POST" id="search_options">
+            {% csrf_token %}
+            <div class="row" id="search">
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-3 columns">
+                    <span class="prefix">Title</span>
                   </div>
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">User</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="user" name="user" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="large-4 columns">
-                    <select id="order_mode" name="order_mode">
-                      <option>Ascending</option>
-                      <option>Descending</option>
-                    </select>
+                  <div class="small-9 columns">
+                    <input type="text" id="title" name="title" class="text-center" />
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="large-4 columns">
-                    <label>Solar system</label>
-                    <select name="prog_lang">
-                      <option value="" selected></option>
-                      {% for lang in languages %}
-                        <option value="{{ lang.name }}">{{ lang.name }}</option>
-                      {% endfor %}
-                    </select>
-                  </div>
-                  <div class="large-4 columns">
-                    <label>Separate subjects by comma</label>
-                    <div class="row collapse prefix-radius">
-                      <div class="small-4 columns">
-                        <span class="prefix">Subjects</span>
-                      </div>
-                      <div class="small-8 columns">
-                        <input type="text" id="subjects" name="subjects" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #min_difficulty; start: 1; end: 5; initial:1">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="large-4 columns">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #max_difficulty; start: 1; end: 5; initial:5">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-6 columns">
-                        <span class="prefix">Min difficulty</span>
-                      </div>
-                      <div class="small-6 columns">
-                        <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="large-4 columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-6 columns">
-                        <span class="prefix">Max difficulty</span>
-                      </div>
-                      <div class="small-6 columns">
-                        <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <button class="small round button" id="search_button">Search</button>
               </div>
-        </div>
-        </form>
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-3 columns">
+                    <span class="prefix">User</span>
+                  </div>
+                  <div class="small-9 columns">
+                    <input type="text" id="user" name="user" class="text-center">
+                  </div>
+                </div>
+              </div>
+              <div class="large-4 columns">
+                <select id="order_mode" name="order_mode">
+                  <option>Ascending</option>
+                  <option>Descending</option>
+                </select>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-4 columns">
+                <label>Solar system</label>
+                <select name="prog_lang">
+                  <option value="" selected></option>
+                  {% for lang in languages %}
+                  <option value="{{ lang.name }}">{{ lang.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="large-4 columns">
+                <label>Separate subjects by comma</label>
+                <div class="row collapse prefix-radius">
+                  <div class="small-4 columns">
+                    <span class="prefix">Subjects</span>
+                  </div>
+                  <div class="small-8 columns">
+                    <input type="text" id="subjects" name="subjects" class="text-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-4 columns">
+                <div class="small-10 medium-11 columns">
+                  <div class="range-slider round" data-slider data-options="display_selector: #min_difficulty; start: 1; end: 5; initial:1">
+                    <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                    <span class="range-slider-active-segment"></span>
+                  </div>
+                </div>
+              </div>
+              <div class="large-4 columns">
+                <div class="small-10 medium-11 columns">
+                  <div class="range-slider round" data-slider data-options="display_selector: #max_difficulty; start: 1; end: 5; initial:5">
+                    <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                    <span class="range-slider-active-segment"></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-6 columns">
+                    <span class="prefix">Min difficulty</span>
+                  </div>
+                  <div class="small-6 columns">
+                    <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center">
+                  </div>
+                </div>
+              </div>
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-6 columns">
+                    <span class="prefix">Max difficulty</span>
+                  </div>
+                  <div class="small-6 columns">
+                    <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button class="small round button" id="search_button">Search</button>
+          </form>
         </fieldset>
       </div>
     </div>
-
-  </div>
-  <div class ="row">
-    <div class="large-10 large-centered columns">
-      <div class="row" id="filtered_lists">
-        <div class="galaxy-navigation">
-          <div class="center">
-            {% for list in all_lists %}
-              <div>
-
-              {% if list.prog_lang_id == 1 %}
-                <div class="planet python">
-              {% elif list.prog_lang_id == 2%}
-                <div class="planet cpp">
-              {% elif list.prog_lang_id == 3 %}
-                <div class="planet sql">
-              {% endif %}
-            {{ forloop.counter }}
-            </div>
-            <div class="information panel">
-              <div class="row">
-                <div class="text-center">
-                  {{ list.name }}
-                </div>
-              </div>
-              <div class="row">
-                <div class="text-center">
-                  <button class="tiny radius">Explore!</button>
-                </div>
+    <div class="row" id="filtered_lists">
+      <div class="galaxy-navigation">
+        <div class="planets">
+        {% for list in all_lists %}
+          <div>
+          {% if list.prog_lang_id == 1 %}
+            <div class="planet python">
+            {% elif list.prog_lang_id == 2%}
+            <div class="planet cpp">
+            {% elif list.prog_lang_id == 3 %}
+            <div class="planet sql">
+          {% endif %}
+          {{ forloop.counter }}
+          </div>
+          <div class="information panel">
+            <div class="row">
+              <div class="text-center">
+                {{ list.name }}
               </div>
             </div>
-
+            <div class="row">
+              <div class="text-center">
+                <button class="tiny radius">Explore!</button>
+              </div>
             </div>
-
-
-              <!--<li class="accordion-navigation">
-                    <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
-                    <div id="Exerc{{ list.id }}" class="content">
-                      <div class="row">
-                        <a href="{{ list.id }}" class="button tiny radius">Explore list</a>
-                      </div>
-                    </div>
-                  </li>-->
-            {% endfor %}
-            </div>
-            <div class="info">
-
-            </div>
-            </div>
-
           </div>
         </div>
+        {% endfor %}
       </div>
-
     </div>
   </div>
+</div>
+<!--<li class="accordion-navigation">
+<a href="#Exerc{{ list.id }}">{{ list.name }}</a>
+<div id="Exerc{{ list.id }}" class="content">
+<div class="row">
+<a href="{{ list.id }}" class="button tiny radius">Explore list</a>
+</div>
+</div>
+</li>-->
 {% endblock %}
 
 {% block body_js %}
-  <script>
+<script>
 
-    $(document).ready(function(){
+$(document).ready(function(){
 
-      $('.center').slick({
-        centerMode: true,
-        slidesToShow: 5,
-        centerPadding: '0px',
-        //Pure for other screensizes
+  $('.planets').slick({
+    infinite: false,
+    centerMode: true,
+    slidesToShow: 5,
+    centerPadding: '0px',
+    //Pure for other screensizes
 
-        responsive: [
-          {
-            breakpoint: 768,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 3
-            }
-          },
-          {
-            breakpoint: 480,
-            settings: {
-              arrows: false,
-              centerMode: true,
-              centerPadding: '40px',
-              slidesToShow: 1
-            }
-          }]
+    responsive: [
+      {
+        breakpoint: 768,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 3
+        }
+      },
+      {
+        breakpoint: 480,
+        settings: {
+          arrows: false,
+          centerMode: true,
+          centerPadding: '40px',
+          slidesToShow: 1
+        }
+      }]
 
-      });
     });
+  });
 
+  $("#search_button").click(function()
+  {
+    $(function(){
+      $('#search_options').submit(function(e){
+        e.preventDefault();
+        var form = $(this);
+        var post_data = form.serialize();
+        console.log(post_data);
+        $.ajax({
+          type: 'POST',
+          url: "",
+          data: post_data,
+          dataType: "text",
 
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-
-    $("#search_button").click(function()
-    {
-      $(function(){
-        $('#search_options').submit(function(e){
-          e.preventDefault();
-          var form = $(this);
-          var post_data = form.serialize();
-          console.log(post_data);
-          $.ajax({
-            type: 'POST',
-            url: "",
-            data: post_data,
-            dataType: "text",
-
-            success: function(response) {
-              $("#list_accordion").empty();
-              $("#list_accordion").append(response);
-            }
-          });
+          success: function(response) {
+            $("#list_accordion").empty();
+            $("#list_accordion").append(response);
+          }
         });
       });
     });
-
-    //Django stuff
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-      }
-    });
-
+  });
   </script>
-{% endblock %}
+  {% endblock %}
