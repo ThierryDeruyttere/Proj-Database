@@ -12,14 +12,19 @@
     <div class="row">
       <div class="large-3 columns ">
         <div class="panel">
-          <a href="#"><img src="{% static "media/user.png" %}"/></a>
-          <h5><a href="#">{{user.first_name}} {{user.last_name}}</a></h5>
+          <img src="{% static "media/user.png" %}"/>
+          <div class="text-center">
+            <h5>{{user.first_name}} {{user.last_name}}</h5>
+            <hr/>
+          </div>
+          <li><a href="/me">My profile</a></li>
+          <!--<li><a href="/me">Friends</a></li>-->
         </div>
       </div>
       <div class="large-6 columns">
         <div class="row collapse">
           <div class="large-9 columns">
-            <input type="text" placeholder="Browse the galaxy...">
+            <input type="text" placeholder="Explore the galaxy...">
 
           </div>
           <a href="#" class="tiny alert button">Search</a>
@@ -27,7 +32,7 @@
         {% for userfriend in friends%}
           {% for friend in userfriend.allFriends %}
             <div class="row">
-              <div class="large-2 columns small-3"><img src={% static "media/rocket1.png" %}/></div>
+              <div class="large-2 columns small-3"><img src={% static "rocket1.png" %}/></div>
               <div class="large-10 columns">
                 <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong><a href="/u/{{ friend.id }}"> {{friend.first_name}} {{friend.last_name}}</a></p>
                 <!--
@@ -52,18 +57,18 @@
           {% for recommended_list in recommended %}
             <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
           {% endfor %}
-          <a href="/l/{{random_list}}" class="button">I'm feeling lucky!</a>
+          <a href="/l/{{random_list}}" class="round small button">I'm feeling lucky!</a>
         </div>
       </div>
     </div>
 
 
   {% else%}
-    <img src={% static "media/galaxy.jpg" %} id="bg" alt=""/>
+    <img src={% static "galaxy.jpg" %} id="bg" alt=""/>
 
     <div class="row">
       <div class="large-12 columns">
-        <img id="rocket" src={% static "media/HomePage.png" %}/>
+        <img id="rocket" src={% static "HomePage.png" %}/>
 
         <hr/>
       </div>
@@ -76,7 +81,7 @@
         <div class="signup-panel">
           <div class="row collapse">
             <div class="small-1 columns">
-              <img src={% static "media/planet.png" %}/>
+              <img src={% static "planet.png" %}/>
             </div>
             <div class="small-11 columns">
               <p class="welcome">{% trans "Already a member" %}</p>
@@ -116,7 +121,7 @@
         <div class="signup-panel">
           <div class="row collapse">
             <div class="small-1 columns">
-              <img src={% static "media/planet.png" %}/>
+              <img src={% static "planet.png" %}/>
             </div>
             <div class="small-10 columns">
               <p class="welcome">{% trans "New member" %}</p>
