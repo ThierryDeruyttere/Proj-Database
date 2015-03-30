@@ -7,7 +7,10 @@
 {% endblock head_js %}
 
 {% block base_body  %}
-
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
+  </head>
+  
   <div class="row">
 
   <div class="large-4 columns">
@@ -144,7 +147,7 @@
 
 {% block body_js %}
   <script>
-  
+
     $('.planets').on('afterChange',function(event, slick, currentSlide, nextSlide){
       var panel = $(this).find('.slick-center').find('.information')[0];
       $(panel).slideUp(0);
