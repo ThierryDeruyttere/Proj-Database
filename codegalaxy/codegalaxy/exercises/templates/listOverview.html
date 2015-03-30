@@ -14,125 +14,125 @@
   <div class="row">
 
   <div class="large-8 columns">
-    <div class="panel">
-      <div class="row">
-        <div class ="row">
-          <div class="large-12 columns">
-            <fieldset>
-              <legend>Search exercise lists</legend>
-              <form method="POST" id="search_options">
-                {% csrf_token %}
-                <div class="row" id="search">
-                  <div class="row">
-                    <div class="large-4 columns">
-                      <div class="row collapse prefix-radius">
-                        <div class="small-12 columns">
-                          <input placeholder="Planet name" type="text" id="title" name="title" class="text-center" />
-                        </div>
-                      </div>
-                    </div>
-                    <div class="large-4 columns">
-                      <div class="row collapse prefix-radius">
-                        <div class="small-12 columns">
-                          <input placeholder="name" type="text" id="user" name="user" class="text-center">
-                        </div>
-                      </div>
-                    </div>
-                    <div class="large-4 columns">
-                      <select id="order_mode" name="order_mode">
-                        <option>Ascending</option>
-                        <option>Descending</option>
-                      </select>
+  <div class="panel">
+  <div class="row">
+    <div class ="row">
+      <div class="large-12 columns">
+        <fieldset>
+          <legend>Search exercise lists</legend>
+          <form method="POST" id="search_options">
+            {% csrf_token %}
+            <div class="row" id="search">
+              <div class="row">
+                <div class="large-4 columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-12 columns">
+                      <input placeholder="Planet name" type="text" id="title" name="title" class="text-center" />
                     </div>
                   </div>
+                </div>
+                <div class="large-4 columns">
+                  <div class="row collapse prefix-radius">
+                    <div class="small-12 columns">
+                      <input placeholder="Astronaut name" type="text" id="user" name="user" class="text-center">
+                    </div>
+                  </div>
+                </div>
+                <div class="large-4 columns">
+                  <select id="order_mode" name="order_mode">
+                    <option>Ascending</option>
+                    <option>Descending</option>
+                  </select>
+                </div>
+              </div>
 
-                </div>
-          </div>
-          <div class="row">
-            <div class="large-4 columns">
-              <label>Solar system</label>
-              <select name="prog_lang">
-                <option value="" selected></option>
-                {% for lang in languages %}
-                  <option value="{{ lang.name }}">{{ lang.name }}</option>
-                {% endfor %}
-              </select>
             </div>
-            <div class="large-4 columns">
-              <label>Separate subjects by comma</label>
-              <div class="row collapse prefix-radius">
-                <div class="small-4 columns">
-                  <span class="prefix">Subjects</span>
-                </div>
-                <div class="small-8 columns">
-                  <input type="text" id="subjects" name="subjects" class="text-center">
+            <div class="row">
+              <div class="large-4 columns">
+                <label>Solar system</label>
+                <select name="prog_lang">
+                  <option value="" selected></option>
+                  {% for lang in languages %}
+                    <option value="{{ lang.name }}">{{ lang.name }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div class="large-4 columns">
+                <label>Separate subjects by comma</label>
+                <div class="row collapse prefix-radius">
+                  <div class="small-4 columns">
+                    <span class="prefix">Subjects</span>
+                  </div>
+                  <div class="small-8 columns">
+                    <input type="text" id="subjects" name="subjects" class="text-center">
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-          <div class="row">
-            <div id="slider-range"></div>
-          </div>
-          <div class="row">
-            <div class="large-4 columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-6 columns">
-                  <span class="prefix">Min difficulty</span>
+            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+            <div class="row">
+              <div id="slider-range"></div>
+            </div>
+            <div class="row">
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-6 columns">
+                    <span class="prefix">Min difficulty</span>
+                  </div>
+                  <div class="small-6 columns">
+                    <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
+                  </div>
                 </div>
-                <div class="small-6 columns">
-                  <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
+              </div>
+              <div class="large-4 columns">
+                <div class="row collapse prefix-radius">
+                  <div class="small-6 columns">
+                    <span class="prefix">Max difficulty</span>
+                  </div>
+                  <div class="small-6 columns">
+                    <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="large-4 columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-6 columns">
-                  <span class="prefix">Max difficulty</span>
-                </div>
-                <div class="small-6 columns">
-                  <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
-                </div>
-              </div>
-            </div>
-          </div>
-          <button class="small round button" id="search_button">Search</button>
+            <button class="small round button" id="search_button">Search</button>
           </form>
-          </fieldset>
-        </div>
+        </fieldset>
       </div>
     </div>
-    <div class="row" id="galaxy-navigation">
-      <div class="planets">
-        {% for list in all_lists %}
-          <div>
-          {% if list.prog_lang_id == 1 %}
-            <div class="planet python">
-          {% elif list.prog_lang_id == 2%}
-            <div class="planet cpp">
-          {% elif list.prog_lang_id == 3 %}
-            <div class="planet sql">
-          {% endif %}
-        {{ forloop.counter }}
-        </div>
-        <div class="information panel">
-          <div class="row">
-            <div class="text-center">
-              {{ list.name }}
-            </div>
-          </div>
-          <div class="row">
-            <div class="text-center">
-              <button class="tiny radius">Explore!</button>
-            </div>
+  </div>
+  </div>
+  <div class="row" id="galaxy-navigation">
+    <div class="planets">
+      {% for list in all_lists %}
+        <div>
+        {% if list.prog_lang_id == 1 %}
+          <div class="planet python">
+        {% elif list.prog_lang_id == 2%}
+          <div class="planet cpp">
+        {% elif list.prog_lang_id == 3 %}
+          <div class="planet sql">
+        {% endif %}
+      {{ forloop.counter }}
+      </div>
+      <div class="information panel">
+        <div class="row">
+          <div class="text-center">
+            {{ list.name }}
           </div>
         </div>
-        </div>
-        {% endfor %}
-        </div>
+        <div class="row">
+          <div class="text-center">
+            <button class="tiny radius">Explore!</button>
+          </div>
         </div>
       </div>
+      </div>
+      {% endfor %}
+      </div>
+      </div>
+    </div>
 
     <div class="large-4 columns">
       <div class="text-center">
@@ -152,7 +152,7 @@
         {{ users_with_mosts_made_lists | safe }}
       </div class="panel">
     </div>
-</div>
+  </div>
 {% endblock %}
 
 {% block body_js %}
