@@ -98,7 +98,7 @@ input#user::-webkit-input-placeholder{
     width: 2rem !important;
 }
 
-.ui-slider-handle:hover, .ui-slider-handle:{
+.ui-slider-handle:hover{
 
     background: #75c4ff !important;
 }
