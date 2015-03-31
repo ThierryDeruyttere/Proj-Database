@@ -5,9 +5,20 @@
 {# Title #}
 {% block title %} Code Galaxy {% endblock title %}
 
+{% block head_js %}
+<script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+<script src="{% static "codemirror/mode/python/python.js" %}"></script>
+<script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+<script src="{% static "codemirror/mode/sql/sql.js" %}"></script>
+<script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+<script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
+{% endblock head_js %}
+
 {# Custom CSS #}
 {% block css %}
 <link href="{% static "css/style.css" %}" rel="stylesheet"/>
+<link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+<link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 {% endblock css %}
 
 {# Top Bar #}
@@ -61,3 +72,20 @@
   });
 </script>
 {% endblock footer %}
+
+{% block ajax_stuff %}
+<script>
+function csrfSafeMethod(method) {
+  // these HTTP methods do not require CSRF protection
+  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+  beforeSend: function(xhr, settings) {
+    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+      xhr.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+    }
+  }
+});
+</script>
+{% endblock ajax_stuff %}

@@ -8,15 +8,18 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/1.7/ref/settings/
 """
 
+import pymysql
+from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS
 
-import pymysql
 pymysql.install_as_MySQLdb()
 
-TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'), os.path.join(BASE_DIR, 'codegalaxy/exercises/templates')]
+TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'),
+                 os.path.join(BASE_DIR, 'codegalaxy/exercises/templates'),
+                 os.path.join(BASE_DIR, 'codegalaxy/evaluation/templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 
 # Quick-start development settings - unsuitable for production
@@ -44,7 +47,6 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'foundation',
     'dbw',
-    'skulpt',
     'chartjs',
     'custom_filters',
 
@@ -77,6 +79,13 @@ DATABASES = {
         'NAME': 'codegalaxy',
         'USER': 'root',
         'PASSWORD': 'ruien9690',
+        'HOST': 'localhost'
+    },
+    'sandbox': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sandbox',
+        'USER': 'sandbox',
+        'PASSWORD': 'sandbox',
         'HOST': 'localhost'
     }
 }
