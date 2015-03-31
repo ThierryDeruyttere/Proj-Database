@@ -9,14 +9,14 @@
 {% block base_body  %}
   <head>
     <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   </head>
 
   <div class="row">
 
   <div class="large-8 columns">
   <div class="panel">
-  <div class="row">
-    <div class ="row">
+    <div class="row">
       <div class="large-12 columns">
         <fieldset>
           <legend>Search exercise lists</legend>
@@ -24,32 +24,26 @@
             {% csrf_token %}
             <div class="row" id="search">
               <div class="row">
-                <div class="large-4 columns">
+                <div class="large-6 columns">
                   <div class="row collapse prefix-radius">
                     <div class="small-12 columns">
                       <input placeholder="Planet name" type="text" id="title" name="title" class="text-center" />
                     </div>
                   </div>
                 </div>
-                <div class="large-4 columns">
+                <div class="large-6 columns">
                   <div class="row collapse prefix-radius">
                     <div class="small-12 columns">
                       <input placeholder="Astronaut name" type="text" id="user" name="user" class="text-center">
                     </div>
                   </div>
                 </div>
-                <div class="large-4 columns">
-                  <select id="order_mode" name="order_mode">
-                    <option>Ascending</option>
-                    <option>Descending</option>
-                  </select>
-                </div>
               </div>
-
             </div>
+
             <div class="row">
               <div class="large-4 columns">
-                <label>Solar system</label>
+                Solar system
                 <select name="prog_lang">
                   <option value="" selected></option>
                   {% for lang in languages %}
@@ -57,8 +51,8 @@
                   {% endfor %}
                 </select>
               </div>
-              <div class="large-4 columns">
-                <label>Separate subjects by comma</label>
+              <div class="large-6 columns">
+                Separate subjects by comma
                 <div class="row collapse prefix-radius">
                   <div class="small-4 columns">
                     <span class="prefix">Subjects</span>
@@ -70,38 +64,32 @@
               </div>
             </div>
 
-            <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
             <div class="row">
-              <div id="slider-range"></div>
-            </div>
-            <div class="row">
-              <div class="large-4 columns">
-                <div class="row collapse prefix-radius">
-                  <div class="small-6 columns">
-                    <span class="prefix">Min difficulty</span>
-                  </div>
-                  <div class="small-6 columns">
-                    <input type="text" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
-                  </div>
-                </div>
-              </div>
-              <div class="large-4 columns">
-                <div class="row collapse prefix-radius">
-                  <div class="small-6 columns">
-                    <span class="prefix">Max difficulty</span>
-                  </div>
-                  <div class="small-6 columns">
-                    <input type="text" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
-                  </div>
-                </div>
+              <div class="large-6 columns large-centered">
+                <label id="amount"></label>
+                <div id="slider-range"></div>
               </div>
             </div>
-            <button class="small round button" id="search_button">Search</button>
+
+            <input type="hidden" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
+            <input type="hidden" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
+
+            <div class="row">
+              <br>
+              <div class="large-4 columns">
+                <button class="small round button" id="search_button">Search</button>
+              </div>
+              <div class="large-4 columns">
+                <select id="order_mode" name="order_mode">
+                  <option>Ascending</option>
+                  <option>Descending</option>
+                </select>
+              </div>
+            </div>
           </form>
         </fieldset>
       </div>
     </div>
-  </div>
   </div>
   <div class="row" id="galaxy-navigation">
     <div class="planets">
@@ -208,6 +196,7 @@
 
     $(document).ready(function(){
       createSlick();
+      $("#amount").text("planet difficulty min-max: 1 - 5");
     });
 
     $("#search_button").click(function()
@@ -249,9 +238,15 @@
       max: 5,
       values: [1, 5],
       slide: function( event, ui ){
-        $("#max_difficulty").val(ui.values[1]);
-        $("#min_difficulty").val(ui.values[0]);
+        var val_0 = ui.values[0];
+        var val_1 = ui.values[1];
+        $("#max_difficulty").val(val_1);
+        $("#min_difficulty").val(val_0);
+        $("#amount").text("planet difficulty min-max: "+val_0 + " - " + val_1);
+
       }
     });
+
+
   </script>
 {% endblock %}
