@@ -8,16 +8,17 @@
   <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
 </div>
 
+<!-- <form action="/eval/sql" method="post"> -->
 <div class="row">
   <textarea id="user_code" name="user_code"></textarea>
+  <!-- <input type="hidden" name="code" value="SELECT * FROM k;"></input> -->
 </div>
 
-<form action="/eval/sql">
   <div class="row">
     <a class="button" id="evaluate">Evaluate</a>
   </div>
-  <input type="submit">
-</form>
+  <!-- <input type="submit"> -->
+<!-- </form> -->
 
 <div class="row">
   <div class="panel" id="output"></div>

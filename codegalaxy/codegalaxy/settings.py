@@ -80,6 +80,13 @@ DATABASES = {
         'USER': 'root',
         'PASSWORD': 'ruien9690',
         'HOST': 'localhost'
+    },
+    'sandbox': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'sandbox',
+        'USER': 'sandbox',
+        'PASSWORD': 'sandbox',
+        'HOST': 'localhost'
     }
 }
 

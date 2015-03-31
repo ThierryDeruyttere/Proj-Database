@@ -52,3 +52,8 @@ class Evaluator:
 
     def getOutput(self):
         return self.output
+
+# class Table():
+#     def __init__(self, desc=[], rows=[]):
+#         self.desc = desc
+#         self.rows = rows

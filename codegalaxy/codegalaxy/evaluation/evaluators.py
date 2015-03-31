@@ -17,6 +17,8 @@ Functions to use:
 import os
 import subprocess
 
+from django.db import connections
+
 from codegalaxy.evaluation.baseEvaluator import *
 
 class EvaluatorPython(Evaluator):
@@ -40,10 +42,37 @@ class EvaluatorCpp(Evaluator):
             return
         # Run the outputfile
         self.command(self.outputFileName())
+
 class EvaluatorSql(Evaluator):
     def __init__(self, code, user):
         self.db_name = str(user)
         super(EvaluatorSql, self).__init__('sql', 'sql', code)
 
     def evaluate(self):
-        self.command('mysql -u sandbox -psandbox sandbox < ' + self.codeFileName(), sh=True)
+        cursor = connections['sandbox'].cursor()
+        cursor.execute(self.code)
+
+    def getOutput(self):
+        cursor = connections['sandbox'].cursor()
+        cursor.execute('SHOW TABLES;')
+        tables = cursor.fetchall()
+        output = '<div class="row">'
+        for table in tables:
+            print(table[0])
+            cursor.execute('SELECT * FROM ' + str(table[0]) + ';')
+            output += '<div class="large-3 columns end">'
+            output += table[0]
+            output += '<table><thead>'
+            print(cursor.description)
+            for col in cursor.description:
+                output += '<td>' + col[0] + '</td>'
+            output += '</thead>'
+            for row in list(cursor.fetchall()):
+                output += '<tr>'
+                for col in list(row):
+                    output += '<td>' + str(col) + '</td>'
+                output += '</tr>'
+            output += '</table></div>'
+
+        output += '</div>'
+        return output
