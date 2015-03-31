@@ -21,6 +21,9 @@ default_list_entry = 20.0  # 10 is default vr recente
 #Friends
 friends_multiplier = 1.2  # (not friends -> this is 1)
 
+# Recomendedlists (after we made one)
+overlap_percentage = 0.4
+
 # SubjectMultiplierS==============================================================================================
 
 #ARBITRAIR SubjectMultiplierSYSTEEM:
@@ -303,35 +306,22 @@ def decideDifficulty(difficulty, score):
     # <40% -> -1 diff
     # nothing higher than 5/lower than 1
     if score >= 60 & difficulty < 5:
-        return difficulty + 1
+        return (difficulty,difficulty + 1)
     elif score <= 40 & difficulty > 1:
-        return difficulty - 1
+        return (difficulty - 1, difficulty)
     else:
-        return difficulty
+        return (difficulty,difficulty)
 
 # previous-> of the made list, new -> of a possible list
 # ok, since we don't want to give too much advantage/disadvantage to long
 # or short lists, depending on how many both lists have, a % overlap needed is calculated
-def overlapNeeded(previous):
-    # only 1-3 subjects -> new needs all of them
-    amount_of_overlap_needed = len(previous)
-    # 4-5 subjects -> amount - 1
-    if (len(previous) == 4 | len(previous) == 5):
-        amount_of_overlap_needed = len(previous) - 1
-    # 6-8 subjects -> amount - 2
-    if (len(previous) == 6 | len(previous) == 7 | len(previous) == 8):
-        amount_of_overlap_needed = len(previous) - 2
-    # 9-10 subjects -> amount - 3
-    if (len(previous) == 9 | len(previous) == 10):
-        amount_of_overlap_needed = len(previous) - 3
-    # 10+ subjects -> amount/2
-    if len(previous) > 10:
-        amount_of_overlap_needed = len(previous) / 2
-    return amount_of_overlap_needed
+def overlapNeeded(list):
+    # we return a simple percentage
+    return round(len(list)*overlap_percentage)
 
 def subjectsMatch(previous, new):
-    overlap_needed = overlapNeeded(previous)
-    overlap = [subject for subject in previous if subject in new]
+    overlap_needed = overlapNeeded(new)
+    overlap = [subject for subject in new if subject in previous]
     if overlap_needed <= len(overlap):
         return True
     else:
@@ -350,12 +340,14 @@ def recommendNextExerciseLists(previous_made_list, amount=4):
     # we'll need the previously made lists
     made_ids = madeIDs(previous_made_list.user_id)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
+    print(new_difficulty)
     prog_language = previous_made_list.exercises_list.programming_language_string
+    prog_language(subjects)
     subjects = previous_made_list.exercises_list.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
         possible_list = object_manager.createExerciseList(list_id)
-        if possible_list.difficulty == new_difficulty:
+        if possible_list.difficulty in new_difficulty:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
                 if list_id not in made_ids:
@@ -397,6 +389,8 @@ def listsLikeThisOne(list_id, user_id, amount=4):
 # Picks a random list the user hasn't made yet
 
 def imFeelingLucky(current_user):
+    if not current_user:
+        return 0
     dont_add_obj = current_user.allPersonalLists()
     dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     pool = [i for i in range(object_manager.amountOfLists()) if (i not in dont_add) & (i != 0)]

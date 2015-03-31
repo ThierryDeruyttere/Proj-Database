@@ -242,10 +242,87 @@ INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, 
 VALUES ('SQL6', '...', 5, 1, "2014-02-05", 3);
 
 # Subject data
-
+INSERT INTO subject(name) VALUES ('Subject1');
+INSERT INTO subject(name) VALUES ('Subject2');
+INSERT INTO subject(name) VALUES ('Subject3');
+INSERT INTO subject(name) VALUES ('Subject4');
+INSERT INTO subject(name) VALUES ('Subject5');
+INSERT INTO subject(name) VALUES ('Subject6');
+INSERT INTO subject(name) VALUES ('Subject7');
 
 # HasSubject data
-
+# List 1 (1,2)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,2);
+# List 2 (1,3)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,3);
+# List 3 (2,4,5,6)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,4);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,6);
+# List 4 (1,2,6)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,6);
+# List 5 (2)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,2);
+# List 6 (1,2,3,4,5,6)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,4);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,6);
+# List 7 (1,3,5,7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,7);
+# List 8 (1,7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,7);
+# List 9 (1,7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (9,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (9,7);
+# List 10 (2,4,6)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (10,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (10,4);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (10,6);
+# List 11 (3)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (11,3);
+# List 12 (7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (12,7);
+# List 13 (2,3,7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (13,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (13,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (13,7);
+# List 14 (2,3,7)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (14,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (14,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (14,7);
+# List 15 (2,3,7,5)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (15,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (15,3);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (15,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (15,7);
+# List 16 (2,4,5,6)
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (16,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (16,4);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (16,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (16,6);
+# List 17
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (17,5);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (17,6);
+# List 18
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (18,1);
+# List 19
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (19,2);
+# List 20
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (20,1);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (20,2);
+INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (20,3);
 
 #insert into madeList
 # user 1 (Python1-5,C1-3 | same ratings)
