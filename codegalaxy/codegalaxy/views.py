@@ -18,6 +18,7 @@ from managers.gm import *
 from managers.rm.recommendations import *
 
 import os.path
+from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -91,6 +92,14 @@ def user(request, id=0):
             for chunk in f.chunks():
                 destination.write(chunk)
             destination.close()
+
+            imageFile = './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png'
+            
+            im1 = Image.open(imageFile)
+
+            THUMB_SIZE = 512, 512
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)        
+            image.save('./codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
 
         elif 'confirm_membership' in request.POST:
             group_id = request.POST.get('group_id_to_confirm')

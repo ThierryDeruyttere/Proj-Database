@@ -4,7 +4,6 @@
 
 {% block head_js %}
 <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
-
 {% endblock head_js %}
 
 
@@ -90,13 +89,13 @@
             </div>
 
             <input type="submit" value="Update Password" name="update_profile_information" class="small button round success"/>
-            </form>
-            
+          </form>
+
           <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
             {% csrf_token %}
             <h5>Upload profile picture</h5>
             <p>
-              <input id="id_image" type="file" class="" name="image">
+              <input id="id_image" type="file" class="resizeme" name="image">
             </p>
             <input type="submit" value="Edit Profile Picture" name="update_profile_picture" class="small button round success"/>
           </form>
@@ -251,11 +250,11 @@
     </div>
   </div>
 
+
   {% endblock base_body %}
 
-{% block js_body%}
-    <script>
+  {% block js_body%}
+  <script>
 
-    </script>
-{% endblock js_body %}
-
+  </script>
+  {% endblock js_body %}
