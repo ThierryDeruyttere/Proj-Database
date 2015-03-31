@@ -12,12 +12,12 @@
   <textarea id="user_code" name="user_code"></textarea>
 </div>
 
-<!-- <form action="python"> -->
+<form action="/eval/sql">
   <div class="row">
     <a class="button" id="evaluate">Evaluate</a>
   </div>
-  <!-- <input type="submit">
-</form> -->
+  <input type="submit">
+</form>
 
 <div class="row">
   <div class="panel" id="output"></div>
@@ -35,7 +35,7 @@
       matchBrackets: true,
       autoCloseBrackets: true
     });
-    
+
   $("#evaluate").click(function()
   {
     var post_data = {code:code_text.getValue()};

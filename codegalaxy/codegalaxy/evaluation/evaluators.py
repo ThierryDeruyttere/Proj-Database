@@ -40,3 +40,10 @@ class EvaluatorCpp(Evaluator):
             return
         # Run the outputfile
         self.command(self.outputFileName())
+class EvaluatorSql(Evaluator):
+    def __init__(self, code, user):
+        self.db_name = str(user)
+        super(EvaluatorSql, self).__init__('sql', 'sql', code)
+
+    def evaluate(self):
+        self.command('mysql -u sandbox -psandbox sandbox < ' + self.codeFileName(), sh=True)

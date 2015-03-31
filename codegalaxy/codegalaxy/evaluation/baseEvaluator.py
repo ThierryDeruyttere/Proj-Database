@@ -30,11 +30,17 @@ class Evaluator:
         return os.path.join('tmp', 'output', self.type)
 
     def codeToFile(self):
-        self.codeFile().write(self.code)
+        with open(self.codeFileName(), 'w') as f:
+            f.write(self.code)
 
-    def command(self, command, args=[]):
-        args.insert(0, command)
-        p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    def command(self, command, args=[], sh=False):
+        if not sh:
+            cmd = args
+            args.insert(0, command)
+        else:
+            cmd = command + ' ' + ' '.join(args)
+
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, shell=sh)
         response = p.communicate()
         self.output, self.error = response
 
@@ -43,3 +49,6 @@ class Evaluator:
 
     def getErrorMsg(self):
         return '<pre>' + self.error + '<pre>'
+
+    def getOutput(self):
+        return self.output

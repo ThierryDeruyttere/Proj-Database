@@ -1,3 +1,7 @@
+# Sandbox user privileges
+GRANT ALL PRIVILEGES ON sandbox.* TO 'sandbox'@'localhost' IDENTIFIED BY 'sandbox';
+CREATE DATABASE IF NOT EXISTS sandbox;
+
 DROP DATABASE IF EXISTS codegalaxy;
 CREATE DATABASE codegalaxy;
 \r codegalaxy
