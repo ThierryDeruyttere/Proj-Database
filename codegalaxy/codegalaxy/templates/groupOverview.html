@@ -28,7 +28,7 @@
       {% for group in group_sub_list %}
       <div class="large-3 columns end">
           <a href="../../g/{{ group.id }}"/>
-          <img src="{% static "Group-icon.png" %}">
+          <img src="{% static group.getGroupPicture %}">
           <div class="left">
           <div class="panel" style="width: 129px;">
               <h6 style="width: 129px;">{{ group.group_name }}</h6>

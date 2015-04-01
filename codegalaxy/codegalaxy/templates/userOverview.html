@@ -47,7 +47,7 @@
       {% for user in users %}
       <div class="large-2 small-2 columns">
           <a href="../{{ user.id }}"/>
-          <img src="{% static "media/user.png" %}">
+          <img src="{% static user.getProfilePicture %}">
           <div class="panel">
               <h5>{{ user.first_name }}</h5>
               <h6 class="subheader">{{ user.last_name }}</h6>

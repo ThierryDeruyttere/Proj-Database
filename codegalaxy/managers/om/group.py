@@ -2,6 +2,10 @@ import dbw
 import managers.om.user
 import managers.om.objectmanager
 
+
+import os.path
+
+
 class Group:
 
     def __init__(self, id, group_name, group_type, created_on):
@@ -17,6 +21,23 @@ class Group:
         # private/public/...
         self.group_type = group_type
         self.created_on = created_on
+
+
+    def getGroupPicture(self):
+        print("WHYYY")
+        group_picture = "group_pictures/{}.png".format(self.id)
+
+        print("THIS?")
+
+        path = "./codegalaxy/static/" + group_picture
+
+        if os.path.isfile(path) == True:
+            group_picture = group_picture
+            print("FOUND IT!")
+        else:
+            group_picture = "media/group.png"
+            print("DEFAULT IT IS")
+        return group_picture
 
     # list of users
     def allMembers(self):

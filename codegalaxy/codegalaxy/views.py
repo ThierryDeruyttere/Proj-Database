@@ -26,18 +26,6 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
-
-def defaultContext(id):
-    profile_picture = "profile_pictures/{}.png".format(id)
-
-    path = "./codegalaxy/static/" + profile_picture
-    if os.path.isfile(path) == True:
-        context = {'profile_picture': profile_picture}
-    else:
-        context = {'profile_picture': "media/user.png"}
-    return context
-
-
 def home(request):
     current_user = logged_user(request)
 
@@ -175,12 +163,10 @@ def user(request, id=0):
             friends.append(
                 object_manager.createUser(id=friendship['id']))
 
-        context = {'user': user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
+        context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends}
-
-        context.update(defaultContext(id))
 
         if current_user.id == user.id:
             context['my_profile'] = True
@@ -292,6 +278,24 @@ def group(request, id=0):
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(
                 friend_id, 1, str(time.strftime("%Y-%m-%d")), "Pending")
+
+        elif 'update_group_picture' in request.POST:
+            f = request.FILES['image']
+
+            destination = open(
+                './codegalaxy/static/group_pictures/' + str(group.id) + '.png', 'wb+')
+
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
+
+            imageFile = './codegalaxy/static/group_pictures/' + str(group.id) + '.png'
+            
+            im1 = Image.open(imageFile)
+
+            THUMB_SIZE = 512, 512
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)        
+            image.save('./codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
             group.deleteMember(user.id)
