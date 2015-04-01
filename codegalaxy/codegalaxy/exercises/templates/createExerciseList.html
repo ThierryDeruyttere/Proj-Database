@@ -77,7 +77,7 @@
 
         <div class="row">
           <div class="large-2 large-centered columns">
-            <input type="button" id="submitButton" class="button" value="Create list">
+            <input type="button" id="submitButton" class="success button" value="Create list">
           </div>
         </div>
       </div>
@@ -96,7 +96,11 @@
       $("#add-subject").click(function() {
 
         var val = $("#subject").val();
+<<<<<<< HEAD
         if(val == "" || $.trim(val).length == 0){
+=======
+        if($.trim(val).length == 0){
+>>>>>>> removed panel in createExerciseList
           return;
         }else{
           val = $.trim(val);
