@@ -102,3 +102,11 @@ input#user::-webkit-input-placeholder{
 
     background: #75c4ff !important;
 }
+
+#create{
+    margin-top: 1.5em;
+}
+
+.text-offset{
+    text-align: center;
+}
