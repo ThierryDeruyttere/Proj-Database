@@ -32,21 +32,12 @@ def timeMultiplier(avg_date, avg_param_date):
     param_multiplier = recent
     week = datetime.timedelta(days=7)
     month = datetime.timedelta(days=31)
-    print(avg_param_date)
-    print(avg_date)
-    print(month)
-    print(week)
     if avg_param_date >= week:
-        print('older_than_week')
         param_multiplier = older_than_week
     if avg_param_date >= month:
-        print('older_than_month')
         param_multiplier = older_than_month
     if avg_param_date < avg_date:
-        print('older_than_avg')
         param_multiplier -= older_than_average_date
-    print('param_multiplier')
-    print(param_multiplier)
     return param_multiplier
 
 def timeSubjectMultiplier(user, subject_id):
@@ -115,18 +106,14 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
     # list of subjectIDs
     prog_lang_ids = object_manager.allProgrammingLanguageIDs()
     for prog_lang_id in prog_lang_ids:
-        print('prog_lang_id: ' + str(prog_lang_id))
         prog_lang_scores[prog_lang_id] = 1
         prog_lang_scores[prog_lang_id] = user.amountOfListsWithProgrammingLanguageForUser(prog_lang_id)
-        print('after amount: ' + str(prog_lang_scores[prog_lang_id]))
         # taking ratings of the subject into account
         if ratings:
             prog_lang_scores[prog_lang_id] *= ratingProgrammingLanguageMultiplier(user, prog_lang_id, default)
-            print('after rating: ' + str(prog_lang_scores[prog_lang_id]))
         # taking into account how old the lists with that subject are
         if dates:
             prog_lang_scores[prog_lang_id] *= timeProgrammingLanguageMultiplier(user, prog_lang_id)
-            print('after dates: ' + str(prog_lang_scores[prog_lang_id]))
         if prog_lang_scores[prog_lang_id] < 1:
             prog_lang_scores[prog_lang_id] = 1
     return prog_lang_scores
@@ -180,7 +167,6 @@ def compareListWithOtherUsers(user_id):
     # returns a dictionary with key->list_id and value -> highest overlap score
 def splitListIds(user_id, comparison_tuples, friends):
     score_per_list_id = {}
-    print(comparison_tuples)
     # for every tuple (comparison with other user)
     for comparison_tuple in comparison_tuples:
         # if we need to add the friends SubjectMultiplier
@@ -265,29 +251,15 @@ def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, rati
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
     score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
-    print('After Split')
-    print(score_per_list_id)
     score_per_list_id = defaultScoreOne(score_per_list_id, dont_add)
-    print('After DefaultOne')
-    print(score_per_list_id)
     # now we can start adding the other SubjectMultipliers
     subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
-    print('subject scores')
-    print(subject_scores)
     prog_lang_scores = scorePerProgrammingLanguageForUser(user_id, dates, ratings, default)
-    print('prog lang scores')
-    print(prog_lang_scores)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
-    print('After SubjectScores')
-    print(score_per_list_id)
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
-    print('After ProgrammingLanguageScores')
-    print(score_per_list_id)
     #addDefault function to add basic exercises with low priority to recommend
     addDefault(score_per_list_id, dont_add)
-    print('After Default')
-    print(score_per_list_id)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
     # returns a list with all the items that occur in list2 but not list1
     return recommended_exercises
@@ -340,7 +312,6 @@ def recommendNextExerciseLists(previous_made_list, amount=4):
     # we'll need the previously made lists
     made_ids = madeIDs(previous_made_list.user_id)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
-    print(new_difficulty)
     prog_language = previous_made_list.exercises_list.programming_language_string
     prog_language(subjects)
     subjects = previous_made_list.exercises_list.allSubjectIDs()
@@ -394,6 +365,5 @@ def imFeelingLucky(current_user):
     dont_add_obj = current_user.allPersonalLists()
     dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     pool = [i for i in range(object_manager.amountOfLists()) if (i not in dont_add) & (i != 0)]
-    print(pool)
     if pool:
         return random.choice(pool)
