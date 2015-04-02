@@ -67,9 +67,10 @@ input#user::-webkit-input-placeholder{
 
 .information {
     visibility: hidden;
-    margin-top: 25px;
-    width: auto;
-    max-width: 300px;
+    margin-top: 1.5em;
+    width: 30em;
+    position: relative;
+    right: 11em;
 }
 
 .slick-center > .planet {
@@ -92,7 +93,6 @@ input#user::-webkit-input-placeholder{
 }
 
 .ui-slider-handle{
-
     background: #f04124 !important;
     border-radius: 1000px !important;
     width: 2rem !important;

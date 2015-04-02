@@ -165,6 +165,54 @@
       $(panel).slideUp(0);
     });
 
+    var lastmousex=-1;
+    $('html').mousemove(function(e) {
+      var mousex = e.pageX;
+      lastmousex = mousex;
+    });
+
+    var swipingPlanets = false;
+    var startX;
+    var planetWidth;
+    $('.planets').on('mousedown', function(event, slick, direction){
+      event.stopPropagation();
+      //swipingPlanets = true;
+      startX = lastmousex;
+    });
+
+    $('.planets').on('click', function(event, slick, direction){
+      var currentSlide = $('.planets').slick('slickCurrentSlide');
+      var amountOfSlides = $('.planets').find('.planet').length;
+      var slidesToShift = 3;
+      var slider = $( '.planets' );
+      slider[0].slick.slickGoTo(parseInt(Math.min(currentSlide + slidesToShift, amountOfSlides)));
+
+
+    });
+
+    $(document).on('mouseup', function(event){
+      if(swipingPlanets){
+        swipingPlanets = false;
+        var distance = startX - lastmousex;
+        var currentSlide = $('.planets').slick('slickCurrentSlide');
+        var amountOfSlides = $('.planets').find('.planet').length;
+        var slidesToShift = Math.abs(Math.round(distance/planetWidth));
+        var slider = $( '.planets' );
+        if(distance < 0){
+          //Move to the right
+          //decrease index
+          slider[0].slick.slickGoTo(parseInt(Math.max(currentSlide - slidesToShift, 0)));
+        }else if(distance > 0){
+          //Move to the left
+          //increase index
+
+          slider[0].slick.slickGoTo(parseInt(Math.min(currentSlide + slidesToShift, amountOfSlides)));
+        }
+
+      }
+    });
+
+
     function createSlick(slides){
       slides = slides || 5;
       $('.planets').slick({
@@ -196,8 +244,10 @@
       });
 
       var panel = $('.planets').find('.slick-center').find('.information')[0];
+      planetWidth = $('.planets').find('.slick-center').width() * 1.5;
       $(panel).css('visibility','visible');
       $(panel).slideDown();
+
     }
 
     $(document).ready(function(){

@@ -281,6 +281,7 @@
                 if (_.options.rtl === true) {
                     _.currentLeft = -(_.currentLeft);
                 }
+
                 $({
                     animStart: _.currentLeft
                 }).animate({
@@ -308,7 +309,6 @@
                 });
 
             } else {
-
                 _.applyTransition();
                 targetLeft = Math.ceil(targetLeft);
 
@@ -340,7 +340,6 @@
     };
 
     Slick.prototype.applyTransition = function(slide) {
-
         var _ = this,
             transition = {};
 
@@ -594,7 +593,6 @@
     };
 
     Slick.prototype.changeSlide = function(event, dontAnimate) {
-
         var _ = this,
             $target = $(event.target),
             indexOffset, slideOffset, unevenOffset;
@@ -949,7 +947,6 @@
     };
 
     Slick.prototype.goTo = Slick.prototype.slickGoTo = function(slide, dontAnimate) {
-
         var _ = this;
 
         _.changeSlide({
