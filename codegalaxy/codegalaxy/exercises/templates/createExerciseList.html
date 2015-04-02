@@ -44,6 +44,18 @@
           <div class="large-4 large-centered columns">
             <label>Programming language</label>
             <select name="prog_lang">
+              {% for lang in prog_languages %}
+                <option value="{{ lang.name }}">{{ lang.name }}</option>
+              {% endfor %}
+            </select>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <label>default language</label>
+            <select name="default_language">
               {% for lang in languages %}
                 <option value="{{ lang.name }}">{{ lang.name }}</option>
               {% endfor %}
@@ -100,16 +112,17 @@
           return;
         }else{
           val = $.trim(val);
+          console.log(val);
           $("#subject").val("");
           var label = $("<span/>", {"class":"success label","id":"subject"+subjects});
-          var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":$("#subject").val(),"name":"subject"+subjects});
+          var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":val,"name":"subject"+subjects});
           label.html(val);
           subjects++;
           $("#subjects").append(label);
           $("#subjects").append(input);
+          //$(document).foundation('span', 'reflow');
         }
 
-        //$(document).foundation('span', 'reflow');
       });
 
       $(document).on("click", "span[id^='subject']", function() {
@@ -117,6 +130,7 @@
           $("#" + $(this).attr("id") + "_text").remove();
           $(this).remove();
         });
+
       });
 
       $("#submitButton").click(function(){

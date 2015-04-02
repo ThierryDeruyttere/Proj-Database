@@ -18,25 +18,29 @@ graph_manager = graphmanager.GraphManager()
 
 @require_login
 def createExerciseList(request):
-    languages = object_manager.allProgrammingLanguages()
+    prog_languages = object_manager.allProgrammingLanguages()
+    languages = object_manager.getAllLanguages()
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
+        def_lang = request.POST.get('default_language', '')
         user = logged_user(request)
-        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang)
+        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang, def_lang)
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id)
         max_subjects = int(request.POST.get("subjects_amount"))
         for i in range(max_subjects):
             subj = request.POST.get("subject" + str(i))
+            print(subj)
             if subj is not None:
                 exercise_list.addSubject(subj)
 
         return redirect("/l/" + str(exlist_id))
 
-    return render(request, 'createExerciseList.html', {"languages": languages})
+    return render(request, 'createExerciseList.html', {"prog_languages": prog_languages,
+                                                       "languages": languages})
 
 @require_login
 def createExercise(request, listId=0):
