@@ -30,33 +30,11 @@
 # User5: Python7->C++3->Python8->C++(rest)->SQL6
 # User6:
 # User7:
-#=============================================================================================================
-# Geen subjects/ wel vrienden, geen U3
-# User1:
-# User2:
-# User4:
-# User5:
-# User6:
-# User7:
-#=============================================================================================================
-# wel subjects/ geen vrienden, geen U3
-# User1:
-# User2:
-# User4:
-# User5:
-# User6:
-# User7:
-#=============================================================================================================
-# Wel subjects/vrienden, geen U3
-# User1:
-# User2:
-# User4:
-# User5:
-# User6:
-# User7:
-#=============================================================================================================
-
-
+# Test with everything: done, prog lang is most important, followed by subject
+# and eventually the overlap, an item that scores pretty high on those 3
+# will generally rank higher than one that scores really good on 2 but bad on
+# another
+# Date/rating/amount made decide the ranking of the subjects/prog langs
 
 # MADELISTS
 #insert into madeList
