@@ -110,3 +110,24 @@ input#user::-webkit-input-placeholder{
 .text-offset{
     text-align: center;
 }
+
+#user_image{
+    text-align: center;
+}
+
+.planets{
+    height: 10em;
+}
+
+#astronaut{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('../media/astronaut.png');
+    background-position: center;
+    transform: scale(0.7);
+}
