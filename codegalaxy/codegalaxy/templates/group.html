@@ -44,12 +44,12 @@
         </form>
         {% endif %}
         {% for item in data %}
-        {% if item.type == 'friendship' %}
+        {% if isinstance(item, FriendsWith) == True %}
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
 
           </div>
         </div>
@@ -61,7 +61,7 @@
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a></p>
 
           </div>
         </div>

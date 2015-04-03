@@ -104,6 +104,13 @@ def getGroupInformationOnName(group_name):
     cursor.close()
     return fetched
 
+def getUserInGroupInformation(group_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM userInGroup WHERE group_id = {group_id} AND user_id = {user_id};'.format(group_id=group_id, user_id=user_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def getExerciseType(id):
     cursor = connection.cursor()
     cursor.execute('SELECT exercise_type FROM exercise WHERE id={id}'.format(id=id))

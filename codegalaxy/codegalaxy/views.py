@@ -302,7 +302,6 @@ def group(request, id=0):
 
     is_member = False
     if group:
-
         user_list = group.allMembers()
 
         if group.group_type == 1:
@@ -333,16 +332,22 @@ def group(request, id=0):
 
         if group_size > 0:
             for one_user in user_list:
-                accepted_friendships = one_user.allFriendships()
-                member_of_groups = one_user.allUserAdded()
-                exercises_made = one_user.allExerciseListsMade()
+                #accepted_friendships = one_user.allFriendships()
+                #member_of_groups = one_user.allUserAdded()
+                #exercises_made = one_user.allExerciseListsMade()
+
+                exercises_made = one_user.allExerciseListsMade2()
+                member_of_groups = one_user.allGroupsJoined()
+                accepted_friendships = one_user.allFriendsWith()
 
                 all_data.extend(accepted_friendships)
                 all_data.extend(member_of_groups)
                 all_data.extend(exercises_made)
 
             all_data = sorted(
-                all_data, key=lambda k: k['datetime'], reverse=True)
+                all_data, key=lambda k: k.datetime, reverse=True)
+
+        print(all_data)
 
         paginator = Paginator(all_data, 15)  # 10 items per page
 
@@ -373,7 +378,7 @@ def group(request, id=0):
         if is_member:
             group_permissions = group.getUserPermissions(user.id)
             print("GROUP PERMISSIONS" + str(group_permissions))
-        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list':
+        context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions}
         return render(request, 'group.html', context)
