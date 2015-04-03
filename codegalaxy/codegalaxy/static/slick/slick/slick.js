@@ -206,8 +206,11 @@
     }());
 
     var startX;
+    //CUSTOM
+    var sliding = false;
     Slick.prototype.mouseDownHandler = function(){
         startX = lastmousex;
+        sliding = true;
     };
 
     Slick.prototype.addSlide = Slick.prototype.slickAdd = function(markup, index, addBefore) {
@@ -1807,9 +1810,10 @@
             }
         } else {
             //TODO SET LOGIC
-            if(_.options.slideGlide === true){
+            if(_.options.slideGlide === true && sliding === true){
+                sliding = false;
                 var distance = startX - lastmousex;
-                var slidesToShift = Math.abs(Math.round(distance/$(_.$list).find('.slick-center').width()));
+                var slidesToShift = Math.abs(Math.round(distance/($(_.$list).find('.slick-center').width() * 1.5)));
 
                 if(distance < 0){
                     //Move to the right
@@ -1819,8 +1823,7 @@
                 }else if(distance > 0){
                     //Move to the left
                     //increase index
-
-                    animSlide = Math.min(_.currentSlide + slidesToShift, _.slideCount);
+                    animSlide = Math.min(_.currentSlide + slidesToShift, _.slideCount - 1);
                 }
             }else{
                 animSlide = targetSlide;

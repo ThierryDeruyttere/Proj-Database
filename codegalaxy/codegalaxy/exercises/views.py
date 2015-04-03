@@ -33,7 +33,6 @@ def createExerciseList(request):
         max_subjects = int(request.POST.get("subjects_amount"))
         for i in range(max_subjects):
             subj = request.POST.get("subject" + str(i))
-            print(subj)
             if subj is not None:
                 exercise_list.addSubject(subj)
 
