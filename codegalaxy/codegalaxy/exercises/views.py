@@ -14,7 +14,6 @@ from managers.rm.recommendations import *
 
 from codegalaxy.authentication import require_login, logged_user
 from codegalaxy.evaluation.evaluators import *
-from codegalaxy.authentication import require_login, logged_user
 
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
@@ -319,7 +318,6 @@ def list(request, id=0):
         correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
-                # TODO WILL break, see previous use of this function
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
                     exercise.solved = True
 
@@ -364,9 +362,7 @@ def list(request, id=0):
             if exercise_list:
                 made_list = logged_user(request).getMadeList(exercise_list.id)
                 if made_list:
-                    pass
-                    # not tested yet
-                    # similar_list_ids = recommendNextExerciseLists(made_list)
+                    similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
