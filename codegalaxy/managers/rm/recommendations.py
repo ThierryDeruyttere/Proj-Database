@@ -5,7 +5,7 @@ import datetime
 object_manager = objectmanager.ObjectManager()
 
 # default lists
-default_lists = [1, 9, 10, 15]
+default_lists = [1]
 # Magic numbers
 # Time-based
 recent = 10.0
