@@ -45,7 +45,7 @@
         </form>
         {% endif %}
         {% for item in data %}
-        {% if item|isinstance:FriendsWith %}
+        {% if item.type == 'FriendsWith' %}
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">
@@ -57,7 +57,7 @@
 
         <hr/>
         {% endif %}
-        {% if item.type == 'group_member'%}
+        {% if item.type == 'UserInGroup'%}
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">
@@ -69,12 +69,12 @@
 
         <hr/>
         {% endif %}
-        {% if item.type == 'exerciseList'%}
+        {% if item.type == 'MadeExerciseList'%}
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user_first_name }} {{ item.user_last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}</a></p>
 
           </div>
         </div>

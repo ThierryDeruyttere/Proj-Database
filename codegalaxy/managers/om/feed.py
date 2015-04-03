@@ -18,11 +18,14 @@ class UserInGroup:
 
 		self.datetime = joined_on
 
+		self.type = "UserInGroup"
+
 	def __str__(self):
 		return self.user.first_name + ' ' + self.user.last_name + ' became member of ' + self.group.group_name + ' on ' + str(self.joined_on)
 
 	def __repr__(self):
 		return str(self)
+
 
 class MadeExerciseList:
 	def __init__(self, user, exercise_list, completed_on):
@@ -31,6 +34,8 @@ class MadeExerciseList:
 		self.completed_on = completed_on
 
 		self.datetime = completed_on
+
+		self.type = "MadeExerciseList"
 
 	def __str__(self):
 		return self.user.first_name + ' ' + self.user.last_name + ' made: ' + self.exercise_list.name + ' on ' + str(self.completed_on)
@@ -46,6 +51,8 @@ class FriendsWith:
 		self.status = status
 
 		self.datetime = befriended_on
+
+		self.type = "FriendsWith"
 
 	def __str__(self):
 		return self.user.first_name + ' ' + self.user.last_name + ' became friends with: ' + self.friend.first_name + ' ' + self.friend.last_name + ' on ' + str(self.befriended_on)

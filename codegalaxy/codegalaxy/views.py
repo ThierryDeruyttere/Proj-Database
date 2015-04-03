@@ -380,7 +380,7 @@ def group(request, id=0):
             print("GROUP PERMISSIONS" + str(group_permissions))
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
-                   'group_permissions': group_permissions, 'FriendsWith': class FriendsWith}
+                   'group_permissions': group_permissions}
         return render(request, 'group.html', context)
 
     else:
