@@ -1,0 +1,133 @@
+@-webkit-keyframes action {
+    from {
+        visibility:hidden;
+    }
+    50% {
+        visibility:hidden;
+    }
+    to {
+        visibility:visible;
+    }
+}
+
+@keyframes makeVisible {
+    from {
+        visibility:hidden;
+    }
+    50% {
+        visibility:hidden;
+    }
+    to {
+        visibility:visible;
+    }
+}
+
+.sql {
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #62ff4a 0%, #00b301 100%, #018d0e 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, #62ff4a,  #00b301);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, #62ff4a 0%,  #00b301 100%, #018d0e 95%);
+}
+
+.cpp {
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #e47474 0%, #d6000f 100%, #c00005 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, #e47474, #d6000f);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, #e47474 0%, #d6000f 100%, #c00005 95%);
+}
+
+.python {
+    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #82ffd2 0%, #52baff 100%, #2eaeff 95%);
+    background-image: -webkit-radial-gradient(45px 45px, circle cover, #75fff2, #489aff);
+    background-image: radial-gradient(45px 45px 45deg, circle cover, #53f8ff 0%, #52baff 100%, #2eaeff 95%);
+}
+
+.planet {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    margin-top: 20px;
+    opacity: 0.5;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+input#title::-webkit-input-placeholder{
+    background-image: url('../media/planet.png');
+    background-repeat: no-repeat;
+    background-position-y: center;
+    text-indent: 20px;
+}
+
+input#user::-webkit-input-placeholder{
+    background-image: url('../media/astronaut.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    text-indent: 20px;
+}
+
+.information {
+    visibility: hidden;
+    margin-top: 1.5em;
+    width: 30em;
+    position: relative;
+    right: 11em;
+}
+
+.slick-center > .planet {
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+    transform: scale(1.5);
+    opacity: 1;
+    left: 25px;
+}
+
+.slick-active > .planet {
+    -webkit-transition: all 1s ease-in-out;
+    transition: all 1s ease-in-out;
+}
+
+#galaxy-navigation {
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ui-slider-handle{
+    background: #f04124 !important;
+    border-radius: 1000px !important;
+    width: 2rem !important;
+}
+
+.ui-slider-handle:hover{
+
+    background: #75c4ff !important;
+}
+
+#create{
+    margin-top: 1.5em;
+}
+
+.text-offset{
+    text-align: center;
+}
+
+#user_image{
+    text-align: center;
+}
+
+.planets{
+    height: 10em;
+}
+
+#astronaut{
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url('../media/astronaut.png');
+    background-position: center;
+    transform: scale(0.7);
+}

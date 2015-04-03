@@ -1,0 +1,55 @@
+/*
+[class*=fi-star]{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50);
+    -moz-opacity: 0.3;
+    opacity: 0.5;
+    font-size: 50px;
+    color: #FFF700;
+}
+
+/*change direction of the rating class. css can't select elements before a certain element so this is why we change the order */
+/*.rating{
+    direction: rtl;
+}
+
+[class*=fi-star]:hover{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+#star4{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+#star3:hover ~ #star4{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+#star2:hover ~ #star3,
+#star2:hover ~ #star4{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+#star1:hover ~ #star2,
+#star1:hover ~ #star3,
+#star1:hover ~ #star4{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}
+
+#star0:hover ~ #star1,
+#star0:hover ~ #star2,
+#star0:hover ~ #star3,
+#star0:hover ~ #star4{
+    filter:progid:DXImageTransform.Microsoft.Alpha(opacity=100);
+    -moz-opacity: 1;
+    opacity: 1;
+}*/

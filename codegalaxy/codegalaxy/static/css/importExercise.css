@@ -1,0 +1,11 @@
+#search_panel{
+    margin-top: 25px;
+}
+
+html {
+    overflow-y: scroll;
+}
+
+#import_submit{
+    background-color: #E74C3C !important;
+}
