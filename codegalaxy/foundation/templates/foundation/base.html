@@ -37,6 +37,8 @@
      <script src="{% static "jquery_ui/jquery-ui.min.js" %}"></script>
   {% endblock jquery_ui %}
 
+  {% block ajax_stuff %}{% endblock ajax_stuff %}
+
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
   {% check_loggedIn as logged_in%}

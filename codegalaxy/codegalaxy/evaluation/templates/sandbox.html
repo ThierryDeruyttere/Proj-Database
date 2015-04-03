@@ -1,0 +1,60 @@
+{% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block base_body %}
+<div class="row text-center">
+  <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon" alt="Python"></a>
+  <a href="#" id="text/x-c++src" class="lang_button"><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
+  <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
+</div>
+
+<!-- <form action="/eval/sql" method="post"> -->
+<div class="row">
+  <textarea id="user_code" name="user_code"></textarea>
+  <!-- <input type="hidden" name="code" value="SELECT * FROM k;"></input> -->
+</div>
+
+  <div class="row">
+    <a class="button" id="evaluate">Evaluate</a>
+  </div>
+  <!-- <input type="submit"> -->
+<!-- </form> -->
+
+<div class="row">
+  <div class="panel" id="output"></div>
+</div>
+
+{% endblock base_body %}
+
+{% block body_js %}
+<script>
+  var code_text = CodeMirror.fromTextArea(user_code,
+    {
+      lineNumbers: true,
+      mode: "text/x-c++src",
+      theme: "monokai",
+      matchBrackets: true,
+      autoCloseBrackets: true
+    });
+
+  $("#evaluate").click(function()
+  {
+    var post_data = {code:code_text.getValue()};
+    $.ajax({
+      type: "POST",
+      url: "/eval/" + code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $("#output").html(response);
+      }
+    });
+  });
+
+  $(".lang_button").click(function() {
+    code_text.setOption("mode", $(this).attr("id"));
+  });
+
+</script>
+{% endblock body_js %}

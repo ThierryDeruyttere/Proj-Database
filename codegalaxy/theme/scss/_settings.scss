@@ -666,9 +666,9 @@ $button-bg-color: $steel;
 // $fieldset-margin: rem-calc(18 0);
 
 // We use these to style the legends when you use them
-$legend-bg: $oil;
-// $legend-font-weight: $font-weight-bold;
-// $legend-padding: rem-calc(0 3);
+$legend-bg: $base;
+$legend-font-weight: $font-weight-bold;
+$legend-padding: rem-calc(0 3);
 
 // We use these to style the prefix and postfix input elements
 // $input-prefix-bg: scale-color($white, $lightness: -5%);
@@ -979,7 +979,7 @@ $legend-bg: $oil;
 // $include-html-panel-classes: $include-html-classes;
 
 // We use these to control the background and border styles
-$panel-bg: $smoke;
+$panel-bg: $white;
 // $panel-border-style: solid;
 // $panel-border-size: 1px;
 
@@ -996,8 +996,9 @@ $panel-font-color: $darkblue;
 // $panel-font-color-alt: $white;
 
 // $panel-header-adjust: true;
-// $callout-panel--color: $primary-color;
-// $callout-panel-link-color-hover: scale-color($callout-panel-link-color, $lightness: -14%);
+$callout-panel-color: $white;
+$callout-panel-link-color: $charcoal;
+$callout-panel-link-color-hover: scale-color($callout-panel-link-color, $lightness: -14%);
 
 // 22. Pricing Tables
 // - - - - - - - - - - - - - - - - - - - - - - - - -

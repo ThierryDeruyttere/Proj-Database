@@ -65,3 +65,11 @@ urlpatterns += patterns('codegalaxy.exercises.views',
     url(r'^l/(?P<listId>\d*)/importExercise/$', 'importExercise'),
 
 )
+
+urlpatterns += patterns('codegalaxy.evaluation.views',
+    # Sandbox page #
+    url(r'^sandbox/$', 'sandbox'),
+    # Sandbox code evaluation page
+    # Only for getting the responde of code evaluation
+    url(r'^eval/(?P<lang>[a-z+]*)/$', 'evaluate')
+)

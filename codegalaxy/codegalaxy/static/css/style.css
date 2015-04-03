@@ -20,4 +20,8 @@
 
 .size-72 { font-size: 72px; }
 
-.code-output{}
+.text-cut-off {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}

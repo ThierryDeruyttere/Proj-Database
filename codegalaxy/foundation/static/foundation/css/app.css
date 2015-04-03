@@ -4333,7 +4333,7 @@ fieldset {
 /* line 272, ../../../../theme/bower_components/foundation/scss/foundation/components/_forms.scss */
 fieldset legend {
   font-weight: bold;
-  background: #333333;
+  background: #AAAAAA;
   padding: 0 0.1875rem;
   margin: 0;
   margin-left: -0.1875rem;
@@ -5441,10 +5441,10 @@ ul.pagination li {
 .panel {
   border-style: solid;
   border-width: 1px;
-  border-color: #d4d4d4;
+  border-color: #e3e3e3;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: #EEEEEE;
+  background: #FFFFFF;
   color: #131a2d;
 }
 /* line 55, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
@@ -5501,11 +5501,11 @@ ul.pagination li {
 }
 /* line 84, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout a:not(.button) {
-  color: #A8DAFF;
+  color: #555555;
 }
 /* line 87, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout a:not(.button):hover, .panel.callout a:not(.button):focus {
-  color: #6dc1ff;
+  color: #494949;
 }
 /* line 94, ../../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.radius {
