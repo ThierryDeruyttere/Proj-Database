@@ -8,7 +8,7 @@
 
 {% block base_body  %}
   <head>
-    <link rel="stylesheet" type="text/css" href="{% static "custom_css/listOverview.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/listOverview.css" %}" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
   </head>
 
@@ -165,11 +165,7 @@
       $(panel).slideUp(0);
     });
 
-    var lastmousex=-1;
-    $('html').mousemove(function(e) {
-      var mousex = e.pageX;
-      lastmousex = mousex;
-    });
+
 
     var swipingPlanets = false;
     var startX;
@@ -177,7 +173,7 @@
     $('.planets').on('mousedown', function(event, slick, direction){
       event.stopPropagation();
       //swipingPlanets = true;
-      startX = lastmousex;
+
     });
 
     $('.planets').on('click', function(event, slick, direction){
@@ -221,6 +217,7 @@
         slidesToShow: slides,
         centerPadding: '0px',
         focusOnSelect: true,
+        slideGlide: true,
         //Pure for other screensizes
         responsive: [
           {
