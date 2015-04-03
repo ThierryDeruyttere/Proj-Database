@@ -203,9 +203,9 @@ class User:
                 date['made_on'])
         if len(dates) > 0:
             total_time /= len(dates)
-            return -1*total_time
+            return -total_time
         else:
-            return -1*total_time
+            return -total_time
 
     def avgDateAge(self):
         dates = dbw.listOfDatesForUser(self.id)
