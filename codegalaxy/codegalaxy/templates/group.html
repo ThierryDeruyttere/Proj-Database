@@ -1,6 +1,7 @@
 {% extends "codegalaxy.html" %}
 
 {%load staticfiles%}
+{%load custom_filters%}
 
 {% block base_body %}
 
@@ -44,7 +45,7 @@
         </form>
         {% endif %}
         {% for item in data %}
-        {% if isinstance(item, FriendsWith) == True %}
+        {% if item|isinstance:FriendsWith %}
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
           <div class="large-11 columns">

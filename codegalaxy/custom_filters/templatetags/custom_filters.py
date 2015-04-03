@@ -15,3 +15,7 @@ def check_loggedIn(context):
         return True
     except Exception as e:
         return False
+
+@register.filter()
+def isinstance(object, type):
+	return isinstance(object, type)
