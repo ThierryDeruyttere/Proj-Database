@@ -134,10 +134,6 @@ def user(request, id=0):
 
         all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
-        print("ALL DATA:")
-        print(all_data)
-        print("DONE")
-
         paginator = Paginator(all_data, 10)  # 10 items per page
 
         page = request.GET.get('page')
@@ -158,8 +154,6 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_group_membership = user.allPendingGroupMemberships2()
 
-        print("PENDING GROUP MEMBERSHIP")
-        print(pending_group_membership)
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
@@ -350,8 +344,6 @@ def group(request, id=0):
             all_data = sorted(
                 all_data, key=lambda k: k.datetime, reverse=True)
 
-        print(all_data)
-
         paginator = Paginator(all_data, 15)  # 10 items per page
 
         page = request.GET.get('page')
@@ -368,7 +360,6 @@ def group(request, id=0):
 
         remaining_friends = []
         for friend in currentuser_friend_list:
-            print(friend.first_name)
             inList = False
             for user in user_list:
                 if friend.id == user.id:
@@ -380,7 +371,6 @@ def group(request, id=0):
         group_permissions = []
         if is_member:
             group_permissions = group.getUserPermissions(user.id)
-            print("GROUP PERMISSIONS" + str(group_permissions))
             
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
@@ -425,23 +415,19 @@ def groupCreate(request, id=0):
 
         group_type = request.POST.get('group_type')
 
-        print("DIT WERKT DUIDELIJK NIET")
         try:
             if group_type == 'on':
                 object_manager.insertGroup(
                     group_name, 1, str(time.strftime("%Y-%m-%d")))
-                print("PRIVATE GROUP MAKEN")
+
             else:
                 object_manager.insertGroup(
                     group_name, 0, str(time.strftime("%Y-%m-%d")))
-                print("PUBLIC GROUP MAKEN")
 
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            print("Hier foort het?")
             group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
-            print("DIT WERKT DUIDELIJK NIET")
             return redirect('/g/' + str(group.id))
 
         except:
@@ -476,7 +462,6 @@ def test(request, id=0):
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
     exercise_test.update(2, new_answers, new_hints)
-    print(exercise_test)
 
     # test
     user_test = object_manager.createUser(id=1)
