@@ -123,19 +123,16 @@ def user(request, id=0):
 
         exercise_list = user.allPersonalLists()
 
-        accepted_friendships = sorted(
-            user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
-        member_of_groups = sorted(
-            user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
-        exercises_made = sorted(
-            user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
+        accepted_friendships = user.allFriendsWith()
+        member_of_groups = user.allGroupsJoined()
+        exercises_made = user.allExerciseListsMade2()
 
         all_data = []
         all_data.extend(accepted_friendships)
         all_data.extend(member_of_groups)
         all_data.extend(exercises_made)
 
-        all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+        all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
         paginator = Paginator(all_data, 10)  # 10 items per page
 
@@ -149,6 +146,7 @@ def user(request, id=0):
             # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
+
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
@@ -161,7 +159,7 @@ def user(request, id=0):
         friends = []
         for friendship in friendships:
             friends.append(
-                object_manager.createUser(id=friendship['id']))
+                object_manager.createUser(id=friendship.friend.id))
 
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,
@@ -171,6 +169,7 @@ def user(request, id=0):
         if current_user.id == user.id:
             context['my_profile'] = True
             context['old_email'] = user.email
+            
         return render(request, 'user.html', context)
 
     else:
@@ -398,8 +397,6 @@ def groupOverview(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
     group_list_temp = object_manager.allPublicGroups()
     for group in group_list_temp:
         if len(group.group_name) > 12:
@@ -421,8 +418,6 @@ def groupCreate(request, id=0):
     if request.method == 'POST':
         group_name = request.POST.get('group_name', '')
 
-        # !!!!!!
-        # iemand een idee hoe ik uit een switch een waarde haal?
         group_type = request.POST.get('group_type')
 
         print("DIT WERKT DUIDELIJK NIET")

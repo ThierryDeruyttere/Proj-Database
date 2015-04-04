@@ -132,6 +132,19 @@ class User:
         pending_friendships = dbw.getPendingFriendships(self.id)
         return pending_friendships
 
+    def allPendingFriendships2(self):
+        pending_friendships = dbw.getPendingFriendships(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        for pending_friendship in pending_friendships:
+            friend = object_manager.createUser(id=pending_friendship['user_id'])
+
+            friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
+        return pending_friendships
+
     def allPendingGroupMemberships(self):
         pending_group_membership = dbw.getPendingGroupMemberships(self.id)
         print(pending_group_membership)
