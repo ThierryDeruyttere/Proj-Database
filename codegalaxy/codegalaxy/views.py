@@ -154,7 +154,7 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_group_memberships = user.allPendingGroupMemberships2()
 
-        
+
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
@@ -270,9 +270,11 @@ def group(request, id=0):
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
-            group.insertMember(
-                user.id, 1, str(time.strftime("%Y-%m-%d")), "Member")
-
+            try:
+                user.confirmGroupMembership(group.id)
+            except:
+                group.insertMember(
+                    user.id, 1, str(time.strftime("%Y-%m-%d")), "Member")
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(
