@@ -303,7 +303,6 @@ def group(request, id=0):
     is_member = False
     if group:
         user_list = group.allMembers()
-
         if group.group_type == 1:
             # Only users in this group can access this page
             correct_user = False
@@ -378,8 +377,9 @@ def group(request, id=0):
         if is_member:
             group_permissions = group.getUserPermissions(user.id)
             print("GROUP PERMISSIONS" + str(group_permissions))
+            
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
-                   user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
+                   user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions}
         return render(request, 'group.html', context)
 
