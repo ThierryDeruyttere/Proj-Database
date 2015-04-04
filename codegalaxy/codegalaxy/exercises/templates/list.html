@@ -85,26 +85,20 @@
         </div>
       </div>
 
-
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-
+          <div class="panel callout radius info ">
             <ul class="large-block-grid-3">
               <li>
-                <h3>{{ avg_score }}</h3>
-                <br/>
+                <h4>{{ avg_score }}</h4>
                 Average Score
               </li>
-
               <li>
-                <h3>{{ avg_rating }}</h3>
-                <br/>
+                <h4>{{ avg_rating }}</h4>
                 Average rating
               </li>
               <li>
-                <h3>{{ number_of_users }}</h3>
-                <br/>
+                <h4>{{ number_of_users }}</h4>
                 Users that finished list
               </li>
             </ul>
@@ -112,6 +106,7 @@
         </div>
       </div>
 
+      <!--
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <h2>Score Spread</h2>
@@ -119,7 +114,8 @@
           {{ score_spread |safe }}
         </div>
       </div>
-
+      -->
+    
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <div class="panel callout radius info">
@@ -127,22 +123,19 @@
               <li>
                 Made By
                 <br/>
-                <h3>{{ creator }}</h3>
+                <h4>{{ creator }}</h4>
               </li>
-
               <li>
                 Made On
                 <br/>
-                <h3>{{ created_on }}</h3>
+                <h4>{{ created_on }}</h4>
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-
       <hr>
-
       <div class="row">
         <div class="large-2 right columns">
           {% if correct_user %}
