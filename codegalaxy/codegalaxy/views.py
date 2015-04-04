@@ -134,6 +134,10 @@ def user(request, id=0):
 
         all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
+        print("ALL DATA:")
+        print(all_data)
+        print("DONE")
+
         paginator = Paginator(all_data, 10)  # 10 items per page
 
         page = request.GET.get('page')
@@ -146,15 +150,16 @@ def user(request, id=0):
             # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
-
         pending_friendships = []
         if current_user.id == user.id:
-            pending_friendships = user.allPendingFriendships()
+            pending_friendships = user.allPendingFriendships2()
 
         pending_group_membership = []
         if current_user.id == user.id:
-            pending_group_membership = user.allPendingGroupMemberships()
+            pending_group_membership = user.allPendingGroupMemberships2()
 
+        print("PENDING GROUP MEMBERSHIP")
+        print(pending_group_membership)
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
@@ -169,7 +174,7 @@ def user(request, id=0):
         if current_user.id == user.id:
             context['my_profile'] = True
             context['old_email'] = user.email
-            
+
         return render(request, 'user.html', context)
 
     else:

@@ -43,7 +43,7 @@
     <div class="tabs-content">
       {% for friendship in pending_friendships %}
       <div data-alert class="alert-box success round">
-        {{ friendship.first_name }} {{ friendsip.last_name }} wants to be your friend!
+        {{ friendship.friend.first_name }} {{ friendship.friend.last_name }} wants to be your friend!
         <a href="#" class="close">&times;</a></div>
         {% endfor %}
         {% if my_profile %}
@@ -104,24 +104,24 @@
         {% endif %}
         <div class="content active" id="feed">
           {% for item in data %}
-          {% if item.type == 'friendship' %}
+          {% if item.type == 'FriendsWith' %}
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
-              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.first_name }} {{ item.last_name }}</a> </p>
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>became friends with <a href="/u/{{ item.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
             </div>
           </div>
 
           <hr/>
           {% endif %}
-          {% if item.type == 'group_member'%}
-          {% if item.group_type == 0 %}
+          {% if item.type == 'UserInGroup'%}
+          {% if item.group.group_type == 0 %}
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
-              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group_name }}</a></p>
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a></p>
 
             </div>
           </div>
@@ -129,12 +129,12 @@
           <hr/>
           {% endif %}
           {% endif %}
-          {% if item.type == 'exerciseList'%}
+          {% if item.type == 'MadeExerciseList'%}
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
-              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.name }}</a></p>
+              <p><strong>{{ user.first_name }} {{ user.last_name }} </strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}</a></p>
 
             </div>
           </div>
@@ -161,16 +161,16 @@
           <div class="row">
             <div class="large-2 columns small-3"><img class="Icon" src="{% static "media/user.png" %}"/></div>
             <div class="large-10 columns">
-              <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.first_name }} {{ friendsip.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
+              <p><strong><a href="/u/{{ friendship.id }}">{{ friendship.friend.first_name }} {{ friendship.friend.last_name }} </a></strong>wants to be your friend, do you want to accept? </p>
               <ul class="button-group radius">
                 <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
                   {% csrf_token %}
-                  <input type="hidden" name="user_id_to_confirm" value="{{ friendship.id }}">
+                  <input type="hidden" name="user_id_to_confirm" value="{{ friendship.friend.id }}">
                   <input type="submit" name ='confirm_friendship' value="Confirm" class="button success">
                 </form></li>
                 <li><form method="POST" id='decline_friendship' name='decline_friendship'>
                   {% csrf_token %}
-                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.id }}">
+                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.friend.id }}">
                   <input type="submit" name ='decline_friendship' value="Decline" class="button alert">
                 </form></li>
               </ul>
@@ -180,13 +180,13 @@
           {% endfor %}
           <div class="large-12 columns">
             <div class="row">
-              {% for user in friends %}
+              {% for friend in friends %}
               <div class="large-3 columns end">
-                <a href="/u/{{ user.id }}">
-                  <img class="Icon" src="{% static user.getProfilePicture %}"/>
+                <a href="/u/{{ friend.id }}">
+                  <img class="Icon" src="{% static friend.getProfilePicture %}"/>
                   <div class="panel" style="width: 129px;">
-                    <h5 style="width: 129px;"> {{ user.first_name }} </h5>
-                    <h6 style="width: 129px;">{{ user.last_name }}</h6>
+                    <h5 style="width: 129px;"> {{ friend.first_name }} </h5>
+                    <h6 style="width: 129px;">{{ friend.last_name }}</h6>
                   </div>
                 </a>
               </div>
@@ -199,16 +199,16 @@
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
             <div class="large-10 columns">
-              <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group_name }}</a></strong></p>
+              <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group.group_name }}</a></strong></p>
               <ul class="button-group radius">
                 <li><form method="POST" id='confirm_membership' name='confirm_membership'>
                   {% csrf_token %}
-                  <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.id }}">
+                  <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.group.id }}">
                   <input type="submit" name ='confirm_membership' value="Confirm" class="button success">
                 </form></li>
                 <li><form method="POST" id='decline_membership' name='decline_membership'>
                   {% csrf_token %}
-                  <input type="hidden" name="group_id_to_decline" value="{{ group_membership.id }}">
+                  <input type="hidden" name="group_id_to_decline" value="{{ group_membership.group.id }}">
                   <input type="submit" name ='decline_membership' value="Decline" class="button alert">
                 </form></li>
               </ul>
