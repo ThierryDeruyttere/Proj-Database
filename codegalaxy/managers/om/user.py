@@ -41,18 +41,21 @@ class User:
 
     # List with other users this user is befriended with
     def allFriends(self):
-        friends_info = dbw.getFriendsIdForID(self.id)
-        friends_list = []
         object_manager = managers.om.objectmanager.ObjectManager()
-        # We'll make objects of the friends and put them in a list
-        for friend in friends_info:
-            if friend['user_id'] != self.id:
-                friends_list.append(
-                    object_manager.createUser(id=friend['friend_id']))
-            else:
-                friends_list.append(
-                    object_manager.createUser(id=friend['user_id']))
-        return friends_list
+
+        friendship_info = dbw.getFriendshipsForID(self.id)
+        accepted_friends = []
+        for friendship in friendship_info:
+            if friendship['status'] == 'Friends':
+                if friendship['user_id'] != self.id:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['user_id'])
+                    accepted_friends.append(friend)
+                else:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['friend_id'])
+                    accepted_friends.append(friend)
+        return accepted_friends
 
     def allFriendsNotMemberOfGroupWithID(self, group_id):
         friends_info = dbw.getFriendsNotMemberOfGroupWithID(self.id, group_id)
@@ -114,6 +117,7 @@ class User:
         @param friend The User to be checked if this User is friends with
         @return True if the users are friends, False otherwise
         '''
+        print(self.allFriends())
         return friend.id in [f.id for f in self.allFriends()]
 
     def addFriend(self, friend):
