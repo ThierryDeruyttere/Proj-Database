@@ -93,7 +93,52 @@ def createExercise(request, listId=0):
 
 @require_login
 def editList(request, listId):
-    return render(request, 'editList.html', )
+    exercise_list = object_manager.createExerciseList(listId)
+    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    if exercise_list is None or exercise_list.created_by != logged_user(request).id:
+        return redirect('/')
+
+    subjects = exercise_list.allSubjects()
+    languages = object_manager.allProgrammingLanguages()
+    current_language = exercise_list.programming_language_string
+    all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+
+    if request.method == 'POST':
+
+        updated_list_name = request.POST.get('updated_list_name')
+        updated_difficulty = request.POST.get('updated_difficulty')
+        updated_subjects_amount = int(request.POST.get('current_subjects'))
+        updated_subjects = []
+        updated_prog_lang = request.POST.get('prog_lang', '')
+        updated_description = request.POST.get('updated_description_text')
+        new_order = request.POST.get('order')
+        if new_order != "":
+            new_order = filterOrder(new_order)
+            exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
+
+        for i in range(updated_subjects_amount):
+            subject = request.POST.get('subject' + str(i))
+            if subject is not None:
+                updated_subjects.append(subject)
+
+        removed_subjects = set(subjects) - set(updated_subjects)
+        intersection = set(subjects) & set(updated_subjects)
+        subjects_to_add = set(updated_subjects) - intersection
+
+        for subject in removed_subjects:
+            exercise_list.deleteSubject(subject)
+
+        for subject in subjects_to_add:
+            exercise_list.addSubject(subject)
+
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
+
+
+    return render(request, 'editList.html', {'list': exercise_list,
+                                             'subjects': subjects,
+                                             'programming_languages': languages,
+                                             'current_prog_lang': current_language,
+                                             'all_exercises': all_exercises} )
 
 def getBrowserLanguage(request):
     return request.META['LANGUAGE'].split('_')[0]
