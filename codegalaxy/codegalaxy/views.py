@@ -430,7 +430,7 @@ def groupCreate(request, id=0):
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")), 'Member')
             return redirect('/g/' + str(group.id))
 
         except:
