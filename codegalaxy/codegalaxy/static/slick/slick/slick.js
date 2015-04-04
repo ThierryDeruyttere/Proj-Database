@@ -205,12 +205,13 @@
 
     }());
 
-    var startX;
     //CUSTOM
+    var startX;
     var sliding = false;
     Slick.prototype.mouseDownHandler = function(){
         startX = lastmousex;
         sliding = true;
+
     };
 
     Slick.prototype.addSlide = Slick.prototype.slickAdd = function(markup, index, addBefore) {
@@ -668,7 +669,6 @@
     Slick.prototype.clickHandler = function(event) {
 
         var _ = this;
-
         if(_.shouldClick === false) {
             event.stopImmediatePropagation();
             event.stopPropagation();
@@ -1824,6 +1824,8 @@
                     //Move to the left
                     //increase index
                     animSlide = Math.min(_.currentSlide + slidesToShift, _.slideCount - 1);
+                }else{
+                    animSlide = targetSlide;
                 }
             }else{
                 animSlide = targetSlide;
