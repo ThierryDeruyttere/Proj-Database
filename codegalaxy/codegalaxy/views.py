@@ -150,10 +150,11 @@ def user(request, id=0):
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships2()
 
-        pending_group_membership = []
+        pending_group_memberships = []
         if current_user.id == user.id:
-            pending_group_membership = user.allPendingGroupMemberships2()
+            pending_group_memberships = user.allPendingGroupMemberships2()
 
+        
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
@@ -161,7 +162,7 @@ def user(request, id=0):
                 object_manager.createUser(id=friendship.friend.id))
 
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
-                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_membership': pending_group_membership,
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends}
 

@@ -166,8 +166,10 @@ class User:
 
         for pending_group_membership in pending_group_memberships:
             group = object_manager.createGroup(pending_group_membership['group_id'])
-
             pending_group_membership_object = managers.om.feed.UserInGroup(group, user, pending_group_membership['user_permissions'], pending_group_membership['joined_on'],pending_group_membership['status'])
+            pending_group_membership_objects.append(pending_group_membership_object)
+
+
         return pending_group_membership_objects
 
 

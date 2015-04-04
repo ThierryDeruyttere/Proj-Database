@@ -195,11 +195,11 @@
           </div>
         </div>
         <div class="content" id="groups">
-          {% for group_membership in pending_group_membership %}
+          {% for group_membership in pending_group_memberships %}
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "media/user.png" %}"/></div>
             <div class="large-10 columns">
-              <p>Someone wants to add you to <strong><a href="/u/{{ group_membership.id }}">{{ group_membership.group.group_name }}</a></strong></p>
+              <p>Someone wants to add you to <strong><a href="/g/{{ group_membership.group.id }}">{{ group_membership.group.group_name }}</a></strong></p>
               <ul class="button-group radius">
                 <li><form method="POST" id='confirm_membership' name='confirm_membership'>
                   {% csrf_token %}
