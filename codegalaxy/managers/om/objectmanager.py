@@ -70,11 +70,11 @@ class ObjectManager:
 
 
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self, id, language_code):
+    def createExercise(self, id, language_code = 'en'):
         exercise_info = dbw.getExerciseInformation(id, language_code)
         if exercise_info:
             exercise_object = managers.om.exercise.Exercise(id, exercise_info['difficulty'],
-                                                            exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'])
+                                                            exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'], exercise_info['created_by'], exercise_info['created_on'], exercise_info['exercise_number'], exercise_info['exerciseList_id'])
             return exercise_object
         else:
             return None
@@ -146,17 +146,16 @@ class ObjectManager:
     def occurencesOfSubject(self,subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
-    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, rating=0):
-        exercise = dbw.getMadeExercise(user_id, exercise_id)
+    def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, rating=0):
+        exercise = dbw.getMadeExercise(user_id, exercise_id, list_id, exercise_number)
         if exercise:
-            # update
-            #TODO REMOVE
             pass
+            #Can't edit exercises
         else:
-            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on)
+            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id, exercise_number)
 
-    def getInfoForUserForExercise(self, user_id, exercise_id):
-        return dbw.getMadeExercise(user_id, exercise_id)
+    def getInfoForUserForExercise(self, user_id, exercise_id, exercise_list_id, exercise_number):
+        return dbw.getMadeExercise(user_id, exercise_id, exercise_list_id, exercise_number)
 
     def addSubject(self, name):
         dbw.insertSubject(name)
@@ -186,3 +185,19 @@ class ObjectManager:
     def getAllScoresForList(self, exercise_list_id):
         scores = dbw.getAllScoresForList(exercise_list_id)
         return [score['score'] for score in scores]
+
+    def amountOfLists(self):
+        return len(dbw.allExerciseListIDs())
+
+    def filterImportsLists(self, name):
+        lists = dbw.filterLists(name)
+        return [list_id['id'] for list_id in lists]
+
+    def getOriginalExercise(self, list_id, exercise_number):
+        return  dbw.getOriginalExercise(list_id, exercise_number)['id']
+
+    def getExerciseID(self, list_id, exercise_number):
+        return dbw.getExerciseInList(list_id, exercise_number)['id']
+
+    def getAllReferencesTo(self, exercise_id):
+        return dbw.getAllReferencesToExercise(exercise_id)

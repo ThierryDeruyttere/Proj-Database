@@ -3,190 +3,202 @@
 {% load i18n %}
 
 {% block head_js %}
-<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
+  <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
 {% endblock head_js %}
 
 {% block base_body %}
 
-{% if logged_in%}
-<div class="row">
-      <div class="row">
-
-
-        <div class="large-3 columns ">
-          <div class="panel">
-            <a href="#"><img src="{% static "media/user.png" %}"/></a>
-            <h5><a href="#">{{user.first_name}} {{user.last_name}}</a></h5>
+  {% if logged_in%}
+    <div class="row">
+      <div class="large-3 columns ">
+        <div class="panel">
+          <img src="{% static "media/user.png" %}"/>
+          <div class="text-center">
+            <h5>{{user.first_name}} {{user.last_name}}</h5>
+            <hr/>
           </div>
+          <li><a href="/me">My profile</a></li>
+          <!--<li><a href="/me">Friends</a></li>-->
         </div>
-        <div class="large-6 columns">
-          {% for userfriend in friends%}
-            {% for friend in userfriend.allFriends %}
+      </div>
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <div class="large-9 columns">
+            <input type="text" placeholder="Explore the galaxy...">
+
+          </div>
+          <a href="#" class="tiny alert button">Search</a>
+        </div>
+        {% for userfriend in friends%}
+          {% for friend in userfriend.allFriends %}
             <div class="row">
               <div class="large-2 columns small-3"><img src={% static "rocket1.png" %}/></div>
               <div class="large-10 columns">
-                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong> {{friend.first_name}} {{friend.last_name}}</p>
+                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong><a href="/u/{{ friend.id }}"> {{friend.first_name}} {{friend.last_name}}</a></p>
+                <!--
                 <ul class="inline-list">
                   <li><a href="">Reply</a></li>
                   <li><a href="">Share</a></li>
                 </ul>
-              <!--
-              <h6>2 Comments</h6>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
+              -->
               </div>
-              <div class="row">
-                <div class="large-2 columns small-3"><img src="http://placehold.it/50x50&text=[img]"/></div>
-                <div class="large-10 columns"><p>Bacon ipsum dolor sit amet nulla ham qui sint exercitation eiusmod commodo, chuck duis velit. Aute in reprehenderit</p></div>
-              </div>
-            </div> -->
-          </div>
-          </div>
+            </div>
 
             <hr/>
-            {% endfor %}
           {% endfor %}
-
-        </div>
-        <aside class="large-3 columns hide-for-small">
-        </aside>
+        {% endfor %}
 
       </div>
-
-
-{% else%}
-<img src={% static "galaxy.jpg" %} id="bg" alt=""/>
-
-<div class="row">
-<div class="large-12 columns">
- <img id="rocket" src={% static "HomePage.png" %}/>
-
-<hr/>
-</div>
-</div>
-
-
-
-<div class="row">
-<div class="large-5 columns">
-    <div class="signup-panel">
-      <div class="row collapse">
-        <div class="small-1 columns">
-          <img src={% static "planet.png" %}/>
+      <aside class="large-3 columns hide-for-small">
+      </aside>
+      <div class="large-3 columns ">
+        <div class="panel callout radius">
+          Recommended Lists:<br/>
+          {% if recommended %}
+            {% for recommended_list in recommended %}
+              <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+            {% endfor %}
+            <a href="/l/{{random_list}}" class="round small button">I'm feeling lucky!</a>
+          {% else %}
+              You have made every single exerciselist!
+          {% endif %}
         </div>
-        <div class="small-11 columns">
-          <p class="welcome">{% trans "Already a member" %}</p>
-        </div>
-      <div class="text-center">
-      {% if error_login %}
-      <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-      {% endif %}
-      <form method="post" action="/login/" data-abide>
-        {% csrf_token %}
-        <div class="row collapse">
-          <div class="small-1 columns">
-            <span class="prefix"><i class="fi-mail size-28"></i></span>
-          </div>
-          <div class="small-11  columns">
-            <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-            <small class="error">{% trans "Enter a valid Email Address." %}</small>
-          </div>
-        </div>
-        <div class="row collapse">
-          <div class="small-1 columns ">
-            <span class="prefix"><i class="fi-lock size-28"></i></span>
-          </div>
-          <div class="small-11 columns ">
-            <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password">
-            <small class="error">{% trans "Enter a valid Password." %}</small>
-          </div>
-        </div>
-        <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
-      </form>
+      </div>
     </div>
-  </div>
-</div>
-</div>
 
-<div class="large-5 columns">
-  <div class="signup-panel">
-    <div class="row collapse">
-      <div class="small-1 columns">
-        <img src={% static "planet.png" %}/>
+
+  {% else%}
+    <img src={% static "galaxy.jpg" %} id="bg" alt=""/>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <img id="rocket" src={% static "HomePage.png" %}/>
+
+        <hr/>
       </div>
-      <div class="small-10 columns">
-        <p class="welcome">{% trans "New member" %}</p>
+    </div>
+
+
+
+    <div class="row">
+      <div class="large-5 columns">
+        <div class="signup-panel">
+          <div class="row collapse">
+            <div class="small-1 columns">
+              <img src={% static "planet.png" %}/>
+            </div>
+            <div class="small-11 columns">
+              <p class="welcome">{% trans "Already a member" %}</p>
+            </div>
+            <div class="text-center">
+              {% if error_login %}
+                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+              {% endif %}
+              <form method="post" action="/login/" data-abide>
+                {% csrf_token %}
+                <div class="row collapse">
+                  <div class="small-1 columns">
+                    <span class="prefix"><i class="fi-mail size-28"></i></span>
+                  </div>
+                  <div class="small-11  columns">
+                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-1 columns ">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-11 columns ">
+                    <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password">
+                    <small class="error">{% trans "Enter a valid Password." %}</small>
+                  </div>
+                </div>
+                <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
-    <div class="text-center">
-    {% if error_register %}
-    <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-    {% endif %}
-    <form method="post" action="/register/" data-abide>
-      {% csrf_token %}
-      <div class="row collapse">
-        <div class="small-2  columns">
-          <span class="prefix"><i class="fi-torso size-28"></i></span>
+
+      <div class="large-5 columns">
+        <div class="signup-panel">
+          <div class="row collapse">
+            <div class="small-1 columns">
+              <img src={% static "planet.png" %}/>
+            </div>
+            <div class="small-10 columns">
+              <p class="welcome">{% trans "New member" %}</p>
+            </div>
+            <div class="text-center">
+              {% if error_register %}
+                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+              {% endif %}
+              <form method="post" action="/register/" data-abide>
+                {% csrf_token %}
+                <div class="row collapse">
+                  <div class="small-2  columns">
+                    <span class="prefix"><i class="fi-torso size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                    <small class="error">{% trans "Enter a valid First Name." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2  columns">
+                    <span class="prefix"><i class="fi-torso size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                    <small class="error">{% trans "Enter a valid Last Name." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2 columns">
+                    <span class="prefix"><i class="fi-mail size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2 columns ">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-10 columns ">
+                    <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password" value="{{ your_password }}">
+                    <small class="error">{% trans "Enter a valid password." %}</small>
+                  </div>
+                </div>
+                <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
+              </form>
+            </div>
+          </div>
         </div>
-        <div class="small-10  columns">
-          <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-          <small class="error">{% trans "Enter a valid First Name." %}</small>
-        </div>
+
       </div>
-      <div class="row collapse">
-        <div class="small-2  columns">
-          <span class="prefix"><i class="fi-torso size-28"></i></span>
+    </div>
+
+
+    <div class="row">
+      <div class="large-12 columns">
+
+        <div class="panel">
+          <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
+
+          <div class="row">
+            <div class="large-9 columns">
+              <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
+            </div>
+          </div>
         </div>
-        <div class="small-10  columns">
-          <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-          <small class="error">{% trans "Enter a valid Last Name." %}</small>
-        </div>
+
       </div>
-      <div class="row collapse">
-        <div class="small-2 columns">
-          <span class="prefix"><i class="fi-mail size-28"></i></span>
-        </div>
-        <div class="small-10  columns">
-          <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-          <small class="error">{% trans "Enter a valid Email Address." %}</small>
-        </div>
-      </div>
-      <div class="row collapse">
-        <div class="small-2 columns ">
-          <span class="prefix"><i class="fi-lock size-28"></i></span>
-        </div>
-        <div class="small-10 columns ">
-          <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password" value="{{ your_password }}">
-          <small class="error">{% trans "Enter a valid password." %}</small>
-        </div>
-      </div>
-      <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
-    </form>
-  </div>
-</div>
-</div>
+    </div>
 
-</div>
-</div>
-
-
-<div class="row">
-<div class="large-12 columns">
-
- <div class="panel">
-   <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
-
-   <div class="row">
-     <div class="large-9 columns">
-       <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
-     </div>
-   </div>
- </div>
-
-</div>
-</div>
-
-{% endif%}
+  {% endif%}
 
 {% endblock base_body %}
 {% block body_js %}

@@ -1,0 +1,167 @@
+{% extends "codegalaxy.html" %}
+{% load staticfiles %}
+{% load custom_filters %}
+{% block base_body %}
+  <head>
+    <link rel="stylesheet" type="text/css" href="{% static "custom_css/importExercise.css" %}" />
+  </head>
+
+  <form method="GET" id="search" name="search">
+    <div class="row" id="search_panel">
+      <div class="large-10 large-centered columns">
+        <div class="panel callout radius info">
+          {% csrf_token %}
+          <input type="text" id="search_input" name="search_input" placeholder="List or exercise name">
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <div class="row" id="search_result">
+    <div class="large-10 large-centered columns">
+      <div class="panel callout radius info">
+        <form method="POST" id="import_list">
+          {% csrf_token %}
+          <ul class="accordion" id="list_accordion" data-accordion>
+            {% for list in all_lists %}
+              <li class="accordion-navigation">
+                <a href="#Exerc{{ list.id }}">{{ list.name }}</a>
+                <div id="Exerc{{ list.id }}" class="content">
+                  <div class="row">
+                    <div class="large-centered columns">
+                      <input class="list_check"  id="list_copy{{ list.id }}"  type="checkbox"><label>Copy all list</label>
+                      <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
+
+                      <table>
+                        <thead>
+                        <tr>
+                          <th width="200">Title</th>
+                          <th width="150">copy original</th>
+                          <th width="150">reference</th>
+                        </tr>
+                        </thead>
+                        {% for e in all_exercises|for_key:list.id %}
+                          <tbody>
+                          <td>{{ e.title }}</td>
+                          <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          </tbody>
+                        {% endfor %}
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            {% endfor %}
+          </ul>
+          <br/>
+          <div class="row">
+            <div class="large-text-center columns">
+              <a href="/l/{{ list_id }}" class="button small radius">Return</a>
+              <button class="button small radius" id="import_submit" name="import_submit">Import</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock base_body %}
+{% block body_js %}
+  <script>
+
+
+    $(".import_check").click(function(event){
+      var id = this.id;
+      if(id.indexOf('checkbox_copy') >= 0){
+        var stripped = id.replace('checkbox_copy', '');
+        $("#checkbox_import" + stripped).prop('checked', false);
+      }else{
+        var stripped = id.replace('checkbox_import', '');
+        $("#checkbox_copy" + stripped).prop('checked', false);
+      }
+    });
+
+
+    $(".list_check").click(function(){
+      var siblings = this.parentNode.childNodes;
+      var execute = this.id;
+      if(execute.indexOf('list_copy') >= 0){
+        var list_id = execute.replace('list_copy','');
+        $('#list_import'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_copy']").each(function(){
+          $(this).trigger('click');
+        });
+      }else{
+        var list_id = execute.replace('list_import','');
+        $('#list_copy'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_import']").each(function(){
+          $(this).trigger('click');
+        });
+      }
+    });
+
+    $(".accordion-navigation").click(function(event){
+      //Only call the animation when we click on the link
+      if($(event.target).is('a')){
+        $(this).find(".content").slideToggle("slow");
+      }
+    });
+
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+    $("#search_input").on('input', function(e){
+      e.preventDefault();
+      var form = $("#search");
+      var post_data = form.serialize();
+      $.ajax({
+        type: 'GET',
+        url: "",
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+          $("#list_accordion").empty();
+          $("#list_accordion").append(response);
+        }
+      });
+    });
+
+    $("#import_submit").click(function(){
+      $("#import_list").form.submit();
+      $("#import_list").form.reset();
+    });
+
+
+    //Django stuff
+    function getCookie(name) {
+      var cookieValue = null;
+      if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+          var cookie = jQuery.trim(cookies[i]);
+          // Does this cookie string begin with the name we want?
+          if (cookie.substring(0, name.length + 1) == (name + '=')) {
+            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+            break;
+          }
+        }
+      }
+      return cookieValue;
+    }
+    var csrftoken = getCookie('csrftoken');
+
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+      }
+    });
+
+  </script>
+{% endblock %}

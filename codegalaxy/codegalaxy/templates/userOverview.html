@@ -1,59 +1,22 @@
 {% extends "codegalaxy.html" %}
 {%load staticfiles%}
 {% block base_body %}
-
-<!--
 <div class="row">
-  <div class="large-12 columns">
-    <div class="panel">
-      {% for user in users %}
-        <h3>{{ user.id }}: {{ user.first_name }} {{ user.last_name }} - {{ user.email }}</h3>
-      {% endfor %}
-    </div>
-  </div>
-</div>
-
-
-<div class="row">
-  <div class="small-12 medium-12 large-12 columns vcard-container ">
-    <div class="panel">
-        <h1>ALL USERS</h1>
-      <div class="row">
-        {% for user in users %}
-        <article class="vcard">
-          <a href="../{{ user.id }}"/>
-          <div class="vcard-img large-12 medium-12 small-12 columns">
-            <img class="reponsive-image" src="https://cdn1.iconfinder.com/data/icons/user-pictures/101/malecostume-512.png" height="42" width="42">
-          </div>
-          <div class="large-12 medium-12 small-12 text-center">
-            <ul class="vcard-text" .text-center>
-                        <li .text-center><strong>{{ user.first_name }} {{ user.last_name}}</strong></li>
-                    </ul>
-          </div>
-        </article>
-        {% endfor %}
-        </div>
-      </div>
-    </div>
-</div>
--->
-<div class="row">
-  <div class="large-12 columns">
-      <div class="row text.center">
-          <h1>All users:</h1>
-      </div>
+  <div class="row text.center">
+    <h1>All users:</h1>
   </div>
   <div class="row">
-      {% for user in users %}
-      <div class="large-2 small-2 columns">
-          <a href="../{{ user.id }}"/>
+    {% for user in users %}
+    <div class="small-2 columns end">
+      <div class="panel radius">
+        <a href="../{{ user.id }}">
           <img src="{% static user.getProfilePicture %}">
-          <div class="panel">
-              <h5>{{ user.first_name }}</h5>
-              <h6 class="subheader">{{ user.last_name }}</h6>
-          </div>
+          <h5 class="text-cut-off">{{ user.first_name }}</h5>
+          <h6 class="text-cut-off">{{ user.last_name }}</h6>
+        </a>
       </div>
-      {% endfor %}
+    </div>
+    {% endfor %}
   </div>
 </div>
 {% endblock base_body %}

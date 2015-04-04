@@ -7,11 +7,6 @@
 {% endblock head_js %}
 
 {% block base_body %}
-  <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-  <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-  <script src="{% static "codemirror/mode/python/python.js" %}"></script>
-  <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
-  <body>
   <div class="row">
     <div class="large-12 columns">
       <div class="panel">
@@ -27,7 +22,7 @@
         </div>
         <hr>
 
-        <form id="answer_question" method="post" action="{{ exercise.id }}/submit">
+        <form id="answer_question" method="post" action="{{ exercise.exercise_number }}/submit">
           {% csrf_token %}
 
           {% if exercise.exercise_type == "Open Question" %}
@@ -66,7 +61,6 @@
                 <!-- <div class="row">
                 To be used if we have turtle graphics
                 <canvas id="mycanvas" class="code-output"></canvas> -->
-                <textarea id="code_output" name="code_output" hidden="True"></textarea>
               </div>
             </div>
             <div id="output_alert" class="alert-box alert radius" data-alert></div>
@@ -103,35 +97,10 @@
       </div>
     </div>
   </div>
-</body>
 {% endblock base_body %}
 
 {% block body_js %}
   <script type="text/javascript">
-    function outf(text) {
-      var code_output = document.getElementById("code_output");
-      code_output.innerHTML += text;
-    }
-
-    function builtinRead(x) {
-      if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
-        throw "File not found: '" + x + "'";
-      return Sk.builtinFiles["files"][x];
-    }
-
-    // Here's everything you need to run a python program in skulpt
-    // grab the code from your textarea
-    // get a reference to your pre element for output
-    // configure the output function
-    // call Sk.importMainWithBody()
-    function runit() {
-      var prog = myCodeMirror.getValue();
-      Sk.canvas = "mycanvas";
-      Sk.pre = "output";
-      Sk.configure({output:outf, read:builtinRead});
-      eval(Sk.importMainWithBody("<stdin>",false,prog));
-    }
-
     var curr_hint = 1;
     function addHint(){
       document.getElementById("hint"+curr_hint).hidden = false;
@@ -146,7 +115,6 @@
     $("#output_alert").hide();
     $("#submit_answer_code").click(function() {
       try {
-        runit();
         $("#answer_question").submit();
       }
       catch(e) {

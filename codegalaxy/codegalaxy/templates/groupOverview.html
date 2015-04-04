@@ -1,44 +1,52 @@
 {% extends "codegalaxy.html" %}
 
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
 <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
-{% load i18n %}
-
 {% block base_body %}
-
 <div class="row">
+  <div class="large-12 columns">
+    <h1>{% trans "Group overview" %}</h1>
+    <hr/>
+  </div>
+</div>
+<div class="row">
+  <div class="large-8 columns">
+    <div class="row collapse">
+      <div class="large-10 columns">
+        <input type="text" placeholder="Search groups...">
 
+      </div>
+      <a href="#" class="tiny button">Search</a>
+    </div>
+    <div class="row">
+    {% for group in group_list %}
+      <div class="large-3 columns end">
+        <div class="panel radius">
+          <a href="../../g/{{ group.id }}">
+            <img src="{% static group.getGroupPicture %}" />
+            <div>
+                <h6 class="text-cut-off">{{ group.group_name }}</h6>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+  </div>
   <div class="row">
-    <div class="large-4 columns">
+    <div class="large-4 columns text-center">
       <div class="panel">
         <legend>Biggest Groups</legend>
         {{ biggest_groups | safe }}
       </div class="panel">
+      <a href="/g/create" class="round alert button">{% trans "Create new group" %}</a>
     </div>
-
-  <div class="large-8 columns">
-    <h1>{% trans "Group overview" %}</h1>
-    <a href="/g/create" class="button large">{% trans "Create new group" %}</a>
-    {% for group_sub_list in groups %}
-    <div class="row">
-      {% for group in group_sub_list %}
-      <div class="large-3 columns end">
-          <a href="../../g/{{ group.id }}"/>
-          <img src="{% static group.getGroupPicture %}">
-          <div class="left">
-          <div class="panel" style="width: 129px;">
-              <h6 style="width: 129px;">{{ group.group_name }}</h6>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div>
-  {% endfor %}
-</div>
 </div>
 
 

@@ -56,10 +56,20 @@ urlpatterns += patterns('codegalaxy.exercises.views',
     url(r'^l/(?P<listId>\d*)/createExercise/$', 'createExercise'),
 
     # Exercise page (/l/<id>/<question>)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)$', 'answerQuestion'),
+    url(r'^l/(?P<list_id>\d+)/(?P<exercise_number>\d+)$', 'answerQuestion'),
     # Submit exercise answer (/l/<id>/<question>/submit)
-    url(r'^l/(?P<list_id>\d+)/(?P<question_id>\d+)/submit$', 'submit'),
+    url(r'^l/(?P<list_id>\d+)/(?P<exercise_number>\d+)/submit$', 'submit'),
 
-    url(r'^l/(?P<listId>\d*)/(?P<exercise_id>\d*)/editExercise/$', 'editExercise'),
+    url(r'^l/(?P<listId>\d*)/(?P<exercise_id>\d*)/(?P<exercise_number>\d*)/editExercise/$', 'editExercise'),
 
+    url(r'^l/(?P<listId>\d*)/importExercise/$', 'importExercise'),
+
+)
+
+urlpatterns += patterns('codegalaxy.evaluation.views',
+    # Sandbox page #
+    url(r'^sandbox/$', 'sandbox'),
+    # Sandbox code evaluation page
+    # Only for getting the responde of code evaluation
+    url(r'^eval/(?P<lang>[a-z+]*)/$', 'evaluate')
 )

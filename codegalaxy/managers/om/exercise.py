@@ -14,7 +14,7 @@ class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
 
-    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title):
+    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title, created_by, created_on, exercise_number, exerciseList_id):
         '''
         @brief init for a exercise
         @param id id of the exercise
@@ -56,12 +56,17 @@ class Exercise:
         # Exercise is solved
         # Only for giving info to html templates
         self.solved = False
+        self.created_by = created_by
+        self.created_on = created_on
+        self.exercise_number = int(exercise_number)
+        self.exerciseList_id = int(exerciseList_id)
+        self.isReference = False
 
     def __str__(self):
         '''
         @brief string representation of exercise
         '''
-        return str(self.difficulty) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' ' + str(self.correct_answer) + ' ' + str(self.language_code)
+        return str(self.exercise_number) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on) + ' ' + str(self.difficulty)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
@@ -121,7 +126,7 @@ class Exercise:
         for i in range(1, len(hints) + 1):
             dbw.insertHint(hints[i - 1], i, self.id, language_id)
 
-    def update(self, correct_answer, answers, hints):
+    def update(self, correct_answer, answers, hints, user_id = None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
@@ -129,14 +134,44 @@ class Exercise:
         @param hints the hints to update
         '''
         self.correct_answer = correct_answer
+        self.save(user_id)
         self.updateAnswers(answers)
         self.updateHints(hints)
+        self.updateCode()
 
-    def save(self):
+    def updateCode(self):
+        dbw.updateExerciseCode(self.code, self.id)
+
+    def saveExerciseNumber(self, newPos):
+        transaction = ''
+        if self.isReference:
+            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id} AND new_list_exercise_number= {old_number};'.format(ex_id=self.id, exerc_nmbr=newPos, list_id=self.exerciseList_id, old_number = self.exercise_number)
+        else:
+            transaction += 'UPDATE exercise SET  exercise_number = {exerc_nmbr} WHERE id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=newPos)
+        self.exercise_number = newPos
+        return transaction
+
+
+    def save(self, user_id = None):
         '''
-        @brief saves the exercise in the database
+        @brief saves/dereferences the exercise in the database
         '''
-        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id)
+        # we gotta check if this is a reference
+        if dbw.isReference(self.exerciseList_id, self.exercise_number):
+            # Now we unreference the exercise
+            import managers.om.objectmanager
+            object_manager = managers.om.objectmanager.ObjectManager()
+            our_list = object_manager.createExerciseList(self.exerciseList_id)
+            new_id = our_list.unreferenceExercise(self.exercise_number)
+            self.id = new_id
+            if user_id is not None:
+                # created_by/on needs to be edited
+                self.created_by = user_id
+                import time
+                self.created_on = str(time.strftime("%Y-%m-%d"))
+
+        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title)
+        dbw.updateQuestion(self.question,dbw.getIdFromLanguage(self.language_code)['id'],self.id)
 
 class Question:
 

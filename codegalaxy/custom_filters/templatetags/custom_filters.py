@@ -16,6 +16,7 @@ def check_loggedIn(context):
     except Exception as e:
         return False
 
-@register.filter()
-def isinstance(object, type):
-	return isinstance(object, type)
+@register.filter
+def for_key(d, key):
+    return d.get(key)
+
