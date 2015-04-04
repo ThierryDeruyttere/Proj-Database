@@ -30,7 +30,7 @@ class User:
         profile_picture = "profile_pictures/{}.png".format(self.id)
 
         path = "./codegalaxy/static/" + profile_picture
-        if os.path.isfile(path) == True:
+        if os.path.isfile(path):
             profile_picture = profile_picture
         else:
             profile_picture = "media/user.png"

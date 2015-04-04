@@ -27,7 +27,7 @@ class Group:
         group_picture = "group_pictures/{}.png".format(self.id)
         path = "./codegalaxy/static/" + group_picture
 
-        if os.path.isfile(path) == True:
+        if os.path.isfile(path):
             group_picture = group_picture
         else:
             group_picture = "media/group.png"
