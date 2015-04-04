@@ -179,20 +179,22 @@
         </div>
       </div>
 
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-            <h3>ExerciseLists like this one:</h3>
-            <ul class="large-block-grid-{{similar_lists|length}}">
-              {% for similar_list in similar_lists %}
-                <li>
-                  <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
-                </li>
-              {% endfor %}
-            </ul>
+      {% if similar_lists|length > 0 %}
+        <div class ="row">
+          <div class="large-7 large-centered text-center columns">
+            <div class="panel callout radius info">
+              <h3>ExerciseLists like this one:</h3>
+              <ul class="large-block-grid-{{similar_lists|length}}">
+                {% for similar_list in similar_lists %}
+                  <li>
+                    <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      {% endif %}
 
     </div>
   </div>
@@ -205,6 +207,11 @@
     $('img').on('dragstart', function(event) { event.preventDefault(); });
 
     $(document).ready(function() {
+
+      $(".Start").click(function(){
+        var id = this.id;
+        window.location += id;
+      });
 
 
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
