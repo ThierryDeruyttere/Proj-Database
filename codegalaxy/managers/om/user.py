@@ -73,15 +73,22 @@ class User:
     def allFriendsWith(self):
         object_manager = managers.om.objectmanager.ObjectManager()
 
-        user = object_manager.createUser(id=self.id)
+        
 
         friendship_info = dbw.getFriendshipsForID(self.id)
         accepted_friendship = []
         for friendship in friendship_info:
             if friendship['status'] == 'Friends':
-                friend = object_manager.createUser(id=friendship['user_id'])
-                friendship_object = managers.om.feed.FriendsWith(user, friend, friendship['befriended_on'], friendship['status'])
-                accepted_friendship.append(friendship_object)
+                if friendship['user_id'] != self.id:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['user_id'])
+                    friendship_object = managers.om.feed.FriendsWith(user, friend, friendship['befriended_on'], friendship['status'])
+                    accepted_friendship.append(friendship_object)
+                else:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['friend_id'])
+                    friendship_object = managers.om.feed.FriendsWith(user, friend, friendship['befriended_on'], friendship['status'])
+                    accepted_friendship.append(friendship_object)
         return accepted_friendship
 
     def confirmFriendship(self, friend_id):
@@ -139,16 +146,33 @@ class User:
 
         user = object_manager.createUser(id=self.id)
 
+        pending_friendship_objects = []
         for pending_friendship in pending_friendships:
             friend = object_manager.createUser(id=pending_friendship['user_id'])
 
             friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
-        return pending_friendships
+            pending_friendship_objects.append(friendship)
+        return pending_friendship_objects
 
     def allPendingGroupMemberships(self):
         pending_group_membership = dbw.getPendingGroupMemberships(self.id)
         print(pending_group_membership)
         return pending_group_membership
+
+    def allPendingGroupMemberships2(self):
+        pending_group_memberships = dbw.getPendingGroupMemberships(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        pending_group_membership_objects = []
+
+        for pending_group_membership in pending_group_memberships:
+            group = object_manager.createGroup(pending_group_membership['group_id'])
+
+            pending_group_membership_object = managers.om.feed.UserInGroup(group, user, pending_group_membership['user_permissions'], pending_group_membership['joined_on'],pending_group_membership['status'])
+        return pending_group_membership_objects
 
 
     def allUserAdded(self):
