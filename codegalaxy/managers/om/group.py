@@ -24,19 +24,13 @@ class Group:
 
 
     def getGroupPicture(self):
-        print("WHYYY")
         group_picture = "group_pictures/{}.png".format(self.id)
-
-        print("THIS?")
-
         path = "./codegalaxy/static/" + group_picture
 
         if os.path.isfile(path) == True:
             group_picture = group_picture
-            print("FOUND IT!")
         else:
             group_picture = "media/group.png"
-            print("DEFAULT IT IS")
         return group_picture
 
     # list of users
@@ -65,14 +59,12 @@ class Group:
         @param user_permissions the permissions of the user in this group
         @param joined_on the date the user joined on
         '''
-        print("HIER gaat nog alles goed:")
         dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
 
     def deleteMember(self, user_id):
         dbw.deleteUserFromGroup(self.id, user_id)
         
     def getUserPermissions(self, user_id):
-        print("GROUP_TYPE= " + str(self.group_type))
         if self.group_type == 0:
             return 0
         else:
