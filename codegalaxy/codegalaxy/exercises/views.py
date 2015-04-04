@@ -91,6 +91,10 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
+@require_login
+def editList(request, listId):
+    return render(request, 'editList.html', )
+
 def getBrowserLanguage(request):
     return request.META['LANGUAGE'].split('_')[0]
 
@@ -249,7 +253,6 @@ def filterOrder(order):
     for i in splitted:
         new_order.append(int(i.replace('exercise', '')))
     return new_order
-
 
 def list(request, id=0):
 
