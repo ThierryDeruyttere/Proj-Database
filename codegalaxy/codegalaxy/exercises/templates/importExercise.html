@@ -29,29 +29,33 @@
                 <div id="Exerc{{ list.id }}" class="content">
                   <div class="row">
                     <div class="large-centered columns">
-                      <input class="list_check"  id="list_copy{{ list.id }}"  type="checkbox"><label>Copy all list</label>
-                      <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
+                      {% if all_exercises|for_key:list.id %}
+                        <input class="list_check"  id="list_copy{{ list.id }}"  type="checkbox"><label>Copy all list</label>
+                        <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
 
-                      <table>
-                        <thead>
-                        <tr>
-                          <th width="200">Title</th>
-                          <th width="150">copy original</th>
-                          <th width="150">reference</th>
+                        <table>
+                          <thead>
+                          <tr>
+                            <th width="200">Title</th>
+                            <th width="150">copy original</th>
+                            <th width="150">reference</th>
                         </tr>
                         </thead>
-                        {% for e in all_exercises|for_key:list.id %}
-                          <tbody>
-                          <td>{{ e.title }}
-                          {% if e.isReference %}
-                            <br/>
-                            <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
-                          {% endif %}
-                          </td>
-                          <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                          <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                          </tbody>
-                        {% endfor %}
+                          {% for e in all_exercises|for_key:list.id %}
+                            <tbody>
+                            <td>{{ e.title }}
+                            {% if e.isReference %}
+                              <br/>
+                              <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                            {% endif %}
+                            </td>
+                            <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                            <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                            </tbody>
+                          {% endfor %}
+                        {% else %}
+                          This list does not contain any exercises.
+                        {% endif %}
                       </table>
                     </div>
                   </div>
