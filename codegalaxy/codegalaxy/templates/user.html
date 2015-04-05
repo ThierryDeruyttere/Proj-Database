@@ -44,7 +44,7 @@
     <div class="tabs-content">
       {% for friendship in pending_friendships %}
       <div data-alert class="alert-box success round">
-        {{ friendship.friend.first_name }} {{ friendship.friend.last_name }} wants to be your friend!
+        <a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }}</a> wants to be your friend.
         <a href="#" class="close">&times;</a></div>
         {% endfor %}
         {% if my_profile %}
