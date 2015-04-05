@@ -84,8 +84,9 @@
                 <span class="prefix"><i class="fi-lock size-28"></i></span>
               </div>
               <div class="small-10 columns ">
-                <input type="password" required placeholder="New Password" id="new_password2" name="new_password2" value="{{ new_password2 }}">
-                <small class="error">Enter a valid password.</small>
+                <input type="password" required placeholder="New Password" id="new_password2" name="new_password2" data-equalto="new_password1" value="{{ new_password2 }}">
+                <small class="error">The passwords did not match</small>
+
               </div>
             </div>
 
