@@ -115,7 +115,7 @@
         </div>
       </div>
       -->
-    
+
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <div class="panel callout radius info">
@@ -233,7 +233,10 @@
       });
     });
 
-
+    $(".exercise").click(function(){
+      var number = (this.id).replace("Exercise","");
+      window.location += number;
+    });
 
   </script>
 {% endblock %}
