@@ -68,6 +68,18 @@ def getExerciseListInformation(id):
     cursor.close()
     return fetched
 
+def getGroupUserPermissions(id, user_id):
+    '''
+    @brief get the permissions a user has in a group, 
+    @param id the id of the user, and the id of the group
+    @return returns a dict with information
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM groups g, userInGroup u WHERE g.id = {id} AND u.group_id = g.id AND u.user_id = {user_id};'.format(id=id, user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getGroupInformation(id):
     '''
     @brief get the information from Groups given an group id
@@ -88,6 +100,13 @@ def getGroupInformationOnName(group_name):
     '''
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM groups WHERE group_name = "{group_name}";'.format(group_name=group_name))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def getUserInGroupInformation(group_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM userInGroup WHERE group_id = {group_id} AND user_id = {user_id};'.format(group_id=group_id, user_id=user_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -195,14 +214,14 @@ def getFriendsIdForID(id):
     @return returns a dict with friends (hopefully)
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT f.friend_id FROM friendsWith f WHERE f.user_id = {id} UNION SELECT f.user_id FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
+    cursor.execute('SELECT f.friend_id, f.user_id FROM friendsWith f WHERE f.user_id = {id} UNION SELECT f.user_id, f.friend_id FROM friendsWith f WHERE f.friend_id = {id};'.format(id=id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
 
 def getFriendsNotMemberOfGroupWithID(me_id, group_id):
     cursor = connection.cursor()
-    print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
+    #print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     cursor.execute('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     fetched = processData(cursor)
     cursor.close()
@@ -232,6 +251,17 @@ def getPendingFriendships(id):
     cursor.close()
     return fetched
 
+def getPendingGroupMemberships(id):
+    '''
+    @brief get the groups of a user that are pending
+    @param id the id of the user
+    @return returns a dict with group
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM userInGroup u, groups g WHERE u.user_id = {id} AND u.status = "Pending" AND u.group_id = g.id ;'.format(id=id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
 
 def getExercisesForList(list_id):
     '''
@@ -340,7 +370,7 @@ def getUsersInGroup(group_id):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT user_id FROM userInGroup u WHERE u.group_id = {id};'.format(id=group_id))
+    cursor.execute('SELECT user_id FROM userInGroup u WHERE u.group_id = {id} AND u.status = "Member";'.format(id=group_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -364,7 +394,7 @@ def getGroupsFromUser(user_id):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT group_id FROM userInGroup u WHERE u.user_id = {id};'.format(id=user_id))
+    cursor.execute('SELECT group_id, status FROM userInGroup u WHERE u.user_id = {id};'.format(id=user_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -606,10 +636,10 @@ def insertGroup(group_name, group_type, created_on):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO groups(group_name,group_type,created_on) VALUES ("{name}", {type},"{created_on}");'.format(name=group_name, type=group_type, created_on=created_on))
 
-def insertUserInGroup(group_id, user_id, user_permissions, joined_on):
+def insertUserInGroup(group_id, user_id, user_permissions, joined_on, status):
     cursor = connection.cursor()
     if not userIsInGroup(user_id, group_id):
-        cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on))
+        cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on, status) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}", "{status}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on, status=status))
 
 
 def insertProgrammingLanguage(name):
@@ -736,9 +766,19 @@ def updateFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE friendsWith SET status="Friends" WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
 
+def updateGroupMembership(user_id, group_id):
+    '''
+    @brief confirms group membership, changes status
+    @param id the id of the user, id of group
+    @return returns nothing
+    '''
+    cursor = connection.cursor()
+    cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
     cursor = connection.cursor()
     cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on={created_on},exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
+
 
 # DELETE
 
@@ -746,6 +786,14 @@ def deleteFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
 
+def deleteGroupMembership(user_id, group_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+
+def deleteUserFromGroup(group_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+    
 def deleteHints(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id=exercise_id))

@@ -28,11 +28,12 @@
       <div class="large-3 columns end">
         <div class="panel radius">
           <a href="../../g/{{ group.id }}">
-            <img src="{% static "Group-icon.png" %}" />
+            <img src="{% static group.getGroupPicture %}" />
             <div>
                 <h6 class="text-cut-off">{{ group.group_name }}</h6>
             </div>
           </a>
+
         </div>
       </div>
     {% endfor %}

@@ -18,6 +18,8 @@ from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
 
+import os.path
+from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -25,12 +27,6 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
-def defaultContext(id):
-    profile_picture = "profile_pictures/{}.png".format(id)
-
-    context = {'profile_picture': profile_picture}
-
-    return context
 
 def home(request):
     current_user = logged_user(request)
@@ -41,8 +37,9 @@ def home(request):
         recommended = recommendListsForUser(current_user.id, True, True, True, True, True, False)
         for recommended_list in recommended:
             recommended_lists.append(object_manager.createExerciseList(recommended_list))
-    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': imFeelingLucky(current_user)})
-    
+
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
+
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
@@ -64,7 +61,21 @@ def user(request, id=0):
             friend_id = request.POST.get('user_id_to_decline')
             user.declineFriendship(friend_id)
 
-        elif 'update_profile' in request.POST:
+        elif 'update_profile_information' in request.POST:
+            new_password1 = hashlib.md5(
+                request.POST.get('new_password1').encode('utf-8')).hexdigest()
+            new_password2 = hashlib.md5(
+                request.POST.get('new_password2').encode('utf-8')).hexdigest()
+
+            old_password = hashlib.md5(
+                request.POST.get('old_password').encode('utf-8')).hexdigest()
+
+            if new_password1 == new_password2:
+                if old_password == user.password:
+                    new_email = request.POST.get('new_email')
+                    user.updateProfile(new_email, new_password1)
+
+        elif 'update_profile_picture' in request.POST:
             f = request.FILES['image']
 
             destination = open(
@@ -74,10 +85,21 @@ def user(request, id=0):
                 destination.write(chunk)
             destination.close()
 
-            new_password = hashlib.md5(
-                request.POST.get('new_password').encode('utf-8')).hexdigest()
-            new_email = request.POST.get('new_email')
-            user.updateProfile(new_email, new_password)
+            imageFile = './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png'
+
+            im1 = Image.open(imageFile)
+
+            THUMB_SIZE = 512, 512
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
+            image.save('./codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
+
+        elif 'confirm_membership' in request.POST:
+            group_id = request.POST.get('group_id_to_confirm')
+            user.confirmGroupMembership(group_id)
+
+        elif 'decline_membership' in request.POST:
+            group_id = request.POST.get('group_id_to_decline')
+            user.deleteGroupMembership(group_id)
 
     already_friends = False
     if current_user:
@@ -88,19 +110,16 @@ def user(request, id=0):
 
         exercise_list = user.allPersonalLists()
 
-        accepted_friendships = sorted(
-            user.allFriendships(), key=lambda k: k['datetime'], reverse=True)
-        member_of_groups = sorted(
-            user.allUserAdded(), key=lambda k: k['datetime'], reverse=True)
-        exercises_made = sorted(
-            user.allExerciseListsMade(), key=lambda k: k['datetime'], reverse=True)
+        accepted_friendships = user.allFriendsWith()
+        member_of_groups = user.allGroupsJoined()
+        exercises_made = user.allExerciseListsMade2()
 
         all_data = []
         all_data.extend(accepted_friendships)
         all_data.extend(member_of_groups)
         all_data.extend(exercises_made)
 
-        all_data = sorted(all_data, key=lambda k: k['datetime'], reverse=True)
+        all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
         paginator = Paginator(all_data, 10)  # 10 items per page
 
@@ -116,16 +135,27 @@ def user(request, id=0):
 
         pending_friendships = []
         if current_user.id == user.id:
-            pending_friendships = user.allPendingFriendships()
+            pending_friendships = user.allPendingFriendships2()
 
-        context = {'user': user, 'group_list': group_list, 'data': data, 'all_data': all_data,
-                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships}
+        pending_group_memberships = []
+        if current_user.id == user.id:
+            pending_group_memberships = user.allPendingGroupMemberships2()
 
-        context.update(defaultContext(id))
+        friendships = accepted_friendships
+        friends = []
+        for friendship in friendships:
+            friends.append(
+                object_manager.createUser(id=friendship.friend.id))
+
+        context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
+                   'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
+                   'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
+                   'friends': friends}
 
         if current_user.id == user.id:
             context['my_profile'] = True
             context['old_email'] = user.email
+
         return render(request, 'user.html', context)
 
     else:
@@ -226,17 +256,38 @@ def group(request, id=0):
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(
+                user.id, 1, str(time.strftime("%Y-%m-%d")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
-            group.insertMember(friend_id, 0, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(
+                friend_id, 1, str(time.strftime("%Y-%m-%d")), "Pending")
+
+        elif 'update_group_picture' in request.POST:
+            f = request.FILES['image']
+
+            destination = open(
+                './codegalaxy/static/group_pictures/' + str(group.id) + '.png', 'wb+')
+
+            for chunk in f.chunks():
+                destination.write(chunk)
+            destination.close()
+
+            imageFile = './codegalaxy/static/group_pictures/' + str(group.id) + '.png'
+
+            im1 = Image.open(imageFile)
+
+            THUMB_SIZE = 512, 512
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
+            image.save('./codegalaxy/static/group_pictures/' + str(group.id) + '.png')
+
+        elif 'leave_group' in request.POST:
+            group.deleteMember(user.id)
 
     is_member = False
     if group:
-
         user_list = group.allMembers()
-
         if group.group_type == 1:
             # Only users in this group can access this page
             correct_user = False
@@ -265,16 +316,20 @@ def group(request, id=0):
 
         if group_size > 0:
             for one_user in user_list:
-                accepted_friendships = one_user.allFriendships()
-                member_of_groups = one_user.allUserAdded()
-                exercises_made = one_user.allExerciseListsMade()
+                # accepted_friendships = one_user.allFriendships()
+                # member_of_groups = one_user.allUserAdded()
+                # exercises_made = one_user.allExerciseListsMade()
+
+                exercises_made = one_user.allExerciseListsMade2()
+                member_of_groups = one_user.allGroupsJoined()
+                accepted_friendships = one_user.allFriendsWith()
 
                 all_data.extend(accepted_friendships)
                 all_data.extend(member_of_groups)
                 all_data.extend(exercises_made)
 
             all_data = sorted(
-                all_data, key=lambda k: k['datetime'], reverse=True)
+                all_data, key=lambda k: k.datetime, reverse=True)
 
         paginator = Paginator(all_data, 15)  # 10 items per page
 
@@ -300,8 +355,13 @@ def group(request, id=0):
             if not inList:
                 remaining_friends.append(friend)
 
-        context = {'user': user, 'data': data, 'all_data': all_data, 'id': id, 'group': group, 'user_list':
-                   user_list, 'group_size': group_size, 'currentuser_friend_list': remaining_friends, 'is_member': is_member}
+        group_permissions = []
+        if is_member:
+            group_permissions = group.getUserPermissions(user.id)
+
+        context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
+                   user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
+                   'group_permissions': group_permissions}
         return render(request, 'group.html', context)
 
     else:
@@ -319,8 +379,10 @@ def groupOverview(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
+    group_list_temp = object_manager.allPublicGroups()
+    for group in group_list_temp:
+        if len(group.group_name) > 12:
+            group.group_name = group.group_name[:10] + '...'
 
     group_list = object_manager.allPublicGroups()
 
@@ -332,13 +394,13 @@ def groupCreate(request, id=0):
     if request.method == 'POST':
         group_name = request.POST.get('group_name', '')
 
-        # !!!!!!
-        # iemand een idee hoe ik uit een switch een waarde haal?
         group_type = request.POST.get('group_type')
+
         try:
             if group_type == 'on':
                 object_manager.insertGroup(
                     group_name, 1, str(time.strftime("%Y-%m-%d")))
+
             else:
                 object_manager.insertGroup(
                     group_name, 0, str(time.strftime("%Y-%m-%d")))
@@ -346,7 +408,7 @@ def groupCreate(request, id=0):
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            group.insertMember(user.id, 2, str(time.strftime("%Y-%m-%d")))
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")), 'Member')
             return redirect('/g/' + str(group.id))
 
         except:
@@ -380,8 +442,8 @@ def test(request, id=0):
     # exercise_test.difficulty = 9001
     new_answers = ["a", "b", "c"]
     new_hints = ["hint1", "hint2"]
-    # exercise_test.update(2, new_answers, new_hints)
 
+    # exercise_test.update(2, new_answers, new_hints)
     # test
     user_test = object_manager.createUser(id=1)
     # UPDATE USER test
@@ -460,10 +522,6 @@ def tables(request):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})
-
-def python(request):
-    return render(request, 'python.html', {})
-
 
 def recommendations(request):
     user_test = object_manager.createUser(id=1)

@@ -5,6 +5,7 @@ import managers.om.objectmanager
 import dbw
 import datetime
 
+import os.path
 
 class User:
 
@@ -28,16 +29,33 @@ class User:
         dbw.updateUserInformation(self.id, email, password)
         return True
 
+    def getProfilePicture(self):
+        profile_picture = "profile_pictures/{}.png".format(self.id)
+
+        path = "./codegalaxy/static/" + profile_picture
+        if os.path.isfile(path):
+            profile_picture = profile_picture
+        else:
+            profile_picture = "media/user.png"
+        return profile_picture
+
     # List with other users this user is befriended with
     def allFriends(self):
-        friends_info = dbw.getFriendsIdForID(self.id)
-        friends_list = []
         object_manager = managers.om.objectmanager.ObjectManager()
-        # We'll make objects of the friends and put them in a list
-        for friend in friends_info:
-            friends_list.append(
-                object_manager.createUser(id=friend['friend_id']))
-        return friends_list
+
+        friendship_info = dbw.getFriendshipsForID(self.id)
+        accepted_friends = []
+        for friendship in friendship_info:
+            if friendship['status'] == 'Friends':
+                if friendship['user_id'] != self.id:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['user_id'])
+                    accepted_friends.append(friend)
+                else:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['friend_id'])
+                    accepted_friends.append(friend)
+        return accepted_friends
 
     def allFriendsNotMemberOfGroupWithID(self, group_id):
         friends_info = dbw.getFriendsNotMemberOfGroupWithID(self.id, group_id)
@@ -62,11 +80,36 @@ class User:
                 accepted_friendship.append(friendship)
         return accepted_friendship
 
+    def allFriendsWith(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        friendship_info = dbw.getFriendshipsForID(self.id)
+        accepted_friendship = []
+        for friendship in friendship_info:
+            if friendship['status'] == 'Friends':
+                if friendship['user_id'] != self.id:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['user_id'])
+                    friendship_object = managers.om.feed.FriendsWith(user, friend, friendship['befriended_on'], friendship['status'])
+                    accepted_friendship.append(friendship_object)
+                else:
+                    user = object_manager.createUser(id=self.id)
+                    friend = object_manager.createUser(id=friendship['friend_id'])
+                    friendship_object = managers.om.feed.FriendsWith(user, friend, friendship['befriended_on'], friendship['status'])
+                    accepted_friendship.append(friendship_object)
+        return accepted_friendship
+
     def confirmFriendship(self, friend_id):
         dbw.updateFriendship(self.id, friend_id)
 
     def declineFriendship(self, friend_id):
         dbw.deleteFriendship(self.id, friend_id)
+
+    def confirmGroupMembership(self, group_id):
+        dbw.updateGroupMembership(self.id, group_id)
+
+    def deleteGroupMembership(self, group_id):
+        dbw.deleteGroupMembership(self.id, group_id)
 
     def isFriend(self, friend):
         '''
@@ -74,6 +117,7 @@ class User:
         @param friend The User to be checked if this User is friends with
         @return True if the users are friends, False otherwise
         '''
+        print(self.allFriends())
         return friend.id in [f.id for f in self.allFriends()]
 
     def addFriend(self, friend):
@@ -90,26 +134,77 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         # We'll make objects of the friends and put them in a list
         for group in groups_info:
+            if group['status'] == 'Member':
             # If the info is legit, we add a Group object with the info to the
             # list
-            groups_list.append(object_manager.createGroup(group['group_id']))
+                groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
     def allPendingFriendships(self):
         pending_friendships = dbw.getPendingFriendships(self.id)
         return pending_friendships
 
+    def allPendingFriendships2(self):
+        pending_friendships = dbw.getPendingFriendships(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        pending_friendship_objects = []
+        for pending_friendship in pending_friendships:
+            friend = object_manager.createUser(id=pending_friendship['user_id'])
+
+            friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
+            pending_friendship_objects.append(friendship)
+        return pending_friendship_objects
+
+    def allPendingGroupMemberships(self):
+        pending_group_membership = dbw.getPendingGroupMemberships(self.id)
+        return pending_group_membership
+
+    def allPendingGroupMemberships2(self):
+        pending_group_memberships = dbw.getPendingGroupMemberships(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        pending_group_membership_objects = []
+
+        for pending_group_membership in pending_group_memberships:
+            group = object_manager.createGroup(pending_group_membership['group_id'])
+            pending_group_membership_object = managers.om.feed.UserInGroup(group, user, pending_group_membership['user_permissions'], pending_group_membership['joined_on'],pending_group_membership['status'])
+            pending_group_membership_objects.append(pending_group_membership_object)
+
+
+        return pending_group_membership_objects
+
+
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)
-
         for group_member in group_members:
             group_member.update({'type': 'group_member'})
             group_member.update({'datetime': group_member['joined_on']})
             group_member.update({'user_first_name': self.first_name})
             group_member.update({'user_last_name': self.last_name})
             group_member.update({'user_id': self.id})
-
         return group_members
+
+    def allGroupsJoined(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        groups_member_of = dbw.getGroupsMemberOf(self.id)
+
+        user_in_groups = []
+        for memberOf in groups_member_of:
+            if memberOf['status'] == 'Member':
+                group_object = object_manager.createGroup(memberOf['group_id'])
+                user_in_group = managers.om.feed.UserInGroup(group_object, user, memberOf['user_permissions'], memberOf['joined_on'], memberOf['status'])
+                user_in_groups.append(user_in_group)
+        return user_in_groups
 
     def madeList(self, list_id, list_score, list_rating):
         dbw.insertMadeList(list_id, self.id, list_rating, list_score)
@@ -141,6 +236,23 @@ class User:
             exerciseList.update({'user_last_name': self.last_name})
             exerciseList.update({'user_id': self.id})
         return exercise_list_date
+
+
+
+    def allExerciseListsMade2(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        exercise_list_date = dbw.getMadeListForUser2(self.id)
+        user = object_manager.createUser(id=self.id)
+        all_exercise_lists_made = []
+        for exercise_list in exercise_list_date:
+            exercise_list_object = object_manager.createExerciseList(exercise_list['id'])
+            made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'])
+            
+            all_exercise_lists_made.append(made_exercise_list)
+        
+        return all_exercise_lists_made
+
 
     # List with all the exercises this user has completed
     def allPersonalExercises(self):
