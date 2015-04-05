@@ -215,10 +215,9 @@
           </div>
           <hr/>
           {% endfor %}
-          {% if group_list %}
-          {% for group_sub_list in group_list %}
           <div class="row">
-            {% for group in group_sub_list %}
+            {% if group_list %}
+            {% for group in group_list %}
             {% if group.group_type == 0 %}
             <div class="large-3 columns end">
               <div class="panel radius">
@@ -232,8 +231,6 @@
             </div>
             {% endif %}
             {% endfor %}
-            </div>
-            {% endfor %}
             {% else %}
             {% if my_profile %}
             <h4>You have not joined a group yet.</h4>
@@ -243,7 +240,7 @@
               <h4>{{ user.first_name }} isn't a member of any groups yet.</h4>
             </div>
             {% endif %}
-            {% endif %}
+          {% endif %}
           </div>
         </div>
       </div>

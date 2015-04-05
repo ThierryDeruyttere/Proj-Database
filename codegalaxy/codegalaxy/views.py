@@ -38,7 +38,7 @@ def home(request):
         for recommended_list in recommended:
             recommended_lists.append(object_manager.createExerciseList(recommended_list))
     return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': imFeelingLucky(current_user)})
-    
+
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
@@ -85,11 +85,11 @@ def user(request, id=0):
             destination.close()
 
             imageFile = './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png'
-            
+
             im1 = Image.open(imageFile)
 
             THUMB_SIZE = 512, 512
-            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)        
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
             image.save('./codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
 
         elif 'confirm_membership' in request.POST:
@@ -105,27 +105,7 @@ def user(request, id=0):
         already_friends = current_user.isFriend(user)
 
     if user:
-
-        friend_list_temp = user.allFriends()
-        # names seems too long? -> fix by changing the last part to '...'
-        for friend in friend_list_temp:
-            if len(friend.last_name) > 12:
-                friend.last_name = friend.last_name[:10] + '...'
-            if len(friend.first_name) > 12:
-                friend.first_name = friend.first_name[:10] + '...'
-        # making into a list of lists to facilitate looping/ordering (6
-        # friends/row?)
-        friend_list = [friend_list_temp[i:i + 4]
-                       for i in range(0, len(friend_list_temp), 4)]
-
-        group_list_temp = user.allGroups()
-        for group in group_list_temp:
-            if len(group.group_name) > 12:
-                group.group_name = group.group_name[:10] + '...'
-        group_list = [group_list_temp[i:i + 4]
-                      for i in range(0, len(group_list_temp), 4)]
-
-
+        group_list = user.allGroups()
 
         exercise_list = user.allPersonalLists()
 
@@ -166,7 +146,7 @@ def user(request, id=0):
             friends.append(
                 object_manager.createUser(id=friendship.friend.id))
 
-        context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'friend_list': friend_list, 'data': data,
+        context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends}
@@ -294,11 +274,11 @@ def group(request, id=0):
             destination.close()
 
             imageFile = './codegalaxy/static/group_pictures/' + str(group.id) + '.png'
-            
+
             im1 = Image.open(imageFile)
 
             THUMB_SIZE = 512, 512
-            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)        
+            image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
             image.save('./codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
@@ -377,7 +357,7 @@ def group(request, id=0):
         group_permissions = []
         if is_member:
             group_permissions = group.getUserPermissions(user.id)
-            
+
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions}
