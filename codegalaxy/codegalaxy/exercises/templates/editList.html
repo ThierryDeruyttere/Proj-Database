@@ -113,6 +113,9 @@
                             <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">Edit exercise</a>
                             <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                           </div>
+                          {% if exercise.isReference %}
+                            <a href="/l/{{exercise.isReferenceTo.0}}">Original</a>[{{exercise.isReferenceTo.1}}]
+                          {% endif %}
                         </div>
                       </li>
                     {% endfor %}

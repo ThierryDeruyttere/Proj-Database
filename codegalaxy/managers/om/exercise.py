@@ -62,6 +62,10 @@ class Exercise:
         self.exerciseList_id = int(exerciseList_id)
         self.isReference = False
 
+    def isReferenceTo(self):
+        original =  dbw.getOriginalExercise(self.exerciseList_id,self.exercise_number)
+        return (original['id'],original['ex_number'])
+
     def __str__(self):
         '''
         @brief string representation of exercise

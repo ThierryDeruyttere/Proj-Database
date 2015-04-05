@@ -549,7 +549,7 @@ def getMadeListForUserForList(user_id, list_id):
 
 def getOriginalExercise(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT original_id AS id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT original_id AS id, exercise.exercise_number AS ex_number FROM exercise_references, exercise WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number} AND exercise.id = original_id;'.format(list_id=list_id, exercise_number = exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched

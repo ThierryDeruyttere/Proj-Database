@@ -42,7 +42,12 @@
                         </thead>
                         {% for e in all_exercises|for_key:list.id %}
                           <tbody>
-                          <td>{{ e.title }}</td>
+                          <td>{{ e.title }}
+                          {% if e.isReference %}
+                            <br/>
+                            <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                          {% endif %}
+                          </td>
                           <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
                           <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
                           </tbody>
