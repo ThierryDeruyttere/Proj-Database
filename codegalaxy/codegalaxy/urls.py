@@ -40,7 +40,6 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test', 'test'),
     url(r'^tables/', 'tables'),
-    url(r'^python$', 'python'),
     url(r'^graphs', 'graphs'),
 )
 

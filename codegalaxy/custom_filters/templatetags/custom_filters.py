@@ -19,4 +19,3 @@ def check_loggedIn(context):
 @register.filter
 def for_key(d, key):
     return d.get(key)
-

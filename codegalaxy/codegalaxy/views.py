@@ -37,7 +37,8 @@ def home(request):
         recommended = recommendListsForUser(current_user.id, True, True, True, True, True, False)
         for recommended_list in recommended:
             recommended_lists.append(object_manager.createExerciseList(recommended_list))
-    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists,'random_list': imFeelingLucky(current_user)})
+
+    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
 
 @require_login
 def user(request, id=0):
@@ -315,9 +316,9 @@ def group(request, id=0):
 
         if group_size > 0:
             for one_user in user_list:
-                #accepted_friendships = one_user.allFriendships()
-                #member_of_groups = one_user.allUserAdded()
-                #exercises_made = one_user.allExerciseListsMade()
+                # accepted_friendships = one_user.allFriendships()
+                # member_of_groups = one_user.allUserAdded()
+                # exercises_made = one_user.allExerciseListsMade()
 
                 exercises_made = one_user.allExerciseListsMade2()
                 member_of_groups = one_user.allGroupsJoined()
@@ -443,8 +444,6 @@ def test(request, id=0):
     new_hints = ["hint1", "hint2"]
 
     # exercise_test.update(2, new_answers, new_hints)
-
-
     # test
     user_test = object_manager.createUser(id=1)
     # UPDATE USER test
@@ -523,10 +522,6 @@ def tables(request):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})
-
-def python(request):
-    return render(request, 'python.html', {})
-
 
 def recommendations(request):
     user_test = object_manager.createUser(id=1)
