@@ -14,22 +14,22 @@
     <div class="large-12 columns">
       <div class="text-center">
         <div class="row">
-          <h2>{{ list_name }}</h2>
+          <h2>{{ list.name }}</h2>
         </div>
         <div class="row">
           <div class="large-6 large-centered text-center columns">
-            <i>{{ list_description }}</i>
+            <i>{{ list.description }}</i>
           </div>
         </div>
 
         <div class="row">
           <div class="large-6 large-centered text-center columns">
             <br/>
-            {% if list_programming_lang == "Python" %}
+            {% if list.programming_language_string == "Python" %}
               <img class="Icon" src="{% static "media/python.png" %}">
-            {% elif list_programming_lang == "C++" %}
+            {% elif list.programming_language_string == "C++" %}
               <img class="Icon" src="{% static "media/C++.png" %}">
-            {% elif list_programming_lang == "SQL" %}
+            {% elif list.programming_language_string == "SQL" %}
               <img class="Icon" src="{% static "media/sql.png" %}">
             {% endif %}
           </div>
@@ -140,17 +140,80 @@
         <div class="large-2 right columns">
           {% if correct_user %}
             <ul class="large-block-grid-3">
-              <li><a href="/l/{{ id }}/importExercise" class="button tiny radius">Import exercise</a></li>
+              <li><a href="/l/{{ list.id }}/importExercise" class="button tiny radius">Import exercise</a></li>
               <li></li>
-              <li><a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a></li>
+              <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">Create exercise</a></li>
             </ul>
           {% elif not correct_user %}
-            <button class="tiny button radius" id="import">Add exercises to my list</button>
+            <a href="#" class="tiny button radius" data-reveal-id="import">Add exercises to my list</a>
+            <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+              <h2 id="modalTitle">Import exercise</h2>
+              <div class="row">
+                <div class="large-centered large-text-center columns">
+                  {% if all_exercises %}
+                    <input class="list_check"  id="list_copy"  type="checkbox"><label>Copy all list</label>
+                    <input class="list_check"  id="list_import" type="checkbox"><label>Import all list</label>
+
+                    <table>
+                    <thead>
+                    <tr>
+                      <th width="200">Title</th>
+                      <th width="150">copy original</th>
+                      <th width="150">reference</th>
+                    </tr>
+                    </thead>
+                    {% for e in all_exercises %}
+                      <tbody>
+                      <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
+                        {% if e.isReference %}
+                          <br/>
+                          <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                        {% endif %}
+                      </td>
+                      <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
+                      <td><input class="import_check" id="checkbox_import{{ e.exercise_number }}" name="checkbox_import{{ e.exercise_number }}" type="checkbox"></td>
+                      </tbody>
+                    {% endfor %}
+                  {% else %}
+                    This list does not contain any exercises.
+                  {% endif %}
+                  </table>
+                </div>
+              </div>
+              <br/>
+              <div class="row">
+                <div class="large-text-center columns">
+                  <button class="button small radius" id="import_confirm">Import</button>
+                </div>
+              </div>
+              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+            </div>
+
+            <form method="POST" id="import_list">
+              {% csrf_token %}
+              <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                <h2 id="modalTitle">Confirmation</h2>
+
+                <div class="row">
+                  <div class="large-centered large-text-center columns">
+                    <ul id="import_confirm_list">
+                    </ul>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="large-centered large-text-center columns">
+                    <button class="alert small radius">Cancel</button>
+                    <button class="success small radius">Import!</button>
+                  </div>
+                </div>
+                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+              </div>
+            </form>
           {% endif %}
         </div>
         <div class="large-2 left columns">
           {% if correct_user %}
-            <a type="button" class="button tiny radius" href="/l/{{ id }}/editList">Edit list</a>
+            <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">Edit list</a>
           {% endif %}
         </div>
       </div>
@@ -201,11 +264,11 @@
 
     $(document).ready(function() {
 
+      //Start button
       $(".Start").click(function(){
         var id = this.id;
         window.location += id;
       });
-
 
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
       $('#raty').raty({
@@ -223,9 +286,7 @@
               },
 
               error: function(xhr, textStatus, errorThrown){
-
               }
-
             });
           });
 
@@ -233,9 +294,63 @@
       });
     });
 
+    //Exercise button
     $(".exercise").click(function(){
       var number = (this.id).replace("Exercise","");
       window.location += number;
+    });
+
+    //Import stuff
+    $(".import_check").click(function(event){
+      var id = this.id;
+      if(id.indexOf('checkbox_copy') >= 0){
+        var stripped = id.replace('checkbox_copy', '');
+        $("#checkbox_import" + stripped).prop('checked', false);
+      }else{
+        var stripped = id.replace('checkbox_import', '');
+        $("#checkbox_copy" + stripped).prop('checked', false);
+      }
+    });
+
+    $(".list_check").click(function(){
+      var siblings = this.parentNode.childNodes;
+      var execute = this.id;
+      if(execute.indexOf('list_copy') >= 0){
+        var list_id = execute.replace('list_copy','');
+        $('#list_import'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_copy']").each(function(){
+          $(this).trigger('click');
+        });
+      }else{
+        var list_id = execute.replace('list_import','');
+        $('#list_copy'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_import']").each(function(){
+          $(this).trigger('click');
+        });
+      }
+    });
+
+    $('#import_confirm').click(function(){
+      var checked = 0;
+      $('#import_confirm_list').empty();
+      $('.import_check').each(function(index){
+        if($(this).prop('checked')){
+          checked++;
+          var id = this.id;
+          var stripped;
+          if(id.indexOf('checkbox_copy') >= 0){
+            stripped = id.replace('checkbox_copy', '');
+          }else{
+            stripped = id.replace('checkbox_import', '');
+          }
+          $('#import_confirm_list').append('<li>' +  $('#name' + stripped).text() +'<li>');
+        }
+      });
+      if(checked > 0){
+        $('#import_confirm_modal').foundation('reveal', 'open', '');
+      }else{
+        alert('You need to import atleast one exercise to continue!');
+      }
     });
 
   </script>

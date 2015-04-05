@@ -211,7 +211,6 @@
     $(".removal").click(function(){
       var text = this.id;
       text = text.replace('remove_', '');
-      console.log(text);
       var remove = $("#exercise" + text);
       $(remove).remove();
       $( "#dragdrop").trigger("callUpdate");
@@ -237,10 +236,6 @@
       });
     });
 
-    $(".exercise").click(function(){
-      var number = (this.id).replace("Exercise","");
-      window.location += number;
-    });
 
     //Init document
     $(document).ready(function(){

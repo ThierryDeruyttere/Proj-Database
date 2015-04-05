@@ -317,8 +317,6 @@ def list(request, id=0):
     number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
 
     subjects = exercise_list.allSubjects()
-    languages = object_manager.allProgrammingLanguages()
-    current_language = exercise_list.programming_language_string
     creator = exercise_list.creatorName()
     created_on = exercise_list.created_on
 
@@ -360,7 +358,6 @@ def list(request, id=0):
             exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
 
     if exercise_list:
-        prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
         correct_user = False
@@ -418,15 +415,10 @@ def list(request, id=0):
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
-        return render(request, 'list.html', {'list_name': exercise_list.name,
-                                             'list_description': exercise_list.description,
-                                             'list_programming_lang': prog_lang,
-                                             'correct_user': correct_user,
+        return render(request, 'list.html', {'correct_user': correct_user,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises,
                                              'subjects': subjects,
-                                             'programming_languages': languages,
-                                             'current_prog_lang': current_language,
                                              'avg_score': avg_score,
                                              'avg_rating': avg_rating,
                                              'number_of_users': number_of_users,
@@ -438,7 +430,8 @@ def list(request, id=0):
                                              'creator': creator,
                                              'created_on': created_on,
                                              'similar_lists': similar_lists,
-                                             'score_spread': bar_chart1})
+                                             'score_spread': bar_chart1,
+                                             'list': exercise_list})
     else:
         return redirect('/')
 
