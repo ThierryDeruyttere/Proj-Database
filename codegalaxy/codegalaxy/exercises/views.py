@@ -399,19 +399,23 @@ def answerQuestion(request, list_id, exercise_number):
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     exercise_list = object_manager.createExerciseList(list_id)
+    current_answer = ""
     if exercise_list:
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
         for i in all_exercise:
             if i.id == int(question_id):
                 current_exercise = i
+                current_answer = user.getLastAnswerForExercise(list_id, exercise_number)
+                print(current_answer)
                 break
 
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
-                                                           "hints": current_exercise.allHints()})
+                                                           "hints": current_exercise.allHints(),
+                                                           "current_answer": current_answer)}
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
@@ -483,12 +487,10 @@ def submit(request, list_id, exercise_number):
                     # Woohoo right answer!
                     solved = True
                     # TODO WILL break here
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
-
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_code)
                 else:
                     current_score = returnScore(current_score - penalty)
-
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime()), int(list_id), int(exercise_number), 0, user_code)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code':
@@ -499,13 +501,11 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
-
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_output)
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
-
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_output)
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
                 made_list_by_user = user.allExerciseListsMade()

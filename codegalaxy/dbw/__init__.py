@@ -321,7 +321,7 @@ def getExerciseScoreFor(id, exercise_list):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.exercise_id, mE.solved, mE.exercise_score, mE.rating,mE.completed_on, mE.list_id, mE.exercise_number FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.id =  mE.exercise_id AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
+    cursor.execute('SELECT mE.exercise_id, mE.solved, mE.exercise_score, mE.rating,mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.id =  mE.exercise_id AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -710,9 +710,9 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
-def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id, exercise_number):
+def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id, exercise_number, last_answer):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id,exercise_number) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id},{exercise_number});'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number))
+    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id},{exercise_number}, "{last_answer}");'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number, last_answer=last_answer))
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()

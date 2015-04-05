@@ -357,6 +357,12 @@ class User:
             return [made_list for made_list in self.allPersonalLists() if list_id == made_list.exercises_list.id][0]
         return None
 
+    def getLastAnswerForExercise(self, list_id, exercise_number):
+        for ex in self.getMadeList(list_id):
+            if ex.exercise_number == exercise_number:
+                return ex.last_answer
+        return ""
+
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id):
@@ -381,7 +387,7 @@ class PersonalList:
         if exercise_info:
             personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x[
                                                         'rating'], x['exercise_id'], language_code
-                                                        , x['completed_on'], self.exercises_list.id, x['exercise_number']) for x in exercise_info]
+                                                        , x['completed_on'], self.exercises_list.id, x['exercise_number'], x['last_answer']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
@@ -392,7 +398,7 @@ class PersonalList:
 
 class PersonalExercise:
 
-    def __init__(self, solved, score, rating, exercise_id, language_code, completed_on, list_id, exercise_number):
+    def __init__(self, solved, score, rating, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer):
         # bool to check if exercise was solved
         self.solved = solved
         # obtained score
@@ -407,6 +413,7 @@ class PersonalExercise:
             exercise_id, language_code)
         self.list_id = list_id
         self.exercise_number = exercise_number
+        self.last_answer = last_answer
 
     def __str__(self):
         return str(self.rating) + " " + str(self.score) + " " + str(self.solved) + " " + str(self.exercise) + ' ' + str(self.completed_on)
