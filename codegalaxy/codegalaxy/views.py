@@ -64,16 +64,13 @@ def user(request, id=0):
         elif 'update_profile_information' in request.POST:
             new_password1 = hashlib.md5(
                 request.POST.get('new_password1').encode('utf-8')).hexdigest()
-            new_password2 = hashlib.md5(
-                request.POST.get('new_password2').encode('utf-8')).hexdigest()
 
             old_password = hashlib.md5(
                 request.POST.get('old_password').encode('utf-8')).hexdigest()
 
-            if new_password1 == new_password2:
-                if old_password == user.password:
-                    new_email = request.POST.get('new_email')
-                    user.updateProfile(new_email, new_password1)
+            if old_password == user.password:
+                new_email = request.POST.get('new_email')
+                user.updateProfile(new_email, new_password1)
 
         elif 'update_profile_picture' in request.POST:
             f = request.FILES['image']
