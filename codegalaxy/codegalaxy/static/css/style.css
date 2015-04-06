@@ -25,3 +25,7 @@
     overflow: hidden !important;
     text-overflow: ellipsis;
 }
+
+.snap-bottom {
+    margin-bottom: 0px !important;
+}

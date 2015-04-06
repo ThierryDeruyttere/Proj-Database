@@ -164,14 +164,24 @@
                   </div>
                 </div>
                 <div class="row collapse">
-                  <div class="small-2 columns ">
+                  <div class="small-2 columns">
                     <span class="prefix"><i class="fi-lock size-28"></i></span>
                   </div>
-                  <div class="small-10 columns ">
-                    <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password" value="{{ your_password }}">
+                  <div class="small-10 columns">
+                    <input type="password" required placeholder="{% trans "Password" %}" class="snap-bottom" id="your_password" name="your_password" value="{{ your_password }}">
                     <small class="error">{% trans "Enter a valid password." %}</small>
                   </div>
                 </div>
+                <div class="row collapse">
+                  <div class="small-2 columns">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-10 columns">
+                    <input type="password" required placeholder="{% trans "Confirm Password" %}" data-equalto="your_password" id="your_password_confirm" name="your_password_confirm" value="">
+                    <small class="error">{% trans "The passwords did not match." %}</small>
+                  </div>
+                </div>
+
                 <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
               </form>
             </div>

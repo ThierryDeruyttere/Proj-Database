@@ -62,31 +62,30 @@
             </div>
 
             <div class="row collapse">
-              <div class="small-2 columns ">
+              <div class="small-2 columns">
                 <span class="prefix"><i class="fi-lock size-28"></i></span>
               </div>
-              <div class="small-10 columns ">
+              <div class="small-10 columns">
                 <input type="password" required placeholder="Old Password" id="old_password" name="old_password" value="{{ old_password }}">
                 <small class="error">Enter a valid password.</small>
               </div>
             </div>
             <div class="row collapse">
-              <div class="small-2 columns ">
+              <div class="small-2 columns">
                 <span class="prefix"><i class="fi-lock size-28"></i></span>
               </div>
-              <div class="small-10 columns ">
-                <input type="password" required placeholder="New Password" id="new_password1" name="new_password1" value="{{ new_password1 }}">
+              <div class="small-10 columns">
+                <input type="password" required placeholder="New Password" class="snap-bottom" id="new_password1" name="new_password1" value="{{ new_password1 }}">
                 <small class="error">Enter a valid password.</small>
               </div>
             </div>
             <div class="row collapse">
-              <div class="small-2 columns ">
+              <div class="small-2 columns">
                 <span class="prefix"><i class="fi-lock size-28"></i></span>
               </div>
-              <div class="small-10 columns ">
-                <input type="password" required placeholder="New Password" id="new_password2" name="new_password2" data-equalto="new_password1" value="{{ new_password2 }}">
-                <small class="error">The passwords did not match</small>
-
+              <div class="small-10 columns">
+                <input type="password" required placeholder="Confirm new password" id="new_password2" name="new_password2" data-equalto="new_password1" value="{{ new_password2 }}">
+                <small class="error">The passwords did not match.</small>
               </div>
             </div>
 
