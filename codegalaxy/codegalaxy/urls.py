@@ -40,7 +40,6 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^admin/', include(admin.site.urls)),
     url(r'^test', 'test'),
     url(r'^tables/', 'tables'),
-    url(r'^python$', 'python'),
     url(r'^graphs', 'graphs'),
 )
 
@@ -64,4 +63,12 @@ urlpatterns += patterns('codegalaxy.exercises.views',
 
     url(r'^l/(?P<listId>\d*)/importExercise/$', 'importExercise'),
     url(r'^l/(?P<listId>\d*)/editList/$', 'editList'),
+)
+
+urlpatterns += patterns('codegalaxy.evaluation.views',
+    # Sandbox page #
+    url(r'^sandbox/$', 'sandbox'),
+    # Sandbox code evaluation page
+    # Only for getting the responde of code evaluation
+    url(r'^eval/(?P<lang>[a-z+]*)/$', 'evaluate')
 )

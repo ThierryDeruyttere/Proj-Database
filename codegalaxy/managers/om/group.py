@@ -2,6 +2,10 @@ import dbw
 import managers.om.user
 import managers.om.objectmanager
 
+
+import os.path
+
+
 class Group:
 
     def __init__(self, id, group_name, group_type, created_on):
@@ -17,6 +21,17 @@ class Group:
         # private/public/...
         self.group_type = group_type
         self.created_on = created_on
+
+
+    def getGroupPicture(self):
+        group_picture = "group_pictures/{}.png".format(self.id)
+        path = "./codegalaxy/static/" + group_picture
+
+        if os.path.isfile(path):
+            group_picture = group_picture
+        else:
+            group_picture = "Group-icon.png"
+        return group_picture
 
     # list of users
     def allMembers(self):
@@ -37,14 +52,24 @@ class Group:
         '''
         dbw.updateGroup(self.id, self.group_name, self.group_type, self.created_on)
 
-    def insertMember(self, user_id, user_permissions, joined_on):
+    def insertMember(self, user_id, user_permissions, joined_on, status):
         '''
         @brief inserts a member in the group
         @param user_id the id of the user
         @param user_permissions the permissions of the user in this group
         @param joined_on the date the user joined on
         '''
-        dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on)
+        dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
+
+    def deleteMember(self, user_id):
+        dbw.deleteUserFromGroup(self.id, user_id)
+        
+    def getUserPermissions(self, user_id):
+        if self.group_type == 0:
+            return 0
+        else:
+            permissions = dbw.getGroupUserPermissions(self.id, user_id)
+            return permissions[0]['user_permissions']
 
     def __str__(self):
         '''

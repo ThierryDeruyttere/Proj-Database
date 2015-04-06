@@ -1,16 +1,19 @@
 from django.core.context_processors import request
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 
 import time
 import json
 
+from pymysql import escape_string
+
 from managers.om import *
 from managers.gm import *
-from managers.rm.recommendations import *
-from codegalaxy.authentication import require_login, logged_user
 from managers.om.exercise import Question
-from pymysql import escape_string
-from django.http import HttpResponse
+from managers.rm.recommendations import *
+
+from codegalaxy.authentication import require_login, logged_user
+from codegalaxy.evaluation.evaluators import *
 
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
@@ -133,12 +136,11 @@ def editList(request, listId):
 
         exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
 
-
     return render(request, 'editList.html', {'list': exercise_list,
                                              'subjects': subjects,
                                              'programming_languages': languages,
                                              'current_prog_lang': current_language,
-                                             'all_exercises': all_exercises} )
+                                             'all_exercises': all_exercises})
 
 def getBrowserLanguage(request):
     return request.META['LANGUAGE'].split('_')[0]
@@ -363,7 +365,6 @@ def list(request, id=0):
         correct_user = False
         if logged_user(request):
             for exercise in all_exercises:
-                # TODO WILL break, see previous use of this function
                 if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
                     exercise.solved = True
 
@@ -408,9 +409,7 @@ def list(request, id=0):
             if exercise_list:
                 made_list = logged_user(request).getMadeList(exercise_list.id)
                 if made_list:
-                    pass
-                    # not tested yet
-                    # similar_list_ids = recommendNextExerciseLists(made_list)
+                    similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
         for list_id in similar_list_ids:
@@ -516,10 +515,22 @@ def submit(request, list_id, exercise_number):
 
             max_score = current_exercise.max_score
             hint = request.POST.get("used_hints")
-            user_output = request.POST.get("code_output")
 
-            if current_exercise.exercise_type == "Open Question":
-                selected_answer = request.POST.get("corr_answer")
+            user_code = request.POST.get('user_code', '')
+            evaluator = EvaluatorPython(user_code)
+            if exercise_list.programming_language == 1:
+                evaluator = EvaluatorCpp(user_code)
+            elif exercise_list.programming_language == 2:
+                evaluator = EvaluatorSql(user_code)
+
+            evaluator.evaluate()
+            if evaluator.hasError():
+                user_output = evaluator.error
+            else:
+                user_output = evaluator.output
+
+            if current_exercise.exercise_type == 'Open Question':
+                selected_answer = request.POST.get('corr_answer')
 
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
@@ -533,12 +544,12 @@ def submit(request, list_id, exercise_number):
                     object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
-            elif current_exercise.exercise_type == "Code":
+            elif current_exercise.exercise_type == 'Code':
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
 
-                if correct_answer == user_output or (correct_answer == '*' and user_output != ""):
+                if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
                     object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
@@ -604,12 +615,16 @@ def createListElem(i, elem):
           </div>
         </div>
       </div>
-      </div>""".format(class_name=class_name, list_name=elem['name'], for_i = i+1)
+      </div>""".format(class_name=class_name, list_name=elem['name'], for_i=i + 1)
 
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    pie_graph = graph_manager.makePieChart('colours', 180, 100, graphmanager.color_tuples, lists_per_prog_lang['labels'], lists_per_prog_lang['data'])
+
+    pie_graph = graph_manager.makePieChart('colours', 180, 100,
+                                           graphmanager.color_tuples,
+                                           lists_per_prog_lang['labels'],
+                                           lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
     color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
@@ -628,8 +643,8 @@ def listOverview(request):
     user_first_name = '%'
     user_last_name = '%'
     prog_lang_name = '%'
-    subject_name = '%'
     order_mode = "ASC"
+    subject_name = '%'
 
     if request.method == "POST" and request.is_ajax():
         list_name = request.POST.get('title', '%')
@@ -658,13 +673,14 @@ def listOverview(request):
 
         all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         html = ""
-        for i,obj in enumerate(reversed(all_lists)):
+        for i, obj in enumerate(reversed(all_lists)):
             obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d")
-            html += createListElem(i,obj)
+            html += createListElem(i, obj)
 
         return HttpResponse(html)
 
     all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode))
+
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
                                                  'lists_per_prog_lang_graph': pie_graph,

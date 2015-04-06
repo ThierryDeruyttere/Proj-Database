@@ -1,3 +1,7 @@
+# Sandbox user privileges
+GRANT ALL PRIVILEGES ON sandbox.* TO 'sandbox'@'localhost' IDENTIFIED BY 'sandbox';
+CREATE DATABASE IF NOT EXISTS sandbox;
+
 DROP DATABASE IF EXISTS codegalaxy;
 CREATE DATABASE codegalaxy;
 \r codegalaxy
@@ -39,6 +43,7 @@ CREATE TABLE userInGroup(
   user_id INT,
   user_permissions INT,
   joined_on DATE,
+  status ENUM('Pending', 'Blocked', 'Member') NOT NULL,
   FOREIGN KEY (group_id) REFERENCES groups(id),
   FOREIGN KEY (user_id) REFERENCES user(id),
   PRIMARY KEY(group_id, user_id)
@@ -255,12 +260,12 @@ INSERT INTO groups(group_name, group_type, created_on) VALUES ('Aartselaar', 0,"
 
 # UserInGroup data
 # Group creator is 0
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,1,0,"2015-03-06");
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,2,1,"2015-03-06");
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,3,1,"2015-03-06");
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,4,1,"2015-03-06");
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,5,1,"2015-03-06");
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on) VALUES (1,6,1,"2015-03-06");
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,1,1,"2015-03-06",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,1,"2015-03-06",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,3,1,"2015-03-06",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,4,1,"2015-03-06",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,5,1,"2015-03-06",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,6,1,"2015-03-06",'Member');
 
 # ProgrammingLanguage data
 INSERT INTO programmingLanguage(name) VALUES ('Python');

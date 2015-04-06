@@ -59,7 +59,7 @@ class GraphManager:
         return '<canvas id= "' + name + '" width="' + str(width) + '" height="' + str(height) + '"></canvas>\n'
 
     # postfix to identify between variables of the same graph
-    def addDatavar(self,postfix):
+    def addDatavar(self, postfix):
         return 'Data' + str(GraphManager.count) + postfix
 
     def addScript(self, html):
@@ -68,7 +68,14 @@ class GraphManager:
     def globalOptions(self):
         options = ''
         options += 'scaleLineColor: "rgba(255,255,255,0.5)",\n'
-        options += 'scaleFontColor: "rgba(255,255,255,1)",\n'
+        options += 'scaleFontColor: "rgba(0,0,0,1)",\n'
+        #options += 'pointLabelFontSize : 20,\n'
+        #options += 'pointLabelSeperator: "\\n",\n'
+        #options += 'scaleLabel : "<%=' + self.javaScriptTextWidthchecker() + '%>",\n'
+        #options += 'scaleOverride: true,'
+        #options += 'scaleSteps: 10,\n'
+        #options += 'scaleStepWidth: 10,\n'
+        #options += 'scaleStartValue: 0,\n'
         return options
 
     def addGetID(self, name):
@@ -81,8 +88,8 @@ class GraphManager:
             labels_string += '"' + label + '",'
         return labels_string[:-1] + '],'
 
-    def addLineColors(self,colorInfos):
-        return 'fillColor : "' + colorInfos.fillColor + '",\nstrokeColor : "' + colorInfos.strokeColor + '",\npointColor : "' + colorInfos.pointColor +'",\npointStrokeColor : "' + colorInfos.pointStrokeColor+'",\n'
+    def addLineColors(self, colorInfos):
+        return 'fillColor : "' + colorInfos.fillColor + '",\nstrokeColor : "' + colorInfos.strokeColor + '",\npointColor : "' + colorInfos.pointColor + '",\npointStrokeColor : "' + colorInfos.pointStrokeColor + '",\n'
 
     # colors is a special class
     def addLineData(self, labels, colorInfos, data):
@@ -105,7 +112,7 @@ class GraphManager:
         total_string += self.addGetID(name)
         total_string += 'new Chart(' + self.addDatavar('O') + ').Line(' + self.addDatavar('D') + ');\n'
         total_string = self.addScript(total_string)
-        total_string = self.canvasString(name,width,height) + total_string
+        total_string = self.canvasString(name, width, height) + total_string
         GraphManager.count += 1
         return total_string
 
@@ -168,7 +175,7 @@ class GraphManager:
         data_string += 'datasets : [  \n'
         # loop over lists of data
         for i in range(len(data)):
-            data_string += '{ label: "'+ datalabels[i] + '",\nfillColor: "'+colorInfos[i].fillColor+'",\nstrokeColor: "'+colorInfos[i].strokeColor+'",\nhighlightFill: "'+colorInfos[i].pointColor+'",\nhighlightStroke: "'+colorInfos[i].pointStrokeColor+'",\n'
+            data_string += '{ label: "' + datalabels[i] + '",\nfillColor: "' + colorInfos[i].fillColor + '",\nstrokeColor: "' + colorInfos[i].strokeColor + '",\nhighlightFill: "' + colorInfos[i].pointColor + '",\nhighlightStroke: "' + colorInfos[i].pointStrokeColor + '",\n'
             data_string += 'data : ['
             # per list, do:
             for info in data[i]:

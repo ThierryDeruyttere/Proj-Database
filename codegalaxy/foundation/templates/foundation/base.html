@@ -42,6 +42,8 @@
     <link href="{% static "slick/slick/slick-theme.css" %}" rel="stylesheet"/>
   {% endblock slick_ui %}
 
+  {% block ajax_stuff %}{% endblock ajax_stuff %}
+
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
   {% check_loggedIn as logged_in%}

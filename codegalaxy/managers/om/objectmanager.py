@@ -2,6 +2,7 @@ import managers.om.exerciselist
 import managers.om.exercise
 import managers.om.user
 import managers.om.group
+import managers.om.feed
 import dbw
 import datetime
 # Class that will build and work with the various objects representing the site
@@ -45,6 +46,16 @@ class ObjectManager:
         if group_info:
             group_object = managers.om.group.Group(id, group_info['group_name'], group_info['group_type'], group_info['created_on'])
             return group_object
+        else:
+            return None
+
+    def createUserInGroup(self, group_id, user_id):
+        user_in_group_info = dbw.getUserInGroupInformation(group_id, user_id)
+        if user_in_group_info:
+            group = createGroup(group_id)
+            user = createUser(id=user_id)
+            user_in_group = managers.om.feed.UserInGroup(group, user, user_in_group_info['user_permissions'], user_in_group_info['joined_on'], user_in_group_info['status'])
+            return user_in_group
         else:
             return None
 
