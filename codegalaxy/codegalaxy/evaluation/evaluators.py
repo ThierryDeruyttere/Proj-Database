@@ -44,7 +44,7 @@ class EvaluatorCpp(Evaluator):
         self.command(self.outputFileName())
 
 class EvaluatorSql(Evaluator):
-    def __init__(self, code, user):
+    def __init__(self, code, user=0):
         self.db_name = str(user)
         super(EvaluatorSql, self).__init__('sql', 'sql', code)
 

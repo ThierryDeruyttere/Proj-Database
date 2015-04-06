@@ -478,8 +478,7 @@ def submit(request, list_id, exercise_number):
             if exercise_list.programming_language == 1:
                 evaluator = EvaluatorCpp(user_code)
             elif exercise_list.programming_language == 2:
-                # evaluator = EvaluatorSql(user_code)
-                pass
+                evaluator = EvaluatorSql(user_code)
 
             evaluator.evaluate()
             if evaluator.hasError():
