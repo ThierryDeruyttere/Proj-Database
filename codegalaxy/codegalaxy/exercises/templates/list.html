@@ -204,8 +204,8 @@
                     <fieldset>
                       <legend>Import into:</legend>
                         {% for l in user_lists %}
-                          <input type="checkbox" name="{{ l.id }}">
-                          <label for="{{ l.id }}">{{ l.name }}</label>
+                          <input type="checkbox" name="{{ l.id }}" id="list_{{ l.id }}">
+                          <label for="list_{{ l.id }}">{{ l.name }}</label>
                         {% endfor %}
                     </fieldset>
 
