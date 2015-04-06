@@ -29,6 +29,17 @@ class User:
         dbw.updateUserInformation(self.id, email, password)
         return True
 
+    def getUserLists(self):
+        lists = dbw.getListsForUserId(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+        #create Lists
+        ex_lists = []
+        for i in lists:
+            ex_lists.append(object_manager.createExerciseList(i['id']))
+
+        return ex_lists
+
     def getProfilePicture(self):
         profile_picture = "profile_pictures/{}.png".format(self.id)
 

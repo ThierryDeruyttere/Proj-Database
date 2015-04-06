@@ -146,64 +146,76 @@
             </ul>
           {% elif not correct_user %}
             <a href="#" class="tiny button radius" data-reveal-id="import">Add exercises to my list</a>
-            <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-              <h2 id="modalTitle">Import exercise</h2>
-              <div class="row">
-                <div class="large-centered large-text-center columns">
-                  {% if all_exercises %}
-                    <input class="list_check"  id="list_copy"  type="checkbox"><label>Copy all list</label>
-                    <input class="list_check"  id="list_import" type="checkbox"><label>Import all list</label>
-
-                    <table>
-                    <thead>
-                    <tr>
-                      <th width="200">Title</th>
-                      <th width="150">copy original</th>
-                      <th width="150">reference</th>
-                    </tr>
-                    </thead>
-                    {% for e in all_exercises %}
-                      <tbody>
-                      <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
-                        {% if e.isReference %}
-                          <br/>
-                          <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
-                        {% endif %}
-                      </td>
-                      <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
-                      <td><input class="import_check" id="checkbox_import{{ e.exercise_number }}" name="checkbox_import{{ e.exercise_number }}" type="checkbox"></td>
-                      </tbody>
-                    {% endfor %}
-                  {% else %}
-                    This list does not contain any exercises.
-                  {% endif %}
-                  </table>
-                </div>
-              </div>
-              <br/>
-              <div class="row">
-                <div class="large-text-center columns">
-                  <button class="button small radius" id="import_confirm">Import</button>
-                </div>
-              </div>
-              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-            </div>
-
             <form method="POST" id="import_list">
               {% csrf_token %}
+              <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                <h2 id="modalTitle">Import exercise</h2>
+                <div class="row">
+                  <div class="large-centered large-text-center columns">
+                    {% if all_exercises %}
+                      <input class="list_check"  id="list_copy"  type="checkbox"><label>Copy all list</label>
+                      <input class="list_check"  id="list_import" type="checkbox"><label>Import all list</label>
+
+                      <table>
+                      <thead>
+                      <tr>
+                        <th width="200">Title</th>
+                        <th width="150">copy original</th>
+                        <th width="150">reference</th>
+                      </tr>
+                      </thead>
+                      {% for e in all_exercises %}
+                        <tbody>
+                        <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
+                          {% if e.isReference %}
+                            <br/>
+                            <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                          {% endif %}
+                        </td>
+                        <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
+                        <td><input class="import_check" id="checkbox_import{{ e.exercise_number }}" name="checkbox_import{{ e.exercise_number }}" type="checkbox"></td>
+                        </tbody>
+                      {% endfor %}
+                    {% else %}
+                      This list does not contain any exercises.
+                    {% endif %}
+                    </table>
+                  </div>
+                </div>
+                <br/>
+                <div class="row">
+                  <div class="large-text-center columns">
+                    <button class="button small radius" id="import_confirm">Import</button>
+                  </div>
+                </div>
+                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+              </div>
+
               <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
                 <h2 id="modalTitle">Confirmation</h2>
 
                 <div class="row">
-                  <div class="large-centered large-text-center columns">
-                    <ul id="import_confirm_list">
-                    </ul>
+                  <div class="large-2 large-centered large-text-center columns import_confirm_list">
                   </div>
                 </div>
+
+                <div class="row">
+                  <div class="large-3 large-centered large-text-center columns">
+                    <fieldset>
+                      <legend>Import into:</legend>
+                        {% for l in user_lists %}
+                          <input type="checkbox" name="{{ l.id }}">
+                          <label for="{{ l.id }}">{{ l.name }}</label>
+                        {% endfor %}
+                    </fieldset>
+
+                  </div>
+                </div>
+
                 <div class="row">
                   <div class="large-centered large-text-center columns">
-                    <button class="alert small radius">Cancel</button>
-                    <button class="success small radius">Import!</button>
+                    <button class="alert small radius" id="cancel_button">Cancel</button>
+                    <button class="success small radius" id="import_button">Import!</button>
                   </div>
                 </div>
                 <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -330,9 +342,19 @@
       }
     });
 
+    function addList(list, listName){
+      $('.import_confirm_list').append('<h3><u>' + listName).append('<div>').append('<ul class= "' + listName + '">');
+      $(list).each(function(){
+        $('.' + listName).append('<li>'+ this);
+      });
+    }
+
     $('#import_confirm').click(function(){
       var checked = 0;
-      $('#import_confirm_list').empty();
+      $('.import_confirm_list').empty();
+      var imp = [];
+      var copy = [];
+
       $('.import_check').each(function(index){
         if($(this).prop('checked')){
           checked++;
@@ -340,17 +362,36 @@
           var stripped;
           if(id.indexOf('checkbox_copy') >= 0){
             stripped = id.replace('checkbox_copy', '');
+            copy.push($('#name' + stripped).text());
           }else{
             stripped = id.replace('checkbox_import', '');
+            imp.push($('#name' + stripped).text());
           }
-          $('#import_confirm_list').append('<li>' +  $('#name' + stripped).text() +'<li>');
         }
+
       });
       if(checked > 0){
+        if(imp.length > 0){
+          addList(imp, "Import");
+        }
+
+        if(copy.length > 0){
+          addList(copy, "Copy");
+        }
+
         $('#import_confirm_modal').foundation('reveal', 'open', '');
       }else{
         alert('You need to import atleast one exercise to continue!');
       }
+    });
+
+    //close the window
+    $('#cancel_button').click(function(){
+      $('#import_confirm_modal').foundation('reveal', 'close', '');
+    });
+
+    $('#import_button').click(function(){
+
     });
 
   </script>

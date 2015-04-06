@@ -183,6 +183,18 @@ def getExercCorrectAnswer(id, language_name):
     cursor.close()
     return fetched
 
+def getListsForUserId(user_id):
+    '''
+    @brief get the lists created by a certain user
+    @param id the id of the user
+    @return returns a dict with lists
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM  exerciseList  WHERE created_by = {id};'.format(id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getExerciseAnswers(exercise_id, language_name):
     '''
     @brief get the answers for a Exercise given an exercise id

@@ -412,8 +412,12 @@ def list(request, id=0):
                     similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
+
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
+
+        user_lists = logged_user(request).getUserLists()
+
         return render(request, 'list.html', {'correct_user': correct_user,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises,
@@ -430,7 +434,8 @@ def list(request, id=0):
                                              'created_on': created_on,
                                              'similar_lists': similar_lists,
                                              'score_spread': bar_chart1,
-                                             'list': exercise_list})
+                                             'list': exercise_list,
+                                             'user_lists': user_lists})
     else:
         return redirect('/')
 
