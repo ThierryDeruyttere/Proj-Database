@@ -119,10 +119,10 @@ CREATE TABLE madeEx(
   exercise_id INT,
   solved BOOLEAN NOT NULL,
   exercise_score INT NOT NULL,
-  rating INT,
   completed_on DATETIME,
   list_id INT,
   exercise_number INT,
+  last_answer BLOB,
   FOREIGN KEY (user_id) REFERENCES user(id),
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   PRIMARY KEY(user_id, exercise_id)

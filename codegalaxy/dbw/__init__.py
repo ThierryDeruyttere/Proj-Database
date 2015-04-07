@@ -70,7 +70,7 @@ def getExerciseListInformation(id):
 
 def getGroupUserPermissions(id, user_id):
     '''
-    @brief get the permissions a user has in a group, 
+    @brief get the permissions a user has in a group,
     @param id the id of the user, and the id of the group
     @return returns a dict with information
     '''
@@ -710,9 +710,10 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
-def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id, exercise_number, last_answer):
+def insertMadeExercise(user_id, exercise_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},{rating},"{completed_on}",{list_id},{exercise_number}, "{last_answer}");'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number, last_answer=last_answer))
+    sql = 'INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
+    cursor.execute(sql, [last_answer])
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()
@@ -793,7 +794,7 @@ def deleteGroupMembership(user_id, group_id):
 def deleteUserFromGroup(group_id, user_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
-    
+
 def deleteHints(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id=exercise_id))

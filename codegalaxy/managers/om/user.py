@@ -248,9 +248,9 @@ class User:
         for exercise_list in exercise_list_date:
             exercise_list_object = object_manager.createExerciseList(exercise_list['id'])
             made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'])
-            
+
             all_exercise_lists_made.append(made_exercise_list)
-        
+
         return all_exercise_lists_made
 
 
@@ -358,10 +358,11 @@ class User:
         return None
 
     def getLastAnswerForExercise(self, list_id, exercise_number):
-        for ex in self.getMadeList(list_id):
-            if ex.exercise_number == exercise_number:
-                return ex.last_answer
-        return ""
+        if(self.getMadeList(list_id)):
+            for ex in self.getMadeList(list_id):
+                if ex.exercise_number == exercise_number:
+                    return ex.last_answer
+        return None
 
 class PersonalList:
 

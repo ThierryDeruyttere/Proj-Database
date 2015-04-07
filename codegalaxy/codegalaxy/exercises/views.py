@@ -393,6 +393,7 @@ def list(request, id=0):
 
 @require_login
 def answerQuestion(request, list_id, exercise_number):
+    current_user = logged_user(request)
     question_id = object_manager.getExerciseID(list_id, exercise_number)
     if request.method == "POST":
 
@@ -406,8 +407,7 @@ def answerQuestion(request, list_id, exercise_number):
         for i in all_exercise:
             if i.id == int(question_id):
                 current_exercise = i
-                current_answer = user.getLastAnswerForExercise(list_id, exercise_number)
-                print(current_answer)
+                current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 break
 
         if current_exercise:
@@ -415,7 +415,7 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
                                                            "hints": current_exercise.allHints(),
-                                                           "current_answer": current_answer)}
+                                                           "current_answer": current_answer})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
