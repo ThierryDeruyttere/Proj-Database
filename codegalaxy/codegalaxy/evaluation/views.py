@@ -24,6 +24,6 @@ def evaluate(request, lang):
 
     # Return output
     if evaluator.hasError():
-        return HttpResponse(evaluator.getErrorMsg())
+        return HttpResponseBadRequest(evaluator.getErrorMsg())
     else:
         return HttpResponse(evaluator.getOutput())

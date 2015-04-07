@@ -48,6 +48,9 @@
 
       success: function(response) {
         $("#output").html(response);
+      },
+      error: function() {
+        alert("NOT SUCCEEDED!");
       }
     });
   });
