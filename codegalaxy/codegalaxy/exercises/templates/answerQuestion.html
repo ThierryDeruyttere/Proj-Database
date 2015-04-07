@@ -45,7 +45,12 @@
 
           {% else %}
             <div class="row" id="Code">
-              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+              {% if current_answer %}
+                <textarea id="user_code" name="user_code">{{ current_answer }}</textarea>
+              {% else %}
+                <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+              {% endif %}
+
               <div class="large-9 columns">
                 <!-- <div class="row">
                 To be used if we have turtle graphics

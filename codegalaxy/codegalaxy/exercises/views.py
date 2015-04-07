@@ -399,7 +399,7 @@ def answerQuestion(request, list_id, exercise_number):
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     exercise_list = object_manager.createExerciseList(list_id)
-    current_answer = ""
+    current_answer = None
     if exercise_list:
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
