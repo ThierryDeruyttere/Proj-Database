@@ -30,6 +30,14 @@
     margin-bottom: 0px !important;
 }
 
+.prog-lang-icon {
+    background-repeat: no-repeat;
+    background-position: 50%;
+    /*border-radius: 50%;*/
+    width: 120px;
+    height: 120px;
+}
+
 .CodeMirror {
     border-radius: 15px;
     border-color: #3a3a3a;

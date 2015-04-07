@@ -522,17 +522,7 @@ def submit(request, list_id, exercise_number):
             hint = request.POST.get("used_hints")
 
             user_code = request.POST.get('user_code', '')
-            evaluator = EvaluatorPython(user_code)
-            if exercise_list.programming_language == 1:
-                evaluator = EvaluatorCpp(user_code)
-            elif exercise_list.programming_language == 2:
-                evaluator = EvaluatorSql(user_code)
-
-            evaluator.evaluate()
-            if evaluator.hasError():
-                user_output = evaluator.error
-            else:
-                user_output = evaluator.output
+            user_output = request.POST.get('code_output', '')
 
             if current_exercise.exercise_type == 'Open Question':
                 selected_answer = request.POST.get('corr_answer')
