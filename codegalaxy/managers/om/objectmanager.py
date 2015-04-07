@@ -9,7 +9,8 @@ import datetime
 # will use SQL
 
 def timeFromToday(compare_date):
-    now = datetime.datetime.now().date()
+    compare_date = compare_date.replace(tzinfo=None)
+    now = datetime.datetime.now()
     return compare_date - now
 
 class ObjectManager:

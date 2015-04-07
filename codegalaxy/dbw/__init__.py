@@ -629,7 +629,7 @@ def insertUser(first_name, last_name, password, email, is_active, joined_on, las
 
 def insertFriendsWith(user_id, friend_id, status):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO friendsWith(user_id,friend_id, befriended_on, status) VALUES ({u_id}, {f_id}, CURDATE(), "{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
+    cursor.execute('INSERT INTO friendsWith(user_id,friend_id, befriended_on, status) VALUES ({u_id}, {f_id}, NOW(), "{status}");'.format(u_id=user_id, f_id=friend_id, status=status))
 
 
 def insertGroup(group_name, group_type, created_on):
@@ -708,7 +708,7 @@ def insertHasSubject(exerciseList_id, subject_id):
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, CURDATE());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
+    cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
 def insertMadeExercise(user_id, exercise_id, solved, exercise_score, rating, completed_on, exercise_list_id, exercise_number):
     cursor = connection.cursor()

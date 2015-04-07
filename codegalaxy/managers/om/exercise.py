@@ -168,7 +168,7 @@ class Exercise:
                 # created_by/on needs to be edited
                 self.created_by = user_id
                 import time
-                self.created_on = str(time.strftime("%Y-%m-%d"))
+                self.created_on = str(time.strftime("%Y-%m-%d %H:%M:%S"))
 
         dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title)
         dbw.updateQuestion(self.question,dbw.getIdFromLanguage(self.language_code)['id'],self.id)

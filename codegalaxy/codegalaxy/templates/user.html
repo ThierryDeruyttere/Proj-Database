@@ -109,8 +109,8 @@
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
-
-              <p><strong>{{ user.name }} </strong>became friends with <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
+              <p><strong>{{ user.name }} </strong>became friends with <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> 
+                <br><small>{{ item.befriended_on }}</small></p>
             </div>
           </div>
 
@@ -122,8 +122,8 @@
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
-              <p><strong>{{ user.name }} </strong>was added to group: <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a></p>
-
+              <p><strong>{{ user.name }} </strong>was added to group: <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
+              <br><small>{{ item.joined_on }}</small></p>
             </div>
           </div>
 
@@ -134,9 +134,8 @@
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
-
-              <p><strong>{{ user.name }} </strong>made an exercise list: <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a></p>
-
+              <p><strong>{{ user.name }} </strong>made an exercise list: <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+              <br><small>{{ item.completed_on }}</small></p>
             </div>
           </div>
 

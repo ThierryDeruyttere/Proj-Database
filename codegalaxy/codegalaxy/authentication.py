@@ -16,7 +16,7 @@ def authenticate(email, password):
     user = object_manager.createUser(email=email)
 
     if user and user.password == password:
-        user.last_login = str(time.strftime("%Y-%m-%d"))
+        user.last_login = str(time.strftime("%Y-%m-%d %H:%M:%S"))
         user.save()
         return user
     return None

@@ -28,7 +28,7 @@ def createExerciseList(request):
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
         user = logged_user(request)
-        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang)
+        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), prog_lang)
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id)
         max_subjects = int(request.POST.get("subjects_amount"))
@@ -80,7 +80,7 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
+        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -493,12 +493,12 @@ def submit(request, list_id, exercise_number):
                     # Woohoo right answer!
                     solved = True
                     # TODO WILL break here
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
 
                 else:
                     current_score = returnScore(current_score - penalty)
 
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code':
@@ -509,12 +509,12 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d")), int(list_id), int(exercise_number), 0)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):

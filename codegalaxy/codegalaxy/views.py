@@ -184,7 +184,7 @@ def register(request):
 
         try:
             object_manager.insertUser(first_name, last_name, email, password, str(
-                time.strftime("%Y-%m-%d")), str(time.strftime("%Y-%m-%d")), gender)
+                time.strftime("%Y-%m-%d %H:%M:%S")), str(time.strftime("%Y-%m-%d %H:%M:%S")), gender)
             object_manager.addVerification(
                 email, hashlib.md5(email.encode('utf-8')).hexdigest())
             sendVerification(email)
@@ -254,12 +254,12 @@ def group(request, id=0):
     if request.method == 'POST':
         if 'become_member' in request.POST:
             group.insertMember(
-                user.id, 1, str(time.strftime("%Y-%m-%d")), "Member")
+                user.id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(
-                friend_id, 1, str(time.strftime("%Y-%m-%d")), "Pending")
+                friend_id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
 
         elif 'update_group_picture' in request.POST:
             f = request.FILES['image']
@@ -396,16 +396,16 @@ def groupCreate(request, id=0):
         try:
             if group_type == 'on':
                 object_manager.insertGroup(
-                    group_name, 1, str(time.strftime("%Y-%m-%d")))
+                    group_name, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
             else:
                 object_manager.insertGroup(
-                    group_name, 0, str(time.strftime("%Y-%m-%d")))
+                    group_name, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d")), 'Member')
+            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), 'Member')
             return redirect('/g/' + str(group.id))
 
         except:
@@ -450,7 +450,7 @@ def test(request, id=0):
     user_test.permissions = 1
     user_test.email = "lol@test.fk"
     user_test.joined_on = "2-2-2"
-    user_test.last_login = str(time.strftime("%Y-%m-%d"))
+    user_test.last_login = str(time.strftime("%Y-%m-%d %H:%M:%S"))
     user_test.gender = "F"
     user_test.save()
     # testfunction
@@ -476,7 +476,7 @@ def test(request, id=0):
     group_test = object_manager.createGroup(1)
     group_test.group_name = "Testgroup"
     group_test.group_type = 5
-    group_test.created_on = str(time.strftime("%Y-%m-%d"))
+    group_test.created_on = str(time.strftime("%Y-%m-%d %H:%M:%S"))
     group_test.save()
     # testfunction10
     exercise_list_test = object_manager.createExerciseList(1)
