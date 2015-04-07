@@ -76,7 +76,7 @@
           <h2 id="modalTitle">Confirmation</h2>
 
           <div class="row">
-            <div class="large-2 large-centered large-text-center columns import_confirm_list">
+            <div class="large-4 large-centered large-text-center columns import_confirm_list">
             </div>
           </div>
 
@@ -152,40 +152,72 @@
       });
     });
 
+    function filterName(name){
+      var newName = name.replace(/ /g, "_").replace(/./g, '');
+      return newName;
+    }
+
     function addList(list, listName){
       $('.import_confirm_list').append('<h3><u>' + listName).append('<div>').append('<ul class= "' + listName + '">');
-      $(list).each(function(){
-        $('.' + listName).append('<li>'+ this);
+      $.each(list, function(key, value){
+        var div = document.createElement('div');
+
+        var parent = document.createElement("u");
+        $(parent).html(key);
+        div.appendChild(parent);
+        for(var i = 0; i < value.length; ++i){
+          var node = document.createElement('li');
+          $(node).html(value[i]);
+          div.appendChild(node);
+        };
+        $('.' + listName).append(div);
       });
     }
 
     $('#import_modal').click(function(){
       var checked = 0;
       $('.import_confirm_list').empty();
-      var imp = [];
-      var copy = [];
+      var imp = {};
+      var copy = {};
 
       $('.import_check').each(function(index){
         if($(this).prop('checked')){
           checked++;
           var id = this.id;
           var stripped;
+          var text;
           if(id.indexOf('checkbox_copy') >= 0){
             stripped = id.replace('checkbox_copy', '');
-            copy.push($('#name' + stripped).text());
+            var list_id = stripped.split('_')[1];
+            var name = $('#name' + stripped).parents().find('a[href="#Exerc' + list_id+ '"]').text();
+            text =  $('#name' + stripped).text();
+            if (!copy[name]) {
+              copy[name] = [];
+            }
+            copy[name].push(text);
+
           }else{
             stripped = id.replace('checkbox_import', '');
-            imp.push($('#name' + stripped).text());
+            var list_id = stripped.split('_')[1];
+            var name = $('#name' + stripped).parents().find('a[href="#Exerc' + list_id+ '"]').text();
+            text =  $('#name' + stripped).text();
+            if (!imp[name]) {
+              imp[name] = [];
+            }
+            imp[name].push(text);
+
           }
+
         }
 
       });
+
       if(checked > 0) {
-        if (imp.length > 0) {
+        if (Object.keys(imp).length > 0) {
           addList(imp, "Import");
         }
 
-        if (copy.length > 0) {
+        if (Object.keys(copy).length > 0) {
           addList(copy, "Copy");
         }
 
