@@ -34,28 +34,28 @@
                         <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
 
                         <table>
-                          <thead>
-                          <tr>
-                            <th width="200">Title</th>
-                            <th width="150">copy original</th>
-                            <th width="150">reference</th>
+                        <thead>
+                        <tr>
+                          <th width="200">Title</th>
+                          <th width="150">copy original</th>
+                          <th width="150">reference</th>
                         </tr>
                         </thead>
-                          {% for e in all_exercises|for_key:list.id %}
-                            <tbody>
-                            <td>{{ e.title }}
+                        {% for e in all_exercises|for_key:list.id %}
+                          <tbody>
+                          <td><p id="name_{{ list.id }}_{{ e.exercise_number }}">{{ e.title }}</p>
                             {% if e.isReference %}
                               <br/>
                               <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
                             {% endif %}
-                            </td>
-                            <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                            <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                            </tbody>
-                          {% endfor %}
-                        {% else %}
-                          This list does not contain any exercises.
-                        {% endif %}
+                          </td>
+                          <td><input class="import_check" id="checkbox_copy_{{ list.id }}_{{ e.exercise_number }}" name="checkbox_copy/{{ list.id }}/{{ e.exercise_number }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_import_{{ list.id }}_{{ e.exercise_number }}" name="checkbox_import/{{ list.id }}/{{ e.exercise_number }}" type="checkbox"></td>
+                          </tbody>
+                        {% endfor %}
+                      {% else %}
+                        This list does not contain any exercises.
+                      {% endif %}
                       </table>
                     </div>
                   </div>
@@ -63,14 +63,32 @@
               </li>
             {% endfor %}
           </ul>
-          <br/>
+        </form>
+        <br/>
+        <div class="row">
+          <div class="large-text-center columns">
+            <a href="/l/{{ list_id }}" class="button small radius">Return</a>
+            <button class="button small radius" id="import_modal" name="import_modal">Import</button>
+          </div>
+        </div>
+
+        <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+          <h2 id="modalTitle">Confirmation</h2>
+
           <div class="row">
-            <div class="large-text-center columns">
-              <a href="/l/{{ list_id }}" class="button small radius">Return</a>
-              <button class="button small radius" id="import_submit" name="import_submit">Import</button>
+            <div class="large-2 large-centered large-text-center columns import_confirm_list">
             </div>
           </div>
-        </form>
+
+          <div class="row">
+            <div class="large-centered large-text-center columns">
+              <button class="alert small radius" id="cancel_button">Cancel</button>
+              <button class="success small radius" id="import_button">Import!</button>
+            </div>
+          </div>
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+
       </div>
     </div>
   </div>
@@ -78,7 +96,6 @@
 {% endblock base_body %}
 {% block body_js %}
   <script>
-
 
     $(".import_check").click(function(event){
       var id = this.id;
@@ -135,10 +152,51 @@
       });
     });
 
-    $("#import_submit").click(function(){
-      $("#import_list").form.submit();
-      $("#import_list").form.reset();
+    function addList(list, listName){
+      $('.import_confirm_list').append('<h3><u>' + listName).append('<div>').append('<ul class= "' + listName + '">');
+      $(list).each(function(){
+        $('.' + listName).append('<li>'+ this);
+      });
+    }
+
+    $('#import_modal').click(function(){
+      var checked = 0;
+      $('.import_confirm_list').empty();
+      var imp = [];
+      var copy = [];
+
+      $('.import_check').each(function(index){
+        if($(this).prop('checked')){
+          checked++;
+          var id = this.id;
+          var stripped;
+          if(id.indexOf('checkbox_copy') >= 0){
+            stripped = id.replace('checkbox_copy', '');
+            copy.push($('#name' + stripped).text());
+          }else{
+            stripped = id.replace('checkbox_import', '');
+            imp.push($('#name' + stripped).text());
+          }
+        }
+
+      });
+      if(checked > 0) {
+        if (imp.length > 0) {
+          addList(imp, "Import");
+        }
+
+        if (copy.length > 0) {
+          addList(copy, "Copy");
+        }
+
+        $('#import_confirm_modal').foundation('reveal', 'open', '');
+      }
     });
+
+    /*$("#import_button").click(function(){
+     $("#import_list").form.submit();
+     $("#import_list").form.reset();
+     }); */
 
 
 

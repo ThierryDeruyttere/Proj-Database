@@ -326,38 +326,37 @@ def list(request, id=0):
         subjects = []
 
     if request.method == 'POST':
+        user = logged_user(request)
+        if request.POST.get('rating') is not None and user is not None:
+            user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
-        if request.POST.get('rating') is not None and logged_user(request) is not None:
-            logged_user(request).updateListRating(exercise_list.id, int(request.POST.get('rating')))
+        elif user is not None and user.id != exercise_list.created_by:
+            #just to be sure we can't import stuff in our own list
+            #Import parts of list
+            all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+            copies = []
+            references = []
+            for i in all_exercises:
+                copy = request.POST.get('checkbox_copy' + str(i.exercise_number))
+                ref = request.POST.get('checkbox_import' + str(i.exercise_number))
+                if copy is not None:
+                    copies.append(i)
 
-        else:
-            updated_list_name = request.POST.get('updated_list_name')
-            updated_difficulty = request.POST.get('updated_difficulty')
-            updated_subjects_amount = int(request.POST.get('current_subjects'))
-            updated_subjects = []
-            updated_prog_lang = request.POST.get('prog_lang', '')
-            updated_description = request.POST.get('updated_description_text')
-            new_order = request.POST.get('order')
-            if new_order != "":
-                new_order = filterOrder(new_order)
-                exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
+                if ref is not None:
+                    references.append(i)
+            #Here we got the exercises
+            #Check in which lists we need to insert them
+            mylists = user.getUserLists()
+            lists = []
+            for l in mylists:
+                found = request.POST.get('mylist_' + str(l.id))
+                if found:
+                    for ref in references:
+                        l.insertExerciseByReference(ref.id)
+                    for copy in copies:
+                        l.copyExercise(copy.id)
 
-            for i in range(updated_subjects_amount):
-                subject = request.POST.get('subject' + str(i))
-                if subject is not None:
-                    updated_subjects.append(subject)
 
-            removed_subjects = set(subjects) - set(updated_subjects)
-            intersection = set(subjects) & set(updated_subjects)
-            subjects_to_add = set(updated_subjects) - intersection
-
-            for subject in removed_subjects:
-                exercise_list.deleteSubject(subject)
-
-            for subject in subjects_to_add:
-                exercise_list.addSubject(subject)
-
-            exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
 
     if exercise_list:
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))

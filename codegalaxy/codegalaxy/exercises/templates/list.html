@@ -203,68 +203,67 @@
                   <div class="large-3 large-centered large-text-center columns">
                     <fieldset>
                       <legend>Import into:</legend>
-                        {% for l in user_lists %}
-                          <input type="checkbox" name="{{ l.id }}" id="list_{{ l.id }}">
-                          <label for="list_{{ l.id }}">{{ l.name }}</label>
-                        {% endfor %}
+                      {% for l in user_lists %}
+                        <input class="mylists" type="checkbox" name="mylist_{{ l.id }}" id="mylist_{{ l.id }}">
+                        <label for="mylist_{{ l.id }}">{{ l.name }}</label>
+                      {% endfor %}
                     </fieldset>
 
                   </div>
                 </div>
-
-                <div class="row">
-                  <div class="large-centered large-text-center columns">
-                    <button class="alert small radius" id="cancel_button">Cancel</button>
-                    <button class="success small radius" id="import_button">Import!</button>
-                  </div>
-                </div>
-                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-              </div>
             </form>
-          {% endif %}
-        </div>
-        <div class="large-2 left columns">
-          {% if correct_user %}
-            <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">Edit list</a>
-          {% endif %}
-        </div>
-      </div>
-
-      <div class ="row">
-        <div class="large-3 large-centered large-text-center columns">
-          Exercises
-          <div class="row">
-            {% for exercise in all_exercises %}
-              <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
-                {{ exercise.title }}
-                {% if exercise.solved %}
-                  <div class="label success left"><i class="fi-checkbox"></i></div>
-                {% endif %}
-                <img class="Arrow" src="{% static "media/arrow.png" %}">
+            <div class="row">
+              <div class="large-centered large-text-center columns">
+                <button class="alert small radius" id="cancel_button">Cancel</button>
+                <button class="success small radius" id="import_button">Import!</button>
               </div>
-            {% endfor %}
+            </div>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+            </div>
+          {% endif %}
+      </div>
+      <div class="large-2 left columns">
+        {% if correct_user %}
+          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">Edit list</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class ="row">
+      <div class="large-3 large-centered large-text-center columns">
+        Exercises
+        <div class="row">
+          {% for exercise in all_exercises %}
+            <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
+              {{ exercise.title }}
+              {% if exercise.solved %}
+                <div class="label success left"><i class="fi-checkbox"></i></div>
+              {% endif %}
+              <img class="Arrow" src="{% static "media/arrow.png" %}">
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    {% if similar_lists|length > 0 %}
+      <div class ="row">
+        <div class="large-7 large-centered text-center columns">
+          <div class="panel callout radius info">
+            <h3>ExerciseLists like this one:</h3>
+            <ul class="large-block-grid-{{similar_lists|length}}">
+              {% for similar_list in similar_lists %}
+                <li>
+                  <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
+                </li>
+              {% endfor %}
+            </ul>
           </div>
         </div>
       </div>
+    {% endif %}
 
-      {% if similar_lists|length > 0 %}
-        <div class ="row">
-          <div class="large-7 large-centered text-center columns">
-            <div class="panel callout radius info">
-              <h3>ExerciseLists like this one:</h3>
-              <ul class="large-block-grid-{{similar_lists|length}}">
-                {% for similar_list in similar_lists %}
-                  <li>
-                    <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-    </div>
+  </div>
   </div>
 {% endblock base_body %}
 
@@ -390,8 +389,26 @@
       $('#import_confirm_modal').foundation('reveal', 'close', '');
     });
 
-    $('#import_button').click(function(){
+    $('#import_button').click(function(e){
+      e.preventDefault();
+      var form = $("#import_list");
+      //For some weird reason, need to add mylists to the form again
+      //Else it doesn't register
 
+      var post_data = form.serialize() + '&' + $('.mylists').serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: "",
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+          $('#import_confirm_modal').foundation('reveal', 'close', '');
+          $('#import_list')[0].reset();
+        }
+
+      });
     });
 
   </script>
