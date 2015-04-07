@@ -49,8 +49,8 @@
       success: function(response) {
         $("#output").html(response);
       },
-      error: function() {
-        alert("NOT SUCCEEDED!");
+      error: function(jqXHR, textStatus, error) {
+        $("#output").html(jqXHR.responseText);
       }
     });
   });
