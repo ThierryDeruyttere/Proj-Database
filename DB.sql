@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS sandbox;
 
 DROP DATABASE IF EXISTS codegalaxy;
 CREATE DATABASE codegalaxy;
-\r codegalaxy
+use codegalaxy
 
 CREATE TABLE user(
   id INT NOT NULL AUTO_INCREMENT,
