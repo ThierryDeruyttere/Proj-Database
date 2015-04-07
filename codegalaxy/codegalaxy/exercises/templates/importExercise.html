@@ -63,15 +63,15 @@
               </li>
             {% endfor %}
           </ul>
-        </form>
-        <br/>
-        <div class="row">
-          <div class="large-text-center columns">
-            <a href="/l/{{ list_id }}" class="button small radius">Return</a>
-            <button class="button small radius" id="import_modal" name="import_modal">Import</button>
+          <br/>
+          <div class="row">
+            <div class="large-text-center columns">
+              <a href="/l/{{ list_id }}" class="button small radius">Return</a>
+              <button class="button small radius" id="import_modal" name="import_modal">Import</button>
+            </div>
           </div>
-        </div>
-
+        </form>
+      
         <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
           <h2 id="modalTitle">Confirmation</h2>
 
@@ -225,10 +225,11 @@
       }
     });
 
-    /*$("#import_button").click(function(){
-     $("#import_list").form.submit();
-     $("#import_list").form.reset();
-     }); */
+    $("#import_button").click(function(){
+
+      $("#import_list").form.submit();
+      $("#import_list").form.reset();
+    });
 
 
 
