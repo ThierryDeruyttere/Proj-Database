@@ -125,16 +125,19 @@
         {% endfor %}
       </div>
       <div class="content" id="members">
-        {% for member in user_list %}
-        <div class="large-2 small-2 columns">
-          <a href="/u/{{ member.id }}"/>
-          <img src="{% static member.getProfilePicture %}">
-          <div class="panel">
-            <h5>{{ member.first_name }}</h5>
-            <h6 class="subheader">{{ member.last_name }}</h6>
+      <div class="row">
+            {% for member in user_list  %}
+            <div class="large-2 columns end">
+              <a href="/u/{{ member.id }}">
+                <div class="panel radius">
+                  <img src="{% static member.getProfilePicture %}"/>
+                  <h5 class="text-cut-off">{{ member.first_name }}</h5>
+                  <h6 class="text-cut-off">{{ member.last_name }}</h6>
+                </div>
+              </a>
+            </div>
+            {% endfor %}
           </div>
-        </div>
-        {% endfor %}
       </div>
 
     </div>
