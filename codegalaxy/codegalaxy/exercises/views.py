@@ -143,7 +143,7 @@ def editList(request, listId):
                                              'all_exercises': all_exercises})
 
 def getBrowserLanguage(request):
-    return request.META['LANGUAGE'].split('_')[0]
+    return request.META['HTTP_ACCEPT_LANGUAGE'].split('-')[0]
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
