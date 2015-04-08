@@ -90,7 +90,8 @@ def createExercise(request, listId=0):
         if exercise_list.created_by != user.id:
             return redirect('/')
         else:
-            return render(request, 'createExercise.html', {'edit': False})
+            return render(request, 'createExercise.html', {'edit': False,
+                                                           'list': exercise_list})
 
     return redirect('/')
 
@@ -209,7 +210,8 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'all_answers': all_answers,
                                                        'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints,
-                                                       'am_hints': amount_hints})
+                                                       'am_hints': amount_hints,
+                                                       'list': exercise_list})
 
 def createImportHTML(all_lists, all_exercises):
     html = ""

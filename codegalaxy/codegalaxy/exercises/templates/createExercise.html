@@ -127,7 +127,13 @@
                     var myCodeMirror = CodeMirror.fromTextArea(code,
                             {
                               lineNumbers: true,
-                              mode: "python",
+                              {% if list.programming_language_string == "Python" %}
+                                mode: "python",
+                              {% elif list.programming_language_string == "C++" %}
+                                mode: "text/x-c++src",
+                              {% elif list.programming_language_string == "SQL" %}
+                                mode: "sql",
+                              {% endif %}
                               theme: "monokai"
                             });
                   </script>
@@ -142,7 +148,13 @@
                     var myCodeMirror = CodeMirror.fromTextArea(output,
                             {
                               lineNumbers: true,
-                              mode: "python",
+                              {% if list.programming_language_string == "Python" %}
+                                mode: "python",
+                              {% elif list.programming_language_string == "C++" %}
+                                mode: "text/x-c++src",
+                              {% elif list.programming_language_string == "SQL" %}
+                                mode: "sql",
+                              {% endif %}
                               theme: "monokai"
                             });
                   </script>
@@ -339,64 +351,64 @@
     }
 
     {% if edit %}
-    $(document).ready(function(){
-      {%  if exercise.exercise_type == "Open Question" %}
-        $("#Open_Question").show();
-        $('#exercise_type_open').prop('checked', true);
-        //Get the correct number of answers
+      $(document).ready(function(){
+        {%  if exercise.exercise_type == "Open Question" %}
+          $("#Open_Question").show();
+          $('#exercise_type_open').prop('checked', true);
+          //Get the correct number of answers
 
-        var current_answers = {{ all_answers|length }};
-        for(var i = 0; i < (current_answers - answers); ++i){
-          $('#add_answer').trigger('click');
-        }
-
-        //Now lets fill these answers with the correct text!
-        var all_answers = [];
-        {% for a in all_answers %}
-          all_answers.push("{{ a }}");
-        {% endfor %}
-
-        for(var i = 0 ; i < all_answers.length; ++i){
-          $("input[name=" + '"answer' + i +"\"]").val(all_answers[i]);
-          if((i+1) == {{ exercise.correct_answer }}){
-            //If correct answer, select this answers
-            var i_plus = i+1;
-            $("input[value = i_plus][type='radio']").prop("checked", true);
+          var current_answers = {{ all_answers|length }};
+          for(var i = 0; i < (current_answers - answers); ++i){
+            $('#add_answer').trigger('click');
           }
-        }
 
-        //set the right max score
-        $('#slider').foundation('slider', 'set_value', {{ exercise.max_score }});
+          //Now lets fill these answers with the correct text!
+          var all_answers = [];
+          {% for a in all_answers %}
+            all_answers.push("{{ a }}");
+          {% endfor %}
 
-      {% else %}
-        $("#Code_Question").show();
-        $("#exercise_type_code").prop('checked', true);
+          for(var i = 0 ; i < all_answers.length; ++i){
+            $("input[name=" + '"answer' + i +"\"]").val(all_answers[i]);
+            if((i+1) == {{ exercise.correct_answer }}){
+              //If correct answer, select this answers
+              var i_plus = i+1;
+              $("input[value = i_plus][type='radio']").prop("checked", true);
+            }
+          }
 
-        //Same for hints!
+          //set the right max score
+          $('#slider').foundation('slider', 'set_value', {{ exercise.max_score }});
 
-        var all_hints = [];
-        {% for h in all_hints %}
+        {% else %}
+          $("#Code_Question").show();
+          $("#exercise_type_code").prop('checked', true);
 
-          all_hints.push("{{ h }}");
-        {% endfor %}
-        var hints_length = {{ am_hints }};
-        for(var i = 1 ; i <= hints_length; ++i){
-          $("#add_hint").trigger('click');
-          //replace all quotes & other html tags with the right characters.
-          //source: http://stackoverflow.com/questions/5957546/javascript-regex-replacing-quot
-          var text = all_hints[i-1].replace(/&(l|g|quo)t;/g, function(a,b){
-            return {
-              l   : '<',
-              g   : '>',
-              quo : '"'
-            }[b];
-          });
+          //Same for hints!
 
-          $("input[name=" + '"hint' + i +"\"]").val(text);
-        }
-      {% endif %}
+          var all_hints = [];
+          {% for h in all_hints %}
 
-    });
+            all_hints.push("{{ h }}");
+          {% endfor %}
+          var hints_length = {{ am_hints }};
+          for(var i = 1 ; i <= hints_length; ++i){
+            $("#add_hint").trigger('click');
+            //replace all quotes & other html tags with the right characters.
+            //source: http://stackoverflow.com/questions/5957546/javascript-regex-replacing-quot
+            var text = all_hints[i-1].replace(/&(l|g|quo)t;/g, function(a,b){
+              return {
+                l   : '<',
+                g   : '>',
+                quo : '"'
+              }[b];
+            });
+
+            $("input[name=" + '"hint' + i +"\"]").val(text);
+          }
+        {% endif %}
+
+      });
     {% endif %}
   </script>
 {% endblock body_js %}
