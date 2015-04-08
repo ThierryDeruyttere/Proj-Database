@@ -65,6 +65,8 @@
                 </ul>
               </div>
             </div>
+
+            <button type="button" class="small radius button" id="reset">Reset question</button>
           {% endif %}
 
           <hr>
@@ -127,6 +129,11 @@
       $("#answer_question").submit();
     });
 
+    {% if exercise.exercise_type == "Code" %}
+      $('#reset').click(function(){
+        code_text.getDoc().setValue($("#user_code").val());
+      });
+    {% endif %}
   </script>
 
 
