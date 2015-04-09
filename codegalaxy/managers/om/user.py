@@ -358,11 +358,9 @@ class User:
         return None
 
     def getLastAnswerForExercise(self, list_id, exercise_number):
-        if(self.getMadeList(list_id)):
-            for ex in self.getMadeList(list_id):
-                if ex.exercise_number == exercise_number:
-                    return ex.last_answer
-        return None
+        if dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']):
+            return dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']
+        return 0
 
 class PersonalList:
 
@@ -386,26 +384,23 @@ class PersonalList:
         exercise_info = dbw.getExerciseScoreFor(
             self.user_id, self.exercises_list.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x[
-                                                        'rating'], x['exercise_id'], language_code
+            personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x['exercise_id'], language_code
                                                         , x['completed_on'], self.exercises_list.id, x['exercise_number'], x['last_answer']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
 
     def __str__(self):
-        return str(self.rating) + ' ' + str(self.score) + ' ' + str(self.user_id) + ' ' + self.exercises_list.name + ' ' + str(self.exercises_list.difficulty) + ' ' + self.exercises_list.description
+        return str(self.score) + ' ' + str(self.user_id) + ' ' + self.exercises_list.name + ' ' + str(self.exercises_list.difficulty) + ' ' + self.exercises_list.description
 
 
 class PersonalExercise:
 
-    def __init__(self, solved, score, rating, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer):
+    def __init__(self, solved, score, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer):
         # bool to check if exercise was solved
         self.solved = solved
         # obtained score
         self.score = score
-        # given rating
-        self.rating = rating
         # completion date (first time)
         self.completed_on = completed_on
         # Actual exercises-object (make with SQL queries)

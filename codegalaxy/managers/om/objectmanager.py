@@ -153,7 +153,7 @@ class ObjectManager:
             pass
             #Can't edit exercises
         else:
-            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id, exercise_number, last_answer)
+            dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer)
 
     def getInfoForUserForExercise(self, user_id, exercise_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_id, exercise_list_id, exercise_number)

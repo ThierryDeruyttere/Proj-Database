@@ -621,6 +621,13 @@ def getAllReferencesToExercise(exercise_id):
     cursor.close()
     return fetched
 
+def getLastAnswerForExerciseForUser(user_id, list_id, exercise_number):
+    cursor = connection.cursor()
+    cursor.execute('SELECT last_answer FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()
@@ -712,7 +719,7 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
 
 def insertMadeExercise(user_id, exercise_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer):
     cursor = connection.cursor()
-    sql = 'INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, rating=rating, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
+    sql = 'INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
     cursor.execute(sql, [last_answer])
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):

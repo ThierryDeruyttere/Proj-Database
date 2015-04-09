@@ -487,10 +487,10 @@ def submit(request, list_id, exercise_number):
                     # Woohoo right answer!
                     solved = True
                     # TODO WILL break here
-                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_code)
+                    object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer)
                 else:
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime()), int(list_id), int(exercise_number), 0, user_code)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code':
@@ -501,11 +501,12 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_output)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code)
+
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), 0, user_output)
+                    object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code)
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
                 made_list_by_user = user.allExerciseListsMade()
