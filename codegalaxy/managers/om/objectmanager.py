@@ -96,10 +96,9 @@ class ObjectManager:
     def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
         dbw.insertUser(first_name, last_name, password, email, 1, joined_on, last_login, gender)
 
-    def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name, lang_name):
+    def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
-        lang_code = dbw.getLanguageCodeForLangName(lang_name)
-        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_code)["highest_id"]
+        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id)["highest_id"]
 
     def insertGroup(self, group_name, group_type, created_on):
         dbw.insertGroup(group_name, group_type, created_on)

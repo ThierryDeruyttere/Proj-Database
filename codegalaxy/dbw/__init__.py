@@ -706,9 +706,9 @@ def insertHint(hint_text, hint_number, exercise_id, language_id):
     cursor.execute(sql, [hint_text])
 
 
-def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, default_lang_code):
+def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id, default_language_code) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id}, "{default_lang_code}");'.format(name=name, desc=description, diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id, default_lang_code=default_lang_code))
+    cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name=name, desc=description, diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id))
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by=created_by))
     fetched = processOne(cursor)
     cursor.close()

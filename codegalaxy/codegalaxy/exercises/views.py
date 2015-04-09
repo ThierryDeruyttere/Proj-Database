@@ -34,7 +34,7 @@ def createExerciseList(request):
         def_lang = "English"
 
         user = logged_user(request)
-        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang, def_lang)
+        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang)
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id)
         max_subjects = int(request.POST.get("subjects_amount"))
