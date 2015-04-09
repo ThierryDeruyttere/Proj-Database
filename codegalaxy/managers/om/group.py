@@ -30,7 +30,7 @@ class Group:
         if os.path.isfile(path):
             group_picture = group_picture
         else:
-            group_picture = "Group-icon.png"
+            group_picture = "media/group.png"
         return group_picture
 
     # list of users

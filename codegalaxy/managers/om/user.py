@@ -36,7 +36,12 @@ class User:
         if os.path.isfile(path):
             profile_picture = profile_picture
         else:
-            profile_picture = "media/user.png"
+            if self.gender == "M":
+                profile_picture = "media/male_user.png"
+            elif self.gender == "F":
+                profile_picture = "media/female_user.png"
+            else:
+                profile_picture = "media/unknown_user.png"
         return profile_picture
 
     # List with other users this user is befriended with
