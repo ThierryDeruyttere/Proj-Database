@@ -359,4 +359,4 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,12,5,30, "1999-07-13 18:12:05");
 
 #insert into madeEx
-INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, rating, completed_on) VALUES(1,1,1,5,5,"2015-03-06 10:10:10");
+INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, completed_on) VALUES(1,1,1,5,"2015-03-06 10:10:10");

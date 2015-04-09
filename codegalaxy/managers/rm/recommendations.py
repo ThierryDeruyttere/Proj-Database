@@ -313,7 +313,6 @@ def recommendNextExerciseLists(previous_made_list, amount=4):
     made_ids = madeIDs(previous_made_list.user_id)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language = previous_made_list.exercises_list.programming_language_string
-    prog_language(subjects)
     subjects = previous_made_list.exercises_list.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:

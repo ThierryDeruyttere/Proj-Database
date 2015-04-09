@@ -358,8 +358,9 @@ class User:
         return None
 
     def getLastAnswerForExercise(self, list_id, exercise_number):
-        if dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']):
-            return dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']
+        if dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number):
+            if dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']:
+                return dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']
         return 0
 
 class PersonalList:
