@@ -3,164 +3,150 @@
 {% block base_body %}
   {% load staticfiles %}
 
-  <div class="row" xmlns="http://www.w3.org/1999/html">
-    <div class="large-12 columns">
-      <div class="panel">
-        <form method="post">
+  <div class="row">
+    <form method="post">
 
-          {% csrf_token %}
+      {% csrf_token %}
+      <div class="row">
+        <div class="row">
+          <div class="text-center">
+            <h3>
+              {% if edit %}
+                Edit exercise
+              {% else %}
+                Create exercise
+              {% endif %}
+            </h3>
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-4 columns">
+                <span class="prefix">Exercise title</span>
+              </div>
+              <div class="small-8 columns">
+                <input type="text" id="title" name="title"  class="text-center" value="{{ exercise.title }}">
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="Diff">
           <div class="row">
-
-            <hr>
-            <div class="row">
-              <div class="text-center column">
-                <h3>
-                  {% if edit %}
-                    Edit exercise
-                  {% else %}
-                    Create exercise
-                  {% endif %}
-                </h3>
-              </div>
-            </div>
-
-
-            <div class="row">
-              <div class="large-4 large-centered columns">
-                <div class="row collapse prefix-radius">
-                  <div class="small-4 columns">
-                    <span class="prefix">Exercise title</span>
-                  </div>
-                  <div class="small-8 columns">
-                    <input type="text" id="title" name="title"  class="text-center" value="{{ exercise.title }}">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-            <div class="Diff">
+            <div class="large-4 large-centered columns">
               <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider="{{ exercise.difficulty }}" data-options="display_selector: #difficulty; start: 1; end: 5;">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
+                <div class="small-10 medium-11 columns">
+                  <div class="range-slider round" data-slider="{{ exercise.difficulty }}" data-options="display_selector: #difficulty; start: 1; end: 5;">
+                    <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                    <span class="range-slider-active-segment"></span>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
 
+          <div class="row">
+            <div class="large-4 large-centered columns">
+              <div class="row collapse prefix-radius">
+                <div class="small-3 columns">
+                  <span class="prefix">Difficulty</span>
+                </div>
+                <div class="small-9 columns">
+                  <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-5 large-centered columns">
+            Question
+            <textarea name="Question">{{ exercise.question }}</textarea>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-6 large-centered columns">
+            <label>Exercise Type:</label>
+            <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">Code question</label>
+            <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Max score</span>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="max" name="max" readonly="True" class="text-center">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="max_score">
+          <div class="row">
+            <div class="large-4 large-centered columns">
               <div class="row">
-                <div class="large-4 large-centered columns">
-                  <div class="row collapse prefix-radius">
-                    <div class="small-3 columns">
-                      <span class="prefix">Difficulty</span>
-                    </div>
-                    <div class="small-9 columns">
-                      <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
-                    </div>
-                  </div>
+                <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
+                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                  <span class="range-slider-active-segment"></span>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
 
+        <hr>
 
+        <div class="row" id="Code_Question">
 
-            <div class="row">
-              <div class="large-5 large-centered columns">
-                Question
-                <textarea name="Question">{{ exercise.question }}</textarea>
+          <div class="row">
+            <div class="large-10 large-centered columns">
+              <div data-alert class="alert-box info radius">
+                Code the user gets to see. UITLEG UITLEG
               </div>
-            </div>
+              <textarea id="code" name="code">{{ exercise.code }}</textarea>
+              <script>
+                var myCodeMirror = CodeMirror.fromTextArea(code,
+                        {
+                          lineNumbers: true,
+                          {% if list.programming_language_string == "Python" %}
+                            mode: "python",
+                          {% elif list.programming_language_string == "C++" %}
+                            mode: "text/x-c++src",
+                          {% elif list.programming_language_string == "SQL" %}
+                            mode: "sql",
+                          {% endif %}
+                          theme: "monokai"
+                        });
+              </script>
 
-            <div class="row">
-              <div class="large-6 large-centered columns">
-                <label>Exercise Type:</label>
-                <input type="radio" name="exercise_type" value="Code" id="exercise_type_code"><label for="exercise_type_code">Code question</label>
-                <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
-
+              <div data-alert class="alert-box info radius">
+                Expected output. UITLEG UITLEG
               </div>
-            </div>
-
-            <div class="row">
-              <div class="large-4 large-centered columns">
-                <div class="row collapse prefix-radius">
-                  <div class="small-3 columns">
-                    <span class="prefix">Max score</span>
-                  </div>
-                  <div class="small-9 columns">
-                    <input type="text" id="max" name="max" readonly="True" class="text-center">
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <hr>
-
-            <div class="row" id="Code_Question" hidden="True">
-              <div class="max_score">
-                <div class="row">
-                  <div class="large-4 large-centered columns">
-                    <div class="row">
-                      <div class="small-10 medium-11 columns">
-                        <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
-                          <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                          <span class="range-slider-active-segment"></span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class ="row">
-                <div class="large-8 large-offset-1 columns">
-
-                  <u>Code the user gets to see:</u>
-
-                  <textarea id="code" name="code">{{ exercise.code }}</textarea>
-                  <script>
-                    var myCodeMirror = CodeMirror.fromTextArea(code,
-                            {
-                              lineNumbers: true,
-                              {% if list.programming_language_string == "Python" %}
-                                mode: "python",
-                              {% elif list.programming_language_string == "C++" %}
-                                mode: "text/x-c++src",
-                              {% elif list.programming_language_string == "SQL" %}
-                                mode: "sql",
-                              {% endif %}
-                              theme: "monokai"
-                            });
-                  </script>
-                </div>
-              </div>
-              <div class ="row">
-                <div class="large-8 large-offset-1 columns">
-
-                  <u>Expected output</u>
-                  <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
-                  <script>
-                    var myCodeMirror = CodeMirror.fromTextArea(output,
-                            {
-                              lineNumbers: true,
-                              {% if list.programming_language_string == "Python" %}
-                                mode: "python",
-                              {% elif list.programming_language_string == "C++" %}
-                                mode: "text/x-c++src",
-                              {% elif list.programming_language_string == "SQL" %}
-                                mode: "sql",
-                              {% endif %}
-                              theme: "monokai"
-                            });
-                  </script>
-                </div>
-
-              </div>
+              <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
+              <script>
+                var myCodeMirror = CodeMirror.fromTextArea(output,
+                        {
+                          lineNumbers: true,
+                          {% if list.programming_language_string == "Python" %}
+                            mode: "python",
+                          {% elif list.programming_language_string == "C++" %}
+                            mode: "text/x-c++src",
+                          {% elif list.programming_language_string == "SQL" %}
+                            mode: "sql",
+                          {% endif %}
+                          theme: "monokai"
+                        });
+              </script>
 
               <div class="row" id="Tips_Row">
                 <h3>Tips:</h3>
@@ -168,60 +154,58 @@
                   <input type="button" class="button tiny radius" id="add_hint" value="Add Hint">
                 </div>
                 <div class="row">
-                  <span id="Hints"> </span>
-
+                  <span id="Hints"></span>
                 </div>
               </div>
 
-            </div>
-
-            <div class="row" id="Open_Question" hidden="True">
-              <div class="row">
-                <div class="large-8 large-offset-2 columns">
-                  <div class="row">
-                    <u>Possible answers</u>
-                    <i class="fi-plus" id="add_answer"></i>
-                  </div>
-                  <div class="row" id="wrapper_answer">
-                    <div class="row collapse prefix-radius" id="answer1">
-                      <div class="small-10 columns">
-                        <input type="text" name="answer1" />
-                      </div>
-                      <div class="small-1 columns">
-                        <span class="postfix"><input type="radio" name="correct_answer" value="1" checked /></span>
-                      </div>
-                      <div class="small-1 columns remove_answer" hidden></div>
-                    </div>
-                    <div class="row collapse prefix-radius" id="answer2">
-                      <div class="small-10 columns">
-                        <input type="text" name="answer2" />
-                      </div>
-                      <div class="small-1 columns">
-                        <span class="postfix"><input type="radio" name="correct_answer" value="2" /></span>
-                      </div>
-                      <div class="small-1 columns remove_answer" hidden></div>
-                    </div>
-                  </div>
-                </div>
-                <br/>
-              </div>
-
-            </div>
-            <hr>
-
-            <div class="row">
-              <div class="large-text-center">
-                {% if edit %}
-                  <input type="submit" name="submit" class="button tiny radius" value="Edit exercise">
-                {% else %}
-                  <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
-                {% endif %}
-              </div>
             </div>
           </div>
-        </form>
+
+        </div>
+
+        <div class="row" id="Open_Question" hidden="True">
+          <div class="row">
+            <div class="large-8 large-offset-2 columns">
+              <div class="row">
+                <u>Possible answers</u>
+                <i class="fi-plus" id="add_answer"></i>
+              </div>
+              <div class="row" id="wrapper_answer">
+                <div class="row collapse prefix-radius" id="answer1">
+                  <div class="small-10 columns">
+                    <input type="text" name="answer1" />
+                  </div>
+                  <div class="small-1 columns">
+                    <span class="postfix"><input type="radio" name="correct_answer" value="1" checked /></span>
+                  </div>
+                  <div class="small-1 columns remove_answer" hidden></div>
+                </div>
+                <div class="row collapse prefix-radius" id="answer2">
+                  <div class="small-10 columns">
+                    <input type="text" name="answer2" />
+                  </div>
+                  <div class="small-1 columns">
+                    <span class="postfix"><input type="radio" name="correct_answer" value="2" /></span>
+                  </div>
+                  <div class="small-1 columns remove_answer" hidden></div>
+                </div>
+              </div>
+            </div>
+            <br/>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="large-text-center">
+            {% if edit %}
+              <input type="submit" name="submit" class="button tiny radius" value="Edit exercise">
+            {% else %}
+              <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
+            {% endif %}
+          </div>
+        </div>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- Question template -->
@@ -289,7 +273,7 @@
     var current_max = 5;
     $("input[type='radio'][name='exercise_type']").change(function() {
 
-
+      $('#slider').toggleClass("disabled");
       if($("#exercise_type_code").is(":checked")) {
         $("#Code_Question").show();
         //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
@@ -313,11 +297,11 @@
       }
 
       $("#Hints").append(
-              $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
-                      $("<div/>", {"class":"large-5 large-centered columns"}).append(
-                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
-                      )
-              )
+        $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+          $("<div/>", {"class":"large-5 large-centered columns"}).append(
+            $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+          )
+        )
       );
 
       ++hint_nmbr;
