@@ -333,8 +333,8 @@ def list(request, id=0):
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
         elif user is not None and user.id != exercise_list.created_by:
-            #just to be sure we can't import stuff in our own list
-            #Import parts of list
+            # just to be sure we can't import stuff in our own list
+            # Import parts of list
             all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
             copies = []
             references = []
@@ -346,8 +346,8 @@ def list(request, id=0):
 
                 if ref is not None:
                     references.append(i)
-            #Here we got the exercises
-            #Check in which lists we need to insert them
+            # Here we got the exercises
+            # Check in which lists we need to insert them
             mylists = user.getUserLists()
             lists = []
             for l in mylists:
@@ -357,8 +357,6 @@ def list(request, id=0):
                         l.insertExerciseByReference(ref.id)
                     for copy in copies:
                         l.copyExercise(copy.id)
-
-
 
     if exercise_list:
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
