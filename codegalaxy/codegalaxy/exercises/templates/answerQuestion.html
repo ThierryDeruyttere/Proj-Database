@@ -45,18 +45,7 @@
 
           {% else %}
             <div class="row" id="Code">
-
               <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
-
-              <script>
-                var myCodeMirror = CodeMirror.fromTextArea(user_code,
-                        {
-                          lineNumbers: true,
-                          mode: "python",
-                          theme: "monokai"
-                        });
-              </script>
-
               <div class="large-9 columns">
                 <!-- <div class="row">
                 To be used if we have turtle graphics
@@ -89,6 +78,7 @@
               {% if exercise.exercise_type == "Open Question" %}
                 <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
               {% else %}
+                <input id="code_output" type="hidden" value=""></input>
                 <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
               {% endif %}
             </div>
@@ -101,6 +91,13 @@
 
 {% block body_js %}
   <script type="text/javascript">
+
+    var code_text = CodeMirror.fromTextArea(user_code,
+      {
+        lineNumbers: true,
+        mode: "python",
+        theme: "monokai"
+      });
     var curr_hint = 1;
     function addHint(){
       document.getElementById("hint"+curr_hint).hidden = false;
@@ -113,14 +110,24 @@
     }
 
     $("#output_alert").hide();
-    $("#submit_answer_code").click(function() {
-      try {
-        $("#answer_question").submit();
-      }
-      catch(e) {
-        $("#output_alert").text(e.toString());
-        $("#output_alert").show();
-      }
+    $("#submit_answer_code").click(function()
+    {
+      var post_data = { code : code_text.getValue() };
+      $.ajax({
+        type: "POST",
+        url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+          $("#code_output").val(response);
+        },
+        error: function(jqXHR, textStatus, error) {
+          $("#output_alert").text(jqXHR.responseText.toString());
+          $("#output_alert").show();
+        }
+      });
+      $("#answer_question").submit();
     });
 
   </script>
