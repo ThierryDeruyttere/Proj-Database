@@ -406,7 +406,9 @@ def list(request, id=0):
         similar_list_ids = []
 
         user_rating = 0
+        user_lists = None
         if logged_user(request):
+            user_lists = logged_user(request).getUserLists()
             user_rating = logged_user(request).getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
@@ -419,7 +421,7 @@ def list(request, id=0):
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
 
-        user_lists = logged_user(request).getUserLists()
+
 
         return render(request, 'list.html', {'correct_user': correct_user,
                                              'id': exercise_list.id,
@@ -444,7 +446,6 @@ def list(request, id=0):
 
 @require_login
 def answerQuestion(request, list_id, exercise_number):
-    question_id = object_manager.getExerciseID(list_id, exercise_number)
     if request.method == "POST":
 
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
@@ -454,7 +455,7 @@ def answerQuestion(request, list_id, exercise_number):
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
         for i in all_exercise:
-            if i.id == int(question_id):
+            if i.exercise_number == int(exercise_number):
                 current_exercise = i
                 break
 
