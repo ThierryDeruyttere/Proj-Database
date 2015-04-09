@@ -21,12 +21,18 @@ graph_manager = graphmanager.GraphManager()
 
 @require_login
 def createExerciseList(request):
-    languages = object_manager.allProgrammingLanguages()
+    prog_languages = object_manager.allProgrammingLanguages()
+    languages = object_manager.getAllLanguages()
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
+
+        # Not longer in use
+        # def_lang = request.POST.get('default_language', '')
+        def_lang = "English"
+
         user = logged_user(request)
         exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), prog_lang)
         # get subjects
@@ -39,7 +45,8 @@ def createExerciseList(request):
 
         return redirect("/l/" + str(exlist_id))
 
-    return render(request, 'createExerciseList.html', {"languages": languages})
+    return render(request, 'createExerciseList.html', {"prog_languages": prog_languages,
+                                                       "languages": languages})
 
 @require_login
 def createExercise(request, listId=0):
@@ -87,12 +94,61 @@ def createExercise(request, listId=0):
         if exercise_list.created_by != user.id:
             return redirect('/')
         else:
-            return render(request, 'createExercise.html', {'edit': False})
+            return render(request, 'createExercise.html', {'edit': False,
+                                                           'list': exercise_list})
 
     return redirect('/')
 
+@require_login
+def editList(request, listId):
+    exercise_list = object_manager.createExerciseList(listId)
+    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    if exercise_list is None or exercise_list.created_by != logged_user(request).id:
+        return redirect('/')
+
+    subjects = exercise_list.allSubjects()
+    languages = object_manager.allProgrammingLanguages()
+    current_language = exercise_list.programming_language_string
+    all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+
+    if request.method == 'POST':
+
+        updated_list_name = request.POST.get('updated_list_name')
+        updated_difficulty = request.POST.get('updated_difficulty')
+        updated_subjects_amount = int(request.POST.get('current_subjects'))
+        updated_subjects = []
+        updated_prog_lang = request.POST.get('prog_lang', '')
+        updated_description = request.POST.get('updated_description_text')
+        new_order = request.POST.get('order')
+        if new_order != "":
+            new_order = filterOrder(new_order)
+            exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
+
+        for i in range(updated_subjects_amount):
+            subject = request.POST.get('subject' + str(i))
+            if subject is not None:
+                updated_subjects.append(subject)
+
+        removed_subjects = set(subjects) - set(updated_subjects)
+        intersection = set(subjects) & set(updated_subjects)
+        subjects_to_add = set(updated_subjects) - intersection
+
+        for subject in removed_subjects:
+            exercise_list.deleteSubject(subject)
+
+        for subject in subjects_to_add:
+            exercise_list.addSubject(subject)
+
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
+
+    return render(request, 'editList.html', {'list': exercise_list,
+                                             'subjects': subjects,
+                                             'programming_languages': languages,
+                                             'current_prog_lang': current_language,
+                                             'all_exercises': all_exercises})
+
 def getBrowserLanguage(request):
-    return request.META['LANGUAGE'].split('_')[0]
+    return request.META['HTTP_ACCEPT_LANGUAGE'].split('-')[0]
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
@@ -158,7 +214,8 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'all_answers': all_answers,
                                                        'expected_code_answer': expected_code_answer,
                                                        'all_hints': all_hints,
-                                                       'am_hints': amount_hints})
+                                                       'am_hints': amount_hints,
+                                                       'list': exercise_list})
 
 def createImportHTML(all_lists, all_exercises):
     html = ""
@@ -217,8 +274,8 @@ def importExercise(request, listId):
                 references = []
                 for key, i in all_exercises.items():
                     for ex in i:
-                        copy = request.POST.get('checkbox_copy/' + str(key) + '/' + str(ex.id))
-                        ref = request.POST.get('checkbox_import/' + str(key) + '/' + str(ex.id))
+                        copy = request.POST.get('checkbox_copy/' + str(key) + '/' + str(ex.exercise_number))
+                        ref = request.POST.get('checkbox_import/' + str(key) + '/' + str(ex.exercise_number))
                         if copy is not None:
                             copies.append(ex)
 
@@ -250,7 +307,6 @@ def filterOrder(order):
         new_order.append(int(i.replace('exercise', '')))
     return new_order
 
-
 def list(request, id=0):
 
     # score spread forthis exercise
@@ -269,8 +325,6 @@ def list(request, id=0):
     number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
 
     subjects = exercise_list.allSubjects()
-    languages = object_manager.allProgrammingLanguages()
-    current_language = exercise_list.programming_language_string
     creator = exercise_list.creatorName()
     created_on = exercise_list.created_on
 
@@ -278,41 +332,37 @@ def list(request, id=0):
         subjects = []
 
     if request.method == 'POST':
+        user = logged_user(request)
+        if request.POST.get('rating') is not None and user is not None:
+            user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
-        if request.POST.get('rating') is not None and logged_user(request) is not None:
-            logged_user(request).updateListRating(exercise_list.id, int(request.POST.get('rating')))
+        elif user is not None and user.id != exercise_list.created_by:
+            # just to be sure we can't import stuff in our own list
+            # Import parts of list
+            all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+            copies = []
+            references = []
+            for i in all_exercises:
+                copy = request.POST.get('checkbox_copy' + str(i.exercise_number))
+                ref = request.POST.get('checkbox_import' + str(i.exercise_number))
+                if copy is not None:
+                    copies.append(i)
 
-        else:
-            updated_list_name = request.POST.get('updated_list_name')
-            updated_difficulty = request.POST.get('updated_difficulty')
-            updated_subjects_amount = int(request.POST.get('current_subjects'))
-            updated_subjects = []
-            updated_prog_lang = request.POST.get('prog_lang', '')
-            updated_description = request.POST.get('updated_description_text')
-            new_order = request.POST.get('order')
-            if new_order != "":
-                new_order = filterOrder(new_order)
-                exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
-
-            for i in range(updated_subjects_amount):
-                subject = request.POST.get('subject' + str(i))
-                if subject is not None:
-                    updated_subjects.append(subject)
-
-            removed_subjects = set(subjects) - set(updated_subjects)
-            intersection = set(subjects) & set(updated_subjects)
-            subjects_to_add = set(updated_subjects) - intersection
-
-            for subject in removed_subjects:
-                exercise_list.deleteSubject(subject)
-
-            for subject in subjects_to_add:
-                exercise_list.addSubject(subject)
-
-            exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
+                if ref is not None:
+                    references.append(i)
+            # Here we got the exercises
+            # Check in which lists we need to insert them
+            mylists = user.getUserLists()
+            lists = []
+            for l in mylists:
+                found = request.POST.get('mylist_' + str(l.id))
+                if found:
+                    for ref in references:
+                        l.insertExerciseByReference(ref.id)
+                    for copy in copies:
+                        l.copyExercise(copy.id)
 
     if exercise_list:
-        prog_lang = exercise_list.programming_language_string
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
         correct_user = False
@@ -356,7 +406,9 @@ def list(request, id=0):
         similar_list_ids = []
 
         user_rating = 0
+        user_lists = None
         if logged_user(request):
+            user_lists = logged_user(request).getUserLists()
             user_rating = logged_user(request).getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
@@ -365,17 +417,16 @@ def list(request, id=0):
                     similar_list_ids = recommendNextExerciseLists(made_list)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request).id)
+
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
-        return render(request, 'list.html', {'list_name': exercise_list.name,
-                                             'list_description': exercise_list.description,
-                                             'list_programming_lang': prog_lang,
-                                             'correct_user': correct_user,
+
+
+
+        return render(request, 'list.html', {'correct_user': correct_user,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises,
                                              'subjects': subjects,
-                                             'programming_languages': languages,
-                                             'current_prog_lang': current_language,
                                              'avg_score': avg_score,
                                              'avg_rating': avg_rating,
                                              'number_of_users': number_of_users,
@@ -387,14 +438,16 @@ def list(request, id=0):
                                              'creator': creator,
                                              'created_on': created_on,
                                              'similar_lists': similar_lists,
-                                             'score_spread': bar_chart1})
+                                             'score_spread': bar_chart1,
+                                             'list': exercise_list,
+                                             'user_lists': user_lists})
     else:
         return redirect('/')
 
 @require_login
 def answerQuestion(request, list_id, exercise_number):
     current_user = logged_user(request)
-    question_id = object_manager.getExerciseID(list_id, exercise_number)
+
     if request.method == "POST":
 
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
@@ -405,7 +458,7 @@ def answerQuestion(request, list_id, exercise_number):
         all_exercise = exercise_list.allExercises("en")
         current_exercise = None
         for i in all_exercise:
-            if i.id == int(question_id):
+            if i.exercise_number == int(exercise_number):
                 current_exercise = i
                 current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 break
@@ -538,19 +591,37 @@ def submit(request, list_id, exercise_number):
     else:
         return redirect('/')
 
-def createListElem(elem):
-    return """<li class=\"accordion-navigation\">
-      <a href=\"#Exerc{id}\">{list_name}</a>
-      <div id=\"Exerc{id}\" class=\"content\">
-      <div class=\"row\">
-      <a href=\"{id}\" class=\"button tiny radius\">Open list</a>
+def createListElem(i, elem):
+    class_name = "planet "
+    if elem['prog_lang_id'] == 1:
+        class_name += "python"
+    elif elem['prog_lang_id'] == 2:
+        class_name += "cpp"
+    elif elem['prog_lang_id'] == 3:
+        class_name += "sql"
+
+    return """<div>
+          <div class=\"{class_name}\">
+          {for_i}
       </div>
+      <div class=\"information panel\">
+        <div class=\"row\">
+          <div class=\"text-center\">
+            {list_name}
+          </div>
+        </div>
+        <div class=\"row\">
+          <div class=\"text-center\">
+            <button class=\"tiny radius\">Explore!</button>
+          </div>
+        </div>
       </div>
-      </li>""".format(id=elem['id'], list_name=elem['name'])
+      </div>""".format(class_name=class_name, list_name=elem['name'], for_i=i + 1)
 
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
+
     pie_graph = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
@@ -588,7 +659,8 @@ def listOverview(request):
         if user_name != "":
             user_name = user_name.split(' ')
             user_first_name = user_name[0]
-            user_last_name = user_name[1]
+            if len(user_name) > 1:
+                user_last_name = user_name[1]
 
         subjects = request.POST.get('subjects')
         if subjects != "":
@@ -608,7 +680,7 @@ def listOverview(request):
 
         return HttpResponse(html)
 
-    all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+    all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode))
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),

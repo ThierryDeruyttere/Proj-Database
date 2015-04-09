@@ -4,7 +4,7 @@ CREATE DATABASE IF NOT EXISTS sandbox;
 
 DROP DATABASE IF EXISTS codegalaxy;
 CREATE DATABASE codegalaxy;
-\r codegalaxy
+use codegalaxy
 
 CREATE TABLE user(
   id INT NOT NULL AUTO_INCREMENT,
@@ -70,7 +70,6 @@ CREATE TABLE exerciseList(
   created_by INT NOT NULL,
   created_on DATETIME NOT NULL,
   prog_lang_id INT NOT NULL,
-  default_language_code VARCHAR(255) NOT NULL,
   FOREIGN KEY (prog_lang_id) REFERENCES programmingLanguage(id),
   PRIMARY KEY(id)
 );
@@ -108,7 +107,7 @@ CREATE TABLE answer(
 );
 
 CREATE TABLE code(
-  code_text BLOB NOT NULL,
+  code_text BLOB,
   exercise_id INT,
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   PRIMARY KEY(exercise_id)

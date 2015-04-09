@@ -3,7 +3,7 @@
 {% load custom_filters %}
 {% block base_body %}
   <head>
-    <link rel="stylesheet" type="text/css" href="{% static "custom_css/importExercise.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/importExercise.css" %}" />
   </head>
 
   <form method="GET" id="search" name="search">
@@ -29,10 +29,11 @@
                 <div id="Exerc{{ list.id }}" class="content">
                   <div class="row">
                     <div class="large-centered columns">
-                      <input class="list_check"  id="list_copy{{ list.id }}"  type="checkbox"><label>Copy all list</label>
-                      <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
+                      {% if all_exercises|for_key:list.id %}
+                        <input class="list_check"  id="list_copy{{ list.id }}"  type="checkbox"><label>Copy all list</label>
+                        <input class="list_check"  id="list_import{{ list.id }}" type="checkbox"><label>Import all list</label>
 
-                      <table>
+                        <table>
                         <thead>
                         <tr>
                           <th width="200">Title</th>
@@ -42,11 +43,19 @@
                         </thead>
                         {% for e in all_exercises|for_key:list.id %}
                           <tbody>
-                          <td>{{ e.title }}</td>
-                          <td><input class="import_check" id="checkbox_copy{{ e.id }}" name="checkbox_copy/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
-                          <td><input class="import_check" id="checkbox_import{{ e.id }}" name="checkbox_import/{{ list.id }}/{{ e.id }}" type="checkbox"></td>
+                          <td><p id="name_{{ list.id }}_{{ e.exercise_number }}">{{ e.title }}</p>
+                            {% if e.isReference %}
+                              <br/>
+                              <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                            {% endif %}
+                          </td>
+                          <td><input class="import_check" id="checkbox_copy_{{ list.id }}_{{ e.exercise_number }}" name="checkbox_copy/{{ list.id }}/{{ e.exercise_number }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_import_{{ list.id }}_{{ e.exercise_number }}" name="checkbox_import/{{ list.id }}/{{ e.exercise_number }}" type="checkbox"></td>
                           </tbody>
                         {% endfor %}
+                      {% else %}
+                        This list does not contain any exercises.
+                      {% endif %}
                       </table>
                     </div>
                   </div>
@@ -55,13 +64,32 @@
             {% endfor %}
           </ul>
           <br/>
+        </form>
+        <div class="row">
+          <div class="large-text-center columns">
+            <a href="/l/{{ list_id }}" class="button small radius">Return</a>
+            <button class="button small radius" id="import_modal" name="import_modal">Import</button>
+          </div>
+        </div>
+
+
+        <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+          <h2 id="modalTitle">Confirmation</h2>
+
           <div class="row">
-            <div class="large-text-center columns">
-              <a href="/l/{{ list_id }}" class="button small radius">Return</a>
-              <button class="button small radius" id="import_submit" name="import_submit">Import</button>
+            <div class="large-4 large-centered large-text-center columns import_confirm_list">
             </div>
           </div>
-        </form>
+
+          <div class="row">
+            <div class="large-centered large-text-center columns">
+              <button class="alert small radius" id="cancel_button">Cancel</button>
+              <button class="success small radius" id="import_button">Import!</button>
+            </div>
+          </div>
+          <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+
       </div>
     </div>
   </div>
@@ -69,7 +97,6 @@
 {% endblock base_body %}
 {% block body_js %}
   <script>
-
 
     $(".import_check").click(function(event){
       var id = this.id;
@@ -108,10 +135,6 @@
       }
     });
 
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
 
     $("#search_input").on('input', function(e){
       e.preventDefault();
@@ -130,38 +153,89 @@
       });
     });
 
-    $("#import_submit").click(function(){
+    function filterName(name){
+      var newName = name.replace(/ /g, "_").replace(/./g, '');
+      return newName;
+    }
+
+    function addList(list, listName){
+      $('.import_confirm_list').append('<h3><u>' + listName).append('<div>').append('<ul class= "' + listName + '">');
+      $.each(list, function(key, value){
+        var div = document.createElement('div');
+
+        var parent = document.createElement("u");
+        $(parent).html(key);
+        div.appendChild(parent);
+        for(var i = 0; i < value.length; ++i){
+          var node = document.createElement('li');
+          $(node).html(value[i]);
+          div.appendChild(node);
+        };
+        $('.' + listName).append(div);
+      });
+    }
+
+    $('#import_modal').click(function(){
+      var checked = 0;
+      $('.import_confirm_list').empty();
+      var imp = {};
+      var copy = {};
+
+      $('.import_check').each(function(index){
+        if($(this).prop('checked')){
+          checked++;
+          var id = this.id;
+          var stripped;
+          var text;
+          if(id.indexOf('checkbox_copy') >= 0){
+            stripped = id.replace('checkbox_copy', '');
+            var list_id = stripped.split('_')[1];
+            var name = $('#name' + stripped).parents().find('a[href="#Exerc' + list_id+ '"]').text();
+            text =  $('#name' + stripped).text();
+            if (!copy[name]) {
+              copy[name] = [];
+            }
+            copy[name].push(text);
+
+          }else{
+            stripped = id.replace('checkbox_import', '');
+            var list_id = stripped.split('_')[1];
+            var name = $('#name' + stripped).parents().find('a[href="#Exerc' + list_id+ '"]').text();
+            text =  $('#name' + stripped).text();
+            if (!imp[name]) {
+              imp[name] = [];
+            }
+            imp[name].push(text);
+
+          }
+
+        }
+
+      });
+
+      if(checked > 0) {
+        if (Object.keys(imp).length > 0) {
+          addList(imp, "Import");
+        }
+
+        if (Object.keys(copy).length > 0) {
+          addList(copy, "Copy");
+        }
+
+        $('#import_confirm_modal').foundation('reveal', 'open', '');
+      }
+    });
+
+    $('#cancel_button').click(function(){
+      $('#import_confirm_modal').foundation('reveal', 'close', '');
+    });
+
+    $("#import_button").click(function(){
       $("#import_list").form.submit();
       $("#import_list").form.reset();
     });
 
 
-    //Django stuff
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
-
-
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-      }
-    });
 
   </script>
 {% endblock %}

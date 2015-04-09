@@ -9,6 +9,7 @@
 <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
 <script src="{% static "codemirror/mode/python/python.js" %}"></script>
 <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+
 <script src="{% static "codemirror/mode/sql/sql.js" %}"></script>
 <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
 <script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
@@ -16,7 +17,7 @@
 
 {# Custom CSS #}
 {% block css %}
-<link href="{% static "css/style.css" %}" rel="stylesheet"/>
+<link href="{% static "css/general.css" %}" rel="stylesheet"/>
 <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
 <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 {% endblock css %}
@@ -27,7 +28,7 @@
     <nav class="top-bar" data-topbar>
         <ul class="title-area">
             <li class="name">
-                <h1><a href="/"><img src={% static "rocket2.png" %}/></a></h1>
+                <h1><a href="/"><img src={% static "media/rocket2.png" %}/></a></h1>
             </li>
             <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
         </ul>

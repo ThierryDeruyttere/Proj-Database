@@ -7,29 +7,29 @@
 
 {% block base_body %}
   <head>
-    <link rel="stylesheet" type="text/css" href="{% static "custom_css/list.css" %}" />
+    <link rel="stylesheet" type="text/css" href="{% static "css/list.css" %}" />
   </head>
 
   <div class="row">
     <div class="large-12 columns">
       <div class="text-center">
         <div class="row">
-          <h2>{{ list_name }}</h2>
+          <h2>{{ list.name }}</h2>
         </div>
         <div class="row">
           <div class="large-6 large-centered text-center columns">
-            <i>{{ list_description }}</i>
+            <i>{{ list.description }}</i>
           </div>
         </div>
 
         <div class="row">
           <div class="large-6 large-centered text-center columns">
             <br/>
-            {% if list_programming_lang == "Python" %}
+            {% if list.programming_language_string == "Python" %}
               <img class="Icon" src="{% static "media/python.png" %}">
-            {% elif list_programming_lang == "C++" %}
+            {% elif list.programming_language_string == "C++" %}
               <img class="Icon" src="{% static "media/C++.png" %}">
-            {% elif list_programming_lang == "SQL" %}
+            {% elif list.programming_language_string == "SQL" %}
               <img class="Icon" src="{% static "media/sql.png" %}">
             {% endif %}
           </div>
@@ -85,26 +85,20 @@
         </div>
       </div>
 
-
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-
+          <div class="panel callout radius info ">
             <ul class="large-block-grid-3">
               <li>
-                <h3>{{ avg_score }}</h3>
-                <br/>
+                <h4>{{ avg_score }}</h4>
                 Average Score
               </li>
-
               <li>
-                <h3>{{ avg_rating }}</h3>
-                <br/>
+                <h4>{{ avg_rating }}</h4>
                 Average rating
               </li>
               <li>
-                <h3>{{ number_of_users }}</h3>
-                <br/>
+                <h4>{{ number_of_users }}</h4>
                 Users that finished list
               </li>
             </ul>
@@ -112,6 +106,7 @@
         </div>
       </div>
 
+      <!--
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <h2>Score Spread</h2>
@@ -119,6 +114,7 @@
           {{ score_spread |safe }}
         </div>
       </div>
+      -->
 
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
@@ -127,174 +123,130 @@
               <li>
                 Made By
                 <br/>
-                <h3>{{ creator }}</h3>
+                <h4>{{ creator }}</h4>
               </li>
-
               <li>
                 Made On
                 <br/>
-                <h3>{{ created_on }}</h3>
+                <h4>{{ created_on }}</h4>
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-
       <hr>
-
       <div class="row">
         <div class="large-2 right columns">
           {% if correct_user %}
             <ul class="large-block-grid-3">
-              <li><a href="/l/{{ id }}/importExercise" class="button tiny radius">Import exercise</a></li>
+              <li><a href="/l/{{ list.id }}/importExercise" class="button tiny radius">Import exercise</a></li>
               <li></li>
-              <li><a href="/l/{{ id }}/createExercise" class="button tiny radius">Create exercise</a></li>
+              <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">Create exercise</a></li>
             </ul>
           {% elif not correct_user %}
-            <button class="tiny button radius" id="import">Add exercises to my list</button>
-          {% endif %}
-        </div>
-        <div class="large-2 left columns">
-          {% if correct_user %}
-            <a href="#" data-reveal-id="Subject_Modal" class="button tiny radius">Edit list</a>
-
-            <div id="Subject_Modal" class="reveal-modal" data-reveal>
-              <h2>List editor</h2>
-              <form method="POST" id="list_editor">
-                {% csrf_token %}
+            <a href="#" class="tiny button radius" data-reveal-id="import">Add exercises to my list</a>
+            <form method="POST" id="import_list">
+              {% csrf_token %}
+              <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                <h2 id="modalTitle">Import exercise</h2>
                 <div class="row">
-                  <div class="large-4 large-centered columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">List name</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="list_name" name="updated_list_name" class="text-center" value="{{ list_name }}">
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                  <div class="large-centered large-text-center columns">
+                    {% if all_exercises %}
+                      <input class="list_check"  id="list_copy"  type="checkbox"><label>Copy all list</label>
+                      <input class="list_check"  id="list_import" type="checkbox"><label>Import all list</label>
 
-                <div class="large-4 large-centered columns">
-
-                  <textarea placeholder="Enter description of exercise list" name="updated_description_text">{{ list_description }}</textarea>
-
-                  <div class="row">
-                    <div class="small-10 medium-11 columns">
-                      <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
-                        <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                        <span class="range-slider-active-segment"></span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="large-4 large-centered columns">
-                    <div class="row collapse prefix-radius">
-                      <div class="small-3 columns">
-                        <span class="prefix">Difficulty</span>
-                      </div>
-                      <div class="small-9 columns">
-                        <input type="text" id="difficulty" name="updated_difficulty" readonly="True" class="text-center">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="large-4 large-centered columns">
-                    <label>Programming language</label>
-                    <select name="prog_lang">
-                      {% for lang in programming_languages %}
-                        {% if lang.name == current_prog_lang %}
-                          <option value="{{ lang.name }}" selected>{{ lang.name }}</option>
-                        {% else %}
-                          <option value="{{ lang.name }}">{{ lang.name }}</option>
-                        {% endif %}
-
+                      <table>
+                      <thead>
+                      <tr>
+                        <th width="200">Title</th>
+                        <th width="150">copy original</th>
+                        <th width="150">reference</th>
+                      </tr>
+                      </thead>
+                      {% for e in all_exercises %}
+                        <tbody>
+                        <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
+                          {% if e.isReference %}
+                            <br/>
+                            <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                          {% endif %}
+                        </td>
+                        <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
+                        <td><input class="import_check" id="checkbox_import{{ e.exercise_number }}" name="checkbox_import{{ e.exercise_number }}" type="checkbox"></td>
+                        </tbody>
                       {% endfor %}
-                    </select>
+                    {% else %}
+                      This list does not contain any exercises.
+                    {% endif %}
+                    </table>
+                  </div>
+                </div>
+                <br/>
+                <div class="row">
+                  <div class="large-text-center columns">
+                    <button class="button small radius" id="import_confirm">Import</button>
+                  </div>
+                </div>
+                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+              </div>
+
+              <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                <h2 id="modalTitle">Confirmation</h2>
+
+                <div class="row">
+                  <div class="large-2 large-centered large-text-center columns import_confirm_list">
                   </div>
                 </div>
 
-                <div class="large-4 large-centered columns">
-                  <fieldset>
-                    <legend>Subjects</legend>
-                    <div class="row" id="subjects_list">
-                      {% for subject in subjects %}
-                        <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
-                        <input type="hidden" id="{{ subject }}_text" name="subject{{ forloop.counter0 }}" hidden="True" class="text-center" value="{{ subject }}">
+                <div class="row">
+                  <div class="large-3 large-centered large-text-center columns">
+                    <fieldset>
+                      <legend>Import into:</legend>
+                      {% for l in user_lists %}
+                        <input class="mylists" type="checkbox" name="mylist_{{ l.id }}" id="mylist_{{ l.id }}">
+                        <label for="mylist_{{ l.id }}">{{ l.name }}</label>
                       {% endfor %}
-                    </div>
-                  </fieldset>
-                  <h6>click on a subject to delete it</h6>
-                  <div class="row collapse prefix-radius">
-                    <div class="small-4 columns">
-                      <span class="prefix">New subject</span>
-                    </div>
-                    <div class="small-6 columns">
-                      <input type="text" id="subject" name="subject" class="text-center">
+                    </fieldset>
 
-                    </div>
-                    <div class="small-2  columns">
-                      <span class="postfix" id="add-subject"><i class="fi-plus"></i></span>
-                    </div>
                   </div>
                 </div>
-
-
-                <div class ="row">
-                  <div class="large-10 large-centered columns">
-                    <ul class="pricing-table">
-                      <li class="title">Exercises</li>
-                      <div class="row">
-                        <ul class="accordion dragdrop" id="dragdrop" data-accordion>
-                          {% for exercise in all_exercises %}
-                            <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
-                              <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
-                              <div id="Exerc{{ exercise.exercise_number }}" class="content">
-                                <div class="row">
-                                  <a href="{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">Edit exercise</a>
-                                  <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
-                                </div>
-                              </div>
-                            </li>
-                          {% endfor %}
-                        </ul>
-                        <li class="price"></li>
-                      </div>
-                    </ul>
-                  </div>
-                  <input type="hidden" id="order" name="order">
-                </div>
-
-                <button id="sub_button" class="secondary button tiny radius" value="Edit">Edit</button>
-                <a class="close-reveal-modal">&#215;</a>
-                <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
-              </form>
+            </form>
+            <div class="row">
+              <div class="large-centered large-text-center columns">
+                <button class="alert small radius" id="cancel_button">Cancel</button>
+                <button class="success small radius" id="import_button">Import!</button>
+              </div>
+            </div>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
             </div>
           {% endif %}
+      </div>
+      <div class="large-2 left columns">
+        {% if correct_user %}
+          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">Edit list</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class ="row">
+      <div class="large-3 large-centered large-text-center columns">
+        Exercises
+        <div class="row">
+          {% for exercise in all_exercises %}
+            <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
+              {{ exercise.title }}
+              {% if exercise.solved %}
+                <div class="label success left"><i class="fi-checkbox"></i></div>
+              {% endif %}
+              <img class="Arrow" src="{% static "media/arrow.png" %}">
+            </div>
+          {% endfor %}
         </div>
       </div>
+    </div>
 
-      <div class ="row">
-        <div class="large-3 large-centered large-text-center columns">
-          Exercises
-          <div class="row">
-            {% for exercise in all_exercises %}
-              <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
-                {{ exercise.title }}
-                {% if exercise.solved %}
-                  <div class="label success left"><i class="fi-checkbox"></i></div>
-                {% endif %}
-                <img class="Arrow" src="{% static "media/arrow.png" %}">
-              </div>
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
+    {% if similar_lists|length > 0 %}
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <div class="panel callout radius info">
@@ -309,8 +261,9 @@
           </div>
         </div>
       </div>
+    {% endif %}
 
-    </div>
+  </div>
   </div>
 {% endblock base_body %}
 
@@ -318,112 +271,14 @@
   <script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
 
-    var subjects = {{ subjects|length }};
-
-    $(document).ready(function(){
-      $("#add-subject").click(function(){
-
-        var label = document.createElement("span");
-        label.setAttribute("class", "success label");
-        label.innerHTML = document.getElementById("subject").value;
-        label.setAttribute("id", "subject"+subjects);
-        label.onclick = function(){
-          $( '#' + label.id ).fadeOut( "slow", function() {
-            // Animation complete.
-            var elem = document.getElementById(label.id);
-            elem.parentNode.removeChild(elem);
-            var text = document.getElementById(label.id +"_text");
-            text.parentNode.removeChild(text);
-          });
-        };
-
-        var input = document.createElement("input");
-        input.setAttribute('type', "hidden");
-        input.setAttribute("class", "text-center");
-        input.setAttribute("hidden", "True");
-        input.setAttribute("id", "subject"+subjects+"_text");
-        input.value = document.getElementById("subject").value;
-        input.setAttribute("name", "subject"+subjects);
-        document.getElementById("subject").value = "";
-        subjects++;
-
-        document.getElementById("current_subjects").value = subjects;
-        document.getElementById("subjects_list").appendChild(label);
-        document.getElementById("subjects_list").appendChild(input);
-        //$(document).foundation();
-        //$(document).foundation('span', 'reflow');
-
-      });
-    });
-
-    function removeSubject(obj){
-
-      $( '#' + obj.id ).fadeOut( "slow", function() {
-        // Animation complete.
-        obj.parentNode.removeChild(obj);
-        var text = document.getElementById(obj.id + "_text" );
-        text.parentNode.removeChild(text);
-
-      });
-    }
-
-    $(".exercise").click(function(){
-      var number = (this.id).replace("Exercise","");
-      window.location += number;
-    });
-
-    $(".Start").click(function(){
-      var id = this.id;
-      window.location += id;
-    });
-
-
-    $("#sub_button").click(function(){
-      $(function(){
-        $('#list_editor').submit(function(e){
-          e.preventDefault();
-          var form = $(this);
-          var post_data = form.serialize();
-          console.log(post_data);
-          $.ajax({
-            type: 'POST',
-            url: "",
-            data: post_data,
-
-            success: function(response) {
-              location.reload();
-            }
-          });
-        });
-      });
-    });
-
     $('img').on('dragstart', function(event) { event.preventDefault(); });
 
     $(document).ready(function() {
 
-      var updateFunc = function (event,ui){
-        var t = $(this).sortable("toArray").toString();
-        $("#order").val(t);
-      };
-
-      $(function() {
-        $( "#dragdrop" ).sortable({
-          delay:100,
-          update: updateFunc
-        });
-        $( "#dragdrop" ).disableSelection();
-        $( "#dragdrop").on("callUpdate", updateFunc);
-      });
-
-
-      $(".removal").click(function(){
-        var text = this.id;
-        text = text.replace('remove_', '');
-        console.log(text);
-        var remove = $("#exercise" + text);
-        $(remove).remove();
-        $( "#dragdrop").trigger("callUpdate");
+      //Start button
+      $(".Start").click(function(){
+        var id = this.id;
+        window.location += id;
       });
 
       $.fn.raty.defaults.path = "{{ STATIC_URL }}img";
@@ -442,9 +297,7 @@
               },
 
               error: function(xhr, textStatus, errorThrown){
-
               }
-
             });
           });
 
@@ -452,41 +305,111 @@
       });
     });
 
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-    //Django stuff
-    function getCookie(name) {
-      var cookieValue = null;
-      if (document.cookie && document.cookie != '') {
-        var cookies = document.cookie.split(';');
-        for (var i = 0; i < cookies.length; i++) {
-          var cookie = jQuery.trim(cookies[i]);
-          // Does this cookie string begin with the name we want?
-          if (cookie.substring(0, name.length + 1) == (name + '=')) {
-            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-            break;
-          }
-        }
-      }
-      return cookieValue;
-    }
-    var csrftoken = getCookie('csrftoken');
+    //Exercise button
+    $(".exercise").click(function(){
+      var number = (this.id).replace("Exercise","");
+      window.location += number;
+    });
 
-    function csrfSafeMethod(method) {
-      // these HTTP methods do not require CSRF protection
-      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-    }
-
-    $.ajaxSetup({
-      beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-          xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
+    //Import stuff
+    $(".import_check").click(function(event){
+      var id = this.id;
+      if(id.indexOf('checkbox_copy') >= 0){
+        var stripped = id.replace('checkbox_copy', '');
+        $("#checkbox_import" + stripped).prop('checked', false);
+      }else{
+        var stripped = id.replace('checkbox_import', '');
+        $("#checkbox_copy" + stripped).prop('checked', false);
       }
     });
 
+    $(".list_check").click(function(){
+      var siblings = this.parentNode.childNodes;
+      var execute = this.id;
+      if(execute.indexOf('list_copy') >= 0){
+        var list_id = execute.replace('list_copy','');
+        $('#list_import'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_copy']").each(function(){
+          $(this).trigger('click');
+        });
+      }else{
+        var list_id = execute.replace('list_import','');
+        $('#list_copy'+list_id).prop('checked', false);
+        $(siblings).find("input[id^='checkbox_import']").each(function(){
+          $(this).trigger('click');
+        });
+      }
+    });
+
+    function addList(list, listName){
+      $('.import_confirm_list').append('<h3><u>' + listName).append('<div>').append('<ul class= "' + listName + '">');
+      $(list).each(function(){
+        $('.' + listName).append('<li>'+ this);
+      });
+    }
+
+    $('#import_confirm').click(function(){
+      var checked = 0;
+      $('.import_confirm_list').empty();
+      var imp = [];
+      var copy = [];
+
+      $('.import_check').each(function(index){
+        if($(this).prop('checked')){
+          checked++;
+          var id = this.id;
+          var stripped;
+          if(id.indexOf('checkbox_copy') >= 0){
+            stripped = id.replace('checkbox_copy', '');
+            copy.push($('#name' + stripped).text());
+          }else{
+            stripped = id.replace('checkbox_import', '');
+            imp.push($('#name' + stripped).text());
+          }
+        }
+
+      });
+      if(checked > 0){
+        if(imp.length > 0){
+          addList(imp, "Import");
+        }
+
+        if(copy.length > 0){
+          addList(copy, "Copy");
+        }
+
+        $('#import_confirm_modal').foundation('reveal', 'open', '');
+      }else{
+        alert('You need to import atleast one exercise to continue!');
+      }
+    });
+
+    //close the window
+    $('#cancel_button').click(function(){
+      $('#import_confirm_modal').foundation('reveal', 'close', '');
+    });
+
+    $('#import_button').click(function(e){
+      e.preventDefault();
+      var form = $("#import_list");
+      //For some weird reason, need to add mylists to the form again
+      //Else it doesn't register
+
+      var post_data = form.serialize() + '&' + $('.mylists').serialize();
+
+      $.ajax({
+        type: 'POST',
+        url: "",
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+          $('#import_confirm_modal').foundation('reveal', 'close', '');
+          $('#import_list')[0].reset();
+        }
+
+      });
+    });
 
   </script>
 {% endblock %}

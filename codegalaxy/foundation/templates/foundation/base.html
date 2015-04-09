@@ -30,12 +30,17 @@
   {# Override if you need another version of jQuery #}
   {% block foundation_jquery %}
     <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
-    <script src="{% static "jquery.cookie.js" %}"></script>
   {% endblock foundation_jquery %}
 
-  {% block jquery_ui %}
-     <script src="{% static "jquery_ui/jquery-ui.min.js" %}"></script>
-  {% endblock jquery_ui %}
+  {% block custom_jquery %}
+    <script src="{% static "jquery.cookie.js" %}"></script>
+    <script src="{% static "jquery_ui/jquery-ui.min.js" %}"></script>
+  {% endblock custom_jquery %}
+
+  {% block slick_ui %}
+    <link href="{% static "slick/slick/slick.css" %}" rel="stylesheet"/>
+    <link href="{% static "slick/slick/slick-theme.css" %}" rel="stylesheet"/>
+  {% endblock slick_ui %}
 
   {% block ajax_stuff %}{% endblock ajax_stuff %}
 
@@ -52,11 +57,14 @@
 
 {% block footer %}{% endblock footer %}
 
-
 {# Foundation JS #}
 {% block foundation_js %}
   <script src="{% static "foundation/js/foundation.min.js" %}"></script>
 {% endblock foundation_js %}
+
+{% block slick_js %}
+  <script src="{% static "slick/slick/slick.js" %}"></script>
+{% endblock slick_js %}
 
 {# Custom JS #}
 {% block body_js %}{% endblock body_js %}

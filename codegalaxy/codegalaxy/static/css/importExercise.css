@@ -6,6 +6,11 @@ html {
     overflow-y: scroll;
 }
 
-#import_submit{
+#import_modal{
     background-color: #E74C3C !important;
 }
+
+p, li, h2, u{
+    color: #000000 !important;
+}
+

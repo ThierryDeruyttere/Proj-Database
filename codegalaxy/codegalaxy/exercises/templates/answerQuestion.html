@@ -1,10 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 
-{% block head_js %}
-  <script src="{% static "skulpt.min.js" %}" type="text/javascript"></script>
-  <script src="{% static "skulpt-stdlib.js" %}" type="text/javascript"></script>
-{% endblock head_js %}
 
 {% block base_body %}
   <div class="row">
@@ -74,6 +70,8 @@
                 </ul>
               </div>
             </div>
+
+            <button type="button" class="small radius button" id="reset">Reset question</button>
           {% endif %}
 
           <hr>
@@ -86,6 +84,7 @@
                 <input id="code_output" type="hidden" value=""></input>
                 <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
               {% endif %}
+              <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">Return to list</a></li>
             </div>
           </div>
         </form>
@@ -98,11 +97,18 @@
   <script type="text/javascript">
 
     var code_text = CodeMirror.fromTextArea(user_code,
-      {
-        lineNumbers: true,
-        mode: "python",
-        theme: "monokai"
-      });
+            {
+              lineNumbers: true,
+              {% if list.programming_language_string == "Python" %}
+                mode: "python",
+              {% elif list.programming_language_string == "C++" %}
+                mode: "text/x-c++src",
+              {% elif list.programming_language_string == "SQL" %}
+                mode: "sql",
+              {% endif %}
+              theme: "monokai"
+            });
+    
     var curr_hint = 1;
     function addHint(){
       document.getElementById("hint"+curr_hint).hidden = false;
@@ -135,6 +141,11 @@
       $("#answer_question").submit();
     });
 
+    {% if exercise.exercise_type == "Code" %}
+      $('#reset').click(function(){
+        code_text.getDoc().setValue($("#user_code").val());
+      });
+    {% endif %}
   </script>
 
 

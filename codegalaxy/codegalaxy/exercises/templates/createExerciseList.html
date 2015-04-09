@@ -1,132 +1,140 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
 
 {% block base_body %}
-
+  <head>
+    <link rel="stylesheet" href="{% static "css/createExerciseList.css" %}">
+  </head>
 
   <div class="row">
     <div class="large-12 columns text-center">
-      <div class="panel">
-        <h1>Create a new list</h1>
-      </div>
+      <h1>Create a new list</h1>
     </div>
-    <div class="panel">
-      <form method="post" id="list_form">
-        {% csrf_token %}
-        <div class="row">
-          <div class="large-4 large-centered columns">
+    <form method="post" id="list_form">
+      {% csrf_token %}
+      <div class="row">
+        <div class="large-4 large-centered columns">
 
-            <input type="text" placeholder="Enter list name" name="list_name">
+          <input type="text" placeholder="Enter list name" name="list_name">
 
-            <textarea placeholder="Enter description of exercise list" name="description_text"></textarea>
-            <div class="row">
-              <div class="small-10 medium-11 columns">
-                <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
-                  <span class="range-slider-handle" role="slider" tabindex="0"></span>
-                  <span class="range-slider-active-segment"></span>
-                </div>
+          <textarea placeholder="Enter description of exercise list" name="description_text"></textarea>
+          <div class="row">
+            <div class="small-10 medium-11 columns">
+              <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+                <span class="range-slider-handle" role="slider" tabindex="0"></span>
+                <span class="range-slider-active-segment"></span>
               </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="large-4 large-centered columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-3 columns">
-                  <span class="prefix">Difficulty</span>
-                </div>
-                <div class="small-9 columns">
-                  <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-4 large-centered columns">
-              <label>Programming language</label>
-              <select name="prog_lang">
-                {% for lang in languages %}
-                  <option value="{{ lang.name }}">{{ lang.name }}</option>
-                {% endfor %}
-              </select>
-
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-4 large-centered columns">
-              <div class="row collapse prefix-radius">
-                <div class="small-3 columns">
-                  <span class="prefix">Subject</span>
-                </div>
-                <div class="small-6 columns">
-                  <input type="text" id="subject" name="subject" class="text-center">
-
-                </div>
-                <div class="small-3  columns">
-                  <span class="postfix" id="add-subject"><i class="fi-plus"></i></span>
-                </div>
-              </div>
-            </div>
-            <div class="large-4 large-centered columns">
-              <fieldset>
-                <legend>Subjects</legend>
-                <div class="row" id="subjects"></div>
-              </fieldset>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="large-2 large-centered columns">
-              <input type="button" id="submitButton" class="button" value="Create list">
             </div>
           </div>
         </div>
-      </form>
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Difficulty</span>
+              </div>
+              <div class="small-9 columns">
+                <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
+              </div>
+            </div>
+          </div>
+        </div>
 
-    </div>
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <label>Programming language</label>
+            <select name="prog_lang">
+              {% for lang in prog_languages %}
+                <option value="{{ lang.name }}">{{ lang.name }}</option>
+              {% endfor %}
+            </select>
+
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-4 large-centered columns">
+            <div class="row collapse prefix-radius">
+              <div class="small-3 columns">
+                <span class="prefix">Subject</span>
+              </div>
+              <div class="small-6 columns">
+                <input type="text" id="subject" name="subject" class="text-center">
+
+              </div>
+              <div class="small-3  columns">
+                <span class="postfix" id="add-subject"><i class="fi-plus"></i></span>
+              </div>
+            </div>
+          </div>
+          <div class="large-4 large-centered columns">
+            <fieldset>
+              <legend>Subjects</legend>
+              <div class="row" id="subjects"></div>
+            </fieldset>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="large-2 large-centered columns">
+            <input type="button" id="submitButton" class="success button" value="Create list">
+          </div>
+        </div>
+      </div>
+    </form>
+
   </div>
 
 {% endblock base_body %}
 
 {% block body_js %}
-<script>
+  <script>
 
-  $(document).ready(function() {
+    $(document).ready(function() {
 
-    var subjects = 0;
-    $("#add-subject").click(function() {
-      var label = $("<span/>", {"class":"success label","id":"subject"+subjects});
-      var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":$("#subject").val(),"name":"subject"+subjects});
+      var subjects = 0;
+      $("#add-subject").click(function() {
 
-      label.html($("#subject").val());
-      $("#subject").val("");
-      subjects++;
-      $("#subjects").append(label);
-      $("#subjects").append(input);
-      //$(document).foundation('span', 'reflow');
-    });
+        var val = $("#subject").val();
+        if($.trim(val).length == 0){
+          return;
+        }else{
+          val = $.trim(val);
+          console.log(val);
+          $("#subject").val("");
+          var label = $("<span/>", {"class":"success label","id":"subject"+subjects});
+          var input = $("<input/>", {"class":"text","hidden":"true","id":"subject"+subjects+"_text","value":val,"name":"subject"+subjects});
+          label.html(val);
+          subjects++;
+          $("#subjects").append(label);
+          $("#subjects").append(input);
+          //$(document).foundation('span', 'reflow');
+        }
 
-    $(document).on("click", "span[id^='subject']", function() {
-      $(this).fadeOut("slow", function() {
-        $("#" + $(this).attr("id") + "_text").remove();
-        $(this).remove();
       });
+
+      $(document).on("click", "span[id^='subject']", function() {
+        $(this).fadeOut("slow", function() {
+          $("#" + $(this).attr("id") + "_text").remove();
+          $(this).remove();
+        });
+
+      });
+
+      $("#submitButton").click(function(){
+        if(subjects == 0){
+          window.alert("You need to add at least one subject!");
+        }else{
+          var list = $("#list_form");
+          var input = $("<input>")
+                  .attr("type", "hidden")
+                  .attr("name", "subjects_amount").val(subjects);
+          list.append(input);
+          list.submit();
+        }
+      });
+
     });
 
-    $("#submitButton").click(function(){
-      if(subjects == 0){
-        window.alert("You need to add at least one subject!");
-      }else{
-        var list = $("#list_form");
-        var input = $("<input>")
-               .attr("type", "hidden")
-               .attr("name", "subjects_amount").val(subjects);
-        list.append(input);
-        list.submit();
-      }
-    });
-
-  });
-
-</script>
+  </script>
 {% endblock body_js %}

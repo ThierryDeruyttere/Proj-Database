@@ -183,6 +183,18 @@ def getExercCorrectAnswer(id, language_name):
     cursor.close()
     return fetched
 
+def getListsForUserId(user_id):
+    '''
+    @brief get the lists created by a certain user
+    @param id the id of the user
+    @return returns a dict with lists
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM  exerciseList  WHERE created_by = {id};'.format(id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getExerciseAnswers(exercise_id, language_name):
     '''
     @brief get the answers for a Exercise given an exercise id
@@ -579,7 +591,7 @@ def getMadeListForUserForList(user_id, list_id):
 
 def getOriginalExercise(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT original_id AS id FROM exercise_references WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT original_id AS id, exercise.exercise_number AS ex_number FROM exercise_references, exercise WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number} AND exercise.id = original_id;'.format(list_id=list_id, exercise_number = exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -627,6 +639,14 @@ def getLastAnswerForExerciseForUser(user_id, list_id, exercise_number):
     fetched = processOne(cursor)
     cursor.close()
     return fetched
+
+def getLanguageCodeForLangName(lang_name):
+    cursor = connection.cursor()
+    cursor.execute('SELECT language_code FROM language WHERE name = "{lang_name}" '.format(lang_name=lang_name))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched["language_code"]
+
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):

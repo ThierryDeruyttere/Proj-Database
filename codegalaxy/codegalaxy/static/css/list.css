@@ -1,9 +1,5 @@
 
 
-body{
-
-}
-
 #bg_panel{
     background-color: #ECF0F1 !important;
     color: #2980B9 ;
@@ -14,6 +10,20 @@ h2{
 }
 
 h3{
+    color: #000000 !important;
+}
+
+h2#modalTitle{
+    color: #1d1d1d !important;
+}
+
+table{
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+h4{
     color: #3498DB !important;
 }
 
@@ -49,4 +59,8 @@ h3{
 
 .Start{
     background-color: #E74C3C !important;
+}
+
+li{
+    color: #000000 !important;
 }
