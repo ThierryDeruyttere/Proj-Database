@@ -22,7 +22,6 @@ class Group:
         self.group_type = group_type
         self.created_on = created_on
 
-
     def getGroupPicture(self):
         group_picture = "group_pictures/{}.png".format(self.id)
         path = "./codegalaxy/static/" + group_picture
@@ -42,9 +41,8 @@ class Group:
         object_manager = managers.om.objectmanager.ObjectManager()
         user_list = []
         for members_info in members_infos:
-            user_list.append(object_manager.createUser(id = members_info['user_id']))
+            user_list.append(object_manager.createUser(id=members_info['user_id']))
         return user_list
-
 
     def save(self):
         '''
@@ -63,7 +61,7 @@ class Group:
 
     def deleteMember(self, user_id):
         dbw.deleteUserFromGroup(self.id, user_id)
-        
+
     def getUserPermissions(self, user_id):
         if self.group_type == 0:
             return 0

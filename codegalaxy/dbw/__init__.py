@@ -70,7 +70,7 @@ def getExerciseListInformation(id):
 
 def getGroupUserPermissions(id, user_id):
     '''
-    @brief get the permissions a user has in a group, 
+    @brief get the permissions a user has in a group,
     @param id the id of the user, and the id of the group
     @return returns a dict with information
     '''
@@ -638,7 +638,7 @@ def getLanguageCodeForLangName(lang_name):
     cursor.execute('SELECT language_code FROM language WHERE name = "{lang_name}" '.format(lang_name=lang_name))
     fetched = processOne(cursor)
     cursor.close()
-    return fetched
+    return fetched["language_code"]
 
 
 ##INSERT
@@ -813,7 +813,7 @@ def deleteGroupMembership(user_id, group_id):
 def deleteUserFromGroup(group_id, user_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM userInGroup WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
-    
+
 def deleteHints(exercise_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM hint WHERE hint.exercise_id={id};'.format(id=exercise_id))

@@ -28,7 +28,11 @@ def createExerciseList(request):
         list_description = request.POST.get('description_text', '')
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
-        def_lang = request.POST.get('default_language', '')
+
+        # Not longer in use
+        # def_lang = request.POST.get('default_language', '')
+        def_lang = "English"
+
         user = logged_user(request)
         exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d")), prog_lang, def_lang)
         # get subjects

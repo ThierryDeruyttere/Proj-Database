@@ -68,9 +68,8 @@ class ObjectManager:
         else:
             return None
 
-
     # Uses the DB to create an object representing an Exercise
-    def createExercise(self, id, language_code = 'en'):
+    def createExercise(self, id, language_code='en'):
         exercise_info = dbw.getExerciseInformation(id, language_code)
         if exercise_info:
             exercise_object = managers.om.exercise.Exercise(id, exercise_info['difficulty'],
@@ -99,8 +98,8 @@ class ObjectManager:
 
     def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name, lang_name):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
-        lang_code = dbw.getLanguageCodeForLangName(lang_name)["language_code"]
-        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id,lang_code)["highest_id"]
+        lang_code = dbw.getLanguageCodeForLangName(lang_name)
+        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_code)["highest_id"]
 
     def insertGroup(self, group_name, group_type, created_on):
         dbw.insertGroup(group_name, group_type, created_on)
@@ -144,14 +143,14 @@ class ObjectManager:
     def allSubjects(self):
         return dbw.getAllSubjects()
 
-    def occurencesOfSubject(self,subject_id):
+    def occurencesOfSubject(self, subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
     def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, rating=0):
         exercise = dbw.getMadeExercise(user_id, exercise_id, list_id, exercise_number)
         if exercise:
             pass
-            #Can't edit exercises
+            # Can't edit exercises
         else:
             dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, rating, completed_on, list_id, exercise_number)
 
@@ -195,7 +194,7 @@ class ObjectManager:
         return [list_id['id'] for list_id in lists]
 
     def getOriginalExercise(self, list_id, exercise_number):
-        return  dbw.getOriginalExercise(list_id, exercise_number)['id']
+        return dbw.getOriginalExercise(list_id, exercise_number)['id']
 
     def getExerciseID(self, list_id, exercise_number):
         return dbw.getExerciseInList(list_id, exercise_number)['id']

@@ -63,8 +63,8 @@ class Exercise:
         self.isReference = False
 
     def isReferenceTo(self):
-        original =  dbw.getOriginalExercise(self.exerciseList_id,self.exercise_number)
-        return (original['id'],original['ex_number'])
+        original = dbw.getOriginalExercise(self.exerciseList_id, self.exercise_number)
+        return (original['id'], original['ex_number'])
 
     def __str__(self):
         '''
@@ -130,7 +130,7 @@ class Exercise:
         for i in range(1, len(hints) + 1):
             dbw.insertHint(hints[i - 1], i, self.id, language_id)
 
-    def update(self, correct_answer, answers, hints, user_id = None):
+    def update(self, correct_answer, answers, hints, user_id=None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
@@ -149,14 +149,13 @@ class Exercise:
     def saveExerciseNumber(self, newPos):
         transaction = ''
         if self.isReference:
-            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id} AND new_list_exercise_number= {old_number};'.format(ex_id=self.id, exerc_nmbr=newPos, list_id=self.exerciseList_id, old_number = self.exercise_number)
+            transaction += 'UPDATE exercise_references SET  new_list_exercise_number = {exerc_nmbr} WHERE new_list_id = {list_id} AND original_id = {ex_id} AND new_list_exercise_number= {old_number};'.format(ex_id=self.id, exerc_nmbr=newPos, list_id=self.exerciseList_id, old_number=self.exercise_number)
         else:
             transaction += 'UPDATE exercise SET  exercise_number = {exerc_nmbr} WHERE id = {ex_id};'.format(ex_id=self.id, exerc_nmbr=newPos)
         self.exercise_number = newPos
         return transaction
 
-
-    def save(self, user_id = None):
+    def save(self, user_id=None):
         '''
         @brief saves/dereferences the exercise in the database
         '''
@@ -175,7 +174,7 @@ class Exercise:
                 self.created_on = str(time.strftime("%Y-%m-%d"))
 
         dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title)
-        dbw.updateQuestion(self.question,dbw.getIdFromLanguage(self.language_code)['id'],self.id)
+        dbw.updateQuestion(self.question, dbw.getIdFromLanguage(self.language_code)['id'], self.id)
 
 class Question:
 

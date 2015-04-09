@@ -20,7 +20,7 @@ class ExerciseList:
 
     def creatorName(self):
         object_manager = managers.om.objectmanager.ObjectManager()
-        creator = object_manager.createUser(id = self.created_by)
+        creator = object_manager.createUser(id=self.created_by)
         return creator.name()
 
     # List of subjects
@@ -57,8 +57,8 @@ class ExerciseList:
     # List of exercises
     def allExercises(self, language_code):
         # we'll need to check if any numbers are missing, so we get the amount of em
-        #TODO: wtf doe defaultlang?
-        #amount_of_exercises = self.amountOfExercises()
+        # TODO: wtf doe defaultlang?
+        # amount_of_exercises = self.amountOfExercises()
         # Getting all original exercise_ids
         exercises_infos = dbw.getExercisesForList(self.id)
         # Getting all references
@@ -77,7 +77,6 @@ class ExerciseList:
         # now we sort the exercises on exercise_number
         exercises = sorted(exercises, key=lambda ex: ex.exercise_number)
         return exercises
-
 
     def getExercise(self, id, language_code):
         for ex in allExercises(language_code):
@@ -118,8 +117,7 @@ class ExerciseList:
         dbw.deleteSubjectFromHasSubject(self.id, subject_id)
 
     def getAllExercForUserForList(self, user_id):
-        return dbw.getAllExercForUserForList(user_id,self.id)
-
+        return dbw.getAllExercForUserForList(user_id, self.id)
 
     def insertExercise(self, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_code, title, code=""):
         # Info for exercises table + id of the exercise
@@ -164,7 +162,7 @@ class ExerciseList:
         # first, we'll have to look up what the original exercise was
         original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['id'])
         new_id = dbw.copyExercise(original_ex_id, exercise_number, self.id)
-        #now we need to delete the reference from the DB
+        # now we need to delete the reference from the DB
         dbw.deleteReference(self.id, exercise_number)
         return new_id
 
@@ -176,16 +174,16 @@ class ExerciseList:
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
 
     def fixUpdateNumbers(self, exercises, pos_change):
-        nextPos = len(exercises)+1
-        #check if there are exercises who might cause problems
-        #The only exercises who can cause problems are the
+        nextPos = len(exercises) + 1
+        # check if there are exercises who might cause problems
+        # The only exercises who can cause problems are the
 
         transaction = ""
         after_transaction = ""
         for i, ex in enumerate(exercises):
             if pos_change[i] == 0:
                 # If we did not change pos -> no prob!
-                transaction += ex.saveExerciseNumber(i+1)
+                transaction += ex.saveExerciseNumber(i + 1)
 
             else:
                 # Get the exercise on our current spot!
@@ -197,11 +195,11 @@ class ExerciseList:
                     # fix this with putting us behind the list
                     transaction += ex.saveExerciseNumber(nextPos)
                     nextPos += 1
-                    after_transaction += ex.saveExerciseNumber(i+1)
+                    after_transaction += ex.saveExerciseNumber(i + 1)
                 else:
-                    transaction += ex.saveExerciseNumber(i+1)
+                    transaction += ex.saveExerciseNumber(i + 1)
 
-        #print(transaction + after_transaction)
+        # print(transaction + after_transaction)
         return transaction + after_transaction
 
     # scrambled_exercises is a list of Exercise objects
@@ -212,16 +210,16 @@ class ExerciseList:
         pos_change = []
         remove = []
         last_exercise = self.getLastExercise()
-        for i in range(1,last_exercise+1):
+        for i in range(1, last_exercise + 1):
             if i not in scrambled_exercise_ids:
                 scrambled_exercise_ids.append(i)
                 remove.append(i)
 
-        for i,ex_number in enumerate(scrambled_exercise_ids):
-            for j,ex in enumerate(normal_order):
+        for i, ex_number in enumerate(scrambled_exercise_ids):
+            for j, ex in enumerate(normal_order):
                 if ex.exercise_number == ex_number:
                     scrambled_exercises.append(ex)
-                    pos_change.append(i-j)
+                    pos_change.append(i - j)
                     break
 
         # First we'll check which exercises were deleted
@@ -230,8 +228,7 @@ class ExerciseList:
         dbw.UpdateExerciseAndReferenceNumbers(transaction)
 
         for i in range(len(remove)):
-            self.deleteExercise(last_exercise-i)
-
+            self.deleteExercise(last_exercise - i)
 
     def deleteExercise(self, exercise_number):
         if dbw.isReference(self.id, exercise_number):

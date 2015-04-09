@@ -33,7 +33,7 @@ class User:
         lists = dbw.getListsForUserId(self.id)
 
         object_manager = managers.om.objectmanager.ObjectManager()
-        #create Lists
+        # create Lists
         ex_lists = []
         for i in lists:
             ex_lists.append(object_manager.createExerciseList(i['id']))
@@ -146,8 +146,8 @@ class User:
         # We'll make objects of the friends and put them in a list
         for group in groups_info:
             if group['status'] == 'Member':
-            # If the info is legit, we add a Group object with the info to the
-            # list
+                # If the info is legit, we add a Group object with the info to the
+                # list
                 groups_list.append(object_manager.createGroup(group['group_id']))
         return groups_list
 
@@ -185,12 +185,10 @@ class User:
 
         for pending_group_membership in pending_group_memberships:
             group = object_manager.createGroup(pending_group_membership['group_id'])
-            pending_group_membership_object = managers.om.feed.UserInGroup(group, user, pending_group_membership['user_permissions'], pending_group_membership['joined_on'],pending_group_membership['status'])
+            pending_group_membership_object = managers.om.feed.UserInGroup(group, user, pending_group_membership['user_permissions'], pending_group_membership['joined_on'], pending_group_membership['status'])
             pending_group_membership_objects.append(pending_group_membership_object)
 
-
         return pending_group_membership_objects
-
 
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)
@@ -248,8 +246,6 @@ class User:
             exerciseList.update({'user_id': self.id})
         return exercise_list_date
 
-
-
     def allExerciseListsMade2(self):
         object_manager = managers.om.objectmanager.ObjectManager()
 
@@ -259,11 +255,10 @@ class User:
         for exercise_list in exercise_list_date:
             exercise_list_object = object_manager.createExerciseList(exercise_list['id'])
             made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'])
-            
-            all_exercise_lists_made.append(made_exercise_list)
-        
-        return all_exercise_lists_made
 
+            all_exercise_lists_made.append(made_exercise_list)
+
+        return all_exercise_lists_made
 
     # List with all the exercises this user has completed
     def allPersonalExercises(self):
@@ -353,8 +348,7 @@ class User:
         dbw.updateUser(self.id, self.first_name, self.last_name, self.password, self.email,
                        self.is_active, self.permissions, self.joined_on, self.last_login, self.gender)
 
-
-    def getRatingForList(self,list_id):
+    def getRatingForList(self, list_id):
         rating = dbw.getMadeListForUserForList(self.id, list_id)
         if rating is None:
             return 0
@@ -363,7 +357,7 @@ class User:
     def __str__(self):
         return str(self.id) + ' ' + self.first_name + ' ' + self.last_name + ' ' + str(self.is_active) + ' ' + self.email + ' ' + str(self.permissions) + ' ' + str(self.joined_on) + ' ' + str(self.last_login) + ' ' + self.gender
 
-    def getMadeList(self,list_id):
+    def getMadeList(self, list_id):
         if list_id in [made_list.exercises_list.id for made_list in self.allPersonalLists()]:
             return [made_list for made_list in self.allPersonalLists() if list_id == made_list.exercises_list.id][0]
         return None
@@ -390,9 +384,14 @@ class PersonalList:
         exercise_info = dbw.getExerciseScoreFor(
             self.user_id, self.exercises_list.id)
         if exercise_info:
-            personal_exercises_list = [PersonalExercise(x['solved'], x['exercise_score'], x[
-                                                        'rating'], x['exercise_id'], language_code
-                                                        , x['completed_on'], self.exercises_list.id, x['exercise_number']) for x in exercise_info]
+            personal_exercises_list = [PersonalExercise(x['solved'],
+                                                        x['exercise_score'],
+                                                        x['rating'],
+                                                        x['exercise_id'],
+                                                        language_code,
+                                                        x['completed_on'],
+                                                        self.exercises_list.id,
+                                                        x['exercise_number']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
