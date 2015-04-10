@@ -414,7 +414,7 @@ def list(request, id=0):
             if exercise_list:
                 made_list = logged_user(request).getMadeList(exercise_list.id)
                 if made_list:
-                    similar_list_ids = recommendNextExerciseLists(made_list)
+                    similar_list_ids = recommendNextExerciseLists(made_list,logged_user(request))
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request))
         for list_id in similar_list_ids:

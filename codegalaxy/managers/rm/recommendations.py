@@ -300,11 +300,11 @@ def madeIDs(user_obj):
     return [pers.exercises_list.id for pers in made_lists]
 
 # parameter: personalExerciseListobject(or id?)
-def recommendNextExerciseLists(previous_made_list, amount=4):
+def recommendNextExerciseLists(previous_made_list,user, amount=4):
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
-    made_ids = madeIDs(previous_made_list.user_id)
+    made_ids = madeIDs(user)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language = previous_made_list.exercises_list.programming_language_string
     subjects = previous_made_list.exercises_list.allSubjectIDs()

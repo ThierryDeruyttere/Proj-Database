@@ -150,7 +150,7 @@ class ObjectManager:
         exercise = dbw.getMadeExercise(user_id, exercise_id, list_id, exercise_number)
         if exercise:
             pass
-            # Can't edit exercises
+            # We'll edit the last question?
         else:
             dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer)
 
