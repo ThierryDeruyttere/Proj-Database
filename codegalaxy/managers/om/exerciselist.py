@@ -140,7 +140,7 @@ class ExerciseList:
             dbw.insertHint(hint, i + 1, exercise_id, l_id)
 
         exercise = object_manager.createExercise(exercise_id, language_code)
-
+        print(exercise.created_on)
         exercise.update(correct_answer, answers, hints)
 
     def getLastExercise(self):

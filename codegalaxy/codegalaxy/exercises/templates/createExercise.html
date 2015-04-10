@@ -7,7 +7,7 @@
   </head>
 
   <div class="row">
-    <form method="post">
+    <form method="post" id="exercise_form">
 
       {% csrf_token %}
       <div class="row">
@@ -69,7 +69,7 @@
         <div class="row">
           <div class="large-4 large-centered columns">
             Question
-            <textarea class="question_text" name="Question">{{ exercise.question }}</textarea>
+            <textarea class="question_text" id="Question" name="Question">{{ exercise.question }}</textarea>
           </div>
         </div>
 
@@ -111,7 +111,7 @@
 
         <div class="row">
           <div class="right">
-            <a href="#" class="small radius button" type="button" data-reveal-id="translation">Add translation</a>
+            <button type="button" id="open_translation" class="small radius button">Add translation</button>
           </div>
         </div>
 
@@ -122,12 +122,61 @@
               <img class="alien" src="{% static "media/Alien.png" %}">
             </div>
             <div id="textbox" class="large-6 columns">
-              <div  data-alert class="alert-box info radius">
-                Hi i'm x!
+              <div data-alert class="alert-box info radius">
+                Hi there space voyager! i'm Kernel!
+                I'm from a far away galaxy named Bootloader. <br/>
+                I've stumbled upon this site and I really like it and I want to show it to my friends in my galaxy! <br/>
+                The only problem is, on each planet we speak an other language, so I'm working on translating this site. <br/>
+                Think you could help? I will make your name famous across the universe if you do!
               </div>
             </div>
           </div>
+          <div class="row">
+            <div id="original" class="large-5 columns">
+              <fieldset>
+                <legend>Original</legend>
+                <div class="row collapse prefix-radius">
+                  <div class="small-4 columns">
+                    <span class="prefix">Exercise title</span>
+                  </div>
+                  <div class="small-8 columns">
+                    <input type="text" id="original_title" class="text-center" value="{{ exercise.title }}" readonly>
+                  </div>
+                </div>
+                Question
+                <textarea class="question_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
+                <div class="answer_translation">
 
+                </div>
+              </fieldset>
+            </div>
+            <div class="large-2 columns">
+              <img id="arrow-right" src="{% static "media/arrow-right.png" %}">
+              <select id="translate_to">
+                {% for lang in languages %}
+                  <option value="{{ lang.name }}">{{ lang.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <div class="large-5 columns">
+              <fieldset>
+                <legend>Translated</legend>
+                <div id="translated" class="row collapse prefix-radius">
+                  <div class="small-4 columns">
+                    <span class="prefix">Exercise title</span>
+                  </div>
+                  <div class="small-8 columns">
+                    <input type="text" id="translated_title" name="translated_title"  class="text-center" value="{{ exercise.title }}">
+                  </div>
+                </div>
+                Question
+                <textarea class="question_text" id="translated_Question" name="translated_Question">{{ exercise.question }}</textarea>
+                <div class="answer_translation">
+
+                </div>
+              </fieldset>
+            </div>
+          </div>
           <a class="close-reveal-modal" aria-label="Close">&#215;</a>
         </div>
 
@@ -200,7 +249,7 @@
               <div class="row" id="wrapper_answer">
                 <div class="row collapse prefix-radius" id="answer1">
                   <div class="small-10 columns">
-                    <input type="text" name="answer1" />
+                    <input type="text"name="answer1" />
                   </div>
                   <div class="small-1 columns">
                     <span class="postfix"><input type="radio" name="correct_answer" value="1" checked /></span>
@@ -225,9 +274,9 @@
         <div class="row">
           <div class="large-text-center">
             {% if edit %}
-              <input type="submit" name="submit" class="button tiny radius" value="Edit exercise">
+              <input type="button" class="button tiny radius form_button" value="Edit exercise">
             {% else %}
-              <input type="submit" name="submit" class="button tiny radius" value="Create exercise">
+              <input type="button" class="button tiny radius form_button" value="Create exercise">
             {% endif %}
           </div>
         </div>
@@ -421,5 +470,114 @@
 
       });
     {% endif %}
+
+    //Translation logic
+    function createTextBoxes(modal){
+      var divs = $(modal).find('.answer_translation');
+      for(var i = 0; i < answers; i++){
+
+        $(divs[0]).append(
+                // Add the question template to the answer wrapper but change its id and the name of the input element :3
+                $("<input>").attr({id:"original"+i,
+                  type: "text",
+                  name:"",
+                  readonly:true,
+                  value:$('#answer' +(i+1)).find('input').val()})
+        );
+
+        $(divs[1]).append(
+                // Add the question template to the answer wrapper but change its id and the name of the input element :3
+                $("<input>").attr({id:"translated"+i,
+                  type: "text",
+                  name:"translated"+i})
+        );
+      }
+    }
+
+    var translation_dict = {};
+
+    function fillInputsForLang(lang){
+      var dict = translation_dict[lang];
+      if(dict instanceof Array){
+        if("title" in dict){
+          $('#translated_title').val(dict['title']);
+        }
+
+        if("question" in dict){
+          $('#translated_Question').val(dict['question']);
+        }
+
+        if($('#exercise_type_open').is(":checked")) {
+          for(var i = 0; i < answers; ++i){
+            if(i.getAsString() in dict){
+              $('#translated'+i).val(dict[i.getAsString()]);
+            }
+          }
+        }
+      }
+    }
+
+    var translating_to = $("#translate_to").val();
+    function saveToDict(){
+      dict = translation_dict[translating_to];
+      if (dict !== Array) {
+        dict = {};
+      }
+
+      dict["title"] = $('#translated_title').val();
+      dict["question"] = $('#translated_Question').val();
+      if($('#exercise_type_open').is(":checked")) {
+        for(var i = 0; i < answers; ++i){
+          dict[translating_to][i.getAsString()] = $('#translated'+i).val();
+        }
+      }
+
+      translation_dict[translating_to] = dict;
+    }
+
+    //If we change from value we need to save our current translations
+    //And load the new ones
+    $("#translate_to").change(function(){
+      saveToDict();
+      translating_to = this.val();
+      fillInputsForLang(translating_to);
+    });
+
+    $('#translation').on('close', function(){
+      saveToDict();
+    });
+
+    $("#open_translation").click(function(){
+      var modal = $('#translation');
+      modal.foundation('reveal', 'open', '');
+
+      //Set the right texts
+      $('#original_title').val($("#title").val());
+      $('#original_Question').val($("#Question").val());
+      $(modal).find('.answer_translation').empty();
+
+      if($('#exercise_type_open').is(":checked")) {
+        //Add the answers
+        createTextBoxes(modal);
+        fillInputsForLang($("#translate_to").val());
+      }
+    });
+
+    function addDictionary(){
+      $.each(translation_dict, function(key,value){
+        $.each(value, function(trans_key, trans_value){
+          $('#exercise_form').append(
+            $('<input>').attr({id: key+'_'+trans_key,
+                               hidden: true}).val(trans_value)
+          );
+        });
+      });
+    }
+
+    $(".form_button").click(function(){
+      addDictionary();
+      $("#exercise_form").submit();
+    });
+
   </script>
 {% endblock body_js %}

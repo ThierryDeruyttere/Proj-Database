@@ -3,9 +3,37 @@
 }
 
 .alien{
+
     transform: scale(0.5);
 }
 
+#translation{
+    color: black;
+}
 #textbox{
-    left: 2em;
+    position: relative;
+    left: -5em;
+    top: 2em;
+    width: auto;
+    color: black;
+}
+
+#arrow-right{
+    transform: scale(0.4);
+    position: relative;
+    width: auto;
+}
+
+#textbox:after
+{
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #9fd2e6;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: 1px;
+    top: 70px;
 }

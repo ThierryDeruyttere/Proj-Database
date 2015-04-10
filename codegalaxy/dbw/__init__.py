@@ -715,7 +715,8 @@ def insertHint(hint_text, hint_number, exercise_id, language_id):
 
 def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES ("{name}","{desc}",{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(name=name, desc=description, diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id))
+    sql = 'INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES (%s,%s,{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id)
+    cursor.execute(sql, [name, description])
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by=created_by))
     fetched = processOne(cursor)
     cursor.close()
@@ -805,7 +806,7 @@ def updateGroupMembership(user_id, group_id):
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on={created_on},exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
+    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
 
 
 # DELETE
