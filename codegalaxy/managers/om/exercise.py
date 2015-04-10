@@ -155,6 +155,20 @@ class Exercise:
         self.exercise_number = newPos
         return transaction
 
+    def setTranslations(self, translations):
+        #mhh can't create title in new language...
+        #TODO ?
+        for key, value in translations.items():
+            if len(value) > 0:
+                dbw.insertQuestion(value['question'], key.id, self.id)
+                if self.exercise_type == "Code":
+                    #mhh ni echt zo clean dit...
+                    for i in range(len(dbw.getExerciseHints(self.id, "English"))):
+                        dbw.insertHint(value[str(i)],(i+1),self.id,key.id)
+                else:
+                    for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
+                        dbw.insertAnswer((i+1),value[str(i)],key.id,self.id)
+
     def save(self, user_id=None):
         '''
         @brief saves/dereferences the exercise in the database

@@ -133,7 +133,7 @@ CREATE TABLE question(
   exercise_id INT,
   FOREIGN KEY (exercise_id) REFERENCES exercise(id),
   FOREIGN KEY (language_id) REFERENCES language(id),
-  PRIMARY KEY(exercise_id)
+  PRIMARY KEY(exercise_id, language_id)
 );
 
 CREATE TABLE hint(

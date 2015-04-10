@@ -141,6 +141,7 @@ class ExerciseList:
 
         exercise = object_manager.createExercise(exercise_id, language_code)
         exercise.update(correct_answer, answers, hints)
+        exercise.setTranslations(translation)
 
     def getLastExercise(self):
         last = dbw.getLastExerciseFromList(self.id)["last_exercise_number"]

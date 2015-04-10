@@ -61,7 +61,7 @@ def getTranslationDict(request, languages):
             if lang.name in obj:
                 name = obj.replace(lang.name+"_", "")
                 translation[lang][name] = request.POST.get(obj)
-    print(translation)
+
     return translation
 
 
