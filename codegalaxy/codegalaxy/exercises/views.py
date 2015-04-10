@@ -559,6 +559,7 @@ def submit(request, list_id, exercise_number):
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(question_id, user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code)
+
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):
                 made_list_by_user = user.allExerciseListsMade()

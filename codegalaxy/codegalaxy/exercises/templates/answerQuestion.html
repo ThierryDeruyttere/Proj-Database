@@ -81,7 +81,7 @@
               {% if exercise.exercise_type == "Open Question" %}
                 <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
               {% else %}
-                <input id="code_output" type="hidden" value=""></input>
+                <input id="code_output" name="code_output" type="hidden" value=""></input>
                 <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
               {% endif %}
               <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">Return to list</a></li>
@@ -108,7 +108,7 @@
               {% endif %}
               theme: "monokai"
             });
-    
+
     var curr_hint = 1;
     function addHint(){
       document.getElementById("hint"+curr_hint).hidden = false;
@@ -132,13 +132,13 @@
 
         success: function(response) {
           $("#code_output").val(response);
+          $("#answer_question").submit();
         },
         error: function(jqXHR, textStatus, error) {
-          $("#output_alert").text(jqXHR.responseText.toString());
+          $("#output_alert").html(jqXHR.responseText.toString());
           $("#output_alert").show();
         }
       });
-      $("#answer_question").submit();
     });
 
     {% if exercise.exercise_type == "Code" %}
