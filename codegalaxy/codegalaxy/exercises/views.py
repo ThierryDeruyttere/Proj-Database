@@ -79,7 +79,7 @@ def createExercise(request, listId=0):
         exercise_type = request.POST.get('exercise_type')
         if exercise_type == "Multiple choice":
             exercise_type = "Open Question"
-            
+
         hints = []
         exercise_title = request.POST.get('title')
         exercise_number = exercise_list.getLastExercise() + 1

@@ -503,7 +503,7 @@
 
     function fillInputsForLang(lang){
       var dict = translation_dict[lang];
-      if(dict instanceof Array){
+      if(dict){
         if("title" in dict){
           $('#translated_title').val(dict['title']);
         }
@@ -517,9 +517,10 @@
           amount = answers;
         }
 
-        for(var i = 0; i < answers; ++i){
-          if(i.getAsString() in dict){
-            $('#translated'+i).val(dict[i.getAsString()]);
+
+        for(var i = 0; i < amount; ++i){
+          if(i.toString() in dict){
+            $('#translated'+i).val(dict[i.toString()]);
           }
         }
       }
