@@ -76,8 +76,7 @@ def ratingProgrammingLanguageMultiplier(user, prog_lang_id, default):
 # if the dates parameter is true, older lists will count for less
 # Subjects with a lower rating also count for less (no rating->count for half)
 # default -> no rating will count for 50%, else wont be held into account
-def scorePerSubjectForUser(user_id, dates, ratings, default):
-    user = object_manager.createUser(id=user_id)
+def scorePerSubjectForUser(user, dates, ratings, default):
     # map with key: subjectID and value:amount*SubjectMultipliers
     subject_scores = {}
     # list of subjectIDs
@@ -99,8 +98,7 @@ def scorePerSubjectForUser(user_id, dates, ratings, default):
 # if the dates parameter is true, older lists will count for less
 # Subjects with a lower rating also count for less (no rating->count for half)
 # default -> no rating will count for 50%, else wont be held into account
-def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
-    user = object_manager.createUser(id=user_id)
+def scorePerProgrammingLanguageForUser(user, dates, ratings, default):
     # map with key: subjectID and value:amount*SubjectMultipliers
     prog_lang_scores = {}
     # list of subjectIDs
@@ -120,8 +118,7 @@ def scorePerProgrammingLanguageForUser(user_id, dates, ratings, default):
 
 
 # friends are taken into account a bit more for the overlap_scores
-def friendsSubjectMultiplier(user_id, other_user_id):
-    user = object_manager.createUser(id=user_id)
+def friendsSubjectMultiplier(user, other_user_id):
     friends = user.allFriends()
     for friend in friends:
         if other_user_id == friend.id:
@@ -133,8 +130,7 @@ def friendsSubjectMultiplier(user_id, other_user_id):
 # BASIC OVERLAP SCORE=====================================================================================
 
 # returns the id's of all the lists the user with user_id made
-def madeListIdsForUser(user_id):
-    user = object_manager.createUser(id=user_id)
+def madeListIdsForUser(user):
     made_lists = user.allPersonalLists()
     # All the id's of the made exercises
     return [made_list.exercises_list.id for made_list in made_lists]
@@ -151,27 +147,27 @@ def checkOverlapScore(user_lists, other_lists):
 
 # returns a list of lists with:
 #(list of items not made by user, overlap rating, other user's id)
-def compareListWithOtherUsers(user_id):
+def compareListWithOtherUsers(user):
     results = []
-    made_list_ids = madeListIdsForUser(user_id)
+    made_list_ids = madeListIdsForUser(user)
     other_user_ids = object_manager.allUsers()
     for other_user_id in other_user_ids:
         # We don't want to compare the user to itself
-        if other_user_id.id != user_id:
-            other_made_list_ids = madeListIdsForUser(other_user_id.id)
+        if other_user_id.id != user.id:
+            other_made_list_ids = madeListIdsForUser(other_user_id)
             overlap_score = checkOverlapScore(made_list_ids, other_made_list_ids)
             result = [differenceInLists(made_list_ids, other_made_list_ids), overlap_score, other_user_id]
             results.append(result)
     return results
 
     # returns a dictionary with key->list_id and value -> highest overlap score
-def splitListIds(user_id, comparison_tuples, friends):
+def splitListIds(user, comparison_tuples, friends):
     score_per_list_id = {}
     # for every tuple (comparison with other user)
     for comparison_tuple in comparison_tuples:
         # if we need to add the friends SubjectMultiplier
         if friends:
-            comparison_tuple[1] *= friendsSubjectMultiplier(user_id, comparison_tuple[2])
+            comparison_tuple[1] *= friendsSubjectMultiplier(user, comparison_tuple[2])
         # for every list_id in the difference
         for list_id in comparison_tuple[0]:
             # if the list is already in the dict
@@ -240,21 +236,20 @@ def selectExercises(pool, highest, amount=10):
 
 #parameters are the things held in account for the recommendations
 # you can then either just list the ones with the highest score or random ones out of the top X highest
-def recommendListsForUser(user_id, friends=True, dates=True, subjects=True, ratings=True, highest=True, default=False):
+def recommendListsForUser(user, friends=True, dates=True, subjects=True, ratings=True, highest=True, default=False):
     # We compare which lists this user has made to the ones others have made
     # ([verchil in lijsten], overlap score, user obj)
-    comparison_tuples = compareListWithOtherUsers(user_id)
+    comparison_tuples = compareListWithOtherUsers(user)
     # We may not add these lists (made already)
-    user = object_manager.createUser(id=user_id)
     dont_add_obj = user.allPersonalLists()
     dont_add = [obj.exercises_list.id for obj in dont_add_obj]
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
-    score_per_list_id = splitListIds(user_id, comparison_tuples, friends)
+    score_per_list_id = splitListIds(user, comparison_tuples, friends)
     score_per_list_id = defaultScoreOne(score_per_list_id, dont_add)
     # now we can start adding the other SubjectMultipliers
-    subject_scores = scorePerSubjectForUser(user_id, dates, ratings, default)
-    prog_lang_scores = scorePerProgrammingLanguageForUser(user_id, dates, ratings, default)
+    subject_scores = scorePerSubjectForUser(user, dates, ratings, default)
+    prog_lang_scores = scorePerProgrammingLanguageForUser(user, dates, ratings, default)
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
@@ -300,8 +295,7 @@ def subjectsMatch(previous, new):
         return False
 
 
-def madeIDs(user_id):
-    user_obj = object_manager.createUser(id=user_id)
+def madeIDs(user_obj):
     made_lists = user_obj.allPersonalLists()
     return [pers.exercises_list.id for pers in made_lists]
 
@@ -328,7 +322,7 @@ def recommendNextExerciseLists(previous_made_list, amount=4):
 # EXERCISES LIKE THIS====================================================================================================================================
 # Last of all, let's say we didnt just make an exercise but we just want a list that looks like this one
 
-def listsLikeThisOne(list_id, user_id, amount=4):
+def listsLikeThisOne(list_id, user, amount=4):
     l_id = list_id
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list

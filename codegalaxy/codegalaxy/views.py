@@ -34,7 +34,7 @@ def home(request):
     recommended_lists = []
     if current_user:
         friends = current_user.allFriends()
-        recommended = recommendListsForUser(current_user.id, True, True, True, True, True, False)
+        recommended = recommendListsForUser(current_user, True, True, True, True, True, False)
         for recommended_list in recommended:
             recommended_lists.append(object_manager.createExerciseList(recommended_list))
 
