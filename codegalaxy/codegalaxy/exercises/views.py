@@ -102,8 +102,9 @@ def createExercise(request, listId=0):
 @require_login
 def editList(request, listId):
     exercise_list = object_manager.createExerciseList(listId)
+    user = logged_user(request)
     # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
-    if exercise_list is None or exercise_list.created_by != logged_user(request).id:
+    if exercise_list is None or exercise_list.created_by != user.id:
         return redirect('/')
 
     subjects = exercise_list.allSubjects()
@@ -152,6 +153,7 @@ def getBrowserLanguage(request):
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
+    user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     languages = object_manager.allProgrammingLanguages()
     exercise_list = object_manager.createExerciseList(listId)
@@ -190,10 +192,10 @@ def editExercise(request, listId, exercise_id, exercise_number):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise.update(correct_answer, exercise_answer, hints, logged_user(request).id)
+        exercise.update(correct_answer, exercise_answer, hints, user.id)
         return redirect("/l/" + str(listId))
 
-    if exercise_list and logged_user(request).id == exercise_list.created_by:
+    if exercise_list and user.id == exercise_list.created_by:
         # Extra check so you can't just surf to the url and edit the exercise
         language = getBrowserLanguage(request)
         exercise = object_manager.createExercise(exercise_id, language)
@@ -367,11 +369,12 @@ def list(request, id=0):
 
         correct_user = False
         if logged_user(request):
+            user = logged_user(request)
             for exercise in all_exercises:
-                if object_manager.getInfoForUserForExercise(logged_user(request).id, exercise.id, id, exercise.exercise_number):
+                if object_manager.getInfoForUserForExercise(user.id, exercise.id, id, exercise.exercise_number):
                     exercise.solved = True
 
-            correct_user = (logged_user(request).id == exercise_list.created_by)
+            correct_user = (user.id == exercise_list.created_by)
 
         found = False
         cur_exercise = 0
@@ -408,15 +411,16 @@ def list(request, id=0):
         user_rating = 0
         user_lists = None
         if logged_user(request):
-            user_lists = logged_user(request).getUserLists()
-            user_rating = logged_user(request).getRatingForList(exercise_list.id)
+            user = logged_user(request)
+            user_lists = user.getUserLists()
+            user_rating = user.getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
-                made_list = logged_user(request).getMadeList(exercise_list.id)
+                made_list = user.getMadeList(exercise_list.id)
                 if made_list:
-                    similar_list_ids = recommendNextExerciseLists(made_list,logged_user(request))
+                    similar_list_ids = recommendNextExerciseLists(made_list,user)
                 else:
-                    similar_list_ids = listsLikeThisOne(exercise_list.id, logged_user(request))
+                    similar_list_ids = listsLikeThisOne(exercise_list.id, user)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
 
