@@ -2,6 +2,9 @@
 
 {% block base_body %}
   {% load staticfiles %}
+  <head>
+    <link rel="stylesheet" href="{% static "css/createExercise.css" %}">
+  </head>
 
   <div class="row">
     <form method="post">
@@ -66,12 +69,12 @@
         <div class="row">
           <div class="large-5 large-centered columns">
             Question
-            <textarea name="Question">{{ exercise.question }}</textarea>
+            <textarea class="question_text" name="Question">{{ exercise.question }}</textarea>
           </div>
         </div>
 
         <div class="row">
-          <div class="large-6 large-centered columns">
+          <div class="large-6 large-centered large-text-center columns">
             <label>Exercise Type:</label>
             <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">Code question</label>
             <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
