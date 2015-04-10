@@ -67,18 +67,20 @@
         </div>
 
         <div class="row">
-          <div class="large-5 large-centered columns">
+          <div class="large-4 large-centered columns">
             Question
             <textarea class="question_text" name="Question">{{ exercise.question }}</textarea>
           </div>
         </div>
 
         <div class="row">
-          <div class="large-6 large-centered large-text-center columns">
-            <label>Exercise Type:</label>
-            <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">Code question</label>
-            <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
+          <div class="large-4 large-centered large-text-center columns">
+            <div data-alert class="alert-box info radius">
+              <label>Exercise Type:</label>
+              <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">Code question</label>
+              <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
 
+            </div>
           </div>
         </div>
 
@@ -104,6 +106,11 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="right">
+            <button class="small radius button" type="button">Add translation</button>
           </div>
         </div>
 
@@ -300,11 +307,11 @@
       }
 
       $("#Hints").append(
-        $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
-          $("<div/>", {"class":"large-5 large-centered columns"}).append(
-            $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
-          )
-        )
+              $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+                      $("<div/>", {"class":"large-5 large-centered columns"}).append(
+                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+                      )
+              )
       );
 
       ++hint_nmbr;

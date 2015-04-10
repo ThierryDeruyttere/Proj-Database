@@ -5,88 +5,89 @@
 {# Title #}
 {% block title %} Code Galaxy {% endblock title %}
 
-{% block head_js %}
-<script src="{% static "codemirror/lib/codemirror.js" %}"></script>
-<script src="{% static "codemirror/mode/python/python.js" %}"></script>
-<script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
 
-<script src="{% static "codemirror/mode/sql/sql.js" %}"></script>
-<script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
-<script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
+{% block head_js %}
+  <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
+  <script src="{% static "codemirror/mode/python/python.js" %}"></script>
+  <script src="{% static "codemirror/mode/clike/clike.js" %}"></script>
+
+  <script src="{% static "codemirror/mode/sql/sql.js" %}"></script>
+  <script src="{% static "codemirror/addon/edit/matchbrackets.js" %}"></script>
+  <script src="{% static "codemirror/addon/edit/closebrackets.js" %}"></script>
 {% endblock head_js %}
 
 {# Custom CSS #}
 {% block css %}
-<link href="{% static "css/general.css" %}" rel="stylesheet"/>
-<link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
-<link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+  <link href="{% static "css/general.css" %}" rel="stylesheet"/>
+  <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
+  <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
 {% endblock css %}
 
 {# Top Bar #}
 {% block top_bar %}
-<div class="sticky">
+  <div class="sticky">
     <nav class="top-bar" data-topbar>
-        <ul class="title-area">
-            <li class="name">
-                <h1><a href="/"><img src={% static "media/rocket2.png" %}/></a></h1>
-            </li>
-            <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
-        </ul>
-        <section class="top-bar-section">
-          <ul class="right">
-            {% if logged_in%}
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="/"><img src={% static "media/rocket2.png" %}/></a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+      </ul>
+      <section class="top-bar-section">
+        <ul class="right">
+          {% if logged_in%}
             <li><a href="/me">Profile</a></li>
             <li><a href="/g/overview">Groups</a></li>
             <li><a href="/l/">Exercises</a></li>
             <li><a href="/logout/">Logout</a></li>
 
-            {% else%}
+          {% else%}
             <li><a href="/g/overview">Groups</a></li>
             <li><a href="/l/">Exercises</a></li>
             <li><a href="/login/">Login</a></li>
 
-            {% endif%}
-          </ul>
-        </section>
+          {% endif%}
+        </ul>
+      </section>
     </nav>
-</div>
+  </div>
 {% endblock top_bar %}
 
 {# Footer #}
 {% block footer %}
-<footer class="row">
-  <div class="large-10 columns small-centered">
-    <hr>
-    <div class="row">
-      <div class="text-center">
-        <img src={% static "CGFooter.png" %}/>
-        <a class="setlang" name="en">{% trans "English" %}</a> | <a class="setlang" name="nl">{% trans "Dutch" %}</a>
+  <footer class="row">
+    <div class="large-10 columns small-centered">
+      <hr>
+      <div class="row">
+        <div class="text-center">
+          <img src={% static "CGFooter.png" %}/>
+          <a class="setlang" name="en">{% trans "English" %}</a> | <a class="setlang" name="nl">{% trans "Dutch" %}</a>
+        </div>
       </div>
     </div>
-  </div>
-</footer>
-<script>
-  $(".setlang").click(function() {
-    $.post("{% url 'set_language' %}", {language:$(this).attr("name"), csrfmiddlewaretoken: "{{ csrf_token }}"}).done(function() {
-      location.reload(true);
+  </footer>
+  <script>
+    $(".setlang").click(function() {
+      $.post("{% url 'set_language' %}", {language:$(this).attr("name"), csrfmiddlewaretoken: "{{ csrf_token }}"}).done(function() {
+        location.reload(true);
+      });
     });
-  });
-</script>
+  </script>
 {% endblock footer %}
 
 {% block ajax_stuff %}
-<script>
-function csrfSafeMethod(method) {
-  // these HTTP methods do not require CSRF protection
-  return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-}
-
-$.ajaxSetup({
-  beforeSend: function(xhr, settings) {
-    if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-      xhr.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+  <script>
+    function csrfSafeMethod(method) {
+      // these HTTP methods do not require CSRF protection
+      return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
     }
-  }
-});
-</script>
+
+    $.ajaxSetup({
+      beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+          xhr.setRequestHeader("X-CSRFToken", $.cookie("csrftoken"));
+        }
+      }
+    });
+  </script>
 {% endblock ajax_stuff %}
