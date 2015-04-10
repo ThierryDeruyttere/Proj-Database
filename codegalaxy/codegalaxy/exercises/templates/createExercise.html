@@ -375,7 +375,7 @@
       $("#Hints").append(
               $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
                       $("<div/>", {"class":"large-5 large-centered columns"}).append(
-                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"id": "hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
                       )
               )
       );
@@ -472,9 +472,14 @@
     {% endif %}
 
     //Translation logic
-    function createTextBoxes(modal){
+    function createTextBoxes(modal, amount, open){
       var divs = $(modal).find('.answer_translation');
-      for(var i = 0; i < answers; i++){
+      for(var i = 0; i < amount; i++){
+        var val = $('#answer' +(i+1)).find('input').val();
+
+        if(!open){
+          val = $('#hint'+(i+1)).val();
+        }
 
         $(divs[0]).append(
                 // Add the question template to the answer wrapper but change its id and the name of the input element :3
@@ -482,7 +487,7 @@
                   type: "text",
                   name:"",
                   readonly:true,
-                  value:$('#answer' +(i+1)).find('input').val()})
+                  value: val})
         );
 
         $(divs[1]).append(
@@ -507,11 +512,14 @@
           $('#translated_Question').val(dict['question']);
         }
 
+        var amount = hint_nmbr;
         if($('#exercise_type_open').is(":checked")) {
-          for(var i = 0; i < answers; ++i){
-            if(i.getAsString() in dict){
-              $('#translated'+i).val(dict[i.getAsString()]);
-            }
+          amount = answers;
+        }
+
+        for(var i = 0; i < answers; ++i){
+          if(i.getAsString() in dict){
+            $('#translated'+i).val(dict[i.getAsString()]);
           }
         }
       }
@@ -526,10 +534,15 @@
 
       dict["title"] = $('#translated_title').val();
       dict["question"] = $('#translated_Question').val();
+
+      var amount = hint_nmbr;
+
       if($('#exercise_type_open').is(":checked")) {
-        for(var i = 0; i < answers; ++i){
-          dict[translating_to][i.getAsString()] = $('#translated'+i).val();
-        }
+        amount = answers;
+      }
+
+      for(var i = 0; i < amount; ++i){
+        dict[i.toString()] = $('#translated'+i).val();
       }
 
       translation_dict[translating_to] = dict;
@@ -558,17 +571,20 @@
 
       if($('#exercise_type_open').is(":checked")) {
         //Add the answers
-        createTextBoxes(modal);
-        fillInputsForLang($("#translate_to").val());
+        createTextBoxes(modal, answers, true);
+      }else{
+        createTextBoxes(modal, hint_nmbr, false);
       }
+      fillInputsForLang($("#translate_to").val());
     });
 
     function addDictionary(){
       $.each(translation_dict, function(key,value){
         $.each(value, function(trans_key, trans_value){
           $('#exercise_form').append(
-            $('<input>').attr({id: key+'_'+trans_key,
-                               hidden: true}).val(trans_value)
+                  $('<input>').attr({name: key+'_'+trans_key,
+                    hidden: true,
+                    value: trans_value})
           );
         });
       });

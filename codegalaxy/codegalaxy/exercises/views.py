@@ -53,6 +53,18 @@ def createExerciseList(request):
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages})
 
+def getTranslationDict(request, languages):
+    translation = {}
+    for lang in languages:
+        translation[lang] = {}
+        for obj in request.POST:
+            if lang.name in obj:
+                name = obj.replace(lang.name+"_", "")
+                translation[lang][name] = request.POST.get(obj)
+    print(translation)
+    return translation
+
+
 @require_login
 def createExercise(request, listId=0):
     exercise_list = object_manager.createExerciseList(listId)
@@ -60,7 +72,7 @@ def createExercise(request, listId=0):
     languages = removeLanguage(object_manager.getAllLanguages(), "English")
 
     if request.method == 'POST':
-
+        translation = getTranslationDict(request, languages)
         exercise_difficulty = int(request.POST.get('difficulty'))
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
@@ -95,9 +107,8 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        now = str(time.strftime("%Y-%m-%d %H:%M:%S"))
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, now, exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, code)
-        return redirect("/l/" + str(listId))
+        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, translation, code)
+        #return redirect("/l/" + str(listId))
 
     if exercise_list:
         if exercise_list.created_by != user.id:
