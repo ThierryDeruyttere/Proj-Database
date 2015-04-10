@@ -327,7 +327,7 @@ def listsLikeThisOne(list_id, user, amount=4):
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
-    made_ids = madeIDs(user_id)
+    made_ids = madeIDs(user)
     list_obj = object_manager.createExerciseList(list_id)
     # difficulties will be current +- 0/1
     prog_language = list_obj.programming_language_string
