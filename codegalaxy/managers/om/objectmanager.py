@@ -216,3 +216,7 @@ class ObjectManager:
         for i in dbw.getAll('language'):
             languages.append(Language(i['id'], i['name'], i['language_code']))
         return languages
+
+    def getLanguageObject(self, languade_code):
+        lang = dbw.getLanguageForCode(languade_code)
+        return Language(lang['id'],lang['name'], lang['language_code'])

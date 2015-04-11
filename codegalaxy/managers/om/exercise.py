@@ -78,7 +78,12 @@ class Exercise:
         @brief get all the answers for an exercise
         @return returns all the answers for an exercise if there are some else return None
         '''
-        answer_info = dbw.getExerciseAnswers(self.id, self.language_name)
+        answer_info = None
+        if self.exercise_type == "Code":
+            answer_info = dbw.getExerciseAnswers(self.id, 'English')
+        else:
+            answer_info = dbw.getExerciseAnswers(self.id, self.language_name)
+
         if answer_info:
             # first we add the data to a list of tuples
             answer_unordered_list = [(x['answer_text'], x['answer_number']) for x in answer_info]
@@ -130,15 +135,16 @@ class Exercise:
         for i in range(1, len(hints) + 1):
             dbw.insertHint(hints[i - 1], i, self.id, language_id)
 
-    def update(self, correct_answer, answers, hints, user_id=None):
+    def update(self, correct_answer, answers, hints, lang, user_id=None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
         @param answers the answers to update
         @param hints the hints to update
         '''
+
         self.correct_answer = correct_answer
-        self.save(user_id)
+        self.save(user_id, lang.id)
         self.updateAnswers(answers)
         self.updateHints(hints)
         self.updateCode()
@@ -170,7 +176,7 @@ class Exercise:
                     for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
                         dbw.insertAnswer((i+1),value[str(i)],key.id,self.id)
 
-    def save(self, user_id=None):
+    def save(self,lang_id, user_id=None):
         '''
         @brief saves/dereferences the exercise in the database
         '''
@@ -188,7 +194,7 @@ class Exercise:
                 import time
                 self.created_on = str(time.strftime("%Y-%m-%d %H:%M:%S"))
 
-        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title)
+        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title, lang_id)
         dbw.updateQuestion(self.question, dbw.getIdFromLanguage(self.language_code)['id'], self.id)
 
 class Question:

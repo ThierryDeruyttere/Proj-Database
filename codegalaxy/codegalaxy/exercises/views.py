@@ -217,7 +217,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise.update(correct_answer, exercise_answer, hints, user.id)
+        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)) ,user.id)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:

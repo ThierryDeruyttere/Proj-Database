@@ -140,7 +140,8 @@ class ExerciseList:
             dbw.insertHint(hint, i + 1, exercise_id, l_id)
 
         exercise = object_manager.createExercise(exercise_id, language_code)
-        exercise.update(correct_answer, answers, hints)
+
+        exercise.update(correct_answer, answers, hints, object_manager.getLanguageObject(language_code))
         exercise.setTranslations(translation)
 
     def getLastExercise(self):

@@ -647,6 +647,12 @@ def getLanguageCodeForLangName(lang_name):
     cursor.close()
     return fetched["language_code"]
 
+def getLanguageForCode(lang_code):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM language WHERE language_code = "{language_code}" '.format(language_code=lang_code))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
 
 ##INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
@@ -807,9 +813,16 @@ def updateGroupMembership(user_id, group_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
 
-def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title):
+def updateExerciseTitle(exercise_id, new_title, lang_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
+    sql = 'UPDATE exerciseTitle SET title=%s WHERE exercise_id = {exercise_id} AND language_id = {lang_id};'.format(exercise_id=exercise_id, lang_id=lang_id)
+    cursor.execute(sql, [new_title])
+
+
+def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, language_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id} WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id))
+    updateExerciseTitle(exercise_id, title, language_id)
 
 def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on):
     cursor = connection.cursor()
