@@ -483,6 +483,7 @@ def answerQuestion(request, list_id, exercise_number):
 
     exercise_list = object_manager.createExerciseList(list_id)
     current_answer = None
+    solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
     if exercise_list:
         all_exercise = exercise_list.allExercises(getBrowserLanguage(request))
         current_exercise = None
@@ -499,7 +500,8 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
                                                            "hints": current_exercise.allHints(),
-                                                           "current_answer": current_answer})
+                                                           "current_answer": current_answer,
+                                                           "solved": solved})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)

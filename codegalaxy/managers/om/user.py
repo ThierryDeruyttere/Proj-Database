@@ -267,8 +267,6 @@ class User:
 
     # List with all the exercises this user has completed
     def allPersonalExercises(self):
-        # TODO: WTF
-        # list of dicts with the key ['prog_lang_id']
         prog_lang_ids = dbw.getProgrammingLanguageIDsOfMadeExForUser(self.id)
         real_names = []
         for prog_id in prog_lang_ids:
@@ -373,6 +371,11 @@ class User:
                 return dbw.getLastAnswerForExerciseForUser(self.id, list_id, exercise_number)['last_answer']
         return 0
 
+    def haveISolvedExercise(self, list_id, exercise_number):
+        if dbw.hasUserSolvedExercise(list_id, exercise_number, self.id):
+            return dbw.hasUserSolvedExercise(list_id, exercise_number, self.id)['solved']
+        return False
+        
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id):

@@ -87,10 +87,18 @@
           <div class="row">
             <div class="large-text-center">
               {% if exercise.exercise_type == "Open Question" %}
-                <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
+                {% if solved %}
+                  <h1>You solved the question!</h1>
+                {% else %}
+                  <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
+                {% endif %}
               {% else %}
-                <input id="code_output" name="code_output" type="hidden" value=""></input>
-                <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
+                {% if solved %}
+                  <h1>You solved the question!</h1>
+                {% else %}
+                  <input id="code_output" name="code_output" type="hidden" value=""></input>
+                  <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
+                {% endif %}
               {% endif %}
               <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">Return to list</a></li>
             </div>

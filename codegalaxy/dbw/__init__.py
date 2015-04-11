@@ -851,6 +851,13 @@ def deleteReference(list_id, exercise_number):
 
 # TRIVIA
 
+def hasUserSolvedExercise(list_id, exercise_number, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT solved FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def userIsInGroup(user_id, group_id):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM user u, userInGroup uIG WHERE u.id = {user_id} AND uIG.group_id = {group_id} AND u.id = uIG.user_id;'.format(user_id = user_id, group_id=group_id))
