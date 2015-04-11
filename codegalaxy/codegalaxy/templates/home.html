@@ -1,10 +1,7 @@
 {% extends "codegalaxy.html" %}
+
 {% load staticfiles %}
 {% load i18n %}
-
-{% block head_js %}
-<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
-{% endblock head_js %}
 
 {% block base_body %}
 
@@ -35,10 +32,10 @@
       <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getProfilePicture %}/></a></div>
       <div class="large-10 columns">
         {% if item.friend.id == user.id %}
-        <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a> 
+        <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a>
           <br><small>{{ item.befriended_on }}</small></p>
           {% else %}
-          <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a> 
+          <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a>
             <br><small>{{ item.befriended_on }}</small></p>
             {% endif %}
           </div>
