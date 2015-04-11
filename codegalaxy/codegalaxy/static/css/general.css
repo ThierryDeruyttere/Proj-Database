@@ -38,11 +38,23 @@
     height: 120px;
 }
 
-/* CodeMirror text field styling */
+/* CodeMirror text area styling */
 .CodeMirror {
     border-radius: 15px;
     border-color: #3a3a3a;
     border-width: 5px;
     border-style: solid;
     margin: 0.8em 0em;
+}
+
+.CodeMirror.error {
+    border-color: #790000;
+}
+
+.CodeMirror-gutter {
+    border-width: 0px 3px 0px 0px;
+    border-style: solid;
+    border-color: #545454;
+    background-color: #545454;
+    margin-right: 6px;
 }

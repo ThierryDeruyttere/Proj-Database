@@ -8,22 +8,17 @@
   <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
 </div>
 
-<!-- <form action="/eval/sql" method="post"> -->
 <div class="row">
   <textarea id="user_code" name="user_code"></textarea>
-  <!-- <input type="hidden" name="code" value="SELECT * FROM k;"></input> -->
 </div>
 
-  <div class="row">
-    <a class="button" id="evaluate">Evaluate</a>
-  </div>
-  <!-- <input type="submit"> -->
-<!-- </form> -->
+<div class="row">
+  <intput type="button" class="button round" id="evaluate">Evaluate</input>
+</div>
 
 <div class="row">
   <div class="panel" id="output"></div>
 </div>
-
 {% endblock base_body %}
 
 {% block body_js %}
@@ -36,6 +31,16 @@
       matchBrackets: true,
       autoCloseBrackets: true
     });
+
+  function setError(text) {
+    $("#output").html(text);
+    $(".CodeMirror").addClass("error");
+  }
+
+  function setSuccess(text) {
+    $("#output").html(text);
+    $(".CodeMirror").removeClass("error");
+  }
 
   $("#evaluate").click(function()
   {
@@ -50,7 +55,7 @@
         $("#output").html(response);
       },
       error: function(jqXHR, textStatus, error) {
-        $("#output").html(jqXHR.responseText);
+        setError(jqXHR.responseText);
       }
     });
   });
