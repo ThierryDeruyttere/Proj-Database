@@ -52,7 +52,7 @@
       dataType: "text",
 
       success: function(response) {
-        $("#output").html(response);
+        setSuccess(response);
       },
       error: function(jqXHR, textStatus, error) {
         setError(jqXHR.responseText);
