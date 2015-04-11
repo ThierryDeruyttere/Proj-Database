@@ -173,7 +173,7 @@ def editList(request, listId):
                                              'all_exercises': all_exercises})
 
 def getBrowserLanguage(request):
-    return request.META['HTTP_ACCEPT_LANGUAGE'].split('-')[0]
+    return request.LANGUAGE_CODE
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
@@ -484,7 +484,7 @@ def answerQuestion(request, list_id, exercise_number):
     exercise_list = object_manager.createExerciseList(list_id)
     current_answer = None
     if exercise_list:
-        all_exercise = exercise_list.allExercises("en")
+        all_exercise = exercise_list.allExercises(getBrowserLanguage(request))
         current_exercise = None
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
