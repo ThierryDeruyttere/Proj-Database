@@ -5,7 +5,6 @@
 {# Title #}
 {% block title %} Code Galaxy {% endblock title %}
 
-
 {% block head_js %}
   <script src="{% static "codemirror/lib/codemirror.js" %}"></script>
   <script src="{% static "codemirror/mode/python/python.js" %}"></script>
@@ -21,6 +20,7 @@
   <link href="{% static "css/general.css" %}" rel="stylesheet"/>
   <link rel="stylesheet" href="{% static "codemirror/lib/codemirror.css" %}">
   <link rel="stylesheet" href="{% static "codemirror/theme/monokai.css" %}">
+{% block page_css %}{% endblock page_css %}
 {% endblock css %}
 
 {# Top Bar #}

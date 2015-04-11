@@ -1,6 +1,10 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 
+{% block page_css %}
+<link rel="stylesheet" href="{% static "css/sandbox.css" %}">
+{% endblock page_css %}
+
 {% block base_body %}
 <div class="row text-center">
   <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon active" alt="Python"></a>
