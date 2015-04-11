@@ -320,7 +320,7 @@ def getMadeListForUser2(id):
 
 def getProgrammingLanguageIDsOfMadeExForUser(user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_id = e.id AND e.exerciseList_id = l.id AND solved = 1;'.format(id = user_id))
+    cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_number = e.exercise_number AND e.exerciseList_id = l.id AND m.list_id = l.id AND solved = 1;'.format(id = user_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -333,7 +333,7 @@ def getExerciseScoreFor(id, exercise_list):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.exercise_id, mE.solved, mE.exercise_score, mE.rating,mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.id =  mE.exercise_id AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
+    cursor.execute('SELECT e.id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -490,9 +490,9 @@ def getLastExerciseFromList(ID):
 
     return max(fetched, reference_fetched, key=max_numb)
 
-def getMadeExercise(user_id, exercise_id, list_id, exercise_number):
+def getMadeExercise(user_id, list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND exercise_id = {exerc} AND list_id = {list_id} AND exercise_number = {exercise_number};'.format(user = user_id, exerc = exercise_id, list_id=list_id, exercise_number=exercise_number))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND list_id = {list_id} AND exercise_number = {exercise_number};'.format(user = user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -569,7 +569,7 @@ def getAvgScoreOfUsersWhoMadeList(exercise_list_id):
 
 def getAllExercForUserForList(user_id, list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.* FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_id = e.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT mE.* FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -577,7 +577,7 @@ def getAllExercForUserForList(user_id, list_id):
 def getAllMadeRefForUserForList(user_id, list_id):
     # TODO: fix this
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.user_id,mE.exercise_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_id = e.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT mE.user_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -738,9 +738,9 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
-def insertMadeExercise(user_id, exercise_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer):
+def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer):
     cursor = connection.cursor()
-    sql = 'INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{ex_id},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, ex_id=exercise_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
+    sql = 'INSERT INTO madeEx(user_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
     cursor.execute(sql, [last_answer])
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):

@@ -115,7 +115,6 @@ CREATE TABLE code(
 
 CREATE TABLE madeEx(
   user_id INT,
-  exercise_id INT,
   solved BOOLEAN NOT NULL,
   exercise_score INT NOT NULL,
   completed_on DATETIME,
@@ -123,8 +122,7 @@ CREATE TABLE madeEx(
   exercise_number INT,
   last_answer BLOB,
   FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  PRIMARY KEY(user_id, exercise_id)
+  PRIMARY KEY(user_id, exercise_number, list_id)
 );
 
 CREATE TABLE question(
@@ -354,6 +352,3 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,6,5,30, "2015-03-05 13:13:13");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,12,5,30, "2015-03-05 14:14:14");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,12,5,30, "1999-07-13 18:12:05");
-
-#insert into madeEx
-INSERT INTO madeEx(user_id, exercise_id, solved, exercise_score, completed_on) VALUES(1,1,1,5,"2015-03-06 10:10:10");
