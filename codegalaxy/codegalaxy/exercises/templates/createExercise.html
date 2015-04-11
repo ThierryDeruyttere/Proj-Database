@@ -1,11 +1,11 @@
 {% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block page_css %}
+  <link rel="stylesheet" href="{% static "css/createExercise.css" %}">
+{% endblock page_css %}
 
 {% block base_body %}
-  {% load staticfiles %}
-  <head>
-    <link rel="stylesheet" href="{% static "css/createExercise.css" %}">
-  </head>
-
   <div class="row">
     <form method="post" id="exercise_form">
 

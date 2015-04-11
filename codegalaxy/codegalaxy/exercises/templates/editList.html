@@ -1,12 +1,11 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 
-{% block base_body %}
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static "css/editList.css" %}" />
-  </head>
+{% block page_css %}
+  <link rel="stylesheet" href="{% static "css/editList.css" %}" />
+{% endblock page_css %}
 
-  <body>
+{% block base_body %}
   <div class="row">
     <form id="list_editor" method="POST">
       {% csrf_token %}
@@ -141,7 +140,6 @@
       </div>
     </form>
   </div>
-  </body>
 {% endblock base_body %}
 
 {% block body_js %}

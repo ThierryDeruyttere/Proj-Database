@@ -1,11 +1,12 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 {% load custom_filters %}
-{% block base_body %}
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static "css/importExercise.css" %}" />
-  </head>
 
+{% block page_css %}
+  <link rel="stylesheet" href="{% static "css/importExercise.css" %}" />
+{% endblock page_css %}
+
+{% block base_body %}
   <form method="GET" id="search" name="search">
     <div class="row" id="search_panel">
       <div class="large-10 large-centered columns">

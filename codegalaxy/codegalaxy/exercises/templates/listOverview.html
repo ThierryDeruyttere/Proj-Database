@@ -1,17 +1,17 @@
 {% extends "codegalaxy.html" %}
-
 {% load staticfiles %}
 
 {% block head_js %}
   <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
 
-{% block base_body  %}
-  <head>
-    <link rel="stylesheet" type="text/css" href="{% static "css/listOverview.css" %}" />
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  </head>
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/listOverview.css" %}" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+{% endblock page_css %}
 
+
+{% block base_body  %}
   <div class="row">
 
   <div class="large-8 columns">

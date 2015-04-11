@@ -1,11 +1,11 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 
-{% block base_body %}
-  <head>
-    <link rel="stylesheet" href="{% static "css/createExerciseList.css" %}">
-  </head>
+{% block page_css %}
+  <link rel="stylesheet" href="{% static "css/createExerciseList.css" %}">
+{% endblock page_css %}
 
+{% block base_body %}
   <div class="row">
     <div class="large-12 columns text-center">
       <h1>Create a new list</h1>
