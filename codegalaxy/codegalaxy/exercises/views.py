@@ -490,6 +490,8 @@ def answerQuestion(request, list_id, exercise_number):
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
                 current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
+                if current_exercise.exercise_type == 'Open Question':
+                    current_answer = int(current_answer)
                 break
 
         if current_exercise:
@@ -602,8 +604,6 @@ def submit(request, list_id, exercise_number):
                     score = 0
                     for ex in all_exercise:
                         score += int(ex['exercise_score'])
-                    # TODO: dees teste
-                    # score /= exercise_list.maxScore()
                     user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""

@@ -29,10 +29,18 @@
                   <div class="large-6 large-offset-1 columns">
                     {{ forloop.counter }}
                     {{ i }}
-                    {% if forloop.counter == 1  %}
-                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                    {% if current_answer %}
+                      {% if forloop.counter == current_answer  %}
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                      {% else %}
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                      {% endif %}
                     {% else %}
-                      <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                      {% if forloop.counter == 1  %}
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                      {% else %}
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                      {% endif %}
                     {% endif %}
                   </div>
                 </div>
