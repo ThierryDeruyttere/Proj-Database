@@ -32,13 +32,48 @@ def home(request):
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
+    feed = []
     if current_user:
-        friends = current_user.allFriends()
-        recommended = recommendListsForUser(current_user, True, True, True, True, True, False)
-        for recommended_list in recommended:
-            recommended_lists.append(object_manager.createExerciseList(recommended_list))
+        current_user_accepted_friendships = current_user.allFriendsWith()
+        current_user_member_of_groups = current_user.allGroupsJoined()
+        current_user_exercises_made = current_user.allExerciseListsMade2()
 
-    return render(request, 'home.html', {'user': current_user, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
+        feed.extend(current_user_member_of_groups)
+        feed.extend(current_user_exercises_made)
+
+        for friendship in current_user_accepted_friendships:
+            friend = object_manager.createUser(id=friendship.friend.id)
+
+            accepted_friendships = friend.allFriendsWith()
+            member_of_groups = friend.allGroupsJoined()
+            exercises_made = friend.allExerciseListsMade2()
+
+            feed.extend(accepted_friendships)
+            feed.extend(member_of_groups)
+            feed.extend(exercises_made)
+
+        feed = sorted(feed, key=lambda k: k.datetime, reverse=True)
+
+        paginator = Paginator(feed, 10)  # 10 items per page
+
+        page = request.GET.get('page')
+        try:
+            feed_data = paginator.page(page)
+        except PageNotAnInteger:
+            # geef de eerste pagina
+            feed_data = paginator.page(1)
+        except EmptyPage:
+            # geen resultaten->laatste page
+            feed_data = paginator.page(paginator.num_pages)
+
+        recommended = recommendListsForUser(
+            current_user, True, True, True, True, True, False)
+        for recommended_list in recommended:
+            recommended_lists.append(
+                object_manager.createExerciseList(recommended_list))
+
+    return render(request, 'home.html', {'user': current_user, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
+
 
 @require_login
 def user(request, id=0):
@@ -82,13 +117,15 @@ def user(request, id=0):
                 destination.write(chunk)
             destination.close()
 
-            imageFile = './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png'
+            imageFile = './codegalaxy/static/profile_pictures/' + \
+                str(current_user.id) + '.png'
 
             im1 = Image.open(imageFile)
 
             THUMB_SIZE = 512, 512
             image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
-            image.save('./codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
+            image.save(
+                './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
 
         elif 'confirm_membership' in request.POST:
             group_id = request.POST.get('group_id_to_confirm')
@@ -271,13 +308,15 @@ def group(request, id=0):
                 destination.write(chunk)
             destination.close()
 
-            imageFile = './codegalaxy/static/group_pictures/' + str(group.id) + '.png'
+            imageFile = './codegalaxy/static/group_pictures/' + \
+                str(group.id) + '.png'
 
             im1 = Image.open(imageFile)
 
             THUMB_SIZE = 512, 512
             image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
-            image.save('./codegalaxy/static/group_pictures/' + str(group.id) + '.png')
+            image.save(
+                './codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
             group.deleteMember(user.id)
@@ -385,6 +424,7 @@ def groupOverview(request):
 
     return render(request, 'groupOverview.html', {'group_list': group_list, 'biggest_groups': bar_chart})
 
+
 @require_login
 def groupCreate(request, id=0):
     user = logged_user(request)
@@ -405,7 +445,8 @@ def groupCreate(request, id=0):
             # auto add user when making a private group?
 
             group = object_manager.createGroupOnName(group_name)
-            group.insertMember(user.id, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), 'Member')
+            group.insertMember(
+                user.id, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), 'Member')
             return redirect('/g/' + str(group.id))
 
         except:
@@ -511,6 +552,7 @@ def test(request, id=0):
 
     return render(request, 'test.html', {'test': str(user_test), 'testfunction': ' '.join([str(friend) for friend in friends]), 'testfunction2': ' '.join([str(group) for group in groups]), 'testfunction3': ' '.join([str(list_) for list_ in lists]), 'testfunction4': permission, 'testfunction5': ' '.join([str(ex) for ex in personalexercises]), 'testfunction6': str(exercise_test), 'testfunction7': hints, 'testfunction8': answers, 'testfunction9': 'Group: ' + str(group_test), 'testfunction10': 'List: ' + str(exercise_list_test), 'testfunction11': subjects, 'testfunction12': ' '.join([str(exercise) for exercise in exercises]), 'testfunction13': ' '.join([str(member) for member in members])})
 
+
 def tables(request):
     import dbw
     if request.method == 'GET':
@@ -519,6 +561,7 @@ def tables(request):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})
+
 
 def recommendations(request):
     user_test = object_manager.createUser(id=1)

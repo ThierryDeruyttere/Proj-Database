@@ -3,217 +3,270 @@
 {% load i18n %}
 
 {% block head_js %}
-  <script src="{% static "foundation/js/foundation.abide.js" %}"></script>
+<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
 {% endblock head_js %}
 
 {% block base_body %}
 
-  {% if logged_in%}
-    <div class="row">
-      <div class="large-3 columns ">
-        <div class="panel">
-          <img src="{% static user.getProfilePicture %}"/>
-          <div class="text-center">
-            <h5>{{user.first_name}} {{user.last_name}}</h5>
-            <hr/>
-          </div>
-          <li><a href="/me">My profile</a></li>
-          <!--<li><a href="/me">Friends</a></li>-->
-        </div>
+{% if logged_in%}
+<div class="row">
+  <div class="large-3 columns ">
+    <div class="panel">
+      <img src="{% static user.getProfilePicture %}"/>
+      <div class="text-center">
+        <h5>{{user.first_name}} {{user.last_name}}</h5>
+        <hr/>
       </div>
-      <div class="large-6 columns">
-        <div class="row collapse">
-          <div class="large-9 columns">
-            <input type="text" placeholder="Explore the galaxy...">
+      <li><a href="/me">My profile</a></li>
+      <!--<li><a href="/me">Friends</a></li>-->
+    </div>
+  </div>
+  <div class="large-6 columns">
+    <div class="row collapse">
+      <div class="large-9 columns">
+        <input type="text" placeholder="Explore the galaxy...">
 
-          </div>
-          <a href="#" class="tiny alert button">Search</a>
-        </div>
-        {% for userfriend in friends%}
-          {% for friend in userfriend.allFriends %}
-            <div class="row">
-              <div class="large-2 columns small-3"><img src={% static "media/rocket1.png" %}/></div>
-              <div class="large-10 columns">
-                <p><strong>{{userfriend.first_name}} {{userfriend.last_name}}</strong> became friends with <strong><a href="/u/{{ friend.id }}"> {{friend.first_name}} {{friend.last_name}}</a></p>
+      </div>
+      <a href="#" class="tiny alert button">Search</a>
+    </div>
+    {% for item in feed %}
+    {% if item.type == 'FriendsWith' %}
+    <div class="row">
+      <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getProfilePicture %}/></a></div>
+      <div class="large-10 columns">
+      {% if item.user.id == user.id %}
+        <p><strong>I </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a> 
+          <br><small>{{ item.befriended_on }}</small></p>
+{% else %}
+          <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a> 
+          <br><small>{{ item.befriended_on }}</small></p>
+          {% endif %}
                 <!--
                 <ul class="inline-list">
                   <li><a href="">Reply</a></li>
                   <li><a href="">Share</a></li>
                 </ul>
               -->
-              </div>
             </div>
+          </div>
 
-            <hr/>
-          {% endfor %}
-        {% endfor %}
-
-      </div>
-      <aside class="large-3 columns hide-for-small">
-      </aside>
-      <div class="large-3 columns ">
-        <div class="panel callout radius">
-          Recommended Lists:<br/>
-          {% if recommended %}
-            {% for recommended_list in recommended %}
-              <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
-            {% endfor %}
-            <a href="/l/{{random_list}}" class="round small button">I'm feeling lucky!</a>
-          {% else %}
-              You have made every single exerciselist!
+          <hr/>
           {% endif %}
-        </div>
-      </div>
-    </div>
-
-
-  {% else%}
-    <img src={% static "media/galaxy.jpg" %} id="bg" alt=""/>
-
-    <div class="row">
-      <div class="large-12 columns">
-        <img id="rocket" src={% static "media/HomePage.png" %}/>
-
-        <hr/>
-      </div>
-    </div>
-
-
-
-    <div class="row">
-      <div class="large-5 columns">
-        <div class="signup-panel">
-          <div class="row collapse">
-            <div class="small-1 columns">
-              <img src={% static "media/planet.png" %}/>
-            </div>
-            <div class="small-11 columns">
-              <p class="welcome">{% trans "Already a member" %}</p>
-            </div>
-            <div class="text-center">
-              {% if error_login %}
-                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-              {% endif %}
-              <form method="post" action="/login/" data-abide>
-                {% csrf_token %}
-                <div class="row collapse">
-                  <div class="small-1 columns">
-                    <span class="prefix"><i class="fi-mail size-28"></i></span>
-                  </div>
-                  <div class="small-11  columns">
-                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
-                  </div>
-                </div>
-                <div class="row collapse">
-                  <div class="small-1 columns ">
-                    <span class="prefix"><i class="fi-lock size-28"></i></span>
-                  </div>
-                  <div class="small-11 columns ">
-                    <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password">
-                    <small class="error">{% trans "Enter a valid Password." %}</small>
-                  </div>
-                </div>
-                <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="large-5 columns">
-        <div class="signup-panel">
-          <div class="row collapse">
-            <div class="small-1 columns">
-              <img src={% static "media/planet.png" %}/>
-            </div>
-            <div class="small-10 columns">
-              <p class="welcome">{% trans "New member" %}</p>
-            </div>
-            <div class="text-center">
-              {% if error_register %}
-                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-              {% endif %}
-              <form method="post" action="/register/" data-abide>
-                {% csrf_token %}
-                <div class="row collapse">
-                  <div class="small-2  columns">
-                    <span class="prefix"><i class="fi-torso size-28"></i></span>
-                  </div>
-                  <div class="small-10  columns">
-                    <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                    <small class="error">{% trans "Enter a valid First Name." %}</small>
-                  </div>
-                </div>
-                <div class="row collapse">
-                  <div class="small-2  columns">
-                    <span class="prefix"><i class="fi-torso size-28"></i></span>
-                  </div>
-                  <div class="small-10  columns">
-                    <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                    <small class="error">{% trans "Enter a valid Last Name." %}</small>
-                  </div>
-                </div>
-                <div class="row collapse">
-                  <div class="small-2 columns">
-                    <span class="prefix"><i class="fi-mail size-28"></i></span>
-                  </div>
-                  <div class="small-10  columns">
-                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
-                  </div>
-                </div>
-                <div class="row collapse">
-                  <div class="small-2 columns">
-                    <span class="prefix"><i class="fi-lock size-28"></i></span>
-                  </div>
-                  <div class="small-10 columns">
-                    <input type="password" required placeholder="{% trans "Password" %}" class="snap-bottom" id="your_password" name="your_password" value="{{ your_password }}">
-                    <small class="error">{% trans "Enter a valid password." %}</small>
-                  </div>
-                </div>
-                <div class="row collapse">
-                  <div class="small-2 columns">
-                    <span class="prefix"><i class="fi-lock size-28"></i></span>
-                  </div>
-                  <div class="small-10 columns">
-                    <input type="password" required placeholder="{% trans "Confirm Password" %}" data-equalto="your_password" id="your_password_confirm" name="your_password_confirm" value="">
-                    <small class="error">{% trans "The passwords did not match." %}</small>
-                  </div>
-                </div>
-
-                <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
-              </form>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-
-    <div class="row">
-      <div class="large-12 columns">
-
-        <div class="panel">
-          <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
-
+          {% if item.type == 'UserInGroup'%}
+          {% if item.group.group_type == 0 %}
           <div class="row">
-            <div class="large-9 columns">
-              <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
-            </div>
-          </div>
-        </div>
+            <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getProfilePicture %}"/></a></div>
+            <div class="large-10 columns">
 
-      </div>
-    </div>
+              {% if item.user.id == user.id %}
+              <p><strong>I </strong>{% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
+                <br><small>{{ item.joined_on }}</small></p>
+                {% else %}
+                <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
+                  <br><small>{{ item.joined_on }}</small></p>
+                  {% endif %}
+                </div>
+              </div>
 
-  {% endif%}
+              <hr/>
+              {% endif %}
+              {% endif %}
+              {% if item.type == 'MadeExerciseList'%}
+              <div class="row">
+                <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getProfilePicture %}"/></a></div>
+                <div class="large-10 columns">
+                  {% if item.user.id == user.id %}
+                  <p><strong>I </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+                    <br><small>{{ item.completed_on }}</small></p>
+                    {% else %}
+                    <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+                      <br><small>{{ item.completed_on }}</small></p>
+                      {% endif %}
+                    </div>
+                  </div>
 
-{% endblock base_body %}
-{% block body_js %}
-  <script>
+                  <hr/>
+                  {% endif %}
+                  {% endfor %}
+                  <div class="pagination">
+                    <span class="step-links">
+                      {% if feed.has_previous %}
+                      <a href="?page={{ feed.previous_page_number }}">previous</a>
+                      {% endif %}
+                      <span class="current">
+                        {% trans "Page" %} {{ feed.number }} {% trans "of" %} {{ feed.paginator.num_pages }}
+                      </span>
+                      {% if feed.has_next %}
+                      <a href="?page={{ feed.next_page_number }}">next</a>
+                      {% endif %}
+                    </span>
+                  </div>
+                </div>
+                <aside class="large-3 columns hide-for-small">
+                </aside>
+                <div class="large-3 columns ">
+                  <div class="panel callout radius">
+                    Recommended Lists:<br/>
+                    {% if recommended %}
+                    {% for recommended_list in recommended %}
+                    <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+                    {% endfor %}
+                    <a href="/l/{{random_list}}" class="round small button">I'm feeling lucky!</a>
+                    {% else %}
+                    You have made every single exerciselist!
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
 
-    $('img').on('dragstart', function(event) { event.preventDefault(); });
-  </script>
-{% endblock %}
+
+              {% else%}
+              <img src={% static "media/galaxy.jpg" %} id="bg" alt=""/>
+
+              <div class="row">
+                <div class="large-12 columns">
+                  <img id="rocket" src={% static "media/HomePage.png" %}/>
+
+                  <hr/>
+                </div>
+              </div>
+
+
+
+              <div class="row">
+                <div class="large-5 columns">
+                  <div class="signup-panel">
+                    <div class="row collapse">
+                      <div class="small-1 columns">
+                        <img src={% static "media/planet.png" %}/>
+                      </div>
+                      <div class="small-11 columns">
+                        <p class="welcome">{% trans "Already a member" %}</p>
+                      </div>
+                      <div class="text-center">
+                        {% if error_login %}
+                        <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+                        {% endif %}
+                        <form method="post" action="/login/" data-abide>
+                          {% csrf_token %}
+                          <div class="row collapse">
+                            <div class="small-1 columns">
+                              <span class="prefix"><i class="fi-mail size-28"></i></span>
+                            </div>
+                            <div class="small-11  columns">
+                              <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                              <small class="error">{% trans "Enter a valid Email Address." %}</small>
+                            </div>
+                          </div>
+                          <div class="row collapse">
+                            <div class="small-1 columns ">
+                              <span class="prefix"><i class="fi-lock size-28"></i></span>
+                            </div>
+                            <div class="small-11 columns ">
+                              <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password">
+                              <small class="error">{% trans "Enter a valid Password." %}</small>
+                            </div>
+                          </div>
+                          <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="large-5 columns">
+                  <div class="signup-panel">
+                    <div class="row collapse">
+                      <div class="small-1 columns">
+                        <img src={% static "media/planet.png" %}/>
+                      </div>
+                      <div class="small-10 columns">
+                        <p class="welcome">{% trans "New member" %}</p>
+                      </div>
+                      <div class="text-center">
+                        {% if error_register %}
+                        <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+                        {% endif %}
+                        <form method="post" action="/register/" data-abide>
+                          {% csrf_token %}
+                          <div class="row collapse">
+                            <div class="small-2  columns">
+                              <span class="prefix"><i class="fi-torso size-28"></i></span>
+                            </div>
+                            <div class="small-10  columns">
+                              <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                              <small class="error">{% trans "Enter a valid First Name." %}</small>
+                            </div>
+                          </div>
+                          <div class="row collapse">
+                            <div class="small-2  columns">
+                              <span class="prefix"><i class="fi-torso size-28"></i></span>
+                            </div>
+                            <div class="small-10  columns">
+                              <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                              <small class="error">{% trans "Enter a valid Last Name." %}</small>
+                            </div>
+                          </div>
+                          <div class="row collapse">
+                            <div class="small-2 columns">
+                              <span class="prefix"><i class="fi-mail size-28"></i></span>
+                            </div>
+                            <div class="small-10  columns">
+                              <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                              <small class="error">{% trans "Enter a valid Email Address." %}</small>
+                            </div>
+                          </div>
+                          <div class="row collapse">
+                            <div class="small-2 columns">
+                              <span class="prefix"><i class="fi-lock size-28"></i></span>
+                            </div>
+                            <div class="small-10 columns">
+                              <input type="password" required placeholder="{% trans "Password" %}" class="snap-bottom" id="your_password" name="your_password" value="{{ your_password }}">
+                              <small class="error">{% trans "Enter a valid password." %}</small>
+                            </div>
+                          </div>
+                          <div class="row collapse">
+                            <div class="small-2 columns">
+                              <span class="prefix"><i class="fi-lock size-28"></i></span>
+                            </div>
+                            <div class="small-10 columns">
+                              <input type="password" required placeholder="{% trans "Confirm Password" %}" data-equalto="your_password" id="your_password_confirm" name="your_password_confirm" value="">
+                              <small class="error">{% trans "The passwords did not match." %}</small>
+                            </div>
+                          </div>
+
+                          <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+
+              <div class="row">
+                <div class="large-12 columns">
+
+                  <div class="panel">
+                    <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
+
+                    <div class="row">
+                      <div class="large-9 columns">
+                        <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+
+              {% endif%}
+
+              {% endblock base_body %}
+              {% block body_js %}
+              <script>
+
+                $('img').on('dragstart', function(event) { event.preventDefault(); });
+              </script>
+              {% endblock %}
