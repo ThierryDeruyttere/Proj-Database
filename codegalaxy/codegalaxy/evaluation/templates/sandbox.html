@@ -3,7 +3,7 @@
 
 {% block base_body %}
 <div class="row text-center">
-  <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon" alt="Python"></a>
+  <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon active" alt="Python"></a>
   <a href="#" id="text/x-c++src" class="lang_button"><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
   <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
 </div>
@@ -23,7 +23,11 @@
 
 
 <div class="row">
-  <div class="panel" id="output"></div>
+  <div data-alert id="output" class="alert-box success radius">
+    <div id="output_success" class="output-header">Success!</div>
+    <div id="output_error" class="output-header" hidden>Oops, something went wrong...</div>
+    <div id="output_text"></div>
+  </div>
 </div>
 {% endblock base_body %}
 
@@ -32,22 +36,36 @@
   var code_text = CodeMirror.fromTextArea(user_code,
     {
       lineNumbers: true,
-      mode: "text/x-c++src",
+      mode: "text/x-python",
       theme: "monokai",
       matchBrackets: true,
       autoCloseBrackets: true
     });
 
   function setError(text) {
-    $("#output").html(text);
+    $("#output_text").html(text);
+
     $(".CodeMirror").addClass("error");
     $(".CodeMirror").switchClass("error", "", 2800, "easeInExpo");
+
+    $("#output_success").hide();
+    $("#output_error").show();
+
+    $("#output").removeClass("success");
+    $("#output").addClass("alert");
   }
 
   function setSuccess(text) {
-    $("#output").html(text);
+    $("#output_text").html(text);
+
     $(".CodeMirror").addClass("success");
     $(".CodeMirror").switchClass("success", "", 2800, "easeInExpo");
+
+    $("#output_error").hide();
+    $("#output_success").show();
+
+    $("#output").removeClass("alert");
+    $("#output").addClass("success");
   }
 
   $("#evaluate").click(function()
