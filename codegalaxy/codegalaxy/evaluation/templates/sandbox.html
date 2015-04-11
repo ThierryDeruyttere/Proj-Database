@@ -13,8 +13,14 @@
 </div>
 
 <div class="row">
-  <intput type="button" class="button round" id="evaluate">Evaluate</input>
+  <input type="button" name="test" class="button round success no-outline" id="evaluate" value="Evaluate"></input>
+  <!-- <ul class="button-group">
+    <li><a href="#" class="button">Button 1</a></li>
+    <li><a href="#" class="button">Button 2</a></li>
+    <li><a href="#" class="button">Button 3</a></li>
+  </ul> -->
 </div>
+
 
 <div class="row">
   <div class="panel" id="output"></div>
@@ -35,11 +41,13 @@
   function setError(text) {
     $("#output").html(text);
     $(".CodeMirror").addClass("error");
+    $(".CodeMirror").switchClass("error", "", 2800, "easeInExpo");
   }
 
   function setSuccess(text) {
     $("#output").html(text);
-    $(".CodeMirror").removeClass("error");
+    $(".CodeMirror").addClass("success");
+    $(".CodeMirror").switchClass("success", "", 2800, "easeInExpo");
   }
 
   $("#evaluate").click(function()
@@ -62,6 +70,8 @@
 
   $(".lang_button").click(function() {
     code_text.setOption("mode", $(this).attr("id"));
+    $(".lang_button>img").removeClass("active");
+    $(this).find("img").addClass("active");
   });
 
 </script>

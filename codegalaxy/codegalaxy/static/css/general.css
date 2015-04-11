@@ -31,11 +31,21 @@
 }
 
 .prog-lang-icon {
-    background-repeat: no-repeat;
-    background-position: 50%;
-    /*border-radius: 50%;*/
     width: 120px;
     height: 120px;
+
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: rgba(89, 108, 183, 0);
+}
+
+.prog-lang-icon.active {
+    border-color: rgba(89, 108, 183, 1);
+}
+
+.no-outline:focus {
+    outline: none;
 }
 
 /* CodeMirror text area styling */
@@ -49,6 +59,10 @@
 
 .CodeMirror.error {
     border-color: #790000;
+}
+
+.CodeMirror.success {
+    border-color: #007900;
 }
 
 .CodeMirror-gutter {
