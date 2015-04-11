@@ -808,7 +808,7 @@ def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, c
 
 def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on):
     cursor = connection.cursor()
-    sql = 'UPDATE madeEx SET last_answer=%s, solved = {solved}, completed_on={completed_on} WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer)
+    sql = 'UPDATE madeEx SET last_answer=%s, solved={solved}, completed_on="{completed_on}" WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer, solved=solved, completed_on=completed_on)
     cursor.execute(sql, [answer])
 
 # DELETE
