@@ -806,9 +806,9 @@ def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, c
     cursor = connection.cursor()
     cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
 
-def updateGivenAnswer(list_id, user_id, exercise_number, answer):
+def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on):
     cursor = connection.cursor()
-    sql = 'UPDATE madeEx SET last_answer=%s WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer)
+    sql = 'UPDATE madeEx SET last_answer=%s, solved = {solved}, completed_on={completed_on} WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer)
     cursor.execute(sql, [answer])
 
 # DELETE
