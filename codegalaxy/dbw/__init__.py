@@ -753,7 +753,6 @@ def updateUserInformation(user_id, email, password):
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET email="{email}",password="{passw}" WHERE id = {id};'.format(passw=password, email=email, id=user_id))
 
-
 def updateUser(user_id, first_name, last_name, password, email, is_active, permissions, joined_on, last_login, gender):
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
@@ -763,7 +762,6 @@ def updateGroup(group_id, group_name, group_type, created_on):
     cursor = connection.cursor()
     # updateGroup does not change the created_on
     cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t},created_on = "{created_on}" WHERE id = {id};'.format(id=group_id, gr_t=group_type, gr_n=group_name, created_on=created_on))
-
 
 def updateExerciseList(list_id, name, description, difficulty, prog_lang_id):
     cursor = connection.cursor()
@@ -808,6 +806,10 @@ def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, c
     cursor = connection.cursor()
     cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id},title="{title}" WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id, title=title))
 
+def updateGivenAnswer(list_id, user_id, exercise_number, answer):
+    cursor = connection.cursor()
+    sql = 'UPDATE madeEx SET last_answer=%s WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer)
+    cursor.execute(sql, [answer])
 
 # DELETE
 

@@ -167,8 +167,6 @@ CREATE TABLE madeList(
   rating INT NOT NULL,
   score INT NOT NULL,
   made_on DATETIME NOT NULL,
-  last_answer BLOB,
-  # can be null
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
   FOREIGN KEY (user_id) REFERENCES user(id),
   PRIMARY KEY (exerciseList_id, user_id)

@@ -158,7 +158,7 @@ class ObjectManager:
     def userMadeExercise(self, exercise_id, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer=""):
         exercise = dbw.getMadeExercise(user_id, exercise_id, list_id, exercise_number)
         if exercise:
-            pass
+            dbw.updateGivenAnswer(list_id, user_id, exercise_number, last_answer)
             # We'll edit the last question?
         else:
             dbw.insertMadeExercise(user_id, exercise_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer)

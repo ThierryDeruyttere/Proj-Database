@@ -546,7 +546,6 @@ def submit(request, list_id, exercise_number):
                 else:
                     return redirect('/l/' + list_id + '/' + str(int(exercise_number) + 1))
 
-            # TODO: We need ex_number,ex_id and list_id, this WILL crash
             info = object_manager.getInfoForUserForExercise(user.id, question_id, list_id, exercise_number)
             penalty = current_exercise.penalty
             current_score = None
@@ -568,7 +567,6 @@ def submit(request, list_id, exercise_number):
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
                     solved = True
-                    # TODO WILL break here
                     object_manager.userMadeExercise(question_id, user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer)
                 else:
                     current_score = returnScore(current_score - penalty)
