@@ -40,7 +40,7 @@
       <section class="top-bar-section">
         <ul class="right">
           {% if logged_in%}
-            <li><a href="/me">Profile</a></li>
+            <li><a href="/me"><img class="profile_picture" src="{% static user.getProfilePicture %}"></a></li>
             <li><a href="/g/overview">Groups</a></li>
             <li><a href="/l/">Exercises</a></li>
             <li><a href="/logout/">Logout</a></li>

@@ -72,3 +72,9 @@
     background-color: #545454;
     margin-right: 6px;
 }
+
+.profile_picture{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
