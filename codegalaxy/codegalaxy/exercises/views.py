@@ -110,7 +110,9 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question, exercise_answer, correct_answer, hints, "en", exercise_title, translation, code)
+        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id,
+                                     str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
+                                     exercise_answer, correct_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)) , exercise_title, translation, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:

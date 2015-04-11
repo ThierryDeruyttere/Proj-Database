@@ -81,7 +81,6 @@ class ObjectManager:
         if language_code != 'en' and exercise_info is None:
             exercise_info = dbw.getExerciseInformation(id, 'en')
         if exercise_info:
-            print(exercise_info)
             exercise_object = managers.om.exercise.Exercise(id, exercise_info['difficulty'],
                                                             exercise_info['max_score'], exercise_info['penalty'], exercise_info['exercise_type'], exercise_info['programming_language'], exercise_info['code_text'], exercise_info['question_text'], language_code, exercise_info['correct_answer'], exercise_info['language_name'], exercise_info['title'], exercise_info['created_by'], exercise_info['created_on'], exercise_info['exercise_number'], exercise_info['exerciseList_id'])
             return exercise_object

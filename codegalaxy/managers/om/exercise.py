@@ -144,7 +144,7 @@ class Exercise:
         '''
 
         self.correct_answer = correct_answer
-        self.save(user_id, lang.id)
+        self.save(lang.id, user_id)
         self.updateAnswers(answers)
         self.updateHints(hints)
         self.updateCode()
@@ -176,7 +176,7 @@ class Exercise:
                     for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
                         dbw.insertAnswer((i+1),value[str(i)],key.id,self.id)
 
-    def save(self,lang_id, user_id=None):
+    def save(self, lang_id, user_id=None):
         '''
         @brief saves/dereferences the exercise in the database
         '''

@@ -119,9 +119,9 @@ class ExerciseList:
     def getAllExercForUserForList(self, user_id):
         return dbw.getAllExercForUserForList(user_id, self.id)
 
-    def insertExercise(self, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_code, title, translation, code=""):
+    def insertExercise(self, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_obj, title, translation, code=""):
         # AssociatedWith relation
-        l_id = dbw.getIdFromLanguage(language_code)['id']
+        l_id = language_obj.id
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
         # Code (default "")
@@ -139,9 +139,9 @@ class ExerciseList:
         for i, hint in enumerate(hints):
             dbw.insertHint(hint, i + 1, exercise_id, l_id)
 
-        exercise = object_manager.createExercise(exercise_id, language_code)
+        exercise = object_manager.createExercise(exercise_id, language_obj.code)
 
-        exercise.update(correct_answer, answers, hints, object_manager.getLanguageObject(language_code))
+        exercise.update(correct_answer, answers, hints, language_obj)
         exercise.setTranslations(translation)
 
     def getLastExercise(self):
