@@ -191,7 +191,7 @@
               </div>
               <textarea id="code" name="code">{{ exercise.code }}</textarea>
               <script>
-                var myCodeMirror = CodeMirror.fromTextArea(code,
+                var user_code = CodeMirror.fromTextArea(code,
                         {
                           lineNumbers: true,
                           {% if list.programming_language_string == "Python" %}
@@ -210,7 +210,7 @@
               </div>
               <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
               <script>
-                var myCodeMirror = CodeMirror.fromTextArea(output,
+                var output_code = CodeMirror.fromTextArea(output,
                         {
                           lineNumbers: true,
                           {% if list.programming_language_string == "Python" %}
@@ -591,13 +591,54 @@
       });
     }
 
+    function checkTranslationDict(isMultipleChoice){
+      /*Checks if the translation dictionary is ok.
+       This means that if you translate a part of the exercise, you need to translate it completely
+       This is important so that you don't have half translations for the exercise
+       */
+      var amount = hint_nmbr;
+      if(isMultipleChoice){
+        amount = answers;
+      }
+
+      var missing_trans = [];
+      $.each(translation_dict, function(key,value){
+        //the amount of inputs that are empty
+        var empty = 0;
+        //the amounts of inputs that are not empty
+        var not_empty = 0;
+        $.each(value, function(trans_key, trans_value){
+          //filter white spaces
+
+          if(trans_value.replace(/\s+/g, '') == ""){
+            empty++;
+          }else{
+            not_empty++;
+          }
+        });
+        if(empty != Object.keys(value).length  && empty != 0 ){
+          //problem there are translations missing
+          missing_trans.push(key);
+        }
+      });
+console.log(translation_dict);
+      if($(missing_trans).length > 0){
+        alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
+        "then just remove all the entries for these languages, or fill in the missing translations for these languages");
+        return false;
+      }
+      return true;
+    }
     $(".form_button").click(function(){
       addDictionary();
       var submit = true;
       if($('#exercise_type_code').is(":checked")) {
-        if ($("#output").val() == "") {
+        if (output_code.getValue() == "") {
           submit = false;
           alert("You need to expect something!");
+        }
+        if(submit){
+          submit = checkTranslationDict(false);
         }
       }else{
         var remember = [];
@@ -607,9 +648,10 @@
             submit = false;
           }
         }
-
         alert("The answer(s): " + remember + " is/are empty, please insert something!");
-
+        if(submit){
+          submit = checkTranslationDict(false);
+        }
       }
       if(submit){
         $("#exercise_form").submit();
