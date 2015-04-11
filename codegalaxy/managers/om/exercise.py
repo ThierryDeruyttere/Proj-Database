@@ -161,6 +161,7 @@ class Exercise:
         for key, value in translations.items():
             if len(value) > 0:
                 dbw.insertQuestion(value['question'], key.id, self.id)
+                dbw.insertTitleForExercise(self.id, key.id, value['title'])
                 if self.exercise_type == "Code":
                     #mhh ni echt zo clean dit...
                     for i in range(len(dbw.getExerciseHints(self.id, "English"))):

@@ -175,7 +175,15 @@ CREATE TABLE verification(
   hash VARCHAR(255) NOT NULL UNIQUE,
   PRIMARY KEY(hash),
   FOREIGN KEY (email) REFERENCES user(email)
+);
 
+CREATE TABLE exerciseTitle(
+  title VARCHAR(255) NOT NULL,
+  language_id INT NOT NULL,
+  exercise_id INT NOT NULL,
+  PRIMARY KEY(language_id, exercise_id),
+  FOREIGN KEY(exercise_id) REFERENCES exercise(id),
+  FOREIGN KEY(language_id) REFERENCES language(id)
 );
 
 # User data
@@ -291,16 +299,20 @@ VALUES ('SQL injections: a short guide', 'Learn all about sql injections with th
 
 # Exercise data
 # Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (1,5,1,'Code',1, '1981-10-12 13:40:58', 1,1,1, "Question 1");
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) VALUES (2,5,1,'Code',1, '2001-09-11 12:12:12', 2,1,1, "Question 2");
-
-# Code data
-INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
-INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 2);
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (1,5,1,'Code',1, '1981-10-12 13:40:58', 1,1,1);
+INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (2,5,1,'Code',1, '2001-09-11 12:12:12', 2,1,1);
 
 # Language data
 INSERT INTO language(name,language_code) VALUES ('English','en');
 INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
+
+#title data
+INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES ("Question 1", 1, 1);
+INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES ("Question 2", 1, 2);
+
+# Code data
+INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
+INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 2);
 
 # Question data
 INSERT INTO question(question_text, language_id, exercise_id)

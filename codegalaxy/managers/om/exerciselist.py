@@ -120,10 +120,10 @@ class ExerciseList:
         return dbw.getAllExercForUserForList(user_id, self.id)
 
     def insertExercise(self, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_code, title, translation, code=""):
-        # Info for exercises table + id of the exercise
-        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title)['highest_id']
         # AssociatedWith relation
         l_id = dbw.getIdFromLanguage(language_code)['id']
+        # Info for exercises table + id of the exercise
+        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
         # Code (default "")
         if code != "":
             dbw.insertCode(code, exercise_id)
