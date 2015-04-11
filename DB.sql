@@ -201,22 +201,22 @@ INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, l
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
 
 # Friend data
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,2,"2015-03-06 12:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,2,"2015-03-06 05:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,2,"2015-03-05 12:12:13",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,4,"2015-03-01 12:12:14",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,5,"2015-03-03 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,6,"2015-02-06 12:12:16",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,6,"2015-02-06 03:12:16",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,7,"2015-03-06 12:12:17",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,8,"2015-03-06 12:12:18",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,8,"2015-03-06 08:12:18",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,9,"2015-03-06 12:12:19",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,10,"2015-03-06 12:22:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,11,"2015-03-06 12:32:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,11,"2015-03-06 10:32:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,12,"2015-03-07 12:42:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,13,"2015-03-06 12:52:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,13,"2015-03-06 11:52:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,14,"2015-03-06 13:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,15,"2015-03-02 14:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,16,"2015-03-06 15:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,17,"2015-03-06 16:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,17,"2015-03-06 01:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,18,"2015-03-05 17:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,19,"2015-01-06 18:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,20,"2015-03-06 19:12:12",'Friends');
