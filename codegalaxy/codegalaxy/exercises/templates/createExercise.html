@@ -593,7 +593,27 @@
 
     $(".form_button").click(function(){
       addDictionary();
-      $("#exercise_form").submit();
+      var submit = true;
+      if($('#exercise_type_code').is(":checked")) {
+        if ($("#output").val() == "") {
+          submit = false;
+          alert("You need to expect something!");
+        }
+      }else{
+        var remember = [];
+        for(var i = 0; i < answers; i++){
+          if($('#answer'+(i+1)).find('input').val() == ""){
+            remember.push((i+1));
+            submit = false;
+          }
+        }
+
+        alert("The answer(s): " + remember + " is/are empty, please insert something!");
+
+      }
+      if(submit){
+        $("#exercise_form").submit();
+      }
     });
 
   </script>
