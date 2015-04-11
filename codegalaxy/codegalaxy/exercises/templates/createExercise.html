@@ -621,7 +621,6 @@
           missing_trans.push(key);
         }
       });
-console.log(translation_dict);
       if($(missing_trans).length > 0){
         alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
         "then just remove all the entries for these languages, or fill in the missing translations for these languages");
@@ -648,7 +647,10 @@ console.log(translation_dict);
             submit = false;
           }
         }
-        alert("The answer(s): " + remember + " is/are empty, please insert something!");
+        if($(remember).length > 0){
+          alert("The answer(s): " + remember + " is/are empty, please insert something!");
+        }
+        
         if(submit){
           submit = checkTranslationDict(false);
         }
