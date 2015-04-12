@@ -217,8 +217,9 @@ def editExercise(request, listId, exercise_id, exercise_number):
                 cur_hint = request.POST.get("hint" + str(j), "")
                 if cur_hint != "":
                     hints.append(cur_hint)
+        translation = getTranslationDict(request, languages)
 
-        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)) ,user.id)
+        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), translation ,user.id)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:
@@ -238,7 +239,6 @@ def editExercise(request, listId, exercise_id, exercise_number):
         if all_hints is not None:
             amount_hints = len(all_hints)
         translation = exercise.getTranslations(languages)
-
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
@@ -246,7 +246,8 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'all_hints': all_hints,
                                                        'am_hints': amount_hints,
                                                        'list': exercise_list,
-                                                       'languages': languages})
+                                                       'languages': languages,
+                                                       'translations': json.dumps(translation)})
 
 def createImportHTML(all_lists, all_exercises):
     html = ""
@@ -282,45 +283,44 @@ def createImportHTML(all_lists, all_exercises):
 @require_login
 def importExercise(request, listId):
     exercise_list = object_manager.createExerciseList(listId)
-    if exercise_list:
-        if exercise_list.created_by == logged_user(request).id:
-            all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
-            if request.method == "GET" and request.GET:
-                all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
+    if exercise_list and exercise_list.created_by == logged_user(request).id:
+        all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+        if request.method == "GET" and request.GET:
+            all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
-            all_lists = []
+        all_lists = []
 
-            for i in all_lists_id:
-                all_lists.append(object_manager.createExerciseList(i))
+        for i in all_lists_id:
+            all_lists.append(object_manager.createExerciseList(i))
 
-            all_exercises = {}
-            for i in all_lists:
-                all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
+        all_exercises = {}
+        for i in all_lists:
+            all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
 
-            if request.method == "GET" and request.GET:
-                return HttpResponse(createImportHTML(all_lists, all_exercises))
+        if request.method == "GET" and request.GET:
+            return HttpResponse(createImportHTML(all_lists, all_exercises))
 
-            if request.method == "POST":
-                copies = []
-                references = []
-                for key, i in all_exercises.items():
-                    for ex in i:
-                        copy = request.POST.get('checkbox_copy/' + str(key) + '/' + str(ex.exercise_number))
-                        ref = request.POST.get('checkbox_import/' + str(key) + '/' + str(ex.exercise_number))
-                        if copy is not None:
-                            copies.append(ex)
+        if request.method == "POST":
+            copies = []
+            references = []
+            for key, i in all_exercises.items():
+                for ex in i:
+                    copy = request.POST.get('checkbox_copy/' + str(key) + '/' + str(ex.exercise_number))
+                    ref = request.POST.get('checkbox_import/' + str(key) + '/' + str(ex.exercise_number))
+                    if copy is not None:
+                        copies.append(ex)
 
-                        if ref is not None:
-                            references.append(ex)
+                    if ref is not None:
+                        references.append(ex)
 
-                for ref in references:
-                    exercise_list.insertExerciseByReference(ref.id)
-                for copy in copies:
-                    exercise_list.copyExercise(copy.id)
+            for ref in references:
+                exercise_list.insertExerciseByReference(ref.id)
+            for copy in copies:
+                exercise_list.copyExercise(copy.id)
 
-            return render(request, 'importExercise.html', {'all_lists': all_lists,
-                                                           'all_exercises': all_exercises,
-                                                           'list_id': listId})
+        return render(request, 'importExercise.html', {'all_lists': all_lists,
+                                                       'all_exercises': all_exercises,
+                                                       'list_id': listId})
 
     return redirect('/')
 

@@ -720,19 +720,19 @@ def insertLanguage(name):
     cursor.execute('INSERT INTO language(name) VALUES ("{name}");'.format(name=name))
 
 
-def insertQuestion(question_text, language_id, exercise_id):
+def insertQuestion(exercise_id, language_id, question_text):
     cursor = connection.cursor()
     sql = 'INSERT INTO question(question_text,language_id,exercise_id) VALUES (%s,{l_id},{e_id});'.format(l_id=language_id, e_id=exercise_id)
     cursor.execute(sql, [question_text])
 
 
-def insertAnswer(answer_number, answer_text, language_id, is_answer_for):
+def insertAnswer(is_answer_for, language_id, answer_number, answer_text):
     cursor = connection.cursor()
     sql = 'INSERT INTO answer(answer_number,answer_text,language_id,is_answer_for) VALUES ({a_numb},%s,{l_id},{ans_for});'.format(a_numb=answer_number, l_id=language_id, ans_for=is_answer_for)
     cursor.execute(sql, [answer_text])
 
 
-def insertHint(hint_text, hint_number, exercise_id, language_id):
+def insertHint(exercise_id, language_id, hint_number, hint_text):
     cursor = connection.cursor()
     sql = 'INSERT INTO hint(hint_text,hint_number,exercise_id, language_id) VALUES (%s,{h_numb},{e_id}, {lang_id});'.format(h_numb=hint_number, e_id=exercise_id, lang_id=language_id)
     cursor.execute(sql, [hint_text])
@@ -805,7 +805,7 @@ def updateExerciseCode(code, exercise_id):
     sql = 'UPDATE code SET code_text = %s WHERE exercise_id = {exercise_id}'.format(exercise_id = exercise_id)
     cursor.execute(sql, [code])
 
-def updateQuestion(question_text,lang_id,ex_id):
+def updateQuestion(ex_id, lang_id, question_text):
     cursor = connection.cursor()
     cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id,question_text=question_text))
 
@@ -827,16 +827,25 @@ def updateGroupMembership(user_id, group_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
 
-def updateExerciseTitle(exercise_id, new_title, lang_id):
+def updateExerciseTitle(exercise_id, lang_id, new_title):
     cursor = connection.cursor()
     sql = 'UPDATE exerciseTitle SET title=%s WHERE exercise_id = {exercise_id} AND language_id = {lang_id};'.format(exercise_id=exercise_id, lang_id=lang_id)
     cursor.execute(sql, [new_title])
 
+def updateExerciseAnswer(exercise_id, lang_id, answer_number, answer_text):
+    cursor = connection.cursor()
+    sql = 'UPDATE answer SET answer_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND answer_number = {answer_number}'.format(id = exercise_id, lang_id = lang_id, answer_number = answer_number)
+    cursor.execute(sql, [answer_text])
+
+def updateExerciseHint(exercise_id, lang_id, hints_number, hint_text):
+    cursor = connection.cursor()
+    sql = 'UPDATE hint SET hint_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND hint_number = {hint_number}'.format(id = exercise_id, lang_id = lang_id, hint_number = hints_number)
+    cursor.execute(sql, [hint_text])
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, language_id):
     cursor = connection.cursor()
     cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id} WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id))
-    updateExerciseTitle(exercise_id, title, language_id)
+    updateExerciseTitle(exercise_id, language_id, title)
 
 def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on):
     cursor = connection.cursor()

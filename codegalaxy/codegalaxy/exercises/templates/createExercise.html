@@ -499,8 +499,11 @@
       }
     }
 
-    var translation_dict = {};
-
+    {% if edit %}
+       var translation_dict = {{ translations|safe }};
+    {% else %}
+      var translation_dict = {};
+    {% endif %}
     function fillInputsForLang(lang){
       var dict = translation_dict[lang];
       if(dict){

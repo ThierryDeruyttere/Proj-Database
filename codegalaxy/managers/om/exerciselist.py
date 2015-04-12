@@ -128,16 +128,16 @@ class ExerciseList:
         if code != "":
             dbw.insertCode(code, exercise_id)
         # question = QuestionContainer object
-        dbw.insertQuestion(question.question_text, question.language_id, exercise_id)
+        dbw.insertQuestion(exercise_id, question.language_id, question.question_text)
 
         import managers.om.objectmanager
         object_manager = managers.om.objectmanager.ObjectManager()
 
         for i, answer in enumerate(answers):
-            dbw.insertAnswer(i + 1, answer, 1, exercise_id)
+            dbw.insertAnswer(exercise_id, 1, i + 1, answer)
 
         for i, hint in enumerate(hints):
-            dbw.insertHint(hint, i + 1, exercise_id, l_id)
+            dbw.insertHint(exercise_id, l_id, i + 1, hint)
 
         exercise = object_manager.createExercise(exercise_id, language_obj.code)
 

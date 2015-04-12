@@ -123,7 +123,7 @@ class Exercise:
         dbw.deleteAnswers(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
         for i in range(1, len(answers) + 1):
-            dbw.insertAnswer(i, answers[i - 1], language_id, self.id)
+            dbw.insertAnswer(self.id, language_id, i, answers[i - 1])
 
     # inserts a list of answer_texts (also deletes the previous ones)
     def updateHints(self, hints):
@@ -134,9 +134,9 @@ class Exercise:
         dbw.deleteHints(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
         for i in range(1, len(hints) + 1):
-            dbw.insertHint(hints[i - 1], i, self.id, language_id)
+            dbw.insertHint(self.id, language_id, i, hints[i - 1])
 
-    def update(self, correct_answer, answers, hints, lang, user_id=None):
+    def update(self, correct_answer, answers, hints, lang, translations, user_id=None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
@@ -149,12 +149,13 @@ class Exercise:
         self.updateAnswers(answers)
         self.updateHints(hints)
         self.updateCode()
+        self.updateTranslations(translations)
 
     def getTranslations(self,languages=None):
         #Additional param languages -> only if you want to have certain languages
         lang = languages
         if lang is None:
-            lang = managers.om.objectmanager.getAllLanguages()
+            lang = managers.om.objectmanager.ObjectManager().getAllLanguages()
 
         translations = {}
         for l in lang:
@@ -170,8 +171,15 @@ class Exercise:
                 for a in answer:
                     translations[l.name][int(a["answer_number"])] = a["answer_text"]
 
-            translations[l.name]["title"] = dbw.getExerciseTitle(self.id, l.name)["title"]
-            translations[l.name]["question"] = decodeString(dbw.getExerciseQuestion(self.id, l.name)["question_text"])
+            title = dbw.getExerciseTitle(self.id, l.name)
+            question = decodeString(dbw.getExerciseQuestion(self.id, l.name))
+            translations[l.name]["title"] = ""
+            translations[l.name]["question"] = ""
+
+            if title:
+                translations[l.name]["title"] = title['title']
+            if question:
+                translations[l.name]["question"] = decodeString(question["question_text"])
 
         return translations
 
@@ -187,20 +195,40 @@ class Exercise:
         self.exercise_number = newPos
         return transaction
 
-    def setTranslations(self, translations):
-        #mhh can't create title in new language...
-        #TODO ?
+    def insertUpdateValues(self, key, value ):
+        dbw.insertQuestion(self.id, key.id, value['question'])
+        dbw.insertTitleForExercise(self.id, key.id, value['title'])
+        if self.exercise_type == "Code":
+            #mhh ni echt zo clean dit...
+            for i in range(len(dbw.getExerciseHints(self.id, "English"))):
+                dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
+        else:
+            for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
+                dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
+
+
+    def updateTranslations(self,translations):
+        old_translations = self.getTranslations()
+
         for key, value in translations.items():
-            if len(value) > 0:
-                dbw.insertQuestion(value['question'], key.id, self.id)
-                dbw.insertTitleForExercise(self.id, key.id, value['title'])
+            if len(value) > 0 and old_translations[key.name]['title'] != "":
+                dbw.updateQuestion(self.id, key.id, value['question'])
+                dbw.updateExerciseTitle(self.id, key.id, value['title'])
                 if self.exercise_type == "Code":
                     #mhh ni echt zo clean dit...
                     for i in range(len(dbw.getExerciseHints(self.id, "English"))):
-                        dbw.insertHint(value[str(i)],(i+1),self.id,key.id)
+                        dbw.updateExerciseHint(self.id, key.id, (i + 1), value[str(i)])
                 else:
                     for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
-                        dbw.insertAnswer((i+1),value[str(i)],key.id,self.id)
+                        dbw.updateExerciseAnswer(self.id, key.id, (i + 1), value[str(i)])
+
+            elif len(value) > 0:
+                self.insertUpdateValues(key, value)
+
+    def setTranslations(self, translations):
+        for key, value in translations.items():
+            if len(value) > 0:
+                self.insertUpdateValues(key, value)
 
     def save(self, lang_id, user_id=None):
         '''
@@ -221,7 +249,7 @@ class Exercise:
                 self.created_on = str(time.strftime("%Y-%m-%d %H:%M:%S"))
 
         dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title, lang_id)
-        dbw.updateQuestion(self.question, dbw.getIdFromLanguage(self.language_code)['id'], self.id)
+        dbw.updateQuestion(self.id, dbw.getIdFromLanguage(self.language_code)['id'], self.question)
 
 class Question:
 
