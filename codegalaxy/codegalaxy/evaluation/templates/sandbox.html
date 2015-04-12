@@ -6,31 +6,39 @@
 {% endblock page_css %}
 
 {% block base_body %}
-<div class="row text-center">
-  <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon active" alt="Python"></a>
-  <a href="#" id="text/x-c++src" class="lang_button"><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
-  <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
-</div>
-
 <div class="row">
-  <textarea id="user_code" name="user_code"></textarea>
-</div>
+  <div id="lang_icons_row" class="row text-center">
+    <a href="#" id="text/x-python" class="lang_button"><img src="{% static "media/python.png"%}" class="prog-lang-icon active" alt="Python"></a>
+    <a href="#" id="text/x-c++src" class="lang_button"><img src="{% static "media/C++.png"%}" class="prog-lang-icon" alt="C++"></a>
+    <a href="#" id="text/x-sql" class="lang_button"><img src="{% static "media/sql.png"%}" class="prog-lang-icon" alt="SQL"></a>
+  </div>
 
-<div class="row">
-  <input type="button" name="test" class="button round success no-outline" id="evaluate" value="Evaluate"></input>
-  <!-- <ul class="button-group">
-    <li><a href="#" class="button">Button 1</a></li>
-    <li><a href="#" class="button">Button 2</a></li>
-    <li><a href="#" class="button">Button 3</a></li>
-  </ul> -->
-</div>
+  <div data-alert class="alert-box info radius">
+    This is the sandbox area. You can try out pieces of code here and practise your programming skills.
+    Select a programming language above and have fun coding!
+    <a href="#" class="close">&times;</a>
+  </div>
+
+  <div class="row">
+    <textarea id="user_code" name="user_code"></textarea>
+  </div>
+
+  <div class="row">
+    <input type="button" name="test" class="button round success no-outline" id="evaluate" value="Evaluate"></input>
+    <!-- <ul class="button-group">
+      <li><a href="#" class="button">Button 1</a></li>
+      <li><a href="#" class="button">Button 2</a></li>
+      <li><a href="#" class="button">Button 3</a></li>
+    </ul> -->
+  </div>
 
 
-<div class="row">
-  <div data-alert id="output" class="alert-box success radius">
-    <div id="output_success" class="output-header">Success!</div>
-    <div id="output_error" class="output-header" hidden>Oops, something went wrong...</div>
-    <div id="output_text"></div>
+  <div class="row" hidden>
+    <div data-alert id="output" class="alert-box success radius">
+      <div id="output_success" class="output-header">Success!</div>
+      <div id="output_error" class="output-header" hidden>Oops, something went wrong...</div>
+      <div id="output_text"></div>
+    </div>
   </div>
 </div>
 {% endblock base_body %}
@@ -46,30 +54,27 @@
       autoCloseBrackets: true
     });
 
+  function updateOutput(add, remove, text) {
+    $("#output_text").html(text || "No output...");
+
+    $(".CodeMirror").addClass(add);
+    $(".CodeMirror").switchClass(add, "", 2800, "easeInExpo");
+
+    $("#output_" + remove).hide();
+    $("#output_" + add).show();
+
+    $("#output").removeClass(remove.replace("error", "alert"));
+    $("#output").addClass(add.replace("error", "alert"));
+
+    $("#output").parent().show();
+  }
+
   function setError(text) {
-    $("#output_text").html(text);
-
-    $(".CodeMirror").addClass("error");
-    $(".CodeMirror").switchClass("error", "", 2800, "easeInExpo");
-
-    $("#output_success").hide();
-    $("#output_error").show();
-
-    $("#output").removeClass("success");
-    $("#output").addClass("alert");
+    updateOutput("error", "success", text);
   }
 
   function setSuccess(text) {
-    $("#output_text").html(text);
-
-    $(".CodeMirror").addClass("success");
-    $(".CodeMirror").switchClass("success", "", 2800, "easeInExpo");
-
-    $("#output_error").hide();
-    $("#output_success").show();
-
-    $("#output").removeClass("alert");
-    $("#output").addClass("success");
+    updateOutput("success", "error", text);
   }
 
   $("#evaluate").click(function()

@@ -2,12 +2,9 @@
 {% load staticfiles %}
 {% load i18n %}
 
-{% block head_js %}
-<script src="{% static "foundation/js/foundation.abide.js" %}"></script>
-<link rel="stylesheet" type="text/css" href="{% static "css/user.css" %}" />
-{% endblock head_js %}
-
-
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/user.css" %}" />
+{% endblock page_css %}
 
 {% block base_body %}
 
@@ -109,7 +106,7 @@
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
             <div class="large-10 columns">
-              <p><strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> 
+              <p><strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>
                 <br><small>{{ item.befriended_on }}</small></p>
             </div>
           </div>
