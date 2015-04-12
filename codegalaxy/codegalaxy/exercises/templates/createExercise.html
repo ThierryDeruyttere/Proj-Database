@@ -341,7 +341,11 @@
           $(this).remove();
           $("#max").val(--answers);
           reassignIDs();
-        })
+        });
+
+        $.each(translation_dict, function(key, value){
+          delete translation_dict[key][(answers-1).toString()]
+        });
       }
     });
 
@@ -389,6 +393,9 @@
         for(i = 0; i < (hint_nmbr-value);++i) {
           $("#row"+(hint_nmbr-i)).remove();
           hint_nmbr--;
+          $.each(translation_dict, function(key, value){
+            delete translation_dict[key][(hint_nmbr).toString()]
+          });
         }
       }
     });
@@ -407,6 +414,8 @@
             hint_nmbr--;
           }
         }
+
+
       }
     }
 
@@ -500,7 +509,7 @@
     }
 
     {% if edit %}
-       var translation_dict = {{ translations|safe }};
+      var translation_dict = {{ translations|safe }};
     {% else %}
       var translation_dict = {};
     {% endif %}
