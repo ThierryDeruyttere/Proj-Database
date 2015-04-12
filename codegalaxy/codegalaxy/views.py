@@ -290,8 +290,11 @@ def group(request, id=0):
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
-            group.insertMember(
-                user.id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
+            if group.membershipPending(user.id):
+                user.confirmGroupMembership(group.id)
+            else:
+                group.insertMember(
+                    user.id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
@@ -406,6 +409,8 @@ def group(request, id=0):
 
 @require_login
 def groupOverview(request):
+    current_user = logged_user(request)
+
     # Biggest Groups
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo(
@@ -422,7 +427,9 @@ def groupOverview(request):
 
     group_list = object_manager.allPublicGroups()
 
-    return render(request, 'groupOverview.html', {'group_list': group_list, 'biggest_groups': bar_chart})
+    my_groups = current_user.allGroups()
+
+    return render(request, 'groupOverview.html', {'group_list': group_list, 'my_groups': my_groups, 'biggest_groups': bar_chart})
 
 
 @require_login

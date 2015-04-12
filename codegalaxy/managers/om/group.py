@@ -50,6 +50,15 @@ class Group:
         '''
         dbw.updateGroup(self.id, self.group_name, self.group_type, self.created_on)
 
+    def membershipPending(self, user_id):
+        pending_group_memberships = dbw.getPendingGroupMemberships(user_id)
+
+        for pending_group_membership in pending_group_memberships:
+            if pending_group_membership['group_id'] == self.id:
+                if pending_group_membership['user_id'] == user_id:
+                    return True
+        return False
+
     def insertMember(self, user_id, user_permissions, joined_on, status):
         '''
         @brief inserts a member in the group
