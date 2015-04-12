@@ -232,8 +232,9 @@
     });
 
     $("#import_button").click(function(){
-      $("#import_list").form.submit();
-      $("#import_list").form.reset();
+      $("#import_list").submit();
+      $("#import_list").reset();
+      $('#import_confirm_modal').foundation('reveal', 'close', '');
     });
 
 

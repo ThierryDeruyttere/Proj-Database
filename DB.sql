@@ -76,7 +76,6 @@ CREATE TABLE exerciseList(
 
 CREATE TABLE exercise(
   id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(255) NOT NULL,
   difficulty INT NOT NULL,
   max_score INT NOT NULL,
   penalty INT NOT NULL,

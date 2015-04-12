@@ -125,7 +125,6 @@ def getExerciseInformation(id, language_code):
     @return returns a dict with information
     '''
     cursor = connection.cursor()
-    print(id)
     exercise_type = getExerciseType(id)["exercise_type"]
     if exercise_type == "Open Question":
         cursor.execute('SELECT e.*, "" AS code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
@@ -620,6 +619,20 @@ def getMaxSumForRefForList(list_id):
     cursor.close()
     return fetched['total']
 
+def getExerciseTitle(exercise_id, language_name):
+    cursor = connection.cursor()
+    cursor.execute('SELECT title FROM exerciseTitle eT, language l WHERE eT.exercise_id = {id} AND l.name = "{name}" AND l.id = eT.language_id'.format(id=exercise_id, name= language_name))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def getExerciseQuestion(exercise_id, language_name):
+    cursor = connection.cursor()
+    cursor.execute('SELECT q.question_text FROM question q, language l WHERE q.exercise_id = {id} AND l.name = "{name}" AND l.id = q.language_id'.format(id=exercise_id, name= language_name))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def getAmountOfExercisesForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT GREATEST((SELECT MAX(exercise_number) FROM exercise WHERE exerciseList_id={list_id}),(SELECT MAX(new_list_exercise_number) FROM exercise_references WHERE new_list_id={list_id})) AS amount;'.format(list_id=list_id))
@@ -963,13 +976,16 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
     cursor.close()
     return fetched
 
+
 def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id, title FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id = new_exercise_list_id))
-
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id = new_exercise_list_id))
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
     new_id = processOne(cursor)['highest_id']
+    #Copy the information
+    cursor.execute('INSERT INTO exerciseTitle(title, exercise_id, language_id) SELECT title, {new_id} AS exercise_id, language_id FROM exerciseTitle WHERE exercise_id = {id}'.format(id=original_exercise_id, new_id=new_id))
+
     cursor.execute('INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for) SELECT answer_number, answer_text, language_id, {id} AS is_answer_for FROM answer WHERE is_answer_for = {or_id};'.format(id=new_id, or_id=original_exercise_id))
     cursor.execute('INSERT INTO hint(hint_text, hint_number, exercise_id, language_id) SELECT hint_text, hint_number,{id} AS exercise_id, language_id FROM hint WHERE exercise_id = {or_id};'.format(id=new_id, or_id=original_exercise_id))
     cursor.execute('INSERT INTO code(code_text, exercise_id) SELECT code_text, {id} AS exercise_id FROM code WHERE exercise_id = {or_id};'.format(id=new_id, or_id=original_exercise_id))
@@ -979,7 +995,6 @@ def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     return new_id
 
 def isReference(list_id, exercise_number):
-    print("isref : " + str(list_id) + ',' +str(exercise_number))
     original = getOriginalExercise(list_id, exercise_number)
     if original:
         return True

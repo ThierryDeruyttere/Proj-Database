@@ -19,9 +19,9 @@ object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 
-def removeLanguage(languages, name):
+def removeLanguage(languages, code):
     for i in languages:
-        if i.name == "English":
+        if i.code == code:
             languages.remove(i)
             break
     return languages
@@ -64,12 +64,11 @@ def getTranslationDict(request, languages):
 
     return translation
 
-
 @require_login
 def createExercise(request, listId=0):
     exercise_list = object_manager.createExerciseList(listId)
     user = logged_user(request)
-    languages = removeLanguage(object_manager.getAllLanguages(), "English")
+    languages = removeLanguage(object_manager.getAllLanguages(), getBrowserLanguage(request))
 
     if request.method == 'POST':
         translation = getTranslationDict(request, languages)
@@ -182,7 +181,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
     user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
     exercise_list = object_manager.createExerciseList(listId)
-    languages = removeLanguage(object_manager.getAllLanguages(), "English")
+    languages = removeLanguage(object_manager.getAllLanguages(), getBrowserLanguage(request))
 
     if request.method == 'POST':
         language = request.META['LANGUAGE'].split('_')[0]
@@ -238,6 +237,8 @@ def editExercise(request, listId, exercise_id, exercise_number):
         amount_hints = 0
         if all_hints is not None:
             amount_hints = len(all_hints)
+        translation = exercise.getTranslations(languages)
+
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,

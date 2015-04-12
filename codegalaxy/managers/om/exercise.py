@@ -1,4 +1,5 @@
 import dbw
+import managers.om.objectmanager
 
 def decodeString(fromVar):
     decoded = ""
@@ -148,6 +149,31 @@ class Exercise:
         self.updateAnswers(answers)
         self.updateHints(hints)
         self.updateCode()
+
+    def getTranslations(self,languages=None):
+        #Additional param languages -> only if you want to have certain languages
+        lang = languages
+        if lang is None:
+            lang = managers.om.objectmanager.getAllLanguages()
+
+        translations = {}
+        for l in lang:
+            translations[l.name] = {}
+
+            if self.exercise_type == "Code":
+                hints = dbw.getExerciseHints(self.id, l.name)
+                for h in hints:
+                    translations[l.name][int(h["hint_number"])] = h["hint_text"]
+
+            else:
+                answer = dbw.getExerciseAnswers(self.id, l.name)
+                for a in answer:
+                    translations[l.name][int(a["answer_number"])] = a["answer_text"]
+
+            translations[l.name]["title"] = dbw.getExerciseTitle(self.id, l.name)["title"]
+            translations[l.name]["question"] = decodeString(dbw.getExerciseQuestion(self.id, l.name)["question_text"])
+
+        return translations
 
     def updateCode(self):
         dbw.updateExerciseCode(self.code, self.id)
