@@ -5,13 +5,13 @@
 
 {% block base_body %}
 
-{% if logged_in%}
+{% if logged_in %}
 <div class="row">
   <div class="large-3 columns ">
     <div class="panel">
       <img src="{% static user.getProfilePicture %}"/>
       <div class="text-center">
-        <h5>{{user.first_name}} {{user.last_name}}</h5>
+        <h5>{{ user.name }}</h5>
         <hr/>
       </div>
       <li><a href="/me">My profile</a></li>

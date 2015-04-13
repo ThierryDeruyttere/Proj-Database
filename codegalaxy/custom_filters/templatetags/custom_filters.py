@@ -11,7 +11,7 @@ register = template.Library()
 def get_range(number):
     return range(number)
 
-@register.assignment_tag(takes_context = True)
+@register.assignment_tag(takes_context=True)
 def getProfilePicture(context):
     object_manager = objectmanager.ObjectManager()
     return authentication.logged_user(context['request']).getProfilePicture()
