@@ -238,6 +238,8 @@
     //Init document
     $(document).ready(function(){
       $('#slider').foundation('slider','set_value',{{ list.difficulty }});
+      var t = $('#dragdrop').sortable("toArray").toString();
+      $("#order").val(t);
     });
 
   </script>

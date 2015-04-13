@@ -130,6 +130,7 @@ def getExerciseInformation(id, language_code):
         cursor.execute('SELECT e.*, "" AS code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
         # TODO FIX REFERENCES
     else:
+        print('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
         cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
     fetched = processOne(cursor)
     cursor.close()
@@ -642,7 +643,7 @@ def getAmountOfExercisesForList(list_id):
 
 def getAllReferencesToExercise(exercise_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT new_list_exercise_number AS exercise_number, new_list_id AS list_id FROM exercise_references WHERE original_exercise_id = {exercise_id} '.format(exercise_id=exercise_id))
+    cursor.execute('SELECT new_list_exercise_number AS exercise_number, new_list_id AS list_id FROM exercise_references WHERE original_id = {exercise_id} '.format(exercise_id=exercise_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -888,6 +889,7 @@ def deleteExercise(exercise_id):
     cursor.execute('DELETE FROM question WHERE exercise_id={id};'.format(id=exercise_id))
     cursor.execute('DELETE FROM code WHERE exercise_id={id};'.format(id=exercise_id))
     cursor.execute('DELETE FROM answer WHERE is_answer_for={id};'.format(id=exercise_id))
+    cursor.execute('DELETE FROM exerciseTitle WHERE exercise_id={id}'.format(id=exercise_id))
     cursor.execute('DELETE FROM exercise WHERE id={id};'.format(id=exercise_id))
 
 def deleteSubjectFromHasSubject(list_id, subject_id):

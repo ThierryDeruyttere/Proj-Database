@@ -146,9 +146,8 @@ def editList(request, listId):
         updated_prog_lang = request.POST.get('prog_lang', '')
         updated_description = request.POST.get('updated_description_text')
         new_order = request.POST.get('order')
-        if new_order != "":
-            new_order = filterOrder(new_order)
-            exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
+        new_order = filterOrder(new_order)
+        exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
 
         for i in range(updated_subjects_amount):
             subject = request.POST.get('subject' + str(i))
@@ -172,6 +171,16 @@ def editList(request, listId):
                                              'programming_languages': languages,
                                              'current_prog_lang': current_language,
                                              'all_exercises': all_exercises})
+
+def filterOrder(order):
+    if len(order) == 0:
+        return []
+
+    new_order = []
+    splitted = order.split(',')
+    for i in splitted:
+        new_order.append(int(i.replace('exercise', '')))
+    return new_order
 
 def getBrowserLanguage(request):
     return request.LANGUAGE_CODE
@@ -330,12 +339,6 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
-def filterOrder(order):
-    new_order = []
-    splitted = order.split(',')
-    for i in splitted:
-        new_order.append(int(i.replace('exercise', '')))
-    return new_order
 
 def list(request, id=0):
 

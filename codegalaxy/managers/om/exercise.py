@@ -209,10 +209,9 @@ class Exercise:
     def updateTranslations(self, translations):
         old_translations = self.getTranslations()
         number_of_ = 0
-        print(translations[next(iter(translations))])
         while(str(number_of_) in translations[next(iter(translations))]):
             number_of_ += 1
-        print(number_of_)
+
 
         for key, value in translations.items():
 
