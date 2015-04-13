@@ -134,7 +134,6 @@ class User:
         @param friend The User to be checked if this User is friends with
         @return True if the users are friends, False otherwise
         '''
-        print(self.allFriends())
         return friend.id in [f.id for f in self.allFriends()]
 
     def addFriend(self, friend):

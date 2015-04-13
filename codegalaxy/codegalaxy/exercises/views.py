@@ -492,7 +492,6 @@ def answerQuestion(request, list_id, exercise_number):
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
                 last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
-                print(last_hint_used)
                 current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 if current_exercise.exercise_type == 'Open Question':
                     current_answer = int(current_answer)
@@ -530,12 +529,8 @@ def addHint(request):
     list_id = int(request.POST.get('list_id', ''))
     amount_of_hints = int(request.POST.get('amount_of_hints', ''))
     max_score = int(request.POST.get('max_score', ''))
-    print(amount_of_hints)
     user = logged_user(request)
-    print(user.latestHintIUsedForExercise(list_id, exercise_number))
     user.useHintForExercise(list_id, exercise_number, amount_of_hints, max_score)
-    print('WTF')
-    print(user.latestHintIUsedForExercise(list_id, exercise_number))
     return HttpResponse('Everything went fine')
 
 @require_login
