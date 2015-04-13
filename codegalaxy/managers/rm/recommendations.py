@@ -306,7 +306,7 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
     # we'll need the previously made lists
     made_ids = madeIDs(user)
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
-    prog_language = previous_made_list.exercises_list.programming_language_string
+    prog_language = previous_made_list.exercises_list.programming_language.name
     subjects = previous_made_list.exercises_list.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
@@ -330,7 +330,7 @@ def listsLikeThisOne(list_id, user, amount=4):
     made_ids = madeIDs(user)
     list_obj = object_manager.createExerciseList(list_id)
     # difficulties will be current +- 0/1
-    prog_language = list_obj.programming_language_string
+    prog_language = list_obj.programming_language.name
     subjects = list_obj.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:

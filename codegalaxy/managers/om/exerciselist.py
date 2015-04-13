@@ -11,8 +11,7 @@ class ExerciseList:
         self.description = description
         self.created_by = created_by
         self.created_on = created_on
-        self.programming_language = programming_lang
-        self.programming_language_string = dbw.getNameFromProgLangID(programming_lang)['name']
+        self.programming_language = managers.om.objectmanager.Language(int(programming_lang), dbw.getNameFromProgLangID(programming_lang)['name'])
         self.default_language_code = default_language_code
 
     def __str__(self):
@@ -89,7 +88,7 @@ class ExerciseList:
         if X_type == 'Subject':
             return self.hasSubject(id)
         elif X_type == 'Programming Language':
-            return self.programming_language == id
+            return self.programming_language.id == id
 
     def hasSubject(self, subject_id):
         subjects_info = dbw.getSubjectIDsForList(self.id)
@@ -103,8 +102,7 @@ class ExerciseList:
 
     def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang):
         # list_id,name, description ,difficulty, prog_lang_id)
-        prog_lang_id = int(dbw.getIdFromProgrammingLanguage(updated_prog_lang)["id"])
-        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, prog_lang_id)
+        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id)
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)

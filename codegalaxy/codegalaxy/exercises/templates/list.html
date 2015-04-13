@@ -25,11 +25,11 @@
         <div class="row">
           <div class="large-6 large-centered text-center columns">
             <br/>
-            {% if list.programming_language_string == "Python" %}
+            {% if list.programming_language.name == "Python" %}
               <img class="Icon" src="{% static "media/python.png" %}">
-            {% elif list.programming_language_string == "C++" %}
+            {% elif list.programming_language.name == "C++" %}
               <img class="Icon" src="{% static "media/C++.png" %}">
-            {% elif list.programming_language_string == "SQL" %}
+            {% elif list.programming_language.name == "SQL" %}
               <img class="Icon" src="{% static "media/sql.png" %}">
             {% endif %}
           </div>

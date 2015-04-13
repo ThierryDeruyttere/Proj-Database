@@ -208,18 +208,26 @@ class Exercise:
 
     def updateTranslations(self, translations):
         old_translations = self.getTranslations()
+        number_of_ = 0
+        print(translations[next(iter(translations))])
+        while(str(number_of_) in translations[next(iter(translations))]):
+            number_of_ += 1
+        print(number_of_)
 
         for key, value in translations.items():
+
             if len(value) > 0 and old_translations[key.name]['title'] != "":
                 dbw.updateQuestion(self.id, key.id, value['question'])
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
                 if self.exercise_type == "Code":
-                    # mhh ni echt zo clean dit...
-                    for i in range(len(dbw.getExerciseHints(self.id, "English"))):
-                        dbw.updateExerciseHint(self.id, key.id, (i + 1), value[str(i)])
+                    #mhh ni echt zo clean dit...
+                    for i in range(number_of_):
+                        #because they all have been deleted...
+                        dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
+
                 else:
-                    for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
-                        dbw.updateExerciseAnswer(self.id, key.id, (i + 1), value[str(i)])
+                    for i in range(number_of_):
+                        dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
 
             elif len(value) > 0:
                 self.insertUpdateValues(key, value)

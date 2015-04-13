@@ -101,11 +101,11 @@
     <div class="planets">
       {% for list in all_lists %}
         <div>
-        {% if list.prog_lang_id == 1 %}
+        {% if list.programming_language.id == 1 %}
           <div class="planet python">
-        {% elif list.prog_lang_id == 2%}
+        {% elif list.programming_language.id == 2%}
           <div class="planet cpp">
-        {% elif list.prog_lang_id == 3 %}
+        {% elif list.programming_language.id == 3 %}
           <div class="planet sql">
         {% endif %}
       {{ forloop.counter }}
