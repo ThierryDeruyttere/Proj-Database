@@ -80,10 +80,10 @@
   $("#evaluate").click(function(e)
   {
     e.preventDefault();
-    var post_data = {code:code_text.getValue()};
+    var post_data = {code:code_text.getValue(), is_editor:"yes"};
     $.ajax({
       type: "POST",
-      url: "/eval/" + code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/editor",
+      url: "/eval/" + code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/",
       data: post_data,
       dataType: "text",
 

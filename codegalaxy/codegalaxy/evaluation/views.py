@@ -7,8 +7,9 @@ from codegalaxy.evaluation.evaluators import *
 def sandbox(request):
     return render(request, 'sandbox.html', {})
 
-def evaluate(request, lang, is_editor=''):
+def evaluate(request, lang):
     code = request.POST.get('code', '')
+    is_editor = request.POST.get('is_editor', '') != ''
 
     # Default Evaluator (Python)
     evaluator = EvaluatorPython(code)
@@ -24,6 +25,6 @@ def evaluate(request, lang, is_editor=''):
 
     # Return output
     if evaluator.hasError():
-        return HttpResponseBadRequest(evaluator.getErrorMsg(is_editor != ''))
+        return HttpResponseBadRequest(evaluator.getErrorMsg(is_editor))
     else:
-        return HttpResponse(evaluator.getOutput(is_editor != ''))
+        return HttpResponse(evaluator.getOutput(is_editor))
