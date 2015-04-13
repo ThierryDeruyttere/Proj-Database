@@ -128,7 +128,7 @@ def getExerciseInformation(id, language_code):
     exercise_type = getExerciseType(id)["exercise_type"]
     if exercise_type == "Open Question":
         cursor.execute('SELECT e.*, "" AS code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
-        #TODO FIX REFERENCES
+        # TODO FIX REFERENCES
     else:
         cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
     fetched = processOne(cursor)
@@ -233,7 +233,7 @@ def getFriendsIdForID(id):
 
 def getFriendsNotMemberOfGroupWithID(me_id, group_id):
     cursor = connection.cursor()
-    #print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
+    # print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     cursor.execute('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     fetched = processData(cursor)
     cursor.close()
@@ -320,7 +320,7 @@ def getMadeListForUser2(id):
 
 def getProgrammingLanguageIDsOfMadeExForUser(user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_number = e.exercise_number AND e.exerciseList_id = l.id AND m.list_id = l.id AND solved = 1;'.format(id = user_id))
+    cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_number = e.exercise_number AND e.exerciseList_id = l.id AND m.list_id = l.id AND solved = 1;'.format(id=user_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -492,21 +492,21 @@ def getLastExerciseFromList(ID):
 
 def getMadeExercise(user_id, list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND list_id = {list_id} AND exercise_number = {exercise_number};'.format(user = user_id, list_id=list_id, exercise_number=exercise_number))
+    cursor.execute('SELECT * FROM madeEx WHERE user_id = {user} AND list_id = {list_id} AND exercise_number = {exercise_number};'.format(user=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getProgrammingLanguageCodeOnName(name):
     cursor = connection.cursor()
-    cursor.execute('SELECT language_code FROM programmingLanguage WHERE programmingLanguage.name = "{name}" ;'.format(name = name))
+    cursor.execute('SELECT language_code FROM programmingLanguage WHERE programmingLanguage.name = "{name}" ;'.format(name=name))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getSubjectID(name):
     cursor = connection.cursor()
-    cursor.execute('select id from subject WHERE name = "{name}"'.format(name = name))
+    cursor.execute('select id from subject WHERE name = "{name}"'.format(name=name))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -520,7 +520,7 @@ def getAllSubjects():
 
 def getOccurenceOfSubject(subject_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject WHERE hasSubject.subject_id = {id};'.format(id = subject_id))
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM hasSubject WHERE hasSubject.subject_id = {id};'.format(id=subject_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -569,7 +569,7 @@ def getAvgScoreOfUsersWhoMadeList(exercise_list_id):
 
 def getAllExercForUserForList(user_id, list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.* FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT mE.* FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id=list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -577,28 +577,28 @@ def getAllExercForUserForList(user_id, list_id):
 def getAllMadeRefForUserForList(user_id, list_id):
     # TODO: fix this
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.user_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT mE.user_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id=list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
 
 def getMadeListForUserForList(user_id, list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeList WHERE exerciseList_id = {list_id} AND user_id = {user_id};'.format(user_id=user_id, list_id = list_id))
+    cursor.execute('SELECT * FROM madeList WHERE exerciseList_id = {list_id} AND user_id = {user_id};'.format(user_id=user_id, list_id=list_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getOriginalExercise(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT original_id AS id, exercise.exercise_number AS ex_number FROM exercise_references, exercise WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number} AND exercise.id = original_id;'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT original_id AS id, exercise.exercise_number AS ex_number FROM exercise_references, exercise WHERE new_list_id = {list_id} AND new_list_exercise_number = {exercise_number} AND exercise.id = original_id;'.format(list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getExerciseInList(list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT id FROM exercise WHERE exerciseList_id = {list_id} AND exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number = exercise_number))
+    cursor.execute('SELECT id FROM exercise WHERE exerciseList_id = {list_id} AND exercise_number = {exercise_number};'.format(list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     if fetched is None:
@@ -621,14 +621,14 @@ def getMaxSumForRefForList(list_id):
 
 def getExerciseTitle(exercise_id, language_name):
     cursor = connection.cursor()
-    cursor.execute('SELECT title FROM exerciseTitle eT, language l WHERE eT.exercise_id = {id} AND l.name = "{name}" AND l.id = eT.language_id'.format(id=exercise_id, name= language_name))
+    cursor.execute('SELECT title FROM exerciseTitle eT, language l WHERE eT.exercise_id = {id} AND l.name = "{name}" AND l.id = eT.language_id'.format(id=exercise_id, name=language_name))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def getExerciseQuestion(exercise_id, language_name):
     cursor = connection.cursor()
-    cursor.execute('SELECT q.question_text FROM question q, language l WHERE q.exercise_id = {id} AND l.name = "{name}" AND l.id = q.language_id'.format(id=exercise_id, name= language_name))
+    cursor.execute('SELECT q.question_text FROM question q, language l WHERE q.exercise_id = {id} AND l.name = "{name}" AND l.id = q.language_id'.format(id=exercise_id, name=language_name))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -649,7 +649,7 @@ def getAllReferencesToExercise(exercise_id):
 
 def getLastAnswerForExerciseForUser(user_id, list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT last_answer FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    cursor.execute('SELECT last_answer FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -668,7 +668,7 @@ def getLanguageForCode(lang_code):
     cursor.close()
     return fetched
 
-##INSERT
+# INSERT
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email))
@@ -695,7 +695,7 @@ def insertProgrammingLanguage(name):
 
 def insertTitleForExercise(id, language_id, title):
     cursor = connection.cursor()
-    sql = 'INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES (%s, {lang_id}, {exercise_id})'.format(lang_id = language_id, exercise_id = id)
+    sql = 'INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES (%s, {lang_id}, {exercise_id})'.format(lang_id=language_id, exercise_id=id)
     cursor.execute(sql, [title])
 
 def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, lang_id):
@@ -794,7 +794,7 @@ def updateExerciseList(list_id, name, description, difficulty, prog_lang_id):
 
 def updateListRating(list_id, user_id, list_rating):
     cursor = connection.cursor()
-    cursor.execute('UPDATE madeList SET rating = {rating} WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(rating = list_rating, list_id = list_id, user_id = user_id))
+    cursor.execute('UPDATE madeList SET rating = {rating} WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(rating=list_rating, list_id=list_id, user_id=user_id))
 
 def UpdateExerciseAndReferenceNumbers(sql_string):
     cursor = connection.cursor()
@@ -802,12 +802,12 @@ def UpdateExerciseAndReferenceNumbers(sql_string):
 
 def updateExerciseCode(code, exercise_id):
     cursor = connection.cursor()
-    sql = 'UPDATE code SET code_text = %s WHERE exercise_id = {exercise_id}'.format(exercise_id = exercise_id)
+    sql = 'UPDATE code SET code_text = %s WHERE exercise_id = {exercise_id}'.format(exercise_id=exercise_id)
     cursor.execute(sql, [code])
 
 def updateQuestion(ex_id, lang_id, question_text):
     cursor = connection.cursor()
-    cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id,question_text=question_text))
+    cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id, question_text=question_text))
 
 def updateFriendship(user_id, friend_id):
     '''
@@ -834,12 +834,12 @@ def updateExerciseTitle(exercise_id, lang_id, new_title):
 
 def updateExerciseAnswer(exercise_id, lang_id, answer_number, answer_text):
     cursor = connection.cursor()
-    sql = 'UPDATE answer SET answer_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND answer_number = {answer_number}'.format(id = exercise_id, lang_id = lang_id, answer_number = answer_number)
+    sql = 'UPDATE answer SET answer_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND answer_number = {answer_number}'.format(id=exercise_id, lang_id=lang_id, answer_number=answer_number)
     cursor.execute(sql, [answer_text])
 
 def updateExerciseHint(exercise_id, lang_id, hints_number, hint_text):
     cursor = connection.cursor()
-    sql = 'UPDATE hint SET hint_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND hint_number = {hint_number}'.format(id = exercise_id, lang_id = lang_id, hint_number = hints_number)
+    sql = 'UPDATE hint SET hint_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND hint_number = {hint_number}'.format(id=exercise_id, lang_id=lang_id, hint_number=hints_number)
     cursor.execute(sql, [hint_text])
 
 def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, language_id):
@@ -894,14 +894,14 @@ def deleteReference(list_id, exercise_number):
 
 def hasUserSolvedExercise(list_id, exercise_number, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT solved FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    cursor.execute('SELECT solved FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def userIsInGroup(user_id, group_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM user u, userInGroup uIG WHERE u.id = {user_id} AND uIG.group_id = {group_id} AND u.id = uIG.user_id;'.format(user_id = user_id, group_id=group_id))
+    cursor.execute('SELECT * FROM user u, userInGroup uIG WHERE u.id = {user_id} AND uIG.group_id = {group_id} AND u.id = uIG.user_id;'.format(user_id=user_id, group_id=group_id))
     fetched = processOne(cursor)
     cursor.close()
     if fetched is None:
@@ -988,11 +988,11 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
 
 def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id = new_exercise_list_id))
+    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id=new_exercise_list_id))
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
     new_id = processOne(cursor)['highest_id']
-    #Copy the information
+    # Copy the information
     cursor.execute('INSERT INTO exerciseTitle(title, exercise_id, language_id) SELECT title, {new_id} AS exercise_id, language_id FROM exerciseTitle WHERE exercise_id = {id}'.format(id=original_exercise_id, new_id=new_id))
 
     cursor.execute('INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for) SELECT answer_number, answer_text, language_id, {id} AS is_answer_for FROM answer WHERE is_answer_for = {or_id};'.format(id=new_id, or_id=original_exercise_id))
@@ -1038,7 +1038,7 @@ def addVerification(email, hash):
     cursor.execute('INSERT INTO verification(email, hash) VALUES ("{email}","{hash}");'.format(email=email, hash=hash))
 
 
-#Filtering
+# Filtering
 def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode):
     cursor = connection.cursor()
     subject_search = ""
@@ -1046,29 +1046,28 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
         subs = ""
         if len(subject_name) > 1:
             for i, s in enumerate(subject_name):
-                if i == len(subject_name)-1:
+                if i == len(subject_name) - 1:
                     subs += '"' + s + '"'
                 else:
                     subs += '"' + s + '"' + ','
-            subject_search =  'IN ({subject})'.format(subject = subs)
+            subject_search = 'IN ({subject})'.format(subject=subs)
         else:
-             subject_search =  'LIKE "%{subject}%"'.format(subject = subject_name[0])
+            subject_search = 'LIKE "%{subject}%"'.format(subject=subject_name[0])
 
     else:
-        subject_search =  'LIKE "%{subject}%"'.format(subject = subject_name)
-
+        subject_search = 'LIKE "%{subject}%"'.format(subject=subject_name)
 
     cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u) '
-                    ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
-                    ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
-                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
-                    ' WHERE s.name {subject} AND e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
-                    ' AND u.last_name LIKE "%{last_name}%"'
-                    ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
-                    ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
-                    ' GROUP BY e.name ORDER BY popularity {order_mode};'
-                    .format(name = list_name, min_diff = min_list_difficulty, max_diff = max_list_difficulty, first_name = user_first_name, last_name = user_last_name,
-                           prog_lang = prog_lang_name, subject = subject_search, order_mode = order_mode))
+                   ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
+                   ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
+                   ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
+                   ' WHERE s.name {subject} AND e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
+                   ' AND u.last_name LIKE "%{last_name}%"'
+                   ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
+                   ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
+                   ' GROUP BY e.name ORDER BY popularity {order_mode};'
+                   .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
+                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -1076,7 +1075,7 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
 
 def filterLists(name):
     cursor = connection.cursor()
-    cursor.execute('select DISTINCT eL.* from exercise e, exerciseList eL WHERE e.title LIKE "%{name}%" OR eL.name LIKE "%{name}%";'.format(name = name))
+    cursor.execute('select DISTINCT eL.* from exercise e, exerciseList eL WHERE e.title LIKE "%{name}%" OR eL.name LIKE "%{name}%";'.format(name=name))
     fetched = processData(cursor)
     cursor.close()
     return fetched

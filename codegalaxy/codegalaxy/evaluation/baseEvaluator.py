@@ -2,6 +2,7 @@ import os
 import subprocess
 
 class Evaluator:
+
     """Base class for all code evaluators"""
 
     def __init__(self, type, extension, code):

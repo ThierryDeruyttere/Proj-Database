@@ -9,6 +9,7 @@ import datetime
 import os.path
 
 class FeedItem:
+
     def __init__(self, type, time_stamp):
         self.type = type
         self.datetime = time_stamp
@@ -17,6 +18,7 @@ class FeedItem:
         return str(self)
 
 class UserInGroup(FeedItem):
+
     def __init__(self, group, user, user_permissions, joined_on, status):
         super().__init__('UserInGroup', joined_on)
 
@@ -30,6 +32,7 @@ class UserInGroup(FeedItem):
         return self.user.first_name + ' ' + self.user.last_name + ' became member of ' + self.group.group_name + ' on ' + str(self.joined_on)
 
 class MadeExerciseList(FeedItem):
+
     def __init__(self, user, exercise_list, completed_on):
         super().__init__('MadeExerciseList', completed_on)
 
@@ -41,6 +44,7 @@ class MadeExerciseList(FeedItem):
         return self.user.first_name + ' ' + self.user.last_name + ' made: ' + self.exercise_list.name + ' on ' + str(self.completed_on)
 
 class FriendsWith(FeedItem):
+
     def __init__(self, user, friend, befriended_on, status):
         super().__init__('FriendsWith', befriended_on)
 

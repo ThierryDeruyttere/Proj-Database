@@ -151,8 +151,8 @@ class Exercise:
         self.updateCode()
         self.updateTranslations(translations)
 
-    def getTranslations(self,languages=None):
-        #Additional param languages -> only if you want to have certain languages
+    def getTranslations(self, languages=None):
+        # Additional param languages -> only if you want to have certain languages
         lang = languages
         if lang is None:
             lang = managers.om.objectmanager.ObjectManager().getAllLanguages()
@@ -195,19 +195,18 @@ class Exercise:
         self.exercise_number = newPos
         return transaction
 
-    def insertUpdateValues(self, key, value ):
+    def insertUpdateValues(self, key, value):
         dbw.insertQuestion(self.id, key.id, value['question'])
         dbw.insertTitleForExercise(self.id, key.id, value['title'])
         if self.exercise_type == "Code":
-            #mhh ni echt zo clean dit...
+            # mhh ni echt zo clean dit...
             for i in range(len(dbw.getExerciseHints(self.id, "English"))):
                 dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
         else:
             for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
                 dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
 
-
-    def updateTranslations(self,translations):
+    def updateTranslations(self, translations):
         old_translations = self.getTranslations()
 
         for key, value in translations.items():
@@ -215,7 +214,7 @@ class Exercise:
                 dbw.updateQuestion(self.id, key.id, value['question'])
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
                 if self.exercise_type == "Code":
-                    #mhh ni echt zo clean dit...
+                    # mhh ni echt zo clean dit...
                     for i in range(len(dbw.getExerciseHints(self.id, "English"))):
                         dbw.updateExerciseHint(self.id, key.id, (i + 1), value[str(i)])
                 else:

@@ -59,7 +59,7 @@ def getTranslationDict(request, languages):
         translation[lang] = {}
         for obj in request.POST:
             if lang.name in obj:
-                name = obj.replace(lang.name+"_", "")
+                name = obj.replace(lang.name + "_", "")
                 translation[lang][name] = request.POST.get(obj)
 
     return translation
@@ -111,7 +111,7 @@ def createExercise(request, listId=0):
 
         exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
-                                     exercise_answer, correct_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)) , exercise_title, translation, code)
+                                     exercise_answer, correct_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), exercise_title, translation, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -219,7 +219,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                     hints.append(cur_hint)
         translation = getTranslationDict(request, languages)
 
-        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), translation ,user.id)
+        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), translation, user.id)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:
@@ -447,13 +447,11 @@ def list(request, id=0):
             if exercise_list:
                 made_list = user.getMadeList(exercise_list.id)
                 if made_list:
-                    similar_list_ids = recommendNextExerciseLists(made_list,user)
+                    similar_list_ids = recommendNextExerciseLists(made_list, user)
                 else:
                     similar_list_ids = listsLikeThisOne(exercise_list.id, user)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
-
-
 
         return render(request, 'list.html', {'correct_user': correct_user,
                                              'id': exercise_list.id,

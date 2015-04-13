@@ -15,10 +15,10 @@ older_than_average_date = 2.0  # Added to the two above
 # Rating-based
 percents_per_rating_star = 2.0  # 20% * rating (op 10)
 difference_avg_rating = 0.5  # Added to above
-#ETC
+# ETC
 programming_language_importance = 3.0  # In comparison to subjects
 default_list_entry = 20.0  # 10 is default vr recente
-#Friends
+# Friends
 friends_multiplier = 1.2  # (not friends -> this is 1)
 
 # Recomendedlists (after we made one)
@@ -26,7 +26,7 @@ overlap_percentage = 0.4
 
 # SubjectMultiplierS==============================================================================================
 
-#ARBITRAIR SubjectMultiplierSYSTEEM:
+# ARBITRAIR SubjectMultiplierSYSTEEM:
 
 def timeMultiplier(avg_date, avg_param_date):
     param_multiplier = recent
@@ -50,11 +50,11 @@ def timeProgrammingLanguageMultiplier(user, prog_lang_id):
     avg_prog_lang_date_age = user.avgProgrammingLanguageDateAge(prog_lang_id)
     return timeMultiplier(avg_date_age, avg_prog_lang_date_age) * programming_language_importance
 
-#AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
-#Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
+# AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
+# Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
 
 def ratingMultiplier(avg_rating, param_rating):
-    param_score = param_rating * percents_per_rating_star #10 max
+    param_score = param_rating * percents_per_rating_star  # 10 max
     if param_rating > avg_rating:
         param_score += difference_avg_rating
     else:
@@ -234,7 +234,7 @@ def selectExercises(pool, highest, amount=10):
         # yet to implement
         pass
 
-#parameters are the things held in account for the recommendations
+# parameters are the things held in account for the recommendations
 # you can then either just list the ones with the highest score or random ones out of the top X highest
 def recommendListsForUser(user, friends=True, dates=True, subjects=True, ratings=True, highest=True, default=False):
     # We compare which lists this user has made to the ones others have made
@@ -253,7 +253,7 @@ def recommendListsForUser(user, friends=True, dates=True, subjects=True, ratings
     # dates will determine how long ago a user was interested in a subject(checking madelist)
     applyScoresToLists(score_per_list_id, subject_scores, 'Subject')
     applyScoresToLists(score_per_list_id, prog_lang_scores, 'Programming Language')
-    #addDefault function to add basic exercises with low priority to recommend
+    # addDefault function to add basic exercises with low priority to recommend
     addDefault(score_per_list_id, dont_add)
     recommended_exercises = selectExercises(score_per_list_id.items(), highest)
     # returns a list with all the items that occur in list2 but not list1
@@ -273,18 +273,18 @@ def decideDifficulty(difficulty, score):
     # <40% -> -1 diff
     # nothing higher than 5/lower than 1
     if score >= 60 & difficulty < 5:
-        return (difficulty,difficulty + 1)
+        return (difficulty, difficulty + 1)
     elif score <= 40 & difficulty > 1:
         return (difficulty - 1, difficulty)
     else:
-        return (difficulty,difficulty)
+        return (difficulty, difficulty)
 
 # previous-> of the made list, new -> of a possible list
 # ok, since we don't want to give too much advantage/disadvantage to long
 # or short lists, depending on how many both lists have, a % overlap needed is calculated
 def overlapNeeded(list):
     # we return a simple percentage
-    return round(len(list)*overlap_percentage)
+    return round(len(list) * overlap_percentage)
 
 def subjectsMatch(previous, new):
     overlap_needed = overlapNeeded(new)
@@ -300,7 +300,7 @@ def madeIDs(user_obj):
     return [pers.exercises_list.id for pers in made_lists]
 
 # parameter: personalExerciseListobject(or id?)
-def recommendNextExerciseLists(previous_made_list,user, amount=4):
+def recommendNextExerciseLists(previous_made_list, user, amount=4):
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists

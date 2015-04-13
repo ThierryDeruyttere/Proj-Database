@@ -22,7 +22,9 @@ from django.db import connections
 from codegalaxy.evaluation.baseEvaluator import *
 
 class EvaluatorPython(Evaluator):
+
     """ Code Evaluator for Python """
+
     def __init__(self, code):
         super(EvaluatorPython, self).__init__('python', 'py', code)
 
@@ -30,7 +32,9 @@ class EvaluatorPython(Evaluator):
         self.command('python3', ['-I', '-c', self.code])
 
 class EvaluatorCpp(Evaluator):
+
     """ Code Evaluator for C++ """
+
     def __init__(self, code):
         super(EvaluatorCpp, self).__init__('cpp', 'cpp', code)
 
@@ -44,6 +48,7 @@ class EvaluatorCpp(Evaluator):
         self.command(self.outputFileName())
 
 class EvaluatorSql(Evaluator):
+
     def __init__(self, code, user=0):
         self.db_name = str(user)
         super(EvaluatorSql, self).__init__('sql', 'sql', code)

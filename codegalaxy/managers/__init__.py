@@ -1,5 +1,5 @@
 
-__all__ = ['om', 'gm','rm']
+__all__ = ['om', 'gm', 'rm']
 
 
 #import os

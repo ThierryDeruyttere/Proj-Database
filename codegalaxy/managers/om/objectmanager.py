@@ -14,6 +14,7 @@ def timeFromToday(compare_date):
     return compare_date - now
 
 class Language:
+
     def __init__(self, id, name, code):
         self.id = id
         self.name = name
@@ -218,4 +219,4 @@ class ObjectManager:
 
     def getLanguageObject(self, languade_code):
         lang = dbw.getLanguageForCode(languade_code)
-        return Language(lang['id'],lang['name'], lang['language_code'])
+        return Language(lang['id'], lang['name'], lang['language_code'])

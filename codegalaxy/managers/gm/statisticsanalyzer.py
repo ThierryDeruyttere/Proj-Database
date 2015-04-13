@@ -3,8 +3,10 @@ from managers.om import *
 object_manager = objectmanager.ObjectManager()
 
 class StatisticsAnalyzer:
+
     '''Class that will use the om to query+analyze data (and put it into proper formats
     for the graphmanager to use)'''
+
     def __init__(self):
         pass
 
@@ -22,10 +24,10 @@ class StatisticsAnalyzer:
             count = object_manager.countExerciseListsForProgrammingLanguageID(prog_lang['id'])
             set_item = False
             # ordering from small to large
-            for i in range(len(result['data'])-1):
+            for i in range(len(result['data']) - 1):
                 if result['data'][i] >= count['amount']:
-                    result['labels'].insert(i,prog_lang['name'])
-                    result['data'].insert(i,count['amount'])
+                    result['labels'].insert(i, prog_lang['name'])
+                    result['data'].insert(i, count['amount'])
                     set_item = True
             if not set_item:
                 result['labels'].append(prog_lang['name'])
@@ -72,7 +74,7 @@ class StatisticsAnalyzer:
             result['labels'].append(groups[i].group_name)
         return result
 
-    def mostExerciseListsTopX(self,X):
+    def mostExerciseListsTopX(self, X):
         result = {}
         # Names of Users
         result['labels'] = []
@@ -88,7 +90,7 @@ class StatisticsAnalyzer:
             result['labels'].append(users[i].first_name + ' ' + users[i].last_name)
         return result
 
-    def compareUserExercisesPerProgrammingLanguageWithFriend(self,user_id,friend_id):
+    def compareUserExercisesPerProgrammingLanguageWithFriend(self, user_id, friend_id):
         result = {}
         # Names of languages
         result['labels'] = []
@@ -99,27 +101,27 @@ class StatisticsAnalyzer:
         # Friend 1
         result['data'].append([])
         all_prog_languages = object_manager.allProgrammingLanguages()
-        user = object_manager.createUser(id = user_id)
-        friend = object_manager.createUser(id = friend_id)
+        user = object_manager.createUser(id=user_id)
+        friend = object_manager.createUser(id=friend_id)
         user_ex = user.allPersonalExercises()
         friend_ex = friend.allPersonalExercises()
-        #allPersonalExercises
+        # allPersonalExercises
         for prog_lang in all_prog_languages:
             result['labels'].append(prog_lang['name'])
             user_count = 0
-            for ex in user_ex :
+            for ex in user_ex:
                 if ex['name'] == prog_lang['name']:
                     user_count += 1
             result['data'][0].append([user_count])
             friend_count = 0
-            for ex in friend_ex :
+            for ex in friend_ex:
                 if ex['name'] == prog_lang['name']:
                     friend_count += 1
             result['data'][1].append([friend_count])
         return result
 
-    #WIP
-    def mostPopularSubjectsTopX(self,X):
+    # WIP
+    def mostPopularSubjectsTopX(self, X):
         result = {}
         # Names of Users
         result['labels'] = []
@@ -127,7 +129,7 @@ class StatisticsAnalyzer:
         result['data'] = []
         result['data'].append([])
         subjects = object_manager.allSubjects()
-        subjects_list = [(item['name'],object_manager.occurencesOfSubject(item['id'])['amount']) for item in subjects]
+        subjects_list = [(item['name'], object_manager.occurencesOfSubject(item['id'])['amount']) for item in subjects]
         subjects_list.sort(key=lambda x: x[1], reverse=True)
         if(X < len(subjects_list)):
             subjects_list = subjects_list[:X]
