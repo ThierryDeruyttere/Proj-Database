@@ -2,56 +2,27 @@ from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.core.context_processors import request
 
-import json
-from fuzzywuzzy import fuzz
-from fuzzywuzzy import process
+from codegalaxy.search import *
 
-from managers.om import *
 
-object_manager = objectmanager.ObjectManager()
+def groupOverview(request):
+    s_term = request.POST.get('term', '')
 
-def search(request):
-    """
-    In POST request:
-    s_term str The search term
-    s_groups bool True to include groups in search results
-    s_users bool True to include users in search results
-    s_lists bool True to include lists in search results
-    """
+    results = search(s_term, s_groups=True)
 
-    s_term = request.POST.get('term', 'ma')
+    response = ''
+    for result in results:
+        response += '''
+        <div class="large-3 columns end">
+          <div class="panel radius">
+            <a href="/g/{id}">
+              <img src="/static/{picture}" />
+              <div>
+                <h6 class="text-cut-off">{name}</h6>
+              </div>
+            </a>
+          </div>
+        </div>
+        '''.format(id=result.id, picture=result.getGroupPicture(), name=result.group_name)
 
-    s_users = request.POST.get('users', True)
-    s_lists = request.POST.get('lists', False)
-    s_groups = request.POST.get('groups', False)
-
-    all_users = object_manager.allUsers()
-    all_groups = object_manager.allPublicGroups()
-    all_lists = object_manager.getAllExerciseLists()
-
-    all_search_obj = []
-    if s_users:
-        all_search_obj.extend(all_users)
-    if s_groups:
-        all_search_obj.extend(all_groups)
-    if s_lists:
-        all_search_obj.extend(all_lists)
-        pass
-
-    all_search = {obj: obj.searchString() for obj in all_search_obj}
-
-    results = process.extract(s_term, all_search)
-
-    def getIdentifierForType(obj):
-        identifier = ''
-        if type(obj) is user.User:
-            identifier = 'u'
-        elif type(obj) is exerciselist.ExerciseList:
-            identifier = 'l'
-        elif type(obj) is group.Group:
-            identifier = 'g'
-        return identifier
-
-    filtered = [[r[2].id, getIdentifierForType(r[2])] for r in results if r[1] >= 50]
-
-    return HttpResponse(json.dumps(filtered))
+    return HttpResponse(response)

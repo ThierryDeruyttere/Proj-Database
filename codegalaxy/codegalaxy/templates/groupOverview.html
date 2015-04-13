@@ -24,23 +24,24 @@
   <div class="content active" id="all_groups">
     <div class="row">
       <div class="large-8 columns">
-        <div class="row collapse">
+        <div id="search_groups" class="row collapse">
           <div class="large-10 columns">
             <input type="text" placeholder="Search groups...">
           </div>
-          <a href="#" class="tiny button">Search</a>
+          <div class="large-2 columns">
+            <button class="button postfix no-outline">Search</button>
+          </div>
         </div>
-        <div class="row">
+        <div id="search_result" class="row">
           {% for group in group_list %}
           <div class="large-3 columns end">
             <div class="panel radius">
-              <a href="../../g/{{ group.id }}">
+              <a href="/g/{{ group.id }}">
                 <img src="{% static group.getGroupPicture %}" />
                 <div>
                   <h6 class="text-cut-off">{{ group.group_name }}</h6>
                 </div>
               </a>
-
             </div>
           </div>
           {% endfor %}
@@ -82,6 +83,28 @@
       </div>
   </div>
 </div>
-
-
 {% endblock base_body %}
+
+{% block body_js %}
+<script>
+  $("#search_groups button").click(function(e)
+  {
+    e.preventDefault();
+    term_text = $("#search_groups input").val();
+    var post_data = {term:term_text};
+    $.ajax({
+      type: "POST",
+      url: "/s/groupOverview/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $("#search_result").html(response);
+      },
+      // error: function(jqXHR, textStatus, error) {
+      //   setError(jqXHR.responseText);
+      // }
+    });
+  });
+</script>
+{% endblock body_js %}
