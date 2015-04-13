@@ -31,7 +31,7 @@ $ sudo pip3 install PyMySQL
 ```
 ###Zurb foundation styling
 ###code mirror / ace
-###FuzzyWuzze
+###FuzzyWuzzy
 ```sh
 $ sudo apt-get install python-levenshtein
 $ sudo pip3 install fuzzywuzzy
