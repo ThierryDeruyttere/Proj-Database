@@ -773,12 +773,12 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
 
 def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer, hint):
     cursor = connection.cursor()
-    sql = 'INSERT INTO madeEx(user_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
+    sql = 'INSERT INTO madeEx(user_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer, hints_used) VALUES({user},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s, {hint});'.format(user=user_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number, hint=hint)
     cursor.execute(sql, [last_answer])
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number,hints_used) VALUES({o_id},{l_id},{n_l_e_n},{hint});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number, hint=hint))
+    cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number) VALUES({o_id},{l_id},{n_l_e_n});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number))
 
 # UPDATE
 

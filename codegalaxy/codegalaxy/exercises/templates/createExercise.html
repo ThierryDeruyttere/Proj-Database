@@ -344,7 +344,7 @@
         });
 
         $.each(translation_dict, function(key, value){
-          delete translation_dict[key][(answers-1).toString()]
+          delete translation_dict[key][(answers).toString()]
         });
       }
     });
@@ -495,6 +495,7 @@
       var translation_dict = {};
     {% endif %}
     function fillInputsForLang(lang){
+      console.log(translation_dict);
       var dict = translation_dict[lang];
       if(dict){
         if("title" in dict){
@@ -512,8 +513,8 @@
 
 
         for(var i = 0; i < amount; ++i){
-          if((i+1).toString() in dict){
-            $('#translated'+i).val(dict[(i+1).toString()]);
+          if(i.toString() in dict){
+            $('#translated'+i).val(dict[i.toString()]);
           }
         }
       }
@@ -540,6 +541,7 @@
       }
 
       translation_dict[translating_to] = dict;
+      console.log(translation_dict);
     }
 
     //If we change from value we need to save our current translations

@@ -164,7 +164,7 @@ class Exercise:
             if self.exercise_type == "Code":
                 hints = dbw.getExerciseHints(self.id, l.name)
                 for h in hints:
-                    translations[l.name][int(h["hint_number"])] = h["hint_text"]
+                    translations[l.name][int(h["hint_number"])-1] = h["hint_text"]
 
             else:
                 answer = dbw.getExerciseAnswers(self.id, l.name)
