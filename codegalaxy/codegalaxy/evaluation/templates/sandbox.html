@@ -83,7 +83,7 @@
     var post_data = {code:code_text.getValue()};
     $.ajax({
       type: "POST",
-      url: "/eval/" + code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/",
+      url: "/eval/" + code_text.getOption("mode").replace("text/x-", "").replace("src", "") + "/editor",
       data: post_data,
       dataType: "text",
 
