@@ -34,7 +34,7 @@ $ sudo pip3 install PyMySQL
 ###FuzzyWuzze
 ```sh
 $ sudo apt-get install python-levenshtein
-$ pip3 install fuzzywuzzy
+$ sudo pip3 install fuzzywuzzy
 ```
 
 ## Git voor dummies
