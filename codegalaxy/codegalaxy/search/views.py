@@ -12,9 +12,11 @@ object_manager = objectmanager.ObjectManager()
 
 def search(request):
     """
-    groups bool
-    users bool
-    lists bool
+    In POST request:
+    s_term str The search term
+    s_groups bool True to include groups in search results
+    s_users bool True to include users in search results
+    s_lists bool True to include lists in search results
     """
 
     s_term = request.POST.get('term', 'ma')
@@ -52,4 +54,4 @@ def search(request):
 
     filtered = [[r[2].id, getIdentifierForType(r[2])] for r in results if r[1] >= 50]
 
-    return HttpResponse('<pre>' + str(filtered) + '<pre>')
+    return HttpResponse(json.dumps(filtered))
