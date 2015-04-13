@@ -376,6 +376,9 @@ class User:
             return dbw.hasUserSolvedExercise(list_id, exercise_number, self.id)['solved']
         return False
 
+    def searchString(self):
+        return str(self.name())
+
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id):
