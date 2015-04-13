@@ -28,7 +28,6 @@
     <script src="{% static "foundation/js/vendor/modernizr.js" %}"></script>
   {% endblock foundation_modernizer %}
 
-
   {# Override if you need another version of jQuery #}
   {% block foundation_jquery %}
     <script src="{% static "foundation/js/vendor/jquery.js" %}"></script>
@@ -44,11 +43,17 @@
     <link href="{% static "slick/slick/slick-theme.css" %}" rel="stylesheet"/>
   {% endblock slick_ui %}
 
+  {# Foundation JS #}
+  {% block foundation_js %}
+    <script src="{% static "foundation/js/foundation.min.js" %}"></script>
+  {% endblock foundation_js %}
+
   {% block ajax_stuff %}{% endblock ajax_stuff %}
 
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
-  {% check_loggedIn as logged_in%}
+
+  {% check_loggedIn as logged_in %}
 </head>
 <body {% block body_attr %}{% endblock body_attr %}>
 
@@ -58,11 +63,6 @@
 {% block base_body %}{% endblock base_body %}
 
 {% block footer %}{% endblock footer %}
-
-{# Foundation JS #}
-{% block foundation_js %}
-  <script src="{% static "foundation/js/foundation.min.js" %}"></script>
-{% endblock foundation_js %}
 
 {% block slick_js %}
   <script src="{% static "slick/slick/slick.js" %}"></script>

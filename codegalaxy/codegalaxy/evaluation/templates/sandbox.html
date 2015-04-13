@@ -24,14 +24,11 @@
   </div>
 
   <div class="row">
-    <input type="button" name="test" class="button round success no-outline" id="evaluate" value="Evaluate"></input>
-    <!-- <ul class="button-group">
-      <li><a href="#" class="button">Button 1</a></li>
-      <li><a href="#" class="button">Button 2</a></li>
-      <li><a href="#" class="button">Button 3</a></li>
-    </ul> -->
+    <input type="button" name="test" class="button round success no-outline right" id="evaluate" value="Evaluate"></input>
+    <ul class="button-group radius">
+      <li><a id="b_clear" class="button tiny">Clear</a></li>
+    </ul>
   </div>
-
 
   <div class="row" hidden>
     <div data-alert id="output" class="alert-box success radius">
@@ -51,7 +48,8 @@
       mode: "text/x-python",
       theme: "monokai",
       matchBrackets: true,
-      autoCloseBrackets: true
+      autoCloseBrackets: true,
+      autofocus: true
     });
 
   function updateOutput(add, remove, text) {
@@ -99,6 +97,12 @@
     code_text.setOption("mode", $(this).attr("id"));
     $(".lang_button>img").removeClass("active");
     $(this).find("img").addClass("active");
+  });
+
+  $("#b_clear").click(function(e) {
+    e.preventDefault();
+    code_text.setValue("");
+    code_text.focus();
   });
 
 </script>
