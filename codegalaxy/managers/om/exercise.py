@@ -112,7 +112,7 @@ class Exercise:
             short_list = [hint[0] for hint in sorted_hints]
             return short_list
         else:
-            return None
+            return [None]
 
     # inserts a list of answer_texts (also deletes the previous ones)
     def updateAnswers(self, answers):
