@@ -120,6 +120,7 @@ CREATE TABLE madeEx(
   list_id INT,
   exercise_number INT,
   last_answer BLOB,
+  hints_used INT,
   FOREIGN KEY (user_id) REFERENCES user(id),
   PRIMARY KEY(user_id, exercise_number, list_id)
 );
@@ -328,6 +329,10 @@ VALUES (1,'*', 1,2);
 # Hint data
 INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
 VALUES ('write print("your name here")', 1, 1, 1);
+INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
+VALUES ('Are you retarded bro?', 2, 1, 1);
+INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
+VALUES ('WTF M8 FITE ME', 3, 1, 1);
 
 # Subject data
 INSERT INTO subject(name) VALUES ('Printing');
@@ -363,3 +368,6 @@ INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,6,5,30, "2015-03-05 13:13:13");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,12,5,30, "2015-03-05 14:14:14");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,12,5,30, "1999-07-13 18:12:05");
+
+
+INSERT INTO madeEx(solved, exercise_score, user_id, list_id, exercise_number) VALUES (1,2,1,1,1);

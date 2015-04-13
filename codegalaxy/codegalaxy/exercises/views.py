@@ -491,6 +491,8 @@ def answerQuestion(request, list_id, exercise_number):
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
+                last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
+                print(last_hint_used)
                 current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 if current_exercise.exercise_type == 'Open Question':
                     current_answer = int(current_answer)
@@ -502,7 +504,8 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "list_id": list_id,
                                                            "hints": current_exercise.allHints(),
                                                            "current_answer": current_answer,
-                                                           "solved": solved})
+                                                           "solved": solved,
+                                                           "last_hint_used": last_hint_used})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
@@ -520,6 +523,20 @@ def returnScore(current_score):
     if current_score < 0:
         return 0
     return current_score
+
+@require_login
+def addHint(request):
+    exercise_number = int(request.POST.get('ex_number', ''))
+    list_id = int(request.POST.get('list_id', ''))
+    amount_of_hints = int(request.POST.get('amount_of_hints', ''))
+    max_score = int(request.POST.get('max_score', ''))
+    print(amount_of_hints)
+    user = logged_user(request)
+    print(user.latestHintIUsedForExercise(list_id, exercise_number))
+    user.useHintForExercise(list_id, exercise_number, amount_of_hints, max_score)
+    print('WTF')
+    print(user.latestHintIUsedForExercise(list_id, exercise_number))
+    return HttpResponse('Everything went fine')
 
 @require_login
 def submit(request, list_id, exercise_number):
@@ -572,10 +589,11 @@ def submit(request, list_id, exercise_number):
                 if current_exercise.correct_answer == int(selected_answer):
                     # Woohoo right answer!
                     solved = True
-                    object_manager.userMadeExercise(user.id, returnScore(current_score), 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer)
+                    current_score = returnScore(current_score)
+                    object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
                 else:
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer)
+                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code':
@@ -586,12 +604,12 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score - int(hint) * penalty)
                     solved = True
-                    object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code)
+                    object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code)
+                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
             next_exercise = int(question_id) + 1
             if((next_exercise - 1) > len(all_exercise)):

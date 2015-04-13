@@ -763,14 +763,14 @@ def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
-def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer):
+def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer, hint):
     cursor = connection.cursor()
     sql = 'INSERT INTO madeEx(user_id, solved, exercise_score,completed_on, list_id,exercise_number, last_answer) VALUES({user},{solved},{exerc_score},"{completed_on}",{list_id},{exercise_number}, %s);'.format(user=user_id, solved=solved, exerc_score=exercise_score, completed_on=completed_on, list_id=exercise_list_id, exercise_number=exercise_number)
     cursor.execute(sql, [last_answer])
 
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number) VALUES({o_id},{l_id},{n_l_e_n});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number))
+    cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number,hints_used) VALUES({o_id},{l_id},{n_l_e_n},{hint});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number, hint=hint))
 
 # UPDATE
 
@@ -847,9 +847,9 @@ def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, c
     cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id} WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id))
     updateExerciseTitle(exercise_id, language_id, title)
 
-def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on):
+def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on, hint):
     cursor = connection.cursor()
-    sql = 'UPDATE madeEx SET last_answer=%s, solved={solved}, completed_on="{completed_on}" WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer, solved=solved, completed_on=completed_on)
+    sql = 'UPDATE madeEx SET last_answer=%s, solved={solved}, completed_on="{completed_on}", hints_used={hint} WHERE user_id = {user_id} AND exercise_number = {exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, answer=answer, solved=solved, completed_on=completed_on, hint=hint)
     cursor.execute(sql, [answer])
 
 # DELETE
@@ -925,6 +925,24 @@ def latestAnswer(exercise_id, language_id):
 def latestHint(exercise_id, language_code):
     cursor = connection.cursor()
     cursor.execute('SELECT MAX(answer_number) AS highest FROM hint WHERE hint.language_id = {l_id} AND hint.exercise_id = {ex_id};'.format(l_id=language_id, ex_id=exercise_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def latestHintUserUsedForExercise(list_id, exercise_number, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT hints_used FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def userUsesHint(list_id, exercise_number, user_id, new_latest):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE madeEx SET hints_used = {new_latest} WHERE user_id = {user_id} AND exercise_number={exercise_number} AND list_id={list_id};'.format(user_id=user_id,exercise_number=exercise_number,list_id=list_id, new_latest=new_latest))
+
+def userIsWorkingOn(list_id, exercise_number, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched

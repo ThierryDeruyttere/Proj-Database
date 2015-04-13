@@ -67,7 +67,7 @@
               <div class="row">
                 <div class="large-10 columns">
                   {% if not solved %}
-                    <button type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">Get hint</button>
+                    <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">Get hint</button>
                     <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
                   {% endif %}
                 </div>
@@ -142,6 +142,24 @@
     }
 
     $("#output_alert").hide();
+    $("#get_hint").click(function()
+    {
+      var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }} }
+      $.ajax({
+        type: "POST",
+        url: "/addHint/",
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+          // nothing needs to happen on the site
+        },
+        error: function(jqXHR, textStatus, error) {
+          $("#output_alert").html(jqXHR.responseText.toString());
+          $("#output_alert").show();
+        }
+      });
+    });
     $("#submit_answer_code").click(function()
     {
       var post_data = { code : code_text.getValue() };
@@ -167,6 +185,11 @@
         code_text.getDoc().setValue($("#user_code").val());
       });
     {% endif %}
+
+    for(i = 0; i < {{ last_hint_used }}; i++){
+      addHint()
+    }
+
   </script>
 
 
