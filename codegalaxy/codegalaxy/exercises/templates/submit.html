@@ -128,7 +128,7 @@
       var id = obj.id;
       var value = id.replace("star","");
       var current_rating = 5 - value;
-      document.getElementById("current_rating").value = current_rating.toString();
+      $("#current_rating").val(current_rating.toString());
     }
   </script>
 {% endblock body_js %}
