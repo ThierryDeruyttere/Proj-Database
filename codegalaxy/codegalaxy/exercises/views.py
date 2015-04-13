@@ -579,8 +579,6 @@ def submit(request, list_id, exercise_number):
             current_score = None
             if info is not None:
                 current_score = object_manager.getScoreForExerciseForUser(user.id, list_id, exercise_number)
-                print('score before submit')
-                print(current_score)
             if current_score is None:
                 current_score = current_exercise.max_score
 
@@ -616,8 +614,6 @@ def submit(request, list_id, exercise_number):
                 else:
                     # not the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
-                    print('new score after deduction')
-                    print(current_score)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
             next_exercise = int(question_id) + 1
@@ -637,9 +633,6 @@ def submit(request, list_id, exercise_number):
                     user.madeList(exercise_list.id, score, 0)
 
                 next_exercise = ""
-
-            print('score after submit')
-            print(object_manager.getScoreForExerciseForUser(user.id, list_id, exercise_number))
 
             return render(request, 'submit.html', {"solved": solved,
                                                    "list_id": list_id,

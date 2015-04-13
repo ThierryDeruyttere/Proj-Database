@@ -384,7 +384,6 @@ class User:
 
     def useHintForExercise(self, list_id, exercise_number, amount_of_hints, max_score, penalty):
         current_score = dbw.getScoreForExerciseForUser(self.id, list_id, exercise_number)
-        print(current_score)
         previous_hint = self.latestHintIUsedForExercise(list_id, exercise_number)
         # if we can still ask for hints
         if int(amount_of_hints) > previous_hint:
@@ -394,8 +393,6 @@ class User:
                 object_manager = managers.om.objectmanager.ObjectManager()
                 object_manager.userMadeExercise(self.id, max_score - penalty, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), list_id, exercise_number, '', 1)
                 object_manager.userMadeExercise(self.id, max_score - penalty, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), list_id, exercise_number, '', 1)
-        print('score after hint = ')
-        print(dbw.getScoreForExerciseForUser(self.id, list_id, exercise_number))
 
 class PersonalList:
 
