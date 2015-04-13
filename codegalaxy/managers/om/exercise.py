@@ -143,7 +143,6 @@ class Exercise:
         @param answers the answers to update
         @param hints the hints to update
         '''
-
         self.correct_answer = correct_answer
         self.save(lang.id, user_id)
         self.updateAnswers(answers)
@@ -202,6 +201,7 @@ class Exercise:
             # mhh ni echt zo clean dit...
             for i in range(len(dbw.getExerciseHints(self.id, "English"))):
                 dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
+            dbw.insertAnswer(self.id,key.id,1,self.allAnswers()[0])
         else:
             for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
                 dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])

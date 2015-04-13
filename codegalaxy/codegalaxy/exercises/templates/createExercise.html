@@ -495,7 +495,6 @@
       var translation_dict = {};
     {% endif %}
     function fillInputsForLang(lang){
-      console.log(translation_dict);
       var dict = translation_dict[lang];
       if(dict){
         if("title" in dict){
@@ -541,7 +540,6 @@
       }
 
       translation_dict[translating_to] = dict;
-      console.log(translation_dict);
     }
 
     //If we change from value we need to save our current translations

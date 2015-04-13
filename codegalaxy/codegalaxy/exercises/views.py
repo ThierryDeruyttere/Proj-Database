@@ -184,8 +184,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
     languages = removeLanguage(object_manager.getAllLanguages(), getBrowserLanguage(request))
 
     if request.method == 'POST':
-        language = request.META['LANGUAGE'].split('_')[0]
-        exercise = object_manager.createExercise(exercise_id, language)
+        exercise = object_manager.createExercise(exercise_id, getBrowserLanguage(request))
         exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
@@ -195,7 +194,6 @@ def editExercise(request, listId, exercise_id, exercise_number):
         hints = []
         exercise.code = request.POST.get('code', '')
         exercise.max_score = int(request.POST.get('max', '1'))
-
         exercise_answer = None
         correct_answer = 1
         if(exercise.exercise_type == 'Open Question'):
@@ -239,6 +237,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
         if all_hints is not None:
             amount_hints = len(all_hints)
         translation = exercise.getTranslations(languages)
+        print(exercise.language_name)
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,
