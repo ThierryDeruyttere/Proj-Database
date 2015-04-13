@@ -134,7 +134,7 @@ def editList(request, listId):
 
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
-    current_language = exercise_list.programming_language_string
+    current_language = exercise_list.programming_language.name
     all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
     if request.method == 'POST':
@@ -165,7 +165,7 @@ def editList(request, listId):
         for subject in subjects_to_add:
             exercise_list.addSubject(subject)
 
-        exercise_list.update(updated_list_name, updated_description, updated_difficulty, updated_prog_lang)
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang))
 
     return render(request, 'editList.html', {'list': exercise_list,
                                              'subjects': subjects,
@@ -284,7 +284,7 @@ def createImportHTML(all_lists, all_exercises):
 def importExercise(request, listId):
     exercise_list = object_manager.createExerciseList(listId)
     if exercise_list and exercise_list.created_by == logged_user(request).id:
-        all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language_string)
+        all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language.name)
         if request.method == "GET" and request.GET:
             all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
@@ -624,11 +624,11 @@ def submit(request, list_id, exercise_number):
 
 def createListElem(i, elem):
     class_name = "planet "
-    if elem['prog_lang_id'] == 1:
+    if elem.programming_language.id == 1:
         class_name += "python"
-    elif elem['prog_lang_id'] == 2:
+    elif elem.programming_language.id == 2:
         class_name += "cpp"
-    elif elem['prog_lang_id'] == 3:
+    elif elem.programming_language.id == 3:
         class_name += "sql"
 
     return """<div>
@@ -705,9 +705,9 @@ def listOverview(request):
 
         all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         html = ""
-        for obj in reversed(all_lists):
-            obj['created_on'] = obj['created_on'].strftime("%Y-%m-%d %H:%M:%S")
-            html += createListElem(obj)
+        for i, obj in enumerate(reversed(all_lists)):
+            obj.created_on = obj.created_on.strftime("%Y-%m-%d %H:%M:%S")
+            html += createListElem(i, obj)
 
         return HttpResponse(html)
 

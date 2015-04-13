@@ -400,25 +400,6 @@
       }
     });
 
-    function removeHints(){
-      var value = document.getElementById("max").value;
-      if((hint_nmbr-value) > 0){
-        var span = document.getElementById("Hints");
-        for(i = 0; i < (hint_nmbr-value);++i){
-
-          var name = "row"+ (hint_nmbr-i);
-
-          var obj = document.getElementById(name);
-          if(obj){
-            obj.parentNode.removeChild(obj);
-            hint_nmbr--;
-          }
-        }
-
-
-      }
-    }
-
     {% if edit %}
       $(document).ready(function(){
         {%  if exercise.exercise_type == "Open Question" %}
@@ -531,8 +512,8 @@
 
 
         for(var i = 0; i < amount; ++i){
-          if(i.toString() in dict){
-            $('#translated'+i).val(dict[i.toString()]);
+          if((i+1).toString() in dict){
+            $('#translated'+i).val(dict[(i+1).toString()]);
           }
         }
       }

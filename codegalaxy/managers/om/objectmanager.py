@@ -15,7 +15,7 @@ def timeFromToday(compare_date):
 
 class Language:
 
-    def __init__(self, id, name, code):
+    def __init__(self, id, name, code=None):
         self.id = id
         self.name = name
         self.code = code
@@ -181,15 +181,32 @@ class ObjectManager:
     def acceptVerification(self, hash):
         dbw.removeVerification(hash)
 
+
     def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC'):
-        return dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+        lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+        lists_objects = []
+        for l in lists:
+            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
+                                                     l['difficulty'], l['description'],
+                                                     l['created_by'], l['created_on'],
+                                                     l['prog_lang_id']))
+
+        return lists_objects
+
+    def getAllExerciseLists(self):
+        lists = dbw.getAll('exerciseList')
+        lists_objects = []
+        for l in lists:
+            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
+                                                     l['difficulty'], l['description'],
+                                                     l['created_by'], l['created_on'],
+                                                     l['prog_lang_id']))
+        return lists_objects
+
 
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
-
-    def getProgrammingLanguageCodeOnName(self, name):
-        return dbw.getProgrammingLanguageCodeOnName(name)['language_code']
 
     def getAllScoresForList(self, exercise_list_id):
         scores = dbw.getAllScoresForList(exercise_list_id)
@@ -219,4 +236,8 @@ class ObjectManager:
 
     def getLanguageObject(self, languade_code):
         lang = dbw.getLanguageForCode(languade_code)
-        return Language(lang['id'], lang['name'], lang['language_code'])
+        return Language(lang['id'],lang['name'], lang['language_code'])
+
+    def getProgrLanguageObject(self, language_name):
+        lang = dbw.getIdFromProgrammingLanguage(language_name)
+        return Language(lang['id'], language_name)
