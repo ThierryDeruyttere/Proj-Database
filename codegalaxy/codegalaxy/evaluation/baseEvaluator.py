@@ -52,7 +52,7 @@ class Evaluator:
         return '<pre>' + self.error + '<pre>'
 
     def getOutput(self):
-        return self.output
+        return '<pre>' + self.output + '<pre>'
 
 # class Table():
 #     def __init__(self, desc=[], rows=[]):

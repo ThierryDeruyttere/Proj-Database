@@ -24,7 +24,9 @@
   </div>
 
   <div class="row">
-    <input type="button" name="test" class="button round success no-outline right" id="evaluate" value="Evaluate"></input>
+    <form>
+      <input type="submit" name="test" class="button round success no-outline right" id="evaluate" value="Evaluate"></input>
+    </form>
     <ul class="button-group radius">
       <li><a id="b_clear" class="button tiny">Clear</a></li>
     </ul>
@@ -75,8 +77,9 @@
     updateOutput("success", "error", text);
   }
 
-  $("#evaluate").click(function()
+  $("#evaluate").click(function(e)
   {
+    e.preventDefault();
     var post_data = {code:code_text.getValue()};
     $.ajax({
       type: "POST",
@@ -94,15 +97,25 @@
   });
 
   $(".lang_button").click(function() {
+    // Change the mode of the text editor
     code_text.setOption("mode", $(this).attr("id"));
+
+    // Change which language icon is active
     $(".lang_button>img").removeClass("active");
     $(this).find("img").addClass("active");
   });
 
   $("#b_clear").click(function(e) {
     e.preventDefault();
+
+    // Clear text editor
     code_text.setValue("");
+
+    // Focus the text editor again
     code_text.focus();
+
+    // Hide the output alert
+    $("#output").parent().hide();
   });
 
 </script>
