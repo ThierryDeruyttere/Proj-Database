@@ -491,6 +491,14 @@ def answerQuestion(request, list_id, exercise_number):
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
+                info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
+                penalty = current_exercise.penalty
+                current_score = None
+                if info is not None:
+                    current_score = info['exercise_score']
+
+                if current_score is None:
+                    current_score = current_exercise.max_score
                 last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
                 current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 if current_exercise.exercise_type == 'Open Question':
@@ -504,7 +512,9 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "hints": current_exercise.allHints(),
                                                            "current_answer": current_answer,
                                                            "solved": solved,
-                                                           "last_hint_used": last_hint_used})
+                                                           "last_hint_used": last_hint_used,
+                                                           "current_score": current_score,
+                                                           "penalty": penalty})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
@@ -525,12 +535,19 @@ def returnScore(current_score):
 
 @require_login
 def addHint(request):
-    exercise_number = int(request.POST.get('ex_number', ''))
-    list_id = int(request.POST.get('list_id', ''))
-    amount_of_hints = int(request.POST.get('amount_of_hints', ''))
-    max_score = int(request.POST.get('max_score', ''))
+    exercise_number = int(request.POST.get('ex_number', '0'))
+    list_id = int(request.POST.get('list_id', '0'))
+    amount_of_hints = int(request.POST.get('amount_of_hints', '0'))
+    max_score = int(request.POST.get('max_score', '0'))
+    penalty = int(request.POST.get('penalty', '0'))
+    current_score = int(request.POST.get('current_score', '0'))
+    print(exercise_number)
+    print(list_id)
+    print(amount_of_hints)
+    print(penalty)
+    print(current_score)
     user = logged_user(request)
-    user.useHintForExercise(list_id, exercise_number, amount_of_hints, max_score)
+    user.useHintForExercise(list_id, exercise_number, amount_of_hints, max_score, penalty, current_score)
     return HttpResponse('Everything went fine')
 
 @require_login
@@ -597,7 +614,7 @@ def submit(request, list_id, exercise_number):
                 user_output = stripStr(user_output)
 
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
-                    current_score = returnScore(current_score - int(hint) * penalty)
+                    current_score = returnScore(current_score)
                     solved = True
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 

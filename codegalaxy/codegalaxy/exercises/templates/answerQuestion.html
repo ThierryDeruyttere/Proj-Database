@@ -144,7 +144,7 @@
     $("#output_alert").hide();
     $("#get_hint").click(function()
     {
-      var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }} }
+      var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }}, penalty : {{ penalty }}, current_score : {{ current_score }} }
       $.ajax({
         type: "POST",
         url: "/addHint/",

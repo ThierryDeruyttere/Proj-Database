@@ -936,9 +936,9 @@ def latestHintUserUsedForExercise(list_id, exercise_number, user_id):
     cursor.close()
     return fetched
 
-def userUsesHint(list_id, exercise_number, user_id, new_latest):
+def userUsesHint(list_id, exercise_number, user_id, new_latest, current_score):
     cursor = connection.cursor()
-    cursor.execute('UPDATE madeEx SET hints_used = {new_latest} WHERE user_id = {user_id} AND exercise_number={exercise_number} AND list_id={list_id};'.format(user_id=user_id,exercise_number=exercise_number,list_id=list_id, new_latest=new_latest))
+    cursor.execute('UPDATE madeEx SET hints_used = {new_latest}, exercise_score = {exercise_score} WHERE user_id = {user_id} AND exercise_number={exercise_number} AND list_id={list_id};'.format(user_id=user_id,exercise_number=exercise_number,list_id=list_id, new_latest=new_latest, exercise_score=current_score))
 
 def userIsWorkingOn(list_id, exercise_number, user_id):
     cursor = connection.cursor()
