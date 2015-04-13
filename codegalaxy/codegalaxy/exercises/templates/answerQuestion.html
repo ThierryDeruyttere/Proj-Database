@@ -132,13 +132,9 @@
 
     var curr_hint = 1;
     function addHint(){
-      document.getElementById("hint"+curr_hint).hidden = false;
+      $("#hint"+curr_hint).show();
       ++curr_hint;
-      document.getElementById("used_hints").value = (curr_hint-1).toString();
-    }
-
-    function unhide(name){
-      document.getElementById(name).hidden = false;
+      $("#used_hints").val(curr_hint-1).toString());
     }
 
     $("#output_alert").hide();
