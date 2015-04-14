@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:44+0200\n"
+"POT-Creation-Date: 2015-04-14 19:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -481,6 +481,22 @@ msgstr "Maak groep"
 #: codegalaxy/templates/groupOverview.html:9
 msgid "Group overview"
 msgstr "Overzicht groepen "
+
+#: codegalaxy/templates/groupOverview.html:20
+msgid "Search groups..."
+msgstr "Zoek groepen..."
+
+#: codegalaxy/templates/groupOverview.html:23
+msgid "Search"
+msgstr "Zoeken"
+
+#: codegalaxy/templates/groupOverview.html:31
+msgid "Show my groups only"
+msgstr "Toon enkel mijn groepen"
+
+#: codegalaxy/templates/groupOverview.html:38
+msgid "Biggest Groups"
+msgstr "Grootste Groepen"
 
 #: codegalaxy/templates/groupOverview.html:41
 msgid "Create new group"
