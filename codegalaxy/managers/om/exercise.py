@@ -94,7 +94,7 @@ class Exercise:
             short_list = [answer[0].decode('ascii') for answer in sorted_answers]
             return short_list
         else:
-            return None
+            return []
 
     # List of strings depicting hints
     def allHints(self):
@@ -112,7 +112,7 @@ class Exercise:
             short_list = [hint[0] for hint in sorted_hints]
             return short_list
         else:
-            return [None]
+            return []
 
     # inserts a list of answer_texts (also deletes the previous ones)
     def updateAnswers(self, answers):
@@ -163,7 +163,7 @@ class Exercise:
             if self.exercise_type == "Code":
                 hints = dbw.getExerciseHints(self.id, l.name)
                 for h in hints:
-                    translations[l.name][int(h["hint_number"])-1] = h["hint_text"]
+                    translations[l.name][int(h["hint_number"]) - 1] = h["hint_text"]
 
             else:
                 answer = dbw.getExerciseAnswers(self.id, l.name)
@@ -201,7 +201,7 @@ class Exercise:
             # mhh ni echt zo clean dit...
             for i in range(len(dbw.getExerciseHints(self.id, "English"))):
                 dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
-            dbw.insertAnswer(self.id,key.id,1,self.allAnswers()[0])
+            dbw.insertAnswer(self.id, key.id, 1, self.allAnswers()[0])
         else:
             for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
                 dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
@@ -212,16 +212,15 @@ class Exercise:
         while(str(number_of_) in translations[next(iter(translations))]):
             number_of_ += 1
 
-
         for key, value in translations.items():
 
             if len(value) > 0 and old_translations[key.name]['title'] != "":
                 dbw.updateQuestion(self.id, key.id, value['question'])
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
                 if self.exercise_type == "Code":
-                    #mhh ni echt zo clean dit...
+                    # mhh ni echt zo clean dit...
                     for i in range(number_of_):
-                        #because they all have been deleted...
+                        # because they all have been deleted...
                         dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
 
                 else:

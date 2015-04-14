@@ -479,7 +479,6 @@ def list(request, id=0):
 @require_login
 def answerQuestion(request, list_id, exercise_number):
     current_user = logged_user(request)
-    hints = []
     if request.method == "POST":
 
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
@@ -494,8 +493,6 @@ def answerQuestion(request, list_id, exercise_number):
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
                 hints = current_exercise.allHints()
-                if not hints:
-                    hints = []
                 info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
                 penalty = current_exercise.penalty
                 current_score = None
@@ -509,8 +506,6 @@ def answerQuestion(request, list_id, exercise_number):
                 if current_exercise.exercise_type == 'Open Question':
                     current_answer = int(current_answer)
                 break
-        if hints[0] == None:
-            hints = []
 
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
