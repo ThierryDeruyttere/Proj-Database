@@ -201,7 +201,6 @@ def userOverview(request):
     users = object_manager.allUsers()
     return render(request, 'userOverview.html', {'users': users})
 
-
 def register(request):
     # Check if we are already logged in
     user = logged_user(request)

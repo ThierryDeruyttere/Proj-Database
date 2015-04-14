@@ -246,7 +246,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
         if all_hints is not None:
             amount_hints = len(all_hints)
         translation = exercise.getTranslations(languages)
-        print(exercise.language_name)
+
         return render(request, 'createExercise.html', {'edit': True,
                                                        'exercise': exercise,
                                                        'all_answers': all_answers,

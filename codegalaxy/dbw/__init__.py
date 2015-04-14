@@ -675,6 +675,15 @@ def getLanguageForCode(lang_code):
     cursor.close()
     return fetched
 
+
+def getLangForId(lang_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT name FROM language WHERE id = {id}'.format(id = lang_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+
 # INSERT
 
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
@@ -814,8 +823,12 @@ def updateExerciseCode(code, exercise_id):
     cursor.execute(sql, [code])
 
 def updateQuestion(ex_id, lang_id, question_text):
-    cursor = connection.cursor()
-    cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id, question_text=question_text))
+    question = getExerciseQuestion(ex_id, getLangForId(lang_id)['name'])
+    if question:
+        cursor = connection.cursor()
+        cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id, question_text=question_text))
+    else:
+        insertQuestion(ex_id, lang_id, question_text)
 
 def updateFriendship(user_id, friend_id):
     '''
@@ -836,9 +849,13 @@ def updateGroupMembership(user_id, group_id):
     cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
 
 def updateExerciseTitle(exercise_id, lang_id, new_title):
-    cursor = connection.cursor()
-    sql = 'UPDATE exerciseTitle SET title=%s WHERE exercise_id = {exercise_id} AND language_id = {lang_id};'.format(exercise_id=exercise_id, lang_id=lang_id)
-    cursor.execute(sql, [new_title])
+    title = getExerciseTitle(exercise_id, getLangForId(lang_id)['name'])
+    if title:
+        cursor = connection.cursor()
+        sql = 'UPDATE exerciseTitle SET title=%s WHERE exercise_id = {exercise_id} AND language_id = {lang_id};'.format(exercise_id=exercise_id, lang_id=lang_id)
+        cursor.execute(sql, [new_title])
+    else:
+        insertTitleForExercise(exercise_id,lang_id,new_title)
 
 def updateExerciseAnswer(exercise_id, lang_id, answer_number, answer_text):
     cursor = connection.cursor()

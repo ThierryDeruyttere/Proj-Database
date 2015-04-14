@@ -123,7 +123,10 @@ class Exercise:
         dbw.deleteAnswers(self.id)
         language_id = dbw.getIdFromLanguage(self.language_code)['id']
         for i in range(1, len(answers) + 1):
-            dbw.insertAnswer(self.id, language_id, i, answers[i - 1])
+            if self.exercise_type == "Code":
+                dbw.insertAnswer(self.id, 1, i, answers[i - 1])
+            else:
+                dbw.insertAnswer(self.id, language_id, i, answers[i - 1])
 
     # inserts a list of answer_texts (also deletes the previous ones)
     def updateHints(self, hints):
