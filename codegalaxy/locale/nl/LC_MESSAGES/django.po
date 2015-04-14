@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 17:26+0200\n"
+"POT-Creation-Date: 2015-04-14 17:37+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -92,6 +92,37 @@ msgstr "Max score"
 #: codegalaxy/exercises/templates/createExercise.html:115
 msgid "Add translation"
 msgstr "Voeg vertaling toe"
+
+#: codegalaxy/exercises/templates/createExercise.html:127
+msgid "Hi there space voyager! I'm Kernel!"
+msgstr "Hallo daar ruimtereiziger! Ik ben Kernel!"
+
+#: codegalaxy/exercises/templates/createExercise.html:128
+msgid "I'm from a far away planet named Bootloader."
+msgstr "Ik ben van een planeet ver van hier genaamd Bootloader."
+
+#: codegalaxy/exercises/templates/createExercise.html:129
+msgid "I've stumbled upon this site and I really like it and I want to show it to "
+"my friends back home!"
+msgstr ""
+"Ik ben op deze geweldige site terechtgekomen en ik wil hem laten zien aan "
+"mijn vrienden thuis!"
+
+#: codegalaxy/exercises/templates/createExercise.html:130
+msgid ""
+"The only problem is, on each planet we speak an other language, so I'm "
+"working on translating this site."
+msgstr ""
+"Een probleem zij echter alle verschillende talen, dus ik ben aan "
+"vertalingen voor de site aan het werken"
+
+#: codegalaxy/exercises/templates/createExercise.html:131
+msgid ""
+"Think you could help? I will make your name famous across the universe if "
+"you do!"
+msgstr ""
+"Denk je dat je zou kunnen helpen? Ik zal je beroemd over het hele universum "
+"maken als je me me helpt!"
 
 #: codegalaxy/exercises/templates/createExercise.html:138
 msgid "Original"
