@@ -16,8 +16,8 @@
           {% csrf_token %}
           <div class="row collapse">
             <div class="small-11  columns">
-              <input type="text" required placeholder="Group Name" id="group_name" name="group_name" value="{{ group_name }}">
-              <small class="error">{{ error_group_name }}</small>
+              <input type="text" required placeholder="{% trans "Group Name" %}" id="group_name" name="group_name" value="{{ group_name }}">
+              <small class="error">{% trans "Name already taken/no name given" %}</small>
             </div>
           </div>
 
@@ -28,7 +28,7 @@
           </div>
 
           <p></p>
-          <input type="submit" value="Create Group" class="round button"/>
+          <input type="submit" value="{% trans "Create Group" %}" class="round button"/>
         </form>
       </div>
 

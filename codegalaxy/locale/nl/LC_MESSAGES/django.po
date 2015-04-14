@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:38+0200\n"
+"POT-Creation-Date: 2015-04-14 19:44+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -458,6 +458,14 @@ msgstr "Maak een nieuwe groep"
 msgid "Add a name for your new group"
 msgstr "Voeg een naam toe voor je groep"
 
+#: codegalaxy/templates/groupCreate.html:19
+msgid "Group Name"
+msgstr "Groepsnaam"
+
+#: codegalaxy/templates/groupCreate.html:20
+msgid "Name already taken/no name given"
+msgstr "Naam al in gebruik/geen naam gegeven"
+
 #: codegalaxy/templates/groupCreate.html:24
 msgid "Do you want to create a private group?"
 msgstr "Wil je de groep prive maken?"
@@ -465,6 +473,10 @@ msgstr "Wil je de groep prive maken?"
 #: codegalaxy/templates/groupCreate.html:27
 msgid "Private"
 msgstr "Prive"
+
+#: codegalaxy/templates/groupCreate.html:31
+msgid "Create Group"
+msgstr "Maak groep"
 
 #: codegalaxy/templates/groupOverview.html:9
 msgid "Group overview"

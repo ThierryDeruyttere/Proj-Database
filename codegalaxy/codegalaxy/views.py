@@ -448,7 +448,7 @@ def groupCreate(request, id=0):
             return redirect('/g/' + str(group.id))
 
         except:
-            return render(request, 'groupCreate.html', {'error_group_name': 'This name is already in use. Please try again...'})
+            return render(request, 'groupCreate.html', {})
 
     return render(request, 'groupCreate.html', {})
 
