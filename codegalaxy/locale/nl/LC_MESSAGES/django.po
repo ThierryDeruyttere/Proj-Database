@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 17:53+0200\n"
+"POT-Creation-Date: 2015-04-14 18:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -50,11 +50,13 @@ msgid "Answer"
 msgstr "Antwoord"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:111
+#: codegalaxy/exercises/templates/editList.html:133
 msgid "Return to list"
 msgstr "Keer terug naar lijst"
 
 #: codegalaxy/exercises/templates/createExercise.html:19
 #: codegalaxy/exercises/templates/createExercise.html:278
+#: codegalaxy/exercises/templates/editList.html:113
 msgid "Edit exercise"
 msgstr "Pas oefening aan"
 
@@ -71,6 +73,7 @@ msgstr "Naam oefening"
 
 #: codegalaxy/exercises/templates/createExercise.html:60
 #: codegalaxy/exercises/templates/createExerciseList.html:35
+#: codegalaxy/exercises/templates/editList.html:51
 msgid "Difficulty"
 msgstr "Moeilijkheid"
 
@@ -163,6 +166,7 @@ msgid "'Enter description of exercise list'"
 msgstr "'Geef beschrijving van de oefeningenlijst'"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:46
+#: codegalaxy/exercises/templates/editList.html:62
 msgid "Programming language"
 msgstr "Programmeertaal"
 
@@ -171,12 +175,41 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:73
+#: codegalaxy/exercises/templates/editList.html:78
 msgid "Subjects"
 msgstr "Onderwerpen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:81
 msgid "'Create list'"
 msgstr "'Maak de lijst'"
+
+#: codegalaxy/exercises/templates/editList.html:17
+msgid "List editor"
+msgstr ""
+
+#: codegalaxy/exercises/templates/editList.html:25
+msgid "List name"
+msgstr "Lijstnaam"
+
+#: codegalaxy/exercises/templates/editList.html:36
+msgid "Enter description of exercise list"
+msgstr "Geef beschrijving van de oefeningenlijst"
+
+#: codegalaxy/exercises/templates/editList.html:86
+msgid "click on a subject to delete it"
+msgstr "klik op een onderwerp om het te verwijderen"
+
+#: codegalaxy/exercises/templates/editList.html:89
+msgid "New subject"
+msgstr "Nieuw onderwerp"
+
+#: codegalaxy/exercises/templates/editList.html:105
+msgid "Exercises"
+msgstr "Oefeningen"
+
+#: codegalaxy/exercises/templates/editList.html:132
+msgid "Edit"
+msgstr "Pas aan"
 
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"

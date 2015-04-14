@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block page_css %}
   <link rel="stylesheet" href="{% static "css/editList.css" %}" />
@@ -13,7 +14,7 @@
         <div class="row">
           <div class="large-12 large-text-center columns">
 
-            <h2>List editor</h2>
+            <h2>{% trans "List editor" %}</h2>
           </div>
         </div>
         <div class="row">
@@ -21,7 +22,7 @@
             <div class="large-4 large-centered columns">
               <div class="row collapse prefix-radius">
                 <div class="small-3 columns">
-                  <span class="prefix">List name</span>
+                  <span class="prefix">{% trans "List name" %}</span>
                 </div>
                 <div class="small-9 columns">
                   <input type="text" id="list_name" name="updated_list_name" class="text-center" value="{{ list.name }}">
@@ -32,7 +33,7 @@
 
           <div class="large-4 large-centered columns">
 
-            <textarea placeholder="Enter description of exercise list" name="updated_description_text">{{ list.description }}</textarea>
+            <textarea placeholder="{% trans "Enter description of exercise list"  %}" name="updated_description_text">{{ list.description }}</textarea>
 
             <div class="row">
               <div class="small-10 medium-11 columns">
@@ -47,7 +48,7 @@
             <div class="large-4 large-centered columns">
               <div class="row collapse prefix-radius">
                 <div class="small-3 columns">
-                  <span class="prefix">Difficulty</span>
+                  <span class="prefix">{% trans "Difficulty" %}</span>
                 </div>
                 <div class="small-9 columns">
                   <input type="text" id="difficulty" name="updated_difficulty" readonly="True" class="text-center">
@@ -58,7 +59,7 @@
 
           <div class="row">
             <div class="large-4 large-centered columns">
-              <label>Programming language</label>
+              <label>{% trans "Programming language" %}</label>
               <select name="prog_lang">
                 {% for lang in programming_languages %}
                   {% if lang.name == current_prog_lang %}
@@ -74,7 +75,7 @@
 
           <div class="large-4 large-centered columns">
             <fieldset>
-              <legend>Subjects</legend>
+              <legend>{% trans "Subjects" %}</legend>
               <div class="row" id="subjects_list">
                 {% for subject in subjects %}
                   <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
@@ -82,10 +83,10 @@
                 {% endfor %}
               </div>
             </fieldset>
-            <h6>click on a subject to delete it</h6>
+            <h6>{% trans "click on a subject to delete it" %}</h6>
             <div class="row collapse prefix-radius">
               <div class="small-4 columns">
-                <span class="prefix">New subject</span>
+                <span class="prefix">{% trans "New subject" %}</span>
               </div>
               <div class="small-6 columns">
                 <input type="text" id="subject" name="subject" class="text-center">
@@ -101,7 +102,7 @@
           <div class ="row">
             <div class="large-10 large-centered columns">
               <ul class="pricing-table">
-                <li class="title">Exercises</li>
+                <li class="title">{% trans "Exercises" %}</li>
                 <div class="row">
                   <ul class="accordion dragdrop" id="dragdrop" data-accordion>
                     {% for exercise in all_exercises %}
@@ -109,7 +110,7 @@
                         <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
                         <div id="Exerc{{ exercise.exercise_number }}" class="content">
                           <div class="row">
-                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">Edit exercise</a>
+                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">{% trans "Edit exercise" %}</a>
                             <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                           </div>
                           {% if exercise.isReference %}
@@ -128,8 +129,8 @@
           </div>
           <div class="row">
             <div class="large-text-center large-12 columns">
-              <button id="sub_button" class="secondary button radius" value="Edit">Edit</button>
-              <a href=".." class="secondary button radius">Return to list</a>
+              <button id="sub_button" class="secondary button radius" value="Edit">{% trans "Edit" %}</button>
+              <a href=".." class="secondary button radius">{% trans "Return to list" %}</a>
             </div>
           </div>
           <input type="hidden" id="current_subjects" name="current_subjects" value="{{ subjects|length }}">
