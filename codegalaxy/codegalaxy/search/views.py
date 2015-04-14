@@ -4,11 +4,18 @@ from django.core.context_processors import request
 
 from codegalaxy.search import *
 
+from codegalaxy.authentication import require_login, logged_user
 
 def groupOverview(request):
     s_term = request.POST.get('term', '')
+    s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false')
 
     results = search(s_term, s_groups=True)
+
+    current_user = logged_user(request)
+    if current_user and s_my_groups:
+        results = [result for result in results if result.id in [g.id for g in current_user.allGroups()]]
+        print(len(results))
 
     response = ''
     for result in results:

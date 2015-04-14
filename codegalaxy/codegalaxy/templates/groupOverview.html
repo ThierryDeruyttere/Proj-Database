@@ -10,26 +10,25 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="large-8 columns">
-    <ul class="tabs" data-tab>
-      <li class="tab-title active"><a href="#all_groups">{% trans "All groups" %}</a></li>
-      <li class="tab-title"><a href="#my_groups">{% trans "My groups" %}</a></li>
-    </ul>
-    <hr/>
-  </div>
-</div>
-
 <div class="tabs-content">
   <div class="content active" id="all_groups">
     <div class="row">
       <div class="large-8 columns">
         <div id="search_groups" class="row collapse">
-          <div class="large-10 columns">
-            <input type="text" placeholder="Search groups...">
+          <div class="row collapse postfix-radius">
+            <div class="large-10 columns">
+              <input type="text" placeholder="Search groups...">
+            </div>
+            <div class="large-2 columns">
+              <button class="button postfix no-outline">Search</button>
+            </div>
           </div>
-          <div class="large-2 columns">
-            <button class="button postfix no-outline">Search</button>
+          <div class="row collapse">
+            <div class="switch small round right">
+              <input id="my_groups" type="checkbox">
+              <label for="my_groups"></label>
+            </div>
+            <div class="right">Show my groups only</div>
           </div>
         </div>
         <div id="search_result" class="row"></div>
@@ -43,42 +42,16 @@
       </div>
     </div>
   </div>
-  <div class="content" id="my_groups">
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="row collapse">
-          <div class="large-6 columns">
-            <input type="text" placeholder="Search groups...">
-          </div>
-          <a href="#" class="tiny button">Search</a>
-        </div>
-        <div class="row">
-          {% for group in my_groups %}
-          <div class="large-2 columns end">
-            <div class="panel radius">
-              <a href="../../g/{{ group.id }}">
-                <img src="{% static group.getGroupPicture %}" />
-                <div>
-                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
-                </div>
-              </a>
-
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-  </div>
 </div>
 {% endblock base_body %}
 
 {% block body_js %}
 <script>
-  $("#search_groups button").click(function(e)
-  {
-    e.preventDefault();
+  function doSearch() {
     term_text = $("#search_groups input").val();
-    var post_data = {term:term_text};
+
+    var post_data = {term:term_text, my_groups:$('#my_groups').is(':checked')};
+
     $.ajax({
       type: "POST",
       url: "/s/groupOverview/",
@@ -92,14 +65,23 @@
       //   setError(jqXHR.responseText);
       // }
     });
+  }
+
+  $("#search_groups button").click(function(e) {
+    e.preventDefault();
+    doSearch();
   });
 
   $("#search_groups input").on("input", function() {
     $("#search_groups button").click();
   });
 
+  $("#my_groups").change(function(e) {
+    doSearch();
+  });
+
   $(document).ready(function() {
-    $("#search_groups input").trigger("input");
+    $("#search_groups input[type=text]").trigger("input");
   });
 </script>
 {% endblock body_js %}

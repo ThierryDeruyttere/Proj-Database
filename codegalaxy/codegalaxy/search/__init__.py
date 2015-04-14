@@ -32,4 +32,4 @@ def search(s_term='', s_users=False, s_groups=False, s_lists=False):
         return filtered
 
     else:
-        return sorted(all_search, key=lambda e: e.group_name)
+        return sorted(all_search_obj, key=lambda e: e.group_name)
