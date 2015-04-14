@@ -267,7 +267,7 @@ def logout(request):
     # flush zorgt ervoor dat er geen restjes achterblijven
     # geen idee of dit de juiste manier is
     request.session.flush()
-    request.session['current_user'] = None
+    .session['current_user'] = None
     return render(request, 'logout.html', {})
 
 

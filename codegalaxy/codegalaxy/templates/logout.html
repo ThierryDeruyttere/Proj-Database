@@ -2,12 +2,25 @@
 {% load staticfiles %}
 
 {% block base_body %}
+  {% block page_css %}
+    <link rel="stylesheet" href="{% static "css/logout.css" %}" />
+  {% endblock page_css %}
 
-<div class="row">
-  <div class="large-12 columns">
-    <a href="/"><img src={% static "Logout.png" %}/></a>
+  <div class="row">
+    <div class="large-12 columns">
+      <a href="/"><img src={% static "Logout.png" %}/></a>
     </div>
   </div>
-</div>
+  </div>
+  <br/>
+  <div class="row">
+    <div class="large-text-center">
+      <div data-alert class="alert-box info radius" id="message">
+        See you next time, earthling. What is the phrase you earthlings always use? <br/>
+        Oh yes. I will miss you, is that right?
+      </div>
+      <img id="grub" src="{% static "media/grub.png" %}">
+    </div>
+  </div>
 
 {% endblock base_body %}
