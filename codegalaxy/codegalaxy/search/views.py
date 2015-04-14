@@ -15,7 +15,6 @@ def groupOverview(request):
     current_user = logged_user(request)
     if current_user and s_my_groups:
         results = [result for result in results if result.id in [g.id for g in current_user.allGroups()]]
-        print(len(results))
 
     response = ''
     for result in results:
