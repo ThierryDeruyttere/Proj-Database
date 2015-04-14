@@ -509,6 +509,8 @@ def answerQuestion(request, list_id, exercise_number):
                 if current_exercise.exercise_type == 'Open Question':
                     current_answer = int(current_answer)
                 break
+        if hints[0] == None:
+            hints = []
 
         if current_exercise:
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,

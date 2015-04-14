@@ -67,8 +67,10 @@
               <div class="row">
                 <div class="large-10 columns">
                   {% if not solved %}
-                    <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">Get hint</button>
-                    <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+                    {% if hints %}
+                      <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">Get hint</button>
+                      <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+                    {% endif %}
                   {% endif %}
                 </div>
               </div>
@@ -133,12 +135,11 @@
     var curr_hint = 1;
     function addHint(){
       $('#hint'+curr_hint).show();
+      $("#used_hints").val((curr_hint).toString());
+      if(curr_hint >= {{ hints|length }}){
+        $('#get_hint').hide();
+      }
       ++curr_hint;
-      $("#used_hints").val((curr_hint-1).toString());
-    }
-
-    function unhide(name){
-      document.getElementById(name).hidden = false;
     }
 
     $("#output_alert").hide();
