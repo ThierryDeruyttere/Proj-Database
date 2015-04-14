@@ -156,6 +156,8 @@ class ObjectManager:
         return dbw.getOccurenceOfSubject(subject_id)
 
     def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint = 0):
+        if hint == None:
+            hint = 0
         exercise = dbw.getMadeExercise(user_id, list_id, exercise_number)
         if exercise:
             dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on, hint, exercise_score)

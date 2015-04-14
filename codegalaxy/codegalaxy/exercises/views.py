@@ -616,6 +616,9 @@ def submit(request, list_id, exercise_number):
                 if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
                     current_score = returnScore(current_score)
                     solved = True
+                    print('CODE:')
+                    print(user_code)
+                    print('/CODE')
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
                 else:

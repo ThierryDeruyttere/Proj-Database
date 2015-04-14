@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 
 {% block base_body %}
@@ -7,7 +8,7 @@
     <div class="large-12 columns">
       <div class="panel">
         <div class="row">
-          <h3>Question</h3>
+          <h3>{% trans "Question" %}</h3>
         </div>
 
         <hr>
@@ -31,15 +32,15 @@
                     {{ i }}
                     {% if current_answer %}
                       {% if forloop.counter == current_answer  %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                       {% else %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                       {% endif %}
                     {% else %}
                       {% if forloop.counter == 1  %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                       {% else %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">Correct answer</label>
+                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                       {% endif %}
                     {% endif %}
                   </div>
@@ -68,7 +69,7 @@
                 <div class="large-10 columns">
                   {% if not solved %}
                     {% if hints %}
-                      <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">Get hint</button>
+                      <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">{% trans "Get hint" %}</button>
                       <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
                     {% endif %}
                   {% endif %}
@@ -85,7 +86,7 @@
               </div>
             </div>
             {% if not solved %}
-              <button type="button" class="small radius button" id="reset">Reset question</button>
+              <button type="button" class="small radius button" id="reset">{% trans "Reset question" %}</button>
             {% endif %}
           {% endif %}
 
@@ -95,19 +96,19 @@
             <div class="large-text-center">
               {% if exercise.exercise_type == "Open Question" %}
                 {% if solved %}
-                  <h1>You solved the question!</h1>
+                  <h1>{% trans "You solved the question!" %}</h1>
                 {% else %}
                   <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
                 {% endif %}
               {% else %}
                 {% if solved %}
-                  <h1>You solved the question!</h1>
+                  <h1>{% trans "You solved the question!" %}</h1>
                 {% else %}
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
-                  <input id="submit_answer_code" type="button" class="button tiny radius" value="Answer">
+                  <button id="submit_answer_code" type="button" class="button tiny radius">{% trans "Answer" %}</button>
                 {% endif %}
               {% endif %}
-              <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">Return to list</a></li>
+              <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">{% trans "Return to list" %}</a></li>
             </div>
           </div>
         </form>
