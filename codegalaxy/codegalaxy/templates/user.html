@@ -93,7 +93,8 @@
             {% csrf_token %}
             <h5>{% trans "Upload profile picture" %}</h5>
             <p>
-              <input id="id_image" type="file" class="resizeme" name="image">
+              <input id="id_image" type="file" class="resizeme" name="image" required value = "">
+              <small class="error">{% trans "Please select a file." %}</small>
             </p>
             <input type="submit" value="{% trans "Edit Profile Picture" %}" name="update_profile_picture" class="small button round success"/>
           </form>

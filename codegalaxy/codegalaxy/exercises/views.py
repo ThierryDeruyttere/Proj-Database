@@ -562,7 +562,6 @@ def submit(request, list_id, exercise_number):
         current_exercise = None
         for i in all_exercise:
             if i.exercise_number == exercise_number:
-                print('MATCH')
                 current_exercise = i
                 break
 
