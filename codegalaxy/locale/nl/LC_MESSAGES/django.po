@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:54+0200\n"
+"POT-Creation-Date: 2015-04-14 20:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -575,7 +575,7 @@ msgstr "Voornaam"
 
 #: codegalaxy/templates/home.html:189 codegalaxy/templates/register.html:34
 msgid "Enter a valid First Name."
-msgstr "Vul een geldige achternaam in."
+msgstr "Vul een geldige voornaam in."
 
 #: codegalaxy/templates/home.html:197 codegalaxy/templates/register.html:42
 msgid "Last Name"
@@ -690,6 +690,10 @@ msgstr "Iemand wil je toevoegen aan"
 #: codegalaxy/templates/user.html:237
 msgid "isn't a member of any groups yet."
 msgstr "is nog geen lid van een groep."
+
+#: codegalaxy/templates/userOverview.html:8
+msgid "All users:"
+msgstr "Alle gebruikers:"
 
 #~ msgid "ENGLISH"
 #~ msgstr "NEDERLANDS"
