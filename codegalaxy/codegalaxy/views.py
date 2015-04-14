@@ -420,16 +420,7 @@ def groupOverview(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    group_list_temp = object_manager.allPublicGroups()
-    for group in group_list_temp:
-        if len(group.group_name) > 12:
-            group.group_name = group.group_name[:10] + '...'
-
-    group_list = object_manager.allPublicGroups()
-
-    my_groups = current_user.allGroups()
-
-    return render(request, 'groupOverview.html', {'group_list': group_list, 'my_groups': my_groups, 'biggest_groups': bar_chart})
+    return render(request, 'groupOverview.html', {'biggest_groups': bar_chart})
 
 
 @require_login
