@@ -570,7 +570,7 @@ def getAvgScoreOfUsersWhoMadeList(exercise_list_id):
 
 def getAllExercForUserForList(user_id, list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT mE.* FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id=list_id))
+    cursor.execute('SELECT mE.*,e.max_score FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id=list_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched

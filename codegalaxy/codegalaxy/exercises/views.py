@@ -551,15 +551,16 @@ def addHint(request):
 
 @require_login
 def submit(request, list_id, exercise_number):
-    question_id = object_manager.getExerciseID(list_id, exercise_number)
     user = logged_user(request)
+    exercise_number = int(exercise_number)
     exercise_list = object_manager.createExerciseList(list_id)
     if exercise_list:
         solved = False
-        all_exercise = exercise_list.allExercises("en")
+        all_exercise = exercise_list.allExercises(getBrowserLanguage(request))
         current_exercise = None
         for i in all_exercise:
-            if i.id == int(question_id):
+            if i.exercise_number == exercise_number:
+                print('MATCH')
                 current_exercise = i
                 break
 
@@ -574,10 +575,10 @@ def submit(request, list_id, exercise_number):
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
-                if len(all_exercise) < int(exercise_number) + 1:
+                if len(all_exercise) < exercise_number + 1:
                     return redirect('/l/' + list_id + '/')
                 else:
-                    return redirect('/l/' + list_id + '/' + str(int(exercise_number) + 1))
+                    return redirect('/l/' + list_id + '/' + str(exercise_number + 1))
 
             info = object_manager.getInfoForUserForExercise(user.id, list_id, exercise_number)
             penalty = current_exercise.penalty
@@ -621,31 +622,29 @@ def submit(request, list_id, exercise_number):
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
-            next_exercise = int(question_id) + 1
-            if((next_exercise - 1) > len(all_exercise)):
-                made_list_by_user = user.allExerciseListsMade()
-                found = False
-                for l in made_list_by_user:
-                    if int(l['exerciseList_id']) == int(exercise_list.id):
-                        found = True
-                        break
+        next_exercise = exercise_number + 1
 
-                if not found:
-                    all_exercise = exercise_list.getAllExercForUserForList(user.id)
-                    score = 0
-                    for ex in all_exercise:
-                        score += int(ex['exercise_score'])
-                    user.madeList(exercise_list.id, score, 0)
-
+        # checking if user made list
+        users_exercises = exercise_list.getAllExercForUserForList(user.id)
+        if users_exercises:
+            if len(users_exercises) == len(all_exercise):
+                list_score = 0
+                max_list_score = 0
+                for ex in users_exercises:
+                    list_score += ex['exercise_score']
+                    max_list_score += ex['max_score']
+                list_score = list_score * 100
+                list_score = list_score / max_list_score
+                user.madeList(exercise_list.id, list_score, 0)
                 next_exercise = ""
 
-            return render(request, 'submit.html', {"solved": solved,
-                                                   "list_id": list_id,
-                                                   "current_score": current_score,
-                                                   "max_score": max_score,
-                                                   "question_type": current_exercise.exercise_type,
-                                                   "user_output": user_output,
-                                                   "next_exercise": next_exercise})
+        return render(request, 'submit.html', {"solved": solved,
+                                               "list_id": list_id,
+                                               "current_score": current_score,
+                                               "max_score": max_score,
+                                               "question_type": current_exercise.exercise_type,
+                                               "user_output": user_output,
+                                               "next_exercise": next_exercise})
 
     else:
         return redirect('/')
