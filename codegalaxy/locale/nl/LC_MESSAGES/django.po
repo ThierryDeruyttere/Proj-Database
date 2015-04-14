@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:16+0200\n"
+"POT-Creation-Date: 2015-04-14 19:24+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -51,6 +51,7 @@ msgstr "Antwoord"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:111
 #: codegalaxy/exercises/templates/editList.html:133
+#: codegalaxy/exercises/templates/submit.html:43
 msgid "Return to list"
 msgstr "Keer terug naar lijst"
 
@@ -328,6 +329,34 @@ msgstr "Pas lijst aan"
 #: codegalaxy/exercises/templates/list.html:254
 msgid "ExerciseLists like this one:"
 msgstr "Oefeningenlijsten als deze:"
+
+#: codegalaxy/exercises/templates/submit.html:19
+msgid "Correct answer!"
+msgstr "Correct antwoord!"
+
+#: codegalaxy/exercises/templates/submit.html:27
+msgid "Your score:"
+msgstr "Je score"
+
+#: codegalaxy/exercises/templates/submit.html:46
+msgid "Next exercise"
+msgstr "Volgende oefening"
+
+#: codegalaxy/exercises/templates/submit.html:56
+msgid "Wrong answer..."
+msgstr "Fout antwoord..."
+
+#: codegalaxy/exercises/templates/submit.html:63
+msgid "Your code outputted:"
+msgstr "Je code gaf als resultaat:"
+
+#: codegalaxy/exercises/templates/submit.html:83
+msgid "Your current score:"
+msgstr "Je huidige score"
+
+#: codegalaxy/exercises/templates/submit.html:117
+msgid "Try again"
+msgstr ""
 
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"

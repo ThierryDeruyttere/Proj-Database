@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 {% load custom_filters %}
 
 {% block page_css %}
@@ -15,7 +16,7 @@
         {% if solved %}
           <div class="row">
             <div class="large-text-center">
-              <h1>Correct answer!</h1>
+              <h1>{% trans "Correct answer!" %}</h1>
             </div>
           </div>
 
@@ -23,7 +24,7 @@
             <div class="large-7 columns large-centered">
               <div class="panel">
                 <div class="large-text-center">
-                  <h2>Your score:</h2>
+                  <h2>{% trans "Your score:" %}</h2>
                   <br/>
                   <br/>
                   <h1>{{ current_score }}/{{ max_score }}</h1>
@@ -39,10 +40,10 @@
           <div class="row">
             <input type="hidden" name="solved" value="True"></input>
             <div class="large-6 large-text-center columns">
-              <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="Return to list"></input>
+              <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="{% trans "Return to list" %}"></input>
             </div>
             <div class="large-6 large-text-center columns">
-              <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="Next exercise"></input>
+              <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="{% trans "Next exercise" %}"></input>
             </div>
           </div>
 
@@ -52,14 +53,14 @@
           </div>
           <div class="row">
             <div class="large-text-center">
-              <h2>Wrong answer</h2>
+              <h2>{% trans "Wrong answer..." %}</h2>
               <img src="{% static "media/Icons8-Ios7-Messaging-Sad.ico" %}" height="100px" width="100px">
             </div>
           </div>
           {% if question_type == "Code" %}
             <div class="row">
               <div class="large-3 columns">
-                Your code outputted:
+                {% trans "Your code outputted:" %}
               </div>
             </div>
 
@@ -79,7 +80,7 @@
               <div class="large-7 columns">
                 <div class="panel">
                   <div class="large-text-center">
-                    <h2>Your current score:</h2>
+                    <h2>{% trans "Your current score:" %}</h2>
                     <br/>
                     <br/>
                     <h1>{{ current_score }}/{{ max_score }}</h1>
@@ -113,7 +114,7 @@
 
           <div class="large-text-center">
             <input type="hidden" name="solved" value="False"></input>
-            <input type="submit" name="b_tryagain" class="button alert small radius" value="Try again"></input>
+            <input type="submit" name="b_tryagain" class="button alert small radius" value="{% trans "Try again" %}"></input>
           </div>
 
         {% endif %}
