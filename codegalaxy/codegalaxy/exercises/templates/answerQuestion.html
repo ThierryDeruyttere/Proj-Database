@@ -69,7 +69,7 @@
                 <div class="large-10 columns">
                   {% if not solved %}
                     {% if hints %}
-                      <button id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()">{% trans "Get hint" %}</button>
+                      <input id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()" value="{% trans "Get hint" %}">
                       <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
                     {% endif %}
                   {% endif %}

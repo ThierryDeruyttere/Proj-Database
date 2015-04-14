@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 16:40+0200\n"
+"POT-Creation-Date: 2015-04-14 17:26+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,31 +18,106 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:10
+#: codegalaxy/exercises/templates/answerQuestion.html:11
+#: codegalaxy/exercises/templates/createExercise.html:72
+#: codegalaxy/exercises/templates/createExercise.html:147
+#: codegalaxy/exercises/templates/createExercise.html:173
 msgid "Question"
 msgstr "Vraag"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:34
-#: codegalaxy/exercises/templates/answerQuestion.html:40
+#: codegalaxy/exercises/templates/answerQuestion.html:35
+#: codegalaxy/exercises/templates/answerQuestion.html:37
+#: codegalaxy/exercises/templates/answerQuestion.html:41
+#: codegalaxy/exercises/templates/answerQuestion.html:43
 msgid "Correct answer"
 msgstr "Correct antwoord"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:71
+#: codegalaxy/exercises/templates/answerQuestion.html:72
 msgid "Get hint"
 msgstr "Gebruik Hint"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:88
+#: codegalaxy/exercises/templates/answerQuestion.html:89
 msgid "Reset question"
 msgstr "Hernieuw de code"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:98
-#: codegalaxy/exercises/templates/answerQuestion.html:104
+#: codegalaxy/exercises/templates/answerQuestion.html:99
+#: codegalaxy/exercises/templates/answerQuestion.html:105
 msgid "You solved the question!"
 msgstr "Je hebt de vraag opgelost!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:110
+#: codegalaxy/exercises/templates/answerQuestion.html:108
+msgid "Answer"
+msgstr "Antwoord"
+
+#: codegalaxy/exercises/templates/answerQuestion.html:111
 msgid "Return to list"
 msgstr "Keer terug naar lijst"
+
+#: codegalaxy/exercises/templates/createExercise.html:19
+#: codegalaxy/exercises/templates/createExercise.html:278
+msgid "Edit exercise"
+msgstr "Pas oefening aan"
+
+#: codegalaxy/exercises/templates/createExercise.html:21
+#: codegalaxy/exercises/templates/createExercise.html:280
+msgid "Create exercise"
+msgstr "Creëer oefening"
+
+#: codegalaxy/exercises/templates/createExercise.html:32
+#: codegalaxy/exercises/templates/createExercise.html:141
+#: codegalaxy/exercises/templates/createExercise.html:167
+msgid "Exercise title"
+msgstr "Naam oefening"
+
+#: codegalaxy/exercises/templates/createExercise.html:60
+msgid "Difficulty"
+msgstr "Moeilijkheid"
+
+#: codegalaxy/exercises/templates/createExercise.html:80
+msgid "Exercise Type:"
+msgstr "Soort oefening:"
+
+#: codegalaxy/exercises/templates/createExercise.html:81
+msgid "Code question"
+msgstr "Code vraag"
+
+#: codegalaxy/exercises/templates/createExercise.html:82
+msgid "Multiple choice"
+msgstr "Meerkeuzevraag"
+
+#: codegalaxy/exercises/templates/createExercise.html:92
+msgid "Max score"
+msgstr "Max score"
+
+#: codegalaxy/exercises/templates/createExercise.html:115
+msgid "Add translation"
+msgstr "Voeg vertaling toe"
+
+#: codegalaxy/exercises/templates/createExercise.html:138
+msgid "Original"
+msgstr "Originele"
+
+#: codegalaxy/exercises/templates/createExercise.html:164
+msgid "Translated"
+msgstr "Vertaald"
+
+#: codegalaxy/exercises/templates/createExercise.html:191
+msgid "Code the user gets to see."
+msgstr "Code die de gebruiker te zien krijgt"
+
+#: codegalaxy/exercises/templates/createExercise.html:210
+msgid "Expected output."
+msgstr "Verwachte output"
+
+#: codegalaxy/exercises/templates/createExercise.html:231
+msgid "Add Hint"
+msgstr "Voeg hint toe"
+
+#: codegalaxy/exercises/templates/createExercise.html:247
+#, fuzzy
+#| msgid "Correct answer"
+msgid "Possible answers"
+msgstr "Correct antwoord"
 
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"

@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block page_css %}
   <link rel="stylesheet" href="{% static "css/createExercise.css" %}">
@@ -15,9 +16,9 @@
           <div class="text-center">
             <h3>
               {% if edit %}
-                Edit exercise
+                {% trans "Edit exercise" %}
               {% else %}
-                Create exercise
+                {% trans "Create exercise" %}
               {% endif %}
             </h3>
           </div>
@@ -28,7 +29,7 @@
           <div class="large-4 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-4 columns">
-                <span class="prefix">Exercise title</span>
+                <span class="prefix">{% trans "Exercise title" %}</span>
               </div>
               <div class="small-8 columns">
                 <input type="text" id="title" name="title"  class="text-center" value="{{ exercise.title }}">
@@ -56,7 +57,7 @@
             <div class="large-4 large-centered columns">
               <div class="row collapse prefix-radius">
                 <div class="small-3 columns">
-                  <span class="prefix">Difficulty</span>
+                  <span class="prefix">{% trans "Difficulty" %}</span>
                 </div>
                 <div class="small-9 columns">
                   <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
@@ -68,7 +69,7 @@
 
         <div class="row">
           <div class="large-4 large-centered columns">
-            Question
+            {% trans "Question" %}
             <textarea class="question_text" id="Question" name="Question">{{ exercise.question }}</textarea>
           </div>
         </div>
@@ -76,9 +77,9 @@
         <div class="row">
           <div class="large-4 large-centered large-text-center columns">
             <div data-alert class="alert-box info radius">
-              <label>Exercise Type:</label>
-              <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">Code question</label>
-              <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">Multiple choice</label>
+              <label>{% trans "Exercise Type:" %}</label>
+              <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">{% trans "Code question" %}</label>
+              <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">{% trans "Multiple choice" %}</label>
 
             </div>
           </div>
@@ -88,7 +89,7 @@
           <div class="large-4 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-3 columns">
-                <span class="prefix">Max score</span>
+                <span class="prefix">{% trans "Max score" %}</span>
               </div>
               <div class="small-9 columns">
                 <input type="text" id="max" name="max" readonly="True" class="text-center">
@@ -111,7 +112,7 @@
 
         <div class="row">
           <div class="right">
-            <button type="button" id="open_translation" class="small radius button">Add translation</button>
+            <button type="button" id="open_translation" class="small radius button">{% trans "Add translation" %}</button>
           </div>
         </div>
 
@@ -123,8 +124,8 @@
             </div>
             <div id="textbox" class="large-6 columns">
               <div data-alert class="alert-box info radius">
-                Hi there space voyager! i'm Kernel!
-                I'm from a far away galaxy named Bootloader. <br/>
+                {% trans "Hi there space voyager! i'm Kernel!
+                I'm from a far away galaxy named Bootloader." %} <br/>
                 I've stumbled upon this site and I really like it and I want to show it to my friends in my galaxy! <br/>
                 The only problem is, on each planet we speak an other language, so I'm working on translating this site. <br/>
                 Think you could help? I will make your name famous across the universe if you do!
@@ -134,16 +135,16 @@
           <div class="row">
             <div id="original" class="large-5 columns">
               <fieldset>
-                <legend>Original</legend>
+                <legend>{% trans "Original" %}</legend>
                 <div class="row collapse prefix-radius">
                   <div class="small-4 columns">
-                    <span class="prefix">Exercise title</span>
+                    <span class="prefix">{% trans "Exercise title" %}</span>
                   </div>
                   <div class="small-8 columns">
                     <input type="text" id="original_title" class="text-center" value="{{ exercise.title }}" readonly>
                   </div>
                 </div>
-                Question
+                {% trans "Question" %}
                 <textarea class="question_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
                 <div class="answer_translation">
 
@@ -160,16 +161,16 @@
             </div>
             <div class="large-5 columns">
               <fieldset>
-                <legend>Translated</legend>
+                <legend>{% trans "Translated" %}</legend>
                 <div id="translated" class="row collapse prefix-radius">
                   <div class="small-4 columns">
-                    <span class="prefix">Exercise title</span>
+                    <span class="prefix">{% trans "Exercise title" %}</span>
                   </div>
                   <div class="small-8 columns">
                     <input type="text" id="translated_title" name="translated_title"  class="text-center" value="">
                   </div>
                 </div>
-                Question
+                {% trans "Question" %}
                 <textarea class="question_text" id="translated_Question" name="translated_Question"></textarea>
                 <div class="answer_translation">
 
@@ -187,7 +188,7 @@
           <div class="row">
             <div class="large-10 large-centered columns">
               <div data-alert class="alert-box info radius">
-                Code the user gets to see. UITLEG UITLEG
+                {% trans "Code the user gets to see." %}
               </div>
               <textarea id="code" name="code">{{ exercise.code }}</textarea>
               <script>
@@ -206,7 +207,7 @@
               </script>
 
               <div data-alert class="alert-box info radius">
-                Expected output. UITLEG UITLEG
+                {% trans "Expected output." %}
               </div>
               <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
               <script>
@@ -227,7 +228,7 @@
               <div class="row" id="Tips_Row">
                 <h3>Hints:</h3>
                 <div class="large-4 right columns">
-                  <input type="button" class="button tiny radius" id="add_hint" value="Add Hint">
+                  <input type="button" class="button tiny radius" id="add_hint" value = "{% trans "Add Hint" %}">
                 </div>
                 <div class="row">
                   <span id="Hints"></span>
@@ -243,7 +244,7 @@
           <div class="row">
             <div class="large-8 large-offset-2 columns">
               <div class="row">
-                <u>Possible answers</u>
+                <u>{% trans "Possible answers" %}</u>
                 <i class="fi-plus" id="add_answer"></i>
               </div>
               <div class="row" id="wrapper_answer">
@@ -274,9 +275,9 @@
         <div class="row">
           <div class="large-text-center">
             {% if edit %}
-              <input type="button" class="button tiny radius form_button" value="Edit exercise">
+              <input type="button" class="button tiny radius form_button" value="{% trans "Edit exercise" %}">
             {% else %}
-              <input type="button" class="button tiny radius form_button" value="Create exercise">
+              <input type="button" class="button tiny radius form_button" value="{% trans "Create exercise" %}">
             {% endif %}
           </div>
         </div>

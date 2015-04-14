@@ -68,7 +68,6 @@ class EvaluatorSql(Evaluator):
             output += '<div class="large-3 columns end">'
             output += table[0]
             output += '<table><thead>'
-            print(cursor.description)
             for col in cursor.description:
                 output += '<td>' + col[0] + '</td>'
             output += '</thead>'
