@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 18:38+0200\n"
+"POT-Creation-Date: 2015-04-14 18:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -130,6 +130,7 @@ msgstr ""
 "maken als je me me helpt!"
 
 #: codegalaxy/exercises/templates/createExercise.html:138
+#: codegalaxy/exercises/templates/importExercise.html:51
 msgid "Original"
 msgstr "Originele"
 
@@ -185,7 +186,7 @@ msgstr "'Maak de lijst'"
 
 #: codegalaxy/exercises/templates/editList.html:17
 msgid "List editor"
-msgstr ""
+msgstr "Lijst aanpassen"
 
 #: codegalaxy/exercises/templates/editList.html:25
 msgid "List name"
@@ -211,6 +212,59 @@ msgstr "Oefeningen"
 msgid "Edit"
 msgstr "Pas aan"
 
+#: codegalaxy/exercises/templates/importExercise.html:16
+msgid "List or exercise name"
+msgstr "Naam van lijst of oefening"
+
+#: codegalaxy/exercises/templates/importExercise.html:35
+msgid "Copy all list"
+msgstr "Kopieer alles"
+
+#: codegalaxy/exercises/templates/importExercise.html:36
+msgid "Import all list"
+msgstr "Importeer alles"
+
+#: codegalaxy/exercises/templates/importExercise.html:41
+msgid "Title"
+msgstr "Titel"
+
+#: codegalaxy/exercises/templates/importExercise.html:42
+msgid "copy original"
+msgstr "kopieer originele"
+
+#: codegalaxy/exercises/templates/importExercise.html:43
+msgid "reference"
+msgstr "referentie"
+
+#: codegalaxy/exercises/templates/importExercise.html:59
+msgid "This list does not contain any exercises."
+msgstr "Deze lijst heeft geen oefeningen"
+
+#: codegalaxy/exercises/templates/importExercise.html:72
+msgid "Return"
+msgstr "Keer terug naar lijst"
+
+#: codegalaxy/exercises/templates/importExercise.html:73
+#: codegalaxy/exercises/templates/importExercise.html:220
+msgid "Import"
+msgstr "Importeer"
+
+#: codegalaxy/exercises/templates/importExercise.html:79
+msgid "Confirmation"
+msgstr "Bevestig"
+
+#: codegalaxy/exercises/templates/importExercise.html:88
+msgid "Cancel"
+msgstr "Annuleer"
+
+#: codegalaxy/exercises/templates/importExercise.html:89
+msgid "Import!"
+msgstr "Importeer!"
+
+#: codegalaxy/exercises/templates/importExercise.html:224
+msgid "Copy"
+msgstr "Kopie"
+
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"
 msgstr "Engels"
@@ -224,10 +278,8 @@ msgid "Create a new group"
 msgstr "Maak een nieuwe groep"
 
 #: codegalaxy/templates/groupCreate.html:14
-#, fuzzy
-#| msgid "Add a name for your new group and select a group type"
 msgid "Add a name for your new group"
-msgstr "Voeg een naam toe voor je groep en selecteer een type"
+msgstr "Voeg een naam toe voor je groep"
 
 #: codegalaxy/templates/groupCreate.html:24
 msgid "Do you want to create a private group?"
