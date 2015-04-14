@@ -245,3 +245,6 @@ class ExerciseList:
                 exercise_list.unreferenceExercise(reference['exercise_number'])
             # Now we'll delete the old exercise
             dbw.deleteExercise(exercise.id)
+
+    def searchString(self):
+        return str(self.name)

@@ -73,3 +73,8 @@ urlpatterns += patterns('codegalaxy.evaluation.views',
     # Only for getting the responde of code evaluation
     url(r'^eval/(?P<lang>[a-z+]*)/$', 'evaluate')
 )
+
+urlpatterns += patterns('codegalaxy.search.views',
+    # Search page, only for getting search results #
+    url(r's/groupOverview/$', 'groupOverview')
+)

@@ -78,6 +78,9 @@ class Group:
             permissions = dbw.getGroupUserPermissions(self.id, user_id)
             return permissions[0]['user_permissions']
 
+    def searchString(self):
+        return str(self.group_name)
+
     def __str__(self):
         '''
         @brief string representation of the group
