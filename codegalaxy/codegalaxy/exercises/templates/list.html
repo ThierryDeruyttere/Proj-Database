@@ -1,5 +1,6 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
+{% load i18n %}
 
 {% block head_js %}
   <script src="{% static "Chart.min.js" %}"></script>
@@ -63,7 +64,7 @@
         <div class="row">
           <div class="large-4 columns large-centered large-text-center">
             <div class="panel callout radius info">
-              Rating:<br/>
+              {% trans "Rating:" %}<br/>
               <form id="Rating" method="POST">
                 <div class="rating">
                   <div id="raty"></div>
@@ -79,7 +80,7 @@
           <div class="panel callout radius info">
             <div class="progress small success round">
               <span class="meter" style="width: {{ percent }}%"></span>
-              {{ percent }}% solved
+              {{ percent }}% {% trans "solved" %}
             </div>
           </div>
         </div>
@@ -91,15 +92,15 @@
             <ul class="large-block-grid-3">
               <li>
                 <h4>{{ avg_score }}</h4>
-                Average Score
+                {% trans "Average Score" %}
               </li>
               <li>
                 <h4>{{ avg_rating }}</h4>
-                Average rating
+                {% trans "Average rating" %}
               </li>
               <li>
                 <h4>{{ number_of_users }}</h4>
-                Users that finished list
+                {% trans "Users that finished list" %}
               </li>
             </ul>
           </div>
@@ -121,12 +122,12 @@
           <div class="panel callout radius info">
             <ul class="large-block-grid-2">
               <li>
-                Made By
+                {% trans "Made By" %}
                 <br/>
                 <h4>{{ creator }}</h4>
               </li>
               <li>
-                Made On
+                {% trans "Made On" %}
                 <br/>
                 <h4>{{ created_on }}</h4>
               </li>
@@ -140,28 +141,28 @@
         <div class="large-2 right columns">
           {% if correct_user %}
             <ul class="large-block-grid-3">
-              <li><a href="/l/{{ list.id }}/importExercise" class="button tiny radius">Import exercise</a></li>
+              <li><a href="/l/{{ list.id }}/importExercise" class="button tiny radius">{% trans "Import exercise" %}</a></li>
               <li></li>
-              <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">Create exercise</a></li>
+              <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">{% trans "Create exercise" %}</a></li>
             </ul>
           {% elif not correct_user %}
-            <a href="#" class="tiny button radius" data-reveal-id="import">Add exercises to my list</a>
+            <a href="#" class="tiny button radius" data-reveal-id="import">{% trans "Add exercises to my list" %}</a>
             <form method="POST" id="import_list">
               {% csrf_token %}
               <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                <h2 id="modalTitle">Import exercise</h2>
+                <h2 id="modalTitle">{% trans "Import exercise" %}</h2>
                 <div class="row">
                   <div class="large-centered large-text-center columns">
                     {% if all_exercises %}
-                      <input class="list_check"  id="list_copy"  type="checkbox"><label>Copy all list</label>
-                      <input class="list_check"  id="list_import" type="checkbox"><label>Import all list</label>
+                      <input class="list_check"  id="list_copy"  type="checkbox"><label>{% trans "Copy all list" %}</label>
+                      <input class="list_check"  id="list_import" type="checkbox"><label>{% trans "Import all list" %}</label>
 
                       <table>
                       <thead>
                       <tr>
-                        <th width="200">Title</th>
-                        <th width="150">copy original</th>
-                        <th width="150">reference</th>
+                        <th width="200">{% trans "Title" %}</th>
+                        <th width="150">{% trans "copy original" %}</th>
+                        <th width="150">{% trans "reference" %}</th>
                       </tr>
                       </thead>
                       {% for e in all_exercises %}
@@ -169,7 +170,7 @@
                         <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
                           {% if e.isReference %}
                             <br/>
-                            <a href="/l/{{e.isReferenceTo.0}}">Original</a>[{{e.isReferenceTo.1}}]
+                            <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.isReferenceTo.1}}]
                           {% endif %}
                         </td>
                         <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
@@ -177,7 +178,7 @@
                         </tbody>
                       {% endfor %}
                     {% else %}
-                      This list does not contain any exercises.
+                      {% trans "This list does not contain any exercises." %}
                     {% endif %}
                     </table>
                   </div>
@@ -185,14 +186,14 @@
                 <br/>
                 <div class="row">
                   <div class="large-text-center columns">
-                    <button class="button small radius" id="import_confirm">Import</button>
+                    <button class="button small radius" id="import_confirm">{% trans "Import" %}</button>
                   </div>
                 </div>
                 <a class="close-reveal-modal" aria-label="Close">&#215;</a>
               </div>
 
               <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                <h2 id="modalTitle">Confirmation</h2>
+                <h2 id="modalTitle">{% trans "Confirmation" %}</h2>
 
                 <div class="row">
                   <div class="large-2 large-centered large-text-center columns import_confirm_list">
@@ -202,7 +203,7 @@
                 <div class="row">
                   <div class="large-3 large-centered large-text-center columns">
                     <fieldset>
-                      <legend>Import into:</legend>
+                      <legend>{% trans "Import into:" %}</legend>
                       {% for l in user_lists %}
                         <input class="mylists" type="checkbox" name="mylist_{{ l.id }}" id="mylist_{{ l.id }}">
                         <label for="mylist_{{ l.id }}">{{ l.name }}</label>
@@ -214,8 +215,8 @@
             </form>
             <div class="row">
               <div class="large-centered large-text-center columns">
-                <button class="alert small radius" id="cancel_button">Cancel</button>
-                <button class="success small radius" id="import_button">Import!</button>
+                <button class="alert small radius" id="cancel_button">{% trans "Cancel" %}</button>
+                <button class="success small radius" id="import_button">{% trans "Import!" %}</button>
               </div>
             </div>
             <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -224,14 +225,14 @@
       </div>
       <div class="large-2 left columns">
         {% if correct_user %}
-          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">Edit list</a>
+          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
         {% endif %}
       </div>
     </div>
 
     <div class ="row">
       <div class="large-3 large-centered large-text-center columns">
-        Exercises
+        {% trans "Exercises" %}
         <div class="row">
           {% for exercise in all_exercises %}
             <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
@@ -250,7 +251,7 @@
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <div class="panel callout radius info">
-            <h3>ExerciseLists like this one:</h3>
+            <h3>{% trans "ExerciseLists like this one:" %}</h3>
             <ul class="large-block-grid-{{similar_lists|length}}">
               {% for similar_list in similar_lists %}
                 <li>
@@ -371,11 +372,11 @@
       });
       if(checked > 0){
         if(imp.length > 0){
-          addList(imp, "Import");
+          addList(imp, '{% trans "Import" %}');
         }
 
         if(copy.length > 0){
-          addList(copy, "Copy");
+          addList(copy, '{% trans "Copy" %}');
         }
 
         $('#import_confirm_modal').foundation('reveal', 'open', '');

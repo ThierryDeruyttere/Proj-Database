@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 18:56+0200\n"
+"POT-Creation-Date: 2015-04-14 19:16+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -62,6 +62,7 @@ msgstr "Pas oefening aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:21
 #: codegalaxy/exercises/templates/createExercise.html:280
+#: codegalaxy/exercises/templates/list.html:146
 msgid "Create exercise"
 msgstr "Creëer oefening"
 
@@ -131,6 +132,7 @@ msgstr ""
 
 #: codegalaxy/exercises/templates/createExercise.html:138
 #: codegalaxy/exercises/templates/importExercise.html:51
+#: codegalaxy/exercises/templates/list.html:173
 msgid "Original"
 msgstr "Originele"
 
@@ -205,6 +207,7 @@ msgid "New subject"
 msgstr "Nieuw onderwerp"
 
 #: codegalaxy/exercises/templates/editList.html:105
+#: codegalaxy/exercises/templates/list.html:235
 msgid "Exercises"
 msgstr "Oefeningen"
 
@@ -217,26 +220,32 @@ msgid "List or exercise name"
 msgstr "Naam van lijst of oefening"
 
 #: codegalaxy/exercises/templates/importExercise.html:35
+#: codegalaxy/exercises/templates/list.html:157
 msgid "Copy all list"
 msgstr "Kopieer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:36
+#: codegalaxy/exercises/templates/list.html:158
 msgid "Import all list"
 msgstr "Importeer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:41
+#: codegalaxy/exercises/templates/list.html:163
 msgid "Title"
 msgstr "Titel"
 
 #: codegalaxy/exercises/templates/importExercise.html:42
+#: codegalaxy/exercises/templates/list.html:164
 msgid "copy original"
 msgstr "kopieer originele"
 
 #: codegalaxy/exercises/templates/importExercise.html:43
+#: codegalaxy/exercises/templates/list.html:165
 msgid "reference"
 msgstr "referentie"
 
 #: codegalaxy/exercises/templates/importExercise.html:59
+#: codegalaxy/exercises/templates/list.html:181
 msgid "This list does not contain any exercises."
 msgstr "Deze lijst heeft geen oefeningen"
 
@@ -246,24 +255,79 @@ msgstr "Keer terug naar lijst"
 
 #: codegalaxy/exercises/templates/importExercise.html:73
 #: codegalaxy/exercises/templates/importExercise.html:220
+#: codegalaxy/exercises/templates/list.html:189
+#: codegalaxy/exercises/templates/list.html:375
 msgid "Import"
 msgstr "Importeer"
 
 #: codegalaxy/exercises/templates/importExercise.html:79
+#: codegalaxy/exercises/templates/list.html:196
 msgid "Confirmation"
 msgstr "Bevestig"
 
 #: codegalaxy/exercises/templates/importExercise.html:88
+#: codegalaxy/exercises/templates/list.html:218
 msgid "Cancel"
 msgstr "Annuleer"
 
 #: codegalaxy/exercises/templates/importExercise.html:89
+#: codegalaxy/exercises/templates/list.html:219
 msgid "Import!"
 msgstr "Importeer!"
 
 #: codegalaxy/exercises/templates/importExercise.html:224
+#: codegalaxy/exercises/templates/list.html:379
 msgid "Copy"
 msgstr "Kopie"
+
+#: codegalaxy/exercises/templates/list.html:67
+msgid "Rating:"
+msgstr "Beoordeling:"
+
+#: codegalaxy/exercises/templates/list.html:83
+msgid "solved"
+msgstr "opgelost"
+
+#: codegalaxy/exercises/templates/list.html:95
+msgid "Average Score"
+msgstr "Gemiddelde Score"
+
+#: codegalaxy/exercises/templates/list.html:99
+msgid "Average rating"
+msgstr "Gemiddelde beoordeling"
+
+#: codegalaxy/exercises/templates/list.html:103
+msgid "Users that finished list"
+msgstr "Aantl gebruikers die de lijst gemaakt hebben"
+
+#: codegalaxy/exercises/templates/list.html:125
+msgid "Made By"
+msgstr "Gecreëerd Door"
+
+#: codegalaxy/exercises/templates/list.html:130
+msgid "Made On"
+msgstr "Gecreëerd Op"
+
+#: codegalaxy/exercises/templates/list.html:144
+#: codegalaxy/exercises/templates/list.html:153
+msgid "Import exercise"
+msgstr "Importeer oefening"
+
+#: codegalaxy/exercises/templates/list.html:149
+msgid "Add exercises to my list"
+msgstr "Voeg oefeningen aan mijn lijst toe"
+
+#: codegalaxy/exercises/templates/list.html:206
+msgid "Import into:"
+msgstr "Importeer in:"
+
+#: codegalaxy/exercises/templates/list.html:228
+msgid "Edit list"
+msgstr "Pas lijst aan"
+
+#: codegalaxy/exercises/templates/list.html:254
+msgid "ExerciseLists like this one:"
+msgstr "Oefeningenlijsten als deze:"
 
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"
