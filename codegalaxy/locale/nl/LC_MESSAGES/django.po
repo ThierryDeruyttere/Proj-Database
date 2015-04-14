@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:49+0200\n"
+"POT-Creation-Date: 2015-04-14 19:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -487,6 +487,7 @@ msgid "Search groups..."
 msgstr "Zoek groepen..."
 
 #: codegalaxy/templates/groupOverview.html:23
+#: codegalaxy/templates/home.html:27
 msgid "Search"
 msgstr "Zoeken"
 
@@ -502,6 +503,14 @@ msgstr "Grootste Groepen"
 msgid "Create new group"
 msgstr "Maak een nieuwe groep"
 
+#: codegalaxy/templates/home.html:17
+msgid "My profile"
+msgstr "Mijn profiel"
+
+#: codegalaxy/templates/home.html:24
+msgid "Explore the galaxy..."
+msgstr "Verken het sterrenstelsel..."
+
 #: codegalaxy/templates/home.html:35 codegalaxy/templates/home.html.py:53
 #: codegalaxy/templates/home.html:70
 msgid "I"
@@ -510,6 +519,18 @@ msgstr "Ik"
 #: codegalaxy/templates/home.html:53 codegalaxy/templates/home.html.py:56
 msgid "became member of:"
 msgstr "werd lid van:"
+
+#: codegalaxy/templates/home.html:100
+msgid "Recommended Lists:"
+msgstr "Aanbevolen lijsten:"
+
+#: codegalaxy/templates/home.html:105
+msgid "I'm feeling lucky!"
+msgstr "Een gokje wagen!"
+
+#: codegalaxy/templates/home.html:107
+msgid "You have made every single exerciselist!"
+msgstr "Je hebt elke lijst opgelost!"
 
 #: codegalaxy/templates/home.html:135
 msgid "Already a member"

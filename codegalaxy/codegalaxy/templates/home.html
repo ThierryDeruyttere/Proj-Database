@@ -14,17 +14,17 @@
         <h5>{{ user.name }}</h5>
         <hr/>
       </div>
-      <li><a href="/me">My profile</a></li>
+      <li><a href="/me">{% trans "My profile" %}</a></li>
       <!--<li><a href="/me">Friends</a></li>-->
     </div>
   </div>
   <div class="large-6 columns">
     <div class="row collapse">
       <div class="large-9 columns">
-        <input type="text" placeholder="Explore the galaxy...">
+        <input type="text" placeholder="{% trans "Explore the galaxy..." %}">
 
       </div>
-      <a href="#" class="tiny alert button">Search</a>
+      <a href="#" class="tiny alert button">{% trans "Search" %}</a>
     </div>
     {% for item in feed %}
     {% if item.type == 'FriendsWith' %}
@@ -97,14 +97,14 @@
               </aside>
               <div class="large-3 columns ">
                 <div class="panel callout radius">
-                  Recommended Lists:<br/>
+                  {% trans "Recommended Lists:" %}<br/>
                   {% if recommended %}
                   {% for recommended_list in recommended %}
                   <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
                   {% endfor %}
-                  <a href="/l/{{random_list}}" class="round small button">I'm feeling lucky!</a>
+                  <a href="/l/{{random_list}}" class="round small button">{% trans "I'm feeling lucky!" %}</a>
                   {% else %}
-                  You have made every single exerciselist!
+                  {% trans "You have made every single exerciselist!" %}
                   {% endif %}
                 </div>
               </div>
