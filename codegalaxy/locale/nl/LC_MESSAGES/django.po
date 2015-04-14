@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 17:37+0200\n"
+"POT-Creation-Date: 2015-04-14 17:53+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -70,6 +70,7 @@ msgid "Exercise title"
 msgstr "Naam oefening"
 
 #: codegalaxy/exercises/templates/createExercise.html:60
+#: codegalaxy/exercises/templates/createExerciseList.html:35
 msgid "Difficulty"
 msgstr "Moeilijkheid"
 
@@ -102,7 +103,8 @@ msgid "I'm from a far away planet named Bootloader."
 msgstr "Ik ben van een planeet ver van hier genaamd Bootloader."
 
 #: codegalaxy/exercises/templates/createExercise.html:129
-msgid "I've stumbled upon this site and I really like it and I want to show it to "
+msgid ""
+"I've stumbled upon this site and I really like it and I want to show it to "
 "my friends back home!"
 msgstr ""
 "Ik ben op deze geweldige site terechtgekomen en ik wil hem laten zien aan "
@@ -113,8 +115,8 @@ msgid ""
 "The only problem is, on each planet we speak an other language, so I'm "
 "working on translating this site."
 msgstr ""
-"Een probleem zij echter alle verschillende talen, dus ik ben aan "
-"vertalingen voor de site aan het werken"
+"Een probleem zij echter alle verschillende talen, dus ik ben aan vertalingen "
+"voor de site aan het werken"
 
 #: codegalaxy/exercises/templates/createExercise.html:131
 msgid ""
@@ -145,10 +147,36 @@ msgid "Add Hint"
 msgstr "Voeg hint toe"
 
 #: codegalaxy/exercises/templates/createExercise.html:247
-#, fuzzy
-#| msgid "Correct answer"
 msgid "Possible answers"
-msgstr "Correct antwoord"
+msgstr "Mogelijke antwoorden"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:12
+msgid "Create a new list"
+msgstr "Maak een nieuwe lijst"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:19
+msgid "'Enter list name'"
+msgstr "'Vul een naam in voor de lijst.'"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:21
+msgid "'Enter description of exercise list'"
+msgstr "'Geef beschrijving van de oefeningenlijst'"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:46
+msgid "Programming language"
+msgstr "Programmeertaal"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:60
+msgid "Subject"
+msgstr "Onderwerp"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:73
+msgid "Subjects"
+msgstr "Onderwerpen"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:81
+msgid "'Create list'"
+msgstr "'Maak de lijst'"
 
 #: codegalaxy/templates/codegalaxy.html:70
 msgid "English"
