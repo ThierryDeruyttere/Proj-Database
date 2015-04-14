@@ -1,6 +1,7 @@
 {% extends "codegalaxy.html" %}
 
 {%load staticfiles%}
+{% load i18n %}
 
 {% block base_body %}
 
@@ -18,12 +19,12 @@
   <div class="large-12 columns">
     <h2>{{ group.group_name }} </h2>
     <ul class="tabs" data-tab>
-      <li class="tab-title active"><a href="#feed">Feed</a></li>
-      <li class="tab-title"><a href="#members">Members</a></li>
+      <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
+      <li class="tab-title"><a href="#members">{% trans "Members" %}</a></li>
       {% if is_member %}
       {% if group_permissions == 0 %}
-      <li class="tab-title"><a href="#add_members">Add New Members</a></li>
-      <li class="tab-title"><a href="#edit_group">Edit</a></li>
+      <li class="tab-title"><a href="#add_members">{% trans "Add New Members" %}</a></li>
+      <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
       {% endif %}
       {% endif %}
     </ul>
@@ -35,12 +36,12 @@
         {% if not is_member %}
         <form method="post" action="/g/{{group.id}}/">
           {% csrf_token %}
-          <input type="submit" name="become_member" value="Become member" class="button success"/>
+          <input type="submit" name="become_member" value="{% trans "Become member" %}" class="button success"/>
         </form>
         {% else %}
         <form method="post" action="/g/{{group.id}}/">
           {% csrf_token %}
-          <input type="submit" name="leave_group" value="Leave group" class="button alert"/>
+          <input type="submit" name="leave_group" value="{% trans "Leave group" %}" class="button alert"/>
         </form>
         {% endif %}
         {% for item in data %}
@@ -49,7 +50,7 @@
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>became friends with <a href="/u/{{ item.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
 
           </div>
         </div>
@@ -61,7 +62,7 @@
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>was added to group: <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a></p>
 
           </div>
         </div>
@@ -73,7 +74,7 @@
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
 
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>made an exercise list: <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}</a></p>
 
           </div>
         </div>
@@ -84,13 +85,13 @@
         <div class="pagination">
           <span class="step-links">
             {% if data.has_previous %}
-            <a href="?page={{ data.previous_page_number }}">previous</a>
+            <a href="?page={{ data.previous_page_number }}">{% trans "previous" %}</a>
             {% endif %}
             <span class="current">
-              Page {{ data.number }} of {{ data.paginator.num_pages }}
+              {% trans "Page" %} {{ data.number }} {% trans "of" %} {{ data.paginator.num_pages }}
             </span>
             {% if data.has_next %}
-            <a href="?page={{ data.next_page_number }}">next</a>
+            <a href="?page={{ data.next_page_number }}">{% trans "next" %}</a>
             {% endif %}
           </span>
         </div>
@@ -98,11 +99,11 @@
       <div class="content" id="edit_group">
         <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
           {% csrf_token %}
-          <h5>Upload group picture</h5>
+          <h5>{% trans "Upload group picture" %}</h5>
           <p>
             <input id="id_image" type="file" class="resizeme" name="image">
           </p>
-          <input type="submit" value="Edit Group Picture" name="update_group_picture" class="small button round success"/>
+          <input type="submit" value="{% trans "Edit Group Picture" %}" name="update_group_picture" class="small button round success"/>
         </form>
         <hr/>
       </div>
@@ -117,7 +118,7 @@
             {% csrf_token %}
             <div class="small-6 large-4 columns">
               <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
-              <input type="submit" name="add_friend" value="Add User" class="button round success"/>
+              <input type="submit" name="add_friend" value="{% trans "Add User" %}" class="button round success"/>
             </div>
           </form>
           <hr/>

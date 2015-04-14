@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:28+0200\n"
+"POT-Creation-Date: 2015-04-14 19:38+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -215,6 +215,7 @@ msgid "Exercises"
 msgstr "Oefeningen"
 
 #: codegalaxy/exercises/templates/editList.html:132
+#: codegalaxy/templates/group.html:27
 msgid "Edit"
 msgstr "Pas aan"
 
@@ -385,6 +386,70 @@ msgstr "Engels"
 msgid "Dutch"
 msgstr "Nederlands"
 
+#: codegalaxy/templates/group.html:22 codegalaxy/templates/user.html:30
+msgid "Feed"
+msgstr "Nieuwsoverzicht"
+
+#: codegalaxy/templates/group.html:23
+msgid "Members"
+msgstr "Leden"
+
+#: codegalaxy/templates/group.html:26
+msgid "Add New Members"
+msgstr "Voeg nieuwe leden toe"
+
+#: codegalaxy/templates/group.html:39
+msgid "Become member"
+msgstr "Word lid"
+
+#: codegalaxy/templates/group.html:44
+msgid "Leave group"
+msgstr "Verlaat groep"
+
+#: codegalaxy/templates/group.html:53 codegalaxy/templates/home.html:35
+#: codegalaxy/templates/home.html.py:38 codegalaxy/templates/user.html:110
+msgid "became friends with"
+msgstr "werd bevriend met"
+
+#: codegalaxy/templates/group.html:65 codegalaxy/templates/user.html:123
+msgid "was added to group:"
+msgstr "werd toegevoegd aan de groep:"
+
+#: codegalaxy/templates/group.html:77 codegalaxy/templates/home.html:70
+#: codegalaxy/templates/home.html.py:73 codegalaxy/templates/user.html:135
+msgid "made an exercise list:"
+msgstr "maakte een oefeningenlijst:"
+
+#: codegalaxy/templates/group.html:88
+msgid "previous"
+msgstr "vorige"
+
+#: codegalaxy/templates/group.html:91 codegalaxy/templates/home.html:88
+#: codegalaxy/templates/user.html:149
+msgid "Page"
+msgstr "Pagina"
+
+#: codegalaxy/templates/group.html:91 codegalaxy/templates/home.html:88
+#: codegalaxy/templates/user.html:149
+msgid "of"
+msgstr "van"
+
+#: codegalaxy/templates/group.html:94
+msgid "next"
+msgstr "volgende"
+
+#: codegalaxy/templates/group.html:102
+msgid "Upload group picture"
+msgstr "Kies een nieuwe groepsfoto"
+
+#: codegalaxy/templates/group.html:106
+msgid "Edit Group Picture"
+msgstr "Wijzig groepsfoto"
+
+#: codegalaxy/templates/group.html:121
+msgid "Add User"
+msgstr "Voeg gebruiker toe"
+
 #: codegalaxy/templates/groupCreate.html:11
 msgid "Create a new group"
 msgstr "Maak een nieuwe groep"
@@ -414,27 +479,9 @@ msgstr "Maak een nieuwe groep"
 msgid "I"
 msgstr "Ik"
 
-#: codegalaxy/templates/home.html:35 codegalaxy/templates/home.html.py:38
-#: codegalaxy/templates/user.html:110
-msgid "became friends with"
-msgstr "werd bevriend met"
-
 #: codegalaxy/templates/home.html:53 codegalaxy/templates/home.html.py:56
 msgid "became member of:"
 msgstr "werd lid van:"
-
-#: codegalaxy/templates/home.html:70 codegalaxy/templates/home.html.py:73
-#: codegalaxy/templates/user.html:135
-msgid "made an exercise list:"
-msgstr "maakte een oefeningenlijst:"
-
-#: codegalaxy/templates/home.html:88 codegalaxy/templates/user.html:149
-msgid "Page"
-msgstr "Pagina"
-
-#: codegalaxy/templates/home.html:88 codegalaxy/templates/user.html:149
-msgid "of"
-msgstr "van"
 
 #: codegalaxy/templates/home.html:135
 msgid "Already a member"
@@ -527,10 +574,6 @@ msgstr "Registreer"
 msgid "Sign Up"
 msgstr "Maak een account?"
 
-#: codegalaxy/templates/user.html:30
-msgid "Feed"
-msgstr "Nieuwsoverzicht"
-
 #: codegalaxy/templates/user.html:31
 msgid "Friends"
 msgstr "Vrienden"
@@ -578,10 +621,6 @@ msgstr "Selecteer een bestand"
 #: codegalaxy/templates/user.html:99
 msgid "Edit Profile Picture"
 msgstr "Wijzig Profielfoto"
-
-#: codegalaxy/templates/user.html:123
-msgid "was added to group:"
-msgstr "werd toegevoegd aan de groep:"
 
 #: codegalaxy/templates/user.html:162
 msgid "wants to be your friend, do you want to accept?"
