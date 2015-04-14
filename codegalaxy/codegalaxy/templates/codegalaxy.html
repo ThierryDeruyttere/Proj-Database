@@ -36,23 +36,22 @@
         <li class="name">
           <h1><a href="/"><img src={% static "media/rocket2.png" %}/></a></h1>
         </li>
-        <li class="toggle-topbar menu-icon"><a href="#">Menu</a></li>
+        <li class="toggle-topbar menu-icon"><a href="#">{% trans "Menu" %}</a></li>
       </ul>
       <section class="top-bar-section">
         <ul class="right">
           {% if logged_in %}
             {% getProfilePicture as pic %}
             <li><a href="/me"><img class="profile_picture" src="{% static pic %}"></a></li>
-            <li><a href="/g/overview">Groups</a></li>
-            <li><a href="/l/">Exercises</a></li>
-            <li><a href="/logout/">Logout</a></li>
+            <li><a href="/g/overview">{% trans "Groups" %}</a></li>
+            <li><a href="/l/">{% trans "Exercises" %}</a></li>
+            <li><a href="/logout/">{% trans "Logout" %}</a></li>
 
-          {% else%}
-            <li><a href="/g/overview">Groups</a></li>
-            <li><a href="/l/">Exercises</a></li>
-            <li><a href="/login/">Login</a></li>
-
-          {% endif%}
+          {% else %}
+            <li><a href="/g/overview">{% trans "Groups" %}</a></li>
+            <li><a href="/l/">{% trans "Exercises" %}</a></li>
+            <li><a href="/login/">{% trans "Login" %}</a></li>
+          {% endif %}
         </ul>
       </section>
     </nav>

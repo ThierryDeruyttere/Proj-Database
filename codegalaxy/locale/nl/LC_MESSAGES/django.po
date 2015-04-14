@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-14 19:24+0200\n"
+"POT-Creation-Date: 2015-04-14 19:28+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -209,6 +209,8 @@ msgstr "Nieuw onderwerp"
 
 #: codegalaxy/exercises/templates/editList.html:105
 #: codegalaxy/exercises/templates/list.html:235
+#: codegalaxy/templates/codegalaxy.html:47
+#: codegalaxy/templates/codegalaxy.html:52
 msgid "Exercises"
 msgstr "Oefeningen"
 
@@ -356,13 +358,30 @@ msgstr "Je huidige score"
 
 #: codegalaxy/exercises/templates/submit.html:117
 msgid "Try again"
-msgstr ""
+msgstr "Probeer opnieuw"
 
-#: codegalaxy/templates/codegalaxy.html:70
+#: codegalaxy/templates/codegalaxy.html:39
+msgid "Menu"
+msgstr "Menu"
+
+#: codegalaxy/templates/codegalaxy.html:46
+#: codegalaxy/templates/codegalaxy.html:51 codegalaxy/templates/user.html:32
+msgid "Groups"
+msgstr "Groepen"
+
+#: codegalaxy/templates/codegalaxy.html:48
+msgid "Logout"
+msgstr "Meld af"
+
+#: codegalaxy/templates/codegalaxy.html:53
+msgid "Login"
+msgstr "Meld je aan"
+
+#: codegalaxy/templates/codegalaxy.html:69
 msgid "English"
 msgstr "Engels"
 
-#: codegalaxy/templates/codegalaxy.html:70
+#: codegalaxy/templates/codegalaxy.html:69
 msgid "Dutch"
 msgstr "Nederlands"
 
@@ -515,10 +534,6 @@ msgstr "Nieuwsoverzicht"
 #: codegalaxy/templates/user.html:31
 msgid "Friends"
 msgstr "Vrienden"
-
-#: codegalaxy/templates/user.html:32
-msgid "Groups"
-msgstr "Groepen"
 
 #: codegalaxy/templates/user.html:34
 msgid "Edit Information"
