@@ -9,6 +9,7 @@ def sandbox(request):
 
 def evaluate(request, lang):
     code = request.POST.get('code', '')
+    is_editor = request.POST.get('is_editor', '') != ''
 
     # Default Evaluator (Python)
     evaluator = EvaluatorPython(code)
@@ -24,6 +25,6 @@ def evaluate(request, lang):
 
     # Return output
     if evaluator.hasError():
-        return HttpResponseBadRequest(evaluator.getErrorMsg())
+        return HttpResponseBadRequest(evaluator.getErrorMsg(is_editor))
     else:
-        return HttpResponse(evaluator.getOutput())
+        return HttpResponse(evaluator.getOutput(is_editor))

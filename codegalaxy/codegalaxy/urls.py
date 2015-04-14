@@ -63,6 +63,7 @@ urlpatterns += patterns('codegalaxy.exercises.views',
 
     url(r'^l/(?P<listId>\d*)/importExercise/$', 'importExercise'),
     url(r'^l/(?P<listId>\d*)/editList/$', 'editList'),
+    url(r'^addHint/', 'addHint'),
 )
 
 urlpatterns += patterns('codegalaxy.evaluation.views',

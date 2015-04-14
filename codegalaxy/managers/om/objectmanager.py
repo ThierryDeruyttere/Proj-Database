@@ -155,13 +155,12 @@ class ObjectManager:
     def occurencesOfSubject(self, subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
-    def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer=""):
+    def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint = 0):
         exercise = dbw.getMadeExercise(user_id, list_id, exercise_number)
         if exercise:
-            dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on)
-            # We'll edit the last question?
+            dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on, hint, exercise_score)
         else:
-            dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer)
+            dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer, hint)
 
     def getInfoForUserForExercise(self, user_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_list_id, exercise_number)
@@ -241,3 +240,6 @@ class ObjectManager:
     def getProgrLanguageObject(self, language_name):
         lang = dbw.getIdFromProgrammingLanguage(language_name)
         return Language(lang['id'], language_name)
+
+    def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
+        return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']

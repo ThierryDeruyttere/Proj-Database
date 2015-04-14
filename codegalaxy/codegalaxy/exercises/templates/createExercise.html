@@ -225,7 +225,7 @@
               </script>
 
               <div class="row" id="Tips_Row">
-                <h3>Tips:</h3>
+                <h3>Hints:</h3>
                 <div class="large-4 right columns">
                   <input type="button" class="button tiny radius" id="add_hint" value="Add Hint">
                 </div>
@@ -344,7 +344,7 @@
         });
 
         $.each(translation_dict, function(key, value){
-          delete translation_dict[key][(answers-1).toString()]
+          delete translation_dict[key][(answers).toString()]
         });
       }
     });
@@ -512,8 +512,8 @@
 
 
         for(var i = 0; i < amount; ++i){
-          if((i+1).toString() in dict){
-            $('#translated'+i).val(dict[(i+1).toString()]);
+          if(i.toString() in dict){
+            $('#translated'+i).val(dict[i.toString()]);
           }
         }
       }

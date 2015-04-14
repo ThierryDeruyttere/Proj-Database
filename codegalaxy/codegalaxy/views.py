@@ -533,16 +533,8 @@ def test(request, id=0):
     subjects = exercise_list_test.allSubjects()
     # testfunction12
     exercises = exercise_list_test.allExercises('en')
-    print("before")
-    for ex in exercises:
-        print(ex)
-        print("\n")
     exercise_list_test.reorderExercises([3, 2, 4, 1], 'en')
     exercises = exercise_list_test.allExercises('en')
-    print("remade")
-    for ex in exercises:
-        print(ex)
-        print("\n")
     # exercises[2].penalty = 3
     # exercises[2].save()
     # testfunction13

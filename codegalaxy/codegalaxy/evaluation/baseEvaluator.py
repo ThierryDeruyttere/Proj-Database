@@ -48,11 +48,17 @@ class Evaluator:
     def hasError(self):
         return not self.error == ''
 
-    def getErrorMsg(self):
-        return '<pre>' + self.error + '<pre>'
+    def getErrorMsg(self, is_editor):
+        if is_editor:
+            return '<pre>' + self.error + '<pre>'
+        else:
+            return self.error
 
-    def getOutput(self):
-        return '<pre>' + self.output + '<pre>'
+    def getOutput(self, is_editor):
+        if is_editor:
+            return '<pre>' + self.output + '<pre>'
+        else:
+            return self.output
 
 # class Table():
 #     def __init__(self, desc=[], rows=[]):

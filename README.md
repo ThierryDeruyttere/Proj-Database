@@ -31,6 +31,11 @@ $ sudo pip3 install PyMySQL
 ```
 ###Zurb foundation styling
 ###code mirror / ace
+###FuzzyWuzzy
+```sh
+$ sudo apt-get install python-levenshtein
+$ sudo pip3 install fuzzywuzzy
+```
 
 ## Git voor dummies
 Ik dacht ik maak even een klein overzichtje voor iedereen met de handigste git commands, ook voor mezelf da ik ni heel den tijd moet gaan zoeken op het internet voor de juiste commands...
