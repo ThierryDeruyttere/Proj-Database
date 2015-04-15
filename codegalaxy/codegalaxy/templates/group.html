@@ -47,8 +47,8 @@
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a> </p>
-            <br><small>{{ item.befriended_on }}</small></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.name }}</a>
+            <br/><small>{{ item.befriended_on }}</small></p>
           </div>
         </div>
 
@@ -58,7 +58,7 @@
         <div class="row">
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a></p>
+            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a>
             <br><small>{{ item.joined_on }}</small></p>
             </div>
           </div>
@@ -71,8 +71,8 @@
                 <img src="{% static item.user.getProfilePicture %}"/>
               </div>
               <div class="large-11 columns">
-                <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.first_name }} {{ item.user.last_name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}</a>
-                  <br><small>{{ item.completed_on }}</small></p>
+                <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
+                <br><small>{{ item.completed_on }}</small></p>
               </div>
             </div>
 
