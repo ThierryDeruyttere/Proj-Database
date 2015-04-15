@@ -172,7 +172,7 @@ class Exercise:
             else:
                 answer = dbw.getExerciseAnswers(self.id, l.name)
                 for a in answer:
-                    translations[l.name][int(a["answer_number"])] = decodeString(a["answer_text"])
+                    translations[l.name][int(a["answer_number"]) - 1 ] = decodeString(a["answer_text"])
 
             title = dbw.getExerciseTitle(self.id, l.name)
             question = decodeString(dbw.getExerciseQuestion(self.id, l.name))

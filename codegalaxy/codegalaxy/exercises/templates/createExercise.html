@@ -183,7 +183,7 @@
 
         <hr>
 
-        <div class="row" id="Code_Question">
+        <div class="row" id="Code_Question" hidden="True">
 
           <div class="row">
             <div class="large-10 large-centered columns">
@@ -420,7 +420,7 @@
           {% endfor %}
 
           for(var i = 0 ; i < all_answers.length; ++i){
-            $("input[name=" + '"answer' + i +"\"]").val(all_answers[i]);
+            $("input[name=" + '"answer' + (i+1) +"\"]").val(all_answers[i]);
             if((i+1) == {{ exercise.correct_answer }}){
               //If correct answer, select this answers
               var i_plus = i+1;
