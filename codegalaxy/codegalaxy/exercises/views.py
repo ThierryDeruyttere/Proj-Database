@@ -341,7 +341,7 @@ def InvalidOrRound(object):
 
 
 def list(request, id=0):
-
+    user = logged_user(request)
     # score spread forthis exercise
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
@@ -356,6 +356,8 @@ def list(request, id=0):
     avg_score = InvalidOrRound(exercise_list.averageOfUsersForThisList())
     avg_rating = InvalidOrRound(exercise_list.averageRatingOfUsersForThisList())
     number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
+    user_score = 0
+    user_date = None
 
     subjects = exercise_list.allSubjects()
     creator = exercise_list.creatorName()
@@ -365,7 +367,6 @@ def list(request, id=0):
         subjects = []
 
     if request.method == 'POST':
-        user = logged_user(request)
         if request.POST.get('rating') is not None and user is not None:
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
@@ -396,13 +397,18 @@ def list(request, id=0):
                         l.copyExercise(copy.id)
 
     if exercise_list:
+        personal_list = user.getMadeList(exercise_list.id)
+        if personal_list:
+            user_score = personal_list.score
+            user_date = personal_list.made_on
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
         correct_user = False
         if logged_user(request):
             user = logged_user(request)
             for exercise in all_exercises:
-                if object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number):
+                completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
+                if completed:
                     exercise.solved = True
 
             correct_user = (user.id == exercise_list.created_by)
@@ -472,7 +478,9 @@ def list(request, id=0):
                                              'similar_lists': similar_lists,
                                              'score_spread': bar_chart1,
                                              'list': exercise_list,
-                                             'user_lists': user_lists})
+                                             'user_lists': user_lists,
+                                             'user_score': user_score,
+                                             'user_date': user_date})
     else:
         return redirect('/')
 

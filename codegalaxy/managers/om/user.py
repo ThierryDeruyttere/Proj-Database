@@ -236,7 +236,7 @@ class User:
             # If the info is legit, we add a User object with the info to the
             # list
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
-                                                 'score'], exercises_list['exerciseList_id'], self.id)
+                                                 'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'])
             exercises_lists_list.append(exercises_list_object)
 
         return exercises_lists_list
@@ -399,7 +399,7 @@ class User:
 
 class PersonalList:
 
-    def __init__(self, rating, score, exercise_list_id, user_id):
+    def __init__(self, rating, score, exercise_list_id, user_id, made_on):
         # given rating
         self.rating = rating
         # total obtained score
@@ -410,6 +410,7 @@ class PersonalList:
         object_manager = managers.om.objectmanager.ObjectManager()
         self.exercises_list = object_manager.createExerciseList(
             exercise_list_id)
+        self.made_on = made_on
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None
 

@@ -86,6 +86,27 @@
         </div>
       </div>
 
+      {% if solved_all %}
+      <div class ="row">
+        <div class="large-7 large-centered text-center columns">
+          <div class="panel callout radius info">
+            <ul class="large-block-grid-2">
+              <li>
+                {% trans "Your score" %}
+                <br/>
+                <h4>{{ user_score }}%</h4>
+              </li>
+              <li>
+                {% trans "Completed on" %}
+                <br/>
+                <h4>{{user_date}}</h4>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
           <div class="panel callout radius info ">
