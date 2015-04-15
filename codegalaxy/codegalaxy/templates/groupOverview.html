@@ -42,7 +42,35 @@
       </div>
     </div>
   </div>
+
+  <div class="content" id="my_groups">
+    <div class="row">
+      <div class="large-12 columns">
+        <div class="row collapse">
+          <div class="large-6 columns">
+            <input type="text" placeholder="Search groups...">
+          </div>
+          <a href="#" class="tiny button">Search</a>
+        </div>
+        <div class="row">
+          {% for group in my_groups %}
+          <div class="large-2 columns end">
+            <div class="panel radius">
+              <a href="../../g/{{ group.id }}">
+                <img src="{% static group.getGroupPicture %}" />
+                <div>
+                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
+                </div>
+              </a>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 {% endblock base_body %}
 
 {% block body_js %}
