@@ -139,7 +139,7 @@ class Exercise:
         for i in range(1, len(hints) + 1):
             dbw.insertHint(self.id, language_id, i, hints[i - 1])
 
-    def update(self, correct_answer, answers, hints, lang, translations, user_id=None):
+    def update(self, correct_answer, answers, hints, lang, translations=None, user_id=None):
         '''
         @brief update an exercise with a correct answer, answers and hints
         @param correct_answer the correct answer to update
@@ -151,7 +151,8 @@ class Exercise:
         self.updateAnswers(answers)
         self.updateHints(hints)
         self.updateCode()
-        self.updateTranslations(translations)
+        if translations:
+            self.updateTranslations(translations)
 
     def getTranslations(self, languages=None):
         # Additional param languages -> only if you want to have certain languages
@@ -200,16 +201,20 @@ class Exercise:
     def insertUpdateValues(self, key, value):
         dbw.insertQuestion(self.id, key.id, value['question'])
         dbw.insertTitleForExercise(self.id, key.id, value['title'])
+        i = 0
         if self.exercise_type == "Code":
             # mhh ni echt zo clean dit...
-            for i in range(len(dbw.getExerciseHints(self.id, "English"))):
+            while str(i) in value:
                 dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
-            dbw.insertAnswer(self.id, key.id, 1, self.allAnswers()[0])
+                i += 1
         else:
-            for i in range(len(dbw.getExerciseAnswers(self.id, "English"))):
-                dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
+            while str(i) in value:
+                dbw.insertAnswer(self.id, key.id, (i+1), value[str(i)])
+                i += 1
 
     def updateTranslations(self, translations):
+        if translations is None:
+            return
         old_translations = self.getTranslations()
         number_of_ = 0
         while(str(number_of_) in translations[next(iter(translations))]):
@@ -261,11 +266,11 @@ class Exercise:
 
 class Question:
 
-    def __init__(self, question_text, language_id):
+    def __init__(self, question_text, language_code):
         '''
         @brief init of question
         @param question_text the text of the question
-        @param language_id the id of the language
+        @param language_code the code of the language
         '''
         self.question_text = question_text
-        self.language_id = language_id
+        self.language = managers.om.objectmanager.ObjectManager().getLanguageObject(language_code)

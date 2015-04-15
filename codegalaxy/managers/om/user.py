@@ -49,11 +49,11 @@ class User:
             profile_picture = profile_picture
         else:
             if self.gender == "M":
-                profile_picture = "media/male_user.png"
+                profile_picture = "media/icons/male_user.png"
             elif self.gender == "F":
-                profile_picture = "media/female_user.png"
+                profile_picture = "media/icons/female_user.png"
             else:
-                profile_picture = "media/unknown_user.png"
+                profile_picture = "media/icons/unknown_user.png"
         return profile_picture
 
     # List with other users this user is befriended with

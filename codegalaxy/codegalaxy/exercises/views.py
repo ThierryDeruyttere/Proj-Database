@@ -82,7 +82,7 @@ def createExercise(request, listId=0):
         hints = []
         exercise_title = request.POST.get('title')
         exercise_number = exercise_list.getLastExercise() + 1
-        exercise_question = Question(exercise_question_text, 1)
+        exercise_question = Question(exercise_question_text, getBrowserLanguage(request))
         exercise_answer = None
         correct_answer = 1
 
