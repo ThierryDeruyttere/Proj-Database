@@ -72,11 +72,12 @@ class Group:
         dbw.deleteUserFromGroup(self.id, user_id)
 
     def getUserPermissions(self, user_id):
-        if self.group_type == 0:
-            return 0
-        else:
-            permissions = dbw.getGroupUserPermissions(self.id, user_id)
-            return permissions[0]['user_permissions']
+        permissions = dbw.getGroupUserPermissions(self.id, user_id)
+        return permissions[0]['user_permissions']
+
+    def upgradeUserPermissions(self, user_id):
+        #0 = OWNER, 1 = ADMIN, 2 = USER
+        dbw.updateUserPermissions(self.id, user_id, 1)
 
     def searchString(self):
         return str(self.group_name)
