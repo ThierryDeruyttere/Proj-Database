@@ -491,6 +491,7 @@ def answerQuestion(request, list_id, exercise_number):
 
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
+    correct_user = False
     exercise_list = object_manager.createExerciseList(list_id)
     current_answer = None
     solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
@@ -516,6 +517,7 @@ def answerQuestion(request, list_id, exercise_number):
                 break
 
         if current_exercise:
+            correct_user = (current_user.id == exercise_list.created_by)
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
@@ -524,7 +526,8 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "solved": solved,
                                                            "last_hint_used": last_hint_used,
                                                            "current_score": current_score,
-                                                           "penalty": penalty})
+                                                           "penalty": penalty,
+                                                           'correct_user': correct_user})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)

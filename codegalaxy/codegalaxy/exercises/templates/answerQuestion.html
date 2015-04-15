@@ -94,18 +94,22 @@
 
           <div class="row">
             <div class="large-text-center">
-              {% if exercise.exercise_type == "Open Question" %}
-                {% if solved %}
-                  <h1>{% trans "You solved the question!" %}</h1>
-                {% else %}
-                  <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
-                {% endif %}
+              {% if correct_user %}
+                <h1>{% trans "This question is part of your own list!" %}</h1>
               {% else %}
-                {% if solved %}
-                  <h1>{% trans "You solved the question!" %}</h1>
+                {% if exercise.exercise_type == "Open Question" %}
+                  {% if solved %}
+                    <h1>{% trans "You solved the question!" %}</h1>
+                  {% else %}
+                    <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
+                  {% endif %}
                 {% else %}
-                  <input id="code_output" name="code_output" type="hidden" value=""></input>
-                  <button id="submit_answer_code" type="button" class="button tiny radius">{% trans "Answer" %}</button>
+                  {% if solved %}
+                    <h1>{% trans "You solved the question!" %}</h1>
+                  {% else %}
+                    <input id="code_output" name="code_output" type="hidden" value=""></input>
+                    <button id="submit_answer_code" type="button" class="button tiny radius">{% trans "Answer" %}</button>
+                  {% endif %}
                 {% endif %}
               {% endif %}
               <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">{% trans "Return to list" %}</a></li>
@@ -144,6 +148,7 @@
     }
 
     $("#output_alert").hide();
+    {% if not correct_user %}
     $("#get_hint").click(function()
     {
       var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }}, penalty : {{ penalty }} }
@@ -162,6 +167,7 @@
         }
       });
     });
+    {% endif %}
     $("#submit_answer_code").click(function()
     {
       var post_data = { code : code_text.getValue() };
@@ -188,9 +194,15 @@
       });
     {% endif %}
 
-    for(i = 0; i < {{ last_hint_used }}; i++){
-      addHint()
-    }
+    {% if correct_user %}
+      for(i = 0; i < {{ hints|length }}; i++){
+        addHint()
+      }
+    {% else %}
+      for(i = 0; i < {{ last_hint_used }}; i++){
+        addHint()
+      }
+    {% endif %}
 
   </script>
 

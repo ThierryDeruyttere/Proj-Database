@@ -36,13 +36,20 @@
           </div>
           <br/>
           {% if all_exercises|length > 0 %}
-            <button class="small button Start" id="{{ cur_exercise }}">
-              {% if found %}
-                Continue
-              {% else %}
-                Start
-              {% endif %}
-            </button>
+            {% if correct_user %}
+            <!-- TODO: cur_exercise aanpassen-->
+              <button class="small button Start" id="{{ cur_exercise }}">
+                Review
+              </button>
+            {% elif not correct_user %}
+              <button class="small button Start" id="{{ cur_exercise }}">
+                {% if found %}
+                  Continue
+                {% else %}
+                  Start
+                {% endif %}
+              </button>
+            {% endif %}
           {% endif %}
         </div>
 
