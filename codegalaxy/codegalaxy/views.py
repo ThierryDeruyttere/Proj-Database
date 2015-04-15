@@ -72,8 +72,8 @@ def home(request):
             recommended_lists.append(
                 object_manager.createExerciseList(recommended_list))
 
-    return render(request, 'home.html', {'user': current_user, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
-
+        return render(request, 'home.html', {'user': current_user, 'feed_data':feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
+    return render(request, 'home.html')
 
 @require_login
 def user(request, id=0):
@@ -285,7 +285,11 @@ def group(request, id=0):
 
     user = logged_user(request)
 
+    print("USER = " + str(user))
+
     group = object_manager.createGroup(id)
+
+    user_id_to_edit = user.id
 
     if request.method == 'POST':
         if 'become_member' in request.POST:
@@ -293,12 +297,12 @@ def group(request, id=0):
                 user.confirmGroupMembership(group.id)
             else:
                 group.insertMember(
-                    user.id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
+                    user.id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(
-                friend_id, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
+                friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
 
         elif 'update_group_picture' in request.POST:
             f = request.FILES['image']
@@ -322,6 +326,15 @@ def group(request, id=0):
 
         elif 'leave_group' in request.POST:
             group.deleteMember(user.id)
+
+        elif 'remove_user' in request.POST:
+            user_id_to_delete = request.POST.get('user_id_to_delete')
+            group.deleteMember(user_id_to_delete)
+
+        elif 'upgrade_user' in request.POST:
+            user_id_to_upgrade = request.POST.get('user_id_to_upgrade')
+            group.upgradeUserPermissions(user_id_to_upgrade)
+
 
     is_member = False
     if group:
@@ -386,8 +399,8 @@ def group(request, id=0):
         remaining_friends = []
         for friend in currentuser_friend_list:
             inList = False
-            for user in user_list:
-                if friend.id == user.id:
+            for member in user_list:
+                if friend.id == member.id:
                     inList = True
 
             if not inList:
@@ -395,11 +408,14 @@ def group(request, id=0):
 
         group_permissions = []
         if is_member:
+            print("USER_ID: " + str(user.id) + " in groep: " + str(group.id) + group.group_name)
             group_permissions = group.getUserPermissions(user.id)
+
+        print(group_permissions)
 
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
-                   'group_permissions': group_permissions}
+                   'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit}
         return render(request, 'group.html', context)
 
     else:

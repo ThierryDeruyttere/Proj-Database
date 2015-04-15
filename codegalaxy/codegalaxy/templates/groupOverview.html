@@ -10,8 +10,6 @@
   </div>
 </div>
 
-<div class="tabs-content">
-  <div class="content active" id="all_groups">
     <div class="row">
       <div class="large-8 columns">
         <div id="search_groups" class="row collapse">
@@ -34,42 +32,13 @@
         <div id="search_result" class="row"></div>
       </div>
       <div class="large-4 columns text-center">
+      <a href="/g/create" class="round alert button">{% trans "Create new group" %}</a>
         <div class="panel">
           <legend>{% trans "Biggest Groups" %}</legend>
           {{ biggest_groups | safe }}
         </div class="panel">
-        <a href="/g/create" class="round alert button">{% trans "Create new group" %}</a>
       </div>
     </div>
-  </div>
-
-  <div class="content" id="my_groups">
-    <div class="row">
-      <div class="large-12 columns">
-        <div class="row collapse">
-          <div class="large-6 columns">
-            <input type="text" placeholder="Search groups...">
-          </div>
-          <a href="#" class="tiny button">Search</a>
-        </div>
-        <div class="row">
-          {% for group in my_groups %}
-          <div class="large-2 columns end">
-            <div class="panel radius">
-              <a href="../../g/{{ group.id }}">
-                <img src="{% static group.getGroupPicture %}" />
-                <div>
-                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
-                </div>
-              </a>
-            </div>
-          </div>
-          {% endfor %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock base_body %}
 
