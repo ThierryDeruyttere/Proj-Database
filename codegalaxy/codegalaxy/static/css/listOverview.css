@@ -52,14 +52,14 @@
 }
 
 input#title::-webkit-input-placeholder{
-    background-image: url('../media/planet.png');
+    background-image: url('../media/icons/planet.png');
     background-repeat: no-repeat;
     background-position-y: center;
     text-indent: 20px;
 }
 
 input#user::-webkit-input-placeholder{
-    background-image: url('../media/astronaut.png');
+    background-image: url('../media/icons/astronaut.png');
     background-size: contain;
     background-repeat: no-repeat;
     text-indent: 20px;
@@ -127,7 +127,7 @@ input#user::-webkit-input-placeholder{
     bottom: 0;
     background-repeat: no-repeat;
     background-size: contain;
-    background-image: url('../media/astronaut.png');
+    background-image: url('../media/icons/astronaut.png');
     background-position: center;
     transform: scale(0.7);
 }

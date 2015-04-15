@@ -27,11 +27,11 @@
           <div class="large-6 large-centered text-center columns">
             <br/>
             {% if list.programming_language.name == "Python" %}
-              <img class="Icon" src="{% static "media/python.png" %}">
+              <img class="Icon" src="{% static "media/icons/python.png" %}">
             {% elif list.programming_language.name == "C++" %}
-              <img class="Icon" src="{% static "media/C++.png" %}">
+              <img class="Icon" src="{% static "media/icons/C++.png" %}">
             {% elif list.programming_language.name == "SQL" %}
-              <img class="Icon" src="{% static "media/sql.png" %}">
+              <img class="Icon" src="{% static "media/icons/sql.png" %}">
             {% endif %}
           </div>
           <br/>
@@ -49,7 +49,7 @@
         <div class ="row">
           <div class="large-4 large-centered columns">
             <div class="panel callout radius">
-              <img id="subjects" src="{% static "media/subjects.png" %}">
+              <img id="subjects" src="{% static "media/icons/subjects.png" %}">
               <div class="text-center">
                 {% for subject in subjects %}
                   <span class="success label">{{ subject }}</span>
