@@ -26,7 +26,7 @@
       </div>
       <a href="#" class="tiny alert button">{% trans "Search" %}</a>
     </div>
-    {% for item in feed %}
+    {% for item in feed_data %}
     {% if item.type == 'FriendsWith' %}
     <div class="row">
       <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getProfilePicture %}/></a></div>
@@ -81,14 +81,14 @@
                 {% endfor %}
                 <div class="pagination">
                   <span class="step-links">
-                    {% if feed.has_previous %}
-                    <a href="?page={{ feed.previous_page_number }}">previous</a>
+                    {% if feed_data.has_previous %}
+                    <a href="?page={{ feed_data.previous_page_number }}">previous</a>
                     {% endif %}
                     <span class="current">
-                      {% trans "Page" %} {{ feed.number }} {% trans "of" %} {{ feed.paginator.num_pages }}
+                      {% trans "Page" %} {{ feed_data.number }} {% trans "of" %} {{ feed_data.paginator.num_pages }}
                     </span>
-                    {% if feed.has_next %}
-                    <a href="?page={{ feed.next_page_number }}">next</a>
+                    {% if feed_data.has_next %}
+                    <a href="?page={{ feed_data.next_page_number }}">next</a>
                     {% endif %}
                   </span>
                 </div>

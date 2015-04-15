@@ -75,7 +75,7 @@ def getGroupUserPermissions(id, user_id):
     @return returns a dict with information
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM groups g, userInGroup u WHERE g.id = {id} AND u.group_id = g.id AND u.user_id = {user_id};'.format(id=id, user_id=user_id))
+    cursor.execute('SELECT * FROM userInGroup u WHERE u.group_id = {id} AND u.user_id = {user_id};'.format(id=id, user_id=user_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -847,6 +847,15 @@ def updateGroupMembership(user_id, group_id):
     '''
     cursor = connection.cursor()
     cursor.execute('UPDATE userInGroup SET status="Member" WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id))
+
+def updateUserPermissions(group_id, user_id, permission_level):
+    '''
+    @brief upgrade group permissions
+    @param id the id of the user, id of group and the new permission level
+    @return returns nothing
+    '''
+    cursor = connection.cursor()
+    cursor.execute('UPDATE userInGroup SET user_permissions={permission_level} WHERE user_id = {user_id} AND group_id = {group_id};'.format(user_id=user_id, group_id=group_id, permission_level=permission_level))
 
 def updateExerciseTitle(exercise_id, lang_id, new_title):
     title = getExerciseTitle(exercise_id, getLangForId(lang_id)['name'])

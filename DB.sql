@@ -265,12 +265,12 @@ INSERT INTO groups(group_name, group_type, created_on) VALUES ('Aartselaar', 0,"
 
 # UserInGroup data
 # Group creator is 0
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,1,1,"2015-03-06 13:42:33",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,1,"2015-03-06 15:30:53",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,3,1,"2015-03-06 13:20:45",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,4,1,"2015-03-06 13:11:55",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,5,1,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,6,1,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,1,0,"2015-03-06 13:42:33",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,0,"2015-03-06 15:30:53",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,3,1,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,4,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,5,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,6,2,"2015-03-06 12:20:20",'Member');
 
 # ProgrammingLanguage data
 INSERT INTO programmingLanguage(name) VALUES ('Python');
@@ -359,7 +359,7 @@ INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,4);
 INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (9,4);
 
 #insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,3,75, "2018-12-05 16:23:05");
+INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,3,75, "2013-12-05 16:23:05");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,30, "2001-01-06 13:14:48");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,2,5,50, "1985-07-20 23:54:21");
 INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,6,5,30, "1999-08-22 17:17:42");

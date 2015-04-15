@@ -105,7 +105,7 @@
           {% for item in data %}
           {% if item.type == 'FriendsWith' %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-2 columns small-3"><img src="{% static "media/rocket1.png" %}"/></div>
             <div class="large-10 columns">
               <p><strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>
                 <br><small>{{ item.befriended_on }}</small></p>
@@ -117,7 +117,7 @@
           {% if item.type == 'UserInGroup'%}
           {% if item.group.group_type == 0 %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-2 columns small-3"><img src="{% static "media/rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
               <p><strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
@@ -130,7 +130,7 @@
           {% endif %}
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "rocket1.png" %}"/></div>
+            <div class="large-2 columns small-3"><img src="{% static "media/rocket1.png" %}"/></div>
             <div class="large-10 columns">
               <p><strong>{{ user.name }} </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
               <br><small>{{ item.completed_on }}</small></p>
