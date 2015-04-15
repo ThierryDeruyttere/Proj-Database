@@ -11,17 +11,17 @@
     <div class="panel">
       <a href="#"><img src="{% static group.getGroupPicture %}"></a>
       <h2><a href="#">{{ group.group_name }}</a></h2> 
-{% if not is_member %}
-        <form method="post" action="/g/{{group.id}}/">
-          {% csrf_token %}
-          <input type="submit" name="become_member" value="{% trans "Become member" %}" class="button success"/>
-        </form>
-        {% else %}
-        <form method="post" action="/g/{{group.id}}/">
-          {% csrf_token %}
-          <input type="submit" name="leave_group" value="{% trans "Leave group" %}" class="button alert"/>
-        </form>
-        {% endif %}
+      {% if not is_member %}
+      <form method="post" action="/g/{{group.id}}/">
+        {% csrf_token %}
+        <input type="submit" name="become_member" value="{% trans "Become member" %}" class="button success"/>
+      </form>
+      {% else %}
+      <form method="post" action="/g/{{group.id}}/">
+        {% csrf_token %}
+        <input type="submit" name="leave_group" value="{% trans "Leave group" %}" class="button alert"/>
+      </form>
+      {% endif %}
     </div>
   </div>
 
@@ -48,8 +48,8 @@
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.name }}</a>
-            <br/><small>{{ item.befriended_on }}</small></p>
-          </div>
+              <br/><small>{{ item.befriended_on }}</small></p>
+            </div>
         </div>
 
         <hr/>
@@ -59,137 +59,142 @@
           <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
           <div class="large-11 columns">
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a>
-            <br><small>{{ item.joined_on }}</small></p>
+              <br><small>{{ item.joined_on }}</small></p>
             </div>
           </div>
 
           <hr/>
           {% endif %}
-            {% if item.type == 'MadeExerciseList'%}
-            <div class="row">
-              <div class="large-1 columns small-3">
-                <img src="{% static item.user.getProfilePicture %}"/>
-              </div>
-              <div class="large-11 columns">
-                <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
+          {% if item.type == 'MadeExerciseList'%}
+          <div class="row">
+            <div class="large-1 columns small-3">
+              <img src="{% static item.user.getProfilePicture %}"/>
+            </div>
+            <div class="large-11 columns">
+              <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
                 <br><small>{{ item.completed_on }}</small></p>
               </div>
             </div>
-
-              <hr/>
-              {% endif %}
-              {% endfor %}
-              <div class="pagination">
-                <span class="step-links">
-                  {% if data.has_previous %}
-                  <a href="?page={{ data.previous_page_number }}">previous</a>
-                  {% endif %}
-                  <span class="current">
-                    Page {{ data.number }} of {{ data.paginator.num_pages }}
-                  </span>
-                  {% if data.has_next %}
-                  <a href="?page={{ data.next_page_number }}">next</a>
-                  {% endif %}
+            <hr/>
+            {% endif %}
+            {% endfor %}
+            <div class="pagination">
+              <span class="step-links">
+                {% if data.has_previous %}
+                <a href="?page={{ data.previous_page_number }}">previous</a>
+                {% endif %}
+                <span class="current">
+                  Page {{ data.number }} of {{ data.paginator.num_pages }}
                 </span>
-              </div>
+                {% if data.has_next %}
+                <a href="?page={{ data.next_page_number }}">next</a>
+                {% endif %}
+              </span>
             </div>
-            <div class="content" id="edit_group">
-              <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+          </div>
+          <div class="content" id="edit_group">
+            <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+              {% csrf_token %}
+              <h5>{% trans "Upload group picture" %}</h5>
+              <p>
+                <input id="id_image" type="file" class="resizeme" name="image">
+              </p>
+              <input type="submit" value="{% trans "Edit Group Picture" %}" name="update_group_picture" class="small button round success"/>
+            </form>
+            <hr/>
+          </div>
+          <div class="content" id="add_members">
+            {% for user in currentuser_friend_list %}
+            <div class="small-12 columns">
+              <div class="small-2 large-2 columns">
+                <img src="{% static user.getProfilePicture %}">
+              </div>
+              <div class="small-4 large-8 columns">{{user.first_name}} {{user.last_name}}</div>
+              <form method="POST" action="/g/{{group.id}}/">
                 {% csrf_token %}
-                <h5>{% trans "Upload group picture" %}</h5>
-                <p>
-                  <input id="id_image" type="file" class="resizeme" name="image">
-                </p>
-                <input type="submit" value="{% trans "Edit Group Picture" %}" name="update_group_picture" class="small button round success"/>
+                <div class="small-6 large-4 columns">
+                  <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
+                  <input type="submit" name="add_friend" value="{% trans "Add User" %}" class="button round success"/>
+                </div>
               </form>
               <hr/>
             </div>
-            <div class="content" id="add_members">
-              {% for user in currentuser_friend_list %}
-              <div class="small-12 columns">
-                <div class="small-2 large-2 columns">
-                  <img src="{% static user.getProfilePicture %}">
-                </div>
-                <div class="small-4 large-8 columns">{{user.first_name}} {{user.last_name}}</div>
-                <form method="POST" action="/g/{{group.id}}/">
-                  {% csrf_token %}
-                  <div class="small-6 large-4 columns">
-                    <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
-                    <input type="submit" name="add_friend" value="{% trans "Add User" %}" class="button round success"/>
+            {% endfor %}
+          </div>
+          <div class="content" id="members">
+            <div class="row">
+              {% for member in user_list  %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ member.id }}">
+                  <div id="u_{{ member.id }}" class="panel radius">
+                    <img src="{% static member.getProfilePicture %}"/>
+                    <h5 class="text-cut-off">{{ member.first_name }}</h5>
+                    <h6 class="text-cut-off">{{ member.last_name }}</h6>
+                    {% if not group_permissions == 2 %}
+                    <div class="text-center">
+                      <a id="changePermission" data-reveal-id="ChangePermissions" class="tiny button" data-value="{{ member.id }}">Edit</a>
+                    </div>
+                    {% endif %}
                   </div>
-                </form>
-                <hr/>
+                </a>
               </div>
               {% endfor %}
-            </div>
-            <div class="content" id="members">
-              <div class="row">
-                {% for member in user_list  %}
-                <div class="large-3 columns end">
-                  <a href="/u/{{ member.id }}">
-                    <div id="u_{{ member.id }}" class="panel radius">
-                      <img src="{% static member.getProfilePicture %}"/>
-                      <h5 class="text-cut-off">{{ member.first_name }}</h5>
-                      <h6 class="text-cut-off">{{ member.last_name }}</h6>
-                      <div class="text-center">
-                        <a id="changePermission" data-reveal-id="ChangePermissions" class="tiny button" data-value="{{ member.id }}">Edit</a>
-                      </div>
-                    </div>
-                  </a>
-                </div>
-                {% endfor %}
-              </div>
             </div>
           </div>
         </div>
       </div>
-      <div id="ChangePermissions" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
-        <ul class="button-group even-3">
-          <li>
-            <div id="myDiv">
-              <form id="myForm">
-              </form> 
-            </div>
-          </li>
-          <li>
-            <div id="myDiv2">
-              <form id="myForm2" method="POST" action="/g/{{group.id}}/">
-                {% csrf_token %}
-                <div id="myInput">
-                </div>
-                <input type="submit" name="upgrade_user" value="Make Admin" class="button success"/>
-              </form> 
-            </div>
-          </li>
-          <li>
-            <div id="myDiv3">
-              <form id="myForm3" method="POST" action="/g/{{group.id}}/">
-                {% csrf_token %}
-                <div id="myInput">
-                </div>
-                <input type="submit" name="remove_user" value="Delete User" class="button alert"/>
-              </form> 
-            </div>
-          </li>
-        </ul>
+    </div>
+      
+
+
+
+<div id="ChangePermissions" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
+  <ul class="button-group even-3">
+    <li>
+      <div id="myDiv">
+        <form id="myForm">
+        </form> 
       </div>
-      {% endblock base_body %}
+    </li>
+    <li>
+      <div id="myDiv2">
+        <form id="myForm2" method="POST" action="/g/{{group.id}}/">
+          {% csrf_token %}
+          <div id="myInput">
+          </div>
+          <input type="submit" name="upgrade_user" value="Make Admin" class="button success"/>
+        </form> 
+      </div>
+    <li>
+      <div id="myDiv3">
+        <form id="myForm3" method="POST" action="/g/{{group.id}}/">
+          {% csrf_token %}
+          <div id="myInput">
+          </div>
+          <input type="submit" name="remove_user" value="Delete User" class="button alert"/>
+        </form> 
+      </div>
+    </li>
 
-      {% block body_js %}
-      <script type="text/javascript">
-        $("div[id^=u_] #changePermission").click(function(){
-          user_id = $(this).data("value");
-          $("#ChangePermissions h2").text(user_id);
+  </ul>
+</div>
+{% endblock base_body %}
 
-          var chbx = '<a href="/u/'+ user_id +'" id="visitProfile" class="button" data-value="{{ member.id }}">Visit Profile</a>';
-          //var chbx2='<input type="hidden" name="user_id_to_add" value="' + user_id + '">
-          var chbx2 = '<input type="hidden" name="user_id_to_upgrade" value="' + user_id + '">';
-          var chbx3 = '<input type="hidden" name="user_id_to_delete" value="' + user_id + '">';
-          //<input type="submit" name="remove_user" value="Delete User" class="button alert"/>';
-          
-          $("#myDiv form#myForm").html(chbx);
-          $("#myDiv2 form#myForm2 #myInput").html(chbx2);
-          $("#myDiv3 form#myForm3 #myInput").html(chbx3);
-        });
-      </script>
-      {% endblock %}
+{% block body_js %}
+<script type="text/javascript">
+  $("div[id^=u_] #changePermission").click(function(){
+    user_id = $(this).data("value");
+    $("#ChangePermissions h2").text(user_id);
+
+    var chbx = '<a href="/u/'+ user_id +'" id="visitProfile" class="button" data-value="{{ member.id }}">Visit Profile</a>';
+    //var chbx2='<input type="hidden" name="user_id_to_add" value="' + user_id + '">
+    var chbx2 = '<input type="hidden" name="user_id_to_upgrade" value="' + user_id + '">';
+    var chbx3 = '<input type="hidden" name="user_id_to_delete" value="' + user_id + '">';
+    //<input type="submit" name="remove_user" value="Delete User" class="button alert"/>';
+    
+    $("#myDiv form#myForm").html(chbx);
+    $("#myDiv2 form#myForm2 #myInput").html(chbx2);
+    $("#myDiv3 form#myForm3 #myInput").html(chbx3);
+  });
+</script>
+{% endblock %}
