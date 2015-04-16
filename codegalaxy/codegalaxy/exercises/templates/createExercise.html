@@ -183,7 +183,7 @@
 
         <hr>
 
-        <div class="row" id="Code_Question" hidden="True">
+        <div class="row" id="Code_Question">
 
           <div class="row">
             <div class="large-10 large-centered columns">
@@ -405,6 +405,7 @@
       $(document).ready(function(){
         {%  if exercise.exercise_type == "Open Question" %}
           $("#Open_Question").show();
+          $("#Code_Question").hide();
           $('#exercise_type_open').prop('checked', true);
           //Get the correct number of answers
 
@@ -420,7 +421,7 @@
           {% endfor %}
 
           for(var i = 0 ; i < all_answers.length; ++i){
-            $("input[name=" + '"answer' + (i+1) +"\"]").val(all_answers[i]);
+            $("input[name=" + '"answer' + i +"\"]").val(all_answers[i]);
             if((i+1) == {{ exercise.correct_answer }}){
               //If correct answer, select this answers
               var i_plus = i+1;
@@ -433,6 +434,7 @@
 
         {% else %}
           $("#Code_Question").show();
+          $("#Open_Question").hide();
           $("#exercise_type_code").prop('checked', true);
 
           //Same for hints!
@@ -596,6 +598,12 @@
       }
 
       var missing_trans = [];
+
+      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict) ){
+        alert("Error: You need to atleast provide an english translation");
+        return false;
+      }
+
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
         var empty = 0;
@@ -610,6 +618,12 @@
             not_empty++;
           }
         });
+
+        if(empty > 0 && key == "English"){
+          alert("Error: You need to atleast provide an english translation");
+          return false;
+        }
+
         if(empty != Object.keys(value).length  && empty != 0 ){
           //problem there are translations missing
           missing_trans.push(key);
@@ -653,6 +667,7 @@
         $("#exercise_form").submit();
       }
     });
+
 
   </script>
 {% endblock body_js %}
