@@ -79,18 +79,40 @@
                 <hr/>
                 {% endif %}
                 {% endfor %}
-                <div class="pagination">
-                  <span class="step-links">
+                <div class="pagination-centered">
+                  <ul class="pagination">
                     {% if feed_data.has_previous %}
-                    <a href="?page={{ feed_data.previous_page_number }}">previous</a>
+                      {% if feed_data.number = 2 %}
+                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                        <li><a href="?page=1">1</a></li>
+                      {% elif feed_data.number = 3 %}
+                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                        <li><a href="?page=1">1</a></li>
+                        <li><a href="?page=2">2</a></li>
+                      {% elif feed_data.number > 3 %}
+                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                        <li><a href="?page=1">1</a></li>
+                        <li class="unavailable"><a href="">&hellip;</a></li>
+                        <li><a href="?page={{ feed_data.previous_page_number }}">{{ feed_data.previous_page_number }}</a></li>
+                      {% endif %}
                     {% endif %}
-                    <span class="current">
-                      {% trans "Page" %} {{ feed_data.number }} {% trans "of" %} {{ feed_data.paginator.num_pages }}
-                    </span>
+                    <li class="current"><a href="">{{ feed_data.number }}</a></li>
                     {% if feed_data.has_next %}
-                    <a href="?page={{ feed_data.next_page_number }}">next</a>
+                      {% if paginator.num_pages|add:-2 > feed_data.number %}
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                        <li class="unavailable"><a href="">&hellip;</a></li>
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                      {% elif paginator.num_pages|add:-1 > feed_data.number %}
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                      {% elif paginator.num_pages|add:-1 = feed_data.number %}
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                      {% else %}
+                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+                      {% endif %}
+                        <li class="arrow"><a href="?page={{ feed_data.next_page_number }}">&raquo;</a></li>
                     {% endif %}
-                  </span>
+                  </ul>
                 </div>
               </div>
               <aside class="large-3 columns hide-for-small">
@@ -117,7 +139,6 @@
             <div class="row">
               <div class="large-12 columns">
                 <img id="rocket" src={% static "media/HomePage.png" %}/>
-
                 <hr/>
               </div>
             </div>
