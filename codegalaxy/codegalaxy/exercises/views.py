@@ -419,7 +419,10 @@ def list(request, id=0):
         solved_all = False
         found = False
         if list_owner:
-            cur_exercise = all_exercises[0].exercise_number
+            if all_exercises:
+                cur_exercise = all_exercises[0].exercise_number
+            else:
+                cur_exercise = 1
         else:
             if len(all_exercises) > 0:
                 cur_exercise = all_exercises[0].exercise_number

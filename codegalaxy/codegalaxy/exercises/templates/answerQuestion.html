@@ -28,7 +28,7 @@
                       {% if not list_owner %}
                         <td>{{ forloop.counter }}</td>
                         <td>{{ i }}</td>
-                        <td>{% if current_answer %}
+                        <td>
                           {% if forloop.counter == current_answer  %}
                             <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                           {% else %}
@@ -38,8 +38,9 @@
                               <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
                             {% endif %}
                           {% endif %}
-                        {% endif %}
-                          {% else %}
+                          </td>
+                      {% else %}
+
                         <td>{{ forloop.counter }})</td>
                         <td>{{ i }}</td>
                         <td>
@@ -48,13 +49,11 @@
                           {% endif %}
                         </td>
                       {% endif %}
-                      </td>
                     </tr>
                   </div>
                 </div>
               {% endfor %}
             </table>
-          </div>
           </div>
 
         {% else %}
@@ -112,7 +111,6 @@
           {% endif %}
         {% endif %}
 
-        <hr>
 
         <div class="row">
           <div class="large-text-center">
@@ -204,24 +202,31 @@
 
     $("#output_alert").hide();
     {% if not list_owner %}
-      $("#get_hint").click(function()
-      {
-      var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }}, penalty : {{ penalty }} }
-      $.ajax({
-        type: "POST",
-        url: "/addHint/",
-        data: post_data,
-        dataType: "text",
-
-        success: function(response) {
-          // nothing needs to happen on the site
-        },
-        error: function(jqXHR, textStatus, error) {
-          $("#output_alert").html(jqXHR.responseText.toString());
-          $("#output_alert").show();
+      $("#get_hint").click(function() {
+        var post_data = {
+          list_id: {{ list_id }},
+          ex_number: {{exercise.exercise_number}},
+          amount_of_hints: {{ hints|length }},
+          max_score: {{ exercise.max_score }},
+          penalty: {{ penalty }}
         }
+        $.ajax({
+          type: "POST",
+          url: "/addHint/",
+          data: post_data,
+          dataType: "text",
+
+          success: function (response) {
+            // nothing needs to happen on the site
+          },
+          error: function (jqXHR, textStatus, error) {
+            $("#output_alert").html(jqXHR.responseText.toString());
+            $("#output_alert").show();
+          }
+        })
       });
     {% endif %}
+
     $("#submit_answer_code").click(function()
     {
       var post_data = { code : code_text.getValue() };
