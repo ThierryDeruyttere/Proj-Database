@@ -505,7 +505,10 @@ def answerQuestion(request, list_id, exercise_number):
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
-                correct_answer = stripStr(current_exercise.allAnswers()[0])
+                if current_exercise.exercise_type == 'Open Question':
+                    correct_answer = current_exercise.correct_answer
+                else:
+                    correct_answer = stripStr(current_exercise.allAnswers()[0])
                 hints = current_exercise.allHints()
                 info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
                 penalty = current_exercise.penalty

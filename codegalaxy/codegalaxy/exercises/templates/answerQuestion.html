@@ -28,20 +28,29 @@
               {% for i in answers %}
                 <div class="row">
                   <div class="large-6 large-offset-1 columns">
-                    {{ forloop.counter }}
-                    {{ i }}
-                    {% if current_answer %}
-                      {% if forloop.counter == current_answer  %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                    {% if not list_owner %}
+                      {{ forloop.counter }}
+                      {{ i }}
+                      {% if current_answer %}
+                        {% if forloop.counter == current_answer  %}
+                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                        {% else %}
+                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                        {% endif %}
                       {% else %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                        {% if forloop.counter == 1  %}
+                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                        {% else %}
+                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                        {% endif %}
                       {% endif %}
                     {% else %}
-                      {% if forloop.counter == 1  %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
-                      {% else %}
-                        <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
-                      {% endif %}
+                      <p>
+                        {{ forloop.counter }}) {{ i }}
+                        {% if forloop.counter == correct_answer %}
+                          <i class="fi-checkbox"></i>
+                        {% endif %}
+                      </p>
                     {% endif %}
                   </div>
                 </div>
@@ -92,11 +101,14 @@
             {% endif %}
           {% endif %}
 
+        {% if exercise.exercise_type != "Open Question" %}
           {% if list_owner %}
             <h3>{% trans "Answer" %}</h3>
             <textarea id="correct_answer" name="correct_answer">{{ correct_answer }}</textarea>
-            <hr>
           {% endif %}
+        {% endif %}
+
+        <hr>
 
           <div class="row">
             <div class="large-text-center">
