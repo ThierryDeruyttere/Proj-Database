@@ -408,8 +408,9 @@ def list(request, id=0):
             user = logged_user(request)
             for exercise in all_exercises:
                 completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
-                if completed:
-                    exercise.solved = True
+                if completed != None:
+                    if completed['solved'] == 1:
+                        exercise.solved = True
 
             list_owner = (user.id == exercise_list.created_by)
 
