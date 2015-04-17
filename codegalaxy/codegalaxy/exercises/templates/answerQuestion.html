@@ -92,12 +92,16 @@
             {% endif %}
           {% endif %}
 
-          <hr>
+          {% if list_owner %}
+            <h3>{% trans "Answer" %}</h3>
+            <textarea id="correct_answer" name="correct_answer">{{ correct_answer }}</textarea>
+            <hr>
+          {% endif %}
 
           <div class="row">
             <div class="large-text-center">
               {% if list_owner %}
-                <h1>{% trans "This question is part of your own list!" %}</h1>
+                <h3>{% trans "This question is part of your own list!" %}</h3>
               {% else %}
                 {% if exercise.exercise_type == "Open Question" %}
                   {% if solved %}
@@ -115,6 +119,9 @@
                 {% endif %}
               {% endif %}
               <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">{% trans "Return to list" %}</a></li>
+              {% if list_owner %}
+                <a href="/l/{{ exercise.exerciseList_id }}/{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">{% trans "Edit Question" %}</a>
+              {% endif %}
             </div>
           </div>
         </form>
@@ -126,21 +133,38 @@
 {% block body_js %}
   <script type="text/javascript">
 
-    var code_text = CodeMirror.fromTextArea(user_code,
-            {
-              {% if list_owner %}
-              readOnly: true,
-              {% endif %}
-              lineNumbers: true,
-              {% if list.programming_language_string == "Python" %}
-                mode: "python",
-              {% elif list.programming_language_string == "C++" %}
-                mode: "text/x-c++src",
-              {% elif list.programming_language_string == "SQL" %}
-                mode: "sql",
-              {% endif %}
-              theme: "monokai"
-            });
+    {% if exercise.exercise_type != "Open Question" %}
+      var code_text = CodeMirror.fromTextArea(user_code,
+              {
+                {% if list_owner %}
+                readOnly: true,
+                {% endif %}
+                lineNumbers: true,
+                {% if list.programming_language_string == "Python" %}
+                  mode: "python",
+                {% elif list.programming_language_string == "C++" %}
+                  mode: "text/x-c++src",
+                {% elif list.programming_language_string == "SQL" %}
+                  mode: "sql",
+                {% endif %}
+                theme: "monokai"
+              });
+      {% if list_owner %}
+        var correct_answer_code = CodeMirror.fromTextArea(correct_answer,
+                {
+                  lineNumbers: true,
+                  readOnly: true,
+                  {% if list.programming_language_string == "Python" %}
+                    mode: "python",
+                  {% elif list.programming_language_string == "C++" %}
+                    mode: "text/x-c++src",
+                  {% elif list.programming_language_string == "SQL" %}
+                    mode: "sql",
+                  {% endif %}
+                  theme: "monokai"
+                });
+      {% endif %}
+    {% endif %}
 
     var curr_hint = 1;
     function addHint(){

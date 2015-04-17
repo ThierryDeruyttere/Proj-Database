@@ -497,6 +497,7 @@ def answerQuestion(request, list_id, exercise_number):
     list_owner = False
     exercise_list = object_manager.createExerciseList(list_id)
     current_answer = None
+    correct_answer = ""
     solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
     if exercise_list:
         all_exercise = exercise_list.allExercises(getBrowserLanguage(request))
@@ -504,6 +505,7 @@ def answerQuestion(request, list_id, exercise_number):
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
                 current_exercise = i
+                correct_answer = stripStr(current_exercise.allAnswers()[0])
                 hints = current_exercise.allHints()
                 info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
                 penalty = current_exercise.penalty
@@ -530,7 +532,8 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "last_hint_used": last_hint_used,
                                                            "current_score": current_score,
                                                            "penalty": penalty,
-                                                           'list_owner': list_owner})
+                                                           'list_owner': list_owner,
+                                                           'correct_answer': correct_answer})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
