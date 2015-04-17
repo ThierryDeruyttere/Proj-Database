@@ -397,6 +397,14 @@ class User:
     def searchString(self):
         return str(self.name())
 
+    def ownedLists(self):
+        list_objects = []
+        object_manager = managers.om.objectmanager.ObjectManager()
+        list_ids = dbw.getExerciseListIdsMadeByUser(self.id)
+        for list_id in list_ids:
+            list_objects.append(object_manager.createExerciseList(list_id['id']))
+        return list_objects
+
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id, made_on):

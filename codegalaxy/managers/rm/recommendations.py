@@ -187,7 +187,6 @@ def splitListIds(user, comparison_tuples, friends):
 # we default everything to one,so that in case of a small amount of data,
 # lists are not kinda chosen randomly
 def defaultScoreOne(score_per_list_id, dont_add):
-
     after_default = {}
     for i in range(object_manager.amountOfLists()):
         if i + 1 not in dont_add:
@@ -241,8 +240,9 @@ def recommendListsForUser(user, friends=True, dates=True, subjects=True, ratings
     # ([verchil in lijsten], overlap score, user obj)
     comparison_tuples = compareListWithOtherUsers(user)
     # We may not add these lists (made already)
-    dont_add_obj = user.allPersonalLists()
-    dont_add = [obj.exercises_list.id for obj in dont_add_obj]
+    dont_add_obj_made = user.allPersonalLists()
+    dont_add_obj_owned = user.ownedLists()
+    dont_add = [obj.exercises_list.id for obj in dont_add_obj_made] + [obj.id for obj in dont_add_obj_owned]
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
     score_per_list_id = splitListIds(user, comparison_tuples, friends)
@@ -305,6 +305,8 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
     made_ids = madeIDs(user)
+    dont_add_obj_owned = user.ownedLists()
+    dont_add_owned = [obj.id for obj in dont_add_obj_owned]
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language = previous_made_list.exercises_list.programming_language.name
     subjects = previous_made_list.exercises_list.allSubjectIDs()
@@ -314,7 +316,7 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
         if possible_list.difficulty in new_difficulty:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
-                if list_id not in made_ids:
+                if (list_id not in made_ids) & (list_id not in dont_add_owned):
                     new_exercise_lists.append(list_id)
     new_exercise_lists = new_exercise_lists[:amount]
     return new_exercise_lists
@@ -328,6 +330,8 @@ def listsLikeThisOne(list_id, user, amount=4):
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
     made_ids = madeIDs(user)
+    dont_add_obj_owned = user.ownedLists()
+    dont_add_owned = [obj.id for obj in dont_add_obj_owned]
     list_obj = object_manager.createExerciseList(list_id)
     # difficulties will be current +- 0/1
     prog_language = list_obj.programming_language.name
@@ -338,7 +342,7 @@ def listsLikeThisOne(list_id, user, amount=4):
         if possible_list.difficulty in [list_obj.difficulty - 1, list_obj.difficulty, list_obj.difficulty + 1]:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
-                if list_id not in made_ids:
+                if (list_id not in made_ids) & (list_id not in dont_add_owned):
                     new_exercise_lists.append(list_id)
 
     if l_id in new_exercise_lists:

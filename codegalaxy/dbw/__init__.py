@@ -68,6 +68,13 @@ def getExerciseListInformation(id):
     cursor.close()
     return fetched
 
+def getExerciseListIdsMadeByUser(user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM exerciseList WHERE created_by = {user_id};'.format(user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getGroupUserPermissions(id, user_id):
     '''
     @brief get the permissions a user has in a group,
