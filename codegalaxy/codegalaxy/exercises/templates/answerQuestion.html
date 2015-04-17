@@ -85,8 +85,10 @@
                 {% endif %}
               </div>
             </div>
-            {% if not solved %}
-              <button type="button" class="small radius button" id="reset">{% trans "Reset question" %}</button>
+            {% if not list_owner %}
+              {% if not solved %}
+                <button type="button" class="small radius button" id="reset">{% trans "Reset question" %}</button>
+              {% endif %}
             {% endif %}
           {% endif %}
 
@@ -126,6 +128,9 @@
 
     var code_text = CodeMirror.fromTextArea(user_code,
             {
+              {% if list_owner %}
+              readOnly: true,
+              {% endif %}
               lineNumbers: true,
               {% if list.programming_language_string == "Python" %}
                 mode: "python",

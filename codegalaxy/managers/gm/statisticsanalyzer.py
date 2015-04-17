@@ -52,7 +52,7 @@ class StatisticsAnalyzer:
             result['data'][0].append([0])
         for score in scores:
             for i in range(10):
-                if (score >= i * 10) & (score < (i + 1) * 10):
+                if (score >= i * 10) and (score < (i + 1) * 10):
                     result['data'][0][i][0] += 1
                     break
         return result

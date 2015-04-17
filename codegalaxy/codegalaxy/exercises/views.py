@@ -155,7 +155,7 @@ def editList(request, listId):
                 updated_subjects.append(subject)
 
         removed_subjects = set(subjects) - set(updated_subjects)
-        intersection = set(subjects) & set(updated_subjects)
+        intersection = set(subjects) and set(updated_subjects)
         subjects_to_add = set(updated_subjects) - intersection
 
         for subject in removed_subjects:
