@@ -413,33 +413,36 @@ def list(request, id=0):
 
             list_owner = (user.id == exercise_list.created_by)
 
-        found = False
         cur_exercise = 0
-        if len(all_exercises) > 0:
-            cur_exercise = all_exercises[0].id
-
         percent = 0
-        for e in all_exercises:
-            if e.solved:
-                found = True
-                percent += 1
-                if cur_exercise < e.id:
-                    cur_exercise = e.id
-
-        if len(all_exercises) < percent:
-            found = False
-            cur_exercise = all_exercises[0].id
-        elif percent > 0 and len(all_exercises) > percent:
-            cur_exercise = all_exercises[percent].id
-
-        if len(all_exercises) > 0:
-            percent = percent / len(all_exercises) * 100
-            if percent > 100:
-                percent = 100
-
         solved_all = False
-        if percent == 100:
-            solved_all = True
+        found = False
+        if list_owner:
+            cur_exercise = all_exercises[0].exercise_number
+        else:
+            if len(all_exercises) > 0:
+                cur_exercise = all_exercises[0].exercise_number
+
+            for e in all_exercises:
+                if e.solved:
+                    found = True
+                    percent += 1
+                    if cur_exercise < e.exercise_number:
+                        cur_exercise = e.exercise_number
+
+            if len(all_exercises) < percent:
+                found = False
+                cur_exercise = all_exercises[0].exercise_number
+            elif percent > 0 and len(all_exercises) > percent:
+                cur_exercise = all_exercises[percent].exercise_number
+
+            if len(all_exercises) > 0:
+                percent = percent / len(all_exercises) * 100
+                if percent > 100:
+                    percent = 100
+
+            if percent == 100:
+                solved_all = True
 
         # lists like this one
         similar_lists = []
