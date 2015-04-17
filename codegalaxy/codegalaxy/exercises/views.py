@@ -694,7 +694,7 @@ def createListElem(i, elem):
           </div>
         </div>
       </div>
-      </div>""".format(class_name=class_name, list_name=elem['name'], for_i=i + 1)
+      </div>""".format(class_name=class_name, list_name=elem.name, for_i=i + 1)
 
 def listOverview(request):
     # Amount of lists per programming language
