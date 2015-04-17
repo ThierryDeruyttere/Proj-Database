@@ -403,7 +403,7 @@ def list(request, id=0):
             user_date = personal_list.made_on
         all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
 
-        correct_user = False
+        list_owner = False
         if logged_user(request):
             user = logged_user(request)
             for exercise in all_exercises:
@@ -411,7 +411,7 @@ def list(request, id=0):
                 if completed:
                     exercise.solved = True
 
-            correct_user = (user.id == exercise_list.created_by)
+            list_owner = (user.id == exercise_list.created_by)
 
         found = False
         cur_exercise = 0
@@ -461,7 +461,7 @@ def list(request, id=0):
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id))
 
-        return render(request, 'list.html', {'correct_user': correct_user,
+        return render(request, 'list.html', {'list_owner': list_owner,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises,
                                              'subjects': subjects,
@@ -491,7 +491,7 @@ def answerQuestion(request, list_id, exercise_number):
 
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
-    correct_user = False
+    list_owner = False
     exercise_list = object_manager.createExerciseList(list_id)
     current_answer = None
     solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
@@ -517,7 +517,7 @@ def answerQuestion(request, list_id, exercise_number):
                 break
 
         if current_exercise:
-            correct_user = (current_user.id == exercise_list.created_by)
+            list_owner = (current_user.id == exercise_list.created_by)
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
@@ -527,7 +527,7 @@ def answerQuestion(request, list_id, exercise_number):
                                                            "last_hint_used": last_hint_used,
                                                            "current_score": current_score,
                                                            "penalty": penalty,
-                                                           'correct_user': correct_user})
+                                                           'list_owner': list_owner})
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)

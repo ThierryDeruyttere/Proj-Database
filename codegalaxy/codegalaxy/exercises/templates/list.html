@@ -36,12 +36,12 @@
           </div>
           <br/>
           {% if all_exercises|length > 0 %}
-            {% if correct_user %}
+            {% if list_owner %}
             <!-- TODO: cur_exercise aanpassen-->
               <button class="small button Start" id="{{ cur_exercise }}">
                 Review
               </button>
-            {% elif not correct_user %}
+            {% elif not list_owner %}
               <button class="small button Start" id="{{ cur_exercise }}">
                 {% if found %}
                   Continue
@@ -167,13 +167,13 @@
       <hr>
       <div class="row">
         <div class="large-2 right columns">
-          {% if correct_user %}
+          {% if list_owner %}
             <ul class="large-block-grid-3">
               <li><a href="/l/{{ list.id }}/importExercise" class="button tiny radius">{% trans "Import exercise" %}</a></li>
               <li></li>
               <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">{% trans "Create exercise" %}</a></li>
             </ul>
-          {% elif not correct_user %}
+          {% elif not list_owner %}
             <a href="#" class="tiny button radius" data-reveal-id="import">{% trans "Add exercises to my list" %}</a>
             <form method="POST" id="import_list">
               {% csrf_token %}
@@ -252,7 +252,7 @@
           {% endif %}
       </div>
       <div class="large-2 left columns">
-        {% if correct_user %}
+        {% if list_owner %}
           <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
         {% endif %}
       </div>

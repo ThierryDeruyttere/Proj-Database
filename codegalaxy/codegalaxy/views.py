@@ -341,12 +341,12 @@ def group(request, id=0):
         user_list = group.allMembers()
         if group.group_type == 1:
             # Only users in this group can access this page
-            correct_user = False
+            list_owner = False
             for u in user_list:
                 if u.id == user.id:
-                    correct_user = True
+                    list_owner = True
 
-            if not correct_user:
+            if not list_owner:
                 return redirect('/')
 
         try:

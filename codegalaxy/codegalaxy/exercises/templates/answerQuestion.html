@@ -94,7 +94,7 @@
 
           <div class="row">
             <div class="large-text-center">
-              {% if correct_user %}
+              {% if list_owner %}
                 <h1>{% trans "This question is part of your own list!" %}</h1>
               {% else %}
                 {% if exercise.exercise_type == "Open Question" %}
@@ -148,7 +148,7 @@
     }
 
     $("#output_alert").hide();
-    {% if not correct_user %}
+    {% if not list_owner %}
     $("#get_hint").click(function()
     {
       var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }}, penalty : {{ penalty }} }
@@ -194,7 +194,7 @@
       });
     {% endif %}
 
-    {% if correct_user %}
+    {% if list_owner %}
       for(i = 0; i < {{ hints|length }}; i++){
         addHint()
       }
