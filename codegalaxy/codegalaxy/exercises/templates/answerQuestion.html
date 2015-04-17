@@ -4,102 +4,106 @@
 
 
 {% block base_body %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/answerQuestion.css" %}" />
   <div class="row">
     <div class="large-12 columns">
-      <div class="panel">
-        <div class="row">
-          <h3>{% trans "Question" %}</h3>
+
+      <div class="row">
+        <div data-alert class="alert-box info radius question">
+          {{ exercise.question }}
         </div>
+      </div>
 
-        <hr>
-        <div class="row">
-          <div class="large-6 columns">
-            {{ exercise.question }}
-          </div>
-        </div>
-        <hr>
+      <form id="answer_question" method="post" action="{{ exercise.exercise_number }}/submit">
+        {% csrf_token %}
 
-        <form id="answer_question" method="post" action="{{ exercise.exercise_number }}/submit">
-          {% csrf_token %}
-
-          {% if exercise.exercise_type == "Open Question" %}
-            <div class="row" id="Open Question">
-
+        {% if exercise.exercise_type == "Open Question" %}
+          <div class="row" id="Open Question">
+            <table class="answers">
+              <caption id="caption">Select the right answer</caption>
               {% for i in answers %}
                 <div class="row">
                   <div class="large-6 large-offset-1 columns">
-                    {% if not list_owner %}
-                      {{ forloop.counter }}
-                      {{ i }}
-                      {% if current_answer %}
-                        {% if forloop.counter == current_answer  %}
-                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
-                        {% else %}
-                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                    <tr>
+                      {% if not list_owner %}
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ i }}</td>
+                        <td>{% if current_answer %}
+                          {% if forloop.counter == current_answer  %}
+                            <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                          {% else %}
+                            {% if forloop.counter == 1  %}
+                              <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                            {% else %}
+                              <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                            {% endif %}
+                          {% endif %}
                         {% endif %}
-                      {% else %}
-                        {% if forloop.counter == 1  %}
-                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
-                        {% else %}
-                          <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
-                        {% endif %}
+                          {% else %}
+                        <td>{{ forloop.counter }})</td>
+                        <td>{{ i }}</td>
+                        <td>
+                          {% if forloop.counter == correct_answer %}
+                            <i class="fi-checkbox"></i>
+                          {% endif %}
+                        </td>
                       {% endif %}
-                    {% else %}
-                      <p>
-                        {{ forloop.counter }}) {{ i }}
-                        {% if forloop.counter == correct_answer %}
-                          <i class="fi-checkbox"></i>
-                        {% endif %}
-                      </p>
-                    {% endif %}
+                      </td>
+                    </tr>
                   </div>
                 </div>
               {% endfor %}
-            </div>
+            </table>
+          </div>
+          </div>
 
-          {% else %}
-            <div class="row" id="Code">
-              {% if current_answer %}
-                <textarea id="user_code" name="user_code">{{ current_answer }}</textarea>
-              {% else %}
-                <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+        {% else %}
+          <div class="row" id="Code">
+            {% if current_answer %}
+              <textarea id="user_code" name="user_code">{{ current_answer }}</textarea>
+            {% else %}
+              <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+            {% endif %}
+
+            <div class="large-9 columns">
+              <!-- <div class="row">
+              To be used if we have turtle graphics
+              <canvas id="mycanvas" class="code-output"></canvas> -->
+            </div>
+          </div>
+          <div id="output_alert" class="alert-box alert radius" data-alert></div>
+
+          <div class="row">
+          <div class="row">
+            <div class="large-10 columns">
+              {% if not solved %}
+                {% if hints %}
+                  <input id="get_hint" type="button" name="get_hint" class="button tiny radius" value="{% trans "Get hint" %}">
+                  <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+                {% endif %}
+                <button type="button" class="tiny radius alert button" id="reset">{% trans "Reset question" %}</button>
               {% endif %}
-
-              <div class="large-9 columns">
-                <!-- <div class="row">
-                To be used if we have turtle graphics
-                <canvas id="mycanvas" class="code-output"></canvas> -->
-              </div>
             </div>
-            <div id="output_alert" class="alert-box alert radius" data-alert></div>
-
-            <div class="row">
-              <div class="row">
-                <div class="large-10 columns">
-                  {% if not solved %}
-                    {% if hints %}
-                      <input id="get_hint" type="button" name="get_hint" class="button tiny radius" onclick="javascript:addHint()" value="{% trans "Get hint" %}">
-                      <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
-                    {% endif %}
-                  {% endif %}
-                </div>
-              </div>
-              <div class="large-10 columns">
-                {% if not solved %}
+          </div>
+          <div class="row">
+            <div class="large-10 columns">
+              {% if not solved %}
+                <div data-alert class="alert-box hints secondary">
                   <ul>
                     {% for hint in hints %}
                       <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
                     {% endfor %}
                   </ul>
-                {% endif %}
-              </div>
-            </div>
-            {% if not list_owner %}
-              {% if not solved %}
-                <button type="button" class="small radius button" id="reset">{% trans "Reset question" %}</button>
+                </div>
               {% endif %}
+            </div>
+          </div>
+          {% if not list_owner %}
+            {% if not solved %}
+              <button type="button" class="small radius button" id="reset">{% trans "Reset question" %}</button>
             {% endif %}
           {% endif %}
+        {% endif %}
 
         {% if exercise.exercise_type != "Open Question" %}
           {% if list_owner %}
@@ -110,36 +114,38 @@
 
         <hr>
 
-          <div class="row">
-            <div class="large-text-center">
-              {% if list_owner %}
-                <h3>{% trans "This question is part of your own list!" %}</h3>
-              {% else %}
-                {% if exercise.exercise_type == "Open Question" %}
-                  {% if solved %}
-                    <h1>{% trans "You solved the question!" %}</h1>
-                  {% else %}
-                    <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
-                  {% endif %}
+        <div class="row">
+          <div class="large-text-center">
+            {% if list_owner %}
+              <h3>{% trans "This question is part of your own list!" %}</h3>
+            {% else %}
+              {% if exercise.exercise_type == "Open Question" %}
+                {% if solved %}
+                  <h1>{% trans "You solved the question!" %}</h1>
                 {% else %}
-                  {% if solved %}
-                    <h1>{% trans "You solved the question!" %}</h1>
-                  {% else %}
-                    <input id="code_output" name="code_output" type="hidden" value=""></input>
-                    <button id="submit_answer_code" type="button" class="button tiny radius">{% trans "Answer" %}</button>
-                  {% endif %}
+                  <input id="submit_answer" type="submit" class="button tiny radius" value="Answer">
+                {% endif %}
+              {% else %}
+                {% if solved %}
+                  <h1>{% trans "You solved the question!" %}</h1>
+                {% else %}
+                  <input id="code_output" name="code_output" type="hidden" value=""></input>
+                  <button id="submit_answer_code" type="button" class="button tiny radius">{% trans "Answer" %}</button>
                 {% endif %}
               {% endif %}
-              <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">{% trans "Return to list" %}</a></li>
-              {% if list_owner %}
-                <a href="/l/{{ exercise.exerciseList_id }}/{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">{% trans "Edit Question" %}</a>
-              {% endif %}
-            </div>
+            {% endif %}
+            <a href="/l/{{ exercise.exerciseList_id }}" class="button tiny radius">{% trans "Return to list" %}</a></li>
+            {% if list_owner %}
+              <a href="/l/{{ exercise.exerciseList_id }}/{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">{% trans "Edit Question" %}</a>
+            {% endif %}
           </div>
+        </div>
         </form>
-      </div>
-    </div>
+        </div>
   </div>
+  </form>
+  </div>
+
 {% endblock base_body %}
 
 {% block body_js %}
@@ -149,7 +155,7 @@
       var code_text = CodeMirror.fromTextArea(user_code,
               {
                 {% if list_owner %}
-                readOnly: true,
+                  readOnly: true,
                 {% endif %}
                 lineNumbers: true,
                 {% if list.programming_language_string == "Python" %}
@@ -179,19 +185,29 @@
     {% endif %}
 
     var curr_hint = 1;
-    function addHint(){
+
+    $(document).ready(function(){
+      $(".hints").hide();
+    });
+
+
+    $("#get_hint").click(function(){
+      if(curr_hint == 1){
+        $(".hints").show();
+      }
       $('#hint'+curr_hint).show();
       $("#used_hints").val((curr_hint).toString());
       if(curr_hint >= {{ hints|length }}){
         $('#get_hint').hide();
       }
       ++curr_hint;
-    }
+    });
+
 
     $("#output_alert").hide();
     {% if not list_owner %}
-    $("#get_hint").click(function()
-    {
+      $("#get_hint").click(function()
+      {
       var post_data = { list_id : {{ list_id }}, ex_number : {{exercise.exercise_number}}, amount_of_hints : {{ hints|length }}, max_score : {{ exercise.max_score }}, penalty : {{ penalty }} }
       $.ajax({
         type: "POST",
@@ -207,7 +223,6 @@
           $("#output_alert").show();
         }
       });
-    });
     {% endif %}
     $("#submit_answer_code").click(function()
     {
@@ -237,11 +252,11 @@
 
     {% if list_owner %}
       for(i = 0; i < {{ hints|length }}; i++){
-        addHint()
+        addHint();
       }
     {% else %}
       for(i = 0; i < {{ last_hint_used }}; i++){
-        addHint()
+        addHint();
       }
     {% endif %}
 
