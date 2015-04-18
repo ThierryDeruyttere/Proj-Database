@@ -78,11 +78,33 @@ def home(request):
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
-
     # Make id an int
     id = int(id)
     # Get the user object for that id
     user = object_manager.createUser(id=id)
+
+    # We'll show:
+    # % per lang, # lists per lang, total lists, total groups, time joined,
+    # % avg (any lang)
+
+    # lists per lang
+    pie_graph = None
+    # % per lang
+    bar_chart = None
+    if len(current_user.allPersonalLists()) != 0:
+        lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguageForUser(user.id)
+
+        pie_graph = graph_manager.makePieChart('list_per_lang', 100, 100,
+                                               graphmanager.color_tuples,
+                                               lists_per_prog_lang['labels'],
+                                               lists_per_prog_lang['data'])
+
+        color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
+        color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
+        avg_score_per_lang = statistics_analyzer.averageScorePerProgrammingLanguageForUser(user)
+        bar_chart = graph_manager.makeBarChart('score_per_lang', 200, 200,
+                                               [color_info2, color_info1], avg_score_per_lang['labels'], avg_score_per_lang['data'], ["Score"], True)
+
 
     if request.method == 'POST':
         if 'add_friend' in request.POST:
@@ -184,7 +206,7 @@ def user(request, id=0):
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
-                   'friends': friends}
+                   'friends': friends, 'list_on_lang_by_user': pie_graph, 'score_per_lang': bar_chart}
 
         if current_user.id == user.id:
             context['my_profile'] = True

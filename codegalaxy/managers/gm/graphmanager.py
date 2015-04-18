@@ -154,12 +154,17 @@ class GraphManager:
 
 # BARCHART==================================================================================================
 
-    def addBarExtras(self):
+    def addBarExtras(self, percentages):
         extras_string = ''
         extras_string += 'var options = { \n'
         #extras_string += 'responsive : true,\n'
         extras_string += 'animation: true,\n'
         extras_string += self.globalOptions()
+        if percentages:
+            extras_string += 'scaleOverride: true,\n'
+            extras_string += 'scaleSteps: 10,\n'
+            extras_string += 'scaleStepWidth: 10,\n'
+            extras_string += 'scaleStartValue: 0,\n'
         #extras_string += 'tooltipFillColor: "rgba(0,0,0,0.8)",\n'
         #extras_string += 'multiTooltipTemplate: "<%= datasetLabel %> - <%= value %>"\n'
         # add more stuff here
@@ -184,10 +189,10 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, percentages = False):
         total_string = ''
         total_string += self.addBarData(labels, data, colorInfos, datalabels)
-        total_string += self.addBarExtras()
+        total_string += self.addBarExtras(percentages)
         total_string += 'var ' + self.addDatavar('O') + ' = new Chart(document.getElementById("' + name + '").getContext("2d")).Bar(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
         #total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string

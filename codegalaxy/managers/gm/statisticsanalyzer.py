@@ -36,6 +36,29 @@ class StatisticsAnalyzer:
         result['data'].reverse()
         return result
 
+    def AmountOfExerciseListsPerProgrammingLanguageForUser(self, user_id):
+        result = {}
+        # Programming language names
+        result['labels'] = []
+        # amount of exercises
+        result['data'] = []
+        all_prog_languages = object_manager.allProgrammingLanguages()
+        for prog_lang in all_prog_languages:
+            count = object_manager.countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang['id'], user_id)
+            set_item = False
+            # ordering from small to large
+            for i in range(len(result['data']) - 1):
+                if result['data'][i] >= count['amount']:
+                    result['labels'].insert(i, prog_lang['name'])
+                    result['data'].insert(i, count['amount'])
+                    set_item = True
+            if not set_item:
+                result['labels'].append(prog_lang['name'])
+                result['data'].append(count['amount'])
+        result['labels'].reverse()
+        result['data'].reverse()
+        return result
+
 # Used with Bar Charts
 
     # Return the spread of scores on a certain exerciselist
@@ -55,6 +78,20 @@ class StatisticsAnalyzer:
                 if (score >= i * 10) and (score < (i + 1) * 10):
                     result['data'][0][i][0] += 1
                     break
+        return result
+
+    def averageScorePerProgrammingLanguageForUser(self, user):
+        result = {}
+        # programming language_ids
+        result['labels'] = []
+        # score per language
+        result['data'] = []
+        result['data'].append([])
+        all_prog_languages = object_manager.allProgrammingLanguages()
+        for i in range(len(all_prog_languages)):
+            if user.averageScoreForProgrammingLanguage(all_prog_languages[i]['id']):
+                result['data'][0].append(user.averageScoreForProgrammingLanguage(all_prog_languages[i]['id']))
+                result['labels'].append(all_prog_languages[i]['name'])
         return result
 
     # Return the X biggest groups

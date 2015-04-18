@@ -575,6 +575,13 @@ def averageRatingOfUsersWhoMadeList(exercise_list_id):
     cursor.close()
     return fetched
 
+def averageScoreForProgrammingLanguageForUser(prog_lang_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT AVG(score) AS average FROM madeList, exerciseList WHERE madeList.exerciseList_id = exerciseList.id AND exerciseList.prog_lang_id = {prog_lang_id} AND madeList.user_id = {user_id};'.format(user_id=user_id, prog_lang_id=prog_lang_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def getAvgScoreOfUsersWhoMadeList(exercise_list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT AVG(score) AS average FROM madeList WHERE madeList.exerciseList_id = {ex_id};'.format(ex_id=exercise_list_id))
@@ -965,6 +972,13 @@ def userIsInGroup(user_id, group_id):
 def countExerciseListsForProgrammingLanguageID(prog_lang_id):
     cursor = connection.cursor()
     cursor.execute('SELECT COUNT(id) AS amount FROM exerciseList WHERE exerciseList.prog_lang_id = {id} ;'.format(id=prog_lang_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM madeList, exerciseList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id = {user_id};'.format(id=prog_lang_id, user_id = user_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched

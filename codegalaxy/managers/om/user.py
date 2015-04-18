@@ -241,6 +241,18 @@ class User:
 
         return exercises_lists_list
 
+    def amountOfListsMade(self):
+        lists = self.allPersonalLists()
+        if not lists:
+            return 0
+        return len(lists)
+
+    def amountOfGroupsJoined(self):
+        groups = self.allGroupsJoined()
+        if not groups:
+            return 0
+        return len(groups)
+
     def allExerciseListsMade(self):
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         for exerciseList in exercise_list_date:
@@ -404,6 +416,9 @@ class User:
         for list_id in list_ids:
             list_objects.append(object_manager.createExerciseList(list_id['id']))
         return list_objects
+
+    def averageScoreForProgrammingLanguage(self, prog_lang_id):
+        return dbw.averageScoreForProgrammingLanguageForUser(prog_lang_id, self.id)['average']
 
 class PersonalList:
 
