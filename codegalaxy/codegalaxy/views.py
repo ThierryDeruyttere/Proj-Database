@@ -479,7 +479,10 @@ def verify(request, hash_seq):
     if object_manager.needsVerification(hash_seq):
         email = object_manager.acceptVerification(hash_seq)
         sendVerificationAccepted(email)
-        return render(request, 'verify.html', {})
+        user = object_manager.createUser(email = email)
+        user.is_active = True
+        user.save()
+        return render(request, 'verify.html', {'user': user})
 
     return redirect('/')
 
