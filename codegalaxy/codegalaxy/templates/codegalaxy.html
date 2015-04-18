@@ -97,7 +97,7 @@
         }
       }
     });
-
-    $('img').on('dragstart', function(event) { event.preventDefault(); });
+    
+    window.ondragstart = function() { return false; } ;
   </script>
 {% endblock ajax_stuff %}

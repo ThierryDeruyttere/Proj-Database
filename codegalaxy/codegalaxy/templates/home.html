@@ -5,285 +5,285 @@
 
 {% block base_body %}
 
-{% if logged_in %}
-<div class="row">
-  <div class="large-3 columns ">
-    <div class="panel">
-      <img src="{% static user.getPicture %}"/>
-      <div class="text-center">
-        <h5>{{ user.name }}</h5>
-        <hr/>
-      </div>
-      <li><a href="/me">{% trans "My profile" %}</a></li>
-      <li><a href="/sandbox">{% trans "Sandbox mode" %}</a></li>
-      <!--<li><a href="/me">Friends</a></li>-->
-    </div>
-  </div>
-  <div class="large-6 columns">
-    <div class="row collapse">
-      <form id="f_search_social" method="POST" action="/social/">
-        {% csrf_token %}
-        <div class="large-9 columns">
-          <input type="text" name="s_term" placeholder="{% trans "Explore the galaxy..." %}">
-          <input type="hidden" name="s_social" value="True">
-        </div>
-        <a href="#" id="b_search_social" class="tiny alert button">{% trans "Search" %}</a>
-      </form>
-    </div>
-    {% for item in feed_data %}
-    {% if item.type == 'FriendsWith' %}
+  {% if logged_in %}
     <div class="row">
-      <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getPicture %}/></a></div>
-      <div class="large-10 columns">
-        {% if item.friend.id == user.id %}
-        <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a>
-          <br><small>{{ item.befriended_on }}</small></p>
-          {% else %}
-          <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a>
-            <br><small>{{ item.befriended_on }}</small></p>
-            {% endif %}
+      <div class="large-3 columns ">
+        <div class="panel">
+          <img src="{% static user.getPicture %}"/>
+          <div class="text-center">
+            <h5>{{ user.name }}</h5>
+            <hr/>
           </div>
+          <li><a href="/me">{% trans "My profile" %}</a></li>
+          <li><a href="/sandbox">{% trans "Sandbox mode" %}</a></li>
+          <!--<li><a href="/me">Friends</a></li>-->
         </div>
-
-        <hr/>
-        {% endif %}
-        {% if item.type == 'UserInGroup'%}
-        {% if item.group.group_type == 0 %}
-        <div class="row">
-          <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
-          <div class="large-10 columns">
-
-            {% if item.user.id == user.id %}
-            <p>{% trans "I" %} {% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
-              <br><small>{{ item.joined_on }}</small></p>
-              {% else %}
-              <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
-                <br><small>{{ item.joined_on }}</small></p>
+      </div>
+      <div class="large-6 columns">
+        <div class="row collapse">
+          <form id="f_search_social" method="POST" action="/social/">
+            {% csrf_token %}
+            <div class="large-9 columns">
+              <input type="text" name="s_term" placeholder="{% trans "Explore the galaxy..." %}">
+              <input type="hidden" name="s_social" value="True">
+            </div>
+            <a href="#" id="b_search_social" class="tiny alert button">{% trans "Search" %}</a>
+          </form>
+        </div>
+        {% for item in feed_data %}
+          {% if item.type == 'FriendsWith' %}
+            <div class="row">
+              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getPicture %}/></a></div>
+              <div class="large-10 columns">
+                {% if item.friend.id == user.id %}
+                  <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a>
+                    <br><small>{{ item.befriended_on }}</small></p>
+                {% else %}
+                  <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a>
+                    <br><small>{{ item.befriended_on }}</small></p>
                 {% endif %}
               </div>
             </div>
 
             <hr/>
+          {% endif %}
+          {% if item.type == 'UserInGroup'%}
+            {% if item.group.group_type == 0 %}
+              <div class="row">
+                <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
+                <div class="large-10 columns">
+
+                  {% if item.user.id == user.id %}
+                    <p>{% trans "I" %} {% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
+                      <br><small>{{ item.joined_on }}</small></p>
+                  {% else %}
+                    <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
+                      <br><small>{{ item.joined_on }}</small></p>
+                  {% endif %}
+                </div>
+              </div>
+
+              <hr/>
             {% endif %}
-            {% endif %}
-            {% if item.type == 'MadeExerciseList'%}
+          {% endif %}
+          {% if item.type == 'MadeExerciseList'%}
             <div class="row">
               <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
               <div class="large-10 columns">
                 {% if item.user.id == user.id %}
-                <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
-                  <br><small>{{ item.completed_on }}</small></p>
-                  {% else %}
+                  <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+                    <br><small>{{ item.completed_on }}</small></p>
+                {% else %}
                   <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
                     <br><small>{{ item.completed_on }}</small></p>
-                    {% endif %}
-                  </div>
-                </div>
-
-                <hr/>
                 {% endif %}
-                {% endfor %}
-                <div class="pagination-centered">
-                  <ul class="pagination">
-                    {% if feed_data.has_previous %}
-                      {% if feed_data.number = 2 %}
-                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
-                        <li><a href="?page=1">1</a></li>
-                      {% elif feed_data.number = 3 %}
-                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
-                        <li><a href="?page=1">1</a></li>
-                        <li><a href="?page=2">2</a></li>
-                      {% elif feed_data.number > 3 %}
-                        <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
-                        <li><a href="?page=1">1</a></li>
-                        <li class="unavailable"><a href="">&hellip;</a></li>
-                        <li><a href="?page={{ feed_data.previous_page_number }}">{{ feed_data.previous_page_number }}</a></li>
-                      {% endif %}
-                    {% endif %}
-                    <li class="current"><a href="">{{ feed_data.number }}</a></li>
-                    {% if feed_data.has_next %}
-                      {% if paginator.num_pages|add:-2 > feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
-                        <li class="unavailable"><a href="">&hellip;</a></li>
-                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
-                      {% elif paginator.num_pages|add:-1 > feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
-                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
-                      {% elif paginator.num_pages|add:-1 = feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
-                      {% else %}
-                        <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
-                      {% endif %}
-                        <li class="arrow"><a href="?page={{ feed_data.next_page_number }}">&raquo;</a></li>
-                    {% endif %}
-                  </ul>
-                </div>
-              </div>
-              <aside class="large-3 columns hide-for-small">
-              </aside>
-              <div class="large-3 columns ">
-                <div class="panel callout radius">
-                  {% trans "Recommended Lists:" %}<br/>
-                  {% if recommended %}
-                  {% for recommended_list in recommended %}
-                  <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
-                  {% endfor %}
-                  <a href="/l/{{random_list}}" class="round small button">{% trans "I'm feeling lucky!" %}</a>
-                  {% else %}
-                  {% trans "You have made every single exerciselist!" %}
-                  {% endif %}
-                </div>
               </div>
             </div>
 
+            <hr/>
+          {% endif %}
+        {% endfor %}
+        <div class="pagination-centered">
+          <ul class="pagination">
+            {% if feed_data.has_previous %}
+              {% if feed_data.number = 2 %}
+                <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                <li><a href="?page=1">1</a></li>
+              {% elif feed_data.number = 3 %}
+                <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                <li><a href="?page=1">1</a></li>
+                <li><a href="?page=2">2</a></li>
+              {% elif feed_data.number > 3 %}
+                <li class="arrow"><a href="?page={{ feed_data.previous_page_number }}">&laquo;</a></li>
+                <li><a href="?page=1">1</a></li>
+                <li class="unavailable"><a href="">&hellip;</a></li>
+                <li><a href="?page={{ feed_data.previous_page_number }}">{{ feed_data.previous_page_number }}</a></li>
+              {% endif %}
+            {% endif %}
+            <li class="current"><a href="">{{ feed_data.number }}</a></li>
+            {% if feed_data.has_next %}
+              {% if paginator.num_pages|add:-2 > feed_data.number %}
+                <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
+                <li class="unavailable"><a href="">&hellip;</a></li>
+                <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+              {% elif paginator.num_pages|add:-1 > feed_data.number %}
+                <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
+                <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+              {% elif paginator.num_pages|add:-1 = feed_data.number %}
+                <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
+              {% else %}
+                <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
+              {% endif %}
+              <li class="arrow"><a href="?page={{ feed_data.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <aside class="large-3 columns hide-for-small">
+      </aside>
+      <div class="large-3 columns ">
+        <div class="panel callout radius">
+          {% trans "Recommended Lists:" %}<br/>
+          {% if recommended %}
+            {% for recommended_list in recommended %}
+              <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+            {% endfor %}
+            <a href="/l/{{random_list}}" class="round small button">{% trans "I'm feeling lucky!" %}</a>
+          {% else %}
+            {% trans "You have made every single exerciselist!" %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
 
-            {% else%}
-            <img src={% static "media/galaxy.jpg" %} id="bg" alt=""/>
 
-            <div class="row">
-              <div class="large-12 columns">
-                <img id="rocket" src={% static "media/HomePage.png" %}/>
-                <hr/>
-              </div>
+  {% else%}
+    <img src={% static "media/galaxy.jpg" %} id="bg" alt=""/>
+
+    <div class="row">
+      <div class="large-12 columns">
+        <img id="rocket" src={% static "media/HomePage.png" %}/>
+        <hr/>
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <div class="large-5 columns">
+        <div class="signup-panel">
+          <div class="row collapse">
+            <div class="small-1 columns">
+              <img src={% static "media/icons/planet.png" %}/>
             </div>
-
-
-
-            <div class="row">
-              <div class="large-5 columns">
-                <div class="signup-panel">
-                  <div class="row collapse">
-                    <div class="small-1 columns">
-                      <img src={% static "media/icons/planet.png" %}/>
-                    </div>
-                    <div class="small-11 columns">
-                      <p class="welcome">{% trans "Already a member" %}</p>
-                    </div>
-                    <div class="text-center">
-                      {% if error_login %}
-                      <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-                      {% endif %}
-                      <form method="post" action="/login/" data-abide>
-                        {% csrf_token %}
-                        <div class="row collapse">
-                          <div class="small-1 columns">
-                            <span class="prefix"><i class="fi-mail size-28"></i></span>
-                          </div>
-                          <div class="small-11  columns">
-                            <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-                            <small class="error">{% trans "Enter a valid Email Address." %}</small>
-                          </div>
-                        </div>
-                        <div class="row collapse">
-                          <div class="small-1 columns ">
-                            <span class="prefix"><i class="fi-lock size-28"></i></span>
-                          </div>
-                          <div class="small-11 columns ">
-                            <input type="password" required placeholder="{% trans "Password" %}" id="your_password_login" name="your_password">
-                            <small class="error">{% trans "Enter a valid Password." %}</small>
-                          </div>
-                        </div>
-                        <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
-                      </form>
-                    </div>
+            <div class="small-11 columns">
+              <p class="welcome">{% trans "Already a member" %}</p>
+            </div>
+            <div class="text-center">
+              {% if error_login %}
+                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+              {% endif %}
+              <form method="post" action="/login/" data-abide>
+                {% csrf_token %}
+                <div class="row collapse">
+                  <div class="small-1 columns">
+                    <span class="prefix"><i class="fi-mail size-28"></i></span>
+                  </div>
+                  <div class="small-11  columns">
+                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
                   </div>
                 </div>
-              </div>
-
-              <div class="large-5 columns">
-                <div class="signup-panel">
-                  <div class="row collapse">
-                    <div class="small-1 columns">
-                      <img src={% static "media/icons/planet.png" %}/>
-                    </div>
-                    <div class="small-10 columns">
-                      <p class="welcome">{% trans "New member" %}</p>
-                    </div>
-                    <div class="text-center">
-                      {% if error_register %}
-                      <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
-                      {% endif %}
-                      <form method="post" action="/register/" data-abide>
-                        {% csrf_token %}
-                        <div class="row collapse">
-                          <div class="small-2  columns">
-                            <span class="prefix"><i class="fi-torso size-28"></i></span>
-                          </div>
-                          <div class="small-10  columns">
-                            <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
-                            <small class="error">{% trans "Enter a valid First Name." %}</small>
-                          </div>
-                        </div>
-                        <div class="row collapse">
-                          <div class="small-2  columns">
-                            <span class="prefix"><i class="fi-torso size-28"></i></span>
-                          </div>
-                          <div class="small-10  columns">
-                            <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
-                            <small class="error">{% trans "Enter a valid Last Name." %}</small>
-                          </div>
-                        </div>
-                        <div class="row collapse">
-                          <div class="small-2 columns">
-                            <span class="prefix"><i class="fi-mail size-28"></i></span>
-                          </div>
-                          <div class="small-10  columns">
-                            <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
-                            <small class="error">{% trans "Enter a valid Email Address." %}</small>
-                          </div>
-                        </div>
-                        <div class="row collapse">
-                          <div class="small-2 columns">
-                            <span class="prefix"><i class="fi-lock size-28"></i></span>
-                          </div>
-                          <div class="small-10 columns">
-                            <input type="password" required placeholder="{% trans "Password" %}" class="snap-bottom" id="your_password" name="your_password" value="{{ your_password }}">
-                            <small class="error">{% trans "Enter a valid password." %}</small>
-                          </div>
-                        </div>
-                        <div class="row collapse">
-                          <div class="small-2 columns">
-                            <span class="prefix"><i class="fi-lock size-28"></i></span>
-                          </div>
-                          <div class="small-10 columns">
-                            <input type="password" required placeholder="{% trans "Confirm Password" %}" data-equalto="your_password" id="your_password_confirm" name="your_password_confirm" value="">
-                            <small class="error">{% trans "The passwords did not match." %}</small>
-                          </div>
-                        </div>
-
-                        <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
-                      </form>
-                    </div>
+                <div class="row collapse">
+                  <div class="small-1 columns ">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-11 columns ">
+                    <input type="password" required placeholder="{% trans "Password" %}" id="your_password_login" name="your_password">
+                    <small class="error">{% trans "Enter a valid Password." %}</small>
                   </div>
                 </div>
-
-              </div>
+                <input type="submit" value="{% trans  "Continue journey" %}" class="button small round"/>
+              </form>
             </div>
+          </div>
+        </div>
+      </div>
 
-
-            <div class="row">
-              <div class="large-12 columns">
-
-                <div class="panel">
-                  <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
-
-                  <div class="row">
-                    <div class="large-9 columns">
-                      <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
-                    </div>
+      <div class="large-5 columns">
+        <div class="signup-panel">
+          <div class="row collapse">
+            <div class="small-1 columns">
+              <img src={% static "media/icons/planet.png" %}/>
+            </div>
+            <div class="small-10 columns">
+              <p class="welcome">{% trans "New member" %}</p>
+            </div>
+            <div class="text-center">
+              {% if error_register %}
+                <div class="alert-box alert radius">{% trans "Incorrect email and/or password." %}</div>
+              {% endif %}
+              <form method="post" action="/register/" data-abide>
+                {% csrf_token %}
+                <div class="row collapse">
+                  <div class="small-2  columns">
+                    <span class="prefix"><i class="fi-torso size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="text" required placeholder="{% trans "First Name" %}" id="your_first_name" name="your_first_name" value="{{ your_first_name }}">
+                    <small class="error">{% trans "Enter a valid First Name." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2  columns">
+                    <span class="prefix"><i class="fi-torso size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="text" required placeholder="{% trans "Last Name" %}" id="your_last_name" name="your_last_name" value="{{ your_last_name }}">
+                    <small class="error">{% trans "Enter a valid Last Name." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2 columns">
+                    <span class="prefix"><i class="fi-mail size-28"></i></span>
+                  </div>
+                  <div class="small-10  columns">
+                    <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
+                    <small class="error">{% trans "Enter a valid Email Address." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2 columns">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-10 columns">
+                    <input type="password" required placeholder="{% trans "Password" %}" class="snap-bottom" id="your_password" name="your_password" value="{{ your_password }}">
+                    <small class="error">{% trans "Enter a valid password." %}</small>
+                  </div>
+                </div>
+                <div class="row collapse">
+                  <div class="small-2 columns">
+                    <span class="prefix"><i class="fi-lock size-28"></i></span>
+                  </div>
+                  <div class="small-10 columns">
+                    <input type="password" required placeholder="{% trans "Confirm Password" %}" data-equalto="your_password" id="your_password_confirm" name="your_password_confirm" value="">
+                    <small class="error">{% trans "The passwords did not match." %}</small>
                   </div>
                 </div>
 
-              </div>
+                <input type="submit" value="{% trans "Lift off" %}" name="SignUp" class="button small round"/>
+              </form>
             </div>
+          </div>
+        </div>
 
-            {% endif%}
+      </div>
+    </div>
 
-            {% endblock base_body %}
-            {% block body_js %}
-            <script>
-              $("#b_search_social").click(function() {
-                $("#f_search_social").submit();
-              });
-            </script>
-            {% endblock %}
+
+    <div class="row">
+      <div class="large-12 columns">
+
+        <div class="panel">
+          <h4>{% trans  "Learn to program with CodeGalaxy!"%}</h4>
+
+          <div class="row">
+            <div class="large-9 columns">
+              <p>{% trans "Learn to program in a fun and interactive way..." %}</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  {% endif%}
+
+{% endblock base_body %}
+{% block body_js %}
+  <script>
+    $("#b_search_social").click(function() {
+      $("#f_search_social").submit();
+    });
+  </script>
+{% endblock %}
