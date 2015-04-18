@@ -21,11 +21,14 @@
   </div>
   <div class="large-6 columns">
     <div class="row collapse">
-      <div class="large-9 columns">
-        <input type="text" placeholder="{% trans "Explore the galaxy..." %}">
-
-      </div>
-      <a href="#" class="tiny alert button">{% trans "Search" %}</a>
+      <form id="f_search_social" method="POST" action="/social/">
+        {% csrf_token %}
+        <div class="large-9 columns">
+          <input type="text" name="s_term" placeholder="{% trans "Explore the galaxy..." %}">
+          <input type="hidden" name="s_social" value="True">
+        </div>
+        <a href="#" id="b_search_social" class="tiny alert button">{% trans "Search" %}</a>
+      </form>
     </div>
     {% for item in feed_data %}
     {% if item.type == 'FriendsWith' %}
@@ -176,7 +179,7 @@
                             <span class="prefix"><i class="fi-lock size-28"></i></span>
                           </div>
                           <div class="small-11 columns ">
-                            <input type="password" required placeholder="{% trans "Password" %}" id="your_password" name="your_password">
+                            <input type="password" required placeholder="{% trans "Password" %}" id="your_password_login" name="your_password">
                             <small class="error">{% trans "Enter a valid Password." %}</small>
                           </div>
                         </div>
@@ -279,7 +282,8 @@
             {% endblock base_body %}
             {% block body_js %}
             <script>
-
-              $('img').on('dragstart', function(event) { event.preventDefault(); });
+              $("#b_search_social").click(function() {
+                $("#f_search_social").submit();
+              });
             </script>
             {% endblock %}
