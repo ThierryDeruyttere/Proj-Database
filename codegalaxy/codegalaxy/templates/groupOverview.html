@@ -5,9 +5,12 @@
 
 {% block base_body %}
 <div class="row">
-  <div class="large-12 columns">
+  <div class="large-9 columns">
     <h1>{% trans "Social" %}</h1>
   </div>
+  <div class="large-3 columns end">
+  </div>
+    <hr/>
 </div>
 
     <div class="row">
@@ -59,7 +62,7 @@
 
       success: function(response) {
         $("#search_result").html(response);
-      },
+      }
       // error: function(jqXHR, textStatus, error) {
       //   setError(jqXHR.responseText);
       // }

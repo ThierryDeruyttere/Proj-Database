@@ -23,21 +23,15 @@
 }
 
 .sql {
-    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #62ff4a 0%, #00b301 100%, #018d0e 95%);
-    background-image: -webkit-radial-gradient(45px 45px, circle cover, #62ff4a,  #00b301);
-    background-image: radial-gradient(45px 45px 45deg, circle cover, #62ff4a 0%,  #00b301 100%, #018d0e 95%);
+    background-image: url('../media/icons/GreenPlanet.png');
 }
 
 .cpp {
-    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #e47474 0%, #d6000f 100%, #c00005 95%);
-    background-image: -webkit-radial-gradient(45px 45px, circle cover, #e47474, #d6000f);
-    background-image: radial-gradient(45px 45px 45deg, circle cover, #e47474 0%, #d6000f 100%, #c00005 95%);
+    background-image: url('../media/icons/RedPlanet.png');
 }
 
 .python {
-    background-image: -moz-radial-gradient(45px 45px 45deg, circle cover, #82ffd2 0%, #52baff 100%, #2eaeff 95%);
-    background-image: -webkit-radial-gradient(45px 45px, circle cover, #75fff2, #489aff);
-    background-image: radial-gradient(45px 45px 45deg, circle cover, #53f8ff 0%, #52baff 100%, #2eaeff 95%);
+    background-image: url('../media/icons/BluePlanet.png');
 }
 
 .planet {

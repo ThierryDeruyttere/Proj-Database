@@ -19,7 +19,7 @@ from managers.gm import *
 from managers.rm.recommendations import *
 
 import os.path
-from PIL import Image
+#from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
