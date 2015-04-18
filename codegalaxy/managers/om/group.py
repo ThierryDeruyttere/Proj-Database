@@ -22,6 +22,9 @@ class Group:
         self.group_type = group_type
         self.created_on = created_on
 
+    def name(self):
+        return group_name
+
     def getGroupPicture(self):
         group_picture = "group_pictures/{}.png".format(self.id)
         path = "./codegalaxy/static/" + group_picture

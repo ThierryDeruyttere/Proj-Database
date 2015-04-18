@@ -10,7 +10,7 @@ def groupOverview(request):
     s_term = request.POST.get('term', '')
     s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false')
 
-    results = search(s_term, s_groups=True)
+    results = search(s_term, s_users=(not s_my_groups), s_groups=True)
 
     current_user = logged_user(request)
     if current_user and s_my_groups:
@@ -29,6 +29,6 @@ def groupOverview(request):
             </a>
           </div>
         </div>
-        '''.format(id=result.id, picture=result.getGroupPicture(), name=result.group_name)
+        '''.format(id=result.id, picture=result.getGroupPicture(), name=result.name())
 
     return HttpResponse(response)
