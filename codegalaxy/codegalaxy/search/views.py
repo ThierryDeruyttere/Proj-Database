@@ -6,11 +6,17 @@ from codegalaxy.search import *
 
 from codegalaxy.authentication import require_login, logged_user
 
-def groupOverview(request):
+def social(request):
     s_term = request.POST.get('term', '')
-    s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false')
+    s_social = request.POST.get('s_social', 'false') != 'false'
 
-    results = search(s_term, s_users=(not s_my_groups), s_groups=True)
+    s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false' and not s_social)
+
+    print(s_term)
+    print(s_social)
+    print(s_my_groups)
+
+    results = search(s_term, s_users=s_social, s_groups=s_social)
 
     current_user = logged_user(request)
     if current_user and s_my_groups:

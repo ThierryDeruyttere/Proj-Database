@@ -419,6 +419,9 @@ def group(request, id=0):
 def social(request):
     current_user = logged_user(request)
 
+    s_term = request.POST.get('s_term', '')
+    s_social = request.POST.get('s_social', 'false') != 'false'
+
     # Biggest Groups
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo(
@@ -428,7 +431,9 @@ def social(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    return render(request, 'groupOverview.html', {'biggest_groups': bar_chart})
+    context = {'biggest_groups': bar_chart, 's_term': s_term, 's_social': s_social}
+
+    return render(request, 'groupOverview.html', context)
 
 
 @require_login

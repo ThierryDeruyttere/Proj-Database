@@ -15,7 +15,7 @@
         <div id="search_groups" class="row collapse">
           <div class="row collapse postfix-radius">
             <div class="large-10 columns">
-              <input type="text" placeholder="{% trans "Search groups..." %}">
+              <input type="text" placeholder="{% trans "Search groups..." %}" value="{{ s_term }}">
             </div>
             <div class="large-2 columns">
               <button class="button postfix no-outline">{% trans "Search" %}</button>
@@ -45,13 +45,15 @@
 {% block body_js %}
 <script>
   function doSearch() {
-    term_text = $("#search_groups input").val();
+    term_text = $("#search_groups input[type=text]").val();
 
-    var post_data = {term:term_text, my_groups:$('#my_groups').is(':checked')};
+    var social = "{{ s_social }}";
+
+    var post_data = {term:term_text, s_social:social, my_groups:$('#my_groups').is(':checked')};
 
     $.ajax({
       type: "POST",
-      url: "/s/groupOverview/",
+      url: "/s/social/",
       data: post_data,
       dataType: "text",
 
