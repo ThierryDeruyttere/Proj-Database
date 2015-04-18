@@ -118,7 +118,7 @@
       {% endfor %}
       </div>
 
-      <div class="row">
+      <div class="row informations">
         {% for list in all_lists|copy_list %}
           <div class="information panel" id="info{{ forloop.counter }}" hidden="True">
             <div class="row">
@@ -138,7 +138,6 @@
 
       </div>
     </div>
-
 
     <div class="large-4 columns">
       <div class="text-center">
@@ -184,7 +183,7 @@
       $('.planets').slick({
         infinite: false,
         centerMode: true,
-        slidesToShow: slides,
+        slidesToShow: 1,
         centerPadding: '0px',
         focusOnSelect: true,
         slideGlide: true,
@@ -231,19 +230,22 @@
             type: 'POST',
             url: "",
             data: post_data,
-            dataType: "text",
+            dataType: "json",
 
             success: function(response) {
               //unslick() doesn't seem to work, then we just do it this way.
               $('.planets').slick('unslick');
               $('.planets').empty();
-              $('.planets').append(response);
+              $('.informations').empty();
+
+              $('.planets').append(response["planets"]);
+              $('.informations').append(response['info']);
               var slides = 5;
               //temporary fix
               //TODO FIX ME
-              var track_am = $(response).find('.information').length;
+              var track_am = $(response['planets']).find('.planet').length;
               if(track_am < 5){
-                slides = track_am;
+                slides = 1;
               }
               createSlick(slides);
 
