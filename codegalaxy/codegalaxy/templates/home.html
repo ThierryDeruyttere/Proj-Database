@@ -15,6 +15,7 @@
         <hr/>
       </div>
       <li><a href="/me">{% trans "My profile" %}</a></li>
+      <li><a href="/sandbox">{% trans "Sandbox mode" %}</a></li>
       <!--<li><a href="/me">Friends</a></li>-->
     </div>
   </div>
@@ -99,14 +100,14 @@
                     <li class="current"><a href="">{{ feed_data.number }}</a></li>
                     {% if feed_data.has_next %}
                       {% if paginator.num_pages|add:-2 > feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
                         <li class="unavailable"><a href="">&hellip;</a></li>
                         <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
                       {% elif paginator.num_pages|add:-1 > feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
                         <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
                       {% elif paginator.num_pages|add:-1 = feed_data.number %}
-                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>  
+                        <li><a href="?page={{ feed_data.next_page_number }}">{{ feed_data.next_page_number }}</a></li>
                       {% else %}
                         <li><a href="?page={{ paginator.num_pages }}">{{ paginator.num_pages }}</a></li>
                       {% endif %}
