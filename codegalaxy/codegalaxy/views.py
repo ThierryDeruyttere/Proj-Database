@@ -72,7 +72,7 @@ def home(request):
             recommended_lists.append(
                 object_manager.createExerciseList(recommended_list))
 
-        return render(request, 'home.html', {'user': current_user, 'feed_data':feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'paginator': paginator, 'random_list': imFeelingLucky(current_user)})
+        return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'paginator': paginator, 'random_list': imFeelingLucky(current_user)})
     return render(request, 'home.html')
 
 @require_login
@@ -194,12 +194,6 @@ def user(request, id=0):
 
     else:
         return redirect('/')
-
-
-@require_login
-def userOverview(request):
-    users = object_manager.allUsers()
-    return render(request, 'userOverview.html', {'users': users})
 
 def register(request):
     # Check if we are already logged in
@@ -335,7 +329,6 @@ def group(request, id=0):
             user_id_to_upgrade = request.POST.get('user_id_to_upgrade')
             group.upgradeUserPermissions(user_id_to_upgrade)
 
-
     is_member = False
     if group:
         user_list = group.allMembers()
@@ -423,7 +416,7 @@ def group(request, id=0):
 
 
 @require_login
-def groupOverview(request):
+def social(request):
     current_user = logged_user(request)
 
     # Biggest Groups

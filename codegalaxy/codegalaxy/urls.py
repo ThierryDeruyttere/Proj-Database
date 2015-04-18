@@ -10,8 +10,6 @@ urlpatterns = patterns('codegalaxy.views',
     ## USERS ##
     # User page (/u/<id>)
     url(r'^u/(?P<id>\d*)/$', 'user'),
-    # User overview (/u/overview)
-    url(r'^u/overview/$', 'userOverview'),
     # Login page (/login)
     url(r'^login', 'login'),
     # Logout page (/logout)
@@ -26,8 +24,8 @@ urlpatterns = patterns('codegalaxy.views',
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
-    # Group overview (/g/overview)
-    url(r'^g/overview/$', 'groupOverview'),
+    # Social overview (/social)
+    url(r'^social/$', 'social'),
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
