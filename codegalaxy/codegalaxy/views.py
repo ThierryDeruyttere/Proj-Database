@@ -91,7 +91,7 @@ def user(request, id=0):
     pie_graph = None
     # % per lang
     bar_chart = None
-    if len(current_user.allPersonalLists()) != 0:
+    if len(user.allPersonalLists()) != 0:
         lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguageForUser(user.id)
 
         pie_graph = graph_manager.makePieChart('list_per_lang', 100, 100,
