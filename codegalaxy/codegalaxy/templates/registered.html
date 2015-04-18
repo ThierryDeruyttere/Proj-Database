@@ -1,0 +1,16 @@
+{% extends "codegalaxy.html" %}
+{% load staticfiles %}
+
+{% block base_body %}
+</br>
+<div class="row">
+  <div class="large-text-center">
+    <div data-alert class="alert-box info radius" id="message">
+      You have been registered! I just sent you a verification email, open it up so
+      you can join me and Kernel on our adventures!
+    </div>
+    <img id="grub" src="{% static "media/aliens/happy_grub.jpg" %}">
+  </div>
+</div>
+
+{% endblock base_body %}
