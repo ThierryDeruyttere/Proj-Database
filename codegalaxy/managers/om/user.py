@@ -41,7 +41,7 @@ class User:
 
         return ex_lists
 
-    def getProfilePicture(self):
+    def getPicture(self):
         profile_picture = "profile_pictures/{}.png".format(self.id)
 
         path = "./codegalaxy/static/" + profile_picture

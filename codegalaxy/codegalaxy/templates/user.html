@@ -10,7 +10,7 @@
   <div class="row">
     <div class="large-3 columns text-center ">
       <div class="panel">
-        <a href="#"><img src="{% static user.getProfilePicture %}"></a>
+        <a href="#"><img src="{% static user.getPicture %}"></a>
         <h5><a href="#">{{ user.name }}</a></h5>
 
         <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
@@ -157,7 +157,7 @@
         <div class="content" id="friends">
           {% for friendship in pending_friendships %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static friendship.friend.getProfilePicture %}"/></div>
+            <div class="large-2 columns small-3"><img src="{% static friendship.friend.getPicture %}"/></div>
             <div class="large-10 columns">
               <p><strong><a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }} </a></strong>{% trans "wants to be your friend, do you want to accept?" %}</p>
               <ul class="button-group radius">
@@ -181,7 +181,7 @@
             <div class="large-3 columns end">
               <a href="/u/{{ friendship.friend.id }}">
                 <div class="panel radius">
-                  <img src="{% static friendship.friend.getProfilePicture %}"/>
+                  <img src="{% static friendship.friend.getPicture %}"/>
                   <h5 class="text-cut-off">{{ friendship.friend.first_name }}</h5>
                   <h6 class="text-cut-off">{{ friendship.friend.last_name }}</h6>
                 </div>
@@ -193,7 +193,7 @@
         <div class="content" id="groups">
           {% for group_membership in pending_group_memberships %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static group_membership.group.getGroupPicture %}"/></div>
+            <div class="large-2 columns small-3"><img src="{% static group_membership.group.getPicture %}"/></div>
             <div class="large-10 columns">
               <p>{% trans "Someone wants to add you to" %} <strong><a href="/g/{{ group_membership.group.id }}">{{ group_membership.group.group_name }}</a></strong></p>
               <ul class="button-group radius">
@@ -219,7 +219,7 @@
             <div class="large-3 columns end">
               <div class="panel radius">
                 <a href="/g/{{ group.id }}">
-                  <img src="{% static group.getGroupPicture %}" />
+                  <img src="{% static group.getPicture %}" />
                   <div>
                     <h6 class="text-cut-off">{{ group.group_name }}</h6>
                   </div>

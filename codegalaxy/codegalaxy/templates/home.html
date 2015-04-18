@@ -9,7 +9,7 @@
 <div class="row">
   <div class="large-3 columns ">
     <div class="panel">
-      <img src="{% static user.getProfilePicture %}"/>
+      <img src="{% static user.getPicture %}"/>
       <div class="text-center">
         <h5>{{ user.name }}</h5>
         <hr/>
@@ -29,7 +29,7 @@
     {% for item in feed_data %}
     {% if item.type == 'FriendsWith' %}
     <div class="row">
-      <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getProfilePicture %}/></a></div>
+      <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getPicture %}/></a></div>
       <div class="large-10 columns">
         {% if item.friend.id == user.id %}
         <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a>
@@ -46,7 +46,7 @@
         {% if item.type == 'UserInGroup'%}
         {% if item.group.group_type == 0 %}
         <div class="row">
-          <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getProfilePicture %}"/></a></div>
+          <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
           <div class="large-10 columns">
 
             {% if item.user.id == user.id %}
@@ -64,7 +64,7 @@
             {% endif %}
             {% if item.type == 'MadeExerciseList'%}
             <div class="row">
-              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getProfilePicture %}"/></a></div>
+              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
               <div class="large-10 columns">
                 {% if item.user.id == user.id %}
                 <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>

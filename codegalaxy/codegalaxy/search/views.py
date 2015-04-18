@@ -29,6 +29,6 @@ def groupOverview(request):
             </a>
           </div>
         </div>
-        '''.format(id=result.id, picture=result.getGroupPicture(), name=result.name())
+        '''.format(id=result.id, picture=result.getPicture(), name=result.name())
 
     return HttpResponse(response)

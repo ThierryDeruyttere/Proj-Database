@@ -14,7 +14,7 @@ def get_range(number):
 @register.assignment_tag(takes_context=True)
 def getProfilePicture(context):
     object_manager = objectmanager.ObjectManager()
-    return authentication.logged_user(context['request']).getProfilePicture()
+    return authentication.logged_user(context['request']).getPicture()
 
 @register.assignment_tag(takes_context=True)
 def check_loggedIn(context):

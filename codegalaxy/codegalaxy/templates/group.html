@@ -9,8 +9,8 @@
 <div class="row">
   <div class="large-3 columns text-center ">
     <div class="panel">
-      <a href="#"><img src="{% static group.getGroupPicture %}"></a>
-      <h2><a href="#">{{ group.group_name }}</a></h2> 
+      <a href="#"><img src="{% static group.getPicture %}"></a>
+      <h2><a href="#">{{ group.group_name }}</a></h2>
       {% if not is_member %}
       <form method="post" action="/g/{{group.id}}/">
         {% csrf_token %}
@@ -45,7 +45,7 @@
         {% for item in data %}
         {% if item.type == 'FriendsWith' %}
         <div class="row">
-          <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
+          <div class="large-1 columns small-3"><img src="{% static item.user.getPicture %}"/></div>
           <div class="large-11 columns">
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.name }}</a>
               <br/><small>{{ item.befriended_on }}</small></p>
@@ -56,7 +56,7 @@
         {% endif %}
         {% if item.type == 'UserInGroup'%}
         <div class="row">
-          <div class="large-1 columns small-3"><img src="{% static item.user.getProfilePicture %}"/></div>
+          <div class="large-1 columns small-3"><img src="{% static item.user.getPicture %}"/></div>
           <div class="large-11 columns">
             <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a>
               <br><small>{{ item.joined_on }}</small></p>
@@ -68,7 +68,7 @@
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
             <div class="large-1 columns small-3">
-              <img src="{% static item.user.getProfilePicture %}"/>
+              <img src="{% static item.user.getPicture %}"/>
             </div>
             <div class="large-11 columns">
               <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
@@ -107,7 +107,7 @@
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">
               <div class="small-2 large-2 columns">
-                <img src="{% static user.getProfilePicture %}">
+                <img src="{% static user.getPicture %}">
               </div>
               <div class="small-4 large-8 columns">{{user.first_name}} {{user.last_name}}</div>
               <form method="POST" action="/g/{{group.id}}/">
@@ -127,7 +127,7 @@
               <div class="large-3 columns end">
                 <a href="/u/{{ member.id }}">
                   <div id="u_{{ member.id }}" class="panel radius">
-                    <img src="{% static member.getProfilePicture %}"/>
+                    <img src="{% static member.getPicture %}"/>
                     <h5 class="text-cut-off">{{ member.first_name }}</h5>
                     <h6 class="text-cut-off">{{ member.last_name }}</h6>
                     {% if not group_permissions == 2 %}
@@ -144,7 +144,7 @@
         </div>
       </div>
     </div>
-      
+
 
 
 
@@ -153,7 +153,7 @@
     <li>
       <div id="myDiv">
         <form id="myForm">
-        </form> 
+        </form>
       </div>
     </li>
     <li>
@@ -163,7 +163,7 @@
           <div id="myInput">
           </div>
           <input type="submit" name="upgrade_user" value="Make Admin" class="button success"/>
-        </form> 
+        </form>
       </div>
     <li>
       <div id="myDiv3">
@@ -172,7 +172,7 @@
           <div id="myInput">
           </div>
           <input type="submit" name="remove_user" value="Delete User" class="button alert"/>
-        </form> 
+        </form>
       </div>
     </li>
 
@@ -191,7 +191,7 @@
     var chbx2 = '<input type="hidden" name="user_id_to_upgrade" value="' + user_id + '">';
     var chbx3 = '<input type="hidden" name="user_id_to_delete" value="' + user_id + '">';
     //<input type="submit" name="remove_user" value="Delete User" class="button alert"/>';
-    
+
     $("#myDiv form#myForm").html(chbx);
     $("#myDiv2 form#myForm2 #myInput").html(chbx2);
     $("#myDiv3 form#myForm3 #myInput").html(chbx3);
