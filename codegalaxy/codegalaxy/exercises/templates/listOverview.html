@@ -118,9 +118,9 @@
       {% endfor %}
       </div>
 
-      <div>
+      <div class="row">
         {% for list in all_lists|copy_list %}
-          <div class="information panel">
+          <div class="information panel" id="info{{ forloop.counter }}" hidden="True">
             <div class="row">
               <div class="text-center">
                 {{ list.name }}
@@ -165,16 +165,17 @@
   <script>
 
     $('.planets').on('afterChange',function(event, slick, currentSlide, nextSlide){
-      var panel = $(this).find('.slick-center').find('.information')[0];
+      var id = $($('.planets').find('.slick-center')).find('.planet').text();
+      var panel = $('#info'+ $.trim(id));
       $(panel).slideUp(0);
-      $(panel).css('visibility','visible');
       $(panel).slideDown();
     });
 
     $('.planets').on('beforeChange',function(event, slick, currentSlide, nextSlide){
-      var panel = $(this).find('.slick-center').find('.information')[0];
-      $(panel).css('visibility','hidden');
+      var id = $($('.planets').find('.slick-center')).find('.planet').text();
+      var panel = $('#info'+ $.trim(id));
       $(panel).slideUp(0);
+
     });
 
 
@@ -209,10 +210,8 @@
           }]
       });
 
-      var panel = $('.planets').find('.slick-center').find('.information')[0];
-      planetWidth = $('.planets').find('.slick-center').width() * 1.5;
-      $(panel).css('visibility','visible');
-      $(panel).slideDown();
+      var id = $($('.planets').find('.slick-center')).find('.planet').text();
+      $('#info'+ $.trim(id)).show();
 
     }
 
