@@ -14,6 +14,8 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^login', 'login'),
     # Logout page (/logout)
     url(r'^logout', 'logout'),
+    # Registration email sent page (/registered)
+    url(r'^registered', 'registered'),
     # Redirect to user page (/me)
     url(r'^me', 'me'),
     # Register (/register)

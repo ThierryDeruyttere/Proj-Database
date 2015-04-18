@@ -75,6 +75,11 @@ def home(request):
         return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'paginator': paginator, 'random_list': imFeelingLucky(current_user)})
     return render(request, 'home.html')
 
+def registered(request):
+    if logged_user(request):
+        return redirect('/')
+    return render(request, 'registered.html')
+
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
@@ -244,7 +249,7 @@ def register(request):
         except:
             return render(request, 'register.html', {'error_register': True})
 
-    return redirect('/')
+    return redirect('/registered/')
 
 
 def login(request):
