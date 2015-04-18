@@ -66,11 +66,7 @@ input#user::-webkit-input-placeholder{
 }
 
 .information {
-    visibility: hidden;
-    margin-top: 1.5em;
-    width: 30em;
-    position: relative;
-    right: 11em;
+
 }
 
 .slick-center > .planet {
@@ -115,8 +111,13 @@ input#user::-webkit-input-placeholder{
     text-align: center;
 }
 
-.planets{
-    height: 10em;
+
+.slick-list{
+    height: 12em !important;
+}
+
+.slick-prev, .slick-next{
+    top: 25% !important;
 }
 
 #astronaut{

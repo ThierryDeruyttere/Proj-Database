@@ -4,6 +4,7 @@ from managers.om import objectmanager
 from django.template import resolve_variable
 from django import template
 from django.template import Library, Node
+from copy import deepcopy
 
 register = template.Library()
 
@@ -28,3 +29,8 @@ def check_loggedIn(context):
 @register.filter
 def for_key(d, key):
     return d.get(key)
+
+
+@register.filter
+def copy_list(l):
+    return deepcopy(l)
