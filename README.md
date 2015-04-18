@@ -21,6 +21,11 @@ $ git config branch.master.rebase true
 ```
 
 ## Tech
+###Python Libraries
+```sh
+# Installeer dateutil (library voor oa vergelijken data)
+sudo apt-get install python3-dateutil
+```
 ###Django
 ###mySQL
 ```sh

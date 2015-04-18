@@ -253,6 +253,32 @@ class User:
             return 0
         return len(groups)
 
+    def timeJoined(self):
+        import datetime
+        from dateutil.relativedelta import relativedelta
+        now = datetime.datetime.now()
+        return relativedelta(now, self.joined_on.replace(tzinfo=None))
+
+    def timeJoinedString(self):
+        time_joined = self.timeJoined()
+        time_joined_string = ''
+        if time_joined.years > 0:
+            time_joined_string += str(time_joined.years) + ' year'
+            if time_joined.years != 1:
+                time_joined_string += 's'
+            time_joined_string += ' '
+        if time_joined.months > 0:
+            time_joined_string += str(time_joined.months) + ' month'
+            if time_joined.months != 1:
+                time_joined_string += 's'
+            time_joined_string += ' '
+        if time_joined.days > 0:
+            time_joined_string += str(time_joined.days) + ' day'
+            if time_joined.days != 1:
+                time_joined_string += 's'
+            time_joined_string += ' '
+        return time_joined_string
+
     def allExerciseListsMade(self):
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         for exerciseList in exercise_list_date:
