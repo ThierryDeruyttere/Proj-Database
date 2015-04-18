@@ -41,9 +41,9 @@
     <div data-alert id="output" class="alert-box success radius">
       <div id="output_success" class="output-header">Success!</div>
       <div id="output_error" class="output-header" hidden>Oops, something went wrong...</div>
-      <div id="output_text"></div>
+      <pre id="output_text"></pre>
+      <div id="turtle_output" hidden></div>
     </div>
-    <div id="turtle_output"></div>
   </div>
 </div>
 {% endblock base_body %}
@@ -90,9 +90,11 @@
     var mode = code_text.getOption("mode").replace("text/x-", "").replace("src", "");
 
     if(mode == "python" && $("#b_turtle").hasClass("success")) {
-
+      runit();
+      $("#turtle_output").show();
     }
     else {
+      $("#turtle_output").hide();
       var post_data = {code:code_text.getValue(), is_editor:"yes"};
       $.ajax({
         type: "POST",
@@ -137,10 +139,6 @@
     $(this).toggleClass("success");
   });
 
-  function outf(text) {
-    setSuccess(text);
-  }
-
   function builtinRead(x) {
       if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
               throw "File not found: '" + x + "'";
@@ -148,20 +146,21 @@
   }
 
   function runit() {
-     var prog = document.getElementById("yourcode").value;
-     var mypre = document.getElementById("output");
-     mypre.innerHTML = '';
-     Sk.pre = "output";
-     Sk.configure({output:outf, read:builtinRead});
+     var prog = code_text.getValue();
+     prog += "\nprint(\"Turtle output:\")"
+     Sk.pre = "output_text";
+     Sk.configure({output:setSuccess, read:builtinRead});
      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
      var myPromise = Sk.misceval.asyncToPromise(function() {
          return Sk.importMainWithBody("<stdin>", false, prog, true);
      });
      myPromise.then(function(mod) {
-         console.log('success');
+       console.log("success");
      },
-         function(err) {
-         console.log(err.toString());
+      function(err) {
+        $("#turtle_output").hide();
+        console.log(err.toString());
+        setError(err.toString());
      });
   }
 
