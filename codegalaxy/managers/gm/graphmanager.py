@@ -35,12 +35,12 @@
 # Date[i] will match with label[i] and with colorinfos[i]
 # Colors+highlighted colors
 
-# Order:                Red,                    Blue,                  Yellow,                 Dark Grey,               Purple,                Grey
-color_tuples = [("#F7464A", "#FF5A5E"), ("#46BFBD", "#5AD3D1"), ("#FDB45C", "#FFC870"), ("#4D5360", "#616774"), ("#B48EAD", "#C69CBE"), ("#949FB1", "#A8B3C5")]
+# Order:                Red,                    Blue,                     Orange light,          Yellow,             Orange dark,           Grey
+color_tuples = [("#f04124", "#f04124"), ("#2a3963", "#2a3963"), ("#FF9437", "#FF9437"), ("#FFA336", "#FFA336"), ("#FF621D", "#FF621D"), ("#949FB1", "#A8B3C5")]
 
 class ColorInfo:
 
-    def __init__(self, fillColor="rgba(172,194,132,0.4)", strokeColor="#ACC26D", pointColor="#fff", pointStrokeColor="#9DB86D"):
+    def __init__(self, fillColor="#f04124", strokeColor="#f04124", pointColor="#f04124", pointStrokeColor="#f04124"):
         self.fillColor = fillColor
         self.strokeColor = strokeColor
         # Ok so this is a bit fked, use these as highlightFill and highlightStroke for bars

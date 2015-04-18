@@ -15,11 +15,10 @@
   <div class="row">
 
   <div class="large-8 columns">
-  <div class="panel">
     <div class="row">
       <div class="large-12 columns">
-        <fieldset>
-          <legend>Search exercise lists</legend>
+        <h1>Search exercise lists</h1>
+        <div class="panel">
           <form method="POST" id="search_options">
             {% csrf_token %}
             <div class="row" id="search">
@@ -58,12 +57,9 @@
                 </select>
               </div>
               <div class="large-6 columns">
-                Separate subjects by comma
+                Subjects - separate by comma
                 <div class="row collapse prefix-radius">
-                  <div class="small-4 columns">
-                    <span class="prefix">Subjects</span>
-                  </div>
-                  <div class="small-8 columns">
+                  <div class="small-12 columns">
                     <input type="text" id="subjects" name="subjects" class="text-center">
                   </div>
                 </div>
@@ -82,21 +78,23 @@
 
             <div class="row">
               <br>
-              <div class="large-4 columns">
-                <button class="small round button" id="search_button">Search</button>
-              </div>
-              <div class="large-4 end columns">
+              <div class="large-4 columns large-centered">
                 <select id="order_mode" name="order_mode">
                   <option>Ascending</option>
                   <option>Descending</option>
                 </select>
               </div>
             </div>
+            <div class="row">
+              <div class="large-2 columns large-centered">
+                <button class="small round button" id="search_button">Search</button>
+              </div>
+            </div>
           </form>
-        </fieldset>
+      </div>
       </div>
     </div>
-  </div>
+
   <div class="row" id="galaxy-navigation">
     <div class="planets">
       {% for list in all_lists %}

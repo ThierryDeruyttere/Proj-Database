@@ -9,10 +9,12 @@
 
 {% block base_body %}
 <div class="row">
-  <div class="large-12 columns">
+  <div class="large-9 columns">
     <h1>{% trans "Group overview" %}</h1>
-    <hr/>
   </div>
+  <div class="large-3 columns end">
+  </div>
+    <hr/>
 </div>
 <div class="row">
   <div class="large-8 columns">
@@ -41,11 +43,11 @@
   </div>
   <div class="row">
     <div class="large-4 columns text-center">
+      <a href="/g/create" class="round alert button">{% trans "Create new group" %}</a>
       <div class="panel">
         <legend>Biggest Groups</legend>
         {{ biggest_groups | safe }}
       </div class="panel">
-      <a href="/g/create" class="round alert button">{% trans "Create new group" %}</a>
     </div>
 </div>
 
