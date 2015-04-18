@@ -85,7 +85,7 @@ def user(request, id=0):
 
     # We'll show:
     # % per lang, # lists per lang, total lists, total groups, time joined,
-    # % avg (any lang)
+    # % avg (any lang), # ex per lang
 
     # lists per lang
     pie_graph = None

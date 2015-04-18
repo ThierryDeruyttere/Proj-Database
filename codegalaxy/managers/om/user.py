@@ -279,6 +279,13 @@ class User:
             time_joined_string += ' '
         return time_joined_string
 
+    def averageScoreOnLists(self):
+        lists = self.allPersonalLists()
+        score = 0
+        for made_list in lists:
+            score += made_list.score
+        return round(score/len(lists))
+
     def allExerciseListsMade(self):
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         for exerciseList in exercise_list_date:
