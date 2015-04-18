@@ -294,6 +294,14 @@ def getExercisesForList(list_id):
     cursor.close()
     return fetched
 
+def getEmailFromVerificationAndRemoveVerification(hash):
+    cursor = connection.cursor()
+    cursor.execute('SELECT email FROM verification WHERE hash = "{hash}";'.format(hash=hash))
+    result = processOne(cursor)
+    cursor.execute('DELETE FROM verification WHERE hash = "{hash}";'.format(hash=hash))
+    cursor.close()
+    return result
+
 def getExerciseReferencesForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT e.original_id AS id,e.new_list_exercise_number FROM exercise_references e WHERE e.new_list_id = {id};'.format(id=list_id))
@@ -798,6 +806,10 @@ def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exerci
 
 # UPDATE
 
+def setUserActive(email):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE user SET is_active = 1 WHERE email = "{email}";'.format(email=email))
+
 def updateUserInformation(user_id, email, password):
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET email="{email}",password="{passw}" WHERE id = {id};'.format(passw=password, email=email, id=user_id))
@@ -1087,11 +1099,6 @@ def needsVerification(hash):
         return result['email']
     else:
         return None
-
-def removeVerification(hash):
-    cursor = connection.cursor()
-    cursor.execute('DELETE FROM verification WHERE hash = "{hash}";'.format(hash=hash))
-
 
 def addVerification(email, hash):
     cursor = connection.cursor()

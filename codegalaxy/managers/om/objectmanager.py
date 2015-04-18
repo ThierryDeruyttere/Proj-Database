@@ -181,8 +181,10 @@ class ObjectManager:
         dbw.addVerification(email, hash)
 
     def acceptVerification(self, hash):
-        dbw.removeVerification(hash)
+        return dbw.getEmailFromVerificationAndRemoveVerification(hash)['email']
 
+    def setUserActive(self, email):
+        dbw.setUserActive(email)
 
     def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC'):
         lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)

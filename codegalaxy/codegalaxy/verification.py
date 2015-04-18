@@ -31,8 +31,6 @@ def sendVerification(email):
     </html>
     """.format(hash=hash_sequence)
 
-    print(hash_sequence)
-
     # Record the MIME types of both parts - text/plain and text/html.
     part1 = MIMEText(text, 'plain')
     part2 = MIMEText(html, 'html')
