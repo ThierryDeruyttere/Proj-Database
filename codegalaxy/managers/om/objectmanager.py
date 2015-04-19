@@ -8,6 +8,7 @@ import datetime
 # Class that will build and work with the various objects representing the site
 # will use SQL
 
+
 def timeFromToday(compare_date):
     compare_date = compare_date.replace(tzinfo=None)
     now = datetime.datetime.now()
@@ -90,8 +91,8 @@ class ObjectManager:
             return None
 
     # Uses the DB to create an object representing a ExerciseList
-    def createExerciseList(self, id):
-        exercise_list_info = dbw.getExerciseListInformation(id)
+    def createExerciseList(self, id, lang_id):
+        exercise_list_info = dbw.getExerciseListInformation(id, lang_id)
         if exercise_list_info:
 
             exercise_list_object = managers.om.exerciselist.ExerciseList(id, exercise_list_info['name'],

@@ -56,7 +56,22 @@ def processOne(cursor):
     else:
         return info[0]
 
-def getExerciseListInformation(id):
+def getListTranslation(id, language_id):
+    '''
+    @param id: the id of the list
+    @param language_id: the id of the language
+    @return returns the translation
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM listTranslation WHERE id = {id} AND langauge_id = {lang_id};'.format(id=id, lang_id = language_id))
+    fetched = processOne(cursor)
+    if fetched is None:
+        cursor.execute('SELECT * FROM listTranslation WHERE id = {id} AND langauge_id = 1;'.format(id=id))
+        fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def getExerciseListInformation(id, lang_id):
     '''
     @brief get the information from Exercise lists given an user id
     @param id the id of the user
@@ -66,6 +81,9 @@ def getExerciseListInformation(id):
     cursor.execute('SELECT * FROM exerciseList WHERE id = {id};'.format(id=id))
     fetched = processOne(cursor)
     cursor.close()
+    trans = getListTranslation(id, lang_id)
+    fetched['title'] = trans['title']
+    fetched['description'] = trans['description']
     return fetched
 
 def getExerciseListIdsMadeByUser(user_id):

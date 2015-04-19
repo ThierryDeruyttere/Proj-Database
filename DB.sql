@@ -399,8 +399,6 @@ DROP TABLE IF EXISTS `exerciseList`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exerciseList` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) NOT NULL,
-  `description` varchar(255) NOT NULL,
   `difficulty` int(11) NOT NULL,
   `created_by` int(11) NOT NULL,
   `created_on` datetime NOT NULL,
@@ -417,7 +415,7 @@ CREATE TABLE `exerciseList` (
 
 LOCK TABLES `exerciseList` WRITE;
 /*!40000 ALTER TABLE `exerciseList` DISABLE KEYS */;
-INSERT INTO `exerciseList` VALUES (1,'Beginning of a journey','Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1,4,'2015-04-19 15:50:35',1);
+INSERT INTO `exerciseList` VALUES (1,1,4,'2015-04-19 15:50:35',1);
 /*!40000 ALTER TABLE `exerciseList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -438,6 +436,31 @@ CREATE TABLE `exerciseTitle` (
   CONSTRAINT `exerciseTitle_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `listTranslation`
+--
+
+DROP TABLE IF EXISTS `listTranslation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `listTranslation` (
+  `title` varchar(255) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `list_id` int(11) NOT NULL,
+  PRIMARY KEY (`list_id`,`language_id`),
+  FOREIGN KEY (list_id) REFERENCES exerciseList(id),
+  FOREIGN KEY (language_id) REFERENCES Language(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `listTranslation` WRITE;
+/*!40000 ALTER TABLE `listTranslation` DISABLE KEYS */;
+INSERT INTO `listTranslation` VALUES ('Beginning of a journey', 1 ,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1);
+/*!40000 ALTER TABLE `listTranslation` ENABLE KEYS */;
+UNLOCK TABLES;
+
 
 --
 -- Dumping data for table `exerciseTitle`

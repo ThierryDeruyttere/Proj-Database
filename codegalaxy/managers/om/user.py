@@ -30,14 +30,15 @@ class User:
         dbw.updateUserInformation(self.id, email, password)
         return True
 
-    def getUserLists(self):
+    def getUserLists(self, language_code):
         lists = dbw.getListsForUserId(self.id)
 
         object_manager = managers.om.objectmanager.ObjectManager()
+        lang = managers.getLanguageObject(language_code)
         # create Lists
         ex_lists = []
         for i in lists:
-            ex_lists.append(object_manager.createExerciseList(i['id']))
+            ex_lists.append(object_manager.createExerciseList(i['id'], lang.id))
 
         return ex_lists
 
@@ -235,8 +236,9 @@ class User:
         for exercises_list in exercises_lists_info:
             # If the info is legit, we add a User object with the info to the
             # list
+            #TODO ENABLE OTHER LANGUAGES
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
-                                                 'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'])
+                                                 'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'], 1)
             exercises_lists_list.append(exercises_list_object)
 
         return exercises_lists_list
@@ -298,14 +300,14 @@ class User:
             exerciseList.update({'user_id': self.id})
         return exercise_list_date
 
-    def allExerciseListsMade2(self):
+    def allExerciseListsMade2(self, lang_code):
         object_manager = managers.om.objectmanager.ObjectManager()
-
+        lang = object_manager.getLanguageObject(lang_code)
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         user = object_manager.createUser(id=self.id)
         all_exercise_lists_made = []
         for exercise_list in exercise_list_date:
-            exercise_list_object = object_manager.createExerciseList(exercise_list['id'])
+            exercise_list_object = object_manager.createExerciseList(exercise_list['id'], lang.id)
             made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'])
 
             all_exercise_lists_made.append(made_exercise_list)
@@ -444,12 +446,13 @@ class User:
     def searchString(self):
         return str(self.name())
 
-    def ownedLists(self):
+    def ownedLists(self, lang_code):
         list_objects = []
         object_manager = managers.om.objectmanager.ObjectManager()
+        lang = object_manager.getLanguageObject(lang_code)
         list_ids = dbw.getExerciseListIdsMadeByUser(self.id)
         for list_id in list_ids:
-            list_objects.append(object_manager.createExerciseList(list_id['id']))
+            list_objects.append(object_manager.createExerciseList(list_id['id'], lang.id))
         return list_objects
 
     def averageScoreForProgrammingLanguage(self, prog_lang_id):
@@ -457,7 +460,7 @@ class User:
 
 class PersonalList:
 
-    def __init__(self, rating, score, exercise_list_id, user_id, made_on):
+    def __init__(self, rating, score, exercise_list_id, user_id, made_on, language_id):
         # given rating
         self.rating = rating
         # total obtained score
@@ -467,7 +470,7 @@ class PersonalList:
         # Actual exercises-object
         object_manager = managers.om.objectmanager.ObjectManager()
         self.exercises_list = object_manager.createExerciseList(
-            exercise_list_id)
+            exercise_list_id, language_id)
         self.made_on = made_on
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
         # self.last_made = None

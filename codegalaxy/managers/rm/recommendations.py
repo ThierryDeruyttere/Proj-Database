@@ -241,7 +241,7 @@ def recommendListsForUser(user, friends=True, dates=True, subjects=True, ratings
     comparison_tuples = compareListWithOtherUsers(user)
     # We may not add these lists (made already)
     dont_add_obj_made = user.allPersonalLists()
-    dont_add_obj_owned = user.ownedLists()
+    dont_add_obj_owned = user.ownedLists(lang_code)
     dont_add = [obj.exercises_list.id for obj in dont_add_obj_made] + [obj.id for obj in dont_add_obj_owned]
     # we split this result such that each list only occurs once, it gets the highest
     # overlap_score out of all the tuples it is in
@@ -305,7 +305,7 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
     made_ids = madeIDs(user)
-    dont_add_obj_owned = user.ownedLists()
+    dont_add_obj_owned = user.ownedLists(lang_code)
     dont_add_owned = [obj.id for obj in dont_add_obj_owned]
     new_difficulty = decideDifficulty(previous_made_list.exercises_list.difficulty, previous_made_list.score)
     prog_language = previous_made_list.exercises_list.programming_language.name
@@ -324,13 +324,13 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
 # EXERCISES LIKE THIS====================================================================================================================================
 # Last of all, let's say we didnt just make an exercise but we just want a list that looks like this one
 
-def listsLikeThisOne(list_id, user, amount=4):
+def listsLikeThisOne(list_id, user,lang_id, amount=4):
     l_id = list_id
     new_exercise_lists = []
     # checking to make sure we dont try to suggest an already made list
     # we'll need the previously made lists
     made_ids = madeIDs(user)
-    dont_add_obj_owned = user.ownedLists()
+    dont_add_obj_owned = user.ownedLists(lang_id)
     dont_add_owned = [obj.id for obj in dont_add_obj_owned]
     list_obj = object_manager.createExerciseList(list_id)
     # difficulties will be current +- 0/1

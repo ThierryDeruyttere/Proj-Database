@@ -27,16 +27,19 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
+def getBrowserLanguage(request):
+    return request.LANGUAGE_CODE
 
 def home(request):
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
     feed = []
+    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
     if current_user:
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
-        current_user_exercises_made = current_user.allExerciseListsMade2()
+        current_user_exercises_made = current_user.allExerciseListsMade2(getBrowserLanguage(request))
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
@@ -46,7 +49,7 @@ def home(request):
 
             accepted_friendships = friend.allFriendsWith()
             member_of_groups = friend.allGroupsJoined()
-            exercises_made = friend.allExerciseListsMade2()
+            exercises_made = friend.allExerciseListsMade2(getBrowserLanguage(request))
 
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
@@ -70,7 +73,7 @@ def home(request):
             current_user, True, True, True, True, True, False)
         for recommended_list in recommended:
             recommended_lists.append(
-                object_manager.createExerciseList(recommended_list))
+                object_manager.createExerciseList(recommended_list, browser_lang.id))
 
         return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'paginator': paginator, 'random_list': imFeelingLucky(current_user)})
     return render(request, 'home.html')
@@ -180,7 +183,7 @@ def user(request, id=0):
 
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
-        exercises_made = user.allExerciseListsMade2()
+        exercises_made = user.allExerciseListsMade2(getBrowserLanguage(request))
 
         all_data = []
         all_data.extend(accepted_friendships)
@@ -399,7 +402,7 @@ def group(request, id=0):
                 # member_of_groups = one_user.allUserAdded()
                 # exercises_made = one_user.allExerciseListsMade()
 
-                exercises_made = one_user.allExerciseListsMade2()
+                exercises_made = one_user.allExerciseListsMade2(getBrowserLanguage(request))
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
 
