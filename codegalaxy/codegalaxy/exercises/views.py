@@ -402,10 +402,11 @@ def list(request, id=0):
                         l.copyExercise(copy.id)
 
     if exercise_list:
-        personal_list = user.getMadeList(exercise_list.id, browser_lang.id)
-        if personal_list:
-            user_score = personal_list.score
-            user_date = personal_list.made_on
+        if user:
+            personal_list = user.getMadeList(exercise_list.id, browser_lang.id)
+            if personal_list:
+                user_score = personal_list.score
+                user_date = personal_list.made_on
         all_exercises = exercise_list.allExercises(browser_lang.code)
 
         list_owner = False
