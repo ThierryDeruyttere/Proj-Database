@@ -37,12 +37,9 @@ $ sudo pip3 install PyMySQL
 ####mySQL database aanpassen via dump
 ```sh
 # Dump de database in een .sql file
-# paswoord is ruien9690
-$ mysqldump -u root -p codegalaxy > [file_name].sql
+$ mysqldump -u root -pruien9690 codegalaxy > DB.sql
 ```
 Hierna ga je naar de betreffende file en voeg je USE codegalaxy boven de eerste DROP TABLE toe (zal duidelijk maken dat de file CG zal aanpassen)
-Vervang de inhoud van DB.sql met die van [file_name].sql
-Nu ben je klaar, maar voor de Database te resetten moet je nog steeds even de server afsluiten en DB-old.sql leegmaken waarna je de server opnieuw opstart
 ###Zurb foundation styling
 ###code mirror / ace
 ###FuzzyWuzzy
