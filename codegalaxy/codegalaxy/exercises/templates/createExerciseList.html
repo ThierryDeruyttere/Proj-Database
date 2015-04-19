@@ -108,17 +108,14 @@
             <legend>{% trans "Original" %}</legend>
             <div class="row collapse prefix-radius">
               <div class="small-4 columns">
-                <span class="prefix">{% trans "Exercise title" %}</span>
+                <span class="prefix">{% trans "List name" %}</span>
               </div>
               <div class="small-8 columns">
                 <input type="text" id="original_title" class="text-center" value="{{ exercise.title }}" readonly>
               </div>
             </div>
-            {% trans "Question" %}
-            <textarea class="question_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
-            <div class="answer_translation">
-
-            </div>
+            {% trans "Description" %}
+            <textarea class="description_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
           </fieldset>
         </div>
         <div class="large-2 columns">
@@ -134,17 +131,14 @@
             <legend>{% trans "Translated" %}</legend>
             <div id="translated" class="row collapse prefix-radius">
               <div class="small-4 columns">
-                <span class="prefix">{% trans "Exercise title" %}</span>
+                <span class="prefix">{% trans "List name" %}</span>
               </div>
               <div class="small-8 columns">
                 <input type="text" id="translated_title" name="translated_title"  class="text-center" value="">
               </div>
             </div>
-            {% trans "Question" %}
-            <textarea class="question_text" id="translated_Question" name="translated_Question"></textarea>
-            <div class="answer_translation">
-
-            </div>
+            {% trans "Description" %}
+            <textarea class="description_text" id="translated_Question" name="translated_Question"></textarea>
           </fieldset>
         </div>
       </div>
