@@ -184,10 +184,19 @@
 
     $(document).ready(function(){
       $(".hints").hide();
+
+      {% if list_owner %}
+        for(i = 0; i < {{ hints|length }}; i++){
+          addHint();
+        }
+      {% else %}
+        for(i = 0; i < {{ last_hint_used }}; i++){
+          addHint();
+        }
+      {% endif %}
     });
 
-
-    $("#get_hint").click(function(){
+    function addHint() {
       if(curr_hint == 1){
         $(".hints").show();
       }
@@ -197,8 +206,11 @@
         $('#get_hint').hide();
       }
       ++curr_hint;
-    });
+    }
 
+    $("#get_hint").click(function(){
+      addHint();
+    });
 
     $("#output_alert").hide();
     {% if not list_owner %}
@@ -253,15 +265,6 @@
       });
     {% endif %}
 
-    {% if list_owner %}
-      for(i = 0; i < {{ hints|length }}; i++){
-        addHint();
-      }
-    {% else %}
-      for(i = 0; i < {{ last_hint_used }}; i++){
-        addHint();
-      }
-    {% endif %}
 
   </script>
 
