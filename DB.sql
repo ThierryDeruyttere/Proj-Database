@@ -186,7 +186,7 @@ CREATE TABLE exerciseTitle(
   FOREIGN KEY(language_id) REFERENCES language(id)
 );
 
-# User data
+# User data (20 users)
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Root', 'Admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com',"0-01-01 12:12:12","9999-12-31 12:12:12","U");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Sten', 'Verbois', '21232f297a57a5a743894a0e4a801fc3', 'stenverbois@gmail.com',"2015-03-06 12:12:12 12:12:12","2015-03-06 12:12:12","M");
@@ -208,29 +208,99 @@ INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, l
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Bruno', 'Tobback', '21232f297a57a5a743894a0e4a801fc3', 'Bruno@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
 INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
 
-# Friend data
+# Friend data (telkens User X, de volgende moeten met deze dan geen rekening meer houden)
+# user 1
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,2,"2015-03-06 05:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,2,"2015-03-05 12:12:13",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,3,"2015-04-01 12:12:14",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,4,"2015-03-12 12:12:14",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,6,"2015-03-16 12:12:15",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,8,"2015-04-03 12:12:15",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,13,"2015-02-08 03:12:16",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,16,"2015-03-06 12:12:17",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,20,"2015-03-11 08:12:18",'Friends');
+# user 2
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,6,"2015-03-15 05:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,7,"2015-03-01 12:12:14",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,11,"2015-04-06 05:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,13,"2015-03-11 12:12:14",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,15,"2015-04-03 12:12:15",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,16,"2015-02-06 03:12:16",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,18,"2015-03-18 12:12:17",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,19,"2015-03-06 08:12:18",'Friends');
+# user 3
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,4,"2015-03-01 12:12:14",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,5,"2015-03-03 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,6,"2015-02-06 03:12:16",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,7,"2015-03-06 12:12:17",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,8,"2015-03-06 08:12:18",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,9,"2015-03-06 12:12:19",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,6,"2015-02-01 03:12:16",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,7,"2015-04-06 12:12:17",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,8,"2015-03-04 08:12:18",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,9,"2015-04-06 12:12:19",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,10,"2015-03-06 12:22:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,11,"2015-03-06 10:32:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,11,"2015-03-23 10:32:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,12,"2015-03-07 12:42:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,13,"2015-03-06 11:52:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,13,"2015-04-05 11:52:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,14,"2015-03-06 13:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,15,"2015-03-02 14:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,15,"2015-04-09 14:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,16,"2015-03-06 15:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,17,"2015-03-06 01:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,18,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,19,"2015-01-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,18,"2015-04-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,19,"2015-01-10 18:12:12",'Friends');
 INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,20,"2015-03-06 19:12:12",'Friends');
+# user 4
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,5,"2015-03-28 12:12:19",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,7,"2015-04-06 12:22:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,14,"2015-03-07 10:32:12",'Friends');
+# user 5
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,9,"2015-03-07 12:42:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,10,"2015-03-21 11:52:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,14,"2015-04-06 13:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,15,"2015-03-16 14:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,16,"2015-03-04 15:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,20,"2015-04-06 01:12:12",'Friends');
+# user 6
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,7,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,8,"2015-01-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,9,"2015-03-23 19:12:12",'Friends');
+# user 7
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,11,"2015-04-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,13,"2015-04-06 19:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,14,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,16,"2015-01-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,19,"2015-03-06 19:12:12",'Friends');
+# user 8
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,10,"2015-04-06 19:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,11,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,18,"2015-04-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,20,"2015-03-06 19:12:12",'Friends');
+# user 9
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,13,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,14,"2015-01-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,15,"2015-04-06 19:12:12",'Friends');
+# user 10
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (10,12,"2015-03-06 19:12:12",'Friends');
+# user 11
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,13,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,14,"2015-01-22 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,15,"2015-04-21 19:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,17,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,19,"2015-04-19 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,10,"2015-03-06 19:12:12",'Friends');
+# user 12
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,18,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,19,"2015-04-21 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,20,"2015-03-06 19:12:12",'Friends');
+# user 13
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,14,"2015-03-05 17:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,15,"2015-01-06 18:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,17,"2015-04-02 19:12:12",'Friends');
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,18,"2015-03-05 17:12:12",'Friends');
+# user 14
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (14,16,"2015-03-05 17:12:12",'Friends');
+# user 15
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (15,16,"2015-04-09 17:12:12",'Friends');
+# user 17
+INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (17,19,"2015-03-05 17:12:12",'Friends');
 
-
-# Group data
+# Group data (~ 30 groepen)
 INSERT INTO groups(group_name, group_type, created_on) VALUES ('Admins', 0,"2015-03-06 19:12:12");
 INSERT INTO groups(group_name, group_type, created_on) VALUES ('OLVE', 1,"2015-03-06 19:12:12");
 INSERT INTO groups(group_name, group_type, created_on) VALUES ('OLVC', 1,"2015-03-06 19:12:12");
@@ -264,110 +334,94 @@ INSERT INTO groups(group_name, group_type, created_on) VALUES ('Aartselaar', 0,"
 
 
 # UserInGroup data
-# Group creator is 0
+# Group creator is 0, admin 1, user 2
+# group 1
 INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,1,0,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,0,"2015-03-06 15:30:53",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,2,"2015-03-06 15:30:53",'Pending');
 INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,3,1,"2015-03-06 13:20:45",'Member');
 INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,4,1,"2015-03-06 13:11:55",'Member');
 INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,5,2,"2015-03-06 20:12:22",'Member');
 INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,6,2,"2015-03-06 12:20:20",'Member');
+# group 2
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,4,0,"2015-03-06 13:42:33",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,6,2,"2015-03-06 15:30:53",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,7,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,9,2,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,17,2,"2015-03-06 20:12:22",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,18,2,"2015-03-06 12:20:20",'Member');
+# group 3
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,8,0,"2015-03-06 13:42:33",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,9,1,"2015-03-06 15:30:53",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,11,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,13,2,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,15,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,20,1,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,8,2,"2015-03-06 13:42:33",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,9,2,"2015-03-06 15:30:53",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,11,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,13,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,15,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,20,2,"2015-03-06 12:20:20",'Member');
+# group 4
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (4,13,0,"2015-03-06 13:42:33",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (4,14,1,"2015-03-06 15:30:53",'Member');
+# group 5
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,11,2,"2015-03-06 13:20:45",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,12,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,7,0,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,17,2,"2015-03-06 12:20:20",'Member');
+# group 6
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,2,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,4,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,6,0,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,11,2,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,13,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,15,2,"2015-03-06 12:20:20",'Member');
+# group 7
+# group 8
+# group 9
+# group 10
+# group 11
+# group 12
+# group 13
+# group 14
+# group 15
+# group 16
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,1,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,2,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,3,0,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,4,2,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,5,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,6,2,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,7,2,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,8,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,9,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,10,1,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,11,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,13,2,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,14,2,"2015-03-06 13:20:45",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,15,1,"2015-03-06 13:11:55",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,16,2,"2015-03-06 20:12:22",'Pending');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,17,2,"2015-03-06 12:20:20",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,19,2,"2015-03-06 20:12:22",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,20,2,"2015-03-06 12:20:20",'Pending');
+# group 17
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (17,12,1,"2015-03-06 13:20:45",'Member');
+INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (17,18,0,"2015-03-06 13:20:45",'Member');
+# group 18
+# group 19
+# group 20
+# group 21
+# group 22
+# group 23
+# group 24
+# group 25
+# group 26
+# group 27
+# group 28
+# group 29
 
 # ProgrammingLanguage data
 INSERT INTO programmingLanguage(name) VALUES ('Python');
 INSERT INTO programmingLanguage(name) VALUES ('C++');
 INSERT INTO programmingLanguage(name) VALUES ('SQL');
-
-# ExerciseList data
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Beginning of a journey...', 'Python 101', 1, 1, "2014-02-05 10:10:10", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('The continuation of that journey...', '...', 1, 1, "2014-03-05 11:11:11", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Still not there yet...', '.......', 1, 1, "2014-02-06 12:12:12", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python for dummies', 'For those who are new', 2, 1, "2015-02-05 13:14:15", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Python for experts', 'Yer a wizard Harry', 1, 1, "2014-03-05 13:15:14", 1);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('Advanced Templating Stuff', 'Aw yisss', 1, 1, "2014-02-12 12:11:10", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++ for Grandmothers', 'Dont touch the screen gramps', 3, 1, "2014-02-05 10:19:54", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('C++ -> C += 1', 'i C u like puns', 1, 1, "2020-02-05 23:12:36", 2);
-INSERT INTO exerciseList(name, description ,difficulty, created_by, created_on, prog_lang_id)
-VALUES ('SQL injections: a short guide', 'Learn all about sql injections with this exercise list', 1, 1, "2014-02-05 12:19:19", 3);
-
-# Exercise data
-# Difficulty range 1-5?
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (1,5,1,'Code',1, '1981-10-12 13:40:58', 1,1,1);
-INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES (2,5,1,'Code',1, '2001-09-11 12:12:12', 2,1,1);
-
-# Language data
-INSERT INTO language(name,language_code) VALUES ('English','en');
-INSERT INTO language(name,language_code) VALUES ('Nederlands','nl');
-
-#title data
-INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES ("Question 1", 1, 1);
-INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES ("Question 2", 1, 2);
-
-# Code data
-INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 1);
-INSERT INTO code(code_text, exercise_id) VALUES ('print("")', 2);
-
-# Question data
-INSERT INTO question(question_text, language_id, exercise_id)
-VALUES ('Print your name.', 1,1);
-INSERT INTO question(question_text, language_id, exercise_id)
-VALUES ('Print something else.', 1,2);
-
-# Anwer data
-INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
-VALUES (1,'*', 1,1);
-INSERT INTO answer(answer_number, answer_text, language_id, is_answer_for)
-VALUES (1,'*', 1,2);
-
-# Hint data
-INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
-VALUES ('write print("your name here")', 1, 1, 1);
-INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
-VALUES ('Are you retarded bro?', 2, 1, 1);
-INSERT INTO hint(hint_text, hint_number, exercise_id, language_id)
-VALUES ('WTF M8 FITE ME', 3, 1, 1);
-
-# Subject data
-INSERT INTO subject(name) VALUES ('Printing');
-INSERT INTO subject(name) VALUES ('Tutorial');
-INSERT INTO subject(name) VALUES ('42');
-INSERT INTO subject(name) VALUES ('Awesomeness');
-INSERT INTO subject(name) VALUES ('Yourneying');
-
-# HasSubject data
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (1,5);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (2,5);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (3,5);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,1);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,5);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (4,2);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,5);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (5,2);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (7,2);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (6,3);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (8,4);
-INSERT INTO hasSubject(exerciseList_id, subject_id) VALUES (9,4);
-
-#insert into madeList
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,1,3,75, "2013-12-05 16:23:05");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (1,3,4,30, "2001-01-06 13:14:48");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,2,5,50, "1985-07-20 23:54:21");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,6,5,30, "1999-08-22 17:17:42");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,3,5,30, "2015-03-05 12:12:12");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (3,6,5,30, "1985-07-20 23:54:50");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (4,6,5,30, "2015-03-05 13:13:13");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (8,12,5,30, "2015-03-05 14:14:14");
-INSERT INTO madeList(exerciseList_id, user_id, rating, score, made_on) VALUES (2,12,5,30, "1999-07-13 18:12:05");
-
-
-INSERT INTO madeEx(solved, exercise_score, user_id, list_id, exercise_number) VALUES (1,2,1,1,1);
