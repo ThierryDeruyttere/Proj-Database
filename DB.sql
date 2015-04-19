@@ -451,7 +451,7 @@ CREATE TABLE `listTranslation` (
   `list_id` int(11) NOT NULL,
   PRIMARY KEY (`list_id`,`language_id`),
   FOREIGN KEY (list_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (language_id) REFERENCES Language(id)
+  FOREIGN KEY (language_id) REFERENCES language(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

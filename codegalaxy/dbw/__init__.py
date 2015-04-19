@@ -794,13 +794,19 @@ def insertHint(exercise_id, language_id, hint_number, hint_text):
     sql = 'INSERT INTO hint(hint_text,hint_number,exercise_id, language_id) VALUES (%s,{h_numb},{e_id}, {lang_id});'.format(h_numb=hint_number, e_id=exercise_id, lang_id=language_id)
     cursor.execute(sql, [hint_text])
 
-
-def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id):
+def insertListTranslation(name, description, id, lang_id):
     cursor = connection.cursor()
-    sql = 'INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES (%s,%s,{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id)
+    sql = 'INSERT INTO listTranslation(name,description,list_id, language_id) VALUES (%s,%s,{list_id}, {lang_id});'.format(list_id=id, lang_id=lang_id)
     cursor.execute(sql, [name, description])
+
+
+def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_id):
+    cursor = connection.cursor()
+    sql = 'INSERT INTO exerciseList(difficulty, created_by, created_on, prog_lang_id) VALUES ({diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id)
+    cursor.execute(sql)
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by=created_by))
     fetched = processOne(cursor)
+    insertListTranslation(name, description, fetched['highest_id'],lang_id)
     cursor.close()
     return fetched
 
