@@ -17,9 +17,9 @@
       <div class="row">
         <div class="large-4 large-centered columns">
 
-          <input type="text" placeholder= {% trans "'Enter list name'" %} name="list_name">
+          <input type="text" id="list_name" placeholder= {% trans "'Enter list name'" %} name="list_name">
 
-          <textarea placeholder= {% trans "'Enter description of exercise list'" %} name="description_text"></textarea>
+          <textarea id="description_text" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text"></textarea>
           <div class="row">
             <div class="small-10 medium-11 columns">
               <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
@@ -111,11 +111,11 @@
                 <span class="prefix">{% trans "List name" %}</span>
               </div>
               <div class="small-8 columns">
-                <input type="text" id="original_title" class="text-center" value="{{ exercise.title }}" readonly>
+                <input type="text" id="original_name" class="text-center" value="" readonly>
               </div>
             </div>
             {% trans "Description" %}
-            <textarea class="description_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
+            <textarea class="description_text" id="original_Description" readonly></textarea>
           </fieldset>
         </div>
         <div class="large-2 columns">
@@ -134,11 +134,11 @@
                 <span class="prefix">{% trans "List name" %}</span>
               </div>
               <div class="small-8 columns">
-                <input type="text" id="translated_title" name="translated_title"  class="text-center" value="">
+                <input type="text" id="translated_name" name="translated_name"  class="text-center" value="">
               </div>
             </div>
             {% trans "Description" %}
-            <textarea class="description_text" id="translated_Question" name="translated_Question"></textarea>
+            <textarea class="description_text" id="translated_Description" name="translated_Description"></textarea>
           </fieldset>
         </div>
       </div>
@@ -187,11 +187,18 @@
           window.alert("You need to add at least one subject!");
         }else{
           var list = $("#list_form");
-          var input = $("<input>")
-                  .attr("type", "hidden")
-                  .attr("name", "subjects_amount").val(subjects);
-          list.append(input);
-          list.submit();
+          addDictionary();
+          var submit = true;
+          if(submit){
+            submit = checkTranslationDict(false);
+          }
+          if(submit){
+            var input = $("<input>")
+                    .attr("type", "hidden")
+                    .attr("name", "subjects_amount").val(subjects);
+            list.append(input);
+            list.submit();
+          }
         }
       });
 
@@ -199,6 +206,9 @@
 
     $("#translate").click(function(){
       $("#translation").foundation('reveal', 'open', '');
+      $("#original_name").val($("#list_name").val());
+      $("#original_Description").val($("#description_text").val());
+
     });
 
     /*TRANSLATION STUFF*/
@@ -207,25 +217,14 @@
     function fillInputsForLang(lang){
       var dict = translation_dict[lang];
       if(dict){
-        if("title" in dict){
-          $('#translated_title').val(dict['title']);
+        if("name" in dict){
+          $('#translated_name').val(dict['name']);
         }
 
-        if("question" in dict){
-          $('#translated_Question').val(dict['question']);
+        if("description" in dict){
+          $('#translated_Description').val(dict['description']);
         }
 
-        var amount = hint_nmbr;
-        if($('#exercise_type_open').is(":checked")) {
-          amount = answers;
-        }
-
-
-        for(var i = 0; i < amount; ++i){
-          if(i.toString() in dict){
-            $('#translated'+i).val(dict[i.toString()]);
-          }
-        }
       }
     }
 
@@ -237,18 +236,9 @@
         dict = {};
       }
 
-      dict["title"] = $('#translated_title').val();
-      dict["question"] = $('#translated_Question').val();
+      dict["name"] = $('#translated_name').val();
+      dict["description"] = $('#translated_Description').val();
 
-      var amount = hint_nmbr;
-
-      if($('#exercise_type_open').is(":checked")) {
-        amount = answers;
-      }
-
-      for(var i = 0; i < amount; ++i){
-        dict[i.toString()] = $('#translated'+i).val();
-      }
 
       translation_dict[translating_to] = dict;
     }
@@ -321,16 +311,6 @@
       }
       return true;
     }
-    $(".form_button").click(function(){
-      addDictionary();
-      var submit = true;
-      if(submit){
-          submit = checkTranslationDict(false);
-      }
-      if(submit){
-        $("#exercise_form").submit();
-      }
-    });
 
   </script>
 {% endblock body_js %}
