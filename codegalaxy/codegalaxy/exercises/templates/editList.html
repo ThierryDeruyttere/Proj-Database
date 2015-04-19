@@ -110,7 +110,7 @@
                         <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
                         <div id="Exerc{{ exercise.exercise_number }}" class="content">
                           <div class="row">
-                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/editExercise" class="button tiny radius">{% trans "Edit exercise" %}</a>
+                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
                             <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                           </div>
                           {% if exercise.isReference %}
