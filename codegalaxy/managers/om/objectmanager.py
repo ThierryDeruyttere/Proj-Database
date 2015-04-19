@@ -200,13 +200,7 @@ class ObjectManager:
         lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, lang_id)
         lists_objects = []
         for l in lists:
-            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],
-                                                                       l['name'],
-                                                                       l['difficulty'],
-                                                                       l['description'],
-                                                                       l['created_by'],
-                                                                       l['created_on'],
-                                                                       l['prog_lang_id']))
+            lists_objects.append(self.createExerciseList(int(l['id']), lang_id))
 
         return lists_objects
 

@@ -1177,7 +1177,7 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
                    ' AND u.last_name LIKE "%{last_name}%"'
                    ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
                    ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
-                   ' AND lT.list_id = e.id AND lT.language_id = {lang_id}'
+                   ' AND lT.list_id = e.id AND (lT.language_id = {lang_id} OR lT.language_id = 1)'
                    ' GROUP BY lT.name ORDER BY popularity {order_mode};'
                    .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
                            prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id = lang_id))
