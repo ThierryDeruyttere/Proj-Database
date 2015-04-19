@@ -1,0 +1,80 @@
+.size-12 { font-size: 12px; }
+
+.size-14 { font-size: 14px; }
+
+.size-16 { font-size: 16px; }
+
+.size-18 { font-size: 18px; }
+
+.size-21 { font-size: 21px; }
+
+.size-24 { font-size: 24px; }
+
+.size-28 { font-size: 28px; }
+
+.size-36 { font-size: 36px; }
+
+.size-48 { font-size: 48px; }
+
+.size-60 { font-size: 60px; }
+
+.size-72 { font-size: 72px; }
+
+.text-cut-off {
+    white-space: nowrap;
+    overflow: hidden !important;
+    text-overflow: ellipsis;
+}
+
+.snap-bottom {
+    margin-bottom: 0px !important;
+}
+
+.prog-lang-icon {
+    width: 120px;
+    height: 120px;
+
+    border-radius: 50%;
+    border-width: 3px;
+    border-style: solid;
+    border-color: rgba(89, 108, 183, 0);
+}
+
+.prog-lang-icon.active {
+    border-color: rgba(89, 108, 183, 1);
+}
+
+.no-outline:focus {
+    outline: none;
+}
+
+/* CodeMirror text area styling */
+.CodeMirror {
+    border-radius: 15px;
+    border-color: #3a3a3a;
+    border-width: 5px;
+    border-style: solid;
+    margin: 0.8em 0em;
+}
+
+.CodeMirror.error {
+    border-color: #790000;
+}
+
+.CodeMirror.success {
+    border-color: #007900;
+}
+
+.CodeMirror-gutter {
+    border-width: 0px 3px 0px 0px;
+    border-style: solid;
+    border-color: #545454;
+    background-color: #545454;
+    margin-right: 6px;
+}
+
+.profile_picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}

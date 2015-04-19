@@ -1,11 +1,13 @@
-#grub{
-    background-color: #f0f0f0;
-    border-radius: 50%;
-    transform: scale(0.9);
+/* line 1, ../../../theme/scss/logout.scss */
+#grub {
+  background-color: #f0f0f0;
+  border-radius: 50%;
+  transform: scale(0.9);
 }
 
-#message{
-    width:50%;
-    margin-left: auto;
-    margin-right: auto;
+/* line 7, ../../../theme/scss/logout.scss */
+#message {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
 }

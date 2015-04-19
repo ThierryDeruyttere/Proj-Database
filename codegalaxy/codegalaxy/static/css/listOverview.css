@@ -1,125 +1,137 @@
 @-webkit-keyframes action {
-    from {
-        visibility:hidden;
-    }
-    50% {
-        visibility:hidden;
-    }
-    to {
-        visibility:visible;
-    }
+  from {
+    visibility: hidden;
+  }
+  50% {
+    visibility: hidden;
+  }
+  to {
+    visibility: visible;
+  }
 }
-
 @keyframes makeVisible {
-    from {
-        visibility:hidden;
-    }
-    50% {
-        visibility:hidden;
-    }
-    to {
-        visibility:visible;
-    }
+  from {
+    visibility: hidden;
+  }
+  50% {
+    visibility: hidden;
+  }
+  to {
+    visibility: visible;
+  }
 }
-
+/* line 25, ../../../theme/scss/listOverview.scss */
 .sql {
-    background-image: url('../media/icons/GreenPlanet.png');
+  background-image: url("../media/icons/GreenPlanet.png");
 }
 
+/* line 29, ../../../theme/scss/listOverview.scss */
 .cpp {
-    background-image: url('../media/icons/RedPlanet.png');
+  background-image: url("../media/icons/RedPlanet.png");
 }
 
+/* line 33, ../../../theme/scss/listOverview.scss */
 .python {
-    background-image: url('../media/icons/BluePlanet.png');
+  background-image: url("../media/icons/BluePlanet.png");
 }
 
+/* line 37, ../../../theme/scss/listOverview.scss */
 .planet {
-    width: 65px;
-    height: 65px;
-    border-radius: 50%;
-    margin-top: 20px;
-    opacity: 0.5;
-    text-align: center;
-    margin-left: auto;
-    margin-right: auto;
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  margin-top: 20px;
+  opacity: 0.5;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-input#title::-webkit-input-placeholder{
-    background-image: url('../media/icons/planet.png');
-    background-repeat: no-repeat;
-    background-position-y: center;
-    text-indent: 20px;
+/* line 48, ../../../theme/scss/listOverview.scss */
+input#title::-webkit-input-placeholder {
+  background-image: url("../media/icons/planet.png");
+  background-repeat: no-repeat;
+  background-position-y: center;
+  text-indent: 20px;
 }
 
-input#user::-webkit-input-placeholder{
-    background-image: url('../media/icons/astronaut.png');
-    background-size: contain;
-    background-repeat: no-repeat;
-    text-indent: 20px;
+/* line 55, ../../../theme/scss/listOverview.scss */
+input#user::-webkit-input-placeholder {
+  background-image: url("../media/icons/astronaut.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  text-indent: 20px;
 }
 
-
+/* line 63, ../../../theme/scss/listOverview.scss */
 .slick-center > .planet {
-    -webkit-transition: all 1s ease-in-out;
-    transition: all 1s ease-in-out;
-    transform: scale(1.5);
-    opacity: 1;
-    left: 25px;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+  transform: scale(1.5);
+  opacity: 1;
+  left: 25px;
 }
 
+/* line 71, ../../../theme/scss/listOverview.scss */
 .slick-active > .planet {
-    -webkit-transition: all 1s ease-in-out;
-    transition: all 1s ease-in-out;
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
 }
 
+/* line 76, ../../../theme/scss/listOverview.scss */
 #galaxy-navigation {
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.ui-slider-handle{
-    background: #f04124 !important;
-    border-radius: 1000px !important;
-    width: 2rem !important;
+/* line 82, ../../../theme/scss/listOverview.scss */
+.ui-slider-handle {
+  background: #f04124 !important;
+  border-radius: 1000px !important;
+  width: 2rem !important;
 }
 
-.ui-slider-handle:hover{
-
-    background: #75c4ff !important;
+/* line 88, ../../../theme/scss/listOverview.scss */
+.ui-slider-handle:hover {
+  background: #75c4ff !important;
 }
 
-#create{
-    margin-top: 1.5em;
+/* line 93, ../../../theme/scss/listOverview.scss */
+#create {
+  margin-top: 1.5em;
 }
 
-.text-offset{
-    text-align: center;
+/* line 97, ../../../theme/scss/listOverview.scss */
+.text-offset {
+  text-align: center;
 }
 
-#user_image{
-    text-align: center;
+/* line 101, ../../../theme/scss/listOverview.scss */
+#user_image {
+  text-align: center;
 }
 
-
-.slick-list{
-    height: 7em !important;
+/* line 106, ../../../theme/scss/listOverview.scss */
+.slick-list {
+  height: 7em !important;
 }
 
-.slick-prev, .slick-next{
-    top: 25% !important;
+/* line 110, ../../../theme/scss/listOverview.scss */
+.slick-prev, .slick-next {
+  top: 25% !important;
 }
 
-#astronaut{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url('../media/icons/astronaut.png');
-    background-position: center;
-    transform: scale(0.7);
+/* line 114, ../../../theme/scss/listOverview.scss */
+#astronaut {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("../media/icons/astronaut.png");
+  background-position: center;
+  transform: scale(0.7);
 }

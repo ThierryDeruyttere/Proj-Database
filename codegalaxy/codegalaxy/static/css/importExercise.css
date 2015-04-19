@@ -1,16 +1,19 @@
-#search_panel{
-    margin-top: 25px;
+/* line 1, ../../../theme/scss/importExercise.scss */
+#search_panel {
+  margin-top: 25px;
 }
 
+/* line 5, ../../../theme/scss/importExercise.scss */
 html {
-    overflow-y: scroll;
+  overflow-y: scroll;
 }
 
-#import_modal{
-    background-color: #E74C3C !important;
+/* line 9, ../../../theme/scss/importExercise.scss */
+#import_modal {
+  background-color: #E74C3C !important;
 }
 
-p, li, h2, u{
-    color: #000000 !important;
+/* line 13, ../../../theme/scss/importExercise.scss */
+p, li, h2, u {
+  color: #000000 !important;
 }
-

@@ -1,66 +1,73 @@
-
-
-#bg_panel{
-    background-color: #ECF0F1 !important;
-    color: #2980B9 ;
+/* line 3, ../../../theme/scss/list.scss */
+#bg_panel {
+  background-color: #ECF0F1 !important;
+  color: #2980B9;
 }
 
-h2{
-    color: #ECF0F1 !important;
+/* line 8, ../../../theme/scss/list.scss */
+h2 {
+  color: #ECF0F1 !important;
 }
 
-h3{
-    color: #000000 !important;
+/* line 12, ../../../theme/scss/list.scss */
+h3 {
+  color: #000000 !important;
 }
 
-h2#modalTitle{
-    color: #1d1d1d !important;
+/* line 16, ../../../theme/scss/list.scss */
+h2#modalTitle {
+  color: #1d1d1d !important;
 }
 
-table{
-    margin-left: auto;
-    margin-right: auto;
+/* line 20, ../../../theme/scss/list.scss */
+table {
+  margin-left: auto;
+  margin-right: auto;
 }
 
-
-h4{
-    color: #3498DB !important;
+/* line 26, ../../../theme/scss/list.scss */
+h4 {
+  color: #3498DB !important;
 }
 
-.Arrow{
-    width: 25px;
-    height: 25px;
+/* line 30, ../../../theme/scss/list.scss */
+.Arrow {
+  width: 25px;
+  height: 25px;
 }
 
-.Icon{
-    background-repeat: no-repeat;
-    background-position: 50%;
-
-    /*border-radius: 50%;*/
-    width: 100px;
-    height: 100px;
+/* line 35, ../../../theme/scss/list.scss */
+.Icon {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  /*border-radius: 50%;*/
+  width: 100px;
+  height: 100px;
 }
 
-#subjects{
-    background-repeat: no-repeat;
-    background-position: 50%;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    background-color: #ECF0F1;
-    float: left;
-    margin: -10px;
+/* line 44, ../../../theme/scss/list.scss */
+#subjects {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-color: #ECF0F1;
+  float: left;
+  margin: -10px;
 }
 
-.exercise:hover{
-     background-color: #ECF0F1 !important;
+/* line 55, ../../../theme/scss/list.scss */
+.exercise:hover {
+  background-color: #ECF0F1 !important;
 }
 
-
-.Start{
-    background-color: #E74C3C !important;
+/* line 60, ../../../theme/scss/list.scss */
+.Start {
+  background-color: #E74C3C !important;
 }
 
-li{
-    color: #000000 !important;
+/* line 64, ../../../theme/scss/list.scss */
+li {
+  color: #000000 !important;
 }

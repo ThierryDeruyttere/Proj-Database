@@ -1,80 +1,122 @@
-.size-12 { font-size: 12px; }
+/* line 1, ../../../theme/scss/general.scss */
+.size-12 {
+  font-size: 12px;
+}
 
-.size-14 { font-size: 14px; }
+/* line 3, ../../../theme/scss/general.scss */
+.size-14 {
+  font-size: 14px;
+}
 
-.size-16 { font-size: 16px; }
+/* line 5, ../../../theme/scss/general.scss */
+.size-16 {
+  font-size: 16px;
+}
 
-.size-18 { font-size: 18px; }
+/* line 7, ../../../theme/scss/general.scss */
+.size-18 {
+  font-size: 18px;
+}
 
-.size-21 { font-size: 21px; }
+/* line 9, ../../../theme/scss/general.scss */
+.size-21 {
+  font-size: 21px;
+}
 
-.size-24 { font-size: 24px; }
+/* line 11, ../../../theme/scss/general.scss */
+.size-24 {
+  font-size: 24px;
+}
 
-.size-28 { font-size: 28px; }
+/* line 13, ../../../theme/scss/general.scss */
+.size-28 {
+  font-size: 28px;
+}
 
-.size-36 { font-size: 36px; }
+/* line 15, ../../../theme/scss/general.scss */
+.size-36 {
+  font-size: 36px;
+}
 
-.size-48 { font-size: 48px; }
+/* line 17, ../../../theme/scss/general.scss */
+.size-48 {
+  font-size: 48px;
+}
 
-.size-60 { font-size: 60px; }
+/* line 19, ../../../theme/scss/general.scss */
+.size-60 {
+  font-size: 60px;
+}
 
-.size-72 { font-size: 72px; }
+/* line 21, ../../../theme/scss/general.scss */
+.size-72 {
+  font-size: 72px;
+}
 
+/* line 23, ../../../theme/scss/general.scss */
 .text-cut-off {
-    white-space: nowrap;
-    overflow: hidden !important;
-    text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
 }
 
+/* line 29, ../../../theme/scss/general.scss */
 .snap-bottom {
-    margin-bottom: 0px !important;
+  margin-bottom: 0px !important;
 }
 
+/* line 33, ../../../theme/scss/general.scss */
 .prog-lang-icon {
-    width: 120px;
-    height: 120px;
-
-    border-radius: 50%;
-    border-width: 3px;
-    border-style: solid;
-    border-color: rgba(89, 108, 183, 0);
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgba(89, 108, 183, 0);
 }
 
+/* line 43, ../../../theme/scss/general.scss */
 .prog-lang-icon.active {
-    border-color: rgba(89, 108, 183, 1);
+  border-color: #596cb7;
 }
 
+/* line 47, ../../../theme/scss/general.scss */
 .no-outline:focus {
-    outline: none;
+  outline: none;
 }
 
 /* CodeMirror text area styling */
+/* line 52, ../../../theme/scss/general.scss */
 .CodeMirror {
-    border-radius: 15px;
-    border-color: #3a3a3a;
-    border-width: 5px;
-    border-style: solid;
-    margin: 0.8em 0em;
+  border-radius: 15px;
+  border-color: #3a3a3a;
+  border-width: 5px;
+  border-style: solid;
+  margin: 0.8em 0em;
 }
 
+/* line 60, ../../../theme/scss/general.scss */
 .CodeMirror.error {
-    border-color: #790000;
+  border-color: #790000;
 }
 
+/* line 64, ../../../theme/scss/general.scss */
 .CodeMirror.success {
-    border-color: #007900;
+  border-color: #007900;
 }
 
+/* line 68, ../../../theme/scss/general.scss */
 .CodeMirror-gutter {
-    border-width: 0px 3px 0px 0px;
-    border-style: solid;
-    border-color: #545454;
-    background-color: #545454;
-    margin-right: 6px;
+  border-width: 0px 3px 0px 0px;
+  border-style: solid;
+  border-color: #545454;
+  background-color: #545454;
+  margin-right: 6px;
 }
 
+/* line 76, ../../../theme/scss/general.scss */
 .profile_picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
 }
