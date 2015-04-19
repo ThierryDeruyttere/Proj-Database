@@ -78,12 +78,78 @@
         </div>
 
         <div class="row">
-          <div class="large-2 large-centered columns">
+          <div class="large-centered large-text-center columns">
             <input type="button" id="submitButton" class="success button" value={% trans "'Create list'" %}>
+            <button type="button" id="translate" class="secondary button">{% trans "Translate" %}</button>
           </div>
         </div>
       </div>
     </form>
+
+    <div id="translation" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+      <div class="row">
+        <div class="left">
+          <!--source: http://www.veryicon.com/icon/png/Art/Space%20Invaders/Alien.png -->
+          <img class="alien" src="{% static "media/aliens/Kernel.png" %}">
+        </div>
+        <div id="textbox" class="large-6 columns">
+          <div data-alert class="alert-box info radius">
+            {% trans "Hi there space voyager! I'm Kernel!" %}
+            {% trans "I'm from a far away planet named Bootloader." %}<br/>
+            {% trans "I've stumbled upon this site and I really like it and I want to show it to my friends back home!" %}<br/>
+            {% trans "The only problem is, on each planet we speak an other language, so I'm working on translating this site." %}<br/>
+            {% trans "Think you could help? I will make your name famous across the universe if you do!" %}
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div id="original" class="large-5 columns">
+          <fieldset>
+            <legend>{% trans "Original" %}</legend>
+            <div class="row collapse prefix-radius">
+              <div class="small-4 columns">
+                <span class="prefix">{% trans "Exercise title" %}</span>
+              </div>
+              <div class="small-8 columns">
+                <input type="text" id="original_title" class="text-center" value="{{ exercise.title }}" readonly>
+              </div>
+            </div>
+            {% trans "Question" %}
+            <textarea class="question_text" id="original_Question" readonly>{{ exercise.question }}</textarea>
+            <div class="answer_translation">
+
+            </div>
+          </fieldset>
+        </div>
+        <div class="large-2 columns">
+          <img id="arrow-right" src="{% static "media/arrow-right.png" %}">
+          <select id="translate_to">
+            {% for lang in languages %}
+              <option value="{{ lang.name }}">{{ lang.name }}</option>
+            {% endfor %}
+          </select>
+        </div>
+        <div class="large-5 columns">
+          <fieldset>
+            <legend>{% trans "Translated" %}</legend>
+            <div id="translated" class="row collapse prefix-radius">
+              <div class="small-4 columns">
+                <span class="prefix">{% trans "Exercise title" %}</span>
+              </div>
+              <div class="small-8 columns">
+                <input type="text" id="translated_title" name="translated_title"  class="text-center" value="">
+              </div>
+            </div>
+            {% trans "Question" %}
+            <textarea class="question_text" id="translated_Question" name="translated_Question"></textarea>
+            <div class="answer_translation">
+
+            </div>
+          </fieldset>
+        </div>
+      </div>
+      <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
 
   </div>
 
@@ -137,5 +203,8 @@
 
     });
 
+    $("#translate").click(function(){
+      $("#translation").foundation('reveal', 'open', '');
+    });
   </script>
 {% endblock body_js %}
