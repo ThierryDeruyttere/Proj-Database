@@ -28,14 +28,14 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 
 def getBrowserLanguage(request):
-    return request.LANGUAGE_CODE
+    return object_manager.getLanguageObject(request.LANGUAGE_CODE)
 
 def home(request):
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
     feed = []
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     if current_user:
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
@@ -94,7 +94,7 @@ def user(request, id=0):
     # We'll show:
     # % per lang, # lists per lang, total lists, total groups, time joined,
     # % avg (any lang), # ex per lang
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     # lists per lang
     pie_chart = None
     # % per lang
@@ -316,7 +316,7 @@ def group(request, id=0):
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
 
     user = logged_user(request)
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     print("USER = " + str(user))
 
     group = object_manager.createGroup(id)

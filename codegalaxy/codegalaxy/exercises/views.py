@@ -29,7 +29,7 @@ def removeLanguage(languages, code):
 @require_login
 def createExerciseList(request):
     prog_languages = object_manager.allProgrammingLanguages()
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
@@ -67,7 +67,7 @@ def getTranslationDict(request, languages):
 
 @require_login
 def createExercise(request, listId=0):
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
@@ -84,7 +84,7 @@ def createExercise(request, listId=0):
         hints = []
         exercise_title = request.POST.get('title')
         exercise_number = exercise_list.getLastExercise() + 1
-        exercise_question = Question(exercise_question_text, getBrowserLanguage(request))
+        exercise_question = Question(exercise_question_text, browser_lang.code)
         exercise_answer = None
         correct_answer = 1
 
@@ -113,7 +113,7 @@ def createExercise(request, listId=0):
 
         exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
-                                     exercise_answer, correct_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), exercise_title, translation, code)
+                                     exercise_answer, correct_answer, hints, browser_lang, exercise_title, translation, code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -128,7 +128,7 @@ def createExercise(request, listId=0):
 
 @require_login
 def editList(request, listId):
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
     # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
@@ -138,7 +138,7 @@ def editList(request, listId):
     subjects = exercise_list.allSubjects()
     languages = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language.name
-    all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+    all_exercises = exercise_list.allExercises(browser_lang.code)
 
     if request.method == 'POST':
 
@@ -150,7 +150,7 @@ def editList(request, listId):
         updated_description = request.POST.get('updated_description_text')
         new_order = request.POST.get('order')
         new_order = filterOrder(new_order)
-        exercise_list.reorderExercises(new_order, getBrowserLanguage(request))
+        exercise_list.reorderExercises(new_order, browser_lang.code)
 
         for i in range(updated_subjects_amount):
             subject = request.POST.get('subject' + str(i))
@@ -186,18 +186,18 @@ def filterOrder(order):
     return new_order
 
 def getBrowserLanguage(request):
-    return request.LANGUAGE_CODE
+    return object_manager.getLanguageObject(request.LANGUAGE_CODE)
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):
     user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
-    languages = removeLanguage(object_manager.getAllLanguages(), getBrowserLanguage(request))
+    languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
     if request.method == 'POST':
-        exercise = object_manager.createExercise(exercise_id, getBrowserLanguage(request))
+        exercise = object_manager.createExercise(exercise_id, browser_lang.code)
         exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
@@ -230,7 +230,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                     hints.append(cur_hint)
         translation = getTranslationDict(request, languages)
 
-        exercise.update(correct_answer, exercise_answer, hints, object_manager.getLanguageObject(getBrowserLanguage(request)), translation, user.id)
+        exercise.update(correct_answer, exercise_answer, hints, browser_lang, translation, user.id)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:
@@ -294,7 +294,7 @@ def createImportHTML(all_lists, all_exercises):
 
 @require_login
 def importExercise(request, listId):
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     if exercise_list and exercise_list.created_by == logged_user(request).id:
         all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language.name)
@@ -308,7 +308,7 @@ def importExercise(request, listId):
 
         all_exercises = {}
         for i in all_lists:
-            all_exercises[i.id] = i.allExercises(getBrowserLanguage(request))
+            all_exercises[i.id] = i.allExercises(browser_lang.code)
 
         if request.method == "GET" and request.GET:
             return HttpResponse(createImportHTML(all_lists, all_exercises))
@@ -352,7 +352,7 @@ def list(request, id=0):
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     stats = statistics_analyzer.listScoreSpread(id)
     bar_chart1 = graph_manager.makeBarChart('spread', 350, 250, [color_info2, color_info1], stats['labels'], stats['data'], ["score"])
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(id, browser_lang.id)
     # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None:
@@ -378,7 +378,7 @@ def list(request, id=0):
         elif user is not None and user.id != exercise_list.created_by:
             # just to be sure we can't import stuff in our own list
             # Import parts of list
-            all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+            all_exercises = exercise_list.allExercises(browser_lang.code)
             copies = []
             references = []
             for i in all_exercises:
@@ -406,7 +406,7 @@ def list(request, id=0):
         if personal_list:
             user_score = personal_list.score
             user_date = personal_list.made_on
-        all_exercises = exercise_list.allExercises(getBrowserLanguage(request))
+        all_exercises = exercise_list.allExercises(browser_lang.code)
 
         list_owner = False
         if logged_user(request):
@@ -504,13 +504,13 @@ def answerQuestion(request, list_id, exercise_number):
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     list_owner = False
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(list_id, browser_lang.id)
     current_answer = None
     correct_answer = ""
     solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
     if exercise_list:
-        all_exercise = exercise_list.allExercises(getBrowserLanguage(request))
+        all_exercise = exercise_list.allExercises(browser_lang.code)
         current_exercise = None
         for i in all_exercise:
             if i.exercise_number == int(exercise_number):
@@ -580,7 +580,7 @@ def addHint(request):
 def submit(request, list_id, exercise_number):
     user = logged_user(request)
     exercise_number = int(exercise_number)
-    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
+    browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(list_id, browser_lang.id)
     if exercise_list:
         solved = False
