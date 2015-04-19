@@ -76,24 +76,22 @@
         <div class="row">
           {% if not solved %}
             <ul class="button-group radius">
-              <li><a id="get_hint" class="button radius small">{% trans "Get hint" %}</button></li>
-              <li><a id="reset" class="alert button radius small">{% trans "Reset question" %}</button></li>
+              <li><a id="get_hint" class="button radius small">{% trans "Get hint" %}</a></li>
+              <li><a id="reset" class="alert button radius small">{% trans "Reset question" %}</a></li>
             </ul>
           {% endif %}
           <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
         </div>
         <div class="row">
-          <div class="large-10 columns">
-            {% if not solved %}
-              <div data-alert class="alert-box hints secondary">
-                <ul>
-                  {% for hint in hints %}
-                    <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
-                  {% endfor %}
-                </ul>
-              </div>
-            {% endif %}
-          </div>
+          {% if not solved %}
+            <div data-alert class="alert-box hints secondary">
+              <ul>
+                {% for hint in hints %}
+                  <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
         </div>
       {% endif %}
 
@@ -106,7 +104,7 @@
 
 
       <div class="row">
-        <div class="large-text-center">
+        <div class="text-center">
           {% if list_owner %}
             <h3>{% trans "This question is part of your own list!" %}</h3>
           {% else %}
@@ -117,7 +115,7 @@
                 <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
               {% else %}
                 <input id="code_output" name="code_output" type="hidden" value=""></input>
-                <input id="submit_answer_code" type="button" class="button tiny radius" value"{% trans "Answer" %}">
+                <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
               {% endif %}
             {% endif %}
           {% endif %}
@@ -191,7 +189,7 @@
       $('#hint'+curr_hint).show();
       $("#used_hints").val((curr_hint).toString());
       if(curr_hint >= {{ hints|length }}){
-        $('#get_hint').prop('disabled', true);
+        $('#get_hint').addClass('disabled');
       }
       ++curr_hint;
     }
