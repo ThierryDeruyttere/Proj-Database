@@ -110,7 +110,6 @@ def user(request, id=0):
         bar_chart = graph_manager.makeBarChart('score_per_lang', 200, 200,
                                                [color_info2, color_info1], avg_score_per_lang['labels'], avg_score_per_lang['data'], ["Score"], True)
 
-
     if request.method == 'POST':
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
@@ -507,7 +506,7 @@ def verify(request, hash_seq):
         email = object_manager.acceptVerification(hash_seq)
         sendVerificationAccepted(email)
         object_manager.setUserActive(email)
-        user = object_manager.createUser(email = email)
+        user = object_manager.createUser(email=email)
         return render(request, 'verify.html', {'user': user})
 
     return redirect('/')

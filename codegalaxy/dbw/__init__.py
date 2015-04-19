@@ -678,7 +678,7 @@ def getLastAnswerForExerciseForUser(user_id, list_id, exercise_number):
 
 def getScoreForExerciseForUser(user_id, list_id, exercise_number):
     cursor = connection.cursor()
-    cursor.execute('SELECT exercise_score FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    cursor.execute('SELECT exercise_score FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -700,7 +700,7 @@ def getLanguageForCode(lang_code):
 
 def getLangForId(lang_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT name FROM language WHERE id = {id}'.format(id = lang_id))
+    cursor.execute('SELECT name FROM language WHERE id = {id}'.format(id=lang_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -890,7 +890,7 @@ def updateExerciseTitle(exercise_id, lang_id, new_title):
         sql = 'UPDATE exerciseTitle SET title=%s WHERE exercise_id = {exercise_id} AND language_id = {lang_id};'.format(exercise_id=exercise_id, lang_id=lang_id)
         cursor.execute(sql, [new_title])
     else:
-        insertTitleForExercise(exercise_id,lang_id,new_title)
+        insertTitleForExercise(exercise_id, lang_id, new_title)
 
 def updateExerciseAnswer(exercise_id, lang_id, answer_number, answer_text):
     cursor = connection.cursor()
@@ -978,7 +978,7 @@ def countExerciseListsForProgrammingLanguageID(prog_lang_id):
 
 def countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM madeList, exerciseList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id = {user_id};'.format(id=prog_lang_id, user_id = user_id))
+    cursor.execute('SELECT COUNT(exerciseList_id) AS amount FROM madeList, exerciseList WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeList.exerciseList_id AND madeList.user_id = {user_id};'.format(id=prog_lang_id, user_id=user_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -999,18 +999,18 @@ def latestHint(exercise_id, language_code):
 
 def latestHintUserUsedForExercise(list_id, exercise_number, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT hints_used FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    cursor.execute('SELECT hints_used FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
 
 def userUsesHint(list_id, exercise_number, user_id, new_latest, current_score):
     cursor = connection.cursor()
-    cursor.execute('UPDATE madeEx SET hints_used = {new_latest}, exercise_score = {exercise_score} WHERE user_id = {user_id} AND exercise_number={exercise_number} AND list_id={list_id};'.format(user_id=user_id,exercise_number=exercise_number,list_id=list_id, new_latest=new_latest, exercise_score=current_score))
+    cursor.execute('UPDATE madeEx SET hints_used = {new_latest}, exercise_score = {exercise_score} WHERE user_id = {user_id} AND exercise_number={exercise_number} AND list_id={list_id};'.format(user_id=user_id, exercise_number=exercise_number, list_id=list_id, new_latest=new_latest, exercise_score=current_score))
 
 def userIsWorkingOn(list_id, exercise_number, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id,list_id=list_id,exercise_number=exercise_number))
+    cursor.execute('SELECT * FROM madeEx WHERE list_id = {list_id} AND exercise_number = {exercise_number} AND user_id = {user_id}'.format(user_id=user_id, list_id=list_id, exercise_number=exercise_number))
     fetched = processOne(cursor)
     cursor.close()
     return fetched

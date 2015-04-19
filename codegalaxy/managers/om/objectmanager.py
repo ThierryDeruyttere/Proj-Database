@@ -159,7 +159,7 @@ class ObjectManager:
     def occurencesOfSubject(self, subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
-    def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint = 0):
+    def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint=0):
         if hint == None:
             hint = 0
         exercise = dbw.getMadeExercise(user_id, list_id, exercise_number)
@@ -195,8 +195,8 @@ class ObjectManager:
         for l in lists:
             lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
                                                      l['difficulty'], l['description'],
-                                                     l['created_by'], l['created_on'],
-                                                     l['prog_lang_id']))
+                l['created_by'], l['created_on'],
+                l['prog_lang_id']))
 
         return lists_objects
 
@@ -206,10 +206,9 @@ class ObjectManager:
         for l in lists:
             lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
                                                      l['difficulty'], l['description'],
-                                                     l['created_by'], l['created_on'],
-                                                     l['prog_lang_id']))
+                l['created_by'], l['created_on'],
+                l['prog_lang_id']))
         return lists_objects
-
 
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
@@ -243,7 +242,7 @@ class ObjectManager:
 
     def getLanguageObject(self, languade_code):
         lang = dbw.getLanguageForCode(languade_code)
-        return Language(lang['id'],lang['name'], lang['language_code'])
+        return Language(lang['id'], lang['name'], lang['language_code'])
 
     def getProgrLanguageObject(self, language_name):
         lang = dbw.getIdFromProgrammingLanguage(language_name)

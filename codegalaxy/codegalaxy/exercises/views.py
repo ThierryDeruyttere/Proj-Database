@@ -678,7 +678,7 @@ def createListElem(i, elem):
     elif elem.programming_language.id == 3:
         class_name += "sql"
 
-    return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i = i+1),
+    return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),
         """<div class=\"information panel\" id="info{for_i}" hidden="True">
         <div class=\"row\">
           <div class=\"text-center\">
@@ -690,7 +690,7 @@ def createListElem(i, elem):
             <button class=\"tiny radius\">Explore!</button>
           </div>
         </div>
-      </div>""".format(list_name=elem.name, for_i = i+1))
+      </div>""".format(list_name=elem.name, for_i=i + 1))
 
 def listOverview(request):
     # Amount of lists per programming language
@@ -755,7 +755,7 @@ def listOverview(request):
             html += h
             info += i
 
-        return HttpResponse(json.dumps({"planets":html, "info": info}))
+        return HttpResponse(json.dumps({"planets": html, "info": info}))
 
     all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode))
 

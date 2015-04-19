@@ -79,7 +79,7 @@ class Group:
         return permissions[0]['user_permissions']
 
     def upgradeUserPermissions(self, user_id):
-        #0 = OWNER, 1 = ADMIN, 2 = USER
+        # 0 = OWNER, 1 = ADMIN, 2 = USER
         dbw.updateUserPermissions(self.id, user_id, 1)
 
     def searchString(self):
