@@ -96,6 +96,8 @@ def user(request, id=0):
     pie_chart = None
     # % per lang
     bar_chart = None
+    # ex per lang
+    pie_chart2 = None
     if len(user.allPersonalLists()) != 0:
         lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguageForUser(user.id)
 
@@ -436,8 +438,6 @@ def group(request, id=0):
         if is_member:
             print("USER_ID: " + str(user.id) + " in groep: " + str(group.id) + group.group_name)
             group_permissions = group.getUserPermissions(user.id)
-
-        print(group_permissions)
 
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,

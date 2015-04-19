@@ -1,427 +1,849 @@
-# Sandbox user privileges
-GRANT ALL PRIVILEGES ON sandbox.* TO 'sandbox'@'localhost' IDENTIFIED BY 'sandbox';
-CREATE DATABASE IF NOT EXISTS sandbox;
+-- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+--
+-- Host: localhost    Database: codegalaxy
+-- ------------------------------------------------------
+-- Server version	5.5.41-0ubuntu0.14.04.1
 
-DROP DATABASE IF EXISTS codegalaxy;
-CREATE DATABASE codegalaxy;
-use codegalaxy
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
-CREATE TABLE user(
-  id INT NOT NULL AUTO_INCREMENT,
-  is_active BOOLEAN NOT NULL,
-  first_name VARCHAR(255) NOT NULL,
-  last_name VARCHAR(255) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  email VARCHAR(255) NOT NULL UNIQUE,
-  permission INT DEFAULT 0,
-  joined_on DATETIME NOT NULL,
-  last_login DATETIME NOT NULL,
-  gender VARCHAR(1) NOT NULL,
-  PRIMARY KEY(id)
-);
+--
+-- Table structure for table `answer`
+--
 
-CREATE TABLE friendsWith(
-  user_id INT NOT NULL,
-  friend_id INT NOT NULL,
-  befriended_on DATETIME NOT NULL,
-  status ENUM('Pending', 'Blocked', 'Friends') NOT NULL,
-  FOREIGN KEY (user_id) REFERENCES user(id),
-  FOREIGN KEY (friend_id) REFERENCES user(id),
-  PRIMARY KEY (user_id, friend_id)
-);
+USE codegalaxy
 
-CREATE TABLE groups(
-  id INT NOT NULL AUTO_INCREMENT,
-  group_name VARCHAR(255) NOT NULL UNIQUE,
-  group_type INT NOT NULL,
-  created_on DATETIME NOT NULL,
-  PRIMARY KEY(id)
-);
+DROP TABLE IF EXISTS `answer`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `answer` (
+  `answer_number` int(11) NOT NULL,
+  `answer_text` blob NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  `is_answer_for` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`is_answer_for`,`answer_number`,`language_id`),
+  KEY `language_id` (`language_id`),
+  CONSTRAINT `answer_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
+  CONSTRAINT `answer_ibfk_2` FOREIGN KEY (`is_answer_for`) REFERENCES `exercise` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE userInGroup(
-  group_id INT,
-  user_id INT,
-  user_permissions INT,
-  joined_on DATETIME,
-  status ENUM('Pending', 'Blocked', 'Member') NOT NULL,
-  FOREIGN KEY (group_id) REFERENCES groups(id),
-  FOREIGN KEY (user_id) REFERENCES user(id),
-  PRIMARY KEY(group_id, user_id)
-);
+--
+-- Dumping data for table `answer`
+--
 
-CREATE TABLE programmingLanguage(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL UNIQUE,
-  PRIMARY KEY(id)
-);
+LOCK TABLES `answer` WRITE;
+/*!40000 ALTER TABLE `answer` DISABLE KEYS */;
+INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1);
+/*!40000 ALTER TABLE `answer` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE language(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL UNIQUE,
-  language_code VARCHAR(225) NOT NULL,
-  PRIMARY KEY(id)
-);
+--
+-- Table structure for table `auth_group`
+--
 
-CREATE TABLE exerciseList(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL,
-  description VARCHAR(255) NOT NULL,
-  difficulty INT NOT NULL,
-  created_by INT NOT NULL,
-  created_on DATETIME NOT NULL,
-  prog_lang_id INT NOT NULL,
-  FOREIGN KEY (prog_lang_id) REFERENCES programmingLanguage(id),
-  PRIMARY KEY(id)
-);
+DROP TABLE IF EXISTS `auth_group`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(80) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE exercise(
-  id INT NOT NULL AUTO_INCREMENT,
-  difficulty INT NOT NULL,
-  max_score INT NOT NULL,
-  penalty INT NOT NULL,
-  exercise_type VARCHAR(255) NOT NULL,
-  created_by INT NOT NULL,
-  created_on DATETIME NOT NULL,
-  exercise_number INT NOT NULL,
-  correct_answer INT NOT NULL,
-  exerciseList_id INT NOT NULL,
-  FOREIGN KEY(exerciseList_id) REFERENCES exerciseList(id),
-  PRIMARY KEY(id)
-);
+--
+-- Dumping data for table `auth_group`
+--
 
-CREATE TABLE exercise_references(
-  original_id INT NOT NULL,
-  new_list_id INT NOT NULL,
-  new_list_exercise_number INT NOT NULL
-);
+LOCK TABLES `auth_group` WRITE;
+/*!40000 ALTER TABLE `auth_group` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE answer(
-  answer_number INT NOT NULL,
-  answer_text BLOB NOT NULL,
-  language_id INT,
-  is_answer_for INT,
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  FOREIGN KEY (is_answer_for) REFERENCES exercise(id),
-  PRIMARY KEY(is_answer_for, answer_number, language_id)
-);
+--
+-- Table structure for table `auth_group_permissions`
+--
 
-CREATE TABLE code(
-  code_text BLOB,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  PRIMARY KEY(exercise_id)
-);
+DROP TABLE IF EXISTS `auth_group_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_group_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_id` (`group_id`,`permission_id`),
+  KEY `auth_group_permissions_0e939a4f` (`group_id`),
+  KEY `auth_group_permissions_8373b171` (`permission_id`),
+  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE madeEx(
-  user_id INT,
-  solved BOOLEAN NOT NULL,
-  exercise_score INT NOT NULL,
-  completed_on DATETIME,
-  list_id INT,
-  exercise_number INT,
-  last_answer BLOB,
-  hints_used INT,
-  FOREIGN KEY (user_id) REFERENCES user(id),
-  PRIMARY KEY(user_id, exercise_number, list_id)
-);
+--
+-- Dumping data for table `auth_group_permissions`
+--
 
-CREATE TABLE question(
-  question_text BLOB NOT NULL,
-  language_id INT,
-  exercise_id INT,
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  PRIMARY KEY(exercise_id, language_id)
-);
+LOCK TABLES `auth_group_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_group_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_group_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE hint(
-  hint_text varchar(255),
-  hint_number INT,
-  exercise_id INT,
-  language_id INT,
-  FOREIGN KEY (language_id) REFERENCES language(id),
-  FOREIGN KEY (exercise_id) REFERENCES exercise(id),
-  PRIMARY KEY (hint_number, exercise_id, language_id)
-);
+--
+-- Table structure for table `auth_permission`
+--
 
+DROP TABLE IF EXISTS `auth_permission`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_permission` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) NOT NULL,
+  `content_type_id` int(11) NOT NULL,
+  `codename` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `content_type_id` (`content_type_id`,`codename`),
+  KEY `auth_permission_417f1b1c` (`content_type_id`),
+  CONSTRAINT `auth__content_type_id_7e4fe414a08e38b4_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE subject(
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(255) NOT NULL UNIQUE,
-  PRIMARY KEY(id)
-);
+--
+-- Dumping data for table `auth_permission`
+--
 
-CREATE TABLE hasSubject(
-  exerciseList_id INT,
-  subject_id INT,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (subject_id) REFERENCES subject(id),
-  PRIMARY KEY (exerciseList_id, subject_id)
-);
+LOCK TABLES `auth_permission` WRITE;
+/*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can add permission',2,'add_permission'),(5,'Can change permission',2,'change_permission'),(6,'Can delete permission',2,'delete_permission'),(7,'Can add group',3,'add_group'),(8,'Can change group',3,'change_group'),(9,'Can delete group',3,'delete_group'),(10,'Can add user',4,'add_user'),(11,'Can change user',4,'change_user'),(12,'Can delete user',4,'delete_user'),(13,'Can add content type',5,'add_contenttype'),(14,'Can change content type',5,'change_contenttype'),(15,'Can delete content type',5,'delete_contenttype'),(16,'Can add session',6,'add_session'),(17,'Can change session',6,'change_session'),(18,'Can delete session',6,'delete_session');
+/*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
+UNLOCK TABLES;
 
-CREATE TABLE madeList(
-  exerciseList_id INT,
-  user_id INT,
-  rating INT NOT NULL,
-  score INT NOT NULL,
-  made_on DATETIME NOT NULL,
-  FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (user_id) REFERENCES user(id),
-  PRIMARY KEY (exerciseList_id, user_id)
-);
+--
+-- Table structure for table `auth_user`
+--
 
-CREATE TABLE verification(
-  email VARCHAR(255) NOT NULL UNIQUE,
-  hash VARCHAR(255) NOT NULL UNIQUE,
-  PRIMARY KEY(hash),
-  FOREIGN KEY (email) REFERENCES user(email)
-);
+DROP TABLE IF EXISTS `auth_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `password` varchar(128) NOT NULL,
+  `last_login` datetime NOT NULL,
+  `is_superuser` tinyint(1) NOT NULL,
+  `username` varchar(30) NOT NULL,
+  `first_name` varchar(30) NOT NULL,
+  `last_name` varchar(30) NOT NULL,
+  `email` varchar(75) NOT NULL,
+  `is_staff` tinyint(1) NOT NULL,
+  `is_active` tinyint(1) NOT NULL,
+  `date_joined` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `username` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
-CREATE TABLE exerciseTitle(
-  title VARCHAR(255) NOT NULL,
-  language_id INT NOT NULL,
-  exercise_id INT NOT NULL,
-  PRIMARY KEY(language_id, exercise_id),
-  FOREIGN KEY(exercise_id) REFERENCES exercise(id),
-  FOREIGN KEY(language_id) REFERENCES language(id)
-);
+--
+-- Dumping data for table `auth_user`
+--
 
-# User data (20 users)
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Root', 'Admin', 'e48e13207341b6bffb7fb1622282247b', 'root_admin_1337@hotmail.com',"0-01-01 12:12:12","9999-12-31 12:12:12","U");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Thierry', 'Deruyttere', '098f6bcd4621d373cade4e832627b4f6', 'thierryderuyttere@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Sten', 'Verbois', '21232f297a57a5a743894a0e4a801fc3', 'stenverbois@gmail.com',"2015-03-06 12:12:12 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Tristan', 'Vandeputte', '21232f297a57a5a743894a0e4a801fc3', 'tristanvandeputte@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Marie', 'Kegeleers', '21232f297a57a5a743894a0e4a801fc3', 'marie@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","F");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Maarten', 'Jorens', '21232f297a57a5a743894a0e4a801fc3', 'maarten@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","F");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Dirk', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'dirk@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Thomas', 'Vandelanotte', '21232f297a57a5a743894a0e4a801fc3', 'Thomas@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Pieter', 'Jan', '21232f297a57a5a743894a0e4a801fc3', 'Pieter@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Bart', 'De Wever', '21232f297a57a5a743894a0e4a801fc3', 'Bart@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Chris', 'Brys', '21232f297a57a5a743894a0e4a801fc3', 'Chris@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Jommeke', 'Hegre', '21232f297a57a5a743894a0e4a801fc3', 'Jommeke@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Fany', 'Kiekeboe', '21232f297a57a5a743894a0e4a801fc3', 'Fany@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","F");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Wouter', 'Vanuitdebroeken', '21232f297a57a5a743894a0e4a801fc3', 'Wouter@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Kalm', 'Zalm', '21232f297a57a5a743894a0e4a801fc3', 'Kalm@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","U");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Alaise', 'Pladijs', '21232f297a57a5a743894a0e4a801fc3', 'Alaise@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","F");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Alain', 'Drissens', '21232f297a57a5a743894a0e4a801fc3', 'Alain@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Rudy', 'Verboven', '21232f297a57a5a743894a0e4a801fc3', 'Rudy@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Bruno', 'Tobback', '21232f297a57a5a743894a0e4a801fc3', 'Bruno@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
-INSERT INTO user(is_active, first_name, last_name, password, email, joined_on, last_login, gender) VALUES (1,'Janneman', 'Stanneman', '21232f297a57a5a743894a0e4a801fc3', 'Janneman@hotmail.com',"2015-03-06 12:12:12","2015-03-06 12:12:12","M");
+LOCK TABLES `auth_user` WRITE;
+/*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
+UNLOCK TABLES;
 
-# Friend data (telkens User X, de volgende moeten met deze dan geen rekening meer houden)
-# user 1
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,2,"2015-03-06 05:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,3,"2015-04-01 12:12:14",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,4,"2015-03-12 12:12:14",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,6,"2015-03-16 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,8,"2015-04-03 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,13,"2015-02-08 03:12:16",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,16,"2015-03-06 12:12:17",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (1,20,"2015-03-11 08:12:18",'Friends');
-# user 2
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,6,"2015-03-15 05:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,7,"2015-03-01 12:12:14",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,11,"2015-04-06 05:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,13,"2015-03-11 12:12:14",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,15,"2015-04-03 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,16,"2015-02-06 03:12:16",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,18,"2015-03-18 12:12:17",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (2,19,"2015-03-06 08:12:18",'Friends');
-# user 3
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,4,"2015-03-01 12:12:14",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,5,"2015-03-03 12:12:15",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,6,"2015-02-01 03:12:16",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,7,"2015-04-06 12:12:17",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,8,"2015-03-04 08:12:18",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,9,"2015-04-06 12:12:19",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,10,"2015-03-06 12:22:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,11,"2015-03-23 10:32:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,12,"2015-03-07 12:42:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,13,"2015-04-05 11:52:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,14,"2015-03-06 13:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,15,"2015-04-09 14:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,16,"2015-03-06 15:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,17,"2015-03-06 01:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,18,"2015-04-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,19,"2015-01-10 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (3,20,"2015-03-06 19:12:12",'Friends');
-# user 4
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,5,"2015-03-28 12:12:19",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,7,"2015-04-06 12:22:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (4,14,"2015-03-07 10:32:12",'Friends');
-# user 5
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,9,"2015-03-07 12:42:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,10,"2015-03-21 11:52:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,14,"2015-04-06 13:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,15,"2015-03-16 14:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,16,"2015-03-04 15:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (5,20,"2015-04-06 01:12:12",'Friends');
-# user 6
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,7,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,8,"2015-01-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (6,9,"2015-03-23 19:12:12",'Friends');
-# user 7
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,11,"2015-04-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,13,"2015-04-06 19:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,14,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,16,"2015-01-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (7,19,"2015-03-06 19:12:12",'Friends');
-# user 8
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,10,"2015-04-06 19:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,11,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,18,"2015-04-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (8,20,"2015-03-06 19:12:12",'Friends');
-# user 9
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,13,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,14,"2015-01-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (9,15,"2015-04-06 19:12:12",'Friends');
-# user 10
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (10,12,"2015-03-06 19:12:12",'Friends');
-# user 11
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,13,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,14,"2015-01-22 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,15,"2015-04-21 19:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,17,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,19,"2015-04-19 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (11,10,"2015-03-06 19:12:12",'Friends');
-# user 12
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,18,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,19,"2015-04-21 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (12,20,"2015-03-06 19:12:12",'Friends');
-# user 13
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,14,"2015-03-05 17:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,15,"2015-01-06 18:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,17,"2015-04-02 19:12:12",'Friends');
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (13,18,"2015-03-05 17:12:12",'Friends');
-# user 14
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (14,16,"2015-03-05 17:12:12",'Friends');
-# user 15
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (15,16,"2015-04-09 17:12:12",'Friends');
-# user 17
-INSERT INTO friendsWith(user_id, friend_id, befriended_on,status) VALUES (17,19,"2015-03-05 17:12:12",'Friends');
+--
+-- Table structure for table `auth_user_groups`
+--
 
-# Group data (~ 30 groepen)
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Admins', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('OLVE', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('OLVC', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Sint-Michielscollege', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Universiteit Antwerpen', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Universiteit Gent', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('KDG', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('VUB', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('De bende van de bosklapper', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('NVA sympathisanten', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Groen! sympathisanten', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('PVDA sympathisanten', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Open-VLD sympathisanten', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('sp.a sympathisanten', 1,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Vlaanderen', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Wallonie', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Brussel', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Antwerpen', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Russia', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Nederland', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Great-Britain', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('USA', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Wilrijk', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Edegem', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Mechelen', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Brasschaat', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Merksem', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Schoten', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Knokke', 0,"2015-03-06 19:12:12");
-INSERT INTO groups(group_name, group_type, created_on) VALUES ('Aartselaar', 0,"2015-03-06 19:12:12");
+DROP TABLE IF EXISTS `auth_user_groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `group_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`group_id`),
+  KEY `auth_user_groups_e8701ad4` (`user_id`),
+  KEY `auth_user_groups_0e939a4f` (`group_id`),
+  CONSTRAINT `auth_user_groups_group_id_7770b64db6ca18c5_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_user_groups_user_id_3b0bb466d6afbc07_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
+--
+-- Dumping data for table `auth_user_groups`
+--
 
-# UserInGroup data
-# Group creator is 0, admin 1, user 2
-# group 1
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,1,0,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,2,2,"2015-03-06 15:30:53",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,3,1,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,4,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,5,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (1,6,2,"2015-03-06 12:20:20",'Member');
-# group 2
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,4,0,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,6,2,"2015-03-06 15:30:53",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,7,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,9,2,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,17,2,"2015-03-06 20:12:22",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (2,18,2,"2015-03-06 12:20:20",'Member');
-# group 3
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,8,0,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,9,1,"2015-03-06 15:30:53",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,11,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,13,2,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,15,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,20,1,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,8,2,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,9,2,"2015-03-06 15:30:53",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,11,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,13,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,15,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (3,20,2,"2015-03-06 12:20:20",'Member');
-# group 4
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (4,13,0,"2015-03-06 13:42:33",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (4,14,1,"2015-03-06 15:30:53",'Member');
-# group 5
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,11,2,"2015-03-06 13:20:45",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,12,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,7,0,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (5,17,2,"2015-03-06 12:20:20",'Member');
-# group 6
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,2,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,4,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,6,0,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,11,2,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,13,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (6,15,2,"2015-03-06 12:20:20",'Member');
-# group 7
-# group 8
-# group 9
-# group 10
-# group 11
-# group 12
-# group 13
-# group 14
-# group 15
-# group 16
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,1,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,2,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,3,0,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,4,2,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,5,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,6,2,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,7,2,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,8,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,9,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,10,1,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,11,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,13,2,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,14,2,"2015-03-06 13:20:45",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,15,1,"2015-03-06 13:11:55",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,16,2,"2015-03-06 20:12:22",'Pending');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,17,2,"2015-03-06 12:20:20",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,19,2,"2015-03-06 20:12:22",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (16,20,2,"2015-03-06 12:20:20",'Pending');
-# group 17
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (17,12,1,"2015-03-06 13:20:45",'Member');
-INSERT INTO userInGroup(group_id, user_id, user_permissions, joined_on, status) VALUES (17,18,0,"2015-03-06 13:20:45",'Member');
-# group 18
-# group 19
-# group 20
-# group 21
-# group 22
-# group 23
-# group 24
-# group 25
-# group 26
-# group 27
-# group 28
-# group 29
+LOCK TABLES `auth_user_groups` WRITE;
+/*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
+UNLOCK TABLES;
 
-# ProgrammingLanguage data
-INSERT INTO programmingLanguage(name) VALUES ('Python');
-INSERT INTO programmingLanguage(name) VALUES ('C++');
-INSERT INTO programmingLanguage(name) VALUES ('SQL');
+--
+-- Table structure for table `auth_user_user_permissions`
+--
+
+DROP TABLE IF EXISTS `auth_user_user_permissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `auth_user_user_permissions` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `permission_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`,`permission_id`),
+  KEY `auth_user_user_permissions_e8701ad4` (`user_id`),
+  KEY `auth_user_user_permissions_8373b171` (`permission_id`),
+  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `auth_user_user_permissions`
+--
+
+LOCK TABLES `auth_user_user_permissions` WRITE;
+/*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `code`
+--
+
+DROP TABLE IF EXISTS `code`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `code` (
+  `code_text` blob,
+  `exercise_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`exercise_id`),
+  CONSTRAINT `code_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `code`
+--
+
+LOCK TABLES `code` WRITE;
+/*!40000 ALTER TABLE `code` DISABLE KEYS */;
+INSERT INTO `code` VALUES ('print(\"\")',1);
+/*!40000 ALTER TABLE `code` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_admin_log`
+--
+
+DROP TABLE IF EXISTS `django_admin_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_admin_log` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `action_time` datetime NOT NULL,
+  `object_id` longtext,
+  `object_repr` varchar(200) NOT NULL,
+  `action_flag` smallint(5) unsigned NOT NULL,
+  `change_message` longtext NOT NULL,
+  `content_type_id` int(11) DEFAULT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `django_admin_log_417f1b1c` (`content_type_id`),
+  KEY `django_admin_log_e8701ad4` (`user_id`),
+  CONSTRAINT `django_admin_log_user_id_233a481da04ec558_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `django__content_type_id_235e46beb836cf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_admin_log`
+--
+
+LOCK TABLES `django_admin_log` WRITE;
+/*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_content_type`
+--
+
+DROP TABLE IF EXISTS `django_content_type`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_content_type` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
+  `app_label` varchar(100) NOT NULL,
+  `model` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_content_type_app_label_6ba5864255c5100a_uniq` (`app_label`,`model`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_content_type`
+--
+
+LOCK TABLES `django_content_type` WRITE;
+/*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
+INSERT INTO `django_content_type` VALUES (1,'log entry','admin','logentry'),(2,'permission','auth','permission'),(3,'group','auth','group'),(4,'user','auth','user'),(5,'content type','contenttypes','contenttype'),(6,'session','sessions','session');
+/*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_migrations`
+--
+
+DROP TABLE IF EXISTS `django_migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_migrations` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `app` varchar(255) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `applied` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_migrations`
+--
+
+LOCK TABLES `django_migrations` WRITE;
+/*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2015-04-19 15:48:52'),(2,'auth','0001_initial','2015-04-19 15:48:56'),(3,'admin','0001_initial','2015-04-19 15:48:58'),(4,'sessions','0001_initial','2015-04-19 15:48:58');
+/*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_session`
+--
+
+DROP TABLE IF EXISTS `django_session`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `django_session` (
+  `session_key` varchar(40) NOT NULL,
+  `session_data` longtext NOT NULL,
+  `expire_date` datetime NOT NULL,
+  PRIMARY KEY (`session_key`),
+  KEY `django_session_de54fa62` (`expire_date`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_session`
+--
+
+LOCK TABLES `django_session` WRITE;
+/*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
+INSERT INTO `django_session` VALUES ('acgliu42wwma4a21e77uu33egtggzy4h','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-05-03 15:49:14');
+/*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `exercise`
+--
+
+DROP TABLE IF EXISTS `exercise`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exercise` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `difficulty` int(11) NOT NULL,
+  `max_score` int(11) NOT NULL,
+  `penalty` int(11) NOT NULL,
+  `exercise_type` varchar(255) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `exercise_number` int(11) NOT NULL,
+  `correct_answer` int(11) NOT NULL,
+  `exerciseList_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `exerciseList_id` (`exerciseList_id`),
+  CONSTRAINT `exercise_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exercise`
+--
+
+LOCK TABLES `exercise` WRITE;
+/*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
+INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1);
+/*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `exerciseList`
+--
+
+DROP TABLE IF EXISTS `exerciseList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exerciseList` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `description` varchar(255) NOT NULL,
+  `difficulty` int(11) NOT NULL,
+  `created_by` int(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  `prog_lang_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `prog_lang_id` (`prog_lang_id`),
+  CONSTRAINT `exerciseList_ibfk_1` FOREIGN KEY (`prog_lang_id`) REFERENCES `programmingLanguage` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exerciseList`
+--
+
+LOCK TABLES `exerciseList` WRITE;
+/*!40000 ALTER TABLE `exerciseList` DISABLE KEYS */;
+INSERT INTO `exerciseList` VALUES (1,'Beginning of a journey','Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1,4,'2015-04-19 15:50:35',1);
+/*!40000 ALTER TABLE `exerciseList` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `exerciseTitle`
+--
+
+DROP TABLE IF EXISTS `exerciseTitle`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exerciseTitle` (
+  `title` varchar(255) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `exercise_id` int(11) NOT NULL,
+  PRIMARY KEY (`language_id`,`exercise_id`),
+  KEY `exercise_id` (`exercise_id`),
+  CONSTRAINT `exerciseTitle_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
+  CONSTRAINT `exerciseTitle_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exerciseTitle`
+--
+
+LOCK TABLES `exerciseTitle` WRITE;
+/*!40000 ALTER TABLE `exerciseTitle` DISABLE KEYS */;
+INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1);
+/*!40000 ALTER TABLE `exerciseTitle` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `exercise_references`
+--
+
+DROP TABLE IF EXISTS `exercise_references`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exercise_references` (
+  `original_id` int(11) NOT NULL,
+  `new_list_id` int(11) NOT NULL,
+  `new_list_exercise_number` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exercise_references`
+--
+
+LOCK TABLES `exercise_references` WRITE;
+/*!40000 ALTER TABLE `exercise_references` DISABLE KEYS */;
+/*!40000 ALTER TABLE `exercise_references` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `friendsWith`
+--
+
+DROP TABLE IF EXISTS `friendsWith`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `friendsWith` (
+  `user_id` int(11) NOT NULL,
+  `friend_id` int(11) NOT NULL,
+  `befriended_on` datetime NOT NULL,
+  `status` enum('Pending','Blocked','Friends') NOT NULL,
+  PRIMARY KEY (`user_id`,`friend_id`),
+  KEY `friend_id` (`friend_id`),
+  CONSTRAINT `friendsWith_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`),
+  CONSTRAINT `friendsWith_ibfk_2` FOREIGN KEY (`friend_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `friendsWith`
+--
+
+LOCK TABLES `friendsWith` WRITE;
+/*!40000 ALTER TABLE `friendsWith` DISABLE KEYS */;
+INSERT INTO `friendsWith` VALUES (1,2,'2015-03-06 05:12:12','Friends'),(1,3,'2015-04-01 12:12:14','Friends'),(1,4,'2015-03-12 12:12:14','Friends'),(1,6,'2015-03-16 12:12:15','Friends'),(1,8,'2015-04-03 12:12:15','Friends'),(1,13,'2015-02-08 03:12:16','Friends'),(1,16,'2015-03-06 12:12:17','Friends'),(1,20,'2015-03-11 08:12:18','Friends'),(2,6,'2015-03-15 05:12:12','Friends'),(2,7,'2015-03-01 12:12:14','Friends'),(2,11,'2015-04-06 05:12:12','Friends'),(2,13,'2015-03-11 12:12:14','Friends'),(2,15,'2015-04-03 12:12:15','Friends'),(2,16,'2015-02-06 03:12:16','Friends'),(2,18,'2015-03-18 12:12:17','Friends'),(2,19,'2015-03-06 08:12:18','Friends'),(3,4,'2015-03-01 12:12:14','Friends'),(3,5,'2015-03-03 12:12:15','Friends'),(3,6,'2015-02-01 03:12:16','Friends'),(3,7,'2015-04-06 12:12:17','Friends'),(3,8,'2015-03-04 08:12:18','Friends'),(3,9,'2015-04-06 12:12:19','Friends'),(3,10,'2015-03-06 12:22:12','Friends'),(3,11,'2015-03-23 10:32:12','Friends'),(3,12,'2015-03-07 12:42:12','Friends'),(3,13,'2015-04-05 11:52:12','Friends'),(3,14,'2015-03-06 13:12:12','Friends'),(3,15,'2015-04-09 14:12:12','Friends'),(3,16,'2015-03-06 15:12:12','Friends'),(3,17,'2015-03-06 01:12:12','Friends'),(3,18,'2015-04-05 17:12:12','Friends'),(3,19,'2015-01-10 18:12:12','Friends'),(3,20,'2015-03-06 19:12:12','Friends'),(4,5,'2015-03-28 12:12:19','Friends'),(4,7,'2015-04-06 12:22:12','Friends'),(4,14,'2015-03-07 10:32:12','Friends'),(5,9,'2015-03-07 12:42:12','Friends'),(5,10,'2015-03-21 11:52:12','Friends'),(5,14,'2015-04-06 13:12:12','Friends'),(5,15,'2015-03-16 14:12:12','Friends'),(5,16,'2015-03-04 15:12:12','Friends'),(5,20,'2015-04-06 01:12:12','Friends'),(6,7,'2015-03-05 17:12:12','Friends'),(6,8,'2015-01-06 18:12:12','Friends'),(6,9,'2015-03-23 19:12:12','Friends'),(7,11,'2015-04-06 18:12:12','Friends'),(7,13,'2015-04-06 19:12:12','Friends'),(7,14,'2015-03-05 17:12:12','Friends'),(7,16,'2015-01-06 18:12:12','Friends'),(7,19,'2015-03-06 19:12:12','Friends'),(8,10,'2015-04-06 19:12:12','Friends'),(8,11,'2015-03-05 17:12:12','Friends'),(8,18,'2015-04-06 18:12:12','Friends'),(8,20,'2015-03-06 19:12:12','Friends'),(9,13,'2015-03-05 17:12:12','Friends'),(9,14,'2015-01-06 18:12:12','Friends'),(9,15,'2015-04-06 19:12:12','Friends'),(10,12,'2015-03-06 19:12:12','Friends'),(11,10,'2015-03-06 19:12:12','Friends'),(11,13,'2015-03-05 17:12:12','Friends'),(11,14,'2015-01-22 18:12:12','Friends'),(11,15,'2015-04-21 19:12:12','Friends'),(11,17,'2015-03-05 17:12:12','Friends'),(11,19,'2015-04-19 18:12:12','Friends'),(12,18,'2015-03-05 17:12:12','Friends'),(12,19,'2015-04-21 18:12:12','Friends'),(12,20,'2015-03-06 19:12:12','Friends'),(13,14,'2015-03-05 17:12:12','Friends'),(13,15,'2015-01-06 18:12:12','Friends'),(13,17,'2015-04-02 19:12:12','Friends'),(13,18,'2015-03-05 17:12:12','Friends'),(14,16,'2015-03-05 17:12:12','Friends'),(15,16,'2015-04-09 17:12:12','Friends'),(17,19,'2015-03-05 17:12:12','Friends');
+/*!40000 ALTER TABLE `friendsWith` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `groups`
+--
+
+DROP TABLE IF EXISTS `groups`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `groups` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_name` varchar(255) NOT NULL,
+  `group_type` int(11) NOT NULL,
+  `created_on` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `group_name` (`group_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `groups`
+--
+
+LOCK TABLES `groups` WRITE;
+/*!40000 ALTER TABLE `groups` DISABLE KEYS */;
+INSERT INTO `groups` VALUES (1,'Admins',0,'2015-03-06 19:12:12'),(2,'OLVE',1,'2015-03-06 19:12:12'),(3,'OLVC',1,'2015-03-06 19:12:12'),(4,'Sint-Michielscollege',1,'2015-03-06 19:12:12'),(5,'Universiteit Antwerpen',1,'2015-03-06 19:12:12'),(6,'Universiteit Gent',1,'2015-03-06 19:12:12'),(7,'KDG',1,'2015-03-06 19:12:12'),(8,'VUB',1,'2015-03-06 19:12:12'),(9,'De bende van de bosklapper',1,'2015-03-06 19:12:12'),(10,'NVA sympathisanten',1,'2015-03-06 19:12:12'),(11,'Groen! sympathisanten',1,'2015-03-06 19:12:12'),(12,'PVDA sympathisanten',1,'2015-03-06 19:12:12'),(13,'Open-VLD sympathisanten',1,'2015-03-06 19:12:12'),(14,'sp.a sympathisanten',1,'2015-03-06 19:12:12'),(15,'Vlaanderen',0,'2015-03-06 19:12:12'),(16,'Wallonie',0,'2015-03-06 19:12:12'),(17,'Brussel',0,'2015-03-06 19:12:12'),(18,'Antwerpen',0,'2015-03-06 19:12:12'),(19,'Russia',0,'2015-03-06 19:12:12'),(20,'Nederland',0,'2015-03-06 19:12:12'),(21,'Great-Britain',0,'2015-03-06 19:12:12'),(22,'USA',0,'2015-03-06 19:12:12'),(23,'Wilrijk',0,'2015-03-06 19:12:12'),(24,'Edegem',0,'2015-03-06 19:12:12'),(25,'Mechelen',0,'2015-03-06 19:12:12'),(26,'Brasschaat',0,'2015-03-06 19:12:12'),(27,'Merksem',0,'2015-03-06 19:12:12'),(28,'Schoten',0,'2015-03-06 19:12:12'),(29,'Knokke',0,'2015-03-06 19:12:12'),(30,'Aartselaar',0,'2015-03-06 19:12:12');
+/*!40000 ALTER TABLE `groups` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hasSubject`
+--
+
+DROP TABLE IF EXISTS `hasSubject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hasSubject` (
+  `exerciseList_id` int(11) NOT NULL DEFAULT '0',
+  `subject_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`exerciseList_id`,`subject_id`),
+  KEY `subject_id` (`subject_id`),
+  CONSTRAINT `hasSubject_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`),
+  CONSTRAINT `hasSubject_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subject` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hasSubject`
+--
+
+LOCK TABLES `hasSubject` WRITE;
+/*!40000 ALTER TABLE `hasSubject` DISABLE KEYS */;
+INSERT INTO `hasSubject` VALUES (1,1),(1,2),(1,3),(1,4);
+/*!40000 ALTER TABLE `hasSubject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hint`
+--
+
+DROP TABLE IF EXISTS `hint`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `hint` (
+  `hint_text` varchar(255) DEFAULT NULL,
+  `hint_number` int(11) NOT NULL DEFAULT '0',
+  `exercise_id` int(11) NOT NULL DEFAULT '0',
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`hint_number`,`exercise_id`,`language_id`),
+  KEY `language_id` (`language_id`),
+  KEY `exercise_id` (`exercise_id`),
+  CONSTRAINT `hint_ibfk_1` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
+  CONSTRAINT `hint_ibfk_2` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hint`
+--
+
+LOCK TABLES `hint` WRITE;
+/*!40000 ALTER TABLE `hint` DISABLE KEYS */;
+INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('Dont forget upper case letters and the exclamation mark!',2,1,1);
+/*!40000 ALTER TABLE `hint` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `language`
+--
+
+DROP TABLE IF EXISTS `language`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `language` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `language_code` varchar(225) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `language`
+--
+
+LOCK TABLES `language` WRITE;
+/*!40000 ALTER TABLE `language` DISABLE KEYS */;
+INSERT INTO `language` VALUES (1,'English','en'),(2,'Nederlands','nl');
+/*!40000 ALTER TABLE `language` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `madeEx`
+--
+
+DROP TABLE IF EXISTS `madeEx`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `madeEx` (
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `solved` tinyint(1) NOT NULL,
+  `exercise_score` int(11) NOT NULL,
+  `completed_on` datetime DEFAULT NULL,
+  `list_id` int(11) NOT NULL DEFAULT '0',
+  `exercise_number` int(11) NOT NULL DEFAULT '0',
+  `last_answer` blob,
+  `hints_used` int(11) DEFAULT NULL,
+  PRIMARY KEY (`user_id`,`exercise_number`,`list_id`),
+  CONSTRAINT `madeEx_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `madeEx`
+--
+
+LOCK TABLES `madeEx` WRITE;
+/*!40000 ALTER TABLE `madeEx` DISABLE KEYS */;
+/*!40000 ALTER TABLE `madeEx` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `madeList`
+--
+
+DROP TABLE IF EXISTS `madeList`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `madeList` (
+  `exerciseList_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `rating` int(11) NOT NULL,
+  `score` int(11) NOT NULL,
+  `made_on` datetime NOT NULL,
+  PRIMARY KEY (`exerciseList_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `madeList_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`),
+  CONSTRAINT `madeList_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `madeList`
+--
+
+LOCK TABLES `madeList` WRITE;
+/*!40000 ALTER TABLE `madeList` DISABLE KEYS */;
+/*!40000 ALTER TABLE `madeList` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programmingLanguage`
+--
+
+DROP TABLE IF EXISTS `programmingLanguage`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `programmingLanguage` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programmingLanguage`
+--
+
+LOCK TABLES `programmingLanguage` WRITE;
+/*!40000 ALTER TABLE `programmingLanguage` DISABLE KEYS */;
+INSERT INTO `programmingLanguage` VALUES (2,'C++'),(1,'Python'),(3,'SQL');
+/*!40000 ALTER TABLE `programmingLanguage` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `question`
+--
+
+DROP TABLE IF EXISTS `question`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `question` (
+  `question_text` blob NOT NULL,
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  `exercise_id` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`exercise_id`,`language_id`),
+  KEY `language_id` (`language_id`),
+  CONSTRAINT `question_ibfk_1` FOREIGN KEY (`exercise_id`) REFERENCES `exercise` (`id`),
+  CONSTRAINT `question_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `question`
+--
+
+LOCK TABLES `question` WRITE;
+/*!40000 ALTER TABLE `question` DISABLE KEYS */;
+INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1);
+/*!40000 ALTER TABLE `question` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subject`
+--
+
+DROP TABLE IF EXISTS `subject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `subject` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subject`
+--
+
+LOCK TABLES `subject` WRITE;
+/*!40000 ALTER TABLE `subject` DISABLE KEYS */;
+INSERT INTO `subject` VALUES (1,'Basic'),(4,'Conditionals'),(2,'Loops'),(3,'Variables');
+/*!40000 ALTER TABLE `subject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user`
+--
+
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(1) NOT NULL,
+  `first_name` varchar(255) NOT NULL,
+  `last_name` varchar(255) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
+  `permission` int(11) DEFAULT '0',
+  `joined_on` datetime NOT NULL,
+  `last_login` datetime NOT NULL,
+  `gender` varchar(1) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user`
+--
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'0000-01-01 12:12:12','9999-12-31 12:12:12','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-19 15:49:14','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `userInGroup`
+--
+
+DROP TABLE IF EXISTS `userInGroup`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `userInGroup` (
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `user_permissions` int(11) DEFAULT NULL,
+  `joined_on` datetime DEFAULT NULL,
+  `status` enum('Pending','Blocked','Member') NOT NULL,
+  PRIMARY KEY (`group_id`,`user_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `userInGroup_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
+  CONSTRAINT `userInGroup_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `userInGroup`
+--
+
+LOCK TABLES `userInGroup` WRITE;
+/*!40000 ALTER TABLE `userInGroup` DISABLE KEYS */;
+INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,2,'2015-03-06 15:30:53','Pending'),(1,3,1,'2015-03-06 13:20:45','Member'),(1,4,1,'2015-03-06 13:11:55','Member'),(1,5,2,'2015-03-06 20:12:22','Member'),(1,6,2,'2015-03-06 12:20:20','Member'),(2,4,0,'2015-03-06 13:42:33','Member'),(2,6,2,'2015-03-06 15:30:53','Pending'),(2,7,2,'2015-03-06 13:20:45','Member'),(2,9,2,'2015-03-06 13:11:55','Member'),(2,17,2,'2015-03-06 20:12:22','Pending'),(2,18,2,'2015-03-06 12:20:20','Member'),(3,2,2,'2015-03-06 15:30:53','Member'),(3,3,2,'2015-03-06 13:20:45','Member'),(3,5,1,'2015-03-06 13:11:55','Member'),(3,7,2,'2015-03-06 20:12:22','Member'),(3,8,0,'2015-03-06 13:42:33','Member'),(3,9,1,'2015-03-06 15:30:53','Member'),(3,11,2,'2015-03-06 13:20:45','Member'),(3,13,2,'2015-03-06 13:11:55','Member'),(3,15,2,'2015-03-06 20:12:22','Member'),(3,16,2,'2015-03-06 12:20:20','Member'),(3,20,1,'2015-03-06 12:20:20','Member'),(4,13,0,'2015-03-06 13:42:33','Member'),(4,14,1,'2015-03-06 15:30:53','Member'),(5,7,0,'2015-03-06 20:12:22','Member'),(5,11,2,'2015-03-06 13:20:45','Pending'),(5,12,1,'2015-03-06 13:11:55','Member'),(5,17,2,'2015-03-06 12:20:20','Member'),(6,2,2,'2015-03-06 13:20:45','Member'),(6,4,1,'2015-03-06 13:11:55','Member'),(6,6,0,'2015-03-06 20:12:22','Member'),(6,11,2,'2015-03-06 12:20:20','Member'),(6,13,2,'2015-03-06 20:12:22','Member'),(6,15,2,'2015-03-06 12:20:20','Member'),(16,1,2,'2015-03-06 13:20:45','Member'),(16,2,1,'2015-03-06 13:11:55','Member'),(16,3,0,'2015-03-06 20:12:22','Member'),(16,4,2,'2015-03-06 12:20:20','Member'),(16,5,2,'2015-03-06 20:12:22','Member'),(16,6,2,'2015-03-06 12:20:20','Member'),(16,7,2,'2015-03-06 13:20:45','Member'),(16,8,1,'2015-03-06 13:11:55','Member'),(16,9,2,'2015-03-06 20:12:22','Member'),(16,10,1,'2015-03-06 12:20:20','Member'),(16,11,2,'2015-03-06 20:12:22','Member'),(16,13,2,'2015-03-06 12:20:20','Member'),(16,14,2,'2015-03-06 13:20:45','Pending'),(16,15,1,'2015-03-06 13:11:55','Member'),(16,16,2,'2015-03-06 20:12:22','Pending'),(16,17,2,'2015-03-06 12:20:20','Member'),(16,19,2,'2015-03-06 20:12:22','Member'),(16,20,2,'2015-03-06 12:20:20','Pending'),(17,12,1,'2015-03-06 13:20:45','Member'),(17,18,0,'2015-03-06 13:20:45','Member');
+/*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `verification`
+--
+
+DROP TABLE IF EXISTS `verification`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `verification` (
+  `email` varchar(255) NOT NULL,
+  `hash` varchar(255) NOT NULL,
+  PRIMARY KEY (`hash`),
+  UNIQUE KEY `email` (`email`),
+  UNIQUE KEY `hash` (`hash`),
+  CONSTRAINT `verification_ibfk_1` FOREIGN KEY (`email`) REFERENCES `user` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `verification`
+--
+
+LOCK TABLES `verification` WRITE;
+/*!40000 ALTER TABLE `verification` DISABLE KEYS */;
+/*!40000 ALTER TABLE `verification` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2015-04-19 18:45:57
