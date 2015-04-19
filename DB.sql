@@ -42,7 +42,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1);
+INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1),(1,'4',1,2),(1,'build\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild',1,3);
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -240,7 +240,7 @@ CREATE TABLE `code` (
 
 LOCK TABLES `code` WRITE;
 /*!40000 ALTER TABLE `code` DISABLE KEYS */;
-INSERT INTO `code` VALUES ('print(\"\")',1);
+INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in ran(10):\r\n  print(\"\")',3);
 /*!40000 ALTER TABLE `code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('acgliu42wwma4a21e77uu33egtggzy4h','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-05-03 15:49:14');
+INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-05-03 16:47:20');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +377,7 @@ CREATE TABLE `exercise` (
   PRIMARY KEY (`id`),
   KEY `exerciseList_id` (`exerciseList_id`),
   CONSTRAINT `exercise_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +386,7 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1);
+INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,1,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,1,3,1,'Code',4,'2015-04-19 17:20:12',3,1,1);
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -445,7 +445,7 @@ CREATE TABLE `exerciseTitle` (
 
 LOCK TABLES `exerciseTitle` WRITE;
 /*!40000 ALTER TABLE `exerciseTitle` DISABLE KEYS */;
-INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1);
+INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1),('Number crunching',1,2),('So much work to do...',1,3),('Getallen verwerken',2,2),('Zo veel werk te doen...',2,3);
 /*!40000 ALTER TABLE `exerciseTitle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -581,7 +581,7 @@ CREATE TABLE `hint` (
 
 LOCK TABLES `hint` WRITE;
 /*!40000 ALTER TABLE `hint` DISABLE KEYS */;
-INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('Dont forget upper case letters and the exclamation mark!',2,1,1);
+INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('\'distance_3 = ...\' will create a new variable called \'distance_3\'',1,2,1),('\'distance_3 = ...\' zal een nieuwe variabele genaamd distance_3 creëren',1,2,2),('This exercise is almost the same as the first exercise! Look at that one if you are stuck!',1,3,1),('Deze vraag is bijna dezelfde als de eerste! Kijk daar terug naar indien je vastzit!',1,3,2),('Dont forget upper case letters and the exclamation mark!',2,1,1),('c = a + b will add two variables, called a and b, together and put the end result into the variable c',2,2,1),('\'c = a + b\' zal twee variabelen genaamd a en b optellen en zal het eindresultaat in de variabele c steken',2,2,2);
 /*!40000 ALTER TABLE `hint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -719,7 +719,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1);
+INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1),('Good job sending the message! we\'ve just recieved an answer: they want us to give them the distance from between the Earth and the spaceship.  We already have some of the data stored in \'variables\'. These can be seen below in the form of variable = ... Try making your own variable and give it a value by adding the other veriables together on the right side of the \'=\' ! Then use the \'print\' command we just saw to send our friends above the correct distance!',1,2),('Goed gedaan bij het versturen van het bericht! We hebben net een antwoord ontvangen: ze willen dat we ze de afstand tussen de aarde en het ruimteschip geven. We hebben al een deel van de data opgeslagen in \'variabelen\'. Deze kan je hier beneden zien in de vorm van \'varaibele = waarde van de variabele\'. Probeer je eigen variabele te maken en geef het de waarde van de andere twee opgeteld aan de rechterkant van de \'=\' ! Gebruik dan het \'print\' commando dat we net zagen om onze vrienden hierboven de correcte afstnd te sturen!',2,2),('Allright! our spaceship will be arriving soon! However, they need a landing platform to land on! We shall need to build one by printing out \'build\' ten times. But instead of writing the same command so many times, you can use a \'loop\' which can do the command multiple times, which makes it a lot easier! The code written below will execute the print(\") command ten times, exactly as much as given by the ran(10) command! Now let it write build every time!',1,3),('Geweldig! ons ruimteschip zal hier zo aankomen! Het heeft echter wel een platform nodig omop te landen, we zullen er zelf een moeten bouwen door \'build\' tien keer te printen. Maar in plaats van dat tien keer op te chrijven, kunnen we een \'loop\' gebruiken, wat het een pak makkelijker maakt! De code hieronder zal het \'print(\"\") commando tien keer uitvoeren, evenveel als aangegeven door het ran(10) commando! Laat het nu telkens \'build\' printen',2,3);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,7 +777,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'0000-01-01 12:12:12','9999-12-31 12:12:12','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-19 15:49:14','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
+INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'0000-01-01 12:12:12','9999-12-31 12:12:12','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-19 16:47:20','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -846,4 +846,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-19 18:45:57
+-- Dump completed on 2015-04-19 19:21:03
