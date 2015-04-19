@@ -97,3 +97,5 @@ local_settings.py
 *~
 DB-old.sql
 tmp/
+
+.sass-cache/
