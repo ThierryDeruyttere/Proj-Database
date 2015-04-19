@@ -2,15 +2,6 @@
 // foundation.zurb.com
 // Licensed under MIT Open Source
 
-//
-#bg {
-  position: fixed;
-  top: 10;
-  left: 0;
-  min-width: 100%;
-  min-height: 100%;
-}
-
 // Table of Contents
 // Foundation Settings
 //
@@ -1398,7 +1389,7 @@ $topbar-bg: $topbar-bg-color;
 
 // Height and margin
 $topbar-height: rem-calc(50);
-$topbar-margin-bottom: 0;
+$topbar-margin-bottom: 20px;
 
 // Controlling the styles for the title in the top bar
 //$topbar-title-weight: $font-weight-normal;
