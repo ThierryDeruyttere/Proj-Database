@@ -193,8 +193,8 @@ class ObjectManager:
     def setUserActive(self, email):
         dbw.setUserActive(email)
 
-    def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC'):
-        lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+    def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC', lang_id=1):
+        lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, lang_id)
         lists_objects = []
         for l in lists:
             lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],

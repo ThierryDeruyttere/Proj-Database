@@ -63,10 +63,10 @@ def getListTranslation(id, language_id):
     @return returns the translation
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM listTranslation WHERE id = {id} AND langauge_id = {lang_id};'.format(id=id, lang_id = language_id))
+    cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = {lang_id};'.format(id=id, lang_id = language_id))
     fetched = processOne(cursor)
     if fetched is None:
-        cursor.execute('SELECT * FROM listTranslation WHERE id = {id} AND langauge_id = 1;'.format(id=id))
+        cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = 1;'.format(id=id))
         fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -82,7 +82,7 @@ def getExerciseListInformation(id, lang_id):
     fetched = processOne(cursor)
     cursor.close()
     trans = getListTranslation(id, lang_id)
-    fetched['title'] = trans['title']
+    fetched['name'] = trans['name']
     fetched['description'] = trans['description']
     return fetched
 
@@ -1145,7 +1145,7 @@ def addVerification(email, hash):
 
 
 # Filtering
-def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode):
+def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, lang_id):
     cursor = connection.cursor()
     subject_search = ""
     if isinstance(subject_name, list):
@@ -1163,17 +1163,18 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     else:
         subject_search = 'LIKE "%{subject}%"'.format(subject=subject_name)
 
-    cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u) '
+    cursor.execute('SELECT DISTINCT e.*, lT.name, lT.description, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u, listTranslation lT) '
                    ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
                    ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
-                   ' WHERE s.name {subject} AND e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
+                   ' WHERE s.name {subject} AND lT.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
                    ' AND u.last_name LIKE "%{last_name}%"'
                    ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
                    ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
-                   ' GROUP BY e.name ORDER BY popularity {order_mode};'
+                   ' AND lT.list_id = e.id AND lT.language_id = {lang_id}'
+                   ' GROUP BY lT.name ORDER BY popularity {order_mode};'
                    .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
-                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode))
+                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id = lang_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched

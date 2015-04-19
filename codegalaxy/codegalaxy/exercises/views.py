@@ -702,7 +702,7 @@ def createListElem(i, elem):
 def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-
+    browser_lang = getBrowserLanguage(request)
     pie_chart = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
@@ -753,7 +753,7 @@ def listOverview(request):
         else:
             order_mode = "DESC"
 
-        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, browser_lang.id)
         html = ""
         info = ""
         for i, obj in enumerate(reversed(all_lists)):
@@ -764,7 +764,7 @@ def listOverview(request):
 
         return HttpResponse(json.dumps({"planets": html, "info": info}))
 
-    all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode))
+    all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, browser_lang.id))
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
