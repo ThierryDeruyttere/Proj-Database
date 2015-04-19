@@ -160,7 +160,7 @@ class ObjectManager:
         return dbw.getOccurenceOfSubject(subject_id)
 
     def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint=0):
-        if hint == None:
+        if hint is None:
             hint = 0
         exercise = dbw.getMadeExercise(user_id, list_id, exercise_number)
         if exercise:
@@ -193,10 +193,13 @@ class ObjectManager:
         lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
         lists_objects = []
         for l in lists:
-            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
-                                                     l['difficulty'], l['description'],
-                l['created_by'], l['created_on'],
-                l['prog_lang_id']))
+            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],
+                                                                       l['name'],
+                                                                       l['difficulty'],
+                                                                       l['description'],
+                                                                       l['created_by'],
+                                                                       l['created_on'],
+                                                                       l['prog_lang_id']))
 
         return lists_objects
 
@@ -204,10 +207,13 @@ class ObjectManager:
         lists = dbw.getAll('exerciseList')
         lists_objects = []
         for l in lists:
-            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'], l['name'],
-                                                     l['difficulty'], l['description'],
-                l['created_by'], l['created_on'],
-                l['prog_lang_id']))
+            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],
+                                                                       l['name'],
+                                                                       l['difficulty'],
+                                                                       l['description'],
+                                                                       l['created_by'],
+                                                                       l['created_on'],
+                                                                       l['prog_lang_id']))
         return lists_objects
 
     def getExerciseListsOnProgLang(self, prog_lang):
