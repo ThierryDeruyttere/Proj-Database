@@ -696,7 +696,7 @@ def listOverview(request):
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
 
-    pie_graph = graph_manager.makePieChart('colours', 180, 100,
+    pie_chart = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
                                            lists_per_prog_lang['data'])
@@ -761,6 +761,6 @@ def listOverview(request):
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
-                                                 'lists_per_prog_lang_graph': pie_graph,
+                                                 'lists_per_prog_lang_graph': pie_chart,
                                                  'most_popular_subjects': bar_chart,
                                                  'users_with_mosts_made_lists': bar_chart2})

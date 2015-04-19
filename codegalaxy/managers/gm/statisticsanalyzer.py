@@ -36,6 +36,29 @@ class StatisticsAnalyzer:
         result['data'].reverse()
         return result
 
+    def AmountOfExercisesPerProgrammingLanguageForUser(self, user_id):
+        result = {}
+        # Programming language names
+        result['labels'] = []
+        # amount of exercises
+        result['data'] = []
+        all_prog_languages = object_manager.allProgrammingLanguages()
+        for prog_lang in all_prog_languages:
+            count = object_manager.countExercisesForProgrammingLanguageIDMadeByUser(prog_lang['id'], user_id)
+            set_item = False
+            # ordering from small to large
+            for i in range(len(result['data']) - 1):
+                if result['data'][i] >= count['amount']:
+                    result['labels'].insert(i, prog_lang['name'])
+                    result['data'].insert(i, count['amount'])
+                    set_item = True
+            if not set_item:
+                result['labels'].append(prog_lang['name'])
+                result['data'].append(count['amount'])
+        result['labels'].reverse()
+        result['data'].reverse()
+        return result
+
     def AmountOfExerciseListsPerProgrammingLanguageForUser(self, user_id):
         result = {}
         # Programming language names

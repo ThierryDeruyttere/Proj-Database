@@ -983,6 +983,13 @@ def countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
     cursor.close()
     return fetched
 
+def countExercisesForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT COUNT(madeEx.solved) AS amount FROM madeEx, exerciseList, exercise WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeEx.list_id AND madeEx.user_id = {user_id} AND madeEx.solved = 1 AND madeEx.list_id = exercise.exerciseList_id AND madeEx.exercise_number = exercise.exercise_number ;'.format(id=prog_lang_id, user_id = user_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 def latestAnswer(exercise_id, language_id):
     cursor = connection.cursor()
     cursor.execute('SELECT MAX(answer_number) AS highest FROM answer WHERE answer.language_id = {l_id} AND answer.is_answer_for = {ex_id};'.format(l_id=language_id, ex_id=exercise_id))

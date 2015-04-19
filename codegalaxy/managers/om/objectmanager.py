@@ -153,6 +153,9 @@ class ObjectManager:
     def countExerciseListsForProgrammingLanguageIDMadeByUser(self, prog_lang_id, user_id):
         return dbw.countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id)
 
+    def countExercisesForProgrammingLanguageIDMadeByUser(self, prog_lang_id, user_id):
+        return dbw.countExercisesForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id)
+
     def allSubjects(self):
         return dbw.getAllSubjects()
 

@@ -93,13 +93,13 @@ def user(request, id=0):
     # % avg (any lang), # ex per lang
 
     # lists per lang
-    pie_graph = None
+    pie_chart = None
     # % per lang
     bar_chart = None
     if len(user.allPersonalLists()) != 0:
         lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguageForUser(user.id)
 
-        pie_graph = graph_manager.makePieChart('list_per_lang', 100, 100,
+        pie_chart = graph_manager.makePieChart('list_per_lang', 100, 100,
                                                graphmanager.color_tuples,
                                                lists_per_prog_lang['labels'],
                                                lists_per_prog_lang['data'])
@@ -109,6 +109,12 @@ def user(request, id=0):
         avg_score_per_lang = statistics_analyzer.averageScorePerProgrammingLanguageForUser(user)
         bar_chart = graph_manager.makeBarChart('score_per_lang', 200, 200,
                                                [color_info2, color_info1], avg_score_per_lang['labels'], avg_score_per_lang['data'], ["Score"], True)
+
+        ex_per_prog_lang = statistics_analyzer.AmountOfExercisesPerProgrammingLanguageForUser(user.id)
+        pie_chart2 = graph_manager.makePieChart('ex_per_lang', 100, 100,
+                                               graphmanager.color_tuples,
+                                               ex_per_prog_lang['labels'],
+                                               ex_per_prog_lang['data'])
 
     if request.method == 'POST':
         if 'add_friend' in request.POST:
@@ -210,7 +216,8 @@ def user(request, id=0):
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
-                   'friends': friends, 'list_on_lang_by_user': pie_graph, 'score_per_lang': bar_chart}
+                   'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
+                   'ex_on_lang_by_user': pie_chart2}
 
         if current_user.id == user.id:
             context['my_profile'] = True
