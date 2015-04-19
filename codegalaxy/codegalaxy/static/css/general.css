@@ -120,3 +120,10 @@
   height: 40px;
   border-radius: 50%;
 }
+
+/* line 83, ../../../theme/scss/general.scss */
+.top-bar .mega-octicon {
+  width: 32px;
+  text-align: center;
+  vertical-align: middle;
+}
