@@ -30,6 +30,7 @@ def removeLanguage(languages, code):
 def createExerciseList(request):
     prog_languages = object_manager.allProgrammingLanguages()
     browser_lang = getBrowserLanguage(request)
+    languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
@@ -52,7 +53,7 @@ def createExerciseList(request):
 
         return redirect("/l/" + str(exlist_id))
 
-    return render(request, 'createExerciseList.html', {"prog_languages": prog_languages})
+    return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
 def getTranslationDict(request, languages):
     translation = {}

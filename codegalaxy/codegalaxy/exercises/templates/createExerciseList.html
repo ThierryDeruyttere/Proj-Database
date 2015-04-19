@@ -200,5 +200,137 @@
     $("#translate").click(function(){
       $("#translation").foundation('reveal', 'open', '');
     });
+
+    /*TRANSLATION STUFF*/
+    var translation_dict = {};
+
+    function fillInputsForLang(lang){
+      var dict = translation_dict[lang];
+      if(dict){
+        if("title" in dict){
+          $('#translated_title').val(dict['title']);
+        }
+
+        if("question" in dict){
+          $('#translated_Question').val(dict['question']);
+        }
+
+        var amount = hint_nmbr;
+        if($('#exercise_type_open').is(":checked")) {
+          amount = answers;
+        }
+
+
+        for(var i = 0; i < amount; ++i){
+          if(i.toString() in dict){
+            $('#translated'+i).val(dict[i.toString()]);
+          }
+        }
+      }
+    }
+
+
+    var translating_to = $("#translate_to").val();
+    function saveToDict(){
+      dict = translation_dict[translating_to];
+      if (dict !== Array) {
+        dict = {};
+      }
+
+      dict["title"] = $('#translated_title').val();
+      dict["question"] = $('#translated_Question').val();
+
+      var amount = hint_nmbr;
+
+      if($('#exercise_type_open').is(":checked")) {
+        amount = answers;
+      }
+
+      for(var i = 0; i < amount; ++i){
+        dict[i.toString()] = $('#translated'+i).val();
+      }
+
+      translation_dict[translating_to] = dict;
+    }
+
+    $("#translate_to").change(function(){
+      saveToDict();
+      translating_to = this.val();
+      fillInputsForLang(translating_to);
+    });
+
+    $('#translation').on('close', function(){
+      saveToDict();
+    });
+
+
+    function addDictionary(){
+      $.each(translation_dict, function(key,value){
+        $.each(value, function(trans_key, trans_value){
+          $('#list_form').append(
+                  $('<input>').attr({name: key+'_'+trans_key,
+                    hidden: true,
+                    value: trans_value})
+          );
+        });
+      });
+    }
+
+    function checkTranslationDict(){
+      /*Checks if the translation dictionary is ok.
+       This means that if you translate a part of the exercise, you need to translate it completely
+       This is important so that you don't have half translations for the exercise
+       */
+
+      var missing_trans = [];
+
+      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict) ){
+        alert("Error: You need to atleast provide an english translation");
+        return false;
+      }
+
+      $.each(translation_dict, function(key,value){
+        //the amount of inputs that are empty
+        var empty = 0;
+        //the amounts of inputs that are not empty
+        var not_empty = 0;
+        $.each(value, function(trans_key, trans_value){
+          //filter white spaces
+
+          if(trans_value.replace(/\s+/g, '') == ""){
+            empty++;
+          }else{
+            not_empty++;
+          }
+        });
+
+        if(empty > 0 && key == "English"){
+          alert("Error: You need to at least provide an english translation");
+          return false;
+        }
+
+        if(empty != Object.keys(value).length  && empty != 0 ){
+          //problem there are translations missing
+          missing_trans.push(key);
+        }
+      });
+      if($(missing_trans).length > 0){
+        alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
+        "then just remove all the entries for these languages, or fill in the missing translations for these languages");
+        return false;
+      }
+      return true;
+    }
+    $(".form_button").click(function(){
+      addDictionary();
+      var submit = true;
+      if(submit){
+          submit = checkTranslationDict(false);
+      }
+      if(submit){
+        $("#exercise_form").submit();
+      }
+    });
+
   </script>
 {% endblock body_js %}
