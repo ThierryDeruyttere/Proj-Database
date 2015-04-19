@@ -391,7 +391,7 @@ def list(request, id=0):
                     references.append(i)
             # Here we got the exercises
             # Check in which lists we need to insert them
-            mylists = user.getUserLists(getBrowserLanguage(request))
+            mylists = user.getUserLists(browser_lang.id)
             lists = []
             for l in mylists:
                 found = request.POST.get('mylist_' + str(l.id))
@@ -402,7 +402,7 @@ def list(request, id=0):
                         l.copyExercise(copy.id)
 
     if exercise_list:
-        personal_list = user.getMadeList(exercise_list.id)
+        personal_list = user.getMadeList(exercise_list.id, browser_lang.id)
         if personal_list:
             user_score = personal_list.score
             user_date = personal_list.made_on
@@ -461,15 +461,15 @@ def list(request, id=0):
         user_lists = None
         if logged_user(request):
             user = logged_user(request)
-            user_lists = user.getUserLists(getBrowserLanguage(request))
+            user_lists = user.getUserLists(browser_lang.id)
             user_rating = user.getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
-                made_list = user.getMadeList(exercise_list.id)
+                made_list = user.getMadeList(exercise_list.id, browser_lang.id)
                 if made_list:
                     similar_list_ids = recommendNextExerciseLists(made_list, user)
                 else:
-                    similar_list_ids = listsLikeThisOne(exercise_list.id, user, browser_lang.id)
+                    similar_list_ids = listsLikeThisOne(exercise_list.id, user)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id, browser_lang.id))
 

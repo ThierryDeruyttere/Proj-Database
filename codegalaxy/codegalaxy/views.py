@@ -39,7 +39,7 @@ def home(request):
     if current_user:
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
-        current_user_exercises_made = current_user.allExerciseListsMade2(getBrowserLanguage(request))
+        current_user_exercises_made = current_user.allExerciseListsMade2(browser_lang.id)
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
@@ -49,7 +49,7 @@ def home(request):
 
             accepted_friendships = friend.allFriendsWith()
             member_of_groups = friend.allGroupsJoined()
-            exercises_made = friend.allExerciseListsMade2(getBrowserLanguage(request))
+            exercises_made = friend.allExerciseListsMade2(browser_lang.id)
 
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
@@ -94,7 +94,7 @@ def user(request, id=0):
     # We'll show:
     # % per lang, # lists per lang, total lists, total groups, time joined,
     # % avg (any lang), # ex per lang
-
+    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
     # lists per lang
     pie_chart = None
     # % per lang
@@ -183,7 +183,7 @@ def user(request, id=0):
 
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
-        exercises_made = user.allExerciseListsMade2(getBrowserLanguage(request))
+        exercises_made = user.allExerciseListsMade2(browser_lang.id)
 
         all_data = []
         all_data.extend(accepted_friendships)
@@ -316,7 +316,7 @@ def group(request, id=0):
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
 
     user = logged_user(request)
-
+    browser_lang = object_manager.getLanguageObject(getBrowserLanguage(request))
     print("USER = " + str(user))
 
     group = object_manager.createGroup(id)
@@ -402,7 +402,7 @@ def group(request, id=0):
                 # member_of_groups = one_user.allUserAdded()
                 # exercises_made = one_user.allExerciseListsMade()
 
-                exercises_made = one_user.allExerciseListsMade2(getBrowserLanguage(request))
+                exercises_made = one_user.allExerciseListsMade2(browser_lang.id)
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
 
