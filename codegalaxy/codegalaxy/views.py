@@ -228,7 +228,7 @@ def user(request, id=0):
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
-                   'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends}
+                   'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends, 'mutual_friends': mutual_friends}
 
         if current_user.id == user.id:
             context['my_profile'] = True
