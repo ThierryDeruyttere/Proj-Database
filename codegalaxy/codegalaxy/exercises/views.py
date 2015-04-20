@@ -146,6 +146,7 @@ def editList(request, listId):
     current_language = exercise_list.programming_language.name
     all_exercises = exercise_list.allExercises(browser_lang.code)
 
+    current_translations = exercise_list.getAllTranslations()
     if request.method == 'POST':
 
         updated_list_name = request.POST.get('updated_list_name')
@@ -184,7 +185,8 @@ def editList(request, listId):
                                              'programming_languages': prog_langs,
                                              'current_prog_lang': current_language,
                                              'all_exercises': all_exercises,
-                                             'languages': languages})
+                                             'languages': languages,
+                                             'translations': current_translations})
 
 def filterOrder(order):
     if len(order) == 0:

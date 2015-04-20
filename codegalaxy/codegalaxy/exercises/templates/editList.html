@@ -317,11 +317,12 @@
       $("#translation").foundation('reveal', 'open', '');
       $("#original_name").val($("#list_name").val());
       $("#original_Description").val($("#description_text").val());
+       fillInputsForLang($("#translate_to").val());
     });
 
 
     /*TRANSLATION STUFF*/
-    var translation_dict = {};
+    var translation_dict = {{ translations|safe }};
 
     function fillInputsForLang(lang){
       var dict = translation_dict[lang];

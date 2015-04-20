@@ -252,3 +252,13 @@ class ExerciseList:
 
     def searchString(self):
         return str(self.name)
+
+
+    def getAllTranslations(self):
+        transl = dbw.getAllListTranslations(self.id)
+        translations = {}
+        object_manager = managers.om.objectmanager.ObjectManager()
+        for val in transl:
+            translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description']}
+
+        return translations

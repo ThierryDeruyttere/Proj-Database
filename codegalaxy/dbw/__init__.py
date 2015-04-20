@@ -652,6 +652,13 @@ def getMaxSumForExForList(list_id):
     cursor.close()
     return fetched['total']
 
+def getAllListTranslations(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT lT.name, lT.description, l.language_code FROM listTranslation lT, language l WHERE list_id = {id} AND lT.language_id = l.id ;'.format(id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getMaxSumForRefForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex,exercise_references e WHERE e.new_list_id = {id} AND e.original_id = ex.id;'.format(id=list_id))
