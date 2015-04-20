@@ -72,7 +72,8 @@ def home(request):
             recommended_lists.append(
                 object_manager.createExerciseList(recommended_list))
 
-        return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 'recommended': recommended_lists, 'paginator': paginator, 'random_list': imFeelingLucky(current_user)})
+        return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 
+                'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
     return render(request, 'home.html')
 
 def registered(request):
