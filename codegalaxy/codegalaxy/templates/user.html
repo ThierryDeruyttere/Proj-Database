@@ -148,18 +148,40 @@
           <hr/>
           {% endif %}
           {% endfor %}
-          <div class="pagination">
-            <span class="step-links">
+          <div class="pagination-centered">
+            <ul class="pagination">
               {% if data.has_previous %}
-              <a href="?page={{ data.previous_page_number }}">previous</a>
+                {% if data.number = 2 %}
+                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+                  <li><a href="?page=1">1</a></li>
+                {% elif data.number = 3 %}
+                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+                  <li><a href="?page=1">1</a></li>
+                  <li><a href="?page=2">2</a></li>
+                {% elif data.number > 3 %}
+                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+                  <li><a href="?page=1">1</a></li>
+                  <li class="unavailable"><a href="">&hellip;</a></li>
+                  <li><a href="?page={{ data.previous_page_number }}">{{ data.previous_page_number }}</a></li>
+                {% endif %}
               {% endif %}
-              <span class="current">
-                {% trans "Page" %} {{ data.number }} {% trans "of" %} {{ data.paginator.num_pages }}
-              </span>
+              <li class="current"><a href="">{{ data.number }}</a></li>
               {% if data.has_next %}
-              <a href="?page={{ data.next_page_number }}">next</a>
+                {% if data.paginator.num_pages|add:-2 > data.number %}
+                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+                  <li class="unavailable"><a href="">&hellip;</a></li>
+                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+                {% elif data.paginator.num_pages|add:-1 > data.number %}
+                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+                {% elif data.paginator.num_pages|add:-1 = data.number %}
+                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+                {% else %}
+                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+                {% endif %}
+                <li class="arrow"><a href="?page={{ data.next_page_number }}">&raquo;</a></li>
               {% endif %}
-            </span>
+            </ul>
           </div>
         </div>
         <div class="content" id="friends">
