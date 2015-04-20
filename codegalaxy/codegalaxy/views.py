@@ -215,11 +215,20 @@ def user(request, id=0):
             friends.append(
                 object_manager.createUser(id=friendship.friend.id))
 
+        mutual_friends = []
+        if current_user.id != user.id:
+            for current_user_friend in current_user.allFriends():
+                for user_friend in user.allFriends():
+                    if current_user_friend.id == user_friend.id:
+                        mutual_friends.append(current_user_friend)
+
+        total_mutual_friends = len(mutual_friends)
+
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
-                   'ex_on_lang_by_user': pie_chart2}
+                   'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends}
 
         if current_user.id == user.id:
             context['my_profile'] = True
