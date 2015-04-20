@@ -100,9 +100,9 @@ class ExerciseList:
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 
-    def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang):
+    def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
         # list_id,name, description ,difficulty, prog_lang_id)
-        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id)
+        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)

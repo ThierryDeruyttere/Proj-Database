@@ -849,15 +849,23 @@ def updateUser(user_id, first_name, last_name, password, email, is_active, permi
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
 
+def deleteListTranslations(id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM listTranslation WHERE list_id = {list_id};'.format(list_id=id))
 
 def updateGroup(group_id, group_name, group_type, created_on):
     cursor = connection.cursor()
     # updateGroup does not change the created_on
     cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t},created_on = "{created_on}" WHERE id = {id};'.format(id=group_id, gr_t=group_type, gr_n=group_name, created_on=created_on))
 
-def updateExerciseList(list_id, name, description, difficulty, prog_lang_id):
+def updateExerciseList(list_id, name, description, difficulty, prog_lang_id, translation=None):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id=list_id, desc=description, name=name, diff=difficulty, prg_id=prog_lang_id))
+    cursor.execute('UPDATE exerciseList SET prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id=list_id, diff=difficulty, prg_id=prog_lang_id))
+    deleteListTranslations(list_id)
+    if translation:
+        for key, val in translation.items():
+            if len(val):
+                insertListTranslation(val['name'], val['description'], list_id, key.id)
 
 def updateListRating(list_id, user_id, list_rating):
     cursor = connection.cursor()

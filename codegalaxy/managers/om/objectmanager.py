@@ -112,7 +112,8 @@ class ObjectManager:
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
         highest_id = dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_id)["highest_id"]
         for lang, val in translations.items():
-            dbw.insertListTranslation(val['name'], val['description'], int(highest_id), lang.id)
+            if val:
+                dbw.insertListTranslation(val['name'], val['description'], int(highest_id), lang.id)
         return int(highest_id)
 
     def insertGroup(self, group_name, group_type, created_on):

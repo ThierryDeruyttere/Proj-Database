@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 import time
 import json
+from codegalaxy.general import getBrowserLanguage
 
 from pymysql import escape_string
 
@@ -135,12 +136,13 @@ def editList(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
+    languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
     # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
     if exercise_list is None or exercise_list.created_by != user.id:
         return redirect('/')
 
     subjects = exercise_list.allSubjects()
-    languages = object_manager.allProgrammingLanguages()
+    prog_langs = object_manager.allProgrammingLanguages()
     current_language = exercise_list.programming_language.name
     all_exercises = exercise_list.allExercises(browser_lang.code)
 
@@ -171,13 +173,18 @@ def editList(request, listId):
         for subject in subjects_to_add:
             exercise_list.addSubject(subject)
 
-        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang))
+        translation = getTranslationDict(request, languages)
+        #set current browser translation
+        translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
+
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
 
     return render(request, 'editList.html', {'list': exercise_list,
                                              'subjects': subjects,
-                                             'programming_languages': languages,
+                                             'programming_languages': prog_langs,
                                              'current_prog_lang': current_language,
-                                             'all_exercises': all_exercises})
+                                             'all_exercises': all_exercises,
+                                             'languages': languages})
 
 def filterOrder(order):
     if len(order) == 0:
@@ -188,9 +195,6 @@ def filterOrder(order):
     for i in splitted:
         new_order.append(int(i.replace('exercise', '')))
     return new_order
-
-def getBrowserLanguage(request):
-    return object_manager.getLanguageObject(request.LANGUAGE_CODE)
 
 @require_login
 def editExercise(request, listId, exercise_id, exercise_number):

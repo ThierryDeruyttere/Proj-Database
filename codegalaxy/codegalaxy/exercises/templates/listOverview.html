@@ -180,7 +180,7 @@
       $('.planets').slick({
         infinite: false,
         centerMode: true,
-        slidesToShow: slides,
+        slidesToShow: 5,
         centerPadding: '0px',
         focusOnSelect: true,
         slideGlide: true,
@@ -241,7 +241,7 @@
               //temporary fix
               //TODO FIX ME
               var track_am = $(response['planets']).find('.planet').length;
-              if(track_am < 5){
+              if(track_am < 6){
                 slides = 1;
               }
               createSlick(slides);

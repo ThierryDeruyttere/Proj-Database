@@ -17,6 +17,7 @@ from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
+from codegalaxy.general import getBrowserLanguage
 
 import os.path
 #from PIL import Image
@@ -26,9 +27,6 @@ object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
-
-def getBrowserLanguage(request):
-    return object_manager.getLanguageObject(request.LANGUAGE_CODE)
 
 def home(request):
     current_user = logged_user(request)
