@@ -199,14 +199,14 @@
             {% endfor %}
           </div>
           <div class="row">
-            <h5>All friends</h5>
-            {% for friendship in accepted_friendships %}
+            <h5>Others</h5>
+            {% for friend in non_mutual_friends %}
             <div class="large-3 columns end">
-              <a href="/u/{{ friendship.friend.id }}">
+              <a href="/u/{{ friend.id }}">
                 <div class="panel radius">
-                  <img src="{% static friendship.friend.getPicture %}"/>
-                  <h5 class="text-cut-off">{{ friendship.friend.first_name }}</h5>
-                  <h6 class="text-cut-off">{{ friendship.friend.last_name }}</h6>
+                  <img src="{% static friend.getPicture %}"/>
+                  <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                  <h6 class="text-cut-off">{{ friend.last_name }}</h6>
                 </div>
               </a>
             </div>
