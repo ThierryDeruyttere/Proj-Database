@@ -72,7 +72,7 @@ def home(request):
             recommended_lists.append(
                 object_manager.createExerciseList(recommended_list))
 
-        return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends, 
+        return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends,
                 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
     return render(request, 'home.html')
 
@@ -455,7 +455,10 @@ def group(request, id=0):
         if is_member:
             print("USER_ID: " + str(user.id) + " in groep: " + str(group.id) + group.group_name)
             group_permissions = group.getUserPermissions(user.id)
-
+        new_user_list = []
+        for group_member in user_list:
+            new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
+        user_list = new_user_list
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit}
