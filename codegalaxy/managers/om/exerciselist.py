@@ -259,6 +259,6 @@ class ExerciseList:
         translations = {}
         object_manager = managers.om.objectmanager.ObjectManager()
         for val in transl:
-            translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description']}
-
+            translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description'].decode('ascii')}
+        print(translations)
         return translations

@@ -352,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDFjNDVlODQyZmY4Yjk5NzM5MmVmY2RiNmM0N2Y4YTI5MzY2YjBhNjp7ImN1cnJlbnRfdXNlciI6NCwiX2xhbmd1YWdlIjoiZW4ifQ==','2015-05-05 14:53:47');
+INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDFjNDVlODQyZmY4Yjk5NzM5MmVmY2RiNmM0N2Y4YTI5MzY2YjBhNjp7ImN1cnJlbnRfdXNlciI6NCwiX2xhbmd1YWdlIjoiZW4ifQ==','2015-05-05 17:29:17');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -415,7 +415,7 @@ CREATE TABLE `exerciseList` (
 
 LOCK TABLES `exerciseList` WRITE;
 /*!40000 ALTER TABLE `exerciseList` DISABLE KEYS */;
-INSERT INTO `exerciseList` VALUES (1,'Beginning of a journey','Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1,4,'2015-04-19 15:50:35',1),(2,'Continuation of that journey...','We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2,4,'2015-04-21 14:53:41',1),(3,'C++ for Dummies','Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',1,4,'2015-04-21 16:14:44',2),(4,'C++: Basic math functions','This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',3,4,'2015-04-21 16:18:33',2);
+INSERT INTO `exerciseList` VALUES (1,1,4,'2015-04-19 15:50:35',1),(2,2,4,'2015-04-21 14:53:41',1),(3,1,4,'2015-04-21 16:14:44',2),(4,3,4,'2015-04-21 16:18:33',2);
 /*!40000 ALTER TABLE `exerciseList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -436,31 +436,6 @@ CREATE TABLE `exerciseTitle` (
   CONSTRAINT `exerciseTitle_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `listTranslation`
---
-
-DROP TABLE IF EXISTS `listTranslation`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `listTranslation` (
-  `name` varchar(255) NOT NULL,
-  `language_id` int(11) NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `list_id` int(11) NOT NULL,
-  PRIMARY KEY (`list_id`,`language_id`),
-  FOREIGN KEY (list_id) REFERENCES exerciseList(id),
-  FOREIGN KEY (language_id) REFERENCES language(id)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
-LOCK TABLES `listTranslation` WRITE;
-/*!40000 ALTER TABLE `listTranslation` DISABLE KEYS */;
-INSERT INTO `listTranslation` VALUES ('Beginning of a journey', 1 ,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1);
-/*!40000 ALTER TABLE `listTranslation` ENABLE KEYS */;
-UNLOCK TABLES;
-
 
 --
 -- Dumping data for table `exerciseTitle`
@@ -632,6 +607,35 @@ LOCK TABLES `language` WRITE;
 /*!40000 ALTER TABLE `language` DISABLE KEYS */;
 INSERT INTO `language` VALUES (1,'English','en'),(2,'Nederlands','nl');
 /*!40000 ALTER TABLE `language` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `listTranslation`
+--
+
+DROP TABLE IF EXISTS `listTranslation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `listTranslation` (
+  `name` varchar(255) NOT NULL,
+  `language_id` int(11) NOT NULL,
+  `description` blob NOT NULL,
+  `list_id` int(11) NOT NULL,
+  PRIMARY KEY (`list_id`,`language_id`),
+  KEY `language_id` (`language_id`),
+  CONSTRAINT `listTranslation_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `exerciseList` (`id`),
+  CONSTRAINT `listTranslation_ibfk_2` FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `listTranslation`
+--
+
+LOCK TABLES `listTranslation` WRITE;
+/*!40000 ALTER TABLE `listTranslation` DISABLE KEYS */;
+INSERT INTO `listTranslation` VALUES ('Beginning of a journey',1,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1),('Begin van een avontuur',2,'Hallo, ik ben Kernel, en mijn vriend Grub en ik zijn gestrand op deze vreemde planeet genaamd Aarde! We gaan proberen ons ruimteschip een signaal te sturen met de Universele taal Python. Zou je ons mischien even een handje willen lenen? Ik beloof je dat het niet te moeilijk wordt!',1),('Continuation of that journey...',1,'We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2),('C++ for Dummies',1,'Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',3),('C++: Basic math functions',1,'This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',4),('C++: Basis wiskundige functies',2,'Deze lijst zal je leren wat basis-wiskundige functies te schrijven, deze vind je meestal wel in de standaard/math library, maar ik wil ze toch even aanhalen. Ik hoop dat deze je toch tot denken doen aanzetten. Veel plezier met het Coden!',4);
+/*!40000 ALTER TABLE `listTranslation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -869,4 +873,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-21 18:20:44
+-- Dump completed on 2015-04-21 19:30:01
