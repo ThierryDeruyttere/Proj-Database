@@ -7,14 +7,10 @@ from codegalaxy.search import *
 from codegalaxy.authentication import require_login, logged_user
 
 def social(request):
-    s_term = request.POST.get('term', '')
-    s_social = request.POST.get('s_social', 'false') != 'false'
+    s_term = request.POST.get('term', 'Ste')
+    s_social = request.POST.get('s_social', 'true') != 'false'
 
     s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false' and not s_social)
-
-    print(s_term)
-    print(s_social)
-    print(s_my_groups)
 
     results = search(s_term, s_users=s_social, s_groups=s_social)
 
@@ -24,10 +20,15 @@ def social(request):
 
     response = ''
     for result in results:
+
+        t = 'u'
+        if type(result) is group.Group:
+            t = 'g'
+
         response += '''
         <div class="large-3 columns end">
           <div class="panel radius">
-            <a href="/g/{id}">
+            <a href="/{type}/{id}">
               <img src="/static/{picture}" />
               <div>
                 <h6 class="text-cut-off">{name}</h6>
@@ -35,6 +36,6 @@ def social(request):
             </a>
           </div>
         </div>
-        '''.format(id=result.id, picture=result.getPicture(), name=result.name())
+        '''.format(type=t, id=result.id, picture=result.getPicture(), name=result.name())
 
     return HttpResponse(response)
