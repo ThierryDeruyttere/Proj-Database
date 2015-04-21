@@ -1184,7 +1184,7 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     else:
         subject_search = 'LIKE "%{subject}%"'.format(subject=subject_name)
 
-    cursor.execute('SELECT DISTINCT e.*, lT.name, lT.description, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u, listTranslation lT) '
+    cursor.execute(' SELECT DISTINCT e.*, lT.name, lT.description, lT.language_id , COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u, listTranslation lT) '
                    ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
                    ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
@@ -1197,7 +1197,28 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
                    .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
                            prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id = lang_id))
     fetched = processData(cursor)
+
     cursor.close()
+    #Clear doubles/ if any
+    if lang_id != 1:
+        info = {}
+        for i in fetched:
+            if i['id'] not in info.keys():
+                info[i['id']] = 1
+            else:
+                info[i['id']] += 1
+
+        cleaned = []
+        for i in fetched:
+            if info[i['id']] == 1:
+                #No prob add it
+                cleaned.append(i)
+            else:
+                if int(info[i['language_id']]) != 1:
+                    cleaned.append(i)
+
+        return cleaned
+
     return fetched
 
 

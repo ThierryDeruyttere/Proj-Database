@@ -178,7 +178,8 @@
     function createSlick(slides){
       var cur_planets = $('.planets').find('.planet').length;
       slides = slides || 5;
-      if (cur_planets < 5){
+      console.log(cur_planets);
+      if (cur_planets <= 5){
         slides = Math.max(cur_planets - 1,1);
       }
 
