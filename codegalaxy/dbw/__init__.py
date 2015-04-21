@@ -854,7 +854,7 @@ def updateUserInformation(user_id, email, password):
 
 def updateUser(user_id, first_name, last_name, password, email, is_active, permissions, joined_on, last_login, gender):
     cursor = connection.cursor()
-    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
+    cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = "{active}",email="{email}",password="{passw}",permission="{perm}",joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
 
 def deleteListTranslations(id):
     cursor = connection.cursor()
