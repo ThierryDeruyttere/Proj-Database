@@ -42,7 +42,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1),(1,'4',1,2),(1,'build\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild',1,3);
+INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1),(1,'4',1,2),(1,'build\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild',1,3),(1,'10\r\n9\r\n8\r\n7\r\n6\r\n5\r\n4\r\n3\r\n2\r\n1\r\n0\r\n',1,4);
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +85,8 @@ CREATE TABLE `auth_group_permissions` (
   UNIQUE KEY `group_id` (`group_id`,`permission_id`),
   KEY `auth_group_permissions_0e939a4f` (`group_id`),
   KEY `auth_group_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -205,8 +205,8 @@ CREATE TABLE `auth_user_user_permissions` (
   UNIQUE KEY `user_id` (`user_id`,`permission_id`),
   KEY `auth_user_user_permissions_e8701ad4` (`user_id`),
   KEY `auth_user_user_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -240,7 +240,7 @@ CREATE TABLE `code` (
 
 LOCK TABLES `code` WRITE;
 /*!40000 ALTER TABLE `code` DISABLE KEYS */;
-INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in ran(10):\r\n  print(\"\")',3);
+INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in ran(10):\r\n  print(\"\")',3),('num_list = [10,9,8,7,6,5,4,3,2,1,0]',4);
 /*!40000 ALTER TABLE `code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -352,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-05-03 16:47:20');
+INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDFjNDVlODQyZmY4Yjk5NzM5MmVmY2RiNmM0N2Y4YTI5MzY2YjBhNjp7ImN1cnJlbnRfdXNlciI6NCwiX2xhbmd1YWdlIjoiZW4ifQ==','2015-05-05 14:53:47');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -377,7 +377,7 @@ CREATE TABLE `exercise` (
   PRIMARY KEY (`id`),
   KEY `exerciseList_id` (`exerciseList_id`),
   CONSTRAINT `exercise_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -386,7 +386,7 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,1,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,1,3,1,'Code',4,'2015-04-19 17:20:12',3,1,1);
+INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,1,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,1,3,1,'Code',4,'2015-04-19 17:20:12',3,1,1),(4,2,5,1,'Code',4,'2015-04-21 15:11:06',1,1,2);
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -406,7 +406,7 @@ CREATE TABLE `exerciseList` (
   PRIMARY KEY (`id`),
   KEY `prog_lang_id` (`prog_lang_id`),
   CONSTRAINT `exerciseList_ibfk_1` FOREIGN KEY (`prog_lang_id`) REFERENCES `programmingLanguage` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -415,7 +415,7 @@ CREATE TABLE `exerciseList` (
 
 LOCK TABLES `exerciseList` WRITE;
 /*!40000 ALTER TABLE `exerciseList` DISABLE KEYS */;
-INSERT INTO `exerciseList` VALUES (1,1,4,'2015-04-19 15:50:35',1);
+INSERT INTO `exerciseList` VALUES (1,'Beginning of a journey','Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1,4,'2015-04-19 15:50:35',1),(2,'Continuation of that journey...','We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2,4,'2015-04-21 14:53:41',1),(3,'C++ for Dummies','Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',1,4,'2015-04-21 16:14:44',2),(4,'C++: Basic math functions','This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',3,4,'2015-04-21 16:18:33',2);
 /*!40000 ALTER TABLE `exerciseList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -468,7 +468,7 @@ UNLOCK TABLES;
 
 LOCK TABLES `exerciseTitle` WRITE;
 /*!40000 ALTER TABLE `exerciseTitle` DISABLE KEYS */;
-INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1),('Number crunching',1,2),('So much work to do...',1,3),('Getallen verwerken',2,2),('Zo veel werk te doen...',2,3);
+INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1),('Number crunching',1,2),('So much work to do...',1,3),('Countdown!',1,4),('Getallen verwerken',2,2),('Zo veel werk te doen...',2,3);
 /*!40000 ALTER TABLE `exerciseTitle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -574,7 +574,7 @@ CREATE TABLE `hasSubject` (
 
 LOCK TABLES `hasSubject` WRITE;
 /*!40000 ALTER TABLE `hasSubject` DISABLE KEYS */;
-INSERT INTO `hasSubject` VALUES (1,1),(1,2),(1,3),(1,4);
+INSERT INTO `hasSubject` VALUES (1,1),(3,1),(1,2),(2,2),(1,3),(1,4),(2,4),(3,5),(4,6),(4,7);
 /*!40000 ALTER TABLE `hasSubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -604,7 +604,7 @@ CREATE TABLE `hint` (
 
 LOCK TABLES `hint` WRITE;
 /*!40000 ALTER TABLE `hint` DISABLE KEYS */;
-INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('\'distance_3 = ...\' will create a new variable called \'distance_3\'',1,2,1),('\'distance_3 = ...\' zal een nieuwe variabele genaamd distance_3 creëren',1,2,2),('This exercise is almost the same as the first exercise! Look at that one if you are stuck!',1,3,1),('Deze vraag is bijna dezelfde als de eerste! Kijk daar terug naar indien je vastzit!',1,3,2),('Dont forget upper case letters and the exclamation mark!',2,1,1),('c = a + b will add two variables, called a and b, together and put the end result into the variable c',2,2,1),('\'c = a + b\' zal twee variabelen genaamd a en b optellen en zal het eindresultaat in de variabele c steken',2,2,2);
+INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('\'distance_3 = ...\' will create a new variable called \'distance_3\'',1,2,1),('\'distance_3 = ...\' zal een nieuwe variabele genaamd distance_3 creëren',1,2,2),('This exercise is almost the same as the first exercise! Look at that one if you are stuck!',1,3,1),('Deze vraag is bijna dezelfde als de eerste! Kijk daar terug naar indien je vastzit!',1,3,2),('The for loop could look like this: \"for something in something else:\" and then you put another command below that',1,4,1),('Dont forget upper case letters and the exclamation mark!',2,1,1),('c = a + b will add two variables, called a and b, together and put the end result into the variable c',2,2,1),('\'c = a + b\' zal twee variabelen genaamd a en b optellen en zal het eindresultaat in de variabele c steken',2,2,2),('Don\'t forget the indentation!',2,4,1);
 /*!40000 ALTER TABLE `hint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -742,7 +742,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1),('Good job sending the message! we\'ve just recieved an answer: they want us to give them the distance from between the Earth and the spaceship.  We already have some of the data stored in \'variables\'. These can be seen below in the form of variable = ... Try making your own variable and give it a value by adding the other veriables together on the right side of the \'=\' ! Then use the \'print\' command we just saw to send our friends above the correct distance!',1,2),('Goed gedaan bij het versturen van het bericht! We hebben net een antwoord ontvangen: ze willen dat we ze de afstand tussen de aarde en het ruimteschip geven. We hebben al een deel van de data opgeslagen in \'variabelen\'. Deze kan je hier beneden zien in de vorm van \'varaibele = waarde van de variabele\'. Probeer je eigen variabele te maken en geef het de waarde van de andere twee opgeteld aan de rechterkant van de \'=\' ! Gebruik dan het \'print\' commando dat we net zagen om onze vrienden hierboven de correcte afstnd te sturen!',2,2),('Allright! our spaceship will be arriving soon! However, they need a landing platform to land on! We shall need to build one by printing out \'build\' ten times. But instead of writing the same command so many times, you can use a \'loop\' which can do the command multiple times, which makes it a lot easier! The code written below will execute the print(\") command ten times, exactly as much as given by the ran(10) command! Now let it write build every time!',1,3),('Geweldig! ons ruimteschip zal hier zo aankomen! Het heeft echter wel een platform nodig omop te landen, we zullen er zelf een moeten bouwen door \'build\' tien keer te printen. Maar in plaats van dat tien keer op te chrijven, kunnen we een \'loop\' gebruiken, wat het een pak makkelijker maakt! De code hieronder zal het \'print(\"\") commando tien keer uitvoeren, evenveel als aangegeven door het ran(10) commando! Laat het nu telkens \'build\' printen',2,3);
+INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1),('Good job sending the message! we\'ve just recieved an answer: they want us to give them the distance from between the Earth and the spaceship.  We already have some of the data stored in \'variables\'. These can be seen below in the form of variable = ... Try making your own variable and give it a value by adding the other veriables together on the right side of the \'=\' ! Then use the \'print\' command we just saw to send our friends above the correct distance!',1,2),('Goed gedaan bij het versturen van het bericht! We hebben net een antwoord ontvangen: ze willen dat we ze de afstand tussen de aarde en het ruimteschip geven. We hebben al een deel van de data opgeslagen in \'variabelen\'. Deze kan je hier beneden zien in de vorm van \'varaibele = waarde van de variabele\'. Probeer je eigen variabele te maken en geef het de waarde van de andere twee opgeteld aan de rechterkant van de \'=\' ! Gebruik dan het \'print\' commando dat we net zagen om onze vrienden hierboven de correcte afstnd te sturen!',2,2),('Allright! our spaceship will be arriving soon! However, they need a landing platform to land on! We shall need to build one by printing out \'build\' ten times. But instead of writing the same command so many times, you can use a \'loop\' which can do the command multiple times, which makes it a lot easier! The code written below will execute the print(\") command ten times, exactly as much as given by the ran(10) command! Now let it write build every time!',1,3),('Geweldig! ons ruimteschip zal hier zo aankomen! Het heeft echter wel een platform nodig omop te landen, we zullen er zelf een moeten bouwen door \'build\' tien keer te printen. Maar in plaats van dat tien keer op te chrijven, kunnen we een \'loop\' gebruiken, wat het een pak makkelijker maakt! De code hieronder zal het \'print(\"\") commando tien keer uitvoeren, evenveel als aangegeven door het ran(10) commando! Laat het nu telkens \'build\' printen',2,3),('We\'re about to fly away using our warpspeed, but we still need to count down from ten to zero!  Use a \"Loop\" like you\'ve learned, but this time, you can use a variable in the loop! We\'ve prepared a list with the numbers in them, print them using the variable after the \"for\" in the loop! And since you obviously want every number in the list, you put the \"num_list\" after the \"in\" . Good luck!',1,4);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -758,7 +758,7 @@ CREATE TABLE `subject` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -767,7 +767,7 @@ CREATE TABLE `subject` (
 
 LOCK TABLES `subject` WRITE;
 /*!40000 ALTER TABLE `subject` DISABLE KEYS */;
-INSERT INTO `subject` VALUES (1,'Basic'),(4,'Conditionals'),(2,'Loops'),(3,'Variables');
+INSERT INTO `subject` VALUES (1,'Basic'),(4,'Conditionals'),(7,'Functions'),(2,'Loops'),(6,'Math'),(5,'Syntax'),(3,'Variables');
 /*!40000 ALTER TABLE `subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -869,4 +869,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-19 19:21:03
+-- Dump completed on 2015-04-21 18:20:44

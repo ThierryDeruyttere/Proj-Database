@@ -12,10 +12,6 @@ def social(request):
 
     s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false' and not s_social)
 
-    print(s_term)
-    print(s_social)
-    print(s_my_groups)
-
     results = search(s_term, s_users=s_social, s_groups=s_social)
 
     current_user = logged_user(request)
@@ -24,10 +20,15 @@ def social(request):
 
     response = ''
     for result in results:
+
+        t = 'u'
+        if type(result) is group.Group:
+            t = 'g'
+
         response += '''
         <div class="large-3 columns end">
           <div class="panel radius">
-            <a href="/g/{id}">
+            <a href="/{type}/{id}">
               <img src="/static/{picture}" />
               <div>
                 <h6 class="text-cut-off">{name}</h6>
@@ -35,6 +36,6 @@ def social(request):
             </a>
           </div>
         </div>
-        '''.format(id=result.id, picture=result.getPicture(), name=result.name())
+        '''.format(type=t, id=result.id, picture=result.getPicture(), name=result.name())
 
     return HttpResponse(response)

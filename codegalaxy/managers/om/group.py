@@ -76,7 +76,7 @@ class Group:
 
     def getUserPermissions(self, user_id):
         permissions = dbw.getGroupUserPermissions(self.id, user_id)
-        return permissions[0]['user_permissions']
+        return int(permissions[0]['user_permissions'])
 
     def upgradeUserPermissions(self, user_id):
         # 0 = OWNER, 1 = ADMIN, 2 = USER
