@@ -56,7 +56,22 @@ def processOne(cursor):
     else:
         return info[0]
 
-def getExerciseListInformation(id):
+def getListTranslation(id, language_id):
+    '''
+    @param id: the id of the list
+    @param language_id: the id of the language
+    @return returns the translation
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = {lang_id};'.format(id=id, lang_id = language_id))
+    fetched = processOne(cursor)
+    if fetched is None:
+        cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = 1;'.format(id=id))
+        fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def getExerciseListInformation(id, lang_id):
     '''
     @brief get the information from Exercise lists given an user id
     @param id the id of the user
@@ -66,6 +81,9 @@ def getExerciseListInformation(id):
     cursor.execute('SELECT * FROM exerciseList WHERE id = {id};'.format(id=id))
     fetched = processOne(cursor)
     cursor.close()
+    trans = getListTranslation(id, lang_id)
+    fetched['name'] = trans['name']
+    fetched['description'] = trans['description']
     return fetched
 
 def getExerciseListIdsMadeByUser(user_id):
@@ -634,6 +652,13 @@ def getMaxSumForExForList(list_id):
     cursor.close()
     return fetched['total']
 
+def getAllListTranslations(list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT lT.name, lT.description, l.language_code FROM listTranslation lT, language l WHERE list_id = {id} AND lT.language_id = l.id ;'.format(id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getMaxSumForRefForList(list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT SUM(ex.max_score) AS total FROM exercise ex,exercise_references e WHERE e.new_list_id = {id} AND e.original_id = ex.id;'.format(id=list_id))
@@ -776,13 +801,19 @@ def insertHint(exercise_id, language_id, hint_number, hint_text):
     sql = 'INSERT INTO hint(hint_text,hint_number,exercise_id, language_id) VALUES (%s,{h_numb},{e_id}, {lang_id});'.format(h_numb=hint_number, e_id=exercise_id, lang_id=language_id)
     cursor.execute(sql, [hint_text])
 
-
-def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id):
+def insertListTranslation(name, description, id, lang_id):
     cursor = connection.cursor()
-    sql = 'INSERT INTO exerciseList(name,description,difficulty, created_by, created_on, prog_lang_id) VALUES (%s,%s,{diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id)
+    sql = 'INSERT INTO listTranslation(name,description,list_id, language_id) VALUES (%s,%s,{list_id}, {lang_id});'.format(list_id=id, lang_id=lang_id)
     cursor.execute(sql, [name, description])
+
+
+def insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_id):
+    cursor = connection.cursor()
+    sql = 'INSERT INTO exerciseList(difficulty, created_by, created_on, prog_lang_id) VALUES ({diff}, {crtd_by}, "{crtd_on}", {prog_lang_id});'.format(diff=difficulty, crtd_by=created_by, crtd_on=created_on, prog_lang_id=prog_lang_id)
+    cursor.execute(sql)
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by=created_by))
     fetched = processOne(cursor)
+    insertListTranslation(name, description, fetched['highest_id'],lang_id)
     cursor.close()
     return fetched
 
@@ -825,15 +856,23 @@ def updateUser(user_id, first_name, last_name, password, email, is_active, permi
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET first_name="{fname}", last_name="{lname}",is_active = {active},email="{email}",password="{passw}",permission = {perm},joined_on="{joined_on}",last_login="{last_login}", gender = "{gender}" WHERE  id = {id};'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, id=user_id, perm=permissions, joined_on=joined_on, last_login=last_login, gender=gender))
 
+def deleteListTranslations(id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM listTranslation WHERE list_id = {list_id};'.format(list_id=id))
 
 def updateGroup(group_id, group_name, group_type, created_on):
     cursor = connection.cursor()
     # updateGroup does not change the created_on
     cursor.execute('UPDATE groups SET group_name = "{gr_n}",group_type = {gr_t},created_on = "{created_on}" WHERE id = {id};'.format(id=group_id, gr_t=group_type, gr_n=group_name, created_on=created_on))
 
-def updateExerciseList(list_id, name, description, difficulty, prog_lang_id):
+def updateExerciseList(list_id, name, description, difficulty, prog_lang_id, translation=None):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exerciseList SET description = "{desc}",name = "{name}", prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id=list_id, desc=description, name=name, diff=difficulty, prg_id=prog_lang_id))
+    cursor.execute('UPDATE exerciseList SET prog_lang_id = {prg_id} , difficulty = {diff} WHERE id = {id};'.format(id=list_id, diff=difficulty, prg_id=prog_lang_id))
+    deleteListTranslations(list_id)
+    if translation:
+        for key, val in translation.items():
+            if len(val):
+                insertListTranslation(val['name'], val['description'], list_id, key.id)
 
 def updateListRating(list_id, user_id, list_rating):
     cursor = connection.cursor()
@@ -1127,7 +1166,7 @@ def addVerification(email, hash):
 
 
 # Filtering
-def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode):
+def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, lang_id):
     cursor = connection.cursor()
     subject_search = ""
     if isinstance(subject_name, list):
@@ -1145,17 +1184,18 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     else:
         subject_search = 'LIKE "%{subject}%"'.format(subject=subject_name)
 
-    cursor.execute('SELECT DISTINCT e.*, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u) '
+    cursor.execute('SELECT DISTINCT e.*, lT.name, lT.description, COUNT(mL.exerciseList_id) * (AVG(mL.rating) / 5) as popularity FROM (exerciseList e, programmingLanguage pL, user u, listTranslation lT) '
                    ' LEFT JOIN hasSubject h ON e.id = h.exerciseList_id'
                    ' LEFT JOIN madeList mL ON e.id = mL.exerciseList_id '
                    ' LEFT JOIN subject s ON e.id = h.exerciseList_id AND h.subject_id = s.id'
-                   ' WHERE s.name {subject} AND e.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
+                   ' WHERE s.name {subject} AND lT.name LIKE "%{name}%" AND u.id = e.created_by AND u.first_name LIKE "%{first_name}%" '
                    ' AND u.last_name LIKE "%{last_name}%"'
                    ' AND pL.id = e.prog_lang_id AND pL.name LIKE "{prog_lang}"'
                    ' AND e.difficulty <= {max_diff} AND e.difficulty >= {min_diff}'
-                   ' GROUP BY e.name ORDER BY popularity {order_mode};'
+                   ' AND lT.list_id = e.id AND (lT.language_id = {lang_id} OR lT.language_id = 1)'
+                   ' GROUP BY lT.name ORDER BY popularity {order_mode};'
                    .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
-                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode))
+                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id = lang_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched

@@ -8,6 +8,7 @@ import datetime
 # Class that will build and work with the various objects representing the site
 # will use SQL
 
+
 def timeFromToday(compare_date):
     compare_date = compare_date.replace(tzinfo=None)
     now = datetime.datetime.now()
@@ -90,8 +91,8 @@ class ObjectManager:
             return None
 
     # Uses the DB to create an object representing a ExerciseList
-    def createExerciseList(self, id):
-        exercise_list_info = dbw.getExerciseListInformation(id)
+    def createExerciseList(self, id, lang_id):
+        exercise_list_info = dbw.getExerciseListInformation(id, lang_id)
         if exercise_list_info:
 
             exercise_list_object = managers.om.exerciselist.ExerciseList(id, exercise_list_info['name'],
@@ -107,9 +108,13 @@ class ObjectManager:
     def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
         dbw.insertUser(first_name, last_name, password, email, 0, joined_on, last_login, gender)
 
-    def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name):
+    def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name, lang_id, translations):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]
-        return dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id)["highest_id"]
+        highest_id = dbw.insertExerciseList(name, description, difficulty, created_by, created_on, prog_lang_id, lang_id)["highest_id"]
+        for lang, val in translations.items():
+            if val:
+                dbw.insertListTranslation(val['name'], val['description'], int(highest_id), lang.id)
+        return int(highest_id)
 
     def insertGroup(self, group_name, group_type, created_on):
         dbw.insertGroup(group_name, group_type, created_on)
@@ -192,17 +197,11 @@ class ObjectManager:
     def setUserActive(self, email):
         dbw.setUserActive(email)
 
-    def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC'):
-        lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode)
+    def filterOn(self, list_name='%', min_list_difficulty=1, max_list_difficulty=10, user_first_name='%', user_last_name='%', prog_lang_name='%', subject_name='%', order_mode='ASC', lang_id=1):
+        lists = dbw.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, lang_id)
         lists_objects = []
         for l in lists:
-            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],
-                                                                       l['name'],
-                                                                       l['difficulty'],
-                                                                       l['description'],
-                                                                       l['created_by'],
-                                                                       l['created_on'],
-                                                                       l['prog_lang_id']))
+            lists_objects.append(self.createExerciseList(int(l['id']), lang_id))
 
         return lists_objects
 

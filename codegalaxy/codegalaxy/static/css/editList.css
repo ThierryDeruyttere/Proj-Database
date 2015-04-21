@@ -2,3 +2,48 @@
 .editList {
   margin-top: 2em;
 }
+
+/* line 5, ../../../theme/scss/editList.scss */
+.description_text {
+  border-radius: 0.3em;
+}
+
+/* line 9, ../../../theme/scss/editList.scss */
+.alien {
+  transform: scale(0.5);
+}
+
+/* line 14, ../../../theme/scss/editList.scss */
+#translation {
+  color: black;
+}
+
+/* line 17, ../../../theme/scss/editList.scss */
+#textbox {
+  position: relative;
+  left: -5em;
+  top: 2em;
+  width: auto;
+  color: black;
+}
+
+/* line 25, ../../../theme/scss/editList.scss */
+#arrow-right {
+  transform: scale(0.4);
+  position: relative;
+  width: auto;
+}
+
+/* line 31, ../../../theme/scss/editList.scss */
+#textbox:after {
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #9fd2e6;
+  display: block;
+  width: 0;
+  z-index: 1;
+  left: 1px;
+  top: 70px;
+}

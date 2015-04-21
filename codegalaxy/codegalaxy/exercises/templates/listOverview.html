@@ -176,7 +176,12 @@
 
 
     function createSlick(slides){
+      var cur_planets = $('.planets').find('.planet').length;
       slides = slides || 5;
+      if (cur_planets < 5){
+        slides = Math.max(cur_planets - 1,1);
+      }
+
       $('.planets').slick({
         infinite: false,
         centerMode: true,
@@ -238,12 +243,6 @@
               $('.planets').append(response["planets"]);
               $('.informations').append(response['info']);
               var slides = 5;
-              //temporary fix
-              //TODO FIX ME
-              var track_am = $(response['planets']).find('.planet').length;
-              if(track_am < 5){
-                slides = 1;
-              }
               createSlick(slides);
 
             }

@@ -100,9 +100,9 @@ class ExerciseList:
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 
-    def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang):
+    def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
         # list_id,name, description ,difficulty, prog_lang_id)
-        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id)
+        dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
@@ -244,10 +244,21 @@ class ExerciseList:
             # list of discts with exercise_number and reference
             all_references = object_manager.getAllReferencesTo(exercise.id)
             for reference in all_references:
-                exercise_list = object_manager.createExerciseList(reference['list_id'])
+                #TODO klopt dit wel? Normaal gezien maakt de taal van de lijst hier helemaal niks uit
+                exercise_list = object_manager.createExerciseList(reference['list_id'], 1)
                 exercise_list.unreferenceExercise(reference['exercise_number'])
             # Now we'll delete the old exercise
             dbw.deleteExercise(exercise.id)
 
     def searchString(self):
         return str(self.name)
+
+
+    def getAllTranslations(self):
+        transl = dbw.getAllListTranslations(self.id)
+        translations = {}
+        object_manager = managers.om.objectmanager.ObjectManager()
+        for val in transl:
+            translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description']}
+
+        return translations

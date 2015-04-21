@@ -17,6 +17,7 @@ from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
+from codegalaxy.general import getBrowserLanguage
 
 import os.path
 #from PIL import Image
@@ -27,16 +28,16 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
-
 def home(request):
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
     feed = []
+    browser_lang = getBrowserLanguage(request)
     if current_user:
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
-        current_user_exercises_made = current_user.allExerciseListsMade2()
+        current_user_exercises_made = current_user.allExerciseListsMade2(browser_lang.id)
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
@@ -46,7 +47,7 @@ def home(request):
 
             accepted_friendships = friend.allFriendsWith()
             member_of_groups = friend.allGroupsJoined()
-            exercises_made = friend.allExerciseListsMade2()
+            exercises_made = friend.allExerciseListsMade2(browser_lang.id)
 
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
@@ -70,7 +71,7 @@ def home(request):
             current_user, True, True, True, True, True, False)
         for recommended_list in recommended:
             recommended_lists.append(
-                object_manager.createExerciseList(recommended_list))
+                object_manager.createExerciseList(recommended_list, browser_lang.id))
 
         return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends,
                 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
@@ -92,7 +93,7 @@ def user(request, id=0):
     # We'll show:
     # % per lang, # lists per lang, total lists, total groups, time joined,
     # % avg (any lang), # ex per lang
-
+    browser_lang = getBrowserLanguage(request)
     # lists per lang
     pie_chart = None
     # % per lang
@@ -181,7 +182,7 @@ def user(request, id=0):
 
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
-        exercises_made = user.allExerciseListsMade2()
+        exercises_made = user.allExerciseListsMade2(browser_lang.id)
 
         all_data = []
         all_data.extend(accepted_friendships)
@@ -330,7 +331,7 @@ def group(request, id=0):
     # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
 
     user = logged_user(request)
-
+    browser_lang = getBrowserLanguage(request)
     print("USER = " + str(user))
 
     group = object_manager.createGroup(id)
@@ -416,7 +417,7 @@ def group(request, id=0):
                 # member_of_groups = one_user.allUserAdded()
                 # exercises_made = one_user.allExerciseListsMade()
 
-                exercises_made = one_user.allExerciseListsMade2()
+                exercises_made = one_user.allExerciseListsMade2(browser_lang.id)
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
 

@@ -252,7 +252,7 @@ class Exercise:
             # Now we unreference the exercise
             import managers.om.objectmanager
             object_manager = managers.om.objectmanager.ObjectManager()
-            our_list = object_manager.createExerciseList(self.exerciseList_id)
+            our_list = object_manager.createExerciseList(self.exerciseList_id, lang_id)
             new_id = our_list.unreferenceExercise(self.exercise_number)
             self.id = new_id
             if user_id is not None:

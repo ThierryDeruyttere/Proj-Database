@@ -211,7 +211,7 @@ def addDefault(score_per_list_id, dont_add):
 def applyScoresToLists(score_per_list_id, scores, X_type):
     # How many subjects should we count per list? many high-ranked SJ -> better -> optellen?
     for list_id in score_per_list_id:
-        ex_list = object_manager.createExerciseList(list_id)
+        ex_list = object_manager.createExerciseList(list_id, 1)
         # 0 default? idk
         total_multiplier = 0
         amount_of_scores_counted = 0
@@ -312,7 +312,7 @@ def recommendNextExerciseLists(previous_made_list, user, amount=4):
     subjects = previous_made_list.exercises_list.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
-        possible_list = object_manager.createExerciseList(list_id)
+        possible_list = object_manager.createExerciseList(list_id, 1)
         if possible_list.difficulty in new_difficulty:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
@@ -332,13 +332,13 @@ def listsLikeThisOne(list_id, user, amount=4):
     made_ids = madeIDs(user)
     dont_add_obj_owned = user.ownedLists()
     dont_add_owned = [obj.id for obj in dont_add_obj_owned]
-    list_obj = object_manager.createExerciseList(list_id)
+    list_obj = object_manager.createExerciseList(list_id, 1)
     # difficulties will be current +- 0/1
     prog_language = list_obj.programming_language.name
     subjects = list_obj.allSubjectIDs()
     possible_list_ids = object_manager.getExerciseListsOnProgLang(prog_language)
     for list_id in possible_list_ids:
-        possible_list = object_manager.createExerciseList(list_id)
+        possible_list = object_manager.createExerciseList(list_id, 1)
         if possible_list.difficulty in [list_obj.difficulty - 1, list_obj.difficulty, list_obj.difficulty + 1]:
             other_subjects = possible_list.allSubjectIDs()
             if subjectsMatch(subjects, other_subjects):
