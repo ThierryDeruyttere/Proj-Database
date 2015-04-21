@@ -7,8 +7,8 @@ from codegalaxy.search import *
 from codegalaxy.authentication import require_login, logged_user
 
 def social(request):
-    s_term = request.POST.get('term', 'Ste')
-    s_social = request.POST.get('s_social', 'true') != 'false'
+    s_term = request.POST.get('term', '')
+    s_social = request.POST.get('s_social', 'false') != 'false'
 
     s_my_groups = bool(request.POST.get('my_groups', 'false') != 'false' and not s_social)
 
