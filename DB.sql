@@ -352,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','NDFjNDVlODQyZmY4Yjk5NzM5MmVmY2RiNmM0N2Y4YTI5MzY2YjBhNjp7ImN1cnJlbnRfdXNlciI6NCwiX2xhbmd1YWdlIjoiZW4ifQ==','2015-05-05 17:29:17');
+INSERT INTO `django_session` VALUES ('1vmdyqblaxi7mtukupt1ww70xqz7ge8g','OWQ2NGEyYzYxMzcyMTAwNmFiNWM3ZDZjZTVkYTgwMGM2M2ZlMDQxNDp7Il9sYW5ndWFnZSI6ImVuIiwiY3VycmVudF91c2VyIjo0fQ==','2015-05-05 17:47:04');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -634,7 +634,7 @@ CREATE TABLE `listTranslation` (
 
 LOCK TABLES `listTranslation` WRITE;
 /*!40000 ALTER TABLE `listTranslation` DISABLE KEYS */;
-INSERT INTO `listTranslation` VALUES ('Beginning of a journey',1,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1),('Begin van een avontuur',2,'Hallo, ik ben Kernel, en mijn vriend Grub en ik zijn gestrand op deze vreemde planeet genaamd Aarde! We gaan proberen ons ruimteschip een signaal te sturen met de Universele taal Python. Zou je ons mischien even een handje willen lenen? Ik beloof je dat het niet te moeilijk wordt!',1),('Continuation of that journey...',1,'We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2),('C++ for Dummies',1,'Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',3),('C++: Basic math functions',1,'This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',4),('C++: Basis wiskundige functies',2,'Deze lijst zal je leren wat basis-wiskundige functies te schrijven, deze vind je meestal wel in de standaard/math library, maar ik wil ze toch even aanhalen. Ik hoop dat deze je toch tot denken doen aanzetten. Veel plezier met het Coden!',4);
+INSERT INTO `listTranslation` VALUES ('Beginning of a journey',1,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1),('Begin van een avontuur',2,'Hallo, ik ben Kernel, en mijn vriend Grub en ik zijn gestrand op deze vreemde planeet genaamd Aarde! We gaan proberen ons ruimteschip een signaal te sturen met de Universele taal Python. Zou je ons mischien even een handje willen lenen? Ik beloof je dat het niet te moeilijk wordt!',1),('Continuation of that journey...',1,'We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2),('Het avontuur gaat door...',2,'We zijn in de ruimte! Vergezel Grub en ik in onze tocht door het sterrenstelsel!',2),('C++ for Dummies',1,'Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',3),('C++ voor Dummies',2,'Hallo, ik ben Tristan en ik heb deze lijst gemaakt om je basis C++ syntax uit te leggen/leren. Met deze lijst kan je zo beginnen experimenteren! Bezoek zeker ook de sandbox om de dingen die je hebt geleerd uit te testen!',3),('C++: Basic math functions',1,'This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',4),('C++: Basis wiskundige functies',2,'Deze lijst zal je leren wat basis-wiskundige functies te schrijven, deze vind je meestal wel in de standaard/math library, maar ik wil ze toch even aanhalen. Ik hoop dat deze je toch tot denken doen aanzetten. Veel plezier met het Coden!',4);
 /*!40000 ALTER TABLE `listTranslation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -873,4 +873,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-21 19:30:01
+-- Dump completed on 2015-04-21 19:49:52
