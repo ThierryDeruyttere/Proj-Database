@@ -720,8 +720,8 @@ def listOverview(request):
                                            lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
-    color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
-    color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
+    color_info1 = graphmanager.ColorInfo("#2a3963", "#2a3963", "#FF9437", "#FF9437")
+    color_info2 = graphmanager.ColorInfo("#FFA336", "#FFA336", "#f04124", "#f04124")
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,

@@ -35,7 +35,7 @@
 # Date[i] will match with label[i] and with colorinfos[i]
 # Colors+highlighted colors
 
-# Order:                Red,                    Blue,                     Orange light,          Yellow,             Orange dark,           Grey
+# Order:                Red,                    Blue,                  Orange light,          Yellow,             Orange dark,           Grey
 color_tuples = [("#f04124", "#f04124"), ("#2a3963", "#2a3963"), ("#FF9437", "#FF9437"), ("#FFA336", "#FFA336"), ("#FF621D", "#FF621D"), ("#949FB1", "#A8B3C5")]
 
 class ColorInfo:
