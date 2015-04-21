@@ -891,7 +891,8 @@ def updateQuestion(ex_id, lang_id, question_text):
     question = getExerciseQuestion(ex_id, getLangForId(lang_id)['name'])
     if question:
         cursor = connection.cursor()
-        cursor.execute('UPDATE question SET question_text = "{question_text}" WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id, question_text=question_text))
+        sql = 'UPDATE question SET question_text = %s WHERE exercise_id = {ex_id} AND language_id={lang_id};'.format(ex_id=ex_id, lang_id=lang_id)
+        cursor.execute(sql, [question_text])
     else:
         insertQuestion(ex_id, lang_id, question_text)
 
