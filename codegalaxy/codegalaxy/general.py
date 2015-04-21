@@ -5,4 +5,6 @@ from managers.om import *
 object_manager = objectmanager.ObjectManager()
 
 def getBrowserLanguage(request):
+    if request.LANGUAGE_CODE.startswith("en"):
+        return object_manager.getLanguageObject("en")
     return object_manager.getLanguageObject(request.LANGUAGE_CODE)
