@@ -23,6 +23,7 @@
       <div class="large-4 columns">
         <a id="create" href="/l/create" class="round alert button right">Create new list</a>
       </div>
+      <hr>
       <div class="row collapse">
         <div class="panel">
           <form method="POST" id="search_options">
@@ -125,18 +126,40 @@
 
       <div class="row informations">
         {% for list in all_lists|copy_list %}
+        <div class="large-4 columns large-centered">
           <div class="information panel" id="info{{ forloop.counter }}" hidden="True">
             <div class="row">
               <div class="text-center">
-                {{ list.name }}
+                <b>{{ list.name }}</b>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="text-center">
+                <b>Difficulty:</b> {{ list.difficulty }}
               </div>
             </div>
             <div class="row">
               <div class="text-center">
-                <a class="radius tiny button" type="button" href="/l/{{ list.id }}">Explore!</a>
+                <b>Created by:</b> {{ list.creatorName }}
+              </div>
+            </div>
+            <div class="row">
+              <div class="text-center">
+                <b>Subjects:</b>
+                |{% for subj in list.allSubjects %}
+                {{ subj }} |
+                {% endfor %}
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="text-center">
+                <a class="round tiny button" type="button" href="/l/{{ list.id }}">Explore!</a>
               </div>
             </div>
           </div>
+        </div>
         {% endfor %}
       </div>
 
@@ -150,23 +173,20 @@
   <div class="large-12 columns">
       <hr>
     <div class="row collapse">
-      <div class="large-3 columns">
-        <div class="panel">
+      <div class="large-5 columns">
           <legend># Planets/Programming Language</legend>
+          <br>
           {{ lists_per_prog_lang_graph | safe }}
-        </div>
-      </div>
-      <div class="large-3 columns">
-        <div class="panel">
-          <legend>Most Popular Subjects</legend>
-          {{ most_popular_subjects | safe }}
-        </div>
+          <br>
+          <br>
       </div>
       <div class="large-4 columns">
-        <div class="panel">
+          <legend>Most Popular Subjects</legend>
+          {{ most_popular_subjects | safe }}
+      </div>
+      <div class="large-3 columns">
           <legend>Users who made the most lists</legend>
           {{ users_with_mosts_made_lists | safe }}
-        </div>
       </div>
     </div>
   </div>
@@ -278,7 +298,7 @@
         var val_1 = ui.values[1];
         $("#max_difficulty").val(val_1);
         $("#min_difficulty").val(val_0);
-        $("#amount").text("planet difficulty min-max: "+val_0 + " - " + val_1);
+        $("#amount").text("Planet difficulty min-max: "+val_0 + " - " + val_1);
 
       }
     });

@@ -97,32 +97,27 @@ input#user::-webkit-input-placeholder {
   background: #75c4ff !important;
 }
 
-/* line 93, ../../../theme/scss/listOverview.scss */
-#create {
-  margin-top: 1.5em;
-}
-
-/* line 97, ../../../theme/scss/listOverview.scss */
+/* line 94, ../../../theme/scss/listOverview.scss */
 .text-offset {
   text-align: center;
 }
 
-/* line 101, ../../../theme/scss/listOverview.scss */
+/* line 98, ../../../theme/scss/listOverview.scss */
 #user_image {
   text-align: center;
 }
 
-/* line 106, ../../../theme/scss/listOverview.scss */
+/* line 103, ../../../theme/scss/listOverview.scss */
 .slick-list {
   height: 7em !important;
 }
 
-/* line 110, ../../../theme/scss/listOverview.scss */
+/* line 107, ../../../theme/scss/listOverview.scss */
 .slick-prev, .slick-next {
   top: 25% !important;
 }
 
-/* line 114, ../../../theme/scss/listOverview.scss */
+/* line 111, ../../../theme/scss/listOverview.scss */
 #astronaut {
   position: absolute;
   top: 0;

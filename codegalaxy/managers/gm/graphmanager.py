@@ -68,7 +68,7 @@ class GraphManager:
     def globalOptions(self):
         options = ''
         options += 'scaleLineColor: "rgba(255,255,255,0.5)",\n'
-        options += 'scaleFontColor: "rgba(0,0,0,1)",\n'
+        options += 'scaleFontColor: "#8d8887",\n'
         #options += 'pointLabelFontSize : 20,\n'
         #options += 'pointLabelSeperator: "\\n",\n'
         #options += 'scaleLabel : "<%=' + self.javaScriptTextWidthchecker() + '%>",\n'
