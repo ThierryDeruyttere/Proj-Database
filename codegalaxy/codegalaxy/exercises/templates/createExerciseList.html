@@ -244,19 +244,31 @@
         if(subjects == 0){
           window.alert("You need to add at least one subject!");
         }else{
-          var list = $("#list_form");
-          addDictionary();
-          var submit = true;
-          if(submit){
-            submit = checkTranslationDict(false);
-          }
-          if(submit){
-            var input = $("<input>")
-                    .attr("type", "hidden")
-                    .attr("name", "subjects_amount").val(subjects);
-            list.append(input);
-            list.submit();
-          }
+          $(function(){
+            addDictionary();
+            var submit = true;
+            if(submit){
+              submit = checkTranslationDict(false);
+            }
+            if(submit) {
+              //form not submitting?
+              //TODO FIX THIS & LIST TRANSLATION
+              $('#list_form').submit(function (e) {
+                e.preventDefault();
+                var form = $(this);
+                var post_data = form.serialize();
+                $.ajax({
+                  type: 'POST',
+                  url: "",
+                  data: post_data,
+
+                  success: function (response) {
+                    location.reload();
+                  }
+                });
+              });
+            }
+          });
         }
       });
 
