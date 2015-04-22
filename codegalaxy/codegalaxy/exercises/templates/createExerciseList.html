@@ -9,7 +9,11 @@
 {% block base_body %}
   <div class="row">
     <div class="large-12 columns text-center">
-      <h1>{% trans "Create a new list" %}</h1>
+      {% if edit %}
+        <h1>{% trans "Edit list" %}</h1>
+      {% else %}
+        <h1>{% trans "Create a new list" %}</h1>
+      {% endif %}
     </div>
 
     <form method="post" id="list_form">
@@ -17,12 +21,12 @@
       <div class="row">
         <div class="large-4 large-centered columns">
 
-          <input type="text" id="list_name" placeholder= {% trans "'Enter list name'" %} name="list_name">
+          <input type="text" id="list_name" placeholder= {% trans "'Enter list name'" %} name="list_name" value="{{ list.name }}">
 
-          <textarea id="description_text" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text"></textarea>
+          <textarea id="description_text" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text">{{ list.description }}</textarea>
           <div class="row">
             <div class="small-10 medium-11 columns">
-              <div class="range-slider round" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
+              <div class="range-slider round" id="slider" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
               </div>
@@ -47,7 +51,16 @@
             <label>{% trans "Programming language" %}</label>
             <select name="prog_lang">
               {% for lang in prog_languages %}
-                <option value="{{ lang.name }}">{{ lang.name }}</option>
+                {% if edit %}
+                  {% if lang.name == list.programming_language.name %}
+                    <option value="{{ lang.name }}" selected>{{ lang.name }}</option>
+                  {% else %}
+                    <option value="{{ lang.name }}">{{ lang.name }}</option>
+                  {% endif %}
+
+                {% else %}
+                  <option value="{{ lang.name }}">{{ lang.name }}</option>
+                {% endif %}
               {% endfor %}
             </select>
 
@@ -72,14 +85,54 @@
           <div class="large-4 large-centered columns">
             <fieldset>
               <legend>{% trans "Subjects" %}</legend>
-              <div class="row" id="subjects"></div>
+              <div class="row" id="subjects">
+                {% if edit %}
+                  {% for subject in subjects %}
+                    <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
+                    <input type="hidden" id="{{ subject }}_text" name="subject{{ forloop.counter0 }}" hidden="True" class="text-center" value="{{ subject }}">
+                  {% endfor %}
+                {% endif %}
+              </div>
             </fieldset>
           </div>
         </div>
 
+        {% if edit %}
+          <div class ="row">
+            <div class="large-10 large-centered columns">
+              <ul class="pricing-table">
+                <li class="title">{% trans "Exercises" %}</li>
+                <div class="row">
+                  <ul class="accordion dragdrop" id="dragdrop" data-accordion>
+                    {% for exercise in all_exercises %}
+                      <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
+                        <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
+                        <div id="Exerc{{ exercise.exercise_number }}" class="content">
+                          <div class="row">
+                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
+                            <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
+                          </div>
+                          {% if exercise.isReference %}
+                            <a href="/l/{{exercise.isReferenceTo.0}}">Original</a>[{{exercise.isReferenceTo.1}}]
+                          {% endif %}
+                        </div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                  <li class="price"></li>
+                </div>
+              </ul>
+            </div>
+            <input type="hidden" id="order" name="order">
+          </div>
+        {% endif %}
         <div class="row">
           <div class="large-centered large-text-center columns">
-            <input type="button" id="submitButton" class="success button" value={% trans "'Create list'" %}>
+            {% if edit %}
+              <button id="submitButton" type="button" class="secondary success button radius">{% trans "Edit" %}</button>
+            {% else %}
+              <input type="button" id="submitButton" class="success button" value={% trans "'Create list'" %}>
+            {% endif %}
             <button type="button" id="translate" class="secondary button">{% trans "Translate" %}</button>
           </div>
         </div>
@@ -154,7 +207,12 @@
 
     $(document).ready(function() {
 
-      var subjects = 0;
+      {% if edit %}
+        var subjects = {{ subjects|length }};
+      {% else %}
+        var subjects = 0;
+      {% endif %}
+
       $("#add-subject").click(function() {
 
         var val = $("#subject").val();
@@ -208,11 +266,18 @@
       $("#translation").foundation('reveal', 'open', '');
       $("#original_name").val($("#list_name").val());
       $("#original_Description").val($("#description_text").val());
-
+      {% if edit %}
+        fillInputsForLang(translating_to);
+      {% endif %}
     });
 
     /*TRANSLATION STUFF*/
-    var translation_dict = {};
+    {% if edit %}
+      var translation_dict = {{ translations|safe }};
+
+    {% else %}
+      var translation_dict = {};
+    {% endif %}
 
     function fillInputsForLang(lang){
       var dict = translation_dict[lang];
@@ -312,5 +377,48 @@
       return true;
     }
 
+    {% if edit %}
+      function removeSubject(obj){
+
+        $( '#' + obj.id ).fadeOut( "slow", function() {
+          // Animation complete.
+          obj.parentNode.removeChild(obj);
+          var text = document.getElementById(obj.id + "_text" );
+          text.parentNode.removeChild(text);
+
+        });
+      }
+
+      var updateFunc = function (event,ui){
+        var t = $(this).sortable("toArray").toString();
+        $("#order").val(t);
+      };
+
+      $(function() {
+        $( "#dragdrop" ).sortable({
+          delay:100,
+          update: updateFunc
+        });
+        $( "#dragdrop" ).disableSelection();
+        $( "#dragdrop").on("callUpdate", updateFunc);
+      });
+
+
+      $(".removal").click(function(){
+        var text = this.id;
+        text = text.replace('remove_', '');
+        var remove = $("#exercise" + text);
+        $(remove).remove();
+        $( "#dragdrop").trigger("callUpdate");
+      });
+
+      //Init document
+      $(document).ready(function(){
+        $('#slider').foundation('slider','set_value',{{ list.difficulty }});
+        var t = $('#dragdrop').sortable("toArray").toString();
+        $("#order").val(t);
+      });
+
+    {% endif %}
   </script>
 {% endblock body_js %}

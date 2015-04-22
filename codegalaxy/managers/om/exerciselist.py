@@ -103,6 +103,10 @@ class ExerciseList:
     def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
         # list_id,name, description ,difficulty, prog_lang_id)
         dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
+        self.name = updated_name
+        self.description = updated_description
+        self.difficulty = int(updated_difficulty)
+        self.programming_language = managers.om.objectmanager.Language(int(dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]), updated_prog_lang)
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
