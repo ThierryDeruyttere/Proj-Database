@@ -199,15 +199,13 @@
     $('.planets').on('afterChange',function(event, slick, currentSlide, nextSlide){
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       var panel = $('#info'+ $.trim(id));
-      $(panel).slideUp(0);
-      $(panel).slideDown();
+      $(panel).show();
     });
 
     $('.planets').on('beforeChange',function(event, slick, currentSlide, nextSlide){
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       var panel = $('#info'+ $.trim(id));
-      $(panel).slideUp(0);
-
+      $(panel).hide();
     });
 
 

@@ -81,10 +81,7 @@ def editList(request, listId):
 
     subjects = exercise_list.allSubjects()
     prog_langs = object_manager.allProgrammingLanguages()
-    current_language = exercise_list.programming_language.name
-    all_exercises = exercise_list.allExercises(browser_lang.code)
 
-    current_translations = exercise_list.getAllTranslations()
     if request.method == 'POST':
 
         updated_list_name = request.POST.get('list_name')
@@ -112,11 +109,16 @@ def editList(request, listId):
         for subject in subjects_to_add:
             exercise_list.addSubject(subject)
 
+        subjects = updated_subjects
+
         translation = getTranslationDict(request, languages)
         #set current browser translation
         translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
 
         exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
+
+    all_exercises = exercise_list.allExercises(browser_lang.code)
+    current_translations = exercise_list.getAllTranslations()
 
     return render(request, 'createExerciseList.html', {'list': exercise_list,
                                              'subjects': subjects,

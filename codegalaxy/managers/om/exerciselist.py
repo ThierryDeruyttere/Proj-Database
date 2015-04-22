@@ -106,7 +106,7 @@ class ExerciseList:
         self.name = updated_name
         self.description = updated_description
         self.difficulty = int(updated_difficulty)
-        self.programming_language = managers.om.objectmanager.Language(int(dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]), updated_prog_lang)
+        self.programming_language = updated_prog_lang
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
