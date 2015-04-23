@@ -170,6 +170,7 @@
 
     $(document).ready(function(){
       $(".hints").hide();
+      checkAvailable();
 
       {% if list_owner %}
         for(i = 0; i < {{ hints|length }}; i++){
@@ -182,46 +183,54 @@
       {% endif %}
     });
 
+    function checkAvailable() {
+      if(curr_hint >= {{ hints|length }}) {
+        $('#get_hint').addClass('disabled');
+      }
+    }
+
     function addHint() {
-      if(curr_hint == 1){
+      if(curr_hint == 1) {
         $(".hints").show();
       }
       $('#hint'+curr_hint).show();
       $("#used_hints").val((curr_hint).toString());
-      if(curr_hint >= {{ hints|length }}){
-        $('#get_hint').addClass('disabled');
-      }
+      checkAvailable();
       ++curr_hint;
     }
 
     $("#get_hint").click(function(){
-      addHint();
+      if(!$("#get_hint").hasClass("disabled")) {
+        addHint();
+      }
     });
 
     $("#output_alert").hide();
     {% if not list_owner %}
       $("#get_hint").click(function() {
-        var post_data = {
-          list_id: {{ list_id }},
-          ex_number: {{exercise.exercise_number}},
-          amount_of_hints: {{ hints|length }},
-          max_score: {{ exercise.max_score }},
-          penalty: {{ penalty }}
-        }
-        $.ajax({
-          type: "POST",
-          url: "/addHint/",
-          data: post_data,
-          dataType: "text",
-
-          success: function (response) {
-            // nothing needs to happen on the site
-          },
-          error: function (jqXHR, textStatus, error) {
-            $("#output_alert").html(jqXHR.responseText.toString());
-            $("#output_alert").show();
+        if(!$("#get_hint").hasClass("disabled")) {
+          var post_data = {
+            list_id: {{ list_id }},
+            ex_number: {{exercise.exercise_number}},
+            amount_of_hints: {{ hints|length }},
+            max_score: {{ exercise.max_score }},
+            penalty: {{ penalty }}
           }
-        })
+          $.ajax({
+            type: "POST",
+            url: "/addHint/",
+            data: post_data,
+            dataType: "text",
+
+            success: function (response) {
+              // nothing needs to happen on the site
+            },
+            error: function (jqXHR, textStatus, error) {
+              $("#output_alert").html(jqXHR.responseText.toString());
+              $("#output_alert").show();
+            }
+          });
+        }
       });
     {% endif %}
 
