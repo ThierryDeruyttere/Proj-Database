@@ -129,9 +129,10 @@
         <div class="row">
           <div class="large-centered large-text-center columns">
             {% if edit %}
-              <button id="submitButton" type="button" class="secondary success button radius">{% trans "Edit" %}</button>
+              <button id="sub_Button" type="submit" class="secondary success button radius">{% trans "Edit" %}</button>
+              <a href="/l/{{ list.id }}" type="button" class="secondary button radius">{% trans "Return" %}</a>
             {% else %}
-              <input type="button" id="submitButton" class="success button" value={% trans "'Create list'" %}>
+              <input type="submit" id="sub_Button" class="success button" value={% trans "'Create list'" %}>
             {% endif %}
             <button type="button" id="translate" class="secondary button">{% trans "Translate" %}</button>
           </div>
@@ -240,7 +241,7 @@
 
       });
 
-      $("#submitButton").click(function(){
+      $("#sub_Button").click(function(){
         if(subjects == 0){
           window.alert("You need to add at least one subject!");
         }else{
@@ -251,12 +252,11 @@
               submit = checkTranslationDict(false);
             }
             if(submit) {
-              //form not submitting?
-              //TODO FIX THIS & LIST TRANSLATION
+
               $('#list_form').submit(function (e) {
                 e.preventDefault();
                 var form = $(this);
-                var post_data = form.serialize();
+                var post_data = form.serialize() + "&subjects_amount=" + subjects ;
                 $.ajax({
                   type: 'POST',
                   url: "",

@@ -114,7 +114,7 @@ def editList(request, listId):
         translation = getTranslationDict(request, languages)
         #set current browser translation
         translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
-        print("update")
+
         exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
 
     all_exercises = exercise_list.allExercises(browser_lang.code)

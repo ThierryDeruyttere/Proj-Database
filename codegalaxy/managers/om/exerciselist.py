@@ -196,7 +196,7 @@ class ExerciseList:
             else:
                 # Get the exercise on our current spot!
                 distance = pos_change[i]
-                print(i, distance)
+                #print(i, distance)
                 ex_on_new_place = exercises[ex.exercise_number + distance - 1]
                 if ex.id == ex_on_new_place.id:
                     # Ow problem! The exercise on our new spot has the same id...
@@ -266,5 +266,4 @@ class ExerciseList:
         object_manager = managers.om.objectmanager.ObjectManager()
         for val in transl:
             translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description'].decode('ascii')}
-        print(translations)
         return translations
