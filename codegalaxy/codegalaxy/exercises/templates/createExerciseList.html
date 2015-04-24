@@ -19,22 +19,20 @@
     <form method="post" id="list_form">
       {% csrf_token %}
       <div class="row">
-        <div class="large-4 large-centered columns">
+        <div class="large-6 large-centered columns">
 
           <input type="text" id="list_name" placeholder= {% trans "'Enter list name'" %} name="list_name" value="{{ list.name }}">
 
-          <textarea id="description_text" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text">{{ list.description }}</textarea>
-          <div class="row">
+          <textarea id="description_text" class="description" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text">{{ list.description }}</textarea>
+        </div>
+        <div class="row">
+          <div class="large-4 large-centered columns">
             <div class="small-10 medium-11 columns">
               <div class="range-slider round" id="slider" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="large-4 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-3 columns">
                 <span class="prefix">{% trans "Difficulty" %}</span>
@@ -169,7 +167,7 @@
               </div>
             </div>
             {% trans "Description" %}
-            <textarea class="description_text" id="original_Description" readonly></textarea>
+            <textarea class="description" id="original_Description" readonly></textarea>
           </fieldset>
         </div>
         <div class="large-2 columns">
@@ -192,7 +190,7 @@
               </div>
             </div>
             {% trans "Description" %}
-            <textarea class="description_text" id="translated_Description" name="translated_Description"></textarea>
+            <textarea class="description" id="translated_Description" name="translated_Description"></textarea>
           </fieldset>
         </div>
       </div>
@@ -265,7 +263,7 @@
                   success: function (response) {
                     {% if edit %}
                       location.reload();
-                      {% else %}
+                    {% else %}
                       window.location.href = response;
                     {% endif %}
                   }

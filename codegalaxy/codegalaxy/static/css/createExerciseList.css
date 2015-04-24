@@ -4,21 +4,22 @@ label {
 }
 
 /* line 5, ../../../theme/scss/createExerciseList.scss */
-.description_text {
+.description {
   border-radius: 0.3em;
+  height: 10em !important;
 }
 
-/* line 9, ../../../theme/scss/createExerciseList.scss */
+/* line 10, ../../../theme/scss/createExerciseList.scss */
 .alien {
   transform: scale(0.5);
 }
 
-/* line 14, ../../../theme/scss/createExerciseList.scss */
+/* line 15, ../../../theme/scss/createExerciseList.scss */
 #translation {
   color: black;
 }
 
-/* line 17, ../../../theme/scss/createExerciseList.scss */
+/* line 18, ../../../theme/scss/createExerciseList.scss */
 #textbox {
   position: relative;
   left: -5em;
@@ -27,14 +28,14 @@ label {
   color: black;
 }
 
-/* line 25, ../../../theme/scss/createExerciseList.scss */
+/* line 26, ../../../theme/scss/createExerciseList.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 31, ../../../theme/scss/createExerciseList.scss */
+/* line 32, ../../../theme/scss/createExerciseList.scss */
 #textbox:after {
   content: '';
   position: absolute;

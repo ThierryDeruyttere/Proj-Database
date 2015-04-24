@@ -1,43 +1,44 @@
 label{
-    color: white;
+  color: white;
 }
 
-.description_text{
-    border-radius: 0.3em;
+.description{
+  border-radius: 0.3em;
+  height: 10em !important;
 }
 
 .alien{
 
-    transform: scale(0.5);
+  transform: scale(0.5);
 }
 
 #translation{
-    color: black;
+  color: black;
 }
 #textbox{
-    position: relative;
-    left: -5em;
-    top: 2em;
-    width: auto;
-    color: black;
+  position: relative;
+  left: -5em;
+  top: 2em;
+  width: auto;
+  color: black;
 }
 
 #arrow-right{
-    transform: scale(0.4);
-    position: relative;
-    width: auto;
+  transform: scale(0.4);
+  position: relative;
+  width: auto;
 }
 
 #textbox:after
 {
-    content: '';
-    position: absolute;
-    border-style: solid;
-    border-width: 15px 15px 15px 0;
-    border-color: transparent #9fd2e6;
-    display: block;
-    width: 0;
-    z-index: 1;
-    left: 1px;
-    top: 70px;
+  content: '';
+  position: absolute;
+  border-style: solid;
+  border-width: 15px 15px 15px 0;
+  border-color: transparent #9fd2e6;
+  display: block;
+  width: 0;
+  z-index: 1;
+  left: 1px;
+  top: 70px;
 }

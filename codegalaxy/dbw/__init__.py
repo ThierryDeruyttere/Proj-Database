@@ -82,8 +82,9 @@ def getExerciseListInformation(id, lang_id):
     fetched = processOne(cursor)
     cursor.close()
     trans = getListTranslation(id, lang_id)
-    fetched['name'] = trans['name']
-    fetched['description'] = trans['description'].decode('ascii')
+    if trans:
+        fetched['name'] = trans['name']
+        fetched['description'] = trans['description'].decode('ascii')
     return fetched
 
 def getExerciseListIdsMadeByUser(user_id):
