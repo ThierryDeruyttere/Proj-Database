@@ -6,17 +6,17 @@ object_manager = objectmanager.ObjectManager()
 
 def search(s_term='', s_users=False, s_groups=False, s_lists=False):
     # Get all user, group and list objects
-    all_users = object_manager.allUsers()
-    all_groups = object_manager.allPublicGroups()
-    all_lists = object_manager.getAllExerciseLists()
 
     # Merge all user, group and list objects into one list
     all_search_obj = []
     if s_users:
+        all_users = object_manager.allUsers()
         all_search_obj.extend(all_users)
     if s_groups:
+        all_groups = object_manager.allPublicGroups()
         all_search_obj.extend(all_groups)
     if s_lists:
+        all_lists = object_manager.getAllExerciseLists()
         all_search_obj.extend(all_lists)
 
     # Make a dict of the object with its seachString
