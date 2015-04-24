@@ -365,7 +365,6 @@ DROP TABLE IF EXISTS `exercise`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exercise` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `difficulty` int(11) NOT NULL,
   `max_score` int(11) NOT NULL,
   `penalty` int(11) NOT NULL,
   `exercise_type` varchar(255) NOT NULL,
@@ -386,7 +385,7 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES (1,1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,1,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,1,3,1,'Code',4,'2015-04-19 17:20:12',3,1,1),(4,2,5,1,'Code',4,'2015-04-21 15:11:06',1,1,2);
+INSERT INTO `exercise` VALUES (1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,3,1,'Code',4,'2015-04-19 17:20:12',3,1,1),(4,5,1,'Code',4,'2015-04-21 15:11:06',1,1,2);
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 

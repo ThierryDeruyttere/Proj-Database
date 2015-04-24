@@ -138,7 +138,6 @@ def createExercise(request, listId=0):
 
     if request.method == 'POST':
         translation = getTranslationDict(request, languages)
-        exercise_difficulty = int(request.POST.get('difficulty'))
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
         exercise_type = request.POST.get('exercise_type')
@@ -175,7 +174,7 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id,
+        exercise_list.insertExercise(exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
                                      exercise_answer, correct_answer, hints, browser_lang, exercise_title, translation, code)
         return redirect("/l/" + str(listId))
@@ -210,7 +209,6 @@ def editExercise(request, listId, exercise_id, exercise_number):
 
     if request.method == 'POST':
         exercise = object_manager.createExercise(exercise_id, browser_lang.code)
-        exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
         exercise.exerciseList_id = int(listId)
