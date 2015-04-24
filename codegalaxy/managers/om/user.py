@@ -19,9 +19,14 @@ class User:
         self.email = email
         self.permissions = int(permissions)
         self.password = password
-        self.joined_on = joined_on
+        if type(joined_on) is datetime.datetime:
+            self.joined_on = str(joined_on.strftime("%Y-%m-%d %H:%M:%S"))
+        else:
+            self.joined_on = joined_on
         self.last_login = last_login
         self.gender = gender
+
+
 
     def name(self):
         return self.first_name + ' ' + self.last_name
@@ -258,7 +263,8 @@ class User:
         import datetime
         from dateutil.relativedelta import relativedelta
         now = datetime.datetime.now()
-        return relativedelta(now, self.joined_on.replace(tzinfo=None))
+        date = datetime.datetime.strptime(self.joined_on, "%Y-%m-%d %H:%M:%S")
+        return relativedelta(now, date)
 
     def timeJoinedString(self):
         time_joined = self.timeJoined()

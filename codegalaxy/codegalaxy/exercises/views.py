@@ -697,6 +697,7 @@ def createListElem(i, elem):
         class_name += "sql"
 
     return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),
+
         """<div class=\"information panel\" id="info{for_i}" hidden="True">
         <div class=\"row\">
           <div class=\"text-center\">
