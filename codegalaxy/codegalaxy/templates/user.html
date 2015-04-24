@@ -147,6 +147,17 @@
 
           <hr/>
           {% endif %}
+          {% if item.type == 'CreatedExerciseList'%}
+          <div class="row">
+            <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-10 columns">
+              <p><strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+              <br><small>{{ item.created_on }}</small></p>
+            </div>
+          </div>
+
+          <hr/>
+          {% endif %}
           {% endfor %}
           <div class="pagination-centered">
             <ul class="pagination">

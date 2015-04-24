@@ -48,10 +48,12 @@ def home(request):
             accepted_friendships = friend.allFriendsWith()
             member_of_groups = friend.allGroupsJoined()
             exercises_made = friend.allExerciseListsMade2(browser_lang.id)
+            exercises_created = friend.getAllExercisesCreated(browser_lang.id)
 
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
             feed.extend(exercises_made)
+            feed.extend(exercises_created)
 
         feed = sorted(feed, key=lambda k: k.datetime, reverse=True)
 
@@ -183,11 +185,13 @@ def user(request, id=0):
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
         exercises_made = user.allExerciseListsMade2(browser_lang.id)
+        exercises_created = user.getAllExercisesCreated(browser_lang.id)
 
         all_data = []
         all_data.extend(accepted_friendships)
         all_data.extend(member_of_groups)
         all_data.extend(exercises_made)
+        all_data.extend(exercises_created)
 
         all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
