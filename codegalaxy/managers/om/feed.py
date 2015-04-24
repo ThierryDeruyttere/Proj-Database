@@ -55,3 +55,15 @@ class FriendsWith(FeedItem):
 
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name + ' became friends with: ' + self.friend.first_name + ' ' + self.friend.last_name + ' on ' + str(self.befriended_on)
+
+class CreatedExerciseList(FeedItem):
+
+    def __init__(self, user, exercise_list):
+        super().__init__('CreatedExerciseList', exercise_list.created_on)
+
+        self.user = user
+        self.exercise_list = exercise_list
+        self.created_on = exercise_list.created_on
+
+    def __str__(self):
+        return self.user.name + ' created the ' + self.exercise_list.programming_language + ' ' + self.exercise_list.name + ' exercise list ' + ' on ' + str(self.created_on)
