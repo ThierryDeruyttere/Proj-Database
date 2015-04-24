@@ -49,9 +49,8 @@
           {% endif %}
           {% if item.type == 'CreatedExerciseList'%}
             <div class="row">
-              <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
               <div class="large-10 columns">
-              <h1>AAAAARGH</h1>
               {% if item.user.id == user.id %}
                 <p>{% trans "I" %} {% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
                 <br><small>{{ item.created_on }}</small></p>

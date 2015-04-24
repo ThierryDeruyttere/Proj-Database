@@ -38,9 +38,11 @@ def home(request):
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
         current_user_exercises_made = current_user.allExerciseListsMade2(browser_lang.id)
+        current_user_exercises_created = current_user.getAllExercisesCreated(browser_lang.id)
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
+        feed.extend(current_user_exercises_created)
 
         for friendship in current_user_accepted_friendships:
             friend = object_manager.createUser(id=friendship.friend.id)

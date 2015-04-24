@@ -47,7 +47,6 @@ class User:
         return ex_lists
 
     def getAllExercisesCreated(self, lang_id):
-        print("WWUUUUUUUUT")
         object_manager = managers.om.objectmanager.ObjectManager()
 
         user = object_manager.createUser(id=self.id)
@@ -56,10 +55,8 @@ class User:
         exercise_lists_created = []
 
         for i in lists:
-            print("ONE OF US!")
             exercise_list = object_manager.createExerciseList(i['id'], lang_id)
             created_exercise_list = managers.om.feed.CreatedExerciseList(user, exercise_list)
-
             exercise_lists_created.append(created_exercise_list)
 
         return exercise_lists_created

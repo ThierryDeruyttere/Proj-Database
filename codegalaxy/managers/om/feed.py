@@ -66,4 +66,4 @@ class CreatedExerciseList(FeedItem):
         self.created_on = exercise_list.created_on
 
     def __str__(self):
-        return self.user.name + ' created the ' + self.exercise_list.programming_language + ' ' + self.exercise_list.name + ' exercise list ' + ' on ' + str(self.created_on)
+        return self.user.first_name + ' ' + self.user.last_name + ' created ' + str(self.exercise_list.name) + ' on ' + str(self.created_on)
