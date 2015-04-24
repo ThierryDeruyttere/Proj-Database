@@ -26,7 +26,11 @@
           </div>
           <div class="row collapse">
             <div class="switch small round left">
-              <input id="my_groups" type="checkbox">
+              {% if s_social %}
+                <input id="my_groups" type="checkbox">
+              {% else %}
+                <input id="my_groups" type="checkbox" checked>
+              {% endif %}
               <label for="my_groups"></label>
             </div>
             <div class="left">{% trans "Show my groups only" %}</div>
@@ -51,9 +55,8 @@
   function doSearch() {
     term_text = $("#search_groups input[type=text]").val();
 
-    var social = "{{ s_social }}";
 
-    var post_data = {term:term_text, s_social:social, my_groups:$('#my_groups').is(':checked')};
+    var post_data = {term:term_text, my_groups:$('#my_groups').is(':checked')};
 
     $.ajax({
       type: "POST",
@@ -63,6 +66,7 @@
 
       success: function(response) {
         $("#search_result").html(response);
+        social = false;
       }
       // error: function(jqXHR, textStatus, error) {
       //   setError(jqXHR.responseText);
