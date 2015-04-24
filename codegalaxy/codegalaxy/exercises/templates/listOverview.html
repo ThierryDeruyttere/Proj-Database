@@ -185,7 +185,7 @@
           {{ most_popular_subjects | safe }}
       </div>
       <div class="large-3 columns">
-          <legend>Most Active Users</legend>
+          <legend>Users who made the most lists</legend>
           {{ users_with_mosts_made_lists | safe }}
       </div>
     </div>
@@ -195,22 +195,16 @@
 
 {% block body_js %}
   <script>
-
     $('.planets').on('afterChange',function(event, slick, currentSlide, nextSlide){
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       var panel = $('#info'+ $.trim(id));
       $(panel).show();
-
     });
-
     $('.planets').on('beforeChange',function(event, slick, currentSlide, nextSlide){
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       var panel = $('#info'+ $.trim(id));
       $(panel).hide();
-
     });
-
-
     function createSlick(slides){
       var cur_planets = $('.planets').find('.planet').length;
       slides = slides || 5;
@@ -218,7 +212,6 @@
       if (cur_planets <= 5){
         slides = Math.max(cur_planets - 1,1);
       }
-
       $('.planets').slick({
         infinite: false,
         centerMode: true,
@@ -247,17 +240,13 @@
             }
           }]
       });
-
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       $('#info'+ $.trim(id)).show();
-
     }
-
     $(document).ready(function(){
       createSlick();
       $("#amount").text("Planet difficulty min-max: 1 - 5");
     });
-
     $("#search_button").click(function()
     {
       $(function(){
@@ -270,24 +259,20 @@
             url: "",
             data: post_data,
             dataType: "json",
-
             success: function(response) {
               //unslick() doesn't seem to work, then we just do it this way.
               $('.planets').slick('unslick');
               $('.planets').empty();
               $('.informations').empty();
-
               $('.planets').append(response["planets"]);
               $('.informations').append(response['info']);
               var slides = 5;
               createSlick(slides);
-
             }
           });
         });
       });
     });
-
     $("#slider-range").slider({
       range: true,
       min: 1,
@@ -299,10 +284,7 @@
         $("#max_difficulty").val(val_1);
         $("#min_difficulty").val(val_0);
         $("#amount").text("Planet difficulty min-max: "+val_0 + " - " + val_1);
-
       }
     });
-
-
   </script>
 {% endblock %}

@@ -291,7 +291,6 @@
             e.preventDefault();
             var form = $(this);
             var post_data = form.serialize();
-            console.log(post_data);
             $.ajax({
               type: 'POST',
               url: "",
@@ -317,7 +316,7 @@
       $("#translation").foundation('reveal', 'open', '');
       $("#original_name").val($("#list_name").val());
       $("#original_Description").val($("#description_text").val());
-       fillInputsForLang($("#translate_to").val());
+      fillInputsForLang($("#translate_to").val());
     });
 
 

@@ -103,6 +103,12 @@ class ExerciseList:
     def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
         # list_id,name, description ,difficulty, prog_lang_id)
         dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
+        self.name = updated_name
+        self.description = updated_description
+        self.difficulty = int(updated_difficulty)
+        self.programming_language = updated_prog_lang
+
+
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
@@ -117,11 +123,11 @@ class ExerciseList:
     def getAllExercForUserForList(self, user_id):
         return dbw.getAllExercForUserForList(user_id, self.id)
 
-    def insertExercise(self, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_obj, title, translation, code=""):
+    def insertExercise(self, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_obj, title, translation, code=""):
         # AssociatedWith relation
         l_id = language_obj.id
         # Info for exercises table + id of the exercise
-        exercise_id = dbw.insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
+        exercise_id = dbw.insertExercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
         # Code (default "")
         if code != "":
             dbw.insertCode(code, exercise_id)
@@ -190,7 +196,7 @@ class ExerciseList:
             else:
                 # Get the exercise on our current spot!
                 distance = pos_change[i]
-                print(i, distance)
+                #print(i, distance)
                 ex_on_new_place = exercises[ex.exercise_number + distance - 1]
                 if ex.id == ex_on_new_place.id:
                     # Ow problem! The exercise on our new spot has the same id...
@@ -260,5 +266,4 @@ class ExerciseList:
         object_manager = managers.om.objectmanager.ObjectManager()
         for val in transl:
             translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description'].decode('ascii')}
-        print(translations)
         return translations

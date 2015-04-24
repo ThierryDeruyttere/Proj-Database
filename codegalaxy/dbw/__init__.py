@@ -762,9 +762,9 @@ def insertTitleForExercise(id, language_id, title):
     sql = 'INSERT INTO exerciseTitle(title, language_id, exercise_id) VALUES (%s, {lang_id}, {exercise_id})'.format(lang_id=language_id, exercise_id=id)
     cursor.execute(sql, [title])
 
-def insertExercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, lang_id):
+def insertExercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, lang_id):
     cursor = connection.cursor()
-    sql = 'INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES ({diff},{m},{pen},"{e_type}", {crtd_by}, "{crtd_on}", {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(diff=difficulty, m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id)
+    sql = 'INSERT INTO exercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) VALUES ({m},{pen},"{e_type}", {crtd_by}, "{crtd_on}", {exerc_nmbr}, {corr_answer}, {exerciseList_id});'.format(m=max_score, pen=penalty, e_type=exercise_type, crtd_by=created_by, crtd_on=created_on, exerc_nmbr=exercise_number, corr_answer=correct_answer, exerciseList_id=exerciseList_id)
     cursor.execute(sql)
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise WHERE exercise.created_by = {created_by};'.format(created_by=created_by))
@@ -942,9 +942,9 @@ def updateExerciseHint(exercise_id, lang_id, hints_number, hint_text):
     sql = 'UPDATE hint SET hint_text=%s WHERE exercise_id = {id} AND language_id = {lang_id} AND hint_number = {hint_number}'.format(id=exercise_id, lang_id=lang_id, hint_number=hints_number)
     cursor.execute(sql, [hint_text])
 
-def updateExercise(exercise_id, difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, language_id):
+def updateExercise(exercise_id, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id, title, language_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE exercise SET difficulty={difficulty},max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id} WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, difficulty=difficulty, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id))
+    cursor.execute('UPDATE exercise SET max_score={max_score},penalty={penalty},created_by={created_by},created_on="{created_on}",exercise_number={exercise_number},correct_answer={correct_answer},exerciseList_id={exerciseList_id} WHERE id = {exercise_id} ;'.format(exercise_id=exercise_id, max_score=max_score, penalty=penalty, exercise_type=exercise_type, created_by=created_by, created_on=created_on, exercise_number=exercise_number, correct_answer=correct_answer, exerciseList_id=exerciseList_id))
     updateExerciseTitle(exercise_id, language_id, title)
 
 def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, completed_on, hint, exercise_score):
@@ -1121,7 +1121,7 @@ def listOfDatesForUserForProgrammingLanguage(id, prog_lang_id):
 
 def copyExercise(original_exercise_id, exercise_number, new_exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO exercise(difficulty, max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) SELECT difficulty, max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id=new_exercise_list_id))
+    cursor.execute('INSERT INTO exercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, exerciseList_id) SELECT max_score, penalty, exercise_type, created_by, created_on, {exercise_number} AS exercise_number, correct_answer, {list_id} AS exerciseList_id FROM exercise WHERE id = {id};'.format(id=original_exercise_id, exercise_number=exercise_number, list_id=new_exercise_list_id))
     # Returns last added id (keeps on counting even through deletes?) AKA the one just added
     cursor.execute('SELECT MAX(id) AS highest_id FROM exercise;')
     new_id = processOne(cursor)['highest_id']

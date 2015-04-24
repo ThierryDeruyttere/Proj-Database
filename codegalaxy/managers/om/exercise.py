@@ -15,7 +15,7 @@ class Exercise:
     '''An Exercise-object holds all the information of a single exercise that
     is needed, meaning the additional data from other tables aswell'''
 
-    def __init__(self, id, difficulty, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title, created_by, created_on, exercise_number, exerciseList_id):
+    def __init__(self, id, max_score, penalty, exercise_type, programming_language, code, question, language_code, correct_answer, language_name, title, created_by, created_on, exercise_number, exerciseList_id):
         '''
         @brief init for a exercise
         @param id id of the exercise
@@ -32,8 +32,6 @@ class Exercise:
         @param title the title of the exercise
         '''
         self.id = int(id)
-        # (Integer ranging from 1-5)
-        self.difficulty = int(difficulty)
         # you start at the max_score, and with each wrong guess
         # the penalty gets substracted from it
         self.max_score = int(max_score)
@@ -71,7 +69,7 @@ class Exercise:
         '''
         @brief string representation of exercise
         '''
-        return str(self.exercise_number) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on) + ' ' + str(self.difficulty)
+        return str(self.exercise_number) + ' ' + str(self.max_score) + ' ' + str(self.penalty) + ' ' + str(self.exercise_type) + ' ' + str(self.programming_language) + ' ' + self.code + ' ' + self.question + ' ' + self.language_name + ' answer: ' + str(self.correct_answer) + ' ' + str(self.language_code) + ' ' + str(self.title) + ' ' + str(self.created_by) + ' ' + str(self.created_on)
 
     # List of possible answerIDs (only one in a coding exercise = the output)
     def allAnswers(self):
@@ -225,15 +223,16 @@ class Exercise:
             if len(value) > 0 and old_translations[key.name]['title'] != "":
                 dbw.updateQuestion(self.id, key.id, value['question'])
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
-                if self.exercise_type == "Code":
-                    # mhh ni echt zo clean dit...
-                    for i in range(number_of_):
-                        # because they all have been deleted...
-                        dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
+                if managers.om.objectmanager.ObjectManager().getLanguageObject(self.language_code).name != key.name:
+                    if self.exercise_type == "Code":
+                        # mhh ni echt zo clean dit...
+                        for i in range(number_of_):
+                            # because they all have been deleted...
+                            dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
 
-                else:
-                    for i in range(number_of_):
-                        dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
+                    else:
+                        for i in range(number_of_):
+                            dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
 
             elif len(value) > 0:
                 self.insertUpdateValues(key, value)
@@ -261,7 +260,7 @@ class Exercise:
                 import time
                 self.created_on = str(time.strftime("%Y-%m-%d %H:%M:%S"))
 
-        dbw.updateExercise(self.id, self.difficulty, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title, lang_id)
+        dbw.updateExercise(self.id, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title, lang_id)
         dbw.updateQuestion(self.id, dbw.getIdFromLanguage(self.language_code)['id'], self.question)
 
 class Question:

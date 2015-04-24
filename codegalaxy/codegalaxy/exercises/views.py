@@ -65,9 +65,68 @@ def createExerciseList(request):
             if subj is not None:
                 exercise_list.addSubject(subj)
 
-        return redirect("/l/" + str(exlist_id))
+        return HttpResponse("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
+
+@require_login
+def editList(request, listId):
+    browser_lang = getBrowserLanguage(request)
+    exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
+    user = logged_user(request)
+    languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
+    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    if exercise_list is None or exercise_list.created_by != user.id:
+        return redirect('/')
+
+    subjects = exercise_list.allSubjects()
+    prog_langs = object_manager.allProgrammingLanguages()
+
+    if request.method == 'POST':
+
+        updated_list_name = request.POST.get('list_name')
+        updated_difficulty = request.POST.get('difficulty')
+        updated_subjects_amount = int(request.POST.get("subjects_amount"))
+        updated_subjects = []
+        updated_prog_lang = request.POST.get('prog_lang', '')
+        updated_description = request.POST.get('description_text')
+        new_order = request.POST.get('order')
+        new_order = filterOrder(new_order)
+        exercise_list.reorderExercises(new_order, browser_lang.code)
+
+        for i in range(updated_subjects_amount):
+            subject = request.POST.get('subject' + str(i))
+            if subject is not None:
+                updated_subjects.append(subject)
+
+        removed_subjects = set(subjects) - set(updated_subjects)
+        intersection = set(subjects) & set(updated_subjects)
+        subjects_to_add = set(updated_subjects) - intersection
+
+        for subject in removed_subjects:
+            exercise_list.deleteSubject(subject)
+
+        for subject in subjects_to_add:
+            exercise_list.addSubject(subject)
+
+        subjects = updated_subjects
+
+        translation = getTranslationDict(request, languages)
+        #set current browser translation
+        translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
+
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
+
+    all_exercises = exercise_list.allExercises(browser_lang.code)
+    current_translations = exercise_list.getAllTranslations()
+
+    return render(request, 'createExerciseList.html', {'list': exercise_list,
+                                             'subjects': subjects,
+                                             'prog_languages': prog_langs,
+                                             'all_exercises': all_exercises,
+                                             'languages': languages,
+                                             'translations': current_translations,
+                                             'edit': True})
 
 
 @require_login
@@ -79,7 +138,6 @@ def createExercise(request, listId=0):
 
     if request.method == 'POST':
         translation = getTranslationDict(request, languages)
-        exercise_difficulty = int(request.POST.get('difficulty'))
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
         exercise_type = request.POST.get('exercise_type')
@@ -116,7 +174,7 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        exercise_list.insertExercise(exercise_difficulty, exercise_max_score, exercise_penalty, exercise_type, user.id,
+        exercise_list.insertExercise(exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
                                      exercise_answer, correct_answer, hints, browser_lang, exercise_title, translation, code)
         return redirect("/l/" + str(listId))
@@ -130,63 +188,6 @@ def createExercise(request, listId=0):
                                                            'languages': languages})
 
     return redirect('/')
-
-@require_login
-def editList(request, listId):
-    browser_lang = getBrowserLanguage(request)
-    exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
-    user = logged_user(request)
-    languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
-    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
-    if exercise_list is None or exercise_list.created_by != user.id:
-        return redirect('/')
-
-    subjects = exercise_list.allSubjects()
-    prog_langs = object_manager.allProgrammingLanguages()
-    current_language = exercise_list.programming_language.name
-    all_exercises = exercise_list.allExercises(browser_lang.code)
-
-    current_translations = exercise_list.getAllTranslations()
-    if request.method == 'POST':
-
-        updated_list_name = request.POST.get('updated_list_name')
-        updated_difficulty = request.POST.get('updated_difficulty')
-        updated_subjects_amount = int(request.POST.get('current_subjects'))
-        updated_subjects = []
-        updated_prog_lang = request.POST.get('prog_lang', '')
-        updated_description = request.POST.get('updated_description_text')
-        new_order = request.POST.get('order')
-        new_order = filterOrder(new_order)
-        exercise_list.reorderExercises(new_order, browser_lang.code)
-
-        for i in range(updated_subjects_amount):
-            subject = request.POST.get('subject' + str(i))
-            if subject is not None:
-                updated_subjects.append(subject)
-
-        removed_subjects = set(subjects) - set(updated_subjects)
-        intersection = set(subjects) & set(updated_subjects)
-        subjects_to_add = set(updated_subjects) - intersection
-
-        for subject in removed_subjects:
-            exercise_list.deleteSubject(subject)
-
-        for subject in subjects_to_add:
-            exercise_list.addSubject(subject)
-
-        translation = getTranslationDict(request, languages)
-        #set current browser translation
-        translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
-
-        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
-
-    return render(request, 'editList.html', {'list': exercise_list,
-                                             'subjects': subjects,
-                                             'programming_languages': prog_langs,
-                                             'current_prog_lang': current_language,
-                                             'all_exercises': all_exercises,
-                                             'languages': languages,
-                                             'translations': current_translations})
 
 def filterOrder(order):
     if len(order) == 0:
@@ -208,7 +209,6 @@ def editExercise(request, listId, exercise_id, exercise_number):
 
     if request.method == 'POST':
         exercise = object_manager.createExercise(exercise_id, browser_lang.code)
-        exercise.difficulty = int(request.POST.get('difficulty'))
         exercise.question = request.POST.get('Question')
         exercise.title = request.POST.get('title')
         exercise.exerciseList_id = int(listId)

@@ -57,7 +57,7 @@ class EvaluatorSql(Evaluator):
         cursor = connections['sandbox'].cursor()
         cursor.execute(self.code)
 
-    def getOutput(self):
+    def getOutput(self, is_editor):
         cursor = connections['sandbox'].cursor()
         cursor.execute('SHOW TABLES;')
         tables = cursor.fetchall()
