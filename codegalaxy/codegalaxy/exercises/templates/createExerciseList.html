@@ -263,7 +263,11 @@
                   data: post_data,
 
                   success: function (response) {
-                    location.reload();
+                    {% if edit %}
+                      location.reload();
+                      {% else %}
+                      window.location.href = response;
+                    {% endif %}
                   }
                 });
               });

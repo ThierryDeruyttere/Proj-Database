@@ -223,15 +223,16 @@ class Exercise:
             if len(value) > 0 and old_translations[key.name]['title'] != "":
                 dbw.updateQuestion(self.id, key.id, value['question'])
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
-                if self.exercise_type == "Code":
-                    # mhh ni echt zo clean dit...
-                    for i in range(number_of_):
-                        # because they all have been deleted...
-                        dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
+                if managers.om.objectmanager.ObjectManager().getLanguageObject(self.language_code).name != key.name:
+                    if self.exercise_type == "Code":
+                        # mhh ni echt zo clean dit...
+                        for i in range(number_of_):
+                            # because they all have been deleted...
+                            dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
 
-                else:
-                    for i in range(number_of_):
-                        dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
+                    else:
+                        for i in range(number_of_):
+                            dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
 
             elif len(value) > 0:
                 self.insertUpdateValues(key, value)

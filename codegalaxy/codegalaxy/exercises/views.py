@@ -65,7 +65,7 @@ def createExerciseList(request):
             if subj is not None:
                 exercise_list.addSubject(subj)
 
-        return redirect("/l/" + str(exlist_id))
+        return HttpResponse("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
