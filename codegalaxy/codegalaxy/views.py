@@ -20,7 +20,7 @@ from managers.rm.recommendations import *
 from codegalaxy.general import getBrowserLanguage
 
 import os.path
-#from PIL import Image
+from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -228,7 +228,6 @@ def user(request, id=0):
                         mutual = True
                 if not mutual:
                     non_mutual_friends.append(current_user_friend)
-
 
         total_mutual_friends = len(mutual_friends)
 
