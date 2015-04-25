@@ -25,14 +25,20 @@ def social(request):
             t = 'g'
 
         response += '''
-        <div class="large-3 columns end">
+        <div class="large-12 columns end">
           <div class="panel radius">
-            <a href="/{type}/{id}">
-              <img src="/static/{picture}" />
-              <div>
-                <h6 class="text-cut-off">{name}</h6>
+            <div class="row">
+              <div class="large-2 columns">
+                <a href="/{type}/{id}">
+                  <img src="/static/{picture}" />
+                </a>
               </div>
-            </a>
+              <div class="large-8 columns left">
+                <a href="/{type}/{id}">
+                  <h6 class="text-cut-off">{name}</h6>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         '''.format(type=t, id=result.id, picture=result.getPicture(), name=result.name())
