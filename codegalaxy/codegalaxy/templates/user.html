@@ -113,7 +113,7 @@
           {% for item in data %}
           {% if item.type == 'FriendsWith' %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
             <div class="large-10 columns">
               <p><strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>
                 <br><small>{{ item.befriended_on }}</small></p>
@@ -125,7 +125,7 @@
           {% if item.type == 'UserInGroup'%}
           {% if item.group.group_type == 0 %}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
             <div class="large-10 columns">
 
               <p><strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
@@ -138,7 +138,7 @@
           {% endif %}
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
             <div class="large-10 columns">
               <p><strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%
               <br><small>{{ item.completed_on }}</small></p>
@@ -149,7 +149,7 @@
           {% endif %}
           {% if item.type == 'CreatedExerciseList'%}
           <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
             <div class="large-10 columns">
               <p><strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
               <br><small>{{ item.created_on }}</small></p>
@@ -196,54 +196,57 @@
           </div>
         </div>
         <div class="content" id="friends">
-          {% for friendship in pending_friendships %}
-          <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static friendship.friend.getPicture %}"/></div>
-            <div class="large-10 columns">
-              <p><strong><a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }} </a></strong>{% trans "wants to be your friend, do you want to accept?" %}</p>
-              <ul class="button-group radius">
-                <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
-                  {% csrf_token %}
-                  <input type="hidden" name="user_id_to_confirm" value="{{ friendship.friend.id }}">
-                  <input type="submit" name ='confirm_friendship' value="{% trans "Confirm" %}" class="round button success">
-                </form></li>
-                <li><form method="POST" id='decline_friendship' name='decline_friendship'>
-                  {% csrf_token %}
-                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.friend.id }}">
-                  <input type="submit" name ='decline_friendship' value="{% trans "Decline" %}" class="round button alert">
-                </form></li>
-              </ul>
+          <div class="large-12 columns">
+
+            {% for friendship in pending_friendships %}
+            <div class="row">
+              <div class="large-2 columns small-3"><img src="{% static friendship.friend.getPicture %}"/></div>
+              <div class="large-10 columns">
+                <p><strong><a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }} </a></strong>{% trans "wants to be your friend, do you want to accept?" %}</p>
+                <ul class="button-group radius">
+                  <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id_to_confirm" value="{{ friendship.friend.id }}">
+                    <input type="submit" name ='confirm_friendship' value="{% trans "Confirm" %}" class="round button success">
+                  </form></li>
+                  <li><form method="POST" id='decline_friendship' name='decline_friendship'>
+                    {% csrf_token %}
+                    <input type="hidden" name="user_id_to_decline" value="{{ friendship.friend.id }}">
+                    <input type="submit" name ='decline_friendship' value="{% trans "Decline" %}" class="round button alert">
+                  </form></li>
+                </ul>
+              </div>
             </div>
-          </div>
-          <hr/>
-          {% endfor %}
-          <div class="row">
-            <h5>Mutual friends</h5>
-            {% for friend in mutual_friends %}
-            <div class="large-3 columns end">
-              <a href="/u/{{ friend.id }}">
-                <div class="panel radius">
-                  <img src="{% static friend.getPicture %}"/>
-                  <h5 class="text-cut-off">{{ friend.first_name }}</h5>
-                  <h6 class="text-cut-off">{{ friend.last_name }}</h6>
-                </div>
-              </a>
-            </div>
+            <hr/>
             {% endfor %}
-          </div>
-          <div class="row">
-            <h5>Others</h5>
-            {% for friend in non_mutual_friends %}
-            <div class="large-3 columns end">
-              <a href="/u/{{ friend.id }}">
-                <div class="panel radius">
-                  <img src="{% static friend.getPicture %}"/>
-                  <h5 class="text-cut-off">{{ friend.first_name }}</h5>
-                  <h6 class="text-cut-off">{{ friend.last_name }}</h6>
-                </div>
-              </a>
+            <div class="row">
+              <h5>Mutual friends</h5>
+              {% for friend in mutual_friends %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ friend.id }}">
+                  <div class="panel radius">
+                    <img src="{% static friend.getPicture %}"/>
+                    <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                    <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
             </div>
-            {% endfor %}
+            <div class="row">
+              <h5>Others</h5>
+              {% for friend in non_mutual_friends %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ friend.id }}">
+                  <div class="panel radius">
+                    <img src="{% static friend.getPicture %}"/>
+                    <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                    <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
           </div>
         </div>
         <div class="content" id="groups">

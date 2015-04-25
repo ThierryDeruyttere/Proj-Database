@@ -11,6 +11,9 @@ import os.path
 class User:
 
     def __init__(self, id, first_name, last_name, is_active, email, permissions, password, joined_on, last_login, gender):
+        if not joined_on:
+            raise ValueError("joined_on in user __init__ is None.")
+
         # Plain info on the user
         self.id = int(id)
         self.first_name = first_name
@@ -19,14 +22,12 @@ class User:
         self.email = email
         self.permissions = int(permissions)
         self.password = password
-        if type(joined_on) is datetime.datetime:
-            self.joined_on = str(joined_on.strftime("%Y-%m-%d %H:%M:%S"))
-        else:
-            self.joined_on = joined_on
+        self.joined_on = joined_on
         self.last_login = last_login
         self.gender = gender
 
-
+        if type(joined_on) is datetime.datetime:
+            self.joined_on = str(joined_on.strftime("%Y-%m-%d %H:%M:%S"))
 
     def name(self):
         return self.first_name + ' ' + self.last_name
@@ -255,7 +256,7 @@ class User:
         for exercises_list in exercises_lists_info:
             # If the info is legit, we add a User object with the info to the
             # list
-            #TODO ENABLE OTHER LANGUAGES
+            # TODO ENABLE OTHER LANGUAGES
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
                                                  'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'], lang_id)
             exercises_lists_list.append(exercises_list_object)
@@ -481,7 +482,7 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         list_ids = dbw.getExerciseListIdsMadeByUser(self.id)
         for list_id in list_ids:
-            #TODO klopt dit?
+            # TODO klopt dit?
             list_objects.append(object_manager.createExerciseList(list_id['id'], 1))
         return list_objects
 
