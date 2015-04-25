@@ -1,19 +1,20 @@
 /* line 1, ../../../theme/scss/createExercise.scss */
 .question_text {
   border-radius: 0.3em;
+  height: 10em;
 }
 
-/* line 5, ../../../theme/scss/createExercise.scss */
+/* line 6, ../../../theme/scss/createExercise.scss */
 .alien {
   transform: scale(0.5);
 }
 
-/* line 10, ../../../theme/scss/createExercise.scss */
+/* line 11, ../../../theme/scss/createExercise.scss */
 #translation {
   color: black;
 }
 
-/* line 13, ../../../theme/scss/createExercise.scss */
+/* line 14, ../../../theme/scss/createExercise.scss */
 #textbox {
   position: relative;
   left: -5em;
@@ -22,14 +23,14 @@
   color: black;
 }
 
-/* line 21, ../../../theme/scss/createExercise.scss */
+/* line 22, ../../../theme/scss/createExercise.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 27, ../../../theme/scss/createExercise.scss */
+/* line 28, ../../../theme/scss/createExercise.scss */
 #textbox:after {
   content: '';
   position: absolute;
