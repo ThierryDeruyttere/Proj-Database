@@ -669,8 +669,12 @@ def submit(request, list_id, exercise_number):
         next_exercise = exercise_number + 1
 
         # checking if user made list
+        user_made_all = True
         users_exercises = exercise_list.getAllExercForUserForList(user.id)
-        if users_exercises:
+        for ex_info in users_exercises:
+            if not ex_info['solved']:
+                user_made_all = False
+        if user_made_all:
             if len(users_exercises) == len(all_exercise):
                 list_score = 0
                 max_list_score = 0

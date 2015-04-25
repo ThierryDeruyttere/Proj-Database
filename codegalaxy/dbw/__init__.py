@@ -589,8 +589,8 @@ def getAmountOfUsersWhoMadeList(exercise_list_id):
 
 def averageRatingOfUsersWhoMadeList(exercise_list_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT AVG(rating) AS average FROM madeList WHERE madeList.exerciseList_id = {ex_id};'.format(ex_id=exercise_list_id))
-    fetched = processOne(cursor)
+    cursor.execute('SELECT rating FROM madeList WHERE madeList.exerciseList_id = {ex_id};'.format(ex_id=exercise_list_id))
+    fetched = processData(cursor)
     cursor.close()
     return fetched
 
