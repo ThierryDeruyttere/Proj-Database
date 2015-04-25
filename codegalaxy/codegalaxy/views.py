@@ -37,7 +37,7 @@ def home(request):
     if current_user:
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
-        current_user_exercises_made = current_user.allExerciseListsMade2(browser_lang.id)
+        current_user_exercises_made = current_user.allExerciseListsShared(browser_lang.id)
         current_user_exercises_created = current_user.getAllExercisesCreated(browser_lang.id)
 
         feed.extend(current_user_member_of_groups)
@@ -49,7 +49,7 @@ def home(request):
 
             accepted_friendships = friend.allFriendsWith()
             member_of_groups = friend.allGroupsJoined()
-            exercises_made = friend.allExerciseListsMade2(browser_lang.id)
+            exercises_made = friend.allExerciseListsShared(browser_lang.id)
             exercises_created = friend.getAllExercisesCreated(browser_lang.id)
 
             feed.extend(accepted_friendships)
@@ -186,7 +186,7 @@ def user(request, id=0):
 
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
-        exercises_made = user.allExerciseListsMade2(browser_lang.id)
+        exercises_made = user.allExerciseListsShared(browser_lang.id)
         exercises_created = user.getAllExercisesCreated(browser_lang.id)
 
         all_data = []
@@ -418,11 +418,7 @@ def group(request, id=0):
 
         if group_size > 0:
             for one_user in user_list:
-                # accepted_friendships = one_user.allFriendships()
-                # member_of_groups = one_user.allUserAdded()
-                # exercises_made = one_user.allExerciseListsMade()
-
-                exercises_made = one_user.allExerciseListsMade2(browser_lang.id)
+                exercises_made = one_user.allExerciseListsShared(browser_lang.id)
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
 

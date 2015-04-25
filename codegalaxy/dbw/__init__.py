@@ -849,6 +849,10 @@ def setUserActive(email):
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET is_active = 1 WHERE email = "{email}";'.format(email=email))
 
+def updateSharedMadeExerciseList(user_id, list_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE madeList SET shared = 1 WHERE exerciseList_id = {list_id} AND user_id = {user_id}'.format(list_id=list_id, user_id=user_id))
+
 def updateUserInformation(user_id, email, password):
     cursor = connection.cursor()
     cursor.execute('UPDATE user SET email="{email}",password="{passw}" WHERE id = {id};'.format(passw=password, email=email, id=user_id))
