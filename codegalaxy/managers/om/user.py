@@ -262,6 +262,17 @@ class User:
 
         return exercises_lists_list
 
+    def personalListWithId(self, list_id, lang_id):
+        exercise_lists_info = dbw.getMadeListForUser(self.id)
+        print(exercise_lists_info)
+
+        for exercise_list in exercise_lists_info:
+            if exercise_list['exerciseList_id'] == list_id:
+                print("DIT IS TOF!")
+                exercise_list_object = PersonalList(exercise_list['rating'], exercise_list[
+                                                 'score'], exercise_list['exerciseList_id'], self.id, exercise_list['made_on'], lang_id)
+                return exercise_list_object
+
     def amountOfListsMade(self):
         lists = self.allPersonalLists()
         if not lists:
@@ -326,8 +337,8 @@ class User:
         user = object_manager.createUser(id=self.id)
         all_exercise_lists_made = []
         for exercise_list in exercise_list_date:
-            exercise_list_object = object_manager.createExerciseList(exercise_list['id'], lang_id)
-            made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'])
+            exercise_list_object = object_manager.createExerciseList(exercise_list['exerciseList_id'], lang_id)
+            made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'], lang_id)
 
             all_exercise_lists_made.append(made_exercise_list)
 

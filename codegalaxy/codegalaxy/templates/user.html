@@ -140,7 +140,7 @@
           <div class="row">
             <div class="large-2 columns small-3"><img src="{% static "media/icons/rocket1.png" %}"/></div>
             <div class="large-10 columns">
-              <p><strong>{{ user.name }} </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+              <p><strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%
               <br><small>{{ item.completed_on }}</small></p>
             </div>
           </div>

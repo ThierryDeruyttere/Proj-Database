@@ -86,10 +86,10 @@
               <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
               <div class="large-10 columns">
                 {% if item.user.id == user.id %}
-                  <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+                  <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
                     <br><small>{{ item.completed_on }}</small></p>
                 {% else %}
-                  <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
+                  <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
                     <br><small>{{ item.completed_on }}</small></p>
                 {% endif %}
               </div>

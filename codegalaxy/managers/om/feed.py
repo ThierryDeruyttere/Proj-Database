@@ -33,11 +33,13 @@ class UserInGroup(FeedItem):
 
 class MadeExerciseList(FeedItem):
 
-    def __init__(self, user, exercise_list, completed_on):
+    def __init__(self, user, exercise_list, completed_on, lang_id):
         super().__init__('MadeExerciseList', completed_on)
 
         self.user = user
         self.exercise_list = exercise_list
+        self.personal_list = self.user.personalListWithId(self.exercise_list.id, lang_id)
+        print(self.personal_list)
         self.completed_on = completed_on
 
     def __str__(self):
