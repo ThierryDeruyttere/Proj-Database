@@ -24,23 +24,45 @@ def social(request):
         if type(result) is group.Group:
             t = 'g'
 
+        group_owner = ""
+        friends_in_group = " | "
+        for friend in current_user.allFriends():
+            for member in result.allMembers():
+                if result.getUserPermissions(member.id) == 0:
+                    group_owner = member.name()
+                if friend.id == member.id:
+                    friends_in_group += friend.name() + " | "
+
         response += '''
         <div class="large-12 columns end">
           <div class="panel radius">
             <div class="row">
-              <div class="large-2 columns">
+              <div class="large-3 columns">
                 <a href="/{type}/{id}">
                   <img src="/static/{picture}" />
                 </a>
               </div>
-              <div class="large-8 columns left">
-                <a href="/{type}/{id}">
-                  <h6 class="text-cut-off">{name}</h6>
-                </a>
+              <div class="large-9 columns left">
+                <div class="row">
+                  <a href="/{type}/{id}">
+                    <h5 class="text-cut-off"><b>{name}</b> ({nr_of_members} members)</h5>
+                  </a>
+                </div>
+                <br>
+                <div class="row">
+                  <a href="/{type}/{id}">
+                    <h6 class="text-cut-off"><b>Owner:</b> {owner}</h6>
+                  </a>
+                </div>
+                <div class="row">
+                  <a href="/{type}/{id}">
+                    <h6><b>Friends in group:</b> {friends_in_this_group}</h6>
+                  </a>
+                </div>
               </div>
             </div>
           </div>
         </div>
-        '''.format(type=t, id=result.id, picture=result.getPicture(), name=result.name())
+        '''.format(type=t, id=result.id, picture=result.getPicture(), nr_of_members = len(result.allMembers()), name=result.name(), owner=group_owner, friends_in_this_group=friends_in_group)
 
     return HttpResponse(response)
