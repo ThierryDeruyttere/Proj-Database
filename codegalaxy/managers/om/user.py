@@ -274,6 +274,9 @@ class User:
                                                  'score'], exercise_list['exerciseList_id'], self.id, exercise_list['made_on'], lang_id)
                 return exercise_list_object
 
+    def shareExerciseListResult(self, list_id):
+        dbw.updateSharedMadeExerciseList(self.id, list_id)
+
     def amountOfListsMade(self):
         lists = self.allPersonalLists()
         if not lists:
@@ -322,26 +325,17 @@ class User:
             score += made_list.score
         return round(score / len(lists))
 
-    def allExerciseListsMade(self):
-        exercise_list_date = dbw.getMadeListForUser2(self.id)
-        for exerciseList in exercise_list_date:
-            exerciseList.update({'type': 'exerciseList'})
-            exerciseList.update({'datetime': exerciseList['made_on']})
-            exerciseList.update({'user_first_name': self.first_name})
-            exerciseList.update({'user_last_name': self.last_name})
-            exerciseList.update({'user_id': self.id})
-        return exercise_list_date
-
-    def allExerciseListsMade2(self, lang_id):
+    def allExerciseListsShared(self, lang_id):
         object_manager = managers.om.objectmanager.ObjectManager()
         exercise_list_date = dbw.getMadeListForUser2(self.id)
         user = object_manager.createUser(id=self.id)
         all_exercise_lists_made = []
         for exercise_list in exercise_list_date:
-            exercise_list_object = object_manager.createExerciseList(exercise_list['exerciseList_id'], lang_id)
-            made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'], lang_id)
+            if exercise_list['shared'] == 1:
+                exercise_list_object = object_manager.createExerciseList(exercise_list['exerciseList_id'], lang_id)
+                made_exercise_list = managers.om.feed.MadeExerciseList(user, exercise_list_object, exercise_list['made_on'], lang_id)
 
-            all_exercise_lists_made.append(made_exercise_list)
+                all_exercise_lists_made.append(made_exercise_list)
 
         return all_exercise_lists_made
 

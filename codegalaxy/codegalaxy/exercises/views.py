@@ -385,6 +385,10 @@ def list(request, id=0):
         if request.POST.get('rating') is not None and user is not None:
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
+        elif 'share_result' in request.POST:
+            print("SHARE THIS MOFO!")
+            user.shareExerciseListResult(exercise_list.id)
+
         elif user is not None and user.id != exercise_list.created_by:
             # just to be sure we can't import stuff in our own list
             # Import parts of list

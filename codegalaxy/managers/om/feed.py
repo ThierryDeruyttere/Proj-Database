@@ -39,7 +39,6 @@ class MadeExerciseList(FeedItem):
         self.user = user
         self.exercise_list = exercise_list
         self.personal_list = self.user.personalListWithId(self.exercise_list.id, lang_id)
-        print(self.personal_list)
         self.completed_on = completed_on
 
     def __str__(self):
