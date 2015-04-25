@@ -681,6 +681,7 @@ CREATE TABLE `madeList` (
   `rating` int(11) NOT NULL,
   `score` int(11) NOT NULL,
   `made_on` datetime NOT NULL,
+  `shared` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`exerciseList_id`,`user_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `madeList_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`),

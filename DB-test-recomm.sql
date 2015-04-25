@@ -163,6 +163,7 @@ CREATE TABLE madeList(
   rating INT NOT NULL,
   score INT NOT NULL,
   made_on DATE NOT NULL,
+  shared tinyint(1) NOT NULL DEFAULT '0',
   FOREIGN KEY (exerciseList_id) REFERENCES exerciseList(id),
   FOREIGN KEY (user_id) REFERENCES user(id),
   PRIMARY KEY (exerciseList_id, user_id)
