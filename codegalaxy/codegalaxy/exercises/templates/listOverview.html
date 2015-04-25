@@ -25,7 +25,7 @@
       </div>
       <hr>
       <div class="row collapse">
-        <div class="panel">
+        <div class="panel radius">
           <form method="POST" id="search_options">
             {% csrf_token %}
             <div class="row" id="search">
@@ -127,7 +127,7 @@
       <div class="row informations">
         {% for list in all_lists|copy_list %}
         <div class="large-4 columns large-centered">
-          <div class="information panel" id="info{{ forloop.counter }}" hidden="True">
+          <div class="information panel radius" id="info{{ forloop.counter }}" hidden="True">
             <div class="row">
               <div class="text-center">
                 <b>{{ list.name }}</b>
@@ -146,7 +146,7 @@
             </div>
             <div class="row">
               <div class="text-center">
-                <b># of exercises:</b> {{ list.amountOfExercises }}
+                <b>Exercises:</b> {{ list.amountOfExercises }}
               </div>
             </div>
             <div class="row">
@@ -179,7 +179,7 @@
       <hr>
     <div class="row collapse">
       <div class="large-5 columns">
-          <legend># Planets/Programming Language</legend>
+          <legend> Planets/Programming Language</legend>
           <br>
           {{ lists_per_prog_lang_graph | safe }}
           <br>

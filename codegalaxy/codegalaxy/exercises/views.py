@@ -715,7 +715,7 @@ def createListElem(i, elem):
         subjects = subjects + subj + " | "
 
     planet_info = """<div class="large-4 columns large-centered">
-        <div class=\"information panel\" id="info{for_i}" hidden="True">
+        <div class=\"information panel radius\" id="info{for_i}" hidden="True">
           <div class=\"row\">
             <div class=\"text-center\">
               {list_name}
@@ -734,6 +734,11 @@ def createListElem(i, elem):
           </div>
           <div class=\"row\">
             <div class=\"text-center\">
+              <b>Exercises:</b> {list_amountOfExercises}
+            </div>
+          </div>
+          <div class=\"row\">
+            <div class=\"text-center\">
               <b>Subjects:</b>""" + subjects + """
             </div>
           </div>
@@ -742,9 +747,10 @@ def createListElem(i, elem):
               <a class=\"round tiny button\" type=\"button\" href=\"/l/{list_id}\">Explore!</a>
             </div>
           </div>
+         </div> 
         </div>"""
 
-    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creatorName(), list_id=elem.id, for_i=i + 1)
+    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creatorName(), list_amountOfExercises=elem.amountOfExercises() , list_id=elem.id, for_i=i + 1)
 
     return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),pi_format)
 

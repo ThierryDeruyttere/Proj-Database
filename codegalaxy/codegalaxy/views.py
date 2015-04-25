@@ -20,7 +20,7 @@ from managers.rm.recommendations import *
 from codegalaxy.general import getBrowserLanguage
 
 import os.path
-#from PIL import Image
+from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -482,7 +482,7 @@ def social(request):
     color_info1 = graphmanager.ColorInfo(
         "#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
     color_info2 = graphmanager.ColorInfo(
-        "#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
+        "#2a3963", "#2a3963", "#5AD3D1", "#46BFBD")
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
