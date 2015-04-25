@@ -263,12 +263,12 @@
         {% trans "Exercises" %}
         <div class="row">
           {% for exercise in all_exercises %}
-            <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
-              {{ exercise.0.title }}
-              {% if exercise.0.solved %}
-                <div class="label success left"><pre> {{ exercise.1 }}/{{ exercise.0.max_score }} </pre><i class="fi-checkbox"></i></div>
-              {% endif %}
-              <img class="Arrow" src="{% static "media/arrow.png" %}">
+            <div class="panel radius callout exercise" id="Exercise{{ exercise.0.exercise_number }}">
+                {{ exercise.0.title }}
+                {% if exercise.0.solved %}
+                  <div class="label success left"><pre> {{ exercise.1 }}/{{ exercise.0.max_score }} </pre><i class="fi-checkbox"></i></div>
+                {% endif %}
+                <img class="Arrow" src="{% static "media/arrow.png" %}">
             </div>
           {% endfor %}
         </div>
