@@ -194,10 +194,10 @@
                       </thead>
                       {% for e in all_exercises %}
                         <tbody>
-                        <td><p id="name{{ e.exercise_number }}">{{ e.title }}</p>
-                          {% if e.isReference %}
+                        <td><p id="name{{ e.exercise_number }}">{{ e.0.title }}</p>
+                          {% if e.0.isReference %}
                             <br/>
-                            <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.isReferenceTo.1}}]
+                            <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.0.isReferenceTo.1}}]
                           {% endif %}
                         </td>
                         <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
@@ -263,9 +263,9 @@
         <div class="row">
           {% for exercise in all_exercises %}
             <div class="panel radius callout exercise" id="Exercise{{ exercise.exercise_number }}">
-              {{ exercise.title }}
-              {% if exercise.solved %}
-                <div class="label success left"><i class="fi-checkbox"></i></div>
+              {{ exercise.0.title }}
+              {% if exercise.0.solved %}
+                <div class="label success left"><pre> {{ exercise.1 }}/{{ exercise.0.max_score }} </pre><i class="fi-checkbox"></i></div>
               {% endif %}
               <img class="Arrow" src="{% static "media/arrow.png" %}">
             </div>

@@ -206,17 +206,8 @@ class ObjectManager:
         return lists_objects
 
     def getAllExerciseLists(self):
-        lists = dbw.getAll('exerciseList')
-        lists_objects = []
-        for l in lists:
-            lists_objects.append(managers.om.exerciselist.ExerciseList(l['id'],
-                                                                       l['name'],
-                                                                       l['difficulty'],
-                                                                       l['description'],
-                                                                       l['created_by'],
-                                                                       l['created_on'],
-                                                                       l['prog_lang_id']))
-        return lists_objects
+        # TODO: rekening houden met translations hier
+        pass
 
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)

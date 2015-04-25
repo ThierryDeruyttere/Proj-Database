@@ -418,15 +418,19 @@ def list(request, id=0):
                 user_score = personal_list.score
                 user_date = personal_list.made_on
         all_exercises = exercise_list.allExercises(browser_lang.code)
+        all_exercises_with_score = []
 
         list_owner = False
         if logged_user(request):
             user = logged_user(request)
             for exercise in all_exercises:
                 completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
-                if completed != None:
+                if completed is not None:
                     if completed['solved'] == 1:
                         exercise.solved = True
+                        all_exercises_with_score.append((exercise, completed['exercise_score']))
+                    else:
+                        all_exercises_with_score.append((exercise, None))
 
             list_owner = (user.id == exercise_list.created_by)
 
@@ -486,7 +490,7 @@ def list(request, id=0):
 
         return render(request, 'list.html', {'list_owner': list_owner,
                                              'id': exercise_list.id,
-                                             'all_exercises': all_exercises,
+                                             'all_exercises': all_exercises_with_score,
                                              'subjects': subjects,
                                              'avg_score': avg_score,
                                              'avg_rating': avg_rating,
