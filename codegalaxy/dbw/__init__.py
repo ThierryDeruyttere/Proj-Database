@@ -832,7 +832,7 @@ def insertHasSubject(exerciseList_id, subject_id):
 
 def insertMadeList(exerciseList_id, user_id, rating, score):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on) VALUES ({el_id},{u_id},{rating},{score}, NOW());'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
+    cursor.execute('INSERT INTO madeList(exerciseList_id,user_id,rating,score, made_on, shared) VALUES ({el_id},{u_id},{rating},{score}, NOW(), 0);'.format(el_id=exerciseList_id, u_id=user_id, rating=rating, score=score))
 
 def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_list_id, exercise_number, last_answer, hint):
     cursor = connection.cursor()
