@@ -429,8 +429,8 @@ def list(request, id=0):
                     if completed['solved'] == 1:
                         exercise.solved = True
                         all_exercises_with_score.append((exercise, completed['exercise_score']))
-                    else:
-                        all_exercises_with_score.append((exercise, None))
+                else:
+                    all_exercises_with_score.append((exercise, None))
 
             list_owner = (user.id == exercise_list.created_by)
 
