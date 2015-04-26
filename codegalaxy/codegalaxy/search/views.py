@@ -20,10 +20,7 @@ def social(request):
 
     response = ''
     for result in results:
-        if type(result) is group.Group:
-            response += result.searchResult(current_user)
-        else:
-            response += result.searchResult()
+        response += result.searchResult(current_user)
 
     if response == '':
         response = _('There are no search results to display.')

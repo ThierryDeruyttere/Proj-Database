@@ -475,7 +475,38 @@ class User:
     def searchString(self):
         return str(self.name())
 
-    def searchResult(self):
+    def searchResult(self, cur_user):
+
+        mutual_friends = ' | '
+        for cur_user_friend in cur_user.allFriends():
+            for friend in self.allFriends():
+                if cur_user_friend.id == friend.id:
+                    mutual_friends += friend.name() + ' | '
+
+        if len(mutual_friends) < 4:
+            result = '''
+            <div class="large-12 columns">
+              <div class="panel radius">
+                <div class="row">
+                  <div class="large-3 columns">
+                    <a href="/u/{id}">
+                      <img src="/static/{picture}" />
+                    </a>
+                  </div>
+                  <div class="large-9 columns left">
+                    <div class="row">
+                      <a href="/u/{id}">
+                        <h5 class="text-cut-off"><b>{name}</b></h5>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            '''.format(id=self.id, picture=self.getPicture(), name=self.name())
+
+            return result
+
         result = '''
         <div class="large-12 columns">
           <div class="panel radius">
@@ -492,10 +523,18 @@ class User:
                   </a>
                 </div>
               </div>
+              <br>
+              <br>
+              <br>
+              <div class="row">
+                <a href="/u/{id}">
+                  <h6><b>Mutual friends:</b> {mut_friends}</h6>
+                </a>
+              </div>
             </div>
           </div>
         </div>
-        '''.format(id=self.id, picture=self.getPicture(), name=self.name())
+        '''.format(id=self.id, picture=self.getPicture(), name=self.name(), mut_friends=mutual_friends)
 
         return result
 
