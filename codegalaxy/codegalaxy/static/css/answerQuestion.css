@@ -4,18 +4,28 @@
 }
 
 /* line 5, ../../../theme/scss/answerQuestion.scss */
+.question > a {
+  color: #815ba4;
+}
+
+/* line 9, ../../../theme/scss/answerQuestion.scss */
+.question > a:hover {
+  text-decoration: underline;
+}
+
+/* line 13, ../../../theme/scss/answerQuestion.scss */
 .hints {
   width: 40%;
   border-radius: 1em;
 }
 
-/* line 10, ../../../theme/scss/answerQuestion.scss */
+/* line 18, ../../../theme/scss/answerQuestion.scss */
 .answers {
   margin-right: auto;
   margin-left: auto;
 }
 
-/* line 15, ../../../theme/scss/answerQuestion.scss */
+/* line 23, ../../../theme/scss/answerQuestion.scss */
 #caption {
   background-color: lightgray;
 }

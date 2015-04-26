@@ -234,7 +234,7 @@ class Exercise:
                         for i in range(number_of_):
                             dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
 
-            elif len(value) > 0:
+            elif len(value) > 0 and value['title'] != "":
                 self.insertUpdateValues(key, value)
 
     def setTranslations(self, translations):

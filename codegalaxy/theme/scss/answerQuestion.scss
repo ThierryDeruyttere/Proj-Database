@@ -2,6 +2,14 @@
     margin-top: 2em;
 }
 
+.question>a{
+  color: #815ba4;
+}
+
+.question>a:hover{
+  text-decoration: underline;
+}
+
 .hints{
     width: 40%;
     border-radius: 1em;
@@ -15,3 +23,4 @@
 #caption{
     background-color: lightgray;
 }
+
