@@ -463,9 +463,12 @@ def group(request, id=0):
         for group_member in user_list:
             new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
         user_list = new_user_list
+
+        my_user_permissions = group.getUserPermissions(user.id)
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
-                   'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit}
+                   'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit,
+                   'my_user_permissions': my_user_permissions}
         return render(request, 'group.html', context)
 
     else:

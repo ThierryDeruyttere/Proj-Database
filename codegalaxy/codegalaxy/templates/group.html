@@ -151,23 +151,48 @@
           </div>
           <div class="content" id="members">
             <div class="row">
-              {% for member in user_list  %}
+              {% for member in user_list %}
               <div class="large-3 columns end">
                 <a href="/u/{{ member.0.id }}">
                   <div id="u_{{ member.0.id }}" class="panel radius">
-                    <img src="{% static member.getPicture %}"/>
+                    <img src="{% static member.0.getPicture %}"/>
+                    <div class="text-center">
                     <h5 class="text-cut-off">{{ member.0.first_name }}</h5>
                     <h6 class="text-cut-off">{{ member.0.last_name }}</h6>
                     {% if member.1 == 2 %}
-                    <h6>Member</h6>
+                    <h6>{% trans "Member" %}</h6>
                     {% elif member.1 == 1 %}
-                    <h6>Admin</h6>
+                    <h6>{% trans "Admin" %}</h6>
                     {% elif member.1 == 0 %}
-                    <h6>Owner</h6>
+                    <h6>{% trans "Owner" %}</h6>
                     {% endif %}
-                    {% if not group_permissions == 2 %}
+                    </div>
+                    {% if not member.0 == 2 %}
                     <div class="text-center">
-                      <a id="changePermission" data-reveal-id="ChangePermissions" class="tiny button" data-value="{{ member.id }}">Edit</a>
+                      {% if not member.0.id == user.id %}
+                        {% if member.1 == 2 %}
+                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                          {% csrf_token %}
+                          <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                          <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
+                        </form>
+                        {% elif member.1 == 1 %}
+                          {% if my_user_permissions == 0 %}
+                            <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                              {% csrf_token %}
+                              <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                              <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
+                            </form>
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+                      {% if member.1 == 2 %}
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
+                        <input type="submit" value="{% trans "Upgrade" %}" name="upgrade_user" class="tiny button success radius">
+                      </form>
+                      {% endif %}
                     </div>
                     {% endif %}
                   </div>
@@ -188,6 +213,7 @@
         </form>
       </div>
     </li>
+    {% if my_user_permissions == 0 %}
     <li>
       <div id="myDiv2">
         <form id="myForm2" method="POST" action="/g/{{group.id}}/">
@@ -197,6 +223,8 @@
           <input type="submit" name="upgrade_user" value="Make Admin" class="button success">
         </form>
       </div>
+    </li>
+    {% endif %}
     <li>
       <div id="myDiv3">
         <form id="myForm3" method="POST" action="/g/{{group.id}}/">
@@ -207,7 +235,6 @@
         </form>
       </div>
     </li>
-
   </ul>
 </div>
 {% endblock base_body %}
@@ -218,7 +245,7 @@
     user_id = $(this).data("value");
     $("#ChangePermissions h2").text(user_id);
 
-    var chbx = '<a href="/u/'+ user_id +'" id="visitProfile" class="button" data-value="{{ member.id }}">Visit Profile</a>';
+    var chbx = '<a href="/u/'+ user_id +'" id="visitProfile" class="button">{% trans "Visit Profile" %}</a>';
     //var chbx2='<input type="hidden" name="user_id_to_add" value="' + user_id + '">
     var chbx2 = '<input type="hidden" name="user_id_to_upgrade" value="' + user_id + '">';
     var chbx3 = '<input type="hidden" name="user_id_to_delete" value="' + user_id + '">';
