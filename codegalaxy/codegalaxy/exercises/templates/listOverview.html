@@ -16,181 +16,181 @@
 {% block base_body  %}
   <div class="row">
 
-  <div class="large-12 columns">
-    <div class="row">
-      <div class="large-8 columns">
-        <h1>Search exercise lists</h1>
-      </div>
-      <div class="large-4 columns">
-        <a id="create" href="/l/create" class="round alert button right">Create new list</a>
-      </div>
-      <hr>
-      <div class="row collapse">
-        <div class="panel radius">
-          <form method="POST" id="search_options">
-            {% csrf_token %}
-            <div class="row" id="search">
-              <div class="row">
-                <div class="large-4 columns">
-                  <div class="row collapse prefix-radius">
-                    <div class="large-2 columns">
-                      <span class="prefix"><img src="{% static "media/icons/planet.png" %}"></span>
-                    </div>
-                    <div class="large-10 columns left">
-                      <input placeholder="{% trans "List name" %}" type="text" name="title">
-                    </div>
-                  </div>
-                </div>
-                <div class="large-4 columns">
-                  <div class="row collapse prefix-radius">
-                    <div class="small-2 columns">
-                      <span class="prefix" id="user_image"><div id="astronaut"></div></span>
-                    </div>
-                    <div class="small-10 columns left">
-                      <input placeholder="{% trans "Author name" %}" type="text" name="user">
-                    </div>
-                  </div>
-                </div>
-                <div class="small-4 columns">
-                  <select name="prog_lang" class="radius">
-                    <option value="" selected>{% trans "Choose programming language" %}</option>
-                    {% for lang in languages %}
-                      <option value="{{ lang.name }}">{{ lang.name }}</option>
-                    {% endfor %}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div id="advanced_search">
-              <a class="expander" href="#">Advanced search</a>
-            </div>
-            <div class="content">
-              <div class="row">
-
-                <div class="large-5 columns">
-                  Subjects (separated with a comma)
-                  <div class="row collapse prefix-radius">
-                    <input type="text" id="subjects" name="subjects" class="text-center">
-                  </div>
-                </div>
-
-                <div class="large-4 columns">
-                  <div class="row">
-                    <div id="amount"></div>
-                    <div id="slider-range"></div>
-                  </div>
-                </div>
-                <input type="hidden" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
-                <input type="hidden" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
-
-                <div class="large-2 columns right">
-                  Sort:
-                  <select id="order_mode" name="order_mode">
-                    <option>Ascending</option>
-                    <option>Descending</option>
-                  </select>
-                </div>
-
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="large-2 columns right">
-                <button class="round button" id="search_button">Search</button>
-              </div>
-
-            </div>
-          </form>
+    <div class="large-12 columns">
+      <div class="row">
+        <div class="large-8 columns">
+          <h1>Search exercise lists</h1>
         </div>
-      </div>
-      </div>
-    </div>
+        <div class="large-4 columns">
+          <a id="create" href="/l/create" class="round alert button right">Create new list</a>
+        </div>
+        <hr>
+        <div class="row collapse">
+          <div class="panel radius">
+            <form method="POST" id="search_options">
+              {% csrf_token %}
+              <div class="row" id="search">
+                <div class="row">
+                  <div class="large-4 columns">
+                    <div class="row collapse prefix-radius">
+                      <div class="large-2 columns">
+                        <span class="prefix"><img src="{% static "media/icons/planet.png" %}"></span>
+                      </div>
+                      <div class="large-10 columns left">
+                        <input placeholder="{% trans "List name" %}" type="text" name="title">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="large-4 columns">
+                    <div class="row collapse prefix-radius">
+                      <div class="small-2 columns">
+                        <span class="prefix" id="user_image"><div id="astronaut"></div></span>
+                      </div>
+                      <div class="small-10 columns left">
+                        <input placeholder="{% trans "Author name" %}" type="text" name="user">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="small-4 columns">
+                    <select name="prog_lang" class="radius">
+                      <option value="" selected>{% trans "Choose programming language" %}</option>
+                      {% for lang in languages %}
+                        <option value="{{ lang.name }}">{{ lang.name }}</option>
+                      {% endfor %}
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div id="advanced_search">
+                <a class="expander" href="#">Advanced search</a>
+              </div>
+              <div class="content">
+                <div class="row">
 
-  <div class="row" id="galaxy-navigation">
+                  <div class="large-5 columns">
+                    Subjects (separated with a comma)
+                    <div class="row collapse prefix-radius">
+                      <input type="text" id="subjects" name="subjects" class="text-center">
+                    </div>
+                  </div>
 
-    <div class="planets">
-      {% for list in all_lists|copy_list %}
-        <div>
-        {% if list.programming_language.id == 1 %}
-          <div class="planet python">
-        {% elif list.programming_language.id == 2 %}
-          <div class="planet cpp">
-        {% elif list.programming_language.id == 3 %}
-          <div class="planet sql">
-        {% endif %}
-      {{ forloop.counter }}
-      </div>
+                  <div class="large-4 columns">
+                    <div class="row">
+                      <div id="amount"></div>
+                      <div id="slider-range"></div>
+                    </div>
+                  </div>
+                  <input type="hidden" id="min_difficulty" name="min_difficulty" readonly="True" class="text-center" value="1">
+                  <input type="hidden" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
 
-      </div>
-      {% endfor %}
-      </div>
+                  <div class="large-2 columns right">
+                    Sort:
+                    <select id="order_mode" name="order_mode">
+                      <option>Ascending</option>
+                      <option>Descending</option>
+                    </select>
+                  </div>
 
-      <div class="row informations">
-        {% for list in all_lists|copy_list %}
-        <div class="large-4 columns large-centered">
-          <div class="information panel radius" id="info{{ forloop.counter }}" hidden="True">
-            <div class="row">
-              <div class="text-center">
-                <b>{{ list.name }}</b>
+                </div>
               </div>
-            </div>
-            <br>
-            <div class="row">
-              <div class="text-center">
-                <b>Difficulty:</b> {{ list.difficulty }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="text-center">
-                <b>Created by:</b> {{ list.creatorName }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="text-center">
-                <b>Exercises:</b> {{ list.amountOfExercises }}
-              </div>
-            </div>
-            <div class="row">
-              <div class="text-center">
-                <b>Subjects:</b>
-                |{% for subj in list.allSubjects %}
-                {{ subj }} |
-                {% endfor %}
-              </div>
-            </div>
 
-            <div class="row">
-              <div class="text-center">
-                <a class="round tiny button" type="button" href="/l/{{ list.id }}">Explore!</a>
+              <div class="row">
+                <div class="large-2 columns right">
+                  <button class="round button" id="search_button">Search</button>
+                </div>
+
               </div>
-            </div>
+            </form>
           </div>
         </div>
-        {% endfor %}
       </div>
+    </div>
+
+    <div class="row" id="galaxy-navigation">
+
+      <div class="planets">
+        {% for list in all_lists|copy_list %}
+          <div>
+          {% if list.programming_language.id == 1 %}
+            <div class="planet python">
+          {% elif list.programming_language.id == 2 %}
+            <div class="planet cpp">
+          {% elif list.programming_language.id == 3 %}
+            <div class="planet sql">
+          {% endif %}
+        {{ forloop.counter }}
+        </div>
+
+        </div>
+        {% endfor %}
+        </div>
+
+        <div class="row informations">
+          {% for list in all_lists|copy_list %}
+            <div class="large-4 columns large-centered list_info">
+              <div class="information panel radius" id="info{{ forloop.counter }}" hidden="True">
+                <div class="row">
+                  <div class="text-center">
+                    <b>{{ list.name }}</b>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="text-center">
+                    <b>Difficulty:</b> {{ list.difficulty }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="text-center">
+                    <b>Created by:</b> {{ list.creatorName }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="text-center">
+                    <b>Exercises:</b> {{ list.amountOfExercises }}
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="text-center">
+                    <b>Subjects:</b>
+                    |{% for subj in list.allSubjects %}
+                    {{ subj }} |
+                  {% endfor %}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="text-center">
+                    <a class="round tiny button" type="button" href="/l/{{ list.id }}">Explore!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
 
 
+        </div>
       </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <hr />
-  <div class="large-12 columns">
-    <div class="large-4 columns">
+  <div class="row">
+    <hr />
+    <div class="large-12 columns">
+      <div class="large-4 columns">
         <p><span class="octicon octicon-chevron-right"></span> Planets/Programming Language</p>
         {{ lists_per_prog_lang_graph | safe }}
-    </div>
-    <div class="large-4 columns">
+      </div>
+      <div class="large-4 columns">
         <p><span class="octicon octicon-chevron-right"></span> Most Popular Subjects</p>
         {{ most_popular_subjects | safe }}
-    </div>
-    <div class="large-4 columns">
+      </div>
+      <div class="large-4 columns">
         <p><span class="octicon octicon-chevron-right"></span> Users who made the most lists</p>
         {{ users_with_mosts_made_lists | safe }}
+      </div>
     </div>
   </div>
-</div>
 {% endblock %}
 
 {% block body_js %}
@@ -242,7 +242,14 @@
       });
       var id = $($('.planets').find('.slick-center')).find('.planet').text();
       $('#info'+ $.trim(id)).show();
+      var maxHeight = 0;
+      $('.list_info').each(function(){
+        if ($(this).find('.panel').height() > maxHeight) { maxHeight = $(this).height(); }
+      });
+
+      $('.informations').height(maxHeight+20);
     }
+
     $(document).ready(function(){
       createSlick();
       $("#amount").text("Planet difficulty min-max: 1 - 5");
