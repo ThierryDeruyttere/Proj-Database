@@ -162,16 +162,14 @@
       </div>
     </div>
 
-
-
-    <div class="row">
-      <div class="large-5 columns">
+    <div class="row large-centered">
+      <div class="large-6 columns">
         <div class="signup-panel">
           <div class="row collapse">
-            <div class="small-1 columns">
+            <div class="large-1 columns">
               <img src={% static "media/icons/planet.png" %}/>
             </div>
-            <div class="small-11 columns">
+            <div class="large-11 columns">
               <p class="welcome">{% trans "Already a member" %}</p>
             </div>
             <div class="text-center">
@@ -181,19 +179,19 @@
               <form method="post" action="/login/" data-abide>
                 {% csrf_token %}
                 <div class="row collapse">
-                  <div class="small-1 columns">
+                  <div class="large-2 columns">
                     <span class="prefix"><i class="fi-mail size-28"></i></span>
                   </div>
-                  <div class="small-11  columns">
+                  <div class="large-8 columns end">
                     <input type="email" required placeholder="{% trans "Email Address" %}" id="your_email" name="your_email" value="{{ your_email }}">
                     <small class="error">{% trans "Enter a valid Email Address." %}</small>
                   </div>
                 </div>
                 <div class="row collapse">
-                  <div class="small-1 columns ">
+                  <div class="large-2 columns">
                     <span class="prefix"><i class="fi-lock size-28"></i></span>
                   </div>
-                  <div class="small-11 columns ">
+                  <div class="large-8 columns end">
                     <input type="password" required placeholder="{% trans "Password" %}" id="your_password_login" name="your_password">
                     <small class="error">{% trans "Enter a valid Password." %}</small>
                   </div>
@@ -205,7 +203,7 @@
         </div>
       </div>
 
-      <div class="large-5 columns">
+      <div class="large-6 columns">
         <div class="signup-panel">
           <div class="row collapse">
             <div class="small-1 columns">
