@@ -9,7 +9,7 @@
 {% block base_body %}
   <div class="row">
     <div class="large-3 columns text-center ">
-      <div class="panel">
+      <div class="panel radius">
         <a href="#"><img src="{% static user.getPicture %}"></a>
         <h5><a href="#">{{ user.name }}</a></h5>
 
@@ -26,7 +26,7 @@
 
 
     <div class="large-9 columns">
-      <ul class="tabs" data-tab>
+      <ul class="tabs radius" data-tab>
         <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
         <li class="tab-title"><a href="#friends">{% trans "Friends" %}</a></li>
         <li class="tab-title"><a href="#groups">{% trans "Groups" %}</a></li>
@@ -301,34 +301,32 @@
         </div>
         <div class="content" id="scores">
           <div class="row">
-            <div class="large-8 columns">
-              <div class="panel">
+            <div class="large-12 columns">
+              <div class="panel radius">
                 {% if list_on_lang_by_user %}
-                  Lists made per programming language
-                  </br>
-                  {{ list_on_lang_by_user | safe }}
-                  </br>
-                  Exercises made per programming language
-                  </br>
-                  {{ ex_on_lang_by_user | safe }}
-                  </br>
-                  Average Score (%) per programming language
-                  </br>
-                  {{ score_per_lang | safe }}
-                  </br>
-                  Total amount of lists made: {{ user.amountOfListsMade }}
-                  </br>
-                  Average Score: {{ user.averageScoreOnLists }} %
-                  </br>
+                  <p>Lists made per programming language</p>
+                  <div class="text-center">
+                    {{ list_on_lang_by_user | safe }}
+                  </div>
+                  <hr />
+                  <p>Exercises made per programming language</p>
+                  <div class="text-center">
+                    {{ ex_on_lang_by_user | safe }}
+                  </div>
+                  <hr />
+                  <p>Average Score (%) per programming language</p>
+                  <div class="text-center">
+                    {{ score_per_lang | safe }}
+                  </div>
+                  <hr />
+                  <p>Total amount of lists made: {{ user.amountOfListsMade }}</p>
+                  <p>Average Score: {{ user.averageScoreOnLists }} %</p>
                 {% else %}
-                  <h3>You have not completed any Exercises yet!</h3>
+                  <p>You have not completed any exercise lists yet!</p>
                 {% endif %}
-                  Total amount of groups joined: {{ user.amountOfGroupsJoined }}
-                  </br>
-                  Time member of site: {{ user.timeJoinedString }}
-                  </br>
-                  Last login: {{ user.last_login }}
-                  </br>
+                  <p>Total amount of groups joined: {{ user.amountOfGroupsJoined }}</p>
+                  <p>Time member of site: {{ user.timeJoinedString }}</p>
+                  <p>Last login: {{ user.last_login }}</p>
               </div>
             </div>
           </div>
