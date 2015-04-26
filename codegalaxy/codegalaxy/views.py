@@ -346,11 +346,6 @@ def me(request):
 
 @require_login
 def group(request, id=0):
-    # https://cdn4.iconfinder.com/data/icons/e-commerce-icon-set/48/More-512.png
-
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half-512.png
-    # https://cdn2.iconfinder.com/data/icons/picol-vector/32/group_half_add-512.png
-
     user = logged_user(request)
     browser_lang = getBrowserLanguage(request)
 
@@ -440,6 +435,11 @@ def group(request, id=0):
                 exercises_made = one_user.allExerciseListsShared(browser_lang.id)
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
+
+                for member in member_of_groups:
+                    if member.user.id != user.id:
+                        if member.group.group_type == 1:
+                            member_of_groups.remove(member)
 
                 all_data.extend(accepted_friendships)
                 all_data.extend(member_of_groups)
