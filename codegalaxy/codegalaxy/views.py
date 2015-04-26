@@ -200,6 +200,11 @@ def user(request, id=0):
         exercises_made = user.allExerciseListsShared(browser_lang.id)
         exercises_created = user.getAllExercisesCreated(browser_lang.id)
 
+        if user.id != current_user.id:
+            for member in member_of_groups:
+                if member.group.group_type == 1:
+                    member_of_groups.remove(member)
+
         all_data = []
         all_data.extend(accepted_friendships)
         all_data.extend(member_of_groups)
