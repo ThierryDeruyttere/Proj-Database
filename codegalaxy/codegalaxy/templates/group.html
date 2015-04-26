@@ -43,41 +43,69 @@
 
     <div class="tabs-content">
       <div class="content active" id="feed">
-        {% for item in data %}
-        {% if item.type == 'FriendsWith' %}
-        <div class="row">
-          <div class="large-1 columns small-3"><img src="{% static item.user.getPicture %}"/></div>
-          <div class="large-11 columns">
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.id }}">{{ item.friend.name }}</a>
-              <br/><small>{{ item.befriended_on }}</small></p>
-            </div>
-        </div>
-
-        <hr/>
-        {% endif %}
-        {% if item.type == 'UserInGroup'%}
-        <div class="row">
-          <div class="large-1 columns small-3"><img src="{% static item.user.getPicture %}"/></div>
-          <div class="large-11 columns">
-            <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.id }}">{{ item.group.group_name }}</a>
-              <br><small>{{ item.joined_on }}</small></p>
+{% for item in data %}
+          {% if item.type == 'FriendsWith' %}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.befriended_on }}</small>
+                </p>
+              </div>
             </div>
           </div>
-
-          <hr/>
+          {% endif %}
+          {% if item.type == 'UserInGroup'%}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.joined_on }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
           {% endif %}
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
-            <div class="large-1 columns small-3">
-              <img src="{% static item.user.getPicture %}"/>
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> {% trans "and scored" %} {{ item.personal_list.score }}%.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.completed_on }}</small>
+                </p>
+              </div>
             </div>
-            <div class="large-11 columns">
-              <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
-                <br><small>{{ item.completed_on }}</small></p>
+          </div>
+          {% endif %}
+          {% if item.type == 'CreatedExerciseList'%}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.created_on }}</small>
+                </p>
+              </div>
             </div>
-            <hr/>
-            {% endif %}
-            {% endfor %}
+          </div>
+          {% endif %}
+          <hr/>
+          {% endfor %}
             <div class="pagination-centered">
               <ul class="pagination">
                 {% if data.has_previous %}
@@ -119,7 +147,6 @@
               <form method="POST">
               {% csrf_token %}
               <input type="submit" value="{% trans "Delete Group" %}" name="delete_group" class="button radius alert">
-              </form>
             {% endif %}
             <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
               {% csrf_token %}
@@ -204,4 +231,5 @@
         </div>
       </div>
     </div>
-  </div>
+
+{% endblock base_body %}
