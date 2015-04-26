@@ -265,11 +265,9 @@ class User:
 
     def personalListWithId(self, list_id, lang_id):
         exercise_lists_info = dbw.getMadeListForUser(self.id)
-        print(exercise_lists_info)
 
         for exercise_list in exercise_lists_info:
             if exercise_list['exerciseList_id'] == list_id:
-                print("DIT IS TOF!")
                 exercise_list_object = PersonalList(exercise_list['rating'],
                                                     exercise_list['score'],
                                                     exercise_list['exerciseList_id'],

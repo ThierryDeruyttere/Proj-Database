@@ -116,13 +116,18 @@
             </div>
           </div>
           <div class="content" id="edit_group">
+            {% if group_permissions == 0 %}
+              <form method="POST">
+              {% csrf_token %}
+              <input type="submit" value="{% trans "Delete Group" %}" name="delete_group" class="button radius alert">
+            {% endif %}
             <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
               {% csrf_token %}
               <h5>{% trans "Upload group picture" %}</h5>
               <p>
                 <input id="id_image" type="file" class="resizeme" name="image">
               </p>
-              <input type="submit" value="{% trans "Edit Group Picture" %}" name="update_group_picture" class="small button round success"/>
+              <input type="submit" value="{% trans "Edit Group Picture" %}" name="update_group_picture" class="small button round success">
             </form>
             <hr/>
           </div>
@@ -137,7 +142,7 @@
                 {% csrf_token %}
                 <div class="small-6 large-4 columns">
                   <input type="hidden" name="user_id_to_add" value="{{ user.id }}">
-                  <input type="submit" name="add_friend" value="{% trans "Add User" %}" class="button round success"/>
+                  <input type="submit" name="add_friend" value="{% trans "Add User" %}" class="button round success">
                 </div>
               </form>
               <hr/>
@@ -175,9 +180,6 @@
       </div>
     </div>
 
-
-
-
 <div id="ChangePermissions" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
   <ul class="button-group even-3">
     <li>
@@ -192,7 +194,7 @@
           {% csrf_token %}
           <div id="myInput">
           </div>
-          <input type="submit" name="upgrade_user" value="Make Admin" class="button success"/>
+          <input type="submit" name="upgrade_user" value="Make Admin" class="button success">
         </form>
       </div>
     <li>
@@ -201,7 +203,7 @@
           {% csrf_token %}
           <div id="myInput">
           </div>
-          <input type="submit" name="remove_user" value="Delete User" class="button alert"/>
+          <input type="submit" name="remove_user" value="Delete User" class="button alert">
         </form>
       </div>
     </li>

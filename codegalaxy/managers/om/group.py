@@ -35,6 +35,9 @@ class Group:
             group_picture = "media/icons/group.png"
         return group_picture
 
+    def disband(self):
+        dbw.deleteGroup(self.id)
+
     # list of users
     def allMembers(self):
         '''

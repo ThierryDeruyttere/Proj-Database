@@ -966,6 +966,11 @@ def updateMadeExercise(list_id, user_id, exercise_number, answer, solved, comple
 
 # DELETE
 
+def deleteGroup(group_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM userInGroup WHERE group_id={group_id};'.format(group_id=group_id))
+    cursor.execute('DELETE FROM groups WHERE id={group_id};'.format(group_id=group_id))
+    
 def deleteFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))

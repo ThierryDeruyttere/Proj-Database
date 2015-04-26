@@ -337,7 +337,6 @@ def group(request, id=0):
 
     user = logged_user(request)
     browser_lang = getBrowserLanguage(request)
-    print("USER = " + str(user))
 
     group = object_manager.createGroup(id)
 
@@ -386,6 +385,10 @@ def group(request, id=0):
         elif 'upgrade_user' in request.POST:
             user_id_to_upgrade = request.POST.get('user_id_to_upgrade')
             group.upgradeUserPermissions(user_id_to_upgrade)
+
+        elif 'delete_group' in request.POST:
+            group.disband()
+            return redirect('/social/')
 
     is_member = False
     if group:
@@ -455,7 +458,6 @@ def group(request, id=0):
 
         group_permissions = []
         if is_member:
-            print("USER_ID: " + str(user.id) + " in groep: " + str(group.id) + group.group_name)
             group_permissions = group.getUserPermissions(user.id)
         new_user_list = []
         for group_member in user_list:
