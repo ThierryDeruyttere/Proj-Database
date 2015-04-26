@@ -331,7 +331,7 @@
             {% else %}
             {% if my_profile %}
             <h4>You have not joined a group yet.</h4>
-            <a href="/social" class="button">Take a look!</a>
+            <a href="/social" class="button">{% trans "Take a look!" %}</a>
             {% else %}
             <div class="row">
               <h4>{{ user.first_name }} {% trans "isn't a member of any groups yet." %}</h4>
@@ -345,29 +345,29 @@
             <div class="large-12 columns">
               <div class="panel radius">
                 {% if list_on_lang_by_user %}
-                  <p><span class="octicon octicon-chevron-right"></span> Lists made per programming language</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Lists made per programming language" %}</p>
                   <div class="text-center">
                     {{ list_on_lang_by_user | safe }}
                   </div>
                   <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> Exercises made per programming language</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Exercises made per programming language" %}</p>
                   <div class="text-center">
                     {{ ex_on_lang_by_user | safe }}
                   </div>
                   <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> Average Score (%) per programming language</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score (%) per programming language" %}</p>
                   <div class="text-center">
                     {{ score_per_lang | safe }}
                   </div>
                   <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> Total amount of lists made: {{ user.amountOfListsMade }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> Average Score: {{ user.averageScoreOnLists }}%</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of lists made:" %} {{ user.amountOfListsMade }}</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score:" %} {{ user.averageScoreOnLists }}%</p>
                 {% else %}
-                  <p><span class="octicon octicon-chevron-right"></span> You have not completed any exercise lists yet!</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "You have not completed any exercise lists yet!" %}</p>
                 {% endif %}
-                  <p><span class="octicon octicon-chevron-right"></span> Total amount of groups joined: {{ user.amountOfGroupsJoined }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> Time member of site: {{ user.timeJoinedString }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> Last login: {{ user.last_login }}</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of groups joined:" %} {{ user.amountOfGroupsJoined }}</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Time member of site:" %} {{ user.timeJoinedString }}</p>
+                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Last login:" %} {{ user.last_login }}</p>
               </div>
             </div>
           </div>
