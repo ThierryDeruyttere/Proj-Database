@@ -52,6 +52,10 @@ def home(request):
             exercises_made = friend.allExerciseListsShared(browser_lang.id)
             exercises_created = friend.getAllExercisesCreated(browser_lang.id)
 
+            for memberInGroup in member_of_groups:
+                if memberInGroup.group.group_type != 0:
+                    member_of_groups.remove(memberInGroup)
+                    
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
             feed.extend(exercises_made)

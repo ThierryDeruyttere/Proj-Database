@@ -41,7 +41,7 @@
               <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
               <div class="large-10 columns end">
                 <p>
-                  <strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
+                  <strong>{{ item.user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
                 </p>
                 <p class="feed-timestamp">
                   <small><span class="octicon octicon-clock"></span>{{ item.befriended_on }}</small>
@@ -57,7 +57,7 @@
               <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
               <div class="large-10 columns end">
                 <p>
-                  <strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
+                  <strong>{{ item.user.name }} </strong>{% trans "became member of the group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
                 </p>
                 <p class="feed-timestamp">
                   <small><span class="octicon octicon-clock"></span>{{ item.joined_on }}</small>
@@ -73,7 +73,7 @@
               <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
               <div class="large-10 columns end">
                 <p>
-                  <strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
+                  <strong>{{ item.user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> {% trans "and scored" %} {{ item.personal_list.score }}%.
                 </p>
                 <p class="feed-timestamp">
                   <small><span class="octicon octicon-clock"></span>{{ item.completed_on }}</small>
@@ -88,7 +88,7 @@
               <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
               <div class="large-10 columns end">
                 <p>
-                  <strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
+                  <strong>{{ item.user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
                 </p>
                 <p class="feed-timestamp">
                   <small><span class="octicon octicon-clock"></span>{{ item.created_on }}</small>
@@ -97,7 +97,7 @@
             </div>
           </div>
           {% endif %}
-          <hr />
+          <hr/>
           {% endfor %}
         </div>
         <div class="pagination-centered">
