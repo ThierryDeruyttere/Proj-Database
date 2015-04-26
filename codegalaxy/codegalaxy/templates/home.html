@@ -8,7 +8,7 @@
   {% if logged_in %}
     <div class="row">
       <div class="large-3 columns ">
-        <div class="panel">
+        <div class="panel radius">
           <img src="{% static user.getPicture %}"/>
           <div class="text-center">
             <h5>{{ user.name }}</h5>
@@ -20,84 +20,86 @@
         </div>
       </div>
       <div class="large-6 columns">
-        <div class="row collapse">
-          <form id="f_search_social" method="POST" action="/social/">
+        <form id="f_search_social" method="POST" action="/social/">
+          <div class="row collapse postfix-radius">
             {% csrf_token %}
             <div class="large-9 columns">
               <input type="text" name="s_term" placeholder="{% trans "Explore the galaxy..." %}">
               <input type="hidden" name="s_social" value="True">
             </div>
-            <a href="#" id="b_search_social" class="tiny alert button">{% trans "Search" %}</a>
-          </form>
-        </div>
-        {% for item in feed_data %}
-          {% if item.type == 'FriendsWith' %}
-            <div class="row">
-              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src={% static item.user.getPicture %}/></a></div>
-              <div class="large-10 columns">
-                {% if item.friend.id == user.id %}
-                  <p>{% trans "I" %} {% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.user.name }}</a>
-                    <br><small>{{ item.befriended_on }}</small></p>
-                {% else %}
-                  <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.name }}</a>
-                    <br><small>{{ item.befriended_on }}</small></p>
-                {% endif %}
-              </div>
+            <div class="large-3 columns">
+              <a href="#" id="b_search_social" class="tiny alert button postfix">{% trans "Search" %}</a>
             </div>
+          </div>
+        </form>
+        <div id="feed">
 
-            <hr/>
-          {% endif %}
-          {% if item.type == 'CreatedExerciseList'%}
-            <div class="row">
-              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
-              <div class="large-10 columns">
-              {% if item.user.id == user.id %}
-                <p>{% trans "I" %} {% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
-                <br><small>{{ item.created_on }}</small></p>
-              {% else %}
-                <p><strong>{{ item.user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>
-                <br><small>{{ item.created_on }}</small></p>
-              {% endif %}
+          {% for item in feed_data %}
+          {% if item.type == 'FriendsWith' %}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.befriended_on }}</small>
+                </p>
               </div>
             </div>
-            <hr/>
+          </div>
           {% endif %}
           {% if item.type == 'UserInGroup'%}
-            {% if item.group.group_type == 0 %}
-              <div class="row">
-                <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
-                <div class="large-10 columns">
-
-                  {% if item.user.id == user.id %}
-                    <p>{% trans "I" %} {% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
-                      <br><small>{{ item.joined_on }}</small></p>
-                  {% else %}
-                    <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "became member of:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>
-                      <br><small>{{ item.joined_on }}</small></p>
-                  {% endif %}
-                </div>
-              </div>
-
-              <hr/>
-            {% endif %}
-          {% endif %}
-          {% if item.type == 'MadeExerciseList'%}
-            <div class="row">
-              <div class="large-2 columns small-3"><a href="/u/{{ item.user.id }}"><img src="{% static item.user.getPicture %}"/></a></div>
-              <div class="large-10 columns">
-                {% if item.user.id == user.id %}
-                  <p>{% trans "I" %} {% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
-                    <br><small>{{ item.completed_on }}</small></p>
-                {% else %}
-                  <p><strong><a href="/u/{{ item.user.id }}">{{ item.user.name }}</a> </strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
-                    <br><small>{{ item.completed_on }}</small></p>
-                {% endif %}
+          {% if item.group.group_type == 0 %}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.joined_on }}</small>
+                </p>
               </div>
             </div>
-
-            <hr/>
+          </div>
           {% endif %}
-        {% endfor %}
+          {% endif %}
+          {% if item.type == 'MadeExerciseList'%}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> and scored {{ item.personal_list.score }}%.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.completed_on }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          {% if item.type == 'CreatedExerciseList'%}
+          <div class="row">
+            <div class="feed-item">
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-10 columns end">
+                <p>
+                  <strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
+                </p>
+                <p class="feed-timestamp">
+                  <small><span class="octicon octicon-clock"></span>{{ item.created_on }}</small>
+                </p>
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <hr />
+          {% endfor %}
+        </div>
         <div class="pagination-centered">
           <ul class="pagination">
             {% if feed_data.has_previous %}
@@ -137,7 +139,7 @@
       <aside class="large-3 columns hide-for-small">
       </aside>
       <div class="large-3 columns ">
-        <div class="panel callout radius">
+        <div class="panel radius">
           {% trans "Recommended Lists:" %}<br/>
           {% if recommended %}
             {% for recommended_list in recommended %}
