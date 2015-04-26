@@ -95,6 +95,37 @@ class Group:
                 if friend.id == member.id:
                     friends_in_group += friend.name() + ' | '
 
+        if len(friends_in_group) < 5:
+            result = '''
+            <div class="large-12 columns end">
+              <div class="panel radius">
+                <div class="row">
+                  <div class="large-3 columns">
+                    <a href="/g/{id}">
+                      <img src="/static/{picture}" />
+                    </a>
+                  </div>
+                  <div class="large-9 columns left">
+                    <div class="row">
+                      <a href="/g/{id}">
+                        <h5 class="text-cut-off"><b>{name}</b> ({nr_of_members} members)</h5>
+                      </a>
+                    </div>
+                    <br>
+                    <br>
+                    <div class="row">
+                      <a href="/g/{id}">
+                        <h6 class="text-cut-off"><b>Owner:</b> {owner}</h6>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            '''.format(id=self.id, picture=self.getPicture(), nr_of_members=len(self.allMembers()), name=self.name(), owner=group_owner)
+
+            return result
+
         result = '''
         <div class="large-12 columns end">
           <div class="panel radius">
