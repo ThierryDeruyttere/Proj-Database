@@ -19,6 +19,9 @@ $ git config --global branch.autosetuprebase always
 In de repo ook:
 $ git config branch.master.rebase true
 ```
+## Translations
+$ django-admin.py makemessages -l nl
+$ django-admin.py compilemessages -l nl
 
 ## Tech
 ###Python Libraries
