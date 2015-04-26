@@ -48,6 +48,13 @@
     outline: none;
 }
 
+.panel {
+    border-color: rgb(171, 171, 171);
+    &.radius {
+        border-radius: 8px;
+    }
+}
+
 /* CodeMirror text area styling */
 .CodeMirror {
     border-radius: 15px;

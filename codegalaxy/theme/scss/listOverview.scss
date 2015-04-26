@@ -79,36 +79,36 @@ input#user::-webkit-input-placeholder{
     margin-right: auto;
 }
 
-.ui-slider-handle{
+.ui-slider-handle {
     background: #f04124 !important;
     border-radius: 1000px !important;
     width: 2rem !important;
 }
 
-.ui-slider-handle:hover{
+.ui-slider-handle:hover {
 
     background: #75c4ff !important;
 }
 
 
-.text-offset{
+.text-offset {
     text-align: center;
 }
 
-#user_image{
+#user_image {
     text-align: center;
 }
 
 
-.slick-list{
+.slick-list {
     height: 7em !important;
 }
 
-.slick-prev, .slick-next{
+.slick-prev, .slick-next {
     top: 25% !important;
 }
 
-#astronaut{
+#astronaut {
     position: absolute;
     top: 0;
     left: 0;
@@ -121,6 +121,18 @@ input#user::-webkit-input-placeholder{
     transform: scale(0.7);
 }
 
-.informations{
+.informations {
   height: 17em;
+}
+
+#search_button {
+    margin-top: 10px;
+}
+
+.content {
+    display:none;
+}
+
+#slider-range {
+    margin-top: 10px;
 }

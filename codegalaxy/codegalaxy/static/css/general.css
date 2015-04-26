@@ -85,8 +85,17 @@
   outline: none;
 }
 
+/* line 51, ../../../theme/scss/general.scss */
+.panel {
+  border-color: #ababab;
+}
+/* line 53, ../../../theme/scss/general.scss */
+.panel.radius {
+  border-radius: 8px;
+}
+
 /* CodeMirror text area styling */
-/* line 52, ../../../theme/scss/general.scss */
+/* line 59, ../../../theme/scss/general.scss */
 .CodeMirror {
   border-radius: 15px;
   border-color: #3a3a3a;
@@ -95,17 +104,17 @@
   margin: 0.8em 0em;
 }
 
-/* line 60, ../../../theme/scss/general.scss */
+/* line 67, ../../../theme/scss/general.scss */
 .CodeMirror.error {
   border-color: #790000;
 }
 
-/* line 64, ../../../theme/scss/general.scss */
+/* line 71, ../../../theme/scss/general.scss */
 .CodeMirror.success {
   border-color: #007900;
 }
 
-/* line 68, ../../../theme/scss/general.scss */
+/* line 75, ../../../theme/scss/general.scss */
 .CodeMirror-gutter {
   border-width: 0px 3px 0px 0px;
   border-style: solid;
@@ -114,14 +123,14 @@
   margin-right: 6px;
 }
 
-/* line 76, ../../../theme/scss/general.scss */
+/* line 83, ../../../theme/scss/general.scss */
 .profile_picture {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
-/* line 83, ../../../theme/scss/general.scss */
+/* line 90, ../../../theme/scss/general.scss */
 .top-bar .mega-octicon {
   width: 32px;
   text-align: center;

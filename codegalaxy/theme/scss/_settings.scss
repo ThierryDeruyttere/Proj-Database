@@ -970,9 +970,9 @@ $legend-padding: rem-calc(0 3);
 // $include-html-panel-classes: $include-html-classes;
 
 // We use these to control the background and border styles
-$panel-bg: $white;
-// $panel-border-style: solid;
-// $panel-border-size: 1px;
+$panel-bg: $snow;
+$panel-border-style: solid;
+$panel-border-size: 5px;
 
 // We use this % to control how much we darken things on hover
 // $panel-function-factor: -11%;

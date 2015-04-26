@@ -5431,11 +5431,11 @@ ul.pagination li {
 /* line 80, ../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel {
   border-style: solid;
-  border-width: 1px;
-  border-color: #e3e3e3;
+  border-width: 5px;
+  border-color: #dedede;
   margin-bottom: 1.25rem;
   padding: 1.25rem;
-  background: #FFFFFF;
+  background: #F9F9F9;
   color: #131a2d;
 }
 /* line 55, ../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
@@ -5462,7 +5462,7 @@ ul.pagination li {
 /* line 82, ../../../theme/bower_components/foundation/scss/foundation/components/_panels.scss */
 .panel.callout {
   border-style: solid;
-  border-width: 1px;
+  border-width: 5px;
   border-color: #c2e5ff;
   margin-bottom: 1.25rem;
   padding: 1.25rem;

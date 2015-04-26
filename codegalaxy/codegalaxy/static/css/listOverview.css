@@ -135,3 +135,18 @@ input#user::-webkit-input-placeholder {
 .informations {
   height: 17em;
 }
+
+/* line 128, ../../../theme/scss/listOverview.scss */
+#search_button {
+  margin-top: 10px;
+}
+
+/* line 132, ../../../theme/scss/listOverview.scss */
+.content {
+  display: none;
+}
+
+/* line 136, ../../../theme/scss/listOverview.scss */
+#slider-range {
+  margin-top: 10px;
+}
