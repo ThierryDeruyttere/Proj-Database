@@ -1,4 +1,9 @@
 /* line 1, ../../../theme/scss/general.scss */
+.size-8 {
+  font-size: 8px;
+}
+
+/* line 2, ../../../theme/scss/general.scss */
 .size-12 {
   font-size: 12px;
 }
@@ -8,64 +13,64 @@
   font-size: 14px;
 }
 
-/* line 5, ../../../theme/scss/general.scss */
+/* line 4, ../../../theme/scss/general.scss */
 .size-16 {
   font-size: 16px;
 }
 
-/* line 7, ../../../theme/scss/general.scss */
+/* line 5, ../../../theme/scss/general.scss */
 .size-18 {
   font-size: 18px;
 }
 
-/* line 9, ../../../theme/scss/general.scss */
+/* line 6, ../../../theme/scss/general.scss */
 .size-21 {
   font-size: 21px;
 }
 
-/* line 11, ../../../theme/scss/general.scss */
+/* line 7, ../../../theme/scss/general.scss */
 .size-24 {
   font-size: 24px;
 }
 
-/* line 13, ../../../theme/scss/general.scss */
+/* line 8, ../../../theme/scss/general.scss */
 .size-28 {
   font-size: 28px;
 }
 
-/* line 15, ../../../theme/scss/general.scss */
+/* line 9, ../../../theme/scss/general.scss */
 .size-36 {
   font-size: 36px;
 }
 
-/* line 17, ../../../theme/scss/general.scss */
+/* line 10, ../../../theme/scss/general.scss */
 .size-48 {
   font-size: 48px;
 }
 
-/* line 19, ../../../theme/scss/general.scss */
+/* line 11, ../../../theme/scss/general.scss */
 .size-60 {
   font-size: 60px;
 }
 
-/* line 21, ../../../theme/scss/general.scss */
+/* line 12, ../../../theme/scss/general.scss */
 .size-72 {
   font-size: 72px;
 }
 
-/* line 23, ../../../theme/scss/general.scss */
+/* line 14, ../../../theme/scss/general.scss */
 .text-cut-off {
   white-space: nowrap;
   overflow: hidden !important;
   text-overflow: ellipsis;
 }
 
-/* line 29, ../../../theme/scss/general.scss */
+/* line 20, ../../../theme/scss/general.scss */
 .snap-bottom {
   margin-bottom: 0px !important;
 }
 
-/* line 33, ../../../theme/scss/general.scss */
+/* line 24, ../../../theme/scss/general.scss */
 .prog-lang-icon {
   width: 120px;
   height: 120px;
@@ -75,27 +80,27 @@
   border-color: rgba(89, 108, 183, 0);
 }
 
-/* line 43, ../../../theme/scss/general.scss */
+/* line 34, ../../../theme/scss/general.scss */
 .prog-lang-icon.active {
   border-color: #596cb7;
 }
 
-/* line 47, ../../../theme/scss/general.scss */
+/* line 38, ../../../theme/scss/general.scss */
 .no-outline:focus {
   outline: none;
 }
 
-/* line 51, ../../../theme/scss/general.scss */
+/* line 42, ../../../theme/scss/general.scss */
 .panel {
   border-color: #ababab;
 }
-/* line 53, ../../../theme/scss/general.scss */
+/* line 44, ../../../theme/scss/general.scss */
 .panel.radius {
   border-radius: 8px;
 }
 
 /* CodeMirror text area styling */
-/* line 59, ../../../theme/scss/general.scss */
+/* line 50, ../../../theme/scss/general.scss */
 .CodeMirror {
   border-radius: 15px;
   border-color: #3a3a3a;
@@ -104,17 +109,17 @@
   margin: 0.8em 0em;
 }
 
-/* line 67, ../../../theme/scss/general.scss */
+/* line 58, ../../../theme/scss/general.scss */
 .CodeMirror.error {
   border-color: #790000;
 }
 
-/* line 71, ../../../theme/scss/general.scss */
+/* line 62, ../../../theme/scss/general.scss */
 .CodeMirror.success {
   border-color: #007900;
 }
 
-/* line 75, ../../../theme/scss/general.scss */
+/* line 66, ../../../theme/scss/general.scss */
 .CodeMirror-gutter {
   border-width: 0px 3px 0px 0px;
   border-style: solid;
@@ -123,16 +128,40 @@
   margin-right: 6px;
 }
 
-/* line 83, ../../../theme/scss/general.scss */
+/* line 74, ../../../theme/scss/general.scss */
 .profile_picture {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
-/* line 90, ../../../theme/scss/general.scss */
+/* line 81, ../../../theme/scss/general.scss */
 .top-bar .mega-octicon {
   width: 32px;
   text-align: center;
   vertical-align: middle;
+}
+
+/* line 89, ../../../theme/scss/general.scss */
+#feed hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, transparent, rgba(209, 209, 209, 0.75), transparent);
+  background-image: -moz-linear-gradient(left, transparent, rgba(209, 209, 209, 0.75), transparent);
+  background-image: -ms-linear-gradient(left, transparent, rgba(209, 209, 209, 0.75), transparent);
+  background-image: -o-linear-gradient(left, transparent, rgba(209, 209, 209, 0.75), transparent);
+}
+
+/* line 100, ../../../theme/scss/general.scss */
+.feed-item p {
+  margin-bottom: 0px;
+}
+/* line 104, ../../../theme/scss/general.scss */
+.feed-item .feed-timestamp {
+  color: rgba(217, 217, 217, 0.7);
+}
+/* line 108, ../../../theme/scss/general.scss */
+.feed-item .octicon {
+  vertical-align: middle;
+  margin-right: 6px;
 }
