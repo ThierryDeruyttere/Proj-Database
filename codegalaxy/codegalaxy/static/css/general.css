@@ -157,10 +157,14 @@
   margin-bottom: 0px;
 }
 /* line 104, ../../../theme/scss/general.scss */
+.feed-item .large-2 {
+  width: 10%;
+}
+/* line 108, ../../../theme/scss/general.scss */
 .feed-item .feed-timestamp {
   color: rgba(217, 217, 217, 0.7);
 }
-/* line 108, ../../../theme/scss/general.scss */
+/* line 112, ../../../theme/scss/general.scss */
 .feed-item .octicon {
   vertical-align: middle;
   margin-right: 6px;
