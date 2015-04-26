@@ -270,8 +270,12 @@ class User:
         for exercise_list in exercise_lists_info:
             if exercise_list['exerciseList_id'] == list_id:
                 print("DIT IS TOF!")
-                exercise_list_object = PersonalList(exercise_list['rating'], exercise_list[
-                                                 'score'], exercise_list['exerciseList_id'], self.id, exercise_list['made_on'], lang_id)
+                exercise_list_object = PersonalList(exercise_list['rating'],
+                                                    exercise_list['score'],
+                                                    exercise_list['exerciseList_id'],
+                                                    self.id,
+                                                    exercise_list['made_on'],
+                                                    lang_id)
                 return exercise_list_object
 
     def shareExerciseListResult(self, list_id):
@@ -470,6 +474,30 @@ class User:
 
     def searchString(self):
         return str(self.name())
+
+    def searchResult(self):
+        result = '''
+        <div class="large-12 columns">
+          <div class="panel radius">
+            <div class="row">
+              <div class="large-3 columns">
+                <a href="/u/{id}">
+                  <img src="/static/{picture}" />
+                </a>
+              </div>
+              <div class="large-9 columns left">
+                <div class="row">
+                  <a href="/u/{id}">
+                    <h5 class="text-cut-off"><b>{name}</b></h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        '''.format(id=self.id, picture=self.getPicture(), name=self.name())
+
+        return result
 
     def ownedLists(self):
         list_objects = []

@@ -85,6 +85,50 @@ class Group:
     def searchString(self):
         return str(self.group_name)
 
+    def searchResult(self, cur_user):
+        group_owner = ''
+        friends_in_group = ' | '
+        for friend in cur_user.allFriends():
+            for member in self.allMembers():
+                if self.getUserPermissions(member.id) == 0:
+                    group_owner = member.name()
+                if friend.id == member.id:
+                    friends_in_group += friend.name() + ' | '
+
+        result = '''
+        <div class="large-12 columns end">
+          <div class="panel radius">
+            <div class="row">
+              <div class="large-3 columns">
+                <a href="/g/{id}">
+                  <img src="/static/{picture}" />
+                </a>
+              </div>
+              <div class="large-9 columns left">
+                <div class="row">
+                  <a href="/g/{id}">
+                    <h5 class="text-cut-off"><b>{name}</b> ({nr_of_members} members)</h5>
+                  </a>
+                </div>
+                <br>
+                <div class="row">
+                  <a href="/g/{id}">
+                    <h6 class="text-cut-off"><b>Owner:</b> {owner}</h6>
+                  </a>
+                </div>
+                <div class="row">
+                  <a href="/g/{id}">
+                    <h6><b>Friends in group:</b> {friends_in_this_group}</h6>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        '''.format(id=self.id, picture=self.getPicture(), nr_of_members=len(self.allMembers()), name=self.name(), owner=group_owner, friends_in_this_group=friends_in_group)
+
+        return result
+
     def __str__(self):
         '''
         @brief string representation of the group

@@ -1,6 +1,7 @@
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.shortcuts import render, redirect
 from django.core.context_processors import request
+from django.utils.translation import ugettext as _
 
 from codegalaxy.search import *
 
@@ -19,50 +20,12 @@ def social(request):
 
     response = ''
     for result in results:
-
-        t = 'u'
         if type(result) is group.Group:
-            t = 'g'
+            response += result.searchResult(current_user)
+        else:
+            response += result.searchResult()
 
-        group_owner = ""
-        friends_in_group = " | "
-        for friend in current_user.allFriends():
-            for member in result.allMembers():
-                if result.getUserPermissions(member.id) == 0:
-                    group_owner = member.name()
-                if friend.id == member.id:
-                    friends_in_group += friend.name() + " | "
-
-        response += '''
-        <div class="large-12 columns end">
-          <div class="panel radius">
-            <div class="row">
-              <div class="large-3 columns">
-                <a href="/{type}/{id}">
-                  <img src="/static/{picture}" />
-                </a>
-              </div>
-              <div class="large-9 columns left">
-                <div class="row">
-                  <a href="/{type}/{id}">
-                    <h5 class="text-cut-off"><b>{name}</b> ({nr_of_members} members)</h5>
-                  </a>
-                </div>
-                <br>
-                <div class="row">
-                  <a href="/{type}/{id}">
-                    <h6 class="text-cut-off"><b>Owner:</b> {owner}</h6>
-                  </a>
-                </div>
-                <div class="row">
-                  <a href="/{type}/{id}">
-                    <h6><b>Friends in group:</b> {friends_in_this_group}</h6>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        '''.format(type=t, id=result.id, picture=result.getPicture(), nr_of_members = len(result.allMembers()), name=result.name(), owner=group_owner, friends_in_this_group=friends_in_group)
+    if response == '':
+        response = _('There are no search results to display.')
 
     return HttpResponse(response)
