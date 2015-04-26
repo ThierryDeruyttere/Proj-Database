@@ -1,6 +1,7 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 {% load i18n %}
+{% load custom_filters %}
 
 {% block page_css %}
   <link rel="stylesheet" href="{% static "css/answerQuestion.css" %}" />
@@ -11,7 +12,6 @@
 
     <div class="row">
       <div data-alert class="alert-box info radius question">
-        {{ exercise.question }}
       </div>
     </div>
 
@@ -87,7 +87,7 @@
             <div data-alert class="alert-box hints secondary">
               <ul>
                 {% for hint in hints %}
-                  <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint }}</label></li>
+                  <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint|safe }}</label></li>
                 {% endfor %}
               </ul>
             </div>
@@ -169,6 +169,10 @@
     var curr_hint = 1;
 
     $(document).ready(function(){
+      var str = "{%  multi_line exercise.question %}";
+      var html = $.parseHTML(str);
+      $('.question').append(html);
+
       $(".hints").hide();
       checkAvailable();
 

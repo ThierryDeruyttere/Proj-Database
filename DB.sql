@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: codegalaxy
 -- ------------------------------------------------------
--- Server version	5.5.41-0ubuntu0.14.04.1
+-- Server version	5.6.24-0ubuntu2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,10 +16,16 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `answer`
+-- Current Database: `codegalaxy`
 --
 
-USE codegalaxy
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `codegalaxy` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `codegalaxy`;
+
+--
+-- Table structure for table `answer`
+--
 
 DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -42,7 +48,7 @@ CREATE TABLE `answer` (
 
 LOCK TABLES `answer` WRITE;
 /*!40000 ALTER TABLE `answer` DISABLE KEYS */;
-INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1),(1,'4',1,2),(1,'build\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild',1,3),(1,'10\r\n9\r\n8\r\n7\r\n6\r\n5\r\n4\r\n3\r\n2\r\n1\r\n0\r\n',1,4),(1,'Loop',1,5),(1,'',2,5),(2,'Variable',1,5),(2,'',2,5),(3,'Classes',1,5),(3,'',2,5),(4,'',2,5);
+INSERT INTO `answer` VALUES (1,'Hello Galaxy!',1,1),(1,'4',1,2),(1,'build\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild\r\nbuild',1,3),(1,'10\r\n9\r\n8\r\n7\r\n6\r\n5\r\n4\r\n3\r\n2\r\n1\r\n0\r\n',1,4),(1,'Loop',1,5),(1,'',2,5),(2,'Variable',1,5),(2,'',2,5),(3,'Classes',1,5),(3,'',2,5),(4,'',2,5),(1,'I\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss\r\nI\'m the boss',1,6),(1,'making it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain\r\nmaking it rain',1,7);
 /*!40000 ALTER TABLE `answer` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +91,8 @@ CREATE TABLE `auth_group_permissions` (
   UNIQUE KEY `group_id` (`group_id`,`permission_id`),
   KEY `auth_group_permissions_0e939a4f` (`group_id`),
   KEY `auth_group_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
-  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -205,8 +211,8 @@ CREATE TABLE `auth_user_user_permissions` (
   UNIQUE KEY `user_id` (`user_id`,`permission_id`),
   KEY `auth_user_user_permissions_e8701ad4` (`user_id`),
   KEY `auth_user_user_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
-  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
+  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
+  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -240,7 +246,7 @@ CREATE TABLE `code` (
 
 LOCK TABLES `code` WRITE;
 /*!40000 ALTER TABLE `code` DISABLE KEYS */;
-INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in range(10):\r\n  print(\"\")',3),('num_list = [10,9,8,7,6,5,4,3,2,1,0]',4);
+INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in range(10):\r\n  print(\"\")',3),('num_list = [10,9,8,7,6,5,4,3,2,1,0]',4),('#TELL ME WHAT YOU ARE!',6),('#MAKE IT RAIN!!',7);
 /*!40000 ALTER TABLE `code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -263,8 +269,8 @@ CREATE TABLE `django_admin_log` (
   PRIMARY KEY (`id`),
   KEY `django_admin_log_417f1b1c` (`content_type_id`),
   KEY `django_admin_log_e8701ad4` (`user_id`),
-  CONSTRAINT `django_admin_log_user_id_233a481da04ec558_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
-  CONSTRAINT `django__content_type_id_235e46beb836cf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
+  CONSTRAINT `django__content_type_id_235e46beb836cf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
+  CONSTRAINT `django_admin_log_user_id_233a481da04ec558_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -352,7 +358,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('66s6tf8x17okhyrrzz5uti6o9xlow5m7','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-05-08 20:06:02'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34');
+INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -376,7 +382,7 @@ CREATE TABLE `exercise` (
   PRIMARY KEY (`id`),
   KEY `exerciseList_id` (`exerciseList_id`),
   CONSTRAINT `exercise_ibfk_1` FOREIGN KEY (`exerciseList_id`) REFERENCES `exerciseList` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -385,7 +391,7 @@ CREATE TABLE `exercise` (
 
 LOCK TABLES `exercise` WRITE;
 /*!40000 ALTER TABLE `exercise` DISABLE KEYS */;
-INSERT INTO `exercise` VALUES (1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,5,1,'Code',4,'2015-04-19 17:20:12',3,1,1),(4,5,1,'Code',4,'2015-04-21 15:11:06',1,1,2),(5,2,3,'Open Question',3,'2015-04-25 11:46:17',1,1,6);
+INSERT INTO `exercise` VALUES (1,4,1,'Code',4,'2015-04-19 16:44:15',1,1,1),(2,7,1,'Code',4,'2015-04-19 17:08:47',2,1,1),(3,5,1,'Code',4,'2015-04-19 17:20:12',3,1,1),(4,5,1,'Code',4,'2015-04-21 15:11:06',1,1,2),(5,2,3,'Open Question',3,'2015-04-25 11:46:17',1,1,6),(6,5,1,'Code',2,'2015-04-26 16:37:59',1,1,5),(7,5,1,'Code',2,'2015-04-26 17:37:14',2,1,5);
 /*!40000 ALTER TABLE `exercise` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -405,7 +411,7 @@ CREATE TABLE `exerciseList` (
   PRIMARY KEY (`id`),
   KEY `prog_lang_id` (`prog_lang_id`),
   CONSTRAINT `exerciseList_ibfk_1` FOREIGN KEY (`prog_lang_id`) REFERENCES `programmingLanguage` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -414,7 +420,7 @@ CREATE TABLE `exerciseList` (
 
 LOCK TABLES `exerciseList` WRITE;
 /*!40000 ALTER TABLE `exerciseList` DISABLE KEYS */;
-INSERT INTO `exerciseList` VALUES (1,1,4,'2015-04-19 15:50:35',1),(2,2,4,'2015-04-21 14:53:41',1),(3,1,4,'2015-04-21 16:14:44',2),(4,3,4,'2015-04-21 16:18:33',2),(5,2,2,'2015-04-25 11:34:23',1),(6,1,3,'2015-04-25 11:40:54',1);
+INSERT INTO `exerciseList` VALUES (1,1,4,'2015-04-19 15:50:35',1),(2,2,4,'2015-04-21 14:53:41',1),(3,1,4,'2015-04-21 16:14:44',2),(4,3,4,'2015-04-21 16:18:33',2),(5,2,2,'2015-04-25 11:34:23',1),(6,1,3,'2015-04-25 11:40:54',1),(7,4,6,'2015-04-26 18:14:50',3),(8,1,4,'2015-04-26 18:29:43',3);
 /*!40000 ALTER TABLE `exerciseList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -442,7 +448,7 @@ CREATE TABLE `exerciseTitle` (
 
 LOCK TABLES `exerciseTitle` WRITE;
 /*!40000 ALTER TABLE `exerciseTitle` DISABLE KEYS */;
-INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1),('Number crunching',1,2),('So much work to do...',1,3),('Countdown!',1,4),('Back to building...',1,5),('Getallen verwerken',2,2),('Zo veel werk te doen...',2,3),('',2,5);
+INSERT INTO `exerciseTitle` VALUES ('Hello Galaxy!',1,1),('Number crunching',1,2),('So much work to do...',1,3),('Countdown!',1,4),('Back to building...',1,5),('First step of becoming a boss programmer',1,6),('Part 2 of becoming the boss',1,7),('Getallen verwerken',2,2),('Zo veel werk te doen...',2,3),('',2,5),('',2,6);
 /*!40000 ALTER TABLE `exerciseTitle` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -512,7 +518,7 @@ CREATE TABLE `groups` (
   `created_on` datetime NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `group_name` (`group_name`)
-) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=32 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -521,7 +527,7 @@ CREATE TABLE `groups` (
 
 LOCK TABLES `groups` WRITE;
 /*!40000 ALTER TABLE `groups` DISABLE KEYS */;
-INSERT INTO `groups` VALUES (1,'Admins',0,'2015-03-06 19:12:12'),(2,'OLVE',1,'2015-03-06 19:12:12'),(3,'OLVC',1,'2015-03-06 19:12:12'),(4,'Sint-Michielscollege',1,'2015-03-06 19:12:12'),(5,'Universiteit Antwerpen',1,'2015-03-06 19:12:12'),(6,'Universiteit Gent',1,'2015-03-06 19:12:12'),(7,'KDG',1,'2015-03-06 19:12:12'),(8,'VUB',1,'2015-03-06 19:12:12'),(9,'De bende van de bosklapper',1,'2015-03-06 19:12:12'),(10,'NVA sympathisanten',1,'2015-03-06 19:12:12'),(11,'Groen! sympathisanten',1,'2015-03-06 19:12:12'),(12,'PVDA sympathisanten',1,'2015-03-06 19:12:12'),(13,'Open-VLD sympathisanten',1,'2015-03-06 19:12:12'),(14,'sp.a sympathisanten',1,'2015-03-06 19:12:12'),(15,'Vlaanderen',0,'2015-03-06 19:12:12'),(16,'Wallonie',0,'2015-03-06 19:12:12'),(17,'Brussel',0,'2015-03-06 19:12:12'),(18,'Antwerpen',0,'2015-03-06 19:12:12'),(19,'Russia',0,'2015-03-06 19:12:12'),(20,'Nederland',0,'2015-03-06 19:12:12'),(21,'Great-Britain',0,'2015-03-06 19:12:12'),(22,'USA',0,'2015-03-06 19:12:12'),(23,'Wilrijk',0,'2015-03-06 19:12:12'),(24,'Edegem',0,'2015-03-06 19:12:12'),(25,'Mechelen',0,'2015-03-06 19:12:12'),(26,'Brasschaat',0,'2015-03-06 19:12:12'),(27,'Merksem',0,'2015-03-06 19:12:12'),(28,'Schoten',0,'2015-03-06 19:12:12'),(29,'Knokke',0,'2015-03-06 19:12:12'),(30,'Aartselaar',0,'2015-03-06 19:12:12');
+INSERT INTO `groups` VALUES (1,'Admins',0,'2015-03-06 19:12:12'),(2,'OLVE',1,'2015-03-06 19:12:12'),(3,'OLVC',1,'2015-03-06 19:12:12'),(4,'Sint-Michielscollege',1,'2015-03-06 19:12:12'),(5,'Universiteit Antwerpen',1,'2015-03-06 19:12:12'),(6,'Universiteit Gent',1,'2015-03-06 19:12:12'),(7,'KDG',1,'2015-03-06 19:12:12'),(8,'VUB',1,'2015-03-06 19:12:12'),(9,'De bende van de bosklapper',1,'2015-03-06 19:12:12'),(10,'NVA sympathisanten',1,'2015-03-06 19:12:12'),(11,'Groen! sympathisanten',1,'2015-03-06 19:12:12'),(12,'PVDA sympathisanten',1,'2015-03-06 19:12:12'),(13,'Open-VLD sympathisanten',1,'2015-03-06 19:12:12'),(14,'sp.a sympathisanten',1,'2015-03-06 19:12:12'),(15,'Vlaanderen',0,'2015-03-06 19:12:12'),(16,'Wallonie',0,'2015-03-06 19:12:12'),(17,'Brussel',0,'2015-03-06 19:12:12'),(18,'Antwerpen',0,'2015-03-06 19:12:12'),(19,'Russia',0,'2015-03-06 19:12:12'),(20,'Nederland',0,'2015-03-06 19:12:12'),(21,'Great-Britain',0,'2015-03-06 19:12:12'),(22,'USA',0,'2015-03-06 19:12:12'),(23,'Wilrijk',0,'2015-03-06 19:12:12'),(24,'Edegem',0,'2015-03-06 19:12:12'),(25,'Mechelen',0,'2015-03-06 19:12:12'),(26,'Brasschaat',0,'2015-03-06 19:12:12'),(27,'Merksem',0,'2015-03-06 19:12:12'),(28,'Schoten',0,'2015-03-06 19:12:12'),(29,'Knokke',0,'2015-03-06 19:12:12'),(30,'Aartselaar',0,'2015-03-06 19:12:12'),(31,'Thierry\'s secret Bling Bling Club',1,'2015-04-26 18:05:13');
 /*!40000 ALTER TABLE `groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -548,7 +554,7 @@ CREATE TABLE `hasSubject` (
 
 LOCK TABLES `hasSubject` WRITE;
 /*!40000 ALTER TABLE `hasSubject` DISABLE KEYS */;
-INSERT INTO `hasSubject` VALUES (1,1),(3,1),(6,1),(1,2),(2,2),(5,2),(6,2),(1,3),(6,3),(1,4),(2,4),(6,4),(3,5),(4,6),(4,7),(5,8),(5,9);
+INSERT INTO `hasSubject` VALUES (1,1),(3,1),(6,1),(8,1),(1,2),(2,2),(5,2),(6,2),(1,3),(6,3),(1,4),(2,4),(6,4),(3,5),(4,6),(4,7),(5,8),(5,9),(7,10),(7,11),(8,11),(7,12),(8,12),(7,13),(8,13),(8,14);
 /*!40000 ALTER TABLE `hasSubject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -578,7 +584,7 @@ CREATE TABLE `hint` (
 
 LOCK TABLES `hint` WRITE;
 /*!40000 ALTER TABLE `hint` DISABLE KEYS */;
-INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('\'distance_3 = ...\' will create a new variable called \'distance_3\'',1,2,1),('\'distance_3 = ...\' zal een nieuwe variabele genaamd distance_3 creëren',1,2,2),('This exercise is almost the same as the first exercise! Look at that one if you are stuck!',1,3,1),('Deze vraag is bijna dezelfde als de eerste! Kijk daar terug naar indien je vastzit!',1,3,2),('The for loop could look like this: \"for something in something else:\" and then you put another command below that',1,4,1),('Dont forget upper case letters and the exclamation mark!',2,1,1),('c = a + b will add two variables, called a and b, together and put the end result into the variable c',2,2,1),('\'c = a + b\' zal twee variabelen genaamd a en b optellen en zal het eindresultaat in de variabele c steken',2,2,2),('Don\'t forget the indentation!',2,4,1);
+INSERT INTO `hint` VALUES ('print(\"Hello\") will display \"Hello\".',1,1,1),('\'distance_3 = ...\' will create a new variable called \'distance_3\'',1,2,1),('\'distance_3 = ...\' zal een nieuwe variabele genaamd distance_3 creëren',1,2,2),('This exercise is almost the same as the first exercise! Look at that one if you are stuck!',1,3,1),('Deze vraag is bijna dezelfde als de eerste! Kijk daar terug naar indien je vastzit!',1,3,2),('The for loop could look like this: \"for something in something else:\" and then you put another command below that',1,4,1),('BOSS PROGRAMMERS DON\'T NEED HINTS!',1,6,1),('Step one: Take your wallet',1,7,1),('Dont forget upper case letters and the exclamation mark!',2,1,1),('c = a + b will add two variables, called a and b, together and put the end result into the variable c',2,2,1),('\'c = a + b\' zal twee variabelen genaamd a en b optellen en zal het eindresultaat in de variabele c steken',2,2,2),('Don\'t forget the indentation!',2,4,1),('Step two: throw all your bills in the air',2,7,1);
 /*!40000 ALTER TABLE `hint` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -633,7 +639,7 @@ CREATE TABLE `listTranslation` (
 
 LOCK TABLES `listTranslation` WRITE;
 /*!40000 ALTER TABLE `listTranslation` DISABLE KEYS */;
-INSERT INTO `listTranslation` VALUES ('Beginning of a journey',1,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1),('Begin van een avontuur',2,'Hallo, ik ben Kernel, en mijn vriend Grub en ik zijn gestrand op deze vreemde planeet genaamd Aarde! We gaan proberen ons ruimteschip een signaal te sturen met de Universele taal Python. Zou je ons mischien even een handje willen lenen? Ik beloof je dat het niet te moeilijk wordt!',1),('Continuation of that journey...',1,'We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2),('Het avontuur gaat door...',2,'We zijn in de ruimte! Vergezel Grub en ik in onze tocht door het sterrenstelsel!',2),('C++ for Dummies',1,'Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',3),('C++ voor Dummies',2,'Hallo, ik ben Tristan en ik heb deze lijst gemaakt om je basis C++ syntax uit te leggen/leren. Met deze lijst kan je zo beginnen experimenteren! Bezoek zeker ook de sandbox om de dingen die je hebt geleerd uit te testen!',3),('C++: Basic math functions',1,'This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',4),('C++: Basis wiskundige functies',2,'Deze lijst zal je leren wat basis-wiskundige functies te schrijven, deze vind je meestal wel in de standaard/math library, maar ik wil ze toch even aanhalen. Ik hoop dat deze je toch tot denken doen aanzetten. Veel plezier met het Coden!',4),('Thierry\'s coding Extravaganza',1,'Howdy! This kool list will go over the basic principles of coding like a BOSS. Hope ya enjoy it fellas!!!1!',5),('Thierry\'s Coding Extravaganza',2,'Goedendag beste heren, ik wens u iets bij te brengen ivm een begrip genaamd coderen, ik hoop dat dit een behulpzame oefeningenlijst is.',5),('Seems we crashed...again',1,'Grub lost control of the ship! We\'ve landed on the moon, guess we\'ll need to build a new spaceship...',6),('We zijn opnieuw gecrasht!',2,'Grub verloor controle over het schip! We zijn op de maan geland, dus we bouwen best een nieuw ruimteschip...',6);
+INSERT INTO `listTranslation` VALUES ('Beginning of a journey',1,'Hello, my name is Kernel, and my friend Grub and I seem to be stranded on this strange planet called Earth. We\'re going to try to signal our spaceship with the Universal language Python, could you lend us a hand please? I promise it won\'t be too difficult',1),('Begin van een avontuur',2,'Hallo, ik ben Kernel, en mijn vriend Grub en ik zijn gestrand op deze vreemde planeet genaamd Aarde! We gaan proberen ons ruimteschip een signaal te sturen met de Universele taal Python. Zou je ons mischien even een handje willen lenen? Ik beloof je dat het niet te moeilijk wordt!',1),('Continuation of that journey...',1,'We\'re in outer space! join me and my friend Grub on our trip through the galaxy!',2),('Het avontuur gaat door...',2,'We zijn in de ruimte! Vergezel Grub en ik in onze tocht door het sterrenstelsel!',2),('C++ for Dummies',1,'Hello there, i\'m Tristan and i made this list to explain/teach you some basic C++ syntax. This list will get you experimenting in no time! Be sure to visit the sandboxmode to test out the things you learned!',3),('C++ voor Dummies',2,'Hallo, ik ben Tristan en ik heb deze lijst gemaakt om je basis C++ syntax uit te leggen/leren. Met deze lijst kan je zo beginnen experimenteren! Bezoek zeker ook de sandbox om de dingen die je hebt geleerd uit te testen!',3),('C++: Basic math functions',1,'This list will teach you to write some basic math functions, these can typically already be found in the standard/math library, but i wish to adress them anyway. I hope these put your mind to thinking, Happy Coding!',4),('C++: Basis wiskundige functies',2,'Deze lijst zal je leren wat basis-wiskundige functies te schrijven, deze vind je meestal wel in de standaard/math library, maar ik wil ze toch even aanhalen. Ik hoop dat deze je toch tot denken doen aanzetten. Veel plezier met het Coden!',4),('Thierry\'s coding Extravaganza',1,'Howdy! This kool list will go over the basic principles of coding like a BOSS. Hope ya enjoy it fellas!!!1!',5),('Thierry\'s Coding Extravaganza',2,'Goedendag beste heren, ik wens u iets bij te brengen ivm een begrip genaamd coderen, ik hoop dat dit een behulpzame oefeningenlijst is.',5),('Seems we crashed...again',1,'Grub lost control of the ship! We\'ve landed on the moon, guess we\'ll need to build a new spaceship...',6),('We zijn opnieuw gecrasht!',2,'Grub verloor controle over het schip! We zijn op de maan geland, dus we bouwen best een nieuw ruimteschip...',6),('These Seven SQL Tricks Will Suprise You',1,'Clickbait is a powerful tool. These are some rather ifficult questions about SQL',7),('SQL: a simple Questionnaire',1,'Ten questions to test whether you grasp the most basic SQL concepts',8);
 /*!40000 ALTER TABLE `listTranslation` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -664,7 +670,7 @@ CREATE TABLE `madeEx` (
 
 LOCK TABLES `madeEx` WRITE;
 /*!40000 ALTER TABLE `madeEx` DISABLE KEYS */;
-INSERT INTO `madeEx` VALUES (2,1,0,'2015-04-25 12:55:19',1,1,'print(\"Hello Galaxy!\")',2),(2,1,3,'2015-04-25 13:05:15',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(2,1,7,'2015-04-25 12:55:36',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(4) # cheating ftw',0),(2,1,2,'2015-04-25 13:02:46',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(3,1,2,'2015-04-25 12:39:25',1,1,'print(\"Hello Galaxy!\")',1),(3,1,5,'2015-04-25 12:00:24',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(3,1,6,'2015-04-25 12:39:53',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(distance_1 + distance_2)',1),(3,1,4,'2015-04-25 12:40:18',1,3,'for every_time in range(10):\r\n  print(\"build\")',0);
+INSERT INTO `madeEx` VALUES (2,1,0,'2015-04-25 12:55:19',1,1,'print(\"Hello Galaxy!\")',2),(2,1,3,'2015-04-25 13:05:15',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(2,1,2,'2015-04-26 18:25:21',6,1,'1',0),(2,1,7,'2015-04-25 12:55:36',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(4) # cheating ftw',0),(2,1,2,'2015-04-25 13:02:46',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(3,1,2,'2015-04-25 12:39:25',1,1,'print(\"Hello Galaxy!\")',1),(3,1,5,'2015-04-25 12:00:24',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(3,1,6,'2015-04-25 12:39:53',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(distance_1 + distance_2)',1),(3,1,4,'2015-04-25 12:40:18',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(6,1,0,'2015-04-26 18:18:34',6,1,'1',0);
 /*!40000 ALTER TABLE `madeEx` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -695,7 +701,7 @@ CREATE TABLE `madeList` (
 
 LOCK TABLES `madeList` WRITE;
 /*!40000 ALTER TABLE `madeList` DISABLE KEYS */;
-INSERT INTO `madeList` VALUES (1,2,2,69,'2015-04-25 14:55:42',0),(1,3,4,75,'2015-04-25 14:40:12',0),(2,2,2,60,'2015-04-25 15:05:15',0),(2,3,0,100,'2015-04-25 14:00:24',0);
+INSERT INTO `madeList` VALUES (1,2,2,69,'2015-04-25 14:55:42',0),(1,3,4,75,'2015-04-25 14:40:12',0),(2,2,2,60,'2015-04-25 15:05:15',0),(2,3,0,100,'2015-04-25 14:00:24',0),(6,2,0,100,'2015-04-26 20:25:21',1),(6,6,0,0,'2015-04-26 20:18:34',1);
 /*!40000 ALTER TABLE `madeList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -748,7 +754,7 @@ CREATE TABLE `question` (
 
 LOCK TABLES `question` WRITE;
 /*!40000 ALTER TABLE `question` DISABLE KEYS */;
-INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1),('Good job sending the message! we\'ve just recieved an answer: they want us to give them the distance from between the Earth and the spaceship.  We already have some of the data stored in \'variables\'. These can be seen below in the form of variable = ... Try making your own variable and give it a value by adding the other veriables together on the right side of the \'=\' ! Then use the \'print\' command we just saw to send our friends above the correct distance!',1,2),('Goed gedaan bij het versturen van het bericht! We hebben net een antwoord ontvangen: ze willen dat we ze de afstand tussen de aarde en het ruimteschip geven. We hebben al een deel van de data opgeslagen in \'variabelen\'. Deze kan je hier beneden zien in de vorm van \'varaibele = waarde van de variabele\'. Probeer je eigen variabele te maken en geef het de waarde van de andere twee opgeteld aan de rechterkant van de \'=\' ! Gebruik dan het \'print\' commando dat we net zagen om onze vrienden hierboven de correcte afstnd te sturen!',2,2),('Allright! our spaceship will be arriving soon! However, they need a landing platform to land on! We shall need to build one by printing out \'build\' ten times. But instead of writing the same command so many times, you can use a \'loop\' which can do the command multiple times, which makes it a lot easier! The code written below will execute the print(\") command ten times, exactly as much as given by the range(10) command! Now let it write build every time!',1,3),('Geweldig! ons ruimteschip zal hier zo aankomen! Het heeft echter wel een platform nodig omop te landen, we zullen er zelf een moeten bouwen door \'build\' tien keer te printen. Maar in plaats van dat tien keer op te chrijven, kunnen we een \'loop\' gebruiken, wat het een pak makkelijker maakt! De code hieronder zal het \'print(\"\") commando tien keer uitvoeren, evenveel als aangegeven door het range(10) commando! Laat het nu telkens \'build\' printen',2,3),('We\'re about to fly away using our warpspeed, but we still need to count down from ten to zero!  Use a \"Loop\" like you\'ve learned, but this time, you can use a variable in the loop! We\'ve prepared a list with the numbers in them, print them using the variable after the \"for\" in the loop! And since you obviously want every number in the list, you put the \"num_list\" after the \"in\" . Good luck!',1,4),('Last time we used a construction to do one thing multiple times so we could build our landing station, what was this called?',1,5),('',2,5);
+INSERT INTO `question` VALUES ('First things first, we want to let everyone know we landed here. We can try to do so by sending them a visual message. The command \'print(\" \") should send everyone the message between the quotation marks, so try creating a message that will send \"Hello Galaxy!\"',1,1),('Good job sending the message! we\'ve just recieved an answer: they want us to give them the distance from between the Earth and the spaceship.  We already have some of the data stored in \'variables\'. These can be seen below in the form of variable = ... Try making your own variable and give it a value by adding the other veriables together on the right side of the \'=\' ! Then use the \'print\' command we just saw to send our friends above the correct distance!',1,2),('Goed gedaan bij het versturen van het bericht! We hebben net een antwoord ontvangen: ze willen dat we ze de afstand tussen de aarde en het ruimteschip geven. We hebben al een deel van de data opgeslagen in \'variabelen\'. Deze kan je hier beneden zien in de vorm van \'varaibele = waarde van de variabele\'. Probeer je eigen variabele te maken en geef het de waarde van de andere twee opgeteld aan de rechterkant van de \'=\' ! Gebruik dan het \'print\' commando dat we net zagen om onze vrienden hierboven de correcte afstnd te sturen!',2,2),('Allright! our spaceship will be arriving soon! However, they need a landing platform to land on! We shall need to build one by printing out \'build\' ten times. But instead of writing the same command so many times, you can use a \'loop\' which can do the command multiple times, which makes it a lot easier! The code written below will execute the print(\") command ten times, exactly as much as given by the range(10) command! Now let it write build every time!',1,3),('Geweldig! ons ruimteschip zal hier zo aankomen! Het heeft echter wel een platform nodig omop te landen, we zullen er zelf een moeten bouwen door \'build\' tien keer te printen. Maar in plaats van dat tien keer op te chrijven, kunnen we een \'loop\' gebruiken, wat het een pak makkelijker maakt! De code hieronder zal het \'print(\"\") commando tien keer uitvoeren, evenveel als aangegeven door het range(10) commando! Laat het nu telkens \'build\' printen',2,3),('We\'re about to fly away using our warpspeed, but we still need to count down from ten to zero!  Use a \"Loop\" like you\'ve learned, but this time, you can use a variable in the loop! We\'ve prepared a list with the numbers in them, print them using the variable after the \"for\" in the loop! And since you obviously want every number in the list, you put the \"num_list\" after the \"in\" . Good luck!',1,4),('Last time we used a construction to do one thing multiple times so we could build our landing station, what was this called?',1,5),('',2,5),('To become a boss programmer, you need to have the right mindset. \r\nTo get that mindset you need to set the mood. We\'ll be using this song across the tutorial: <a href=\"https://www.youtube.com/watch?v=Q1_p3q9x1h0\">click me</a>.\r\nAlright then, let it play for a few seconds. Now the next step of the boss programmer mindset is ofcourse becoming the boss.\r\nTell yourself 10 times you\'re the boss! (print I\'m the boss 10 times)\r\n',1,6),('',2,6),('That\'s right, you\'re the boss!\r\n<img src=\"/static/media/boss.png\">\r\nNow for the second part of your boss programmer training, this exercise you\'re going to learn a fundamental boss programer skill! It\'s called making it rain!\r\nPrint \'making it rain\' 10 times!',1,7);
 /*!40000 ALTER TABLE `question` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -764,7 +770,7 @@ CREATE TABLE `subject` (
   `name` varchar(255) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -773,7 +779,7 @@ CREATE TABLE `subject` (
 
 LOCK TABLES `subject` WRITE;
 /*!40000 ALTER TABLE `subject` DISABLE KEYS */;
-INSERT INTO `subject` VALUES (9,'$$$'),(1,'Basic'),(4,'Conditionals'),(7,'Functions'),(2,'Loops'),(6,'Math'),(5,'Syntax'),(8,'Thierry'),(3,'Variables');
+INSERT INTO `subject` VALUES (9,'$$$'),(1,'Basic'),(4,'Conditionals'),(13,'DELETE'),(7,'Functions'),(14,'INSERT'),(2,'Loops'),(6,'Math'),(11,'SELECT'),(5,'Syntax'),(10,'Tables'),(8,'Thierry'),(12,'UPDATE'),(3,'Variables');
 /*!40000 ALTER TABLE `subject` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -806,7 +812,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:30:26','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-24 20:06:02','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
+INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:24:33','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:26:05','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:10:32','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -836,7 +842,7 @@ CREATE TABLE `userInGroup` (
 
 LOCK TABLES `userInGroup` WRITE;
 /*!40000 ALTER TABLE `userInGroup` DISABLE KEYS */;
-INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,2,'2015-03-06 15:30:53','Pending'),(1,3,1,'2015-03-06 13:20:45','Member'),(1,4,1,'2015-03-06 13:11:55','Member'),(1,5,2,'2015-03-06 20:12:22','Member'),(1,6,2,'2015-03-06 12:20:20','Member'),(2,4,0,'2015-03-06 13:42:33','Member'),(2,6,2,'2015-03-06 15:30:53','Pending'),(2,7,2,'2015-03-06 13:20:45','Member'),(2,9,2,'2015-03-06 13:11:55','Member'),(2,17,2,'2015-03-06 20:12:22','Pending'),(2,18,2,'2015-03-06 12:20:20','Member'),(3,2,2,'2015-03-06 15:30:53','Member'),(3,3,2,'2015-03-06 13:20:45','Member'),(3,5,1,'2015-03-06 13:11:55','Member'),(3,7,2,'2015-03-06 20:12:22','Member'),(3,8,0,'2015-03-06 13:42:33','Member'),(3,9,1,'2015-03-06 15:30:53','Member'),(3,11,2,'2015-03-06 13:20:45','Member'),(3,13,2,'2015-03-06 13:11:55','Member'),(3,15,2,'2015-03-06 20:12:22','Member'),(3,16,2,'2015-03-06 12:20:20','Member'),(3,20,1,'2015-03-06 12:20:20','Member'),(4,13,0,'2015-03-06 13:42:33','Member'),(4,14,1,'2015-03-06 15:30:53','Member'),(5,7,0,'2015-03-06 20:12:22','Member'),(5,11,2,'2015-03-06 13:20:45','Pending'),(5,12,1,'2015-03-06 13:11:55','Member'),(5,17,2,'2015-03-06 12:20:20','Member'),(6,2,2,'2015-03-06 13:20:45','Member'),(6,4,1,'2015-03-06 13:11:55','Member'),(6,6,0,'2015-03-06 20:12:22','Member'),(6,11,2,'2015-03-06 12:20:20','Member'),(6,13,2,'2015-03-06 20:12:22','Member'),(6,15,2,'2015-03-06 12:20:20','Member'),(16,1,2,'2015-03-06 13:20:45','Member'),(16,2,1,'2015-03-06 13:11:55','Member'),(16,3,0,'2015-03-06 20:12:22','Member'),(16,4,2,'2015-03-06 12:20:20','Member'),(16,5,2,'2015-03-06 20:12:22','Member'),(16,6,2,'2015-03-06 12:20:20','Member'),(16,7,2,'2015-03-06 13:20:45','Member'),(16,8,1,'2015-03-06 13:11:55','Member'),(16,9,2,'2015-03-06 20:12:22','Member'),(16,10,1,'2015-03-06 12:20:20','Member'),(16,11,2,'2015-03-06 20:12:22','Member'),(16,13,2,'2015-03-06 12:20:20','Member'),(16,14,2,'2015-03-06 13:20:45','Pending'),(16,15,1,'2015-03-06 13:11:55','Member'),(16,16,2,'2015-03-06 20:12:22','Pending'),(16,17,2,'2015-03-06 12:20:20','Member'),(16,19,2,'2015-03-06 20:12:22','Member'),(16,20,2,'2015-03-06 12:20:20','Pending'),(17,12,1,'2015-03-06 13:20:45','Member'),(17,18,0,'2015-03-06 13:20:45','Member');
+INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,2,'2015-03-06 15:30:53','Member'),(1,3,1,'2015-03-06 13:20:45','Member'),(1,4,1,'2015-03-06 13:11:55','Member'),(1,5,2,'2015-03-06 20:12:22','Member'),(1,6,2,'2015-03-06 12:20:20','Member'),(2,4,0,'2015-03-06 13:42:33','Member'),(2,6,2,'2015-03-06 15:30:53','Pending'),(2,7,2,'2015-03-06 13:20:45','Member'),(2,9,2,'2015-03-06 13:11:55','Member'),(2,17,2,'2015-03-06 20:12:22','Pending'),(2,18,2,'2015-03-06 12:20:20','Member'),(3,2,2,'2015-03-06 15:30:53','Member'),(3,3,2,'2015-03-06 13:20:45','Member'),(3,5,1,'2015-03-06 13:11:55','Member'),(3,7,2,'2015-03-06 20:12:22','Member'),(3,8,0,'2015-03-06 13:42:33','Member'),(3,9,1,'2015-03-06 15:30:53','Member'),(3,11,2,'2015-03-06 13:20:45','Member'),(3,13,2,'2015-03-06 13:11:55','Member'),(3,15,2,'2015-03-06 20:12:22','Member'),(3,16,2,'2015-03-06 12:20:20','Member'),(3,20,1,'2015-03-06 12:20:20','Member'),(4,13,0,'2015-03-06 13:42:33','Member'),(4,14,1,'2015-03-06 15:30:53','Member'),(5,7,0,'2015-03-06 20:12:22','Member'),(5,11,2,'2015-03-06 13:20:45','Pending'),(5,12,1,'2015-03-06 13:11:55','Member'),(5,17,2,'2015-03-06 12:20:20','Member'),(6,2,2,'2015-03-06 13:20:45','Member'),(6,4,1,'2015-03-06 13:11:55','Member'),(6,6,0,'2015-03-06 20:12:22','Member'),(6,11,2,'2015-03-06 12:20:20','Member'),(6,13,2,'2015-03-06 20:12:22','Member'),(6,15,2,'2015-03-06 12:20:20','Member'),(15,3,0,'2015-03-06 13:42:33','Member'),(16,1,2,'2015-03-06 13:20:45','Member'),(16,2,1,'2015-03-06 13:11:55','Member'),(16,3,0,'2015-03-06 20:12:22','Member'),(16,4,2,'2015-03-06 12:20:20','Member'),(16,5,2,'2015-03-06 20:12:22','Member'),(16,6,2,'2015-03-06 12:20:20','Member'),(16,7,2,'2015-03-06 13:20:45','Member'),(16,8,1,'2015-03-06 13:11:55','Member'),(16,9,2,'2015-03-06 20:12:22','Member'),(16,10,1,'2015-03-06 12:20:20','Member'),(16,11,2,'2015-03-06 20:12:22','Member'),(16,13,2,'2015-03-06 12:20:20','Member'),(16,14,2,'2015-03-06 13:20:45','Pending'),(16,15,1,'2015-03-06 13:11:55','Member'),(16,16,2,'2015-03-06 20:12:22','Pending'),(16,17,2,'2015-03-06 12:20:20','Member'),(16,19,2,'2015-03-06 20:12:22','Member'),(16,20,2,'2015-03-06 12:20:20','Pending'),(17,12,1,'2015-03-06 13:20:45','Member'),(17,18,0,'2015-03-06 13:20:45','Member'),(18,3,0,'2015-03-06 13:42:33','Member'),(19,2,0,'2015-03-06 13:42:33','Member'),(20,13,0,'2015-03-06 13:42:33','Member'),(21,8,0,'2015-03-06 13:42:33','Member'),(22,6,0,'2015-03-06 13:42:33','Member'),(23,6,0,'2015-03-06 13:42:33','Member'),(24,20,0,'2015-03-06 13:42:33','Member'),(25,5,0,'2015-03-06 13:42:33','Member'),(26,4,0,'2015-03-06 13:42:33','Member'),(27,16,0,'2015-03-06 13:42:33','Member'),(28,7,0,'2015-03-06 13:42:33','Member'),(29,10,0,'2015-03-06 13:42:33','Member'),(30,2,2,'2015-04-26 18:04:33','Member'),(30,4,0,'2015-03-06 13:42:33','Member'),(31,2,0,'2015-04-26 18:05:13','Member'),(31,6,2,'2015-04-26 18:08:04','Pending');
 /*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -875,4 +881,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-25 15:14:30
+-- Dump completed on 2015-04-26 20:34:00
