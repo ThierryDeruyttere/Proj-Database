@@ -20,8 +20,10 @@ In de repo ook:
 $ git config branch.master.rebase true
 ```
 ## Translations
+'''sh
 $ django-admin.py makemessages -l nl
 $ django-admin.py compilemessages -l nl
+'''
 
 ## Tech
 ###Python Libraries
