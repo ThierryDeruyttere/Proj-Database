@@ -40,6 +40,10 @@ def home(request):
         current_user_exercises_made = current_user.allExerciseListsShared(browser_lang.id)
         current_user_exercises_created = current_user.getAllExercisesCreated(browser_lang.id)
 
+        for userInGroup in current_user_member_of_groups:
+                if userInGroup.group.group_type == 1:
+                    current_user_member_of_groups.remove(userInGroup)
+
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
         feed.extend(current_user_exercises_created)
@@ -53,7 +57,7 @@ def home(request):
             exercises_created = friend.getAllExercisesCreated(browser_lang.id)
 
             for memberInGroup in member_of_groups:
-                if memberInGroup.group.group_type != 0:
+                if memberInGroup.group.group_type == 1:
                     member_of_groups.remove(memberInGroup)
                     
             feed.extend(accepted_friendships)
@@ -62,6 +66,9 @@ def home(request):
             feed.extend(exercises_created)
 
         feed = sorted(feed, key=lambda k: k.datetime, reverse=True)
+
+        for item in feed:
+            print(item)
 
         paginator = Paginator(feed, 10)  # 10 items per page
 

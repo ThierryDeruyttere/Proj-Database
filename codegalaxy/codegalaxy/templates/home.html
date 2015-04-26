@@ -51,7 +51,6 @@
           </div>
           {% endif %}
           {% if item.type == 'UserInGroup'%}
-          {% if item.group.group_type == 0 %}
           <div class="row">
             <div class="feed-item">
               <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
@@ -65,7 +64,6 @@
               </div>
             </div>
           </div>
-          {% endif %}
           {% endif %}
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
