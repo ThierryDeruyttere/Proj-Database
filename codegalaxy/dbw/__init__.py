@@ -352,6 +352,13 @@ def getMadeListForUser2(id):
     cursor.close()
     return fetched
 
+def checkIfResultShared(user_id, list_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM madeList m WHERE  m.user_id = {user_id} AND m.exerciseList_id = {list_id} AND m.shared = 1;'.format(user_id=user_id, list_id=list_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getProgrammingLanguageIDsOfMadeExForUser(user_id):
     cursor = connection.cursor()
     cursor.execute('SELECT l.prog_lang_id FROM user u,exercise e, madeEx m, exerciseList l WHERE  u.id = {id} AND u.id = m.user_id AND m.exercise_number = e.exercise_number AND e.exerciseList_id = l.id AND m.list_id = l.id AND solved = 1;'.format(id=user_id))

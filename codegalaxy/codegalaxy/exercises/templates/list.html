@@ -1,7 +1,7 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 {% load i18n %}
-
+ 
 {% block head_js %}
   <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
@@ -101,10 +101,12 @@
                 {% trans "Your score" %}
                 <br/>
                 <h4>{{ user_score }}%</h4>
+                {% if shared_result %}
                 <form method="post" id="share_result">
                 {% csrf_token %}
                   <input type="submit" value="{% trans "Share my result" %}" name="share_result" class="button tiny radius"/>
                 </form>
+                {% endif %}
               </li>
               <li>
                 {% trans "Completed on" %}

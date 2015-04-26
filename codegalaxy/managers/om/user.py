@@ -511,6 +511,14 @@ class User:
     def averageScoreForProgrammingLanguage(self, prog_lang_id):
         return dbw.averageScoreForProgrammingLanguageForUser(prog_lang_id, self.id)['average']
 
+    def sharedResult(self, exercise_list_id):
+        shared_results = dbw.checkIfResultShared(self.id, exercise_list_id)
+
+        if len(shared_results) == 0:
+            return True
+        else:
+            return False
+
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id, made_on, language_id):

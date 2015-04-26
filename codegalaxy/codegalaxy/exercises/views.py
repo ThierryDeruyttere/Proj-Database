@@ -424,6 +424,8 @@ def list(request, id=0):
         all_exercises = exercise_list.allExercises(browser_lang.code)
         all_exercises_with_score = []
 
+        shared_result = user.sharedResult(exercise_list.id)
+
         list_owner = False
         if logged_user(request):
             user = logged_user(request)
@@ -513,7 +515,8 @@ def list(request, id=0):
                                              'list': exercise_list,
                                              'user_lists': user_lists,
                                              'user_score': user_score,
-                                             'user_date': user_date})
+                                             'user_date': user_date,
+                                             'shared_result': shared_result})
     else:
         return redirect('/')
 
