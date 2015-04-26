@@ -74,7 +74,6 @@
             <div class="large-11 columns">
               <p><strong><a href="/u/{{ item.user_id }}">{{ item.user.name }} </a></strong>{% trans "made an exercise list:" %} <a href="/l/{{ item.id }}">{{ item.exercise_list.name }}
                 <br><small>{{ item.completed_on }}</small></p>
-              </div>
             </div>
             <hr/>
             {% endif %}
@@ -120,6 +119,7 @@
               <form method="POST">
               {% csrf_token %}
               <input type="submit" value="{% trans "Delete Group" %}" name="delete_group" class="button radius alert">
+              </form>
             {% endif %}
             <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
               {% csrf_token %}
@@ -204,56 +204,4 @@
         </div>
       </div>
     </div>
-
-<div id="ChangePermissions" class="reveal-modal tiny" data-reveal aria-labelledby="firstModalTitle" aria-hidden="true" role="dialog">
-  <ul class="button-group even-3">
-    <li>
-      <div id="myDiv">
-        <form id="myForm">
-        </form>
-      </div>
-    </li>
-    {% if my_user_permissions == 0 %}
-    <li>
-      <div id="myDiv2">
-        <form id="myForm2" method="POST" action="/g/{{group.id}}/">
-          {% csrf_token %}
-          <div id="myInput">
-          </div>
-          <input type="submit" name="upgrade_user" value="Make Admin" class="button success">
-        </form>
-      </div>
-    </li>
-    {% endif %}
-    <li>
-      <div id="myDiv3">
-        <form id="myForm3" method="POST" action="/g/{{group.id}}/">
-          {% csrf_token %}
-          <div id="myInput">
-          </div>
-          <input type="submit" name="remove_user" value="Delete User" class="button alert">
-        </form>
-      </div>
-    </li>
-  </ul>
-</div>
-{% endblock base_body %}
-
-{% block body_js %}
-<script type="text/javascript">
-  $("div[id^=u_] #changePermission").click(function(){
-    user_id = $(this).data("value");
-    $("#ChangePermissions h2").text(user_id);
-
-    var chbx = '<a href="/u/'+ user_id +'" id="visitProfile" class="button">{% trans "Visit Profile" %}</a>';
-    //var chbx2='<input type="hidden" name="user_id_to_add" value="' + user_id + '">
-    var chbx2 = '<input type="hidden" name="user_id_to_upgrade" value="' + user_id + '">';
-    var chbx3 = '<input type="hidden" name="user_id_to_delete" value="' + user_id + '">';
-    //<input type="submit" name="remove_user" value="Delete User" class="button alert"/>';
-
-    $("#myDiv form#myForm").html(chbx);
-    $("#myDiv2 form#myForm2 #myInput").html(chbx2);
-    $("#myDiv3 form#myForm3 #myInput").html(chbx3);
-  });
-</script>
-{% endblock %}
+  </div>
