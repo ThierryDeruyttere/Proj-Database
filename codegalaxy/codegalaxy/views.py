@@ -245,7 +245,7 @@ def user(request, id=0):
         mutual_friends = []
         non_mutual_friends = []
         if current_user.id != user.id:
-            current_user_friend_ids = current_user.allFriendIDs()
+            current_user_friend_ids = [x.id for x in current_user.allFriends()]
             for user_friend in user.allFriends():
                 if user_friend.id in current_user_friend_ids:
                     mutual_friends.append(user_friend)
