@@ -164,6 +164,27 @@ class User:
         if not self.isFriend(friend):
             dbw.insertFriendsWith(self.id, friend.id, 'Pending')
 
+    def removeFriend(self, friend):
+        '''
+        @brief Remove a friend of this User
+        '''
+        if self.isFriend(friend):
+            dbw.deleteFriendship(self.id, friend.id)
+
+    def isFriendshipPending(self, friend):
+        pending_friendships = friend.allPendingFriendships2()
+        print(len(pending_friendships))
+        for pending_friendship in pending_friendships:
+            if pending_friendship.user.id == friend.id:
+                print("JAAA IS PENDING!!!")
+                return True
+            if pending_friendship.friend.id == friend.id:
+                print("JAAA IS PENDING!!!")
+                return True
+                
+        print("NOOO NIET PENDING :(")
+        return False
+
     # List with all the groups this user is currently in (SQL function)
     def allGroups(self):
         groups_info = dbw.getGroupsFromUser(self.id)

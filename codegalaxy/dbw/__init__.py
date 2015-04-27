@@ -974,6 +974,7 @@ def deleteGroup(group_id):
 def deleteFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
+    cursor.execute('DELETE FROM friendsWith WHERE user_id = {user_id} AND friend_id = {friend_id};'.format(user_id=user_id, friend_id=friend_id))
 
 def deleteGroupMembership(user_id, group_id):
     cursor = connection.cursor()

@@ -13,11 +13,18 @@
         <a href="#"><img src="{% static user.getPicture %}"></a>
         <h5><a href="#">{{ user.name }}</a></h5>
 
-        <div class="section-container vertical-nav" data-section data-options="deep_linking: false; one_up: true">
-          {% if not already_friends and not my_profile %}
+        <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
+          {% if friendship_pending and not my_profile %}
+            <input type="submit" disabled value="{% trans "Friendship pending" %}" class="small button radius"/>
+          {% elif not already_friends and not my_profile %}
           <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
             {% csrf_token %}
-            <input type="submit" name ='add_friend' value="Become friends" class="button"/>
+            <input type="submit" name ='add_friend' value="{% trans "Become friends" %}" class="small success button radius"/>
+          </form>
+          {% elif already_friends and not my_profile %}
+          <form method="POST" id='remove_friend' name='remove_friend' action="/u/{{user.id}}/">
+            {% csrf_token %}
+            <input type="submit" name ='remove_friend' value="{% trans "Remove as friend" %}" class="small alert button radius"/>
           </form>
           {% endif %}
         </div>

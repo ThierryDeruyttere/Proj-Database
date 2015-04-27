@@ -139,6 +139,9 @@ def user(request, id=0):
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
 
+        if 'remove_friend' in request.POST:
+            current_user.declineFriendship(user.id)
+
         elif 'confirm_friendship' in request.POST:
             friend_id = request.POST.get('user_id_to_confirm')
             user.confirmFriendship(friend_id)
@@ -252,13 +255,16 @@ def user(request, id=0):
                     non_mutual_friends.append(current_user_friend)
 
         total_mutual_friends = len(mutual_friends)
+        
+        friendship_pending = current_user.isFriendshipPending(user)
 
+        print(friendship_pending)
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
                    'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends, 'mutual_friends': mutual_friends,
-                   'non_mutual_friends': non_mutual_friends}
+                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending}
 
         if current_user.id == user.id:
             context['my_profile'] = True
