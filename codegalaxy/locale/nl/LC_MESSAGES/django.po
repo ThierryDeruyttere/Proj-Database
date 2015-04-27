@@ -795,7 +795,7 @@ msgstr "Je hebt nog geen oefeningenlijsten afgewerkt!"
 
 #: codegalaxy/templates/user.html:368
 msgid "Total amount of groups joined:"
-msgstr "Totaal aantal lid van groepen:"
+msgstr "Totaal aantal groepen waar je lid bent:"
 
 #: codegalaxy/templates/user.html:369
 msgid "Time member of site:"
