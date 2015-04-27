@@ -181,7 +181,7 @@ class User:
             if pending_friendship.friend.id == friend.id:
                 print("JAAA IS PENDING!!!")
                 return True
-                
+
         print("NOOO NIET PENDING :(")
         return False
 

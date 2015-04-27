@@ -769,6 +769,7 @@ def listOverview(request):
     # colors
     color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
     color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
+
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,

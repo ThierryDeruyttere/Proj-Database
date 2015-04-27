@@ -245,14 +245,12 @@ def user(request, id=0):
         mutual_friends = []
         non_mutual_friends = []
         if current_user.id != user.id:
-            for current_user_friend in current_user.allFriends():
-                mutual = False
-                for user_friend in user.allFriends():
-                    if current_user_friend.id == user_friend.id:
-                        mutual_friends.append(current_user_friend)
-                        mutual = True
-                if not mutual:
-                    non_mutual_friends.append(current_user_friend)
+            current_user_friend_ids = [x.id for x in current_user.allFriends()]
+            for user_friend in user.allFriends():
+                if user_friend.id in current_user_friend_ids:
+                    mutual_friends.append(user_friend)
+                else:
+                    non_mutual_friends.append(user_friend)
 
         total_mutual_friends = len(mutual_friends)
 

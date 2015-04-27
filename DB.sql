@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: codegalaxy
 -- ------------------------------------------------------
--- Server version	5.6.24-0ubuntu2
+-- Server version	5.5.41-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,16 +16,10 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `codegalaxy`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `codegalaxy` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `codegalaxy`;
-
---
 -- Table structure for table `answer`
 --
+
+USE codegalaxy
 
 DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -91,8 +85,8 @@ CREATE TABLE `auth_group_permissions` (
   UNIQUE KEY `group_id` (`group_id`,`permission_id`),
   KEY `auth_group_permissions_0e939a4f` (`group_id`),
   KEY `auth_group_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`)
+  CONSTRAINT `auth_group_permissions_group_id_4b2a2571371856a_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
+  CONSTRAINT `auth_group__permission_id_72323e39aa3cfe35_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -211,8 +205,8 @@ CREATE TABLE `auth_user_user_permissions` (
   UNIQUE KEY `user_id` (`user_id`,`permission_id`),
   KEY `auth_user_user_permissions_e8701ad4` (`user_id`),
   KEY `auth_user_user_permissions_8373b171` (`permission_id`),
-  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`),
-  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+  CONSTRAINT `auth_user_user_permissi_user_id_4a8007655ec4ec73_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `auth_user_u_permission_id_21bd890699b6d60a_fk_auth_permission_id` FOREIGN KEY (`permission_id`) REFERENCES `auth_permission` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -269,8 +263,8 @@ CREATE TABLE `django_admin_log` (
   PRIMARY KEY (`id`),
   KEY `django_admin_log_417f1b1c` (`content_type_id`),
   KEY `django_admin_log_e8701ad4` (`user_id`),
-  CONSTRAINT `django__content_type_id_235e46beb836cf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
-  CONSTRAINT `django_admin_log_user_id_233a481da04ec558_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
+  CONSTRAINT `django_admin_log_user_id_233a481da04ec558_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
+  CONSTRAINT `django__content_type_id_235e46beb836cf_fk_django_content_type_id` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -358,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23');
+INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23'),('omsusjvmc1aa2nmqsu0p22zly5ayjfie','NzEzMGNkNDA4YzZhOGNjMWQwMTExMGFlNTAwNzVmMzA4NzFmZmI0NTp7ImN1cnJlbnRfdXNlciI6NX0=','2015-05-11 17:03:33');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -670,7 +664,7 @@ CREATE TABLE `madeEx` (
 
 LOCK TABLES `madeEx` WRITE;
 /*!40000 ALTER TABLE `madeEx` DISABLE KEYS */;
-INSERT INTO `madeEx` VALUES (2,1,0,'2015-04-25 12:55:19',1,1,'print(\"Hello Galaxy!\")',2),(2,1,3,'2015-04-25 13:05:15',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(2,1,2,'2015-04-26 18:25:21',6,1,'1',0),(2,1,7,'2015-04-25 12:55:36',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(4) # cheating ftw',0),(2,1,2,'2015-04-25 13:02:46',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(3,1,2,'2015-04-25 12:39:25',1,1,'print(\"Hello Galaxy!\")',1),(3,1,5,'2015-04-25 12:00:24',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(3,1,6,'2015-04-25 12:39:53',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(distance_1 + distance_2)',1),(3,1,4,'2015-04-25 12:40:18',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(6,1,0,'2015-04-26 18:18:34',6,1,'1',0);
+INSERT INTO `madeEx` VALUES (2,1,0,'2015-04-25 12:55:19',1,1,'print(\"Hello Galaxy!\")',2),(2,1,3,'2015-04-25 13:05:15',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(2,1,2,'2015-04-26 18:25:21',6,1,'1',0),(2,1,7,'2015-04-25 12:55:36',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(4) # cheating ftw',0),(2,1,2,'2015-04-25 13:02:46',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(3,1,2,'2015-04-25 12:39:25',1,1,'print(\"Hello Galaxy!\")',1),(3,1,5,'2015-04-25 12:00:24',2,1,'num_list = [10,9,8,7,6,5,4,3,2,1,0]\r\nfor i in num_list:\r\n  print(i)',0),(3,1,6,'2015-04-25 12:39:53',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(distance_1 + distance_2)',1),(3,1,4,'2015-04-25 12:40:18',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(4,1,2,'2015-04-27 17:01:55',6,1,'1',0),(5,1,3,'2015-04-27 17:03:59',1,1,'print(\"Hello Galaxy!\")',1),(5,1,6,'2015-04-27 17:04:23',1,2,'distance_1 = 1\r\ndistance_2 = 3\r\nprint(\'4\')',1),(5,1,5,'2015-04-27 17:04:43',1,3,'for every_time in range(10):\r\n  print(\"build\")',0),(6,1,0,'2015-04-26 18:18:34',6,1,'1',0);
 /*!40000 ALTER TABLE `madeEx` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -701,7 +695,7 @@ CREATE TABLE `madeList` (
 
 LOCK TABLES `madeList` WRITE;
 /*!40000 ALTER TABLE `madeList` DISABLE KEYS */;
-INSERT INTO `madeList` VALUES (1,2,2,69,'2015-04-25 14:55:42',0),(1,3,4,75,'2015-04-25 14:40:12',0),(2,2,2,60,'2015-04-25 15:05:15',0),(2,3,0,100,'2015-04-25 14:00:24',0),(6,2,0,100,'2015-04-26 20:25:21',1),(6,6,0,0,'2015-04-26 20:18:34',1);
+INSERT INTO `madeList` VALUES (1,2,2,69,'2015-04-25 14:55:42',0),(1,3,4,75,'2015-04-25 14:40:12',0),(1,5,0,88,'2015-04-27 19:04:43',0),(2,2,2,60,'2015-04-25 15:05:15',0),(2,3,0,100,'2015-04-25 14:00:24',0),(6,2,0,100,'2015-04-26 20:25:21',1),(6,4,4,100,'2015-04-27 19:01:55',0),(6,6,0,0,'2015-04-26 20:18:34',1);
 /*!40000 ALTER TABLE `madeList` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -812,7 +806,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:24:33','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:26:05','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:10:32','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
+INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-27 15:48:35','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-27 17:01:41','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-04-27 17:03:33','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:10:32','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -842,7 +836,7 @@ CREATE TABLE `userInGroup` (
 
 LOCK TABLES `userInGroup` WRITE;
 /*!40000 ALTER TABLE `userInGroup` DISABLE KEYS */;
-INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,2,'2015-03-06 15:30:53','Member'),(1,3,1,'2015-03-06 13:20:45','Member'),(1,4,1,'2015-03-06 13:11:55','Member'),(1,5,2,'2015-03-06 20:12:22','Member'),(1,6,2,'2015-03-06 12:20:20','Member'),(2,4,0,'2015-03-06 13:42:33','Member'),(2,6,2,'2015-03-06 15:30:53','Pending'),(2,7,2,'2015-03-06 13:20:45','Member'),(2,9,2,'2015-03-06 13:11:55','Member'),(2,17,2,'2015-03-06 20:12:22','Pending'),(2,18,2,'2015-03-06 12:20:20','Member'),(3,2,2,'2015-03-06 15:30:53','Member'),(3,3,2,'2015-03-06 13:20:45','Member'),(3,5,1,'2015-03-06 13:11:55','Member'),(3,7,2,'2015-03-06 20:12:22','Member'),(3,8,0,'2015-03-06 13:42:33','Member'),(3,9,1,'2015-03-06 15:30:53','Member'),(3,11,2,'2015-03-06 13:20:45','Member'),(3,13,2,'2015-03-06 13:11:55','Member'),(3,15,2,'2015-03-06 20:12:22','Member'),(3,16,2,'2015-03-06 12:20:20','Member'),(3,20,1,'2015-03-06 12:20:20','Member'),(4,13,0,'2015-03-06 13:42:33','Member'),(4,14,1,'2015-03-06 15:30:53','Member'),(5,7,0,'2015-03-06 20:12:22','Member'),(5,11,2,'2015-03-06 13:20:45','Pending'),(5,12,1,'2015-03-06 13:11:55','Member'),(5,17,2,'2015-03-06 12:20:20','Member'),(6,2,2,'2015-03-06 13:20:45','Member'),(6,4,1,'2015-03-06 13:11:55','Member'),(6,6,0,'2015-03-06 20:12:22','Member'),(6,11,2,'2015-03-06 12:20:20','Member'),(6,13,2,'2015-03-06 20:12:22','Member'),(6,15,2,'2015-03-06 12:20:20','Member'),(15,3,0,'2015-03-06 13:42:33','Member'),(16,1,2,'2015-03-06 13:20:45','Member'),(16,2,1,'2015-03-06 13:11:55','Member'),(16,3,0,'2015-03-06 20:12:22','Member'),(16,4,2,'2015-03-06 12:20:20','Member'),(16,5,2,'2015-03-06 20:12:22','Member'),(16,6,2,'2015-03-06 12:20:20','Member'),(16,7,2,'2015-03-06 13:20:45','Member'),(16,8,1,'2015-03-06 13:11:55','Member'),(16,9,2,'2015-03-06 20:12:22','Member'),(16,10,1,'2015-03-06 12:20:20','Member'),(16,11,2,'2015-03-06 20:12:22','Member'),(16,13,2,'2015-03-06 12:20:20','Member'),(16,14,2,'2015-03-06 13:20:45','Pending'),(16,15,1,'2015-03-06 13:11:55','Member'),(16,16,2,'2015-03-06 20:12:22','Pending'),(16,17,2,'2015-03-06 12:20:20','Member'),(16,19,2,'2015-03-06 20:12:22','Member'),(16,20,2,'2015-03-06 12:20:20','Pending'),(17,12,1,'2015-03-06 13:20:45','Member'),(17,18,0,'2015-03-06 13:20:45','Member'),(18,3,0,'2015-03-06 13:42:33','Member'),(19,2,0,'2015-03-06 13:42:33','Member'),(20,13,0,'2015-03-06 13:42:33','Member'),(21,8,0,'2015-03-06 13:42:33','Member'),(22,6,0,'2015-03-06 13:42:33','Member'),(23,6,0,'2015-03-06 13:42:33','Member'),(24,20,0,'2015-03-06 13:42:33','Member'),(25,5,0,'2015-03-06 13:42:33','Member'),(26,4,0,'2015-03-06 13:42:33','Member'),(27,16,0,'2015-03-06 13:42:33','Member'),(28,7,0,'2015-03-06 13:42:33','Member'),(29,10,0,'2015-03-06 13:42:33','Member'),(30,2,2,'2015-04-26 18:04:33','Member'),(30,4,0,'2015-03-06 13:42:33','Member'),(31,2,0,'2015-04-26 18:05:13','Member'),(31,6,2,'2015-04-26 18:08:04','Pending');
+INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,1,'2015-03-06 15:30:53','Member'),(1,3,1,'2015-03-06 13:20:45','Member'),(1,4,1,'2015-03-06 13:11:55','Member'),(1,5,2,'2015-03-06 20:12:22','Member'),(1,6,2,'2015-03-06 12:20:20','Member'),(2,4,0,'2015-03-06 13:42:33','Member'),(2,6,2,'2015-03-06 15:30:53','Pending'),(2,7,2,'2015-03-06 13:20:45','Member'),(2,9,2,'2015-03-06 13:11:55','Member'),(2,17,2,'2015-03-06 20:12:22','Pending'),(2,18,2,'2015-03-06 12:20:20','Member'),(3,2,2,'2015-03-06 15:30:53','Member'),(3,3,2,'2015-03-06 13:20:45','Member'),(3,5,1,'2015-03-06 13:11:55','Member'),(3,7,2,'2015-03-06 20:12:22','Member'),(3,8,0,'2015-03-06 13:42:33','Member'),(3,9,1,'2015-03-06 15:30:53','Member'),(3,11,2,'2015-03-06 13:20:45','Member'),(3,13,2,'2015-03-06 13:11:55','Member'),(3,15,2,'2015-03-06 20:12:22','Member'),(3,16,2,'2015-03-06 12:20:20','Member'),(3,20,1,'2015-03-06 12:20:20','Member'),(4,13,0,'2015-03-06 13:42:33','Member'),(4,14,1,'2015-03-06 15:30:53','Member'),(5,7,0,'2015-03-06 20:12:22','Member'),(5,11,2,'2015-03-06 13:20:45','Pending'),(5,12,1,'2015-03-06 13:11:55','Member'),(5,17,2,'2015-03-06 12:20:20','Member'),(6,2,2,'2015-03-06 13:20:45','Member'),(6,4,1,'2015-03-06 13:11:55','Member'),(6,6,0,'2015-03-06 20:12:22','Member'),(6,11,2,'2015-03-06 12:20:20','Member'),(6,13,2,'2015-03-06 20:12:22','Member'),(6,15,2,'2015-03-06 12:20:20','Member'),(15,3,0,'2015-03-06 13:42:33','Member'),(16,1,2,'2015-03-06 13:20:45','Member'),(16,2,1,'2015-03-06 13:11:55','Member'),(16,3,0,'2015-03-06 20:12:22','Member'),(16,4,2,'2015-03-06 12:20:20','Member'),(16,5,2,'2015-03-06 20:12:22','Member'),(16,6,2,'2015-03-06 12:20:20','Member'),(16,7,2,'2015-03-06 13:20:45','Member'),(16,8,1,'2015-03-06 13:11:55','Member'),(16,9,2,'2015-03-06 20:12:22','Member'),(16,10,1,'2015-03-06 12:20:20','Member'),(16,11,2,'2015-03-06 20:12:22','Member'),(16,13,2,'2015-03-06 12:20:20','Member'),(16,14,2,'2015-03-06 13:20:45','Pending'),(16,15,1,'2015-03-06 13:11:55','Member'),(16,16,2,'2015-03-06 20:12:22','Pending'),(16,17,2,'2015-03-06 12:20:20','Member'),(16,19,2,'2015-03-06 20:12:22','Member'),(16,20,2,'2015-03-06 12:20:20','Pending'),(17,12,1,'2015-03-06 13:20:45','Member'),(17,18,0,'2015-03-06 13:20:45','Member'),(18,3,0,'2015-03-06 13:42:33','Member'),(19,2,0,'2015-03-06 13:42:33','Member'),(20,13,0,'2015-03-06 13:42:33','Member'),(21,8,0,'2015-03-06 13:42:33','Member'),(22,6,0,'2015-03-06 13:42:33','Member'),(23,6,0,'2015-03-06 13:42:33','Member'),(24,20,0,'2015-03-06 13:42:33','Member'),(25,5,0,'2015-03-06 13:42:33','Member'),(26,4,0,'2015-03-06 13:42:33','Member'),(27,16,0,'2015-03-06 13:42:33','Member'),(28,7,0,'2015-03-06 13:42:33','Member'),(29,10,0,'2015-03-06 13:42:33','Member'),(30,2,2,'2015-04-26 18:04:33','Member'),(30,4,0,'2015-03-06 13:42:33','Member'),(31,2,0,'2015-04-26 18:05:13','Member'),(31,6,2,'2015-04-26 18:08:04','Pending');
 /*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -881,4 +875,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-26 20:34:00
+-- Dump completed on 2015-04-27 19:09:53
