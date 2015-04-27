@@ -59,7 +59,7 @@ def home(request):
             for memberInGroup in member_of_groups:
                 if memberInGroup.group.group_type == 1:
                     member_of_groups.remove(memberInGroup)
-                    
+
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
             feed.extend(exercises_made)
@@ -245,17 +245,15 @@ def user(request, id=0):
         mutual_friends = []
         non_mutual_friends = []
         if current_user.id != user.id:
-            for current_user_friend in current_user.allFriends():
-                mutual = False
-                for user_friend in user.allFriends():
-                    if current_user_friend.id == user_friend.id:
-                        mutual_friends.append(current_user_friend)
-                        mutual = True
-                if not mutual:
-                    non_mutual_friends.append(current_user_friend)
+            current_user_friend_ids = current_user.allFriendIDs()
+            for user_friend in user.allFriends():
+                if user_friend.id in current_user_friend_ids:
+                    mutual_friends.append(user_friend)
+                else:
+                    non_mutual_friends.append(user_friend)
 
         total_mutual_friends = len(mutual_friends)
-        
+
         friendship_pending = current_user.isFriendshipPending(user)
 
         print(friendship_pending)

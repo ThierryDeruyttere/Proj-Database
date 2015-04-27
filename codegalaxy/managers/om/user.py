@@ -95,6 +95,9 @@ class User:
                     accepted_friends.append(friend)
         return accepted_friends
 
+    def allFriendIDs(self):
+        return [x.id for x in self.allFriends()]
+
     def allFriendsNotMemberOfGroupWithID(self, group_id):
         friends_info = dbw.getFriendsNotMemberOfGroupWithID(self.id, group_id)
         friends_list = []
@@ -181,7 +184,7 @@ class User:
             if pending_friendship.friend.id == friend.id:
                 print("JAAA IS PENDING!!!")
                 return True
-                
+
         print("NOOO NIET PENDING :(")
         return False
 
