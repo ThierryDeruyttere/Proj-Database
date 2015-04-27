@@ -406,6 +406,7 @@ def group(request, id=0):
             return redirect('/social/')
 
     is_member = False
+
     if group:
         user_list = group.allMembers()
         if group.group_type == 1:
@@ -434,11 +435,15 @@ def group(request, id=0):
         exercises_made = []
         all_data = []
 
+        group_owner = ''
+
         if group_size > 0:
             for one_user in user_list:
                 exercises_made = one_user.allExerciseListsShared(browser_lang.id)
                 member_of_groups = one_user.allGroupsJoined()
                 accepted_friendships = one_user.allFriendsWith()
+                if group.getUserPermissions(one_user.id) == 0:
+                    group_owner = one_user.name()
 
                 for member in member_of_groups:
                     if member.user.id != user.id:
@@ -488,7 +493,7 @@ def group(request, id=0):
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit,
-                   'my_user_permissions': my_user_permissions}
+                   'my_user_permissions': my_user_permissions, 'group_size': group_size, 'group_owner': group_owner}
         return render(request, 'group.html', context)
 
     else:
