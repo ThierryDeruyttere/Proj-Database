@@ -750,7 +750,7 @@ def createListElem(i, elem):
               <a class=\"round tiny button\" type=\"button\" href=\"/l/{list_id}\">Explore!</a>
             </div>
           </div>
-         </div> 
+         </div>
         </div>"""
 
     pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creatorName(), list_amountOfExercises=elem.amountOfExercises() , list_id=elem.id, for_i=i + 1)
@@ -767,8 +767,8 @@ def listOverview(request):
                                            lists_per_prog_lang['data'])
     # Amount of subjects:
     # colors
-    color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#FF9437", "#FF9437")
-    color_info2 = graphmanager.ColorInfo("#FFA336", "#FFA336", "#f04124", "#f04124")
+    color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
+    color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
     # data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,

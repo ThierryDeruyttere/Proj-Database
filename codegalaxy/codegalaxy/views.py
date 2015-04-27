@@ -59,7 +59,7 @@ def home(request):
             for memberInGroup in member_of_groups:
                 if memberInGroup.group.group_type == 1:
                     member_of_groups.remove(memberInGroup)
-                    
+
             feed.extend(accepted_friendships)
             feed.extend(member_of_groups)
             feed.extend(exercises_made)
@@ -255,7 +255,7 @@ def user(request, id=0):
                     non_mutual_friends.append(current_user_friend)
 
         total_mutual_friends = len(mutual_friends)
-        
+
         friendship_pending = current_user.isFriendshipPending(user)
 
         print(friendship_pending)
@@ -507,9 +507,9 @@ def social(request):
     # Biggest Groups
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo(
-        "#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
+        "#2a3963", "#2a3963", "#3e5084", "#3e5084")
     color_info2 = graphmanager.ColorInfo(
-        "#2a3963", "#2a3963", "#5AD3D1", "#46BFBD")
+        "#2a3963", "#2a3963", "#3e5084", "#3e5084")
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
