@@ -9,7 +9,6 @@
 {% block base_body %}
   <div class="row">
     <div class="large-12 columns">
-      <div class="panel">
         <form id="submit_page" method="POST">
         {% csrf_token %}
         {% if solved %}
@@ -20,95 +19,84 @@
           </div>
 
           <div class="row">
-            <div class="large-7 columns large-centered">
-              <div class="panel">
+            <div class="large-5 columns large-centered">
+              <div class="panel callout radius">
                 <div class="large-text-center">
-                  <h2>{% trans "Your score:" %}</h2>
-                  <br/>
-                  <br/>
-                  <h1>{{ current_score }}/{{ max_score }}</h1>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+                  <img src="{% static "media/icons/planet.png" %}">
+                  <h4>{% trans "Your score:" %}</h4>
+                  <h4>{{ current_score }}/{{ max_score }}</h4>
                 </div>
-              </div>
             </div>
           </div>
 
           <div class="row">
             <input type="hidden" name="solved" value="True"></input>
-            <div class="large-6 large-text-center columns">
+            <div class="large-5 large-text-center columns">
               <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="{% trans "Return to list" %}"></input>
             </div>
-            <div class="large-6 large-text-center columns">
+            <div class="large-5 large-text-center columns">
               <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="{% trans "Next exercise" %}"></input>
             </div>
           </div>
 
         {% else %}
           <div class="row">
-
-          </div>
-          <div class="row">
             <div class="large-text-center">
-              <h2>{% trans "Wrong answer..." %}</h2>
-              <img src="{% static "media/icons/Icons8-Ios7-Messaging-Sad.ico" %}" height="100px" width="100px">
+              <h1>{% trans "Wrong answer..." %}</h1>
             </div>
           </div>
           {% if question_type == "Code" %}
-            <div class="row">
-              <div class="large-3 columns">
-                {% trans "Your code outputted:" %}
-              </div>
-            </div>
-
-            <div class="row">
-              <div class="large-5 columns">
-                <textarea id="user_code" name="user_code">{{ user_output }}</textarea>
-
-                <script>
-                  var myCodeMirror = CodeMirror.fromTextArea(user_code,
-                          {
-                            theme: "monokai",
-                            readOnly: true
-                          });
-                </script>
-              </div>
-
-              <div class="large-7 columns">
-                <div class="panel">
-                  <div class="large-text-center">
-                    <h2>{% trans "Your current score:" %}</h2>
-                    <br/>
-                    <br/>
-                    <h1>{{ current_score }}/{{ max_score }}</h1>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
+              <div class="row">
+                <div class="large-5 columns large-centered">
+                  <div class="panel callout radius">
+                    <div class="large-text-center">
+                      <img src="{% static "media/icons/planet.png" %}">
+                      <h4>{% trans "Your current score:" %}</h4>
+                      <h4>{{ current_score }}/{{ max_score }}</h4>
+                    </div>
                   </div>
+                </div>
+              </div>
 
+              <div class="row">
+                <div class="large-text-center">
+                  <div class="large-3 columns large-centered">
+                    {% trans "Your code outputted:" %}
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="large-text-center">
+                <div class="large-5 columns large-centered">
+                  <textarea id="user_code" name="user_code">{{ user_output }}</textarea>
+
+                  <script>
+                    var myCodeMirror = CodeMirror.fromTextArea(user_code,
+                            {
+                              theme: "monokai",
+                              readOnly: true
+                            });
+                  </script>
                 </div>
               </div>
             </div>
+
           {% elif question_type == "Open Question" %}
             <br/>
-            <div class="large-7 columns large-centered">
-              <div class="panel">
-                <div class="large-text-center">
-                  <h2>Your current score:</h2>
-                  <br/>
-                  <br/>
-                  <h1>{{ current_score }}/{{ max_score }}</h1>
-                  <br/>
-                  <br/>
-                  <br/>
-                  <br/>
+            <div class="row">
+              <div class="large-5 columns large-centered">
+                <div class="panel callout radius">
+                  <div class="large-text-center">
+                    <img src="{% static "media/icons/planet.png" %}">
+                    <h4>{% trans "Your current score:" %}</h4>
+                    <h4>{{ current_score }}/{{ max_score }}</h4>
+                  </div>
                 </div>
-
               </div>
             </div>
+          </div>
+
           {% endif %}
 
           <div class="large-text-center">
@@ -118,7 +106,6 @@
 
         {% endif %}
       </div>
-    </div>
   </div>
 
 {% endblock base_body %}
