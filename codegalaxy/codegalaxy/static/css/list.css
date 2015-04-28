@@ -52,12 +52,19 @@ h4 {
   background-color: #ECF0F1 !important;
 }
 
-/* line 52, ../../../theme/scss/list.scss */
-.Start {
-  background-color: #E74C3C !important;
+/* line 51, ../../../theme/scss/list.scss */
+button[name="share_result"] {
+  margin-bottom: 0px;
 }
 
-/* line 56, ../../../theme/scss/list.scss */
-li {
-  color: #000000 !important;
+/* line 55, ../../../theme/scss/list.scss */
+.exercise-wrapper {
+  border-style: solid;
+  border-color: #ababab;
+  border-radius: 8px;
+}
+
+/* line 63, ../../../theme/scss/list.scss */
+.alert-box button {
+  margin-bottom: 0px;
 }

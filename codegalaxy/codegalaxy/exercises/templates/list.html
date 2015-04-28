@@ -41,83 +41,58 @@
       </div>
       <br />
       <br />
-      <div class ="row">
-        <div class ="row">
-          <div class="large-7 large-centered text-center columns">
-            <h3>{% trans "Exercises" %}</h3>
-            <div class="progress small success round">
-              <span class="meter" style="width: {{ percent }}%"></span>
-            </div>
-            <b>{{ percent }}%</b> {% trans "solved" %}
-          </div>
-        </div>
-        <br />
-        <div class="large-6 large-centered text-center columns">
-          <div class="row">
-            {% for exercise in all_exercises %}
-              {% if exercise.0.solved %}
-                <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
-                    {{ exercise.0.title }}
-                      <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
-                    <img class="Arrow" src="{% static "media/arrow.png" %}">
-                </div>
-              {% else %}
-                <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
-                  {{ exercise.0.title }}
-                  <img class="Arrow" src="{% static "media/arrow.png" %}">
-                </div>
-              {% endif %}
-            {% endfor %}
-          </div>
-        </div>
-      </div>
-
-
-      <div class="row">
-        <div class="large-6 large-centered text-center columns">
-          <br/>
-
-        </div>
-        <br/>
+      <div class="large-8 large-centered text-center columns">
         {% if all_exercises|length > 0 %}
-          {% if list_owner %}
-            <button class="small button Start" id="{{ cur_exercise }}">
-              Review
-            </button>
-          {% elif not list_owner %}
-            <button class="small button Start" id="{{ cur_exercise }}">
-              {% if found %}
-                Continue
-              {% else %}
-                Start
-              {% endif %}
-            </button>
+          {% if not list_owner and found %}
+            <div data-alert class="alert-box info radius">
+              It seems like you have been on this planet before.<br />
+              <button class="tiny button start" id="{{ cur_exercise }}">Continue exploring! <span class="octicon octicon-rocket"></span></button>
+              <a href="#" class="close"><span class="octicon-x octicon"></span></a>
+            </div>
           {% endif %}
         {% endif %}
       </div>
 
       <div class="row">
-        <div class="large-4 columns large-centered large-text-center">
-          <div class="panel radius info">
-            {% if solved_all %}
-            {% trans "Rating:" %}<br />
-              <form id="Rating" method="POST">
-                <div class="rating">
-                  <div id="raty"></div>
-                </div>
-              </form>
-            {% else %}
-              {% trans "Make all exercises of this list to give it a rating!" %}
-            {% endif %}
+        <div class="large-8 large-centered text-center columns exercise-wrapper">
+          <h3>{% trans "Exercises" %}</h3>
+          <div class="row">
+            <div class="large-10 large-centered text-center columns">
+              <div class="progress small success round">
+                <span class="meter" style="width: {{ percent }}%"></span>
+              </div>
+              <b>{{ percent }}%</b> {% trans "solved" %}
+            </div>
+          </div>
+          <br />
+          <div class="large-9 large-centered text-center columns">
+            <div class="row">
+              {% for exercise in all_exercises %}
+                {% if exercise.0.solved %}
+                  <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
+                      {{ exercise.0.title }}
+                        <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
+                      <img class="Arrow" src="{% static "media/arrow.png" %}">
+                  </div>
+                {% else %}
+                  <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
+                    {{ exercise.0.title }}
+                    <img class="Arrow" src="{% static "media/arrow.png" %}">
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
           </div>
         </div>
       </div>
 
-      {% if solved_all %}
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <div class="panel radius info">
-            <ul class="large-block-grid-2">
+      <br />
+
+      <div class="row">
+        <div class="large-8 columns large-centered large-text-center">
+          {% if solved_all %}
+          <!-- <div class="panel radius info"> -->
+            <ul class="large-block-grid-3">
               <li>
                 {% trans "Your score" %}
                 <br/>
@@ -125,9 +100,18 @@
                 {% if shared_result %}
                 <form method="post" id="share_result">
                 {% csrf_token %}
-                  <input type="submit" value="{% trans "Share my result" %}" name="share_result" class="button tiny radius"/>
+                  <button type="submit" name="share_result" class="button tiny radius">{% trans "Share my result" %} <span class="octicon octicon-rss"></span></button>
                 </form>
                 {% endif %}
+              </li>
+              <li>
+                {% trans "Rating:" %}
+                <br />
+                <form id="Rating" method="POST">
+                  <div class="rating">
+                    <div id="raty"></div>
+                  </div>
+                </form>
               </li>
               <li>
                 {% trans "Completed on" %}
@@ -135,11 +119,14 @@
                 <h4>{{user_date}}</h4>
               </li>
             </ul>
-          </div>
+          <!-- </div> -->
+          {% else %}
+            {% trans "Make all exercises of this list to give it a rating!" %}
+          {% endif %}
         </div>
       </div>
-    {% endif %}
 
+      <br />
       <!--
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
@@ -304,13 +291,10 @@
 {% block body_js %}
   <script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
-
-    $('img').on('dragstart', function(event) { event.preventDefault(); });
-
     $(document).ready(function() {
 
       //Start button
-      $(".Start").click(function(){
+      $(".start").click(function(){
         var id = this.id;
         window.location += id;
       });

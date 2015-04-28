@@ -48,11 +48,19 @@ h4{
      background-color: #ECF0F1 !important;
 }
 
-
-.Start{
-    background-color: #E74C3C !important;
+button[name="share_result"] {
+    margin-bottom: 0px;
 }
 
-li{
-    color: #000000 !important;
+.exercise-wrapper {
+    border-style: solid;
+    border-color: rgb(171, 171, 171);
+    border-radius: 8px;
+
+}
+
+.alert-box {
+    button {
+        margin-bottom: 0px;
+    }
 }
