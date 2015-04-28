@@ -1,3 +1,5 @@
+@import "settings";
+
 .size-8 { font-size: 8px; }
 .size-12 { font-size: 12px; }
 .size-14 { font-size: 14px; }
@@ -114,4 +116,12 @@
         vertical-align: middle;
         margin-right: 6px;
     }
+}
+
+.success-text {
+    color: $success-color;
+}
+
+.success-border {
+    border-color: $success-color;
 }

@@ -1,7 +1,7 @@
 {% extends "codegalaxy.html" %}
 {% load staticfiles %}
 {% load i18n %}
- 
+
 {% block head_js %}
   <script src="{% static "Chart.min.js" %}"></script>
 {% endblock head_js %}
@@ -264,17 +264,22 @@
     </div>
 
     <div class ="row">
-      <div class="large-3 large-centered large-text-center columns">
+      <div class="large-5 large-centered text-center columns">
         {% trans "Exercises" %}
         <div class="row">
           {% for exercise in all_exercises %}
-            <div class="panel radius callout exercise" id="Exercise{{ exercise.0.exercise_number }}">
+            {% if exercise.0.solved %}
+              <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
+                  {{ exercise.0.title }}
+                    <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
+                  <img class="Arrow" src="{% static "media/arrow.png" %}">
+              </div>
+            {% else %}
+              <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
                 {{ exercise.0.title }}
-                {% if exercise.0.solved %}
-                  <div class="label success left"><pre> {{ exercise.1 }}/{{ exercise.0.max_score }} </pre><i class="fi-checkbox"></i></div>
-                {% endif %}
                 <img class="Arrow" src="{% static "media/arrow.png" %}">
-            </div>
+              </div>
+            {% endif %}
           {% endfor %}
         </div>
       </div>
