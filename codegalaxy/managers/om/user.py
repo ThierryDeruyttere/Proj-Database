@@ -263,7 +263,8 @@ class User:
         return user_in_groups
 
     def madeList(self, list_id, list_score, list_rating):
-        dbw.insertMadeList(list_id, self.id, list_rating, list_score)
+        if not self.getRatingForList():
+            dbw.insertMadeList(list_id, self.id, list_rating, list_score)
 
     def updateListRating(self, list_id, list_rating):
         dbw.updateListRating(list_id, self.id, list_rating)
