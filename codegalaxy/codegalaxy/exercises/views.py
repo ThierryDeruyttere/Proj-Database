@@ -424,11 +424,12 @@ def list(request, id=0):
         all_exercises = exercise_list.allExercises(browser_lang.code)
         all_exercises_with_score = []
 
-        shared_result = user.sharedResult(exercise_list.id)
+        shared_result = True
 
         list_owner = False
         if logged_user(request):
             user = logged_user(request)
+            shared_result = user.sharedResult(exercise_list.id)
             for exercise in all_exercises:
                 completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
                 if completed is not None:
