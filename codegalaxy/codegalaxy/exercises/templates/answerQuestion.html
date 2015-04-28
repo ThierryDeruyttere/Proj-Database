@@ -76,8 +76,10 @@
         <div class="row">
           {% if not solved %}
             <ul class="button-group radius">
+              {% if logged_in %}
               <li><a id="get_hint" class="button radius small">{% trans "Get hint" %}</a></li>
               <li><a id="reset" class="alert button radius small">{% trans "Reset question" %}</a></li>
+              {% endif %}
             </ul>
           {% endif %}
           <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
@@ -105,17 +107,19 @@
 
       <div class="row">
         <div class="text-center">
-          {% if list_owner %}
-            <h3>{% trans "This question is part of your own list!" %}</h3>
-          {% else %}
-            {% if solved %}
-              <h1>{% trans "You solved the question!" %}</h1>
+          {% if logged_in %}
+            {% if list_owner %}
+              <h3>{% trans "This question is part of your own list!" %}</h3>
             {% else %}
-              {% if exercise.exercise_type == "Open Question" %}
-                <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
+              {% if solved %}
+                <h1>{% trans "You solved the question!" %}</h1>
               {% else %}
-                <input id="code_output" name="code_output" type="hidden" value=""></input>
-                <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
+                {% if exercise.exercise_type == "Open Question" %}
+                  <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
+                {% else %}
+                  <input id="code_output" name="code_output" type="hidden" value=""></input>
+                  <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
+                {% endif %}
               {% endif %}
             {% endif %}
           {% endif %}
@@ -137,6 +141,9 @@
       var code_text = CodeMirror.fromTextArea(user_code,
               {
                 {% if list_owner %}
+                  readOnly: true,
+                {% endif %}
+                {% if not logged_in %}
                   readOnly: true,
                 {% endif %}
                 lineNumbers: true,

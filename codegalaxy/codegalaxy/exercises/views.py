@@ -386,7 +386,6 @@ def list(request, id=0):
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
         elif 'share_result' in request.POST:
-            print("SHARE THIS MOFO!")
             user.shareExerciseListResult(exercise_list.id)
 
         elif user is not None and user.id != exercise_list.created_by:
@@ -418,19 +417,18 @@ def list(request, id=0):
                         l.copyExercise(copy.id)
 
     if exercise_list:
+        all_exercises = exercise_list.allExercises(browser_lang.code)
         if user:
             personal_list = user.getMadeList(exercise_list.id, browser_lang.id)
             if personal_list:
                 user_score = personal_list.score
                 user_date = personal_list.made_on
-        all_exercises = exercise_list.allExercises(browser_lang.code)
         all_exercises_with_score = []
 
         shared_result = True
-
         list_owner = False
-        if logged_user(request):
-            user = logged_user(request)
+
+        if user:
             shared_result = user.sharedResult(exercise_list.id)
             for exercise in all_exercises:
                 completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
@@ -444,6 +442,8 @@ def list(request, id=0):
                     all_exercises_with_score.append((exercise, None))
 
             list_owner = (user.id == exercise_list.created_by)
+        else:
+            all_exercises_with_score = [(x, None) for x in all_exercises]
 
         cur_exercise = 0
         percent = 0
@@ -485,8 +485,7 @@ def list(request, id=0):
 
         user_rating = 0
         user_lists = None
-        if logged_user(request):
-            user = logged_user(request)
+        if user:
             user_lists = user.getUserLists(browser_lang.id)
             user_rating = user.getRatingForList(exercise_list.id)
             # for the recommended lists, we'll first check if the user solved the current list
@@ -498,7 +497,6 @@ def list(request, id=0):
                     similar_list_ids = listsLikeThisOne(exercise_list.id, user)
         for list_id in similar_list_ids:
             similar_lists.append(object_manager.createExerciseList(list_id, browser_lang.id))
-
         return render(request, 'list.html', {'list_owner': list_owner,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises_with_score,
@@ -523,7 +521,6 @@ def list(request, id=0):
     else:
         return redirect('/')
 
-@require_login
 def answerQuestion(request, list_id, exercise_number):
     current_user = logged_user(request)
     if request.method == "POST":
@@ -535,7 +532,10 @@ def answerQuestion(request, list_id, exercise_number):
     exercise_list = object_manager.createExerciseList(list_id, browser_lang.id)
     current_answer = None
     correct_answer = ""
-    solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
+    last_hint_used = 0
+    solved = None
+    if current_user:
+        solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
     if exercise_list:
         all_exercise = exercise_list.allExercises(browser_lang.code)
         current_exercise = None
@@ -547,22 +547,26 @@ def answerQuestion(request, list_id, exercise_number):
                 else:
                     correct_answer = stripStr(current_exercise.allAnswers()[0])
                 hints = current_exercise.allHints()
-                info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
+                info = None
+                if current_user:
+                    info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
+                    last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
+                    current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 penalty = current_exercise.penalty
                 current_score = None
-                if info is not None:
+                if info:
                     current_score = info['exercise_score']
 
-                if current_score is None:
+                if not current_score:
                     current_score = current_exercise.max_score
-                last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
-                current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
                 if current_exercise.exercise_type == 'Open Question':
                     current_answer = int(current_answer)
                 break
 
         if current_exercise:
-            list_owner = (current_user.id == exercise_list.created_by)
+            list_owner = False
+            if current_user:
+                list_owner = (current_user.id == exercise_list.created_by)
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
