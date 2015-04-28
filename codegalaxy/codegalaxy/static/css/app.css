@@ -85,7 +85,7 @@ body {
 /* line 417, ../../../theme/bower_components/foundation/scss/foundation/components/_global.scss */
 body {
   background: #131a2d;
-  color: #FFFFFF;
+  color: #DDDDDD;
   padding: 0;
   margin: 0;
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, sans-serif;
@@ -7836,7 +7836,7 @@ abbr,
 acronym {
   text-transform: uppercase;
   font-size: 90%;
-  color: #FFFFFF;
+  color: #DDDDDD;
   cursor: help;
 }
 

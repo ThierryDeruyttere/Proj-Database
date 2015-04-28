@@ -5,39 +5,29 @@
 }
 
 /* line 8, ../../../theme/scss/list.scss */
-h2 {
-  color: #ECF0F1 !important;
-}
-
-/* line 12, ../../../theme/scss/list.scss */
-h3 {
-  color: #000000 !important;
-}
-
-/* line 16, ../../../theme/scss/list.scss */
 h2#modalTitle {
   color: #1d1d1d !important;
 }
 
-/* line 20, ../../../theme/scss/list.scss */
+/* line 12, ../../../theme/scss/list.scss */
 table {
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 26, ../../../theme/scss/list.scss */
+/* line 18, ../../../theme/scss/list.scss */
 h4 {
   color: #3498DB !important;
 }
 
-/* line 30, ../../../theme/scss/list.scss */
+/* line 22, ../../../theme/scss/list.scss */
 .Arrow {
   width: 25px;
   height: 25px;
 }
 
-/* line 35, ../../../theme/scss/list.scss */
-.Icon {
+/* line 27, ../../../theme/scss/list.scss */
+.icon {
   background-repeat: no-repeat;
   background-position: 50%;
   /*border-radius: 50%;*/
@@ -45,7 +35,7 @@ h4 {
   height: 100px;
 }
 
-/* line 44, ../../../theme/scss/list.scss */
+/* line 36, ../../../theme/scss/list.scss */
 #subjects {
   background-repeat: no-repeat;
   background-position: 50%;
@@ -57,17 +47,17 @@ h4 {
   margin: -10px;
 }
 
-/* line 55, ../../../theme/scss/list.scss */
+/* line 47, ../../../theme/scss/list.scss */
 .exercise:hover {
   background-color: #ECF0F1 !important;
 }
 
-/* line 60, ../../../theme/scss/list.scss */
+/* line 52, ../../../theme/scss/list.scss */
 .Start {
   background-color: #E74C3C !important;
 }
 
-/* line 64, ../../../theme/scss/list.scss */
+/* line 56, ../../../theme/scss/list.scss */
 li {
   color: #000000 !important;
 }

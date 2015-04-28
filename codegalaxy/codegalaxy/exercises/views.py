@@ -375,7 +375,7 @@ def list(request, id=0):
     user_date = None
 
     subjects = exercise_list.allSubjects()
-    creator = exercise_list.creatorName()
+    creator = exercise_list.creator()
     created_on = exercise_list.created_on
 
     if subjects is None:
@@ -760,7 +760,7 @@ def createListElem(i, elem):
          </div>
         </div>"""
 
-    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creatorName(), list_amountOfExercises=elem.amountOfExercises() , list_id=elem.id, for_i=i + 1)
+    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creator().name(), list_amountOfExercises=elem.amountOfExercises() , list_id=elem.id, for_i=i + 1)
 
     return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),pi_format)
 

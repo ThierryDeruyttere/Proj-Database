@@ -13,81 +13,102 @@
 {% block base_body %}
   <div class="row">
     <div class="large-12 columns">
-      <div class="text-center">
-        <div class="row">
-          <h2>{{ list.name }}</h2>
+      <div class="row text-center">
+        <h1>{{ list.name }}</h1>
+      </div>
+      <div class="row">
+        <div class="large-8 large-centered columns text-justify">
+          <span class="mega-octicon octicon-quote secondary"></span> <i>{{ list.description }}</i> <span class="mega-octicon octicon-quote secondary"></span>
         </div>
-        <div class="row">
-          <div class="large-6 large-centered text-center columns">
-            <i>{{ list.description }}</i>
-          </div>
-        </div>
-
-        <div class="row">
-          <div class="large-6 large-centered text-center columns">
-            <br/>
-            {% if list.programming_language.name == "Python" %}
-              <img class="Icon" src="{% static "media/icons/python.png" %}">
-            {% elif list.programming_language.name == "C++" %}
-              <img class="Icon" src="{% static "media/icons/C++.png" %}">
-            {% elif list.programming_language.name == "SQL" %}
-              <img class="Icon" src="{% static "media/icons/sql.png" %}">
-            {% endif %}
-          </div>
-          <br/>
-          {% if all_exercises|length > 0 %}
-            {% if list_owner %}
-              <button class="small button Start" id="{{ cur_exercise }}">
-                Review
-              </button>
-            {% elif not list_owner %}
-              <button class="small button Start" id="{{ cur_exercise }}">
-                {% if found %}
-                  Continue
-                {% else %}
-                  Start
-                {% endif %}
-              </button>
-            {% endif %}
+      </div>
+      <br />
+      <br />
+      <div class="row">
+        <div class="large-8 large-centered text-center columns">
+          {% if list.programming_language.name == "Python" %}
+            <img class="icon" src="{% static "media/icons/python.png" %}">
+          {% elif list.programming_language.name == "C++" %}
+            <img class="icon" src="{% static "media/icons/C++.png" %}">
+          {% elif list.programming_language.name == "SQL" %}
+            <img class="icon" src="{% static "media/icons/sql.png" %}">
           {% endif %}
         </div>
-
+        <div class="large-8 large-centered text-center columns">
+          {% for subject in subjects %}
+            <span class="label round">{{ subject }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      <br />
+      <br />
+      <div class ="row">
         <div class ="row">
-          <div class="large-4 large-centered columns">
-            <div class="panel callout radius">
-              <img id="subjects" src="{% static "media/icons/subjects.png" %}">
-              <div class="text-center">
-                {% for subject in subjects %}
-                  <span class="success label">{{ subject }}</span>
-                {% endfor %}
-              </div>
+          <div class="large-7 large-centered text-center columns">
+            <h3>{% trans "Exercises" %}</h3>
+            <div class="progress small success round">
+              <span class="meter" style="width: {{ percent }}%"></span>
             </div>
+            <b>{{ percent }}%</b> {% trans "solved" %}
+          </div>
+        </div>
+        <br />
+        <div class="large-6 large-centered text-center columns">
+          <div class="row">
+            {% for exercise in all_exercises %}
+              {% if exercise.0.solved %}
+                <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
+                    {{ exercise.0.title }}
+                      <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
+                    <img class="Arrow" src="{% static "media/arrow.png" %}">
+                </div>
+              {% else %}
+                <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
+                  {{ exercise.0.title }}
+                  <img class="Arrow" src="{% static "media/arrow.png" %}">
+                </div>
+              {% endif %}
+            {% endfor %}
           </div>
         </div>
       </div>
 
-      {% if solved_all %}
-        <div class="row">
-          <div class="large-4 columns large-centered large-text-center">
-            <div class="panel callout radius info">
-              {% trans "Rating:" %}<br/>
+
+      <div class="row">
+        <div class="large-6 large-centered text-center columns">
+          <br/>
+
+        </div>
+        <br/>
+        {% if all_exercises|length > 0 %}
+          {% if list_owner %}
+            <button class="small button Start" id="{{ cur_exercise }}">
+              Review
+            </button>
+          {% elif not list_owner %}
+            <button class="small button Start" id="{{ cur_exercise }}">
+              {% if found %}
+                Continue
+              {% else %}
+                Start
+              {% endif %}
+            </button>
+          {% endif %}
+        {% endif %}
+      </div>
+
+      <div class="row">
+        <div class="large-4 columns large-centered large-text-center">
+          <div class="panel radius info">
+            {% if solved_all %}
+            {% trans "Rating:" %}<br />
               <form id="Rating" method="POST">
                 <div class="rating">
                   <div id="raty"></div>
                 </div>
               </form>
-            </div>
-          </div>
-        </div>
-      {% endif %}
-
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-            <div class="progress small success round">
-              <span class="meter" style="width: {{ percent }}%"></span>
-              {{ percent }}% {% trans "solved" %}
-            </div>
+            {% else %}
+              {% trans "Make all exercises of this list to give it a rating!" %}
+            {% endif %}
           </div>
         </div>
       </div>
@@ -95,7 +116,7 @@
       {% if solved_all %}
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
+          <div class="panel radius info">
             <ul class="large-block-grid-2">
               <li>
                 {% trans "Your score" %}
@@ -119,10 +140,33 @@
       </div>
     {% endif %}
 
+      <!--
       <div class ="row">
         <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info ">
-            <ul class="large-block-grid-3">
+          <h2>Score Spread</h2>
+          <br/>
+          {{ score_spread |safe }}
+        </div>
+      </div>
+      -->
+
+      <div class ="row">
+        <div class="large-10 large-centered columns">
+          <div class="panel radius info">
+            <ul class="large-block-grid-2 text-center">
+              <li>
+                {% trans "Made By" %}
+                <br/>
+                <a href="/u/{{ creator.id }}"><h4>{{ creator.name }}</h4></a>
+              </li>
+              <li>
+                {% trans "Made On" %}
+                <br/>
+                <h4>{{ created_on }}</h4>
+              </li>
+            </ul>
+            <hr />
+            <ul class="large-block-grid-3 text-center">
               <li>
                 <h4>{{ avg_score }}</h4>
                 {% trans "Average Score" %}
@@ -136,38 +180,27 @@
                 {% trans "Users that finished list" %}
               </li>
             </ul>
+
           </div>
         </div>
       </div>
 
-      <!--
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <h2>Score Spread</h2>
-          <br/>
-          {{ score_spread |safe }}
-        </div>
-      </div>
-      -->
-
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-            <ul class="large-block-grid-2">
-              <li>
-                {% trans "Made By" %}
-                <br/>
-                <h4>{{ creator }}</h4>
-              </li>
-              <li>
-                {% trans "Made On" %}
-                <br/>
-                <h4>{{ created_on }}</h4>
-              </li>
-            </ul>
+      {% if similar_lists|length > 0 %}
+        <div class ="row">
+          <div class="large-7 large-centered text-center columns">
+            <div class="panel radius info">
+              <h3>{% trans "ExerciseLists like this one:" %}</h3>
+              <ul class="large-block-grid-{{similar_lists|length}}">
+                {% for similar_list in similar_lists %}
+                  <li>
+                    <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
           </div>
         </div>
-      </div>
+      {% endif %}
 
       <hr>
       <div class="row">
@@ -255,54 +288,16 @@
             <a class="close-reveal-modal" aria-label="Close">&#215;</a>
             </div>
           {% endif %}
-      </div>
-      <div class="large-2 left columns">
-        {% if list_owner %}
-          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
-        {% endif %}
-      </div>
-    </div>
-
-    <div class ="row">
-      <div class="large-5 large-centered text-center columns">
-        {% trans "Exercises" %}
-        <div class="row">
-          {% for exercise in all_exercises %}
-            {% if exercise.0.solved %}
-              <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
-                  {{ exercise.0.title }}
-                    <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
-                  <img class="Arrow" src="{% static "media/arrow.png" %}">
-              </div>
-            {% else %}
-              <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
-                {{ exercise.0.title }}
-                <img class="Arrow" src="{% static "media/arrow.png" %}">
-              </div>
-            {% endif %}
-          {% endfor %}
+        </div>
+        <div class="large-2 left columns">
+          {% if list_owner %}
+            <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
+          {% endif %}
         </div>
       </div>
+
+
     </div>
-
-    {% if similar_lists|length > 0 %}
-      <div class ="row">
-        <div class="large-7 large-centered text-center columns">
-          <div class="panel callout radius info">
-            <h3>{% trans "ExerciseLists like this one:" %}</h3>
-            <ul class="large-block-grid-{{similar_lists|length}}">
-              {% for similar_list in similar_lists %}
-                <li>
-                  <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-        </div>
-      </div>
-    {% endif %}
-
-  </div>
   </div>
 {% endblock base_body %}
 
