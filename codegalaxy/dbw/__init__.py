@@ -289,6 +289,18 @@ def getPendingFriendships(id):
     cursor.close()
     return fetched
 
+def defGetReversePendingFriendships(id):
+    '''
+    @brief gets the friendships of a user that are pending
+    @param id the id of the user
+    @return returns a dict with friendship and user
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM friendsWith f, user u WHERE f.user_id = {id} AND status = "Pending" AND f.friend_id = u.id ;'.format(id=id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getPendingGroupMemberships(id):
     '''
     @brief get the groups of a user that are pending

@@ -173,13 +173,23 @@ class User:
 
     def isFriendshipPending(self, friend):
         pending_friendships = friend.allPendingFriendships2()
+        pending_friendships2 = friend.allPeopleThatWantToAddMe()
         print(len(pending_friendships))
+        print(len(pending_friendships2))
         for pending_friendship in pending_friendships:
             if pending_friendship.user.id == friend.id:
-                print("JAAA IS PENDING!!!")
+                print("JAAA IS PENDING!!!1")
                 return True
-            if pending_friendship.friend.id == friend.id:
-                print("JAAA IS PENDING!!!")
+            if pending_friendship.friend.id == self.id:
+                print("JAAA IS PENDING!!!2")
+                return True
+        for pending_friendship2 in pending_friendships2:
+            print(pending_friendship2)
+            if pending_friendship2.user.id == friend.id:
+                print("JAAA IS PENDING!!!3")
+                return True
+            if pending_friendship2.friend.id == self.id:
+                print("JAAA IS PENDING!!!4")
                 return True
 
         print("NOOO NIET PENDING :(")
@@ -236,6 +246,21 @@ class User:
             pending_group_membership_objects.append(pending_group_membership_object)
 
         return pending_group_membership_objects
+
+    def allPeopleThatWantToAddMe(self):
+        pending_friendships = dbw.defGetReversePendingFriendships(self.id)
+
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        user = object_manager.createUser(id=self.id)
+
+        pending_friendship_objects = []
+        for pending_friendship in pending_friendships:
+            friend = object_manager.createUser(id=pending_friendship['user_id'])
+
+            friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
+            pending_friendship_objects.append(friendship)
+        return pending_friendship_objects
 
     def allUserAdded(self):
         group_members = dbw.getGroupsMemberOf(self.id)
