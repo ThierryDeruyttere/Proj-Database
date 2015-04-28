@@ -411,8 +411,10 @@ def list(request, id=0):
                 found = request.POST.get('mylist_' + str(l.id))
                 if found:
                     for ref in references:
+                        print(ref.id)
                         l.insertExerciseByReference(ref.id)
                     for copy in copies:
+                        print(copy.id)
                         l.copyExercise(copy.id)
 
     if exercise_list:
@@ -718,7 +720,7 @@ def createListElem(i, elem):
     for subj in elem.allSubjects():
         subjects = subjects + subj + " | "
 
-    planet_info = """<div class="large-4 columns large-centered">
+    planet_info = """<div class="large-4 columns large-centered list_info">
         <div class=\"information panel radius\" id="info{for_i}" hidden="True">
           <div class=\"row\">
             <div class=\"text-center\">

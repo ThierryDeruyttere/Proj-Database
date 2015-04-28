@@ -67,9 +67,6 @@ def home(request):
 
         feed = sorted(feed, key=lambda k: k.datetime, reverse=True)
 
-        for item in feed:
-            print(item)
-
         paginator = Paginator(feed, 10)  # 10 items per page
 
         page = request.GET.get('page')
@@ -256,7 +253,6 @@ def user(request, id=0):
 
         friendship_pending = current_user.isFriendshipPending(user)
 
-        print(friendship_pending)
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,

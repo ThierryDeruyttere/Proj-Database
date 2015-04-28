@@ -200,14 +200,14 @@
                       </thead>
                       {% for e in all_exercises %}
                         <tbody>
-                        <td><p id="name{{ e.exercise_number }}">{{ e.0.title }}</p>
+                        <td><p id="name{{ e.0.exercise_number }}">{{ e.0.title }}</p>
                           {% if e.0.isReference %}
                             <br/>
                             <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.0.isReferenceTo.1}}]
                           {% endif %}
                         </td>
-                        <td><input class="import_check" id="checkbox_copy{{ e.exercise_number }}" name="checkbox_copy{{ e.exercise_number }}" type="checkbox"></td>
-                        <td><input class="import_check" id="checkbox_import{{ e.exercise_number }}" name="checkbox_import{{ e.exercise_number }}" type="checkbox"></td>
+                        <td><input class="import_check" id="checkbox_copy{{ e.0.exercise_number }}" name="checkbox_copy{{ e.0.exercise_number }}" type="checkbox"></td>
+                        <td><input class="import_check" id="checkbox_import{{ e.0.exercise_number }}" name="checkbox_import{{ e.0.exercise_number }}" type="checkbox"></td>
                         </tbody>
                       {% endfor %}
                     {% else %}
