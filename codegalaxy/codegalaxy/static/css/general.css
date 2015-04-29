@@ -81,26 +81,21 @@
 }
 
 /* line 36, ../../../theme/scss/general.scss */
-.prog-lang-icon.active {
-  border-color: #596cb7;
-}
-
-/* line 40, ../../../theme/scss/general.scss */
 .no-outline:focus {
   outline: none;
 }
 
-/* line 44, ../../../theme/scss/general.scss */
+/* line 40, ../../../theme/scss/general.scss */
 .panel {
   border-color: #ababab;
 }
-/* line 46, ../../../theme/scss/general.scss */
+/* line 42, ../../../theme/scss/general.scss */
 .panel.radius {
   border-radius: 8px;
 }
 
 /* CodeMirror text area styling */
-/* line 52, ../../../theme/scss/general.scss */
+/* line 48, ../../../theme/scss/general.scss */
 .CodeMirror {
   border-radius: 15px;
   border-color: #3a3a3a;
@@ -109,17 +104,17 @@
   margin: 0.8em 0em;
 }
 
-/* line 60, ../../../theme/scss/general.scss */
+/* line 56, ../../../theme/scss/general.scss */
 .CodeMirror.error {
   border-color: #790000;
 }
 
-/* line 64, ../../../theme/scss/general.scss */
+/* line 60, ../../../theme/scss/general.scss */
 .CodeMirror.success {
   border-color: #007900;
 }
 
-/* line 68, ../../../theme/scss/general.scss */
+/* line 64, ../../../theme/scss/general.scss */
 .CodeMirror-gutter {
   border-width: 0px 3px 0px 0px;
   border-style: solid;
@@ -128,21 +123,21 @@
   margin-right: 6px;
 }
 
-/* line 76, ../../../theme/scss/general.scss */
+/* line 72, ../../../theme/scss/general.scss */
 .profile_picture {
   width: 40px;
   height: 40px;
   border-radius: 50%;
 }
 
-/* line 83, ../../../theme/scss/general.scss */
+/* line 79, ../../../theme/scss/general.scss */
 .top-bar .mega-octicon {
   width: 32px;
   text-align: center;
   vertical-align: middle;
 }
 
-/* line 91, ../../../theme/scss/general.scss */
+/* line 87, ../../../theme/scss/general.scss */
 #feed hr {
   border: 0;
   height: 1px;
@@ -152,31 +147,31 @@
   background-image: -o-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
 }
 
-/* line 102, ../../../theme/scss/general.scss */
+/* line 98, ../../../theme/scss/general.scss */
 .feed-item p {
   margin-bottom: 0px;
 }
-/* line 106, ../../../theme/scss/general.scss */
+/* line 102, ../../../theme/scss/general.scss */
 .feed-item .large-2 {
   width: 10%;
   padding-right: 0px;
 }
-/* line 111, ../../../theme/scss/general.scss */
+/* line 107, ../../../theme/scss/general.scss */
 .feed-item .feed-timestamp {
   color: rgba(217, 217, 217, 0.7);
 }
-/* line 115, ../../../theme/scss/general.scss */
+/* line 111, ../../../theme/scss/general.scss */
 .feed-item .octicon {
   vertical-align: middle;
   margin-right: 6px;
 }
 
-/* line 121, ../../../theme/scss/general.scss */
+/* line 117, ../../../theme/scss/general.scss */
 .success-text {
   color: #43AC6A;
 }
 
-/* line 125, ../../../theme/scss/general.scss */
+/* line 121, ../../../theme/scss/general.scss */
 .success-border {
   border-color: #43AC6A;
 }
