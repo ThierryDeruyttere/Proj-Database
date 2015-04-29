@@ -245,8 +245,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
 
     if exercise_list and user.id == exercise_list.created_by:
         # Extra check so you can't just surf to the url and edit the exercise
-        language = getBrowserLanguage(request)
-        exercise = object_manager.createExercise(exercise_id, language)
+        exercise = object_manager.createExercise(exercise_id, browser_lang.code)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
         if exercise.exercise_type == "Code":
