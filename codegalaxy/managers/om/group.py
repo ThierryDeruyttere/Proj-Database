@@ -105,7 +105,7 @@ class Group:
                 <div class="row">
                   <div class="large-3 columns">
                     <a href="/g/{id}">
-                      <img src="/static/{picture}" />
+                      <img src="/static/{picture}" class="round-image"/>
                     </a>
                   </div>
                   <div class="large-9 columns left">
@@ -135,7 +135,7 @@ class Group:
             <div class="row">
               <div class="large-3 columns">
                 <a href="/g/{id}">
-                  <img src="/static/{picture}" />
+                  <img src="/static/{picture}" class="round-image"/>
                 </a>
               </div>
               <div class="large-9 columns left">

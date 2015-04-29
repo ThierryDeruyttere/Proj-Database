@@ -14,8 +14,8 @@
             <h5>{{ user.name }}</h5>
             <hr/>
           </div>
-          <li><a href="/me">{% trans "My profile" %}</a></li>
-          <li><a href="/sandbox">{% trans "Sandbox mode" %}</a></li>
+          <li><a href="/me" class="blue-text">{% trans "My profile" %}</a></li>
+          <li><a href="/sandbox" class="blue-text">{% trans "Sandbox mode" %}</a></li>
           <!--<li><a href="/me">Friends</a></li>-->
         </div>
       </div>
@@ -141,7 +141,7 @@
           {% trans "Recommended Lists:" %}<br/>
           {% if recommended %}
             {% for recommended_list in recommended %}
-              <a href="../l/{{ recommended_list.id }}">{{recommended_list.name}}</a><br/><br/>
+              <a href="../l/{{ recommended_list.id }}" class="blue-text">{{recommended_list.name}}</a><br/><br/>
             {% endfor %}
             <a href="/l/{{random_list}}" class="round small button">{% trans "I'm feeling lucky!" %}</a>
           {% else %}
