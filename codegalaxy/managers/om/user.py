@@ -287,8 +287,14 @@ class User:
                 user_in_groups.append(user_in_group)
         return user_in_groups
 
+    def haveImadeList(self, list_id):
+        for personal_list in self.allPersonalLists():
+            if personal_list.exercises_list.id == list_id:
+                return True
+        return False
+
     def madeList(self, list_id, list_score, list_rating):
-        # if not self.getRatingForList():
+        if not self.haveImadeList(list_id):
             dbw.insertMadeList(list_id, self.id, list_rating, list_score)
 
     def updateListRating(self, list_id, list_rating):
