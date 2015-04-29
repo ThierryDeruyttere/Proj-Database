@@ -239,7 +239,27 @@
 
       });
 
+      $('#list_form').submit(function (e) {
+        e.preventDefault();
+        var form = $(this);
+        var post_data = form.serialize() + "&subjects_amount=" + subjects ;
+        $.ajax({
+          type: 'POST',
+          url: "",
+          data: post_data,
+
+          success: function (response) {
+            {% if edit %}
+              location.reload();
+            {% else %}
+              window.location.href = response;
+            {% endif %}
+          }
+        });
+      });
+
       $("#sub_Button").click(function(){
+        e.preventDefault()
         if(subjects == 0){
           window.alert("You need to add at least one subject!");
         }else{
@@ -250,25 +270,7 @@
               submit = checkTranslationDict(false);
             }
             if(submit) {
-
-              $('#list_form').submit(function (e) {
-                e.preventDefault();
-                var form = $(this);
-                var post_data = form.serialize() + "&subjects_amount=" + subjects ;
-                $.ajax({
-                  type: 'POST',
-                  url: "",
-                  data: post_data,
-
-                  success: function (response) {
-                    {% if edit %}
-                      location.reload();
-                    {% else %}
-                      window.location.href = response;
-                    {% endif %}
-                  }
-                });
-              });
+              $('#list_form').submit();
             }
           });
         }
