@@ -1,4 +1,4 @@
-
+@import "settings";
 
 #bg_panel{
     background-color: #ECF0F1 !important;
@@ -9,22 +9,21 @@ h2#modalTitle{
     color: #1d1d1d !important;
 }
 
-table{
+table {
     margin-left: auto;
     margin-right: auto;
 }
 
-
-h4{
+h4 {
     color: #3498DB !important;
 }
 
-.Arrow{
+.Arrow {
     width: 25px;
     height: 25px;
 }
 
-.icon{
+.icon {
     background-repeat: no-repeat;
     background-position: 50%;
 
@@ -33,7 +32,7 @@ h4{
     height: 100px;
 }
 
-#subjects{
+#subjects {
     background-repeat: no-repeat;
     background-position: 50%;
     border-radius: 50%;
@@ -44,7 +43,7 @@ h4{
     margin: -10px;
 }
 
-.exercise:hover{
+.exercise:hover {
      background-color: #ECF0F1 !important;
 }
 
@@ -63,4 +62,12 @@ button[name="share_result"] {
     button {
         margin-bottom: 0px;
     }
+}
+
+#sim_ex_list_title {
+    font-size: 18px;
+
+}
+.ex_list_link {
+    color: #3498DB !important;
 }

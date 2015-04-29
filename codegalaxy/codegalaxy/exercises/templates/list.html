@@ -22,7 +22,6 @@
         </div>
       </div>
       <br />
-      <br />
       <div class="row">
         <div class="large-8 large-centered text-center columns">
           {% if list.programming_language.name == "Python" %}
@@ -41,20 +40,20 @@
       </div>
       <br />
       <br />
-      <div class="large-8 large-centered text-center columns">
-        {% if all_exercises|length > 0 %}
-          {% if not list_owner and found %}
+      {% if user and not solved_all and all_exercises|length > 0 %}
+        {% if not list_owner and found %}
+          <div class="large-8 large-centered text-center columns">
             <div data-alert class="alert-box info radius">
-              It seems like you have been on this planet before.<br />
-              <button class="tiny button start" id="{{ cur_exercise }}">Continue exploring! <span class="octicon octicon-rocket"></span></button>
+              <p>It seems like you have been on this planet before.</p>
+              <button class="tiny button round start" id="{{ cur_exercise }}">Continue exploring! <span class="octicon octicon-rocket"></span></button>
               <a href="#" class="close"><span class="octicon-x octicon"></span></a>
             </div>
-          {% endif %}
+          </div>
         {% endif %}
-      </div>
+      {% endif %}
 
       <div class="row">
-        <div class="large-8 large-centered text-center columns exercise-wrapper">
+        <div class="large-9 large-centered text-center columns exercise-wrapper">
           <h3>{% trans "Exercises" %}</h3>
           <div class="row">
             <div class="large-10 large-centered text-center columns">
@@ -88,44 +87,46 @@
 
       <br />
 
-      <div class="row">
-        <div class="large-8 columns large-centered large-text-center">
-          {% if solved_all %}
-          <!-- <div class="panel radius info"> -->
-            <ul class="large-block-grid-3">
-              <li>
-                {% trans "Your score" %}
-                <br/>
-                <h4>{{ user_score }}%</h4>
-                {% if shared_result %}
-                <form method="post" id="share_result">
-                {% csrf_token %}
-                  <button type="submit" name="share_result" class="button tiny radius">{% trans "Share my result" %} <span class="octicon octicon-rss"></span></button>
-                </form>
-                {% endif %}
-              </li>
-              <li>
-                {% trans "Rating:" %}
-                <br />
-                <form id="Rating" method="POST">
-                  <div class="rating">
-                    <div id="raty"></div>
-                  </div>
-                </form>
-              </li>
-              <li>
-                {% trans "Completed on" %}
-                <br/>
-                <h4>{{user_date}}</h4>
-              </li>
-            </ul>
-          <!-- </div> -->
-          {% else %}
-            {% trans "Make all exercises of this list to give it a rating!" %}
-          {% endif %}
+      {% if not list_owner %}
+        <div class="row">
+          <div class="large-9 columns large-centered large-text-center">
+            {% if solved_all %}
+            <!-- <div class="panel radius info"> -->
+              <ul class="large-block-grid-3">
+                <li>
+                  {% trans "Your score" %}
+                  <br/>
+                  <h4>{{ user_score }}%</h4>
+                  {% if shared_result %}
+                  <form method="post" id="share_result">
+                  {% csrf_token %}
+                    <button type="submit" name="share_result" class="button tiny radius">{% trans "Share my result" %} <span class="octicon octicon-rss"></span></button>
+                  </form>
+                  {% endif %}
+                </li>
+                <li>
+                  {% trans "Rating:" %}
+                  <br />
+                  <form id="Rating" method="POST">
+                    <div class="rating">
+                      <div id="raty"></div>
+                    </div>
+                  </form>
+                </li>
+                <li>
+                  {% trans "Completed on" %}
+                  <br/>
+                  <h4>{{user_date}}</h4>
+                </li>
+              </ul>
+            <!-- </div> -->
+            {% else %}
+              {% trans "Make all exercises of this list to give it a rating!" %}
+            {% endif %}
+          </div>
         </div>
-      </div>
-
+      {% endif %}
+      
       <br />
       <!--
       <div class ="row">
@@ -138,9 +139,9 @@
       -->
 
       <div class ="row">
-        <div class="large-10 large-centered columns">
-          <div class="panel radius info">
-            <ul class="large-block-grid-2 text-center">
+        <div class="large-9 large-centered columns">
+          <div class="panel radius info text-center">
+            <ul class="large-block-grid-2">
               <li>
                 {% trans "Made By" %}
                 <br/>
@@ -153,7 +154,7 @@
               </li>
             </ul>
             <hr />
-            <ul class="large-block-grid-3 text-center">
+            <ul class="large-block-grid-3">
               <li>
                 <h4>{{ avg_score }}</h4>
                 {% trans "Average Score" %}
@@ -167,28 +168,22 @@
                 {% trans "Users that finished list" %}
               </li>
             </ul>
-
-          </div>
-        </div>
-      </div>
-
-      {% if similar_lists|length > 0 %}
-        <div class ="row">
-          <div class="large-7 large-centered text-center columns">
-            <div class="panel radius info">
-              <h3>{% trans "ExerciseLists like this one:" %}</h3>
+            {% if similar_lists|length > 0 %}
+              <hr/>
+              <p id="sim_ex_list_title">{% trans "ExerciseLists like this one:" %}</p>
               <ul class="large-block-grid-{{similar_lists|length}}">
                 {% for similar_list in similar_lists %}
                   <li>
-                    <a href="../{{ similar_list.id }}">{{similar_list.name}}</a><br/><br/>
+                    <a class="ex_list_link" href="../{{ similar_list.id }}">{{similar_list.name}}</a>
+                    <br/>
+                    <br/>
                   </li>
                 {% endfor %}
               </ul>
-            </div>
+            {% endif %}
           </div>
         </div>
-      {% endif %}
-
+      </div>
       <hr>
       <div class="row">
         <div class="large-2 right columns">

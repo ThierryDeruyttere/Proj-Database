@@ -517,7 +517,8 @@ def list(request, id=0):
                                              'user_lists': user_lists,
                                              'user_score': user_score,
                                              'user_date': user_date,
-                                             'shared_result': shared_result})
+                                             'shared_result': shared_result,
+                                             'user': user})
     else:
         return redirect('/')
 
