@@ -11,10 +11,13 @@
     <div class="large-12 columns">
         <form id="submit_page" method="POST">
         {% csrf_token %}
-        {% if solved %}
           <div class="row">
             <div class="large-text-center">
-              <h1>{% trans "Correct answer!" %}</h1>
+              {% if solved %}
+                <h1>{% trans "Correct answer!" %}</h1>
+              {% else %}
+                <h1>{% trans "Wrong answer..." %}<h1>
+              {% endif %}
             </div>
           </div>
 
@@ -23,40 +26,17 @@
               <div class="panel callout radius">
                 <div class="large-text-center">
                   <img src="{% static "media/icons/planet.png" %}">
-                  <h4>{% trans "Your score:" %}</h4>
-                  <h4>{{ current_score }}/{{ max_score }}</h4>
-                </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <input type="hidden" name="solved" value="True"></input>
-            <div class="large-5 large-text-center columns">
-              <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="{% trans "Return to list" %}"></input>
-            </div>
-            <div class="large-5 large-text-center columns">
-              <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="{% trans "Next exercise" %}"></input>
-            </div>
-          </div>
-
-        {% else %}
-          <div class="row">
-            <div class="large-text-center">
-              <h1>{% trans "Wrong answer..." %}</h1>
-            </div>
-          </div>
-          {% if question_type == "Code" %}
-              <div class="row">
-                <div class="large-5 columns large-centered">
-                  <div class="panel callout radius">
-                    <div class="large-text-center">
-                      <img src="{% static "media/icons/planet.png" %}">
+                    {% if solved %}
+                      <h4>{% trans "Your score:" %}</h4>
+                    {% else %}
                       <h4>{% trans "Your current score:" %}</h4>
-                      <h4>{{ current_score }}/{{ max_score }}</h4>
-                    </div>
-                  </div>
+                    {% endif %}
+                    <h4>{{ current_score }}/{{ max_score }}</h4>
                 </div>
-              </div>
+            </div>
+          </div>
+
+          {% if question_type == "Code" %}
 
               <div class="row">
                 <div class="large-text-center">
@@ -81,32 +61,28 @@
                 </div>
               </div>
             </div>
-
-          {% elif question_type == "Open Question" %}
-            <br/>
-            <div class="row">
-              <div class="large-5 columns large-centered">
-                <div class="panel callout radius">
-                  <div class="large-text-center">
-                    <img src="{% static "media/icons/planet.png" %}">
-                    <h4>{% trans "Your current score:" %}</h4>
-                    <h4>{{ current_score }}/{{ max_score }}</h4>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           {% endif %}
 
-          <div class="large-text-center">
-            <input type="hidden" name="solved" value="False"></input>
-            <input type="submit" name="b_tryagain" class="button alert small radius" value="{% trans "Try again" %}"></input>
-          </div>
+          {% if solved %}
+            <div class="row">
+              <input type="hidden" name="solved" value="True"></input>
+              <div class="large-5 large-text-center columns">
+                <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="{% trans "Return to list" %}"></input>
+              </div>
+              <div class="large-5 large-text-center columns">
+                <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="{% trans "Next exercise" %}"></input>
+              </div>
+            </div>
+            {% else %}
+            <div class="large-text-center">
+              <input type="hidden" name="solved" value="False"></input>
+              <input type="submit" name="b_tryagain" class="button alert small radius" value="{% trans "Try again" %}"></input>
+            </div>
+          {% endif %}
 
-        {% endif %}
       </div>
   </div>
+</div>
 
 {% endblock base_body %}
 {% block body_js %}
