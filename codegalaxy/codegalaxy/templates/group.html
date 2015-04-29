@@ -202,15 +202,6 @@
                       {% endif %}
                     </div>
                     {% if my_user_permissions == 1 %}
-
-
-                    {% elif my_user_permissions == 0 %}
-
-
-                    {% endif %}
-
-
-                    {% if not member.0 == 2 %}
                     <div class="large-3 columns">
                       {% if not member.0.id == user.id %}
                         {% if member.1 == 2 %}
@@ -237,7 +228,34 @@
                         </form>
                       {% endif %}
                     </div>
-                  {% endif %}
+                    {% elif my_user_permissions == 0 %}
+                    <div class="large-3 columns">
+                      {% if not member.0.id == user.id %}
+                        {% if member.1 == 2 %}
+                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                          {% csrf_token %}
+                          <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                          <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
+                        </form>
+                        {% elif member.1 == 1 %}
+                          {% if my_user_permissions == 0 %}
+                            <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                              {% csrf_token %}
+                              <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                              <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
+                            </form>
+                          {% endif %}
+                        {% endif %}
+                      {% endif %}
+                      {% if member.1 == 2 %}
+                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                          {% csrf_token %}
+                          <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
+                          <input type="submit" value="{% trans "Upgrade" %}" name="upgrade_user" class="tiny button success radius">
+                        </form>
+                      {% endif %}
+                    </div>
+                    {% endif %}
                   </div>
                 </div>
               </a>
