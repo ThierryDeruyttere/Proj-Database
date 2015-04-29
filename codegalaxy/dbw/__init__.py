@@ -754,8 +754,9 @@ def getLangForId(lang_id):
 # INSERT
 
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
+    print("WUT")
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email) VALUES ({active},"{fname}","{lname}","{passw}","{email}");'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email))
+    cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email,joined_on,last_login, gender) VALUES ({active},"{fname}","{lname}","{passw}","{email}", "{joined_on}", "{last_login}", "{gender}");'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, joined_on=joined_on, last_login=last_login, gender=gender))
 
 
 def insertFriendsWith(user_id, friend_id, status):
