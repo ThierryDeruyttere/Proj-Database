@@ -60,6 +60,8 @@ def createExerciseList(request):
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id, browser_lang.id)
         max_subjects = int(request.POST.get("subjects_amount"))
+        if max_subjects == 0:
+            exercise_list.addSubject("")
         for i in range(max_subjects):
             subj = request.POST.get("subject" + str(i))
             if subj is not None:
