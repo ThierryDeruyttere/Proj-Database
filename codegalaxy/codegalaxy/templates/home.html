@@ -9,7 +9,7 @@
     <div class="row">
       <div class="large-3 columns ">
         <div class="panel radius">
-          <img src="{% static user.getPicture %}"/>
+          <img src="{% static user.getPicture %}" class="round-image"/>
           <div class="text-center">
             <h5>{{ user.name }}</h5>
             <hr/>
@@ -38,7 +38,7 @@
           {% if item.type == 'FriendsWith' %}
           <div class="row">
             <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}" class="round-image"/></div>
               <div class="large-10 columns end">
                 <p>
                   <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
@@ -53,7 +53,7 @@
           {% if item.type == 'UserInGroup'%}
           <div class="row">
             <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}" class="round-image"/></div>
               <div class="large-10 columns end">
                 <p>
                   <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "became member of the group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
@@ -68,7 +68,7 @@
           {% if item.type == 'MadeExerciseList'%}
           <div class="row">
             <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}" class="round-image"/></div>
               <div class="large-10 columns end">
                 <p>
                   <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> {% trans "and scored" %} {{ item.personal_list.score }}%.
@@ -83,7 +83,7 @@
           {% if item.type == 'CreatedExerciseList'%}
           <div class="row">
             <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static item.user.getPicture %}"/></div>
+              <div class="large-2 columns"><img src="{% static item.user.getPicture %}" class="round-image"/></div>
               <div class="large-10 columns end">
                 <p>
                   <strong><a href="/u/{{ item.user.id }}">{{ item.user.name }} </a></strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.

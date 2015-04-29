@@ -185,3 +185,8 @@
 .success-border {
   border-color: #43AC6A;
 }
+
+/* line 133, ../../../theme/scss/general.scss */
+.round-image {
+  border-radius: 50%;
+}
