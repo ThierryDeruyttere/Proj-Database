@@ -50,11 +50,13 @@ class ExerciseList:
     def averageRatingOfUsersForThisList(self):
         ratings =  dbw.averageRatingOfUsersWhoMadeList(self.id)
         total_rating = 0
+        rating_divider = 0
         if ratings:
             for rating in ratings:
                 if rating['rating'] != 0:
                     total_rating += rating['rating']
-            total_rating / len(ratings)
+                    rating_divider += 1
+            total_rating = total_rating / rating_divider
         return total_rating
 
     def amountOfExercises(self):
