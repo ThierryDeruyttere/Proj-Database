@@ -1246,8 +1246,9 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
                 #No prob add it
                 cleaned.append(i)
             else:
-                if int(info[i['language_id']]) != 1:
+                if int(i['language_id']) != 1:
                     cleaned.append(i)
+
 
         return cleaned
 

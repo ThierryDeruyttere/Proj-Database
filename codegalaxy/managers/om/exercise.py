@@ -4,7 +4,7 @@ import managers.om.objectmanager
 def decodeString(fromVar):
     decoded = ""
     try:
-        decoded = fromVar.decode('ascii')
+        decoded = fromVar.decode('utf-8')
     except AttributeError:
         decoded = fromVar
     return decoded
