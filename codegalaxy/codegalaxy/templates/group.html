@@ -1,19 +1,22 @@
 {% extends "codegalaxy.html" %}
 
-{%load staticfiles%}
+{% load staticfiles %}
 {% load i18n %}
 
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/group.css" %}" />
+{% endblock page_css %}
+
+
 {% block base_body %}
-
-
 <div class="row">
   <div class="large-3 columns text-center ">
     <div class="panel radius">
       <a href="#"><img src="{% static group.getPicture %}"></a>
-      <br>
-      <br>
+      <br />
+      <br />
       <h4><b>{{ group.group_name }}</b></h4>
-      <br>
+      <br />
       <h6><b>Owner: </b> {{ group_owner }}</h6>
       <h6><b>Members: </b> {{ group_size }}</h6>
       {% if not is_member %}
@@ -148,8 +151,9 @@
           <div class="content" id="edit_group">
             {% if group_permissions == 0 %}
               <form method="POST">
-              {% csrf_token %}
-              <input type="submit" value="{% trans "Delete Group" %}" name="delete_group" class="button radius alert">
+                {% csrf_token %}
+                <input type="submit" value="{% trans "Delete Group" %}" name="delete_group" class="button radius alert">
+              </form>
             {% endif %}
             <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
               {% csrf_token %}
@@ -183,113 +187,135 @@
           <div class="content" id="members">
             {% if is_member %}
             {% for member in user_list %}
-            <div class="large-12 columns end">
-              <a href="/u/{{ member.0.id }}">
-                <div id="u_{{ member.0.id }}" class="panel radius">
-                  <div class="row">
-                    <div class="large-3 columns">
+            <div class="large-12 columns">
+              <div id="u_{{ member.0.id }}" class="panel radius">
+                <div class="row">
+                  <div class="large-3 columns">
+                    <a href="/u/{{ member.0.id }}">
                       <img src="{% static member.0.getPicture %}"/>
-                    </div>
-                    <div class="large-6 columns">
+                    </a>
+                  </div>
+                  <div class="large-5 columns">
+                    <a href="/u/{{ member.0.id }}">
                       <h5 class="text-cut-off"><b>{{ member.0.first_name }} {{ member.0.last_name }}</b></h5>
-                      <h6><b>Status: </b>
-                      {% if member.1 == 2 %}
-                        {% trans "Member" %}</h6>
-                      {% elif member.1 == 1 %}
-                        {% trans "Admin" %}</h6>
-                      {% elif member.1 == 0 %}
-                        {% trans "Owner" %}</h6>
-                      {% endif %}
-                    </div>
-                    {% if my_user_permissions == 1 %}
-                    <div class="large-3 columns">
-                      {% if not member.0.id == user.id %}
-                        {% if member.1 == 2 %}
-                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                          {% csrf_token %}
-                          <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
-                          <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
-                        </form>
-                        {% elif member.1 == 1 %}
-                          {% if my_user_permissions == 0 %}
-                            <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                              {% csrf_token %}
-                              <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
-                              <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
-                            </form>
-                          {% endif %}
-                        {% endif %}
-                      {% endif %}
-                      {% if member.1 == 2 %}
-                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                          {% csrf_token %}
-                          <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
-                          <input type="submit" value="{% trans "Upgrade" %}" name="upgrade_user" class="tiny button success radius">
-                        </form>
-                      {% endif %}
-                    </div>
-                    {% elif my_user_permissions == 0 %}
-                    <div class="large-3 columns">
-                      {% if not member.0.id == user.id %}
-                        {% if member.1 == 2 %}
-                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                          {% csrf_token %}
-                          <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
-                          <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
-                        </form>
-                        {% elif member.1 == 1 %}
-                          {% if my_user_permissions == 0 %}
-                            <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                              {% csrf_token %}
-                              <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
-                              <input type="submit" value="{% trans "Delete" %}" name="remove_user" class="tiny button alert radius">
-                            </form>
-                          {% endif %}
-                        {% endif %}
-                      {% endif %}
-                      {% if member.1 == 2 %}
-                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
-                          {% csrf_token %}
-                          <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
-                          <input type="submit" value="{% trans "Upgrade" %}" name="upgrade_user" class="tiny button success radius">
-                        </form>
-                      {% endif %}
-                    </div>
+                    </a>
+                    <h6><b>Status: </b>
+                    {% if member.1 == 2 %}
+                      {% trans "Member" %}</h6>
+                    {% elif member.1 == 1 %}
+                      {% trans "Admin" %}</h6>
+                    {% elif member.1 == 0 %}
+                      {% trans "Owner" %}</h6>
                     {% endif %}
                   </div>
+                  {% if my_user_permissions == 1 %}
+                  <div class="large-3 columns text-right user-controls">
+                    {% if not member.0.id == user.id %}
+                      {% if member.1 == 2 %}
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                        <input type="hidden" name="remove_user">
+                        <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                      </form>
+                      {% elif member.1 == 1 %}
+                        {% if my_user_permissions == 0 %}
+                          <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                            {% csrf_token %}
+                            <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                            <input type="hidden" name="remove_user">
+                            <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                          </form>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                    {% if member.1 == 2 %}
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
+                        <input type="hidden" name="upgrade_user">
+                        <a href="#" id="b_upgrade_user" class="blue-text">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
+                      </form>
+                    {% endif %}
+                  </div>
+                  {% elif my_user_permissions == 0 %}
+                  <div class="large-3 columns">
+                    {% if not member.0.id == user.id %}
+                      {% if member.1 == 2 %}
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                        {% csrf_token %}
+                        <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                        <input type="hidden" name="remove_user">
+                        <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                      </form>
+                      {% elif member.1 == 1 %}
+                        {% if my_user_permissions == 0 %}
+                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                          {% csrf_token %}
+                          <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
+                          <input type="hidden" name="remove_user">
+                          <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                        </form>
+                        {% endif %}
+                      {% endif %}
+                    {% endif %}
+                    {% if member.1 == 2 %}
+                    <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                      {% csrf_token %}
+                      <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
+                      <input type="hidden" name="upgrade_user">
+                      <a href="#" id="b_upgrade_user" class="blue-text">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
+                    </form>
+                    {% endif %}
+                  </div>
+                  {% endif %}
                 </div>
-              </a>
+              </div>
             </div>
             {% endfor %}
             {% else %}
             {% for member in user_list %}
             <div class="large-12 columns end">
-              <a href="/u/{{ member.0.id }}">
-                <div id="u_{{ member.0.id }}" class="panel radius">
-                  <div class="row">
-                    <div class="large-3 columns">
+              <div id="u_{{ member.0.id }}" class="panel radius">
+                <div class="row">
+                  <div class="large-3 columns">
+                    <a href="/u/{{ member.0.id }}">
                       <img src="{% static member.0.getPicture %}"/>
-                    </div>
-                    <div class="large-6 columns">
+                    </a>
+                  </div>
+                  <div class="large-6 columns">
+                    <a href="/u/{{ member.0.id }}">
                       <h5 class="text-cut-off"><b>{{ member.0.first_name }} {{ member.0.last_name }}</b></h5>
-                      <h6><b>Status: </b>
-                      {% if member.1 == 2 %}
-                        {% trans "Member" %}</h6>
-                      {% elif member.1 == 1 %}
-                        {% trans "Admin" %}</h6>
-                      {% elif member.1 == 0 %}
-                        {% trans "Owner" %}</h6>
-                      {% endif %}
-                    </div>
+                    </a>
+                    <h6><b>Status: </b>
+                    {% if member.1 == 2 %}
+                      {% trans "Member" %}</h6>
+                    {% elif member.1 == 1 %}
+                      {% trans "Admin" %}</h6>
+                    {% elif member.1 == 0 %}
+                      {% trans "Owner" %}</h6>
+                    {% endif %}
                   </div>
                 </div>
-              </a>
+              </div>
             </div>
             {% endfor %}
             {% endif %}
           </div>
         </div>
-      </div>
     </div>
+</div>
 
 {% endblock base_body %}
+
+{% block body_js %}
+<script>
+  $("#b_remove_user").click(function() {
+    $(this).closest("form").submit();
+  });
+
+  $("#b_upgrade_user").click(function() {
+    $(this).closest("form").submit();
+  });
+</script>
+{% endblock body_js %}

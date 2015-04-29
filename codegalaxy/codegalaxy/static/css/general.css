@@ -172,6 +172,16 @@
 }
 
 /* line 121, ../../../theme/scss/general.scss */
+.alert-text {
+  color: #f04124;
+}
+
+/* line 125, ../../../theme/scss/general.scss */
+.blue-text {
+  color: #3498DB;
+}
+
+/* line 129, ../../../theme/scss/general.scss */
 .success-border {
   border-color: #43AC6A;
 }
