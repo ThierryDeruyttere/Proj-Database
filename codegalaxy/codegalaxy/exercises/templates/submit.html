@@ -38,27 +38,25 @@
 
           {% if question_type == "Code" %}
 
-              <div class="row">
-                <div class="large-text-center">
-                  <div class="large-3 columns large-centered">
-                    {% trans "Your code outputted:" %}
-                  </div>
+            <div class="row">
+              <div class="large-text-center">
+                <div class="large-3 columns large-centered">
+                  {% trans "Your code outputted:" %}
                 </div>
               </div>
+            </div>
 
-              <div class="row">
-                <div class="large-text-center">
-                <div class="large-5 columns large-centered">
-                  <textarea id="user_code" name="user_code">{{ user_output }}</textarea>
+            <div class="row">
+              <div class="large-5 columns large-centered text">
+                <textarea id="user_code" name="user_code">{{ user_output }}</textarea>
 
-                  <script>
-                    var myCodeMirror = CodeMirror.fromTextArea(user_code,
-                            {
-                              theme: "monokai",
-                              readOnly: true
-                            });
-                  </script>
-                </div>
+                <script>
+                  var myCodeMirror = CodeMirror.fromTextArea(user_code,
+                          {
+                            theme: "monokai",
+                            readOnly: true
+                          });
+                </script>
               </div>
             </div>
           {% endif %}
@@ -67,10 +65,10 @@
             <div class="row">
               <input type="hidden" name="solved" value="True"></input>
               <div class="large-5 large-text-center columns">
-                <input type="submit" id="exercise_list" name="b_returntolist" class="button small radius" value="{% trans "Return to list" %}"></input>
+                <button type="submit" id="exercise_list" name="b_returntolist" class="button small radius">{% trans "Return to list" %}</button>
               </div>
               <div class="large-5 large-text-center columns">
-                <input type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius" value="{% trans "Next exercise" %}"></input>
+                <button type="submit" id="next_exercise" name="b_nextexercise" class="button success small radius">{% trans "Next exercise" %}</button>
               </div>
             </div>
             {% else %}

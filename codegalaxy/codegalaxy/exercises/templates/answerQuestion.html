@@ -112,7 +112,7 @@
               <h3>{% trans "This question is part of your own list!" %}</h3>
             {% else %}
               {% if solved %}
-                <h1>{% trans "You solved the question!" %}</h1>
+                <h2>{% trans "You solved the question!" %}</h2>
               {% else %}
                 {% if exercise.exercise_type == "Open Question" %}
                   <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
