@@ -212,7 +212,7 @@
                   <div class="large-3 columns text-right user-controls">
                     {% if not member.0.id == user.id %}
                       {% if member.1 == 2 %}
-                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                         <input type="hidden" name="remove_user">
@@ -220,7 +220,7 @@
                       </form>
                       {% elif member.1 == 1 %}
                         {% if my_user_permissions == 0 %}
-                          <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                          <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                             {% csrf_token %}
                             <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                             <input type="hidden" name="remove_user">
@@ -230,7 +230,7 @@
                       {% endif %}
                     {% endif %}
                     {% if member.1 == 2 %}
-                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
                         <input type="hidden" name="upgrade_user">
@@ -242,7 +242,7 @@
                   <div class="large-3 columns">
                     {% if not member.0.id == user.id %}
                       {% if member.1 == 2 %}
-                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                      <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                         <input type="hidden" name="remove_user">
@@ -250,7 +250,7 @@
                       </form>
                       {% elif member.1 == 1 %}
                         {% if my_user_permissions == 0 %}
-                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                        <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                           {% csrf_token %}
                           <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                           <input type="hidden" name="remove_user">
@@ -260,7 +260,7 @@
                       {% endif %}
                     {% endif %}
                     {% if member.1 == 2 %}
-                    <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data" data-abide>
+                    <form method="POST" action="/g/{{group.id}}/" enctype="multipart/form-data">
                       {% csrf_token %}
                       <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
                       <input type="hidden" name="upgrade_user">
