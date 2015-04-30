@@ -216,7 +216,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                         <input type="hidden" name="remove_user">
-                        <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                        <a href="#" class="alert-text b_remove_user">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
                       </form>
                       {% elif member.1 == 1 %}
                         {% if my_user_permissions == 0 %}
@@ -224,7 +224,7 @@
                             {% csrf_token %}
                             <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                             <input type="hidden" name="remove_user">
-                            <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                            <a href="#" class="alert-text b_remove_user">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
                           </form>
                         {% endif %}
                       {% endif %}
@@ -234,7 +234,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
                         <input type="hidden" name="upgrade_user">
-                        <a href="#" id="b_upgrade_user" class="blue-text">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
+                        <a href="#" class="blue-text b_upgrade_user">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
                       </form>
                     {% endif %}
                   </div>
@@ -246,7 +246,7 @@
                         {% csrf_token %}
                         <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                         <input type="hidden" name="remove_user">
-                        <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                        <a href="#" class="b_remove_user alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
                       </form>
                       {% elif member.1 == 1 %}
                         {% if my_user_permissions == 0 %}
@@ -254,7 +254,7 @@
                           {% csrf_token %}
                           <input type="hidden" name="user_id_to_delete" value="{{ member.0.id }}">
                           <input type="hidden" name="remove_user">
-                          <a href="#" id="b_remove_user" class="alert-text">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
+                          <a href="#" class="alert-text b_remove_user">{% trans "Kick user" %} <span class="octicon octicon-x"></span></a>
                         </form>
                         {% endif %}
                       {% endif %}
@@ -264,7 +264,7 @@
                       {% csrf_token %}
                       <input type="hidden" name="user_id_to_upgrade" value="{{ member.0.id }}">
                       <input type="hidden" name="upgrade_user">
-                      <a href="#" id="b_upgrade_user" class="blue-text">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
+                      <a href="#" class="blue-text b_upgrade_user">{% trans "Promote user" %} <span class="octicon octicon-arrow-up"></span></a>
                     </form>
                     {% endif %}
                   </div>
@@ -310,11 +310,11 @@
 
 {% block body_js %}
 <script>
-  $("#b_remove_user").click(function() {
+  $(".b_remove_user").click(function() {
     $(this).closest("form").submit();
   });
 
-  $("#b_upgrade_user").click(function() {
+  $(".b_upgrade_user").click(function() {
     $(this).closest("form").submit();
   });
 </script>
