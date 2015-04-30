@@ -388,7 +388,7 @@
           //Now lets fill these answers with the correct text!
           var all_answers = [];
           {% for a in all_answers %}
-            all_answers.push("{{ a|safe }}");
+            all_answers.push("{{ a }}");
           {% endfor %}
 
           for(var i = 0 ; i < all_answers.length; ++i){
@@ -413,7 +413,7 @@
           var all_hints = [];
           {% for h in all_hints %}
 
-            all_hints.push("{{ h|safe }}");
+            all_hints.push("{{ h }}");
           {% endfor %}
           var hints_length = {{ am_hints }};
           for(var i = 1 ; i <= hints_length; ++i){
@@ -608,6 +608,7 @@
       }
       return true;
     }
+
     $(".form_button").click(function(){
       addDictionary();
       var submit = true;
