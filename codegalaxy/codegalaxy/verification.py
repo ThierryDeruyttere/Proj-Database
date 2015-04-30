@@ -14,18 +14,20 @@ def sendVerification(email):
 
     # Create message container - the correct MIME type is multipart/alternative.
     msg = MIMEMultipart('alternative')
-    msg['Subject'] = "Link"
+    msg['Subject'] = "Welcome to Codegalaxy!"
     msg['From'] = sender
     msg['To'] = receiver
 
     # Create the body of the message (a plain-text and an HTML version).
-    text = "Hi!\nH/verification/{hash}".format(hash=hash_sequence)
-    html = """\
+    text = "Welcome to Codegalaxy!\n\nlocalhost:8000/verification/{hash}".format(hash=hash_sequence)
+    html = """
     <html>
       <head></head>
       <body>
-        <p>Hi!<br />
-          /verification/{hash} <br />
+        <h2>Welcome to Codegalaxy!</h2>
+        <p>
+          Verify your email now using the link below.<br /><br />
+          <a href="localhost:8000/verification/{hash}">localhost:8000/verification/{hash}</a><br />
         </p>
       </body>
     </html>
