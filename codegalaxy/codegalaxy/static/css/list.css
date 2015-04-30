@@ -10,23 +10,28 @@ h2#modalTitle {
 }
 
 /* line 12, ../../../theme/scss/list.scss */
+#import_confirm_modal li, #import_confirm_modal h3 {
+  color: #1d1d1d !important;
+}
+
+/* line 19, ../../../theme/scss/list.scss */
 table {
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 17, ../../../theme/scss/list.scss */
+/* line 24, ../../../theme/scss/list.scss */
 h4 {
   color: #3498DB !important;
 }
 
-/* line 21, ../../../theme/scss/list.scss */
+/* line 28, ../../../theme/scss/list.scss */
 .Arrow {
   width: 25px;
   height: 25px;
 }
 
-/* line 26, ../../../theme/scss/list.scss */
+/* line 33, ../../../theme/scss/list.scss */
 .icon {
   background-repeat: no-repeat;
   background-position: 50%;
@@ -35,7 +40,7 @@ h4 {
   height: 100px;
 }
 
-/* line 35, ../../../theme/scss/list.scss */
+/* line 42, ../../../theme/scss/list.scss */
 #subjects {
   background-repeat: no-repeat;
   background-position: 50%;
@@ -47,34 +52,34 @@ h4 {
   margin: -10px;
 }
 
-/* line 46, ../../../theme/scss/list.scss */
+/* line 53, ../../../theme/scss/list.scss */
 .exercise:hover {
   background-color: #ECF0F1 !important;
 }
 
-/* line 50, ../../../theme/scss/list.scss */
+/* line 57, ../../../theme/scss/list.scss */
 button[name="share_result"] {
   margin-bottom: 0px;
 }
 
-/* line 54, ../../../theme/scss/list.scss */
+/* line 61, ../../../theme/scss/list.scss */
 .exercise-wrapper {
   border-style: solid;
   border-color: #ababab;
   border-radius: 8px;
 }
 
-/* line 62, ../../../theme/scss/list.scss */
+/* line 69, ../../../theme/scss/list.scss */
 .alert-box button {
   margin-bottom: 0px;
 }
 
-/* line 67, ../../../theme/scss/list.scss */
+/* line 74, ../../../theme/scss/list.scss */
 #sim_ex_list_title {
   font-size: 18px;
 }
 
-/* line 71, ../../../theme/scss/list.scss */
+/* line 78, ../../../theme/scss/list.scss */
 .ex_list_link {
   color: #3498DB !important;
 }
