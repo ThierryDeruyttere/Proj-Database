@@ -126,7 +126,7 @@
           </div>
         </div>
       {% endif %}
-      
+
       <br />
       <!--
       <div class ="row">
@@ -194,81 +194,83 @@
               <li><a href="/l/{{ list.id }}/createExercise" class="button tiny radius">{% trans "Create exercise" %}</a></li>
             </ul>
           {% elif not list_owner %}
-            <a href="#" class="tiny button radius" data-reveal-id="import">{% trans "Add exercises to my list" %}</a>
-            <form method="POST" id="import_list">
-              {% csrf_token %}
-              <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                <h2 id="modalTitle">{% trans "Import exercise" %}</h2>
-                <div class="row">
-                  <div class="large-centered large-text-center columns">
-                    {% if all_exercises %}
-                      <input class="list_check"  id="list_copy"  type="checkbox"><label>{% trans "Copy all list" %}</label>
-                      <input class="list_check"  id="list_import" type="checkbox"><label>{% trans "Import all list" %}</label>
+            {% if logged_in %}
+              <a href="#" class="tiny button radius" data-reveal-id="import">{% trans "Add exercises to my list" %}</a>
+              <form method="POST" id="import_list">
+                {% csrf_token %}
+                <div id="import" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <h2 id="modalTitle">{% trans "Import exercise" %}</h2>
+                  <div class="row">
+                    <div class="large-centered large-text-center columns">
+                      {% if all_exercises %}
+                        <input class="list_check"  id="list_copy"  type="checkbox"><label>{% trans "Copy all list" %}</label>
+                        <input class="list_check"  id="list_import" type="checkbox"><label>{% trans "Import all list" %}</label>
 
-                      <table>
-                      <thead>
-                      <tr>
-                        <th width="200">{% trans "Title" %}</th>
-                        <th width="150">{% trans "copy original" %}</th>
-                        <th width="150">{% trans "reference" %}</th>
-                      </tr>
-                      </thead>
-                      {% for e in all_exercises %}
-                        <tbody>
-                        <td><p id="name{{ e.0.exercise_number }}">{{ e.0.title }}</p>
-                          {% if e.0.isReference %}
-                            <br/>
-                            <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.0.isReferenceTo.1}}]
-                          {% endif %}
-                        </td>
-                        <td><input class="import_check" id="checkbox_copy{{ e.0.exercise_number }}" name="checkbox_copy{{ e.0.exercise_number }}" type="checkbox"></td>
-                        <td><input class="import_check" id="checkbox_import{{ e.0.exercise_number }}" name="checkbox_import{{ e.0.exercise_number }}" type="checkbox"></td>
-                        </tbody>
-                      {% endfor %}
-                    {% else %}
-                      {% trans "This list does not contain any exercises." %}
-                    {% endif %}
-                    </table>
+                        <table>
+                        <thead>
+                        <tr>
+                          <th width="200">{% trans "Title" %}</th>
+                          <th width="150">{% trans "copy original" %}</th>
+                          <th width="150">{% trans "reference" %}</th>
+                        </tr>
+                        </thead>
+                        {% for e in all_exercises %}
+                          <tbody>
+                          <td><p id="name{{ e.0.exercise_number }}">{{ e.0.title }}</p>
+                            {% if e.0.isReference %}
+                              <br/>
+                              <a href="/l/{{e.isReferenceTo.0}}">{% trans "Original" %}</a>[{{e.0.isReferenceTo.1}}]
+                            {% endif %}
+                          </td>
+                          <td><input class="import_check" id="checkbox_copy{{ e.0.exercise_number }}" name="checkbox_copy{{ e.0.exercise_number }}" type="checkbox"></td>
+                          <td><input class="import_check" id="checkbox_import{{ e.0.exercise_number }}" name="checkbox_import{{ e.0.exercise_number }}" type="checkbox"></td>
+                          </tbody>
+                        {% endfor %}
+                      {% else %}
+                        {% trans "This list does not contain any exercises." %}
+                      {% endif %}
+                      </table>
+                    </div>
                   </div>
-                </div>
-                <br/>
-                <div class="row">
-                  <div class="large-text-center columns">
-                    <button class="button small radius" id="import_confirm">{% trans "Import" %}</button>
+                  <br/>
+                  <div class="row">
+                    <div class="large-text-center columns">
+                      <button class="button small radius" id="import_confirm">{% trans "Import" %}</button>
+                    </div>
                   </div>
+                  <a class="close-reveal-modal" aria-label="Close">&#215;</a>
                 </div>
-                <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+
+                <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+                  <h2 id="modalTitle">{% trans "Confirmation" %}</h2>
+
+                  <div class="row">
+                    <div class="large-2 large-centered large-text-center columns import_confirm_list">
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="large-3 large-centered large-text-center columns">
+                      <fieldset>
+                        <legend>{% trans "Import into:" %}</legend>
+                        {% for l in user_lists %}
+                          <input class="mylists" type="checkbox" name="mylist_{{ l.id }}" id="mylist_{{ l.id }}">
+                          <label for="mylist_{{ l.id }}">{{ l.name }}</label>
+                        {% endfor %}
+                      </fieldset>
+
+                    </div>
+                  </div>
+              </form>
+              <div class="row">
+                <div class="large-centered large-text-center columns">
+                  <button class="alert small radius" id="cancel_button">{% trans "Cancel" %}</button>
+                  <button class="success small radius" id="import_button">{% trans "Import!" %}</button>
+                </div>
               </div>
-
-              <div id="import_confirm_modal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-                <h2 id="modalTitle">{% trans "Confirmation" %}</h2>
-
-                <div class="row">
-                  <div class="large-2 large-centered large-text-center columns import_confirm_list">
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="large-3 large-centered large-text-center columns">
-                    <fieldset>
-                      <legend>{% trans "Import into:" %}</legend>
-                      {% for l in user_lists %}
-                        <input class="mylists" type="checkbox" name="mylist_{{ l.id }}" id="mylist_{{ l.id }}">
-                        <label for="mylist_{{ l.id }}">{{ l.name }}</label>
-                      {% endfor %}
-                    </fieldset>
-
-                  </div>
-                </div>
-            </form>
-            <div class="row">
-              <div class="large-centered large-text-center columns">
-                <button class="alert small radius" id="cancel_button">{% trans "Cancel" %}</button>
-                <button class="success small radius" id="import_button">{% trans "Import!" %}</button>
+              <a class="close-reveal-modal" aria-label="Close">&#215;</a>
               </div>
-            </div>
-            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
-            </div>
+            {% endif %}
           {% endif %}
         </div>
         <div class="large-2 left columns">
