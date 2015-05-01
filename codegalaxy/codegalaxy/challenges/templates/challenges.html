@@ -5,9 +5,31 @@
 
 {% block page_css %}
   <link rel="stylesheet" type="text/css" href="{% static "css/challenges.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static "jquery_autocomplete/content/styles.css" %}" />
 {% endblock page_css %}
 
 
 {% block base_body %}
-
+<div class="row">
+  <div class="large-text-center large-centered columns large-6">
+    <input id="search" type="text" placeholder="Who do you wish to challenge">
+  </div>
+</div>
 {% endblock base_body %}
+
+{% block body_js %}
+  <script>
+    function challengeUser(){
+
+    }
+
+    var availableTags = {{ all_users_names|safe }};
+    $( "#search" ).autocomplete({
+      lookup: availableTags,
+      showNoSuggestionNotice: true,
+      noSuggestionNotice: 'Sorry, no matching results',
+      onSelect: challengeUser()
+    });
+
+  </script>
+{% endblock body_js %}

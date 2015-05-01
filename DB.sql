@@ -871,11 +871,12 @@ CREATE TABLE `challenge` (
   `challenged_id` INT NOT NULL,
   `list_id` INT NOT NULL,
   `status` enum('Pending','Accepted','Finished') NOT NULL,
-  `challenge_id` INT NOT NULL,
-  PRIMARY KEY (`hash`),
-  UNIQUE KEY `email` (`email`),
-  UNIQUE KEY `hash` (`hash`),
-  CONSTRAINT `verification_ibfk_1` FOREIGN KEY (`email`) REFERENCES `user` (`email`)
+  `challenge_type_id` INT NOT NULL,
+  PRIMARY KEY (`challenger_id`, `challenged_id`, `list_id`,`challenge_type_id`),
+  FOREIGN KEY (`challenger_id`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`challenged_id`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`list_id`) REFERENCES `list` (`id`)
+
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 

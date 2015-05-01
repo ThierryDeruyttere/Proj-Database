@@ -53,6 +53,10 @@
   {# Custom head JS #}
   {% block head_js %}{% endblock head_js %}
 
+  {% block autocomplete %}
+    <script src="{% static "jquery_autocomplete/src/jquery.autocomplete.js" %}"></script>
+  {% endblock autocomplete%}
+
   {% check_loggedIn as logged_in %}
 </head>
 <body {% block body_attr %}{% endblock body_attr %}>

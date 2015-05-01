@@ -11,7 +11,21 @@ from codegalaxy.verification import *
 from managers.om import *
 from codegalaxy.general import getBrowserLanguage
 
+object_manager = objectmanager.ObjectManager()
+
+
+def getAllUsersNames():
+    all_users = object_manager.allUsers()
+    all_users_names = []
+    for i in all_users:
+        all_users_names.append(i.first_name + " " + i.last_name)
+    return all_users_names
+
 @require_login
 def challenges(request):
-    print("k")
-    return render(request, 'challenges.html')
+    user = logged_user(request)
+    all_users_names = getAllUsersNames()
+
+
+    return render(request, 'challenges.html', {"all_users_names": all_users_names
+                                                })
