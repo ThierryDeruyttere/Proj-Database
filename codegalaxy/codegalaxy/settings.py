@@ -19,7 +19,8 @@ pymysql.install_as_MySQLdb()
 
 TEMPLATE_DIRS = [os.path.join(BASE_DIR, 'codegalaxy/templates'),
                  os.path.join(BASE_DIR, 'codegalaxy/exercises/templates'),
-                 os.path.join(BASE_DIR, 'codegalaxy/evaluation/templates')]
+                 os.path.join(BASE_DIR, 'codegalaxy/evaluation/templates'),
+                 os.path.join(BASE_DIR, 'codegalaxy/challenges/templates')]
 STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 
 # Quick-start development settings - unsuitable for production
@@ -29,11 +30,11 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 SECRET_KEY = 'x(zzx)fo0fj05n*)%uqk(pp!fz$i!79ihyt-n%o68dcw1u3ee-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
