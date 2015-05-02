@@ -1294,4 +1294,5 @@ def updatePost(post_id, text):
     cursor.execute('UPDATE post SET post_text={text} WHERE id={post_id};'.format(post_id=post_id))
 
 def deletePost(post_id):
-    pass
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM post WHERE id = {post_id};'.format(post_id=post_id))

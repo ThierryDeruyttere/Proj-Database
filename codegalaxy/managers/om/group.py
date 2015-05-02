@@ -177,9 +177,12 @@ class Group:
         last_reply_number = dbw.lastReplyToPost()
         dbw.insertPost(self.id, user_id, post_id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
-    def deletePost(self, post_id, reply_number):
+    def deletePost(self, post_id):
         # we'll need to delete the replies aswell -> recursion
         replies_to_post = []
+        for reply in replies_to_post:
+            self.deletePost(reply)
+        dbw.deletePost(post_id)
 
     def editPost(self, post_id, text):
         dbw.updatePost(post_id, text)
