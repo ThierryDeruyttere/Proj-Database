@@ -2,19 +2,57 @@
 
 {% load staticfiles %}
 {% load i18n %}
-
+{% load custom_filters %}
 {% block page_css %}
   <link rel="stylesheet" type="text/css" href="{% static "css/challenges.css" %}" />
   <link rel="stylesheet" type="text/css" href="{% static "jquery_autocomplete/content/styles.css" %}" />
 {% endblock page_css %}
 
-
 {% block base_body %}
-<div class="row">
-  <div class="large-text-center large-centered columns large-6">
-    <input id="search" type="text" placeholder="Who do you wish to challenge">
+  {% getProfilePicture as pic %}
+  <div class="row">
+    <div class="large-text-center large-centered columns large-6">
+      <input id="search" type="text" placeholder="Who do you wish to challenge">
+    </div>
   </div>
-</div>
+
+  <div id="challenge_user" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div id="story" class="row">
+      <div class="left">
+        <!--source: http://www.veryicon.com/icon/png/Art/Space%20Invaders/Alien.png -->
+        <img class="alien" src="{% static "media/aliens/grub.png" %}">
+      </div>
+      <div id="textbox" class="large-6 columns">
+        <div id="grub_story" data-alert class="alert-box info radius">
+          {% trans "So we meet again space voyager! Do you remember me? It's me grub!" %}<br/>
+          {% trans "Oh boy! Seems you are going to challenge somebody! By challenging and winning from someone you become stronger!" %}<br/>
+          {% trans "Ah, brings back some old memories. In the bootloader galaxy I was known as Grub The Destroyer!" %}<br/>
+          {% trans "If i'd get mad I could just destroy a whole planet!..." %}<br/>
+          {% trans "Okay it's all a lie, I'm one of the lowest level aliens in the bootloader galaxy..." %}
+          {% trans "So I always needed someone strong to defend me. Before I got lost in this galaxy, my friend Kernel used to defend me." %}
+          {% trans "But since we got separated... I have no one left to defend me... Will you please defend me? I'm so scared without Kernel..." %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <ul class="large-block-grid-2">
+        <li>
+          <div class="large-6 large-centered columns">
+            <img class="challengers" src="{% static pic %}">
+          </div>
+        </li>
+        <li>
+          <div class="large-6 large-centered columns">
+            <div id="challenged">
+            </div>
+          </div>
+        </li>
+      </ul>
+
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
 {% endblock base_body %}
 
 {% block body_js %}
@@ -30,17 +68,35 @@
       noSuggestionNotice: 'Sorry, no matching results',
       onSelect: challengeUser(),
       lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
-            var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
-            return re.test(suggestion.value);
-        },
+        var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
+        return re.test(suggestion.value);
+      },
       formatResult: function(suggestion, currentValue){
         var regex = new RegExp(currentValue, "i");
-
-        return suggestion.data + (suggestion.value).replace(regex, function(e){
-                 return "<strong>"+e+"</strong>"
+        var elem = $("<img/>", {
+          src: suggestion.data,
+          class:"search_pict"
+        });
+        return $(elem).prop("outerHTML") + (suggestion.value).replace(regex, function(e){
+                  return "<strong>"+e+"</strong>"
                 });
+      },
+      onSelect: function(person){
+        $("#challenged").empty();
+        var elem = $("<img/>", {
+          src: person.data,
+          class:"challengers"
+        });
+        $("#challenged").append(elem);
+        $("#challenge_user").foundation('reveal', 'open', '');
+        $("#search").val("");
+
       }
     });
 
+  $(document).ready(function(){
+
+    $("#story").height(180);
+  })
   </script>
 {% endblock body_js %}

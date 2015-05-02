@@ -14,19 +14,22 @@ from codegalaxy.general import getBrowserLanguage
 object_manager = objectmanager.ObjectManager()
 
 
-def getAllUsersNames():
+def getAllUsersNames(except_user):
     all_users = object_manager.allUsers()
     all_users_names = []
     for i in all_users:
+        if i.id == except_user:
+            continue
+
         name = i.first_name + " " + i.last_name
-        img = "<img class=\"search_pict\" src=\"/static/" + i.getPicture()+ "\">"
+        img = "/static/" + i.getPicture()
         all_users_names.append({"value": name, "data": img})
     return all_users_names
 
 @require_login
 def challenges(request):
     user = logged_user(request)
-    all_users_names = getAllUsersNames()
+    all_users_names = getAllUsersNames(user.id)
 
 
     return render(request, 'challenges.html', {"all_users_names": json.dumps(all_users_names)
