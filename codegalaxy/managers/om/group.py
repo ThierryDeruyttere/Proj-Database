@@ -22,6 +22,15 @@ class Group:
         self.group_type = group_type
         self.created_on = created_on
 
+    def postOnWall():
+        pass
+
+    def replyToPost():
+        pass
+
+    def deletePost():
+        pass
+
     def name(self):
         return self.group_name
 

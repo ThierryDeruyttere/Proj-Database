@@ -249,3 +249,6 @@ class ObjectManager:
 
     def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
         return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']
+
+    def createPostTable(self):
+        dbw.createPostTable()
