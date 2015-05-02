@@ -1,19 +1,210 @@
-/* line 1, ../../../theme/scss/challenges.scss */
+/* line 3, ../../../theme/scss/general.scss */
+.size-8 {
+  font-size: 8px;
+}
+
+/* line 4, ../../../theme/scss/general.scss */
+.size-12 {
+  font-size: 12px;
+}
+
+/* line 5, ../../../theme/scss/general.scss */
+.size-14 {
+  font-size: 14px;
+}
+
+/* line 6, ../../../theme/scss/general.scss */
+.size-16 {
+  font-size: 16px;
+}
+
+/* line 7, ../../../theme/scss/general.scss */
+.size-18 {
+  font-size: 18px;
+}
+
+/* line 8, ../../../theme/scss/general.scss */
+.size-21 {
+  font-size: 21px;
+}
+
+/* line 9, ../../../theme/scss/general.scss */
+.size-24 {
+  font-size: 24px;
+}
+
+/* line 10, ../../../theme/scss/general.scss */
+.size-28 {
+  font-size: 28px;
+}
+
+/* line 11, ../../../theme/scss/general.scss */
+.size-36 {
+  font-size: 36px;
+}
+
+/* line 12, ../../../theme/scss/general.scss */
+.size-48 {
+  font-size: 48px;
+}
+
+/* line 13, ../../../theme/scss/general.scss */
+.size-60 {
+  font-size: 60px;
+}
+
+/* line 14, ../../../theme/scss/general.scss */
+.size-72 {
+  font-size: 72px;
+}
+
+/* line 16, ../../../theme/scss/general.scss */
+.text-cut-off {
+  white-space: nowrap;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+}
+
+/* line 22, ../../../theme/scss/general.scss */
+.snap-bottom {
+  margin-bottom: 0px !important;
+}
+
+/* line 26, ../../../theme/scss/general.scss */
+.prog-lang-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border-width: 3px;
+  border-style: solid;
+  border-color: rgba(89, 108, 183, 0);
+}
+
+/* line 36, ../../../theme/scss/general.scss */
+.no-outline:focus {
+  outline: none;
+}
+
+/* line 40, ../../../theme/scss/general.scss */
+.panel {
+  border-color: #ababab;
+}
+/* line 42, ../../../theme/scss/general.scss */
+.panel.radius {
+  border-radius: 8px;
+}
+
+/* CodeMirror text area styling */
+/* line 48, ../../../theme/scss/general.scss */
+.CodeMirror {
+  border-radius: 15px;
+  border-color: #3a3a3a;
+  border-width: 5px;
+  border-style: solid;
+  margin: 0.8em 0em;
+}
+
+/* line 56, ../../../theme/scss/general.scss */
+.CodeMirror.error {
+  border-color: #790000;
+}
+
+/* line 60, ../../../theme/scss/general.scss */
+.CodeMirror.success {
+  border-color: #007900;
+}
+
+/* line 64, ../../../theme/scss/general.scss */
+.CodeMirror-gutter {
+  border-width: 0px 3px 0px 0px;
+  border-style: solid;
+  border-color: #545454;
+  background-color: #545454;
+  margin-right: 6px;
+}
+
+/* line 72, ../../../theme/scss/general.scss */
+.profile_picture {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+}
+
+/* line 79, ../../../theme/scss/general.scss */
+.top-bar .mega-octicon {
+  width: 32px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* line 87, ../../../theme/scss/general.scss */
+#feed hr {
+  border: 0;
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -moz-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -ms-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -o-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+}
+
+/* line 98, ../../../theme/scss/general.scss */
+.feed-item p {
+  margin-bottom: 0px;
+}
+/* line 102, ../../../theme/scss/general.scss */
+.feed-item .large-2 {
+  width: 10%;
+  padding-right: 0px;
+}
+/* line 107, ../../../theme/scss/general.scss */
+.feed-item .feed-timestamp {
+  color: rgba(217, 217, 217, 0.7);
+}
+/* line 111, ../../../theme/scss/general.scss */
+.feed-item .octicon {
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+/* line 117, ../../../theme/scss/general.scss */
+.success-text {
+  color: #43AC6A;
+}
+
+/* line 121, ../../../theme/scss/general.scss */
+.alert-text {
+  color: #f04124;
+}
+
+/* line 125, ../../../theme/scss/general.scss */
+.blue-text {
+  color: #3498DB;
+}
+
+/* line 129, ../../../theme/scss/general.scss */
+.success-border {
+  border-color: #43AC6A;
+}
+
+/* line 133, ../../../theme/scss/general.scss */
+.round-image, .search_pict, .challengers {
+  border-radius: 50%;
+}
+
+/* line 3, ../../../theme/scss/challenges.scss */
 .search_pict {
   width: 32px;
   height: 32px;
-  border-radius: 50%;
   margin-right: 10px;
 }
 
-/* line 8, ../../../theme/scss/challenges.scss */
+/* line 11, ../../../theme/scss/challenges.scss */
 .challengers {
-  border-radius: 50%;
-  height: 50%;
   width: 50%;
+  height: 50%;
 }
 
-/* line 14, ../../../theme/scss/challenges.scss */
+/* line 18, ../../../theme/scss/challenges.scss */
 #textbox {
   position: absolute;
   top: 1em;
@@ -22,14 +213,14 @@
   color: black;
 }
 
-/* line 22, ../../../theme/scss/challenges.scss */
+/* line 26, ../../../theme/scss/challenges.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 28, ../../../theme/scss/challenges.scss */
+/* line 32, ../../../theme/scss/challenges.scss */
 #textbox:after {
   content: '';
   position: absolute;

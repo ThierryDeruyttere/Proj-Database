@@ -1,17 +1,21 @@
-.search_pict{
+@import "general";
+
+.search_pict {
+  @extend .round-image;
+
   width: 32px;
   height: 32px;
-  border-radius: 50%;
   margin-right: 10px;
 }
 
-.challengers{
-  border-radius: 50%;
-  height: 50%;
+.challengers {
+  @extend .round-image;
+
   width: 50%;
+  height: 50%;
 }
 
-#textbox{
+#textbox {
   position: absolute;
   top: 1em;
   left: 10em;
@@ -19,14 +23,13 @@
   color: black;
 }
 
-#arrow-right{
+#arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-#textbox:after
-{
+#textbox:after {
   content: '';
   position: absolute;
   border-style: solid;
