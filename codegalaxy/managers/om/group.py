@@ -1,7 +1,7 @@
 import dbw
 import managers.om.user
 import managers.om.objectmanager
-
+import time
 
 import os.path
 
@@ -21,15 +21,6 @@ class Group:
         # private/public/...
         self.group_type = group_type
         self.created_on = created_on
-
-    def postOnWall():
-        pass
-
-    def replyToPost():
-        pass
-
-    def deletePost():
-        pass
 
     def name(self):
         return self.group_name
@@ -177,3 +168,34 @@ class Group:
         @brief string representation of the group
         '''
         return str(self.id) + ' ' + self.group_name + ' ' + str(self.group_type) + " " + str(self.created_on)
+
+    def postOnWall(self, user_id, text):
+        last_post_id = dbw.lastPostID()['last']
+        dbw.insertPost(self.id, user_id, last_post_id + 1, 0, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+
+    def replyToPost(self, user_id, post_id, reply_number, text):
+        last_reply_number = dbw.lastReplyToPost()
+        dbw.insertPost(self.id, user_id, post_id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+
+    def deletePost(self, post_id, reply_number):
+        # we'll need to delete the replies aswell -> recursion
+        replies_to_post = []
+
+    def editPost(self, post_id, text):
+        dbw.updatePost(post_id, text)
+
+class Post:
+
+    def __init__(self, id, group_id, user_id, reply, reply_number, post_text, posted_on):
+        '''
+            reply is which it refers to,if it's the first one
+            it refers to itself
+        '''
+
+        self.id = id
+        self.group_id = group_id
+        self.user_id = user_id
+        self.reply = reply
+        self.reply_number = reply_number
+        self.post_text = post_text
+        self.posted_on = posted_on

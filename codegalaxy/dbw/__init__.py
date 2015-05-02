@@ -1270,3 +1270,28 @@ def createPostTable():
     # extra thingies in there
     cursor = connection.cursor()
     cursor.execute('CREATE TABLE `post` (`id` int(11) NOT NULL AUTO_INCREMENT,`group_id` int(11) NOT NULL DEFAULT "0",`user_id` int(11) NOT NULL DEFAULT "0",`reply` int(11) NOT NULL DEFAULT "0",`reply_number` int(11) NOT NULL DEFAULT "0",`post_text` blob NOT NULL,`posted_on` datetime DEFAULT NULL,PRIMARY KEY(`id`),FOREIGN KEY(group_id) REFERENCES groups(id),FOREIGN KEY(user_id) REFERENCES user(id)) ;')
+
+def insertPost(group_id, user_id, reply, reply_number, post_text, posted_on):
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO post(group_id, user_id, reply, reply_number, post_text, posted_on) VALUES ({group_id}, {user_id}, {reply}, {reply_number}, "{post_text}", "{posted_on}");'.format(group_id=group_id, user_id=user_id, reply=reply, reply_number=reply_number, post_text=text, posted_on=posted_on))
+
+def lastPostID():
+    cursor = connection.cursor()
+    cursor.execute('SELECT MAX(id) AS last FROM post;')
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def lastReplyToPost(post_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT MAX(reply_number) AS last FROM post WHERE id={post_id};'.format(post_id=post_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def updatePost(post_id, text):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE post SET post_text={text} WHERE id={post_id};'.format(post_id=post_id))
+
+def deletePost(post_id):
+    pass
