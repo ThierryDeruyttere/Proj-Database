@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load custom_filters %}
+
+<div class="row" id="Open Question">
+  <table class="answers">
+    <caption id="caption">Select the right answer</caption>
+    {% for i in answers %}
+      <div class="row">
+        <div class="large-6 large-offset-1 columns">
+          <tr>
+            {% if not list_owner %}
+              <td>{{ forloop.counter }}</td>
+              <td>{{ i }}</td>
+              <td>
+                {% if forloop.counter == current_answer  %}
+                  <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                {% else %}
+                  {% if forloop.counter == 1  %}
+                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" checked><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                  {% else %}
+                    <input type="radio" name="corr_answer" value="{{ forloop.counter }}" id="corr_answer_no_{{ forloop.counter }}" ><label for="answer_no_{{ forloop.counter }}">{% trans "Correct answer" %}</label>
+                  {% endif %}
+                {% endif %}
+                </td>
+            {% else %}
+
+              <td>{{ forloop.counter }})</td>
+              <td>{{ i }}</td>
+              <td>
+                {% if forloop.counter == correct_answer %}
+                  <i class="fi-checkbox"></i>
+                {% endif %}
+              </td>
+            {% endif %}
+          </tr>
+        </div>
+      </div>
+    {% endfor %}
+  </table>
+</div>

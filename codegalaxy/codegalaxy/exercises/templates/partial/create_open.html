@@ -1,0 +1,36 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load custom_filters %}
+
+<div class="row" id="Open_Question" hidden="True">
+  <div class="row">
+    <div class="large-8 large-offset-2 columns">
+      <div class="row">
+        <u>{% trans "Possible answers" %}</u>
+        <i class="fi-plus" id="add_answer"></i>
+      </div>
+      <div class="row" id="wrapper_answer">
+        <div class="row collapse prefix-radius" id="answer1">
+          <div class="small-10 columns">
+            <input type="text"name="answer1" />
+          </div>
+          <div class="small-1 columns">
+            <span class="postfix"><input type="radio" name="correct_answer" value="1" checked /></span>
+          </div>
+          <div class="small-1 columns remove_answer" hidden></div>
+        </div>
+        <div class="row collapse prefix-radius" id="answer2">
+          <div class="small-10 columns">
+            <input type="text" name="answer2" />
+          </div>
+          <div class="small-1 columns">
+            <span class="postfix"><input type="radio" name="correct_answer" value="2" /></span>
+          </div>
+          <div class="small-1 columns remove_answer" hidden></div>
+        </div>
+      </div>
+    </div>
+    <br/>
+  </div>
+
+</div>
