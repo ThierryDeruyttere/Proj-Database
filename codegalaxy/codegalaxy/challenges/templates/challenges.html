@@ -28,7 +28,18 @@
       lookup: availableTags,
       showNoSuggestionNotice: true,
       noSuggestionNotice: 'Sorry, no matching results',
-      onSelect: challengeUser()
+      onSelect: challengeUser(),
+      lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
+            var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
+            return re.test(suggestion.value);
+        },
+      formatResult: function(suggestion, currentValue){
+        var regex = new RegExp(currentValue, "i");
+
+        return suggestion.data + (suggestion.value).replace(regex, function(e){
+                 return "<strong>"+e+"</strong>"
+                });
+      }
     });
 
   </script>
