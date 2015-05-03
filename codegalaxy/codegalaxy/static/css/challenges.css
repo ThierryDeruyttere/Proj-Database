@@ -212,6 +212,13 @@
 }
 
 /* line 24, ../../../theme/scss/challenges.scss */
+#possible_lists {
+  width: 30% !important;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* line 30, ../../../theme/scss/challenges.scss */
 #textbox {
   position: absolute;
   top: 1em;
@@ -220,14 +227,14 @@
   color: black;
 }
 
-/* line 32, ../../../theme/scss/challenges.scss */
+/* line 38, ../../../theme/scss/challenges.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 38, ../../../theme/scss/challenges.scss */
+/* line 44, ../../../theme/scss/challenges.scss */
 #textbox:after {
   content: '';
   position: absolute;

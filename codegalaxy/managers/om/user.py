@@ -317,10 +317,10 @@ class User:
 
         return exercises_lists_list
 
-    def getAllCreatedLists(self):
+    def getAllCreatedLists(self, language_id):
         object_manager = managers.om.objectmanager.ObjectManager()
-        
-
+        my_lists = dbw.getListsCreatedBy(self.id)
+        return [object_manager.createExerciseList(i["id"], language_id) for i in my_lists]
 
     def personalListWithId(self, list_id, lang_id):
         exercise_lists_info = dbw.getMadeListForUser(self.id)

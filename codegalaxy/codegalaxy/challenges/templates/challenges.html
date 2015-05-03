@@ -61,6 +61,9 @@
               <select id="challenge_type" name="challenge_type">
                 <option value="Score" name="Score">Score</option>
                 <option value="Perfects" name="Perfects">Perfects</option>
+              </select><br/>
+              Select list for challenge:<br/>
+              <select id="possible_lists" name="possible_lists">
 
               </select><br/>
               <button type="submit" id="send_challenge" class="success tiny radius">Challenge!</button>
@@ -85,9 +88,24 @@
         type: "GET",
         url: "",
         data: "challenged=" + person_name + "&available_lists=true",
-        dataType: "text",
+        dataType: "json",
 
         success: function(response) {
+          $.each(response, function(key, value){
+            var optgroup = $("<optgroup/>",{
+              label: key
+            });
+            $.each(value, function(index, val){
+              console.log(val);
+              var option = $("<option/>",{
+                value: val
+              });
+              option.text(val);
+              optgroup.append(option);
+            });
+            $('#possible_lists').append(optgroup);
+          });
+
           $("#challenge_user").foundation('reveal', 'open', '');
           $("#search").val("");
         }

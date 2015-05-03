@@ -71,6 +71,13 @@ def getListTranslation(id, language_id):
     cursor.close()
     return fetched
 
+def getListsCreatedBy(user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM exerciseList WHERE created_by = {user_id};'.format(user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getExerciseListInformation(id, lang_id):
     '''
     @brief get the information from Exercise lists given an user id

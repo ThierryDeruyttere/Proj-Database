@@ -27,7 +27,14 @@ def getAllUsersNames(except_user):
         all_users_names.append({"value": name, "data": img})
     return all_users_names
 
+def prepareDict(lists):
+    new_dict = {}
+    for i in lists:
+        if i.programming_language.name not in new_dict:
+            new_dict[i.programming_language.name] = []
+        new_dict[i.programming_language.name].append(i.name)
 
+    return new_dict
 
 @require_login
 def challenges(request):
@@ -39,6 +46,7 @@ def challenges(request):
         challenged = object_manager.getUserByName(challenged_name)
         challenge_type = request.POST.get('challenge_type')
         challenge_manager.createChallenge(user.id, challenged.id, challenge_type)
+
     if request.method == 'GET' and 'available_lists' in request.GET:
         user_pers_lists = user.allPersonalLists()
         #Get all the list objects from the personal lists
@@ -50,12 +58,11 @@ def challenges(request):
         challenged_lists = [i.exercises_list for i in challenged_pers_lists]
 
         all_lists = object_manager.getAllExerciseLists(browser_language.id)
-        union = set(user_lists) | set(challenged_lists)
+        #take an union from all solved lists + lists created by the users
+        union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | set(challenged.getAllCreatedLists(browser_language.id))
         remaining_lists = set(all_lists) - set(union)
 
-        list_names = [i.name for i in remaining_lists]
-        print(list_names)
-
+        return HttpResponse(json.dumps(prepareDict(remaining_lists)))
 
     return render(request, 'challenges.html', {"all_users_names": json.dumps(all_users_names),
                                                "user": user
