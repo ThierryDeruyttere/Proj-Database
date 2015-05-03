@@ -180,12 +180,40 @@ class Group:
     def deletePost(self, post_id):
         # we'll need to delete the replies aswell -> recursion
         replies_to_post = []
+        # getting the replies to this post
         for reply in replies_to_post:
             self.deletePost(reply)
         dbw.deletePost(post_id)
 
     def editPost(self, post_id, text):
         dbw.updatePost(post_id, text)
+
+    def allPosts(self):
+        posts = []
+        posts_info = dbw.getAllPostsForGroup(self.id)
+        for info in posts_info:
+            posts.append(Post(info['id'], info['group_id'], info['user_id'],
+            info['reply'], info['reply_number'], info['post_text'],
+            info['posted_on']))
+        return posts
+
+    def allReplies(self, post_id):
+        replies = []
+        replies_info = dbw.getAllRepliesToPost(post_id)
+        for info in posts_info:
+            posts.append(Post(info['id'], info['group_id'], info['user_id'],
+            info['reply'], info['reply_number'], info['post_text'],
+            info['posted_on']))
+        return replies
+
+    def allPostsToHTML(self):
+        all_posts = self.allPosts()
+        original_posts = []
+        for post in all_posts:
+            if post.id == post.reply:
+                original_posts.append(post)
+        for post in original_posts:
+            pass
 
 class Post:
 

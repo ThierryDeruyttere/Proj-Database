@@ -1296,3 +1296,17 @@ def updatePost(post_id, text):
 def deletePost(post_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM post WHERE id = {post_id};'.format(post_id=post_id))
+
+def getAllPostsForGroup(group_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM post WHERE group_id={group_id};'.format(group_id=group_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getAllRepliesToPost(post_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM post WHERE reply={post_id};'.format(post_id=post_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
