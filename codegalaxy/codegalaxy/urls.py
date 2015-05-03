@@ -36,6 +36,7 @@ urlpatterns = patterns('codegalaxy.views',
 
     ## TESTING ##
     # Zurb Foundation test pages
+    url(r'^wall', 'wall'),
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tables/', 'tables'),

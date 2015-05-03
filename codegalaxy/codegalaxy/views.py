@@ -579,8 +579,19 @@ def tables(request):
 
 
 def recommendations(request):
+    # TODO delete this in master
     user_test = object_manager.createUser(id=1)
     lists = user_test.allPersonalLists()
     b = recommendListsForUser(1)
     recommended = recommendNextExerciseLists(lists[0], 2)
     return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
+
+def wall(request):
+    group = object_manager.createGroup(1)
+    group.postOnWall(1, 'Original post 1')
+    group.postOnWall(2, 'Original post 2')
+    all_posts = group.allPosts()
+    all_posts_strings = ""
+    for post in all_posts:
+        all_posts_strings += str(post)
+    return render(request, 'wall.html', {'all_posts_strings' : all_posts_strings})

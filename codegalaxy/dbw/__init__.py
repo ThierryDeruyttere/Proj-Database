@@ -1273,7 +1273,8 @@ def createPostTable():
 
 def insertPost(group_id, user_id, reply, reply_number, post_text, posted_on):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO post(group_id, user_id, reply, reply_number, post_text, posted_on) VALUES ({group_id}, {user_id}, {reply}, {reply_number}, "{post_text}", "{posted_on}");'.format(group_id=group_id, user_id=user_id, reply=reply, reply_number=reply_number, post_text=text, posted_on=posted_on))
+    sql = 'INSERT INTO post(group_id, user_id, reply, reply_number, post_text, posted_on) VALUES ({group_id}, {user_id}, {reply}, {reply_number}, %s, "{posted_on}");'.format(group_id=group_id, user_id=user_id, reply=reply, reply_number=reply_number, posted_on=posted_on)
+    cursor.execute(sql, [post_text])
 
 def lastPostID():
     cursor = connection.cursor()
@@ -1291,7 +1292,8 @@ def lastReplyToPost(post_id):
 
 def updatePost(post_id, text):
     cursor = connection.cursor()
-    cursor.execute('UPDATE post SET post_text={text} WHERE id={post_id};'.format(post_id=post_id))
+    sql = 'UPDATE post SET post_text=%s WHERE id={post_id};'.format(post_id=post_id)
+    cursor.execute(sql, [text])
 
 def deletePost(post_id):
     cursor = connection.cursor()

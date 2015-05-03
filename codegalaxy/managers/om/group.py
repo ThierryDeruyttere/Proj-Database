@@ -1,6 +1,7 @@
 import dbw
 import managers.om.user
 import managers.om.objectmanager
+import datetime
 import time
 
 import os.path
@@ -171,11 +172,9 @@ class Group:
 
     def postOnWall(self, user_id, text):
         last_post_id = dbw.lastPostID()['last']
+        if last_post_id is None:
+            last_post_id = 0
         dbw.insertPost(self.id, user_id, last_post_id + 1, 0, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
-
-    def replyToPost(self, user_id, post_id, reply_number, text):
-        last_reply_number = dbw.lastReplyToPost()
-        dbw.insertPost(self.id, user_id, post_id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
     def deletePost(self, post_id):
         # we'll need to delete the replies aswell -> recursion
@@ -223,10 +222,17 @@ class Post:
             it refers to itself
         '''
 
-        self.id = id
-        self.group_id = group_id
-        self.user_id = user_id
-        self.reply = reply
-        self.reply_number = reply_number
-        self.post_text = post_text
+        self.id = int(id)
+        self.group_id = int(group_id)
+        self.user_id = int(user_id)
+        self.reply = int(reply)
+        self.reply_number = int(reply_number)
+        self.post_text = post_text.decode('ascii')
         self.posted_on = posted_on
+
+    def __str__(self):
+        return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
+
+    def replyToPost(self, user_id, reply_number, text):
+        last_reply_number = dbw.lastReplyToPost()
+        dbw.insertPost(group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
