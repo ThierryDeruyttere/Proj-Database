@@ -1261,3 +1261,12 @@ def filterLists(name):
     fetched = processData(cursor)
     cursor.close()
     return fetched
+
+
+##Challenges
+
+def createChallenge(challenger_id, challenged_id, challenge_type):
+    cursor = connection.cursor()
+    cursor.execute('')
+    cursor.close()
+

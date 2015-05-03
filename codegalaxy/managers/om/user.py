@@ -300,6 +300,7 @@ class User:
     def updateListRating(self, list_id, list_rating):
         dbw.updateListRating(list_id, self.id, list_rating)
 
+
     # List with all the lists of exercises this user has completed/is working
     # on (SQL function)
     def allPersonalLists(self, lang_id=1):
@@ -309,12 +310,17 @@ class User:
         for exercises_list in exercises_lists_info:
             # If the info is legit, we add a User object with the info to the
             # list
-            # TODO ENABLE OTHER LANGUAGES
+
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
                                                  'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'], lang_id)
             exercises_lists_list.append(exercises_list_object)
 
         return exercises_lists_list
+
+    def getAllCreatedLists(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+        
+
 
     def personalListWithId(self, list_id, lang_id):
         exercise_lists_info = dbw.getMadeListForUser(self.id)

@@ -5,7 +5,7 @@ from django.template import resolve_variable
 from django import template
 from django.template import Library, Node
 from copy import deepcopy
-
+import codegalaxy.verification
 register = template.Library()
 
 @register.filter()
@@ -29,7 +29,6 @@ def check_loggedIn(context):
 @register.filter
 def for_key(d, key):
     return d.get(key)
-
 
 @register.filter
 def copy_list(l):

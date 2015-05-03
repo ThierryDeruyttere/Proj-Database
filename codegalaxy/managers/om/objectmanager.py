@@ -205,9 +205,15 @@ class ObjectManager:
 
         return lists_objects
 
-    def getAllExerciseLists(self):
-        # TODO: rekening houden met translations hier
-        pass
+    def getAllExerciseLists(self, language_code):
+        all_prog_langs = self.allProgrammingLanguages()
+        all_lists = []
+        for i in all_prog_langs:
+            lists = self.getExerciseListsOnProgLang(i["name"])
+            for l in lists:
+                all_lists.append(self.createExerciseList(l, language_code))
+
+        return all_lists
 
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
@@ -249,3 +255,11 @@ class ObjectManager:
 
     def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
         return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']
+
+    def getUserByName(self, user_name):
+        all_users = self.allUsers()
+        for i in all_users:
+            name = i.first_name + " " + i.last_name
+            if name == user_name:
+                return i
+        return None

@@ -25,30 +25,49 @@
       <div id="textbox" class="large-6 columns">
         <div id="grub_story" data-alert class="alert-box info radius">
           {% trans "So we meet again space voyager! Do you remember me? It's me grub!" %}<br/>
-          {% trans "Oh boy! Seems you are going to challenge somebody! By challenging and winning from someone you become stronger!" %}<br/>
+          {% trans "Oh boy! Seems you are going to challenge somebody! By challenging and defeating someone you become stronger!" %}<br/>
           {% trans "Ah, brings back some old memories. In the bootloader galaxy I was known as Grub The Destroyer!" %}<br/>
           {% trans "If i'd get mad I could just destroy a whole planet!..." %}<br/>
           {% trans "Okay it's all a lie, I'm one of the lowest level aliens in the bootloader galaxy..." %}
           {% trans "So I always needed someone strong to defend me. Before I got lost in this galaxy, my friend Kernel used to defend me." %}
-          {% trans "But since we got separated... I have no one left to defend me... Will you please defend me? I'm so scared without Kernel..." %}
+          {% trans "But since we got separated... I have no one left for protecting me... Will you please defend me? I'm so scared without Kernel..." %}
         </div>
       </div>
     </div>
     <div class="row">
-      <ul class="large-block-grid-2">
-        <li>
-          <div class="large-6 large-centered columns">
-            <img class="challengers" src="{% static pic %}">
-          </div>
-        </li>
-        <li>
-          <div class="large-6 large-centered columns">
-            <div id="challenged">
+      <div class="panel">
+        <ul class="large-block-grid-2">
+          <li>
+            <div class="large-6 large-centered large-text-center columns">
+              <img class="challengers" src="{% static pic %}">
+              <br/>
+              {{ user.first_name }} {{ user.last_name }}
+            </div>
+          </li>
+          <li>
+            <div class="large-6 large-centered large-text-center columns">
+              <div id="challenged">
+
+              </div>
+            </div>
+          </li>
+        </ul>
+        <form method="POST">
+          {% csrf_token %}
+          <input hidden id="challenged_name" name="challenged" value="">
+          <div class="row">
+            <div class="large-12 large-text-center columns">
+              Select challenge:<br/>
+              <select id="challenge_type" name="challenge_type">
+                <option value="Score" name="Score">Score</option>
+                <option value="Perfects" name="Perfects">Perfects</option>
+
+              </select><br/>
+              <button type="submit" id="send_challenge" class="success tiny radius">Challenge!</button>
             </div>
           </div>
-        </li>
-      </ul>
-
+        </form>
+      </div>
     </div>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
   </div>
@@ -59,6 +78,20 @@
   <script>
     function challengeUser(){
 
+    }
+
+    function getAvailableLists(person_name){
+      $.ajax({
+        type: "GET",
+        url: "",
+        data: "challenged=" + person_name + "&available_lists=true",
+        dataType: "text",
+
+        success: function(response) {
+          $("#challenge_user").foundation('reveal', 'open', '');
+          $("#search").val("");
+        }
+      });
     }
 
     var availableTags = {{ all_users_names|safe }};
@@ -88,15 +121,32 @@
           class:"challengers"
         });
         $("#challenged").append(elem);
-        $("#challenge_user").foundation('reveal', 'open', '');
-        $("#search").val("");
-
+        $("#challenged").append("<br/>" + person.value);
+        getAvailableLists(person.value)
       }
     });
 
-  $(document).ready(function(){
+    $(document).ready(function(){
 
-    $("#story").height(180);
-  })
+      $("#story").height(180);
+    });
+
+    $('#send_button').click(function(e){
+      e.preventDefault();
+      var post_data = $('form').serialize();
+      $.ajax({
+        type: "POST",
+        url: "",
+        data: post_data,
+        dataType: "text",
+
+        success: function(response) {
+        },
+        error: function(jqXHR, textStatus, error) {
+
+        }
+      })
+    });
+
   </script>
 {% endblock body_js %}
