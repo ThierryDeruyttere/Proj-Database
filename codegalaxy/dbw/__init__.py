@@ -1272,8 +1272,8 @@ def filterLists(name):
 
 ##Challenges
 
-def createChallenge(challenger_id, challenged_id, challenge_type):
+def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list_id):
     cursor = connection.cursor()
-    cursor.execute('')
+    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
     cursor.close()
 

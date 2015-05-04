@@ -36,6 +36,14 @@ def prepareDict(lists):
 
     return new_dict
 
+def getListFromName(list_name, language_code):
+    lists = object_manager.getAllExerciseLists(language_code)
+    for i in lists:
+        if i.name == list_name:
+            return i
+    return None
+
+
 @require_login
 def challenges(request):
     browser_language = getBrowserLanguage(request)
@@ -45,7 +53,10 @@ def challenges(request):
         challenged_name = request.POST.get('challenged')
         challenged = object_manager.getUserByName(challenged_name)
         challenge_type = request.POST.get('challenge_type')
-        challenge_manager.createChallenge(user.id, challenged.id, challenge_type)
+        challenge_list = request.POST.get('possible_lists')
+        challenged_list_obj = getListFromName(challenge_list, browser_language.code)
+
+        challenge_manager.createChallenge(user.id, challenged.id, challenge_type, challenged_list_obj.id)
 
     if request.method == 'GET' and 'available_lists' in request.GET:
         user_pers_lists = user.allPersonalLists()

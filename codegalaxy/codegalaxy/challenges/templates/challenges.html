@@ -61,7 +61,9 @@
               <select id="challenge_type" name="challenge_type">
                 <option value="Score" name="Score">Score</option>
                 <option value="Perfects" name="Perfects">Perfects</option>
-              </select><br/>
+              </select>
+              <span data-tooltip id="tooltip" aria-haspopup="true" class="has-tip" title="">?</span>
+              <br/>
               Select list for challenge:<br/>
               <select id="possible_lists" name="possible_lists">
 
@@ -96,7 +98,6 @@
               label: key
             });
             $.each(value, function(index, val){
-              console.log(val);
               var option = $("<option/>",{
                 value: val
               });
@@ -147,6 +148,7 @@
     $(document).ready(function(){
 
       $("#story").height(180);
+      setToolTipText();
     });
 
     $('#send_button').click(function(e){
@@ -165,6 +167,26 @@
         }
       })
     });
+
+    $("#challenge_type").change(function(){
+      setToolTipText();
+    });
+
+    function setToolTipText(){
+      var selected = $("#challenge_type").val();
+      var text;
+      if(selected == "Score"){
+        text = "The 'Score' challenge is a challenge where you need to get the highest score on a new list";
+      }else if(selected == "Perfects"){
+        text = "The 'Perfects' challenge is a challenge where you need to have the most answers with 100%";
+      }
+      
+      Foundation.libs.tooltip.getTip($('#tooltip')).remove();
+      $('#tooltip').attr("title", text);
+    }
+
+
+
 
   </script>
 {% endblock body_js %}
