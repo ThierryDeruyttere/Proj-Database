@@ -93,6 +93,7 @@
         dataType: "json",
 
         success: function(response) {
+          $('#possible_lists').children().remove();
           $.each(response, function(key, value){
             var optgroup = $("<optgroup/>",{
               label: key
@@ -180,7 +181,7 @@
       }else if(selected == "Perfects"){
         text = "The 'Perfects' challenge is a challenge where you need to have the most answers with 100%";
       }
-      
+
       Foundation.libs.tooltip.getTip($('#tooltip')).remove();
       $('#tooltip').attr("title", text);
     }
