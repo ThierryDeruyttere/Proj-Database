@@ -1274,6 +1274,24 @@ def filterLists(name):
 
 def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, challenge_type_id=challenge_type))
     cursor.close()
 
+def getChallengeForStatus(user_id, status):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM challenge WHERE status="{status}" AND (challenger_id = {user} OR challenged_id = {user})'.format(user=user_id, status=status))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+
+def cancelChallenge(challenger_id, challenged_id, challenge_list_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM challenge WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.close()
+
+
+def acceptChallenge(challenger_id, challenged_id, challenge_list_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE challenge SET status="Accepted" WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.close()

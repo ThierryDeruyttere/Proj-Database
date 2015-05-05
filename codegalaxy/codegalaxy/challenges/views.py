@@ -49,13 +49,15 @@ def challenges(request):
     browser_language = getBrowserLanguage(request)
     user = logged_user(request)
     all_users_names = getAllUsersNames(user.id)
+
+    challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, browser_language.id)
+
     if request.method == 'POST':
         challenged_name = request.POST.get('challenged')
         challenged = object_manager.getUserByName(challenged_name)
         challenge_type = request.POST.get('challenge_type')
         challenge_list = request.POST.get('possible_lists')
-        challenged_list_obj = getListFromName(challenge_list, browser_language.code)
-
+        challenged_list_obj = getListFromName(challenge_list, browser_language.id)
         challenge_manager.createChallenge(user.id, challenged.id, challenge_type, challenged_list_obj.id)
 
     if request.method == 'GET' and 'available_lists' in request.GET:
@@ -76,8 +78,54 @@ def challenges(request):
         return HttpResponse(json.dumps(prepareDict(remaining_lists)))
 
     return render(request, 'challenges.html', {"all_users_names": json.dumps(all_users_names),
-                                               "user": user
-                                                })
+                                               "user": user,
+                                               "challenge_requests": challenge_requests
+                                               })
 
-def challenge_search(request):
-    print("k")
+def handle_request(request):
+    info = request.POST.get('challenge_info')
+    challenge_info = info.split('-')
+    challenger = int(challenge_info[0])
+    challenged = int(challenge_info[1])
+    challenge_list = int(challenge_info[2])
+
+    if request.POST.get('cancel', None):
+        challenge_manager.cancelChallenge(challenger, challenged, challenge_list)
+
+    elif request.POST.get('accept', None):
+        challenge_manager.acceptChallenge(challenger, challenged, challenge_list)
+
+    return HttpResponse()
+
+def createActiveHTML(challenge):
+
+    return """
+    <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list}">
+    <ul class="large-block-grid-3">
+    <li><img class="challengers-small" src="/static/{challenger_pict}"><br/>
+    <b>{challenger.first_name} {challenger.last_name}</b>
+    </li>
+    <li>
+    <b>Challenge info...</b><br/>
+    Type: {type}
+    </li>
+    <li>
+    <img class="challengers-small" src="/static/{challenged_pict}"><br/>
+    <b>{challenged.first_name} {challenged.last_name}</b>
+    </li>
+    </ul>
+    </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+                     challenger= challenge.challenger, challenged = challenge.challenged,
+                     type = challenge.challenge_type.type, list=challenge.list.id)
+
+
+
+def get_actives(request):
+    browser_language = getBrowserLanguage(request)
+    user = request.GET.get('user')
+    actives = challenge_manager.getActiveChallengesForUser(int(user), browser_language.id)
+    html = ""
+    for i in actives:
+        html += createActiveHTML(i)
+
+    return HttpResponse(html)

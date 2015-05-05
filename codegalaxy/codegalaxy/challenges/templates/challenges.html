@@ -16,6 +16,59 @@
     </div>
   </div>
 
+  <div class="row">
+    <div class="large-12 large-centered large-text-center columns">
+      <ul class="tabs" data-tab role="tablist">
+        <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">Active challenges</a></li>
+        <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">Completed challenges</a></li>
+        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">Challenge request</a></li>
+      </ul>
+      <div class="tabs-content">
+        <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+          <h2>First panel content goes here...</h2>
+        </section>
+        <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+          <h2>You have no completed challenges</h2>
+        </section>
+        <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
+          <div class="large-12 large-centered large-text-center columns">
+            {% for challenge in challenge_requests %}
+              <div class="panel radius challenge" id="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">
+                <ul class="large-block-grid-3">
+                  <li><img class="challengers-small" src="{% static challenge.challenger.getPicture %}"><br/>
+                    <b>{{ challenge.challenger.first_name }} {{ challenge.challenger.last_name }}</b>
+                  </li>
+                  <li>
+                    <b>Pending
+                      {% if challenge.challenger.id == user.id %}
+                        request
+                      {% else %}
+                        invite
+                      {% endif %}</b><br/>
+                    type:
+                    {{ challenge.challenge_type.type }}<br/>
+                    {{ challenge.list.name }}
+                    <br/><br/>
+                    {% if challenge.challenger.id == user.id %}
+                      <button type="button" class="alert small radius challenge_cancel" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Cancel</button>
+                    {% else %}
+                      <button type="button" class="success small radius challenge_accept" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Accept</button>
+                      <button type="button" class="alert small radius challenge_cancel" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Cancel</button>
+                    {% endif %}
+                  </li>
+                  <li>
+                    <img class="challengers-small" src="{% static challenge.challenged.getPicture %}"><br/>
+                    <b>{{ challenge.challenged.first_name }} {{ challenge.challenged.last_name }}</b>
+                  </li>
+                </ul>
+              </div>
+            {% endfor %}
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
   <div id="challenge_user" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
     <div id="story" class="row">
       <div class="left">
@@ -54,7 +107,7 @@
         </ul>
         <form method="POST">
           {% csrf_token %}
-          <input hidden id="challenged_name" name="challenged" value="">
+          <input id="challenged_name" name="challenged" value="" type="hidden">
           <div class="row">
             <div class="large-12 large-text-center columns">
               Select challenge:<br/>
@@ -82,8 +135,53 @@
 {% block body_js %}
   <script>
     function challengeUser(){
-
+      //Add logic here to add card to view
     }
+
+    function getActives(){
+      $.ajax({
+        type: "GET",
+        url: "get_actives",
+        data: "user=" + {{ user.id }},
+        dataType: "text",
+        success:function(response){
+          $('#panel2-1').children().remove();
+          $('#panel2-1').html(response);
+          console.log(response);
+        }
+      });
+    }
+
+    $("[controls='panel2-1']").click(function(){
+      getActives();
+    });
+
+    $('.challenge_cancel').click(function(){
+      var name = $(this).attr("name");
+      $('#'+name).remove();
+      $.ajax({
+        type: "POST",
+        url: "handle_request",
+        data: "challenge_info=" + name + "&cancel=1",
+        dataType: "text",
+        success:function(response){
+
+        }
+      });
+    });
+
+    $('.challenge_accept').click(function(){
+      var name = $(this).attr("name");
+      $.ajax({
+        type: "POST",
+        url: "handle_request",
+        data: "challenge_info=" + name + "&accept=1",
+        dataType: "text",
+        success:function(response){
+
+        }
+      });
+    });
 
     function getAvailableLists(person_name){
       $.ajax({
@@ -109,6 +207,7 @@
           });
 
           $("#challenge_user").foundation('reveal', 'open', '');
+          $('#challenged_name').val(person_name);
           $("#search").val("");
         }
       });
@@ -150,6 +249,7 @@
 
       $("#story").height(180);
       setToolTipText();
+      getActives();
     });
 
     $('#send_button').click(function(e){
@@ -177,7 +277,7 @@
       var selected = $("#challenge_type").val();
       var text;
       if(selected == "Score"){
-        text = "The 'Score' challenge is a challenge where you need to get the highest score on a new list";
+        text = "The 'Score' challenge is a challenge where you need to get the highest score on a list";
       }else if(selected == "Perfects"){
         text = "The 'Perfects' challenge is a challenge where you need to have the most answers with 100%";
       }

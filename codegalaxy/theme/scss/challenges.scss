@@ -8,9 +8,20 @@
   margin-right: 10px;
 }
 
+
 .challengers {
   @extend .round-image;
+  width: 50%;
+  height: 50%;
+}
 
+.challenge{
+  width: 80%;
+}
+
+
+.challengers-small {
+  @extend .round-image;
   width: 30%;
   height: 30%;
 }

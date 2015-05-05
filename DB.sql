@@ -876,7 +876,7 @@ CREATE TABLE `challenge` (
   PRIMARY KEY (`challenger_id`, `challenged_id`, `list_id`,`challenge_type_id`),
   FOREIGN KEY (`challenger_id`) REFERENCES `user` (`id`),
   FOREIGN KEY (`challenged_id`) REFERENCES `user` (`id`),
-  FOREIGN KEY (`list_id`) REFERENCES `list` (`id`)
+  FOREIGN KEY (`list_id`) REFERENCES `exerciseList` (`id`)
 
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
