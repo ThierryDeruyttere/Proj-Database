@@ -43,12 +43,13 @@ class ChallengeManager:
     def getFinishedChallengesForUser(self, user_id, language_id):
         #First check if there are some active challenges that are finished
         active = self.getActiveChallengesForUser(user_id, language_id)
+        challenges = []
         for challenge in active:
             if challenge.isFinished():
-                print("finished")
+                challenge.FinishChallenge()
+                challenges.append(challenge)
 
         finished = dbw.getChallengeForStatus(user_id, "Finished")
-        challenges = []
         for i in finished:
             challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
 
