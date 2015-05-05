@@ -102,14 +102,15 @@ def createActiveHTML(challenge):
     return """
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list}">
     <ul class="large-block-grid-3">
-    <li><img class="challengers-small" src="/static/{challenger_pict}"><br/>
+    <li><b>Challenger</b><br/><br/>
+    <img class="challengers-small" src="/static/{challenger_pict}"><br/>
     <b>{challenger.first_name} {challenger.last_name}</b>
     </li>
     <li>
     <b>Challenge info...</b><br/>
     Type: {type}
     </li>
-    <li>
+    <li><b>Challenged</b><br/><br/>
     <img class="challengers-small" src="/static/{challenged_pict}"><br/>
     <b>{challenged.first_name} {challenged.last_name}</b>
     </li>
