@@ -50,21 +50,52 @@ class Challenge:
 
         return False
 
+    def selectWinner(self, challenger_score, challenged_score):
+        if challenger_score > challenged_score:
+            self.winner = self.challenger
+        elif challenger_score < challenged_score:
+            self.winner = self.challenged
+        else:
+            #ex eaquo...
+            #Meh challenger wins >:D
+            self.winner = self.challenger
+
+
     def FinishChallenge(self):
         self.status = "Finished"
         #Determine winner
+
+        #Set the score of each user when you're done with your if statement
+        #At the end of the function, the victor is chosen.
+        challenger_score = 0
+        challenged_score = 0
+
+
         if self.challenge_type.code == 1:
             #Score game mode
-            challenger_list_data = self.challenger.personalListWithId(self.list.id)
-            challenged_list_data = self.challenged.personalListWithId(self.list.id)
-            if challenged_list_data.score > challenger_list_data.score:
-                self.winner = self.challenged
-            elif challenged_list_data.score < challenger_list_data.score:
-                self.winner = self.challenger
-            else:
-                #ex eaquo...
-                #Meh challenger wins >:D
-                self.winnder = self.challenger
+            challenger_score = self.challenger.personalListWithId(self.list.id).score
+            challenged_score = self.challenged.personalListWithId(self.list.id).score
+
+
         elif self.challenge_type.code == 2:
             #Perfects gamemode
-            pass
+            challenger_list_data = self.challenger.personalListWithId(self.list.id)
+            challenged_list_data = self.challenged.personalListWithId(self.list.id)
+
+            #language code doesn't matter here
+            challenger_exercises = challenger_list_data.list.allExercises('en')
+            challenged_exercises = challenged_list_data.list.allExercises('en')
+
+            #This could be done in one loop, but what if a user adds more exercises to a list
+            #when one of the two players has already finished the list?
+            for i in challenger_exercises:
+                if i.score == i.max_score:
+                    challenger_score += 1
+
+            for i in challenged_exercises:
+                if i.score == i.max_score:
+                    challenged_score += 1
+
+
+        self.selectWinner(challenger_score, challenged_score)
+

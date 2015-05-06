@@ -645,7 +645,8 @@ class PersonalList:
                                                         language_code,
                                                         x['completed_on'],
                                                         self.exercises_list.id,
-                                                        x['exercise_number']) for x in exercise_info]
+                                                        x['exercise_number'],
+                                                        x['max_score']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
@@ -656,7 +657,7 @@ class PersonalList:
 
 class PersonalExercise:
 
-    def __init__(self, solved, score, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer):
+    def __init__(self, solved, score, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer, max_score):
         # bool to check if exercise was solved
         self.solved = solved
         # obtained score
@@ -670,6 +671,7 @@ class PersonalExercise:
         self.list_id = list_id
         self.exercise_number = exercise_number
         self.last_answer = last_answer
+        self.max_score = max_score
 
     def __str__(self):
         return str(self.rating) + " " + str(self.score) + " " + str(self.solved) + " " + str(self.exercise) + ' ' + str(self.completed_on)
