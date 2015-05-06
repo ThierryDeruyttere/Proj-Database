@@ -6,6 +6,14 @@ class ChallengeManager:
     def __init__(self):
         pass
 
+    def getChallengesBetween(self, challenger_id, challenged_id, language_id):
+        requests = dbw.getChallengesBetween(challenger_id, challenged_id)
+        challenges = []
+        for i in requests:
+            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
+
+        return challenges
+
     def createChallenge(self, challenger_id, challenged_id, challenge_type, list_id):
         challenge = None
         if challenge_type == "Score":

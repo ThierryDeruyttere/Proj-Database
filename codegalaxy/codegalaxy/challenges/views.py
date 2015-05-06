@@ -72,9 +72,17 @@ def challenges(request):
 
         all_lists = object_manager.getAllExerciseLists(browser_language.id)
         #take an union from all solved lists + lists created by the users
-        union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | set(challenged.getAllCreatedLists(browser_language.id))
-        remaining_lists = set(all_lists) - set(union)
+        active_challenges = challenge_manager.getChallengesBetween(user.id, challenged.id, browser_language.id)
+        active_lists = [i.list.id for i in active_challenges]
 
+        union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | \
+                set(challenged.getAllCreatedLists(browser_language.id)) | set(active_challenges)
+
+        intersect = set(all_lists) - set(union)
+        remaining_lists = []
+        for i in intersect:
+            if i.id not in active_lists:
+                remaining_lists.append(i)
         return HttpResponse(json.dumps(prepareDict(remaining_lists)))
 
     return render(request, 'challenges.html', {"all_users_names": json.dumps(all_users_names),
@@ -100,24 +108,26 @@ def handle_request(request):
 def createActiveHTML(challenge):
 
     return """
-    <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list}">
-    <ul class="large-block-grid-3">
-    <li><b>Challenger</b><br/><br/>
-    <img class="challengers-small" src="/static/{challenger_pict}"><br/>
-    <b>{challenger.first_name} {challenger.last_name}</b>
-    </li>
-    <li>
-    <b>Challenge info...</b><br/>
-    Type: {type}
-    </li>
-    <li><b>Challenged</b><br/><br/>
-    <img class="challengers-small" src="/static/{challenged_pict}"><br/>
-    <b>{challenged.first_name} {challenged.last_name}</b>
-    </li>
-    </ul>
+    <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
+        <ul class="large-block-grid-3">
+            <li><b>Challenger</b><br/><br/>
+                <img class="challengers-small" src="/static/{challenger_pict}"><br/>
+                <b>{challenger.first_name} {challenger.last_name}</b>
+            </li>
+            <li>
+                <b>Challenge info...</b><br/>
+                Type: {type}<br/>
+                {list.name}
+                </li>
+            <li>
+                <b>Challenged</b><br/><br/>
+                <img class="challengers-small" src="/static/{challenged_pict}"><br/>
+                <b>{challenged.first_name} {challenged.last_name}</b>
+            </li>
+        </ul>
     </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
                      challenger= challenge.challenger, challenged = challenge.challenged,
-                     type = challenge.challenge_type.type, list=challenge.list.id)
+                     type = challenge.challenge_type.type, list=challenge.list)
 
 
 

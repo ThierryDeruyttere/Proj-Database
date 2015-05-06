@@ -1,5 +1,6 @@
 from managers.om import *
 object_manager = objectmanager.ObjectManager()
+import dbw
 
 class ChallengeType:
     def __init__(self, type):
@@ -98,4 +99,4 @@ class Challenge:
 
 
         self.selectWinner(challenger_score, challenged_score)
-
+        dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner)
