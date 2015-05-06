@@ -592,6 +592,8 @@ def wall(request):
     group = object_manager.createGroup(1)
     group.postOnWall(1, 'Original post 1')
     group.postOnWall(2, 'Original post 2')
+    first_post = group.allPosts()[1]
+    first_post.replyToPost(3, 'reply to original post')
     all_posts = group.allPosts()
     all_posts_strings = ""
     for post in all_posts:

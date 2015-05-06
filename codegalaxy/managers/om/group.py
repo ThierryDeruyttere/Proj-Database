@@ -196,15 +196,6 @@ class Group:
             info['posted_on']))
         return posts
 
-    def allReplies(self, post_id):
-        replies = []
-        replies_info = dbw.getAllRepliesToPost(post_id)
-        for info in posts_info:
-            posts.append(Post(info['id'], info['group_id'], info['user_id'],
-            info['reply'], info['reply_number'], info['post_text'],
-            info['posted_on']))
-        return replies
-
     def allPostsToHTML(self):
         html = ''
         all_posts = self.allPosts()
@@ -213,7 +204,10 @@ class Group:
             if post.id == post.reply:
                 original_posts.append(post)
         for post in original_posts:
-            nest = 0
+            html += post.HTMLString(0)
+            html += '<hr>'
+        return html
+
 
 class Post:
 
@@ -234,6 +228,36 @@ class Post:
     def __str__(self):
         return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
 
-    def replyToPost(self, user_id, reply_number, text):
-        last_reply_number = dbw.lastReplyToPost()
-        dbw.insertPost(group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+    def replyToPost(self, user_id, text):
+        last_reply_number = dbw.lastReplyToPost(self.id)['last']
+        dbw.insertPost(self.group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+
+    def allReplies(self):
+        replies = []
+        replies_info = dbw.getAllRepliesToPost(self.id)
+        for info in replies_info:
+            replies.append(Post(info['id'], info['group_id'], info['user_id'],
+            info['reply'], info['reply_number'], info['post_text'],
+            info['posted_on']))
+        return replies
+
+    def HTMLString(self, nest):
+        object_manager = managers.om.objectmanager.ObjectManager()
+        html = ''
+        user = object_manager.createUser(id=self.user_id)
+        html += '<div class="row">'
+        if nest > 0:
+            # filler for ident
+            html += '<div class="large-' + str(nest + 2) + ' columns"></div>'
+        html += '<div class="feed-item">'
+        if nest == 0:
+            html += '<div class="large-2 columns"><img src="/static/media/icons/rocket1.png"></div>'
+        html += '<div class="large-' + str(10 - nest) + ' columns end">'
+        html += '<p>' + self.post_text + '</p>'
+        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
+        html += '<p><small></small></p>'
+        html += '</div></div></div>'
+        for reply in self.allReplies():
+            if reply.id is not self.id:
+                html += reply.HTMLString(nest + 1)
+        return html
