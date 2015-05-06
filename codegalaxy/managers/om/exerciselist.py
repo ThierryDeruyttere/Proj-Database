@@ -56,6 +56,8 @@ class ExerciseList:
                 if rating['rating'] != 0:
                     total_rating += rating['rating']
                     rating_divider += 1
+            if rating_divider == 0:
+                return 0
             total_rating = total_rating / rating_divider
         return total_rating
 

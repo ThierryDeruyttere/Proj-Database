@@ -43,24 +43,29 @@ class ChallengeManager:
         active = dbw.getChallengeForStatus(user_id, "Accepted")
         challenges = []
         for i in active:
-            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
+            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id)
+            if not challenge.isFinished():
+                challenges.append(challenge)
+            else:
+                challenge.finishChallenge()
 
         return challenges
 
-
-    def getFinishedChallengesForUser(self, user_id, language_id):
-        #First check if there are some active challenges that are finished
+    def checkActiveChallenges(self, user_id, language_id):
+        #checks if active challenges are finished
         active = self.getActiveChallengesForUser(user_id, language_id)
-        challenges = []
         for challenge in active:
             if challenge.isFinished():
-                challenge.FinishChallenge()
-                challenges.append(challenge)
+                challenge.finishChallenge()
+
+    def getFinishedChallengesForUser(self, user_id, language_id):
+        self.checkActiveChallenges(user_id, language_id)
 
         finished = dbw.getChallengeForStatus(user_id, "Finished")
+        challenges = []
         for i in finished:
             challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
 
-        #Add rest of logic
+        return challenges
 
 

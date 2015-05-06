@@ -62,8 +62,9 @@ class Challenge:
             self.winner = self.challenger
 
 
-    def FinishChallenge(self):
+    def finishChallenge(self):
         self.status = "Finished"
+        print("finishing up " + self.list.name)
         #Determine winner
 
         #Set the score of each user when you're done with your if statement
@@ -74,8 +75,8 @@ class Challenge:
 
         if self.challenge_type.code == 1:
             #Score game mode
-            challenger_score = self.challenger.personalListWithId(self.list.id).score
-            challenged_score = self.challenged.personalListWithId(self.list.id).score
+            challenger_score = self.challenger.personalListWithId(self.list.id, 1).score
+            challenged_score = self.challenged.personalListWithId(self.list.id, 1).score
 
 
         elif self.challenge_type.code == 2:
@@ -99,4 +100,4 @@ class Challenge:
 
 
         self.selectWinner(challenger_score, challenged_score)
-        dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner)
+        dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner.id)

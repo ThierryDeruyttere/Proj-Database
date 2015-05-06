@@ -1298,7 +1298,7 @@ def acceptChallenge(challenger_id, challenged_id, challenge_list_id):
 
 def finishChallenge(challenger_id ,challenged_id, challenge_list_id, winner_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE challenge SET status="Finished" AND winner_id = {winner_id} WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, winner_id = winner_id))
+    cursor.execute('UPDATE challenge SET status="Finished", winner_id = {winner_id} WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, winner_id = winner_id))
     cursor.close()
 
 def getChallengesBetween(challenger_id ,challenged_id):
