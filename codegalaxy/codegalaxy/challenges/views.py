@@ -110,7 +110,7 @@ def createActiveHTML(challenge):
     return """
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
-            <li><b>Challenger</b><br/><br/>
+            <li><b>Challenger</b><br/>
                 <img class="challengers-small" src="/static/{challenger_pict}"><br/>
                 <b>{challenger.first_name} {challenger.last_name}</b>
             </li>
@@ -120,7 +120,7 @@ def createActiveHTML(challenge):
                 <a href="/l/{list.id}">{list.name}</a>
                 </li>
             <li>
-                <b>Challenged</b><br/><br/>
+                <b>Challenged</b><br/>
                 <img class="challengers-small" src="/static/{challenged_pict}"><br/>
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
@@ -148,10 +148,10 @@ def createFinishedHtml(challenge):
         return """
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
-                <li><b>Challenger</b><br/><br/>
+                <li>
+                    <b class="winner_text">Winner</b><br/>
                     <img class="challengers-small victor" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
-                    <b class="winner_text">Winner</b>
                 </li>
                 <li>
                     <b>Challenge info...</b><br/>
@@ -159,24 +159,22 @@ def createFinishedHtml(challenge):
                     <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b>Challenged</b><br/><br/>
+                    <b class="loser_text">Loser</b><br/>
                     <img class="challengers-small loser" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
-                    <b class="loser_text">Loser</b>
                 </li>
             </ul>
         </div>
         """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                         challenger= challenge.challenger, challenged = challenge.challenged,
-                         type = challenge.challenge_type.type, list=challenge.list)
+                   challenger= challenge.challenger, challenged = challenge.challenged,
+                   type = challenge.challenge_type.type, list=challenge.list)
     else:
         return """
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
-                <li><b>Challenger</b><br/><br/>
+                <li><b class="loser_text">Loser</b><br/>
                     <img class="challengers-small loser" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
-                    <b class="loser_text">Loser</b>
                 </li>
                 <li>
                     <b>Challenge info...</b><br/>
@@ -184,16 +182,16 @@ def createFinishedHtml(challenge):
                     <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b>Challenged</b><br/><br/>
+                    <b class="winner_text">Winner</b><br/>
                     <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
-                    <b class="winner_text">Winner</b>
+
                 </li>
             </ul>
         </div>
         """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                         challenger= challenge.challenger, challenged = challenge.challenged,
-                         type = challenge.challenge_type.type, list=challenge.list)
+                   challenger= challenge.challenger, challenged = challenge.challenged,
+                   type = challenge.challenge_type.type, list=challenge.list)
 
 def get_finished(request):
     browser_language = getBrowserLanguage(request)
@@ -202,5 +200,50 @@ def get_finished(request):
     html = ""
     for i in completed:
         html += createFinishedHtml(i)
+
+    return HttpResponse(html)
+
+def createRequestHTML(challenge, user):
+    request_type = "request"
+    buttons = """<button type="button" class="alert small radius challenge_cancel" name="{ challenger.id }-{ challenged.id }-{ list.id }">Cancel</button>"""
+    if challenge.challenger.id != user.id:
+        request_type = "invite"
+        buttons = """<button type="button" class="success small radius challenge_accept" name="{ challenger.id }-{ challenged.id }-{ list.id }">Accept</button>
+                      """ + buttons
+
+    return """
+    <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
+        <ul class="large-block-grid-3">
+            <li><b>Challenger</b><br/>
+                <img class="challengers-small" src="/static/{challenger_pict}"><br/>
+                <b>{challenger.first_name} {challenger.last_name}</b>
+            </li>
+            <li>
+                <b>{request_type}</b><br/>
+                Type: {type}<br/>
+                <a href="/l/{list.id}">{list.name}</a>
+                <br/><br/>
+                {buttons}
+                </li>
+            <li>
+                <b>Challenged</b><br/>
+                <img class="challengers-small" src="/static/{challenged_pict}"><br/>
+                <b>{challenged.first_name} {challenged.last_name}</b>
+            </li>
+        </ul>
+    </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+                     challenger= challenge.challenger, challenged = challenge.challenged,
+                     type = challenge.challenge_type.type, list=challenge.list,
+                     buttons=buttons, request_type=request_type)
+
+
+def get_requests(request):
+    browser_language = getBrowserLanguage(request)
+    user = logged_user(request)
+
+    completed = challenge_manager.getChallengeRequestsForUser(user.id, browser_language.id)
+    html = ""
+    for i in completed:
+        html += createRequestHTML(i, user)
 
     return HttpResponse(html)

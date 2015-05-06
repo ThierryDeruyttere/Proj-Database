@@ -31,39 +31,7 @@
           <h2>You have no completed challenges</h2>
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
-          <div class="large-12 large-centered large-text-center columns">
-            {% for challenge in challenge_requests %}
-              <div class="panel radius challenge" id="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">
-                <ul class="large-block-grid-3">
-                  <li><img class="challengers-small" src="{% static challenge.challenger.getPicture %}"><br/>
-                    <b>{{ challenge.challenger.first_name }} {{ challenge.challenger.last_name }}</b>
-                  </li>
-                  <li>
-                    <b>Pending
-                      {% if challenge.challenger.id == user.id %}
-                        request
-                      {% else %}
-                        invite
-                      {% endif %}</b><br/>
-                    type:
-                    {{ challenge.challenge_type.type }}<br/>
-                    {{ challenge.list.name }}
-                    <br/><br/>
-                    {% if challenge.challenger.id == user.id %}
-                      <button type="button" class="alert small radius challenge_cancel" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Cancel</button>
-                    {% else %}
-                      <button type="button" class="success small radius challenge_accept" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Accept</button>
-                      <button type="button" class="alert small radius challenge_cancel" name="{{ challenge.challenger.id }}-{{ challenge.challenged.id }}-{{ challenge.list.id }}">Cancel</button>
-                    {% endif %}
-                  </li>
-                  <li>
-                    <img class="challengers-small" src="{% static challenge.challenged.getPicture %}"><br/>
-                    <b>{{ challenge.challenged.first_name }} {{ challenge.challenged.last_name }}</b>
-                  </li>
-                </ul>
-              </div>
-            {% endfor %}
-          </div>
+
         </section>
       </div>
     </div>
@@ -138,30 +106,30 @@
       //Add logic here to add card to view
     }
 
-    function getActives(){
+    //get data
+    function ajaxDataCall(url, id){
       $.ajax({
         type: "GET",
-        url: "get_actives",
+        url: url,
         data: "user=" + {{ user.id }},
         dataType: "text",
         success:function(response){
-          $('#panel2-1').children().remove();
-          $('#panel2-1').html(response);
+          $(id).children().remove();
+          $(id).html(response);
         }
       });
     }
 
+    function getActives(){
+      ajaxDataCall("get_actives", "#panel2-1");
+    }
+
     $("[controls='panel2-2']").click(function(){
-      $.ajax({
-        type: "GET",
-        url: "get_finished",
-        data: "user=" + {{ user.id }},
-        dataType: "text",
-        success:function(response){
-          $('#panel2-2').children().remove();
-          $('#panel2-2').html(response);
-        }
-      });
+      ajaxDataCall("get_finished", "#panel2-2");
+    });
+
+    $("[controls='panel2-3']").click(function(){
+      ajaxDataCall("get_requests", "#panel2-3");
     });
 
 
