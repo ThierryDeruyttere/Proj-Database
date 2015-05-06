@@ -64,7 +64,7 @@ class ChallengeManager:
         finished = dbw.getChallengeForStatus(user_id, "Finished")
         challenges = []
         for i in finished:
-            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
+            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id, i['winner_id']))
 
         return challenges
 

@@ -258,3 +258,27 @@
   left: 1px;
   top: 70px;
 }
+
+/* line 69, ../../../theme/scss/challenges.scss */
+.victor {
+  border-color: #9efc51;
+  border-width: 3px;
+  border-style: solid;
+}
+
+/* line 75, ../../../theme/scss/challenges.scss */
+.loser {
+  border-color: #ff5b56;
+  border-width: 3px;
+  border-style: solid;
+}
+
+/* line 81, ../../../theme/scss/challenges.scss */
+.winner_text {
+  color: #7ffc2a;
+}
+
+/* line 85, ../../../theme/scss/challenges.scss */
+.loser_text {
+  color: #ff5b56;
+}

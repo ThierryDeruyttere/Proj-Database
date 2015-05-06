@@ -117,7 +117,7 @@ def createActiveHTML(challenge):
             <li>
                 <b>Challenge info...</b><br/>
                 Type: {type}<br/>
-                {list.name}
+                <a href="/l/{list.id}">{list.name}</a>
                 </li>
             <li>
                 <b>Challenged</b><br/><br/>
@@ -138,5 +138,69 @@ def get_actives(request):
     html = ""
     for i in actives:
         html += createActiveHTML(i)
+
+    return HttpResponse(html)
+
+
+def createFinishedHtml(challenge):
+
+    if challenge.challenger.id == challenge.winner.id:
+        return """
+        <div class="panel radius challenge finished">
+             <ul class="large-block-grid-3">
+                <li><b>Challenger</b><br/><br/>
+                    <img class="challengers-small victor" src="/static/{challenger_pict}"><br/>
+                    <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    <b class="winner_text">Winner</b>
+                </li>
+                <li>
+                    <b>Challenge info...</b><br/>
+                    Type: {type}<br/>
+                    <a href="/l/{list.id}">{list.name}</a>
+                    </li>
+                <li>
+                    <b>Challenged</b><br/><br/>
+                    <img class="challengers-small loser" src="/static/{challenged_pict}"><br/>
+                    <b>{challenged.first_name} {challenged.last_name}</b><br/>
+                    <b class="loser_text">Loser</b>
+                </li>
+            </ul>
+        </div>
+        """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+                         challenger= challenge.challenger, challenged = challenge.challenged,
+                         type = challenge.challenge_type.type, list=challenge.list)
+    else:
+        return """
+        <div class="panel radius challenge finished">
+             <ul class="large-block-grid-3">
+                <li><b>Challenger</b><br/><br/>
+                    <img class="challengers-small loser" src="/static/{challenger_pict}"><br/>
+                    <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    <b class="loser_text">Loser</b>
+                </li>
+                <li>
+                    <b>Challenge info...</b><br/>
+                    Type: {type}<br/>
+                    <a href="/l/{list.id}">{list.name}</a>
+                    </li>
+                <li>
+                    <b>Challenged</b><br/><br/>
+                    <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
+                    <b>{challenged.first_name} {challenged.last_name}</b><br/>
+                    <b class="winner_text">Winner</b>
+                </li>
+            </ul>
+        </div>
+        """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+                         challenger= challenge.challenger, challenged = challenge.challenged,
+                         type = challenge.challenge_type.type, list=challenge.list)
+
+def get_finished(request):
+    browser_language = getBrowserLanguage(request)
+    user = request.GET.get('user')
+    completed = challenge_manager.getFinishedChallengesForUser(int(user), browser_language.id)
+    html = ""
+    for i in completed:
+        html += createFinishedHtml(i)
 
     return HttpResponse(html)

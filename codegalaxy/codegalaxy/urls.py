@@ -82,4 +82,5 @@ urlpatterns += patterns('codegalaxy.challenges.views',
     url(r'challenges/$', 'challenges'),
     url(r'challenges/handle_request$', 'handle_request'),
     url(r'challenges/get_actives', 'get_actives'),
+    url(r'challenges/get_finished', 'get_finished'),
 )
