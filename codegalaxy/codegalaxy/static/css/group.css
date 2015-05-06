@@ -2,3 +2,17 @@
 .user-controls {
   margin-right: 12px;
 }
+
+/* line 5, ../../../theme/scss/group.scss */
+.reply {
+  padding-left: 15%;
+  padding-right: 0px;
+}
+/* line 8, ../../../theme/scss/group.scss */
+.reply p {
+  margin-bottom: 0px;
+}
+/* line 11, ../../../theme/scss/group.scss */
+.reply .reply-timestamp {
+  color: rgba(217, 217, 217, 0.7);
+}

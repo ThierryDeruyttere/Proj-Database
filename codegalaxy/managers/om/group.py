@@ -204,7 +204,7 @@ class Group:
             if post.id == post.reply:
                 original_posts.append(post)
         for post in original_posts:
-            html += post.HTMLString(0)
+            html += post.HTMLString()
             html += '<hr>'
         return html
 
@@ -239,25 +239,33 @@ class Post:
             replies.append(Post(info['id'], info['group_id'], info['user_id'],
             info['reply'], info['reply_number'], info['post_text'],
             info['posted_on']))
+        replies.sort(key=lambda x: x.reply_number, reverse=True)
         return replies
 
-    def HTMLString(self, nest):
+    def HTMLString(self):
         object_manager = managers.om.objectmanager.ObjectManager()
         html = ''
         user = object_manager.createUser(id=self.user_id)
         html += '<div class="row">'
-        if nest > 0:
-            # filler for ident
-            html += '<div class="large-' + str(nest + 2) + ' columns"></div>'
         html += '<div class="feed-item">'
-        if nest == 0:
-            html += '<div class="large-2 columns"><img src="/static/media/icons/rocket1.png"></div>'
-        html += '<div class="large-' + str(10 - nest) + ' columns end">'
+        html += '<div class="large-2 columns"><img src="/static/media/icons/rocket1.png"></div>'
+        html += '<div class="large-10 columns end">'
         html += '<p>' + self.post_text + '</p>'
         html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
         html += '<p><small></small></p>'
         html += '</div></div></div>'
         for reply in self.allReplies():
             if reply.id is not self.id:
-                html += reply.HTMLString(nest + 1)
+                html += reply.HTMLStringReply(1, user)
+        return html
+
+    def HTMLStringReply(self, nest, user):
+        html = ''
+        html += '<div class="reply">'
+        html += '<p>' + self.post_text + '</p>'
+        html += '<p class="reply-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
+        for reply in self.allReplies():
+            if reply.id is not self.id:
+                html += reply.HTMLStringReply(nest + 1, user)
+        html += '</div>'
         return html
