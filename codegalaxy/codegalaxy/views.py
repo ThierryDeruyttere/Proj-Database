@@ -487,11 +487,13 @@ def group(request, id=0):
             new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
         user_list = new_user_list
 
+        group_posts = group.allPostsToHTML()
 
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit,
-                   'my_user_permissions': my_user_permissions, 'group_size': group_size, 'group_owner': group_owner}
+                   'my_user_permissions': my_user_permissions, 'group_size': group_size, 'group_owner': group_owner,
+                   'group_posts': group_posts}
         return render(request, 'group.html', context)
 
     else:

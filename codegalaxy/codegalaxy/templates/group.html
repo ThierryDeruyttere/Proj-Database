@@ -38,6 +38,7 @@
       <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
       <li class="tab-title"><a href="#members">{% trans "Members" %}</a></li>
       {% if is_member %}
+      <li class="tab-title"><a href="#wall">{% trans "Wall" %}</a></li>
       <li class="tab-title"><a href="#add_members">{% trans "Add New Members" %}</a></li>
       {% if not group_permissions == 2 %}
       <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
@@ -165,6 +166,11 @@
             </form>
             <hr/>
           </div>
+
+          <div class="content" id="wall">
+            {{ group_posts | safe }}
+          </div>
+
           <div class="content" id="add_members">
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">

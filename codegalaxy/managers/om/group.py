@@ -206,13 +206,14 @@ class Group:
         return replies
 
     def allPostsToHTML(self):
+        html = ''
         all_posts = self.allPosts()
         original_posts = []
         for post in all_posts:
             if post.id == post.reply:
                 original_posts.append(post)
         for post in original_posts:
-            pass
+            nest = 0
 
 class Post:
 
