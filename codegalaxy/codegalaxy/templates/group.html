@@ -168,7 +168,11 @@
           </div>
 
           <div class="content" id="wall">
-            {{ group_posts | safe }}
+            {% if group_posts %}
+              {{ group_posts | safe }}
+            {% else %}
+            <h1>There don't seem to be any posts here yet!</h1>
+            {% endif %}
           </div>
 
           <div class="content" id="add_members">
