@@ -205,14 +205,17 @@ def get_finished(request):
 
 def createRequestHTML(challenge, user):
     request_type = "request"
-    buttons = """<button type="button" class="alert small radius challenge_cancel" name="{ challenger.id }-{ challenged.id }-{ list.id }">Cancel</button>"""
+    buttons = """<button type="button" class="alert small radius challenge_cancel" name="{challenger.id}-{challenged.id}-{list.id}">Cancel</button>"""
     if challenge.challenger.id != user.id:
         request_type = "invite"
-        buttons = """<button type="button" class="success small radius challenge_accept" name="{ challenger.id }-{ challenged.id }-{ list.id }">Accept</button>
+        buttons = """<button type="button" class="success small radius challenge_accept" name="{challenger.id}-{challenged.id}-{list.id}">Accept</button>
                       """ + buttons
 
+    buttons = buttons.format(challenger= challenge.challenger, challenged = challenge.challenged,
+                     list=challenge.list)
+
     return """
-    <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
+    <div class="panel radius challenge" id="request{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
                 <img class="challengers-small" src="/static/{challenger_pict}"><br/>

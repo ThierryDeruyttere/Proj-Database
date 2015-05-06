@@ -25,13 +25,13 @@
       </ul>
       <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-          <h2>You have no active challenges...</h2>
+          You have no active challenges...
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-          <h2>You have no completed challenges</h2>
+          You have no completed challenges...
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
-
+          You have no challenge requests...
         </section>
       </div>
     </div>
@@ -102,9 +102,6 @@
 
 {% block body_js %}
   <script>
-    function challengeUser(){
-      //Add logic here to add card to view
-    }
 
     //get data
     function ajaxDataCall(url, id){
@@ -137,9 +134,10 @@
       getActives();
     });
 
-    $('.challenge_cancel').click(function(){
+
+    $('#panel2-3').on("click",".challenge_cancel" ,function(){
       var name = $(this).attr("name");
-      $('#'+name).remove();
+      $('#request'+name).remove();
       $.ajax({
         type: "POST",
         url: "handle_request",
@@ -151,7 +149,7 @@
       });
     });
 
-    $('.challenge_accept').click(function(){
+    $('#panel2-3').on("click", ".challenge_accept", function(){
       var name = $(this).attr("name");
       $.ajax({
         type: "POST",
@@ -199,7 +197,6 @@
       lookup: availableTags,
       showNoSuggestionNotice: true,
       noSuggestionNotice: 'Sorry, no matching results',
-      onSelect: challengeUser(),
       lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
         var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
         return re.test(suggestion.value);
