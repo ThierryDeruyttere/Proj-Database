@@ -111,8 +111,10 @@
         data: "user=" + {{ user.id }},
         dataType: "text",
         success:function(response){
-          $(id).children().remove();
-          $(id).html(response);
+          if($(response).length > 0){
+            $(id).children().remove();
+            $(id).html(response);
+          }
         }
       });
     }
