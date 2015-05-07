@@ -553,8 +553,8 @@ def groupCreate(request, id=0):
 @require_login
 def postNew(request):
     user = logged_user(request)
-    group_id = int(request.GET.get('group_id'))
-    post_text = request.GET.get('post_text')
+    group_id = int(request.POST.get('group_id'))
+    post_text = request.POST.get('post_text')
     if post_text == '':
         return HttpResponse('')
     group = object_manager.createGroup(group_id)

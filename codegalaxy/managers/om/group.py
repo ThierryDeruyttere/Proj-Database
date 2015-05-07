@@ -248,20 +248,21 @@ class Post:
         return replies
 
     def HTMLBasic(self, user, logged_user):
+        # TODO: octicons adden voor buttons
         html = ''
         html += '<p>' + self.post_text + '</p>'
         html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
         #want_to_reply_button
         html += '<div class="row">'
         html += '<div class="large-1 columns ">'
-        html += '<small><a href="#" class="want_to_reply_button underline_button">Reply</a></small>'
+        html += '<small><a href="#" class="want_to_reply_button">Reply</a></small>'
         html += '</div>'
         if user.id == logged_user.id:
             html += '<div class="large-1 columns">'
-            html += '<small><a href="#" class="edit_button underline_button">Edit</a></small>'
+            html += '<small><a href="#" class="edit_button">Edit</a></small>'
             html += '</div>'
             html += '<div class="large-1 columns end">'
-            html += '<small><a href="#" class="delete_button underline_button">Delete</a></small>'
+            html += '<small><a href="#" class="delete_button">Delete</a></small>'
             html += '</div>'
         html += '</div>'
         return html

@@ -345,7 +345,7 @@
       group_id: {{ group.id }}
      };
     $.ajax({
-      type: "GET",
+      type: "POST",
       url: "/postNew/",
       data: post_data,
       dataType: "text",
@@ -354,6 +354,7 @@
         //$("#post_field").hide();
         //$("#post_button").hide();
         $('#posts').prepend(response);
+        post_text_var.setValue('');
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
@@ -363,6 +364,7 @@
   });
 
   $(".want_to_reply_button").click(function(e){
+    // $(this).parent().parent().hide();
     e.preventDefault();
   });
   $(".edit_button").click(function(e){
