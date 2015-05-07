@@ -555,6 +555,8 @@ def postNew(request):
     user = logged_user(request)
     group_id = int(request.GET.get('group_id'))
     post_text = request.GET.get('post_text')
+    if post_text == '':
+        return HttpResponse('')
     group = object_manager.createGroup(group_id)
     group.postOnWall(user.id, post_text)
     post = group.allPosts()[0]

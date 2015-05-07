@@ -229,6 +229,10 @@ class Post:
     def __str__(self):
         return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
 
+    def delete():
+        #recursively delete this post and it's replies
+        pass
+
     def replyToPost(self, user_id, text):
         last_reply_number = dbw.lastReplyToPost(self.id)['last']
         dbw.insertPost(self.group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
