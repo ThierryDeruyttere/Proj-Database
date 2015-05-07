@@ -1,5 +1,7 @@
 @import "general";
 
+html {overflow-y: scroll;}
+
 .search_pict {
   @extend .round-image;
 
