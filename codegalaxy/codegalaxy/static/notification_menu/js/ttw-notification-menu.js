@@ -43,7 +43,7 @@
             bubble:{
                 useColors:true,
                 colors:['#f56c7e', '#fec151', '#7ad2f4'],
-                showEmptyBubble:true
+                showEmptyBubble:false
             },
             showNotificationList:false,
             notificationListEmptyText:'No Notifications',
@@ -258,10 +258,9 @@
 
         MenuItem.prototype.updateBubble = function() {
             var count = (notifications[this.category]) ? notifications[this.category].unreadCount : 0;
-
             this.$bubble.html(count);
 
-            //there are no unread notidications. Hide teh bubble
+            //there are no unread notifications. Hide teh bubble
             if (count <= 0 && !options.bubble.showEmptyBubble)
                 this.$bubble.stop().fadeOut('fast');
 

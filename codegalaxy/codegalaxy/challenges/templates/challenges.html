@@ -239,7 +239,11 @@
       $("#story").height(180);
       setToolTipText();
       getActives();
-      $('#request_amount').html(requests_amount);
+      if (requests_amount > 0){
+        $('#request_amount').html(requests_amount);
+      }else{
+        $('#request_amount').hide();
+      }
 
     });
 
