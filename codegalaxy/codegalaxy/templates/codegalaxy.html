@@ -117,7 +117,10 @@
         dataType: "json",
 
         success: function(response) {
-          notifications.setNotifications("challenges", response["challenges"]);
+          $.each(response, function(key, val){
+            notifications.setNotifications(key, val);
+
+          });
 
         },
         error: function(jqXHR, textStatus, error) {

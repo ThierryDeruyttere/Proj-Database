@@ -21,7 +21,10 @@
       <ul class="tabs" data-tab role="tablist">
         <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">Active challenges</a></li>
         <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">Finished challenges</a></li>
-        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">Challenge request</a></li>
+        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">Challenge request
+          <span class="alert radius round label" id="request_amount"></span>
+        </a>
+        </li>
       </ul>
       <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
@@ -103,6 +106,8 @@
 {% block body_js %}
   <script>
 
+
+    var requests_amount = {{ challenge_requests | length }};
     //get data
     function ajaxDataCall(url, id){
       $.ajax({
@@ -139,14 +144,17 @@
 
     $('#panel2-3').on("click",".challenge_cancel" ,function(){
       var name = $(this).attr("name");
-      $('#request'+name).remove();
+
       $.ajax({
         type: "POST",
         url: "handle_request",
         data: "challenge_info=" + name + "&cancel=1",
         dataType: "text",
         success:function(response){
+          $('#request'+name).remove();
           notifications.decrease("challenges");
+          requests_amount--;
+          $('#request_amount').html(requests_amount);
         }
       });
     });
@@ -159,7 +167,9 @@
         data: "challenge_info=" + name + "&accept=1",
         dataType: "text",
         success:function(response){
-
+          $('#request'+name).remove();
+          requests_amount--;
+          $('#request_amount').html(requests_amount);
         }
       });
     });
@@ -229,6 +239,8 @@
       $("#story").height(180);
       setToolTipText();
       getActives();
+      $('#request_amount').html(requests_amount);
+
     });
 
     $('#send_button').click(function(e){
