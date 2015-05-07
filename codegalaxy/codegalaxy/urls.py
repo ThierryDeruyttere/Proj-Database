@@ -62,6 +62,7 @@ urlpatterns += patterns('codegalaxy.exercises.views',
     url(r'^l/(?P<listId>\d*)/importExercise/$', 'importExercise'),
     url(r'^l/(?P<listId>\d*)/editList/$', 'editList'),
     url(r'^addHint/', 'addHint'),
+
 )
 
 urlpatterns += patterns('codegalaxy.evaluation.views',
@@ -84,4 +85,9 @@ urlpatterns += patterns('codegalaxy.challenges.views',
     url(r'challenges/get_actives', 'get_actives'),
     url(r'challenges/get_finished', 'get_finished'),
     url(r'challenges/get_requests', 'get_requests'),
+)
+
+urlpatterns += patterns('codegalaxy.notifications.views',
+    # Search page, only for getting search results #
+        url(r'^get_notifications/', 'get_notifications')
 )

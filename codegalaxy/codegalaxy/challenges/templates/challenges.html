@@ -146,7 +146,7 @@
         data: "challenge_info=" + name + "&cancel=1",
         dataType: "text",
         success:function(response){
-
+          notifications.decrease("challenges");
         }
       });
     });

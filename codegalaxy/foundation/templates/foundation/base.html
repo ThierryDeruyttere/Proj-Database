@@ -57,10 +57,6 @@
     <script src="{% static "jquery_autocomplete/src/jquery.autocomplete.js" %}"></script>
   {% endblock autocomplete%}
 
-  {% block notifications %}
-    <script src="{% static "notification_menu/js/ttw-notification-menu.min.js" %}"></script>
-  {% endblock notifications %}
-
   {% check_loggedIn as logged_in %}
 </head>
 <body {% block body_attr %}{% endblock body_attr %}>
