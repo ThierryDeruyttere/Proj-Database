@@ -67,21 +67,14 @@
 
 
 .victor{
-  border-color: #9efc51;
+  @extend .success-border;
   border-width: 3px;
   border-style: solid;
 }
 
 .loser{
-  border-color: #ff5b56;
+  @extend .alert-border;
   border-width: 3px;
   border-style: solid;
 }
 
-.winner_text{
-  color: #7ffc2a;
-}
-
-.loser_text{
-  color: #ff5b56;
-}

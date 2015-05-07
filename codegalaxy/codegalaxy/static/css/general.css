@@ -187,6 +187,11 @@
 }
 
 /* line 133, ../../../theme/scss/general.scss */
+.alert-border {
+  border-color: #f04124;
+}
+
+/* line 137, ../../../theme/scss/general.scss */
 .round-image {
   border-radius: 50%;
 }

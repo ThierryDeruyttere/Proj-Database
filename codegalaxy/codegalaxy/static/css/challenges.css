@@ -182,11 +182,16 @@
 }
 
 /* line 129, ../../../theme/scss/general.scss */
-.success-border {
+.success-border, .victor {
   border-color: #43AC6A;
 }
 
 /* line 133, ../../../theme/scss/general.scss */
+.alert-border, .loser {
+  border-color: #f04124;
+}
+
+/* line 137, ../../../theme/scss/general.scss */
 .round-image, .search_pict, .challengers, .challengers-small {
   border-radius: 50%;
 }
@@ -261,24 +266,12 @@
 
 /* line 69, ../../../theme/scss/challenges.scss */
 .victor {
-  border-color: #9efc51;
   border-width: 3px;
   border-style: solid;
 }
 
 /* line 75, ../../../theme/scss/challenges.scss */
 .loser {
-  border-color: #ff5b56;
   border-width: 3px;
   border-style: solid;
-}
-
-/* line 81, ../../../theme/scss/challenges.scss */
-.winner_text {
-  color: #7ffc2a;
-}
-
-/* line 85, ../../../theme/scss/challenges.scss */
-.loser_text {
-  color: #ff5b56;
 }

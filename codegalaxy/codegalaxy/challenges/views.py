@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 from django.template import RequestContext
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext as _
@@ -59,6 +60,7 @@ def challenges(request):
         challenge_list = request.POST.get('possible_lists')
         challenged_list_obj = getListFromName(challenge_list, browser_language.id)
         challenge_manager.createChallenge(user.id, challenged.id, challenge_type, challenged_list_obj.id)
+        return HttpResponseRedirect('')
 
     if request.method == 'GET' and 'available_lists' in request.GET:
         user_pers_lists = user.allPersonalLists()
@@ -120,7 +122,7 @@ def createActiveHTML(challenge):
                 <a href="/l/{list.id}">{list.name}</a>
                 </li>
             <li>
-                <b>Challenged</b><br/>
+                <b>Opponent</b><br/>
                 <img class="challengers-small" src="/static/{challenged_pict}"><br/>
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
@@ -149,7 +151,7 @@ def createFinishedHtml(challenge):
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li>
-                    <b class="winner_text">Winner</b><br/>
+                    <b class="success-text">Winner</b><br/>
                     <img class="challengers-small victor" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
                 </li>
@@ -159,7 +161,7 @@ def createFinishedHtml(challenge):
                     <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b class="loser_text">Loser</b><br/>
+                    <b class="alert-text">Loser</b><br/>
                     <img class="challengers-small loser" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
                 </li>
@@ -172,7 +174,7 @@ def createFinishedHtml(challenge):
         return """
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
-                <li><b class="loser_text">Loser</b><br/>
+                <li><b class="alert-text">Loser</b><br/>
                     <img class="challengers-small loser" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
                 </li>
@@ -182,7 +184,7 @@ def createFinishedHtml(challenge):
                     <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b class="winner_text">Winner</b><br/>
+                    <b class="success_text">Winner</b><br/>
                     <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
 
@@ -229,7 +231,7 @@ def createRequestHTML(challenge, user):
                 {buttons}
                 </li>
             <li>
-                <b>Challenged</b><br/>
+                <b>Opponent</b><br/>
                 <img class="challengers-small" src="/static/{challenged_pict}"><br/>
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
