@@ -846,6 +846,69 @@ INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,1,'
 /*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
+
+--
+-- Table structure for table `badge`
+--
+
+DROP TABLE IF EXISTS `badge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `badge` (
+  `badge_id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `type` enum('custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'createdGroup', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor') NOT NULL,
+  `message` varchar(255) NOT NULL,
+  `target_value` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`badge_id`),
+  UNIQUE KEY `name` (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `badge`
+--
+
+LOCK TABLES `badge` WRITE;
+/*!40000 ALTER TABLE `userInGroup` DISABLE KEYS */;
+INSERT INTO `badge` VALUES ('Friendly','hasFriend','Became friends with at least 10 people!',10), ('Friendlier','hasFriend','Became friends with at least 50 people!',50),
+  ('Friendmeister','hasFriend','Became friends with at least 100 people!',100),
+  ('Groupy','memberOfGroup','Joined at least 10 groups',10),('Groupier','memberOfGroup','Joined at least 50 groups',50),
+  ('Groupmeister','memberOfGroup','Joined at least 100 groups',100),
+  ('Problem Solver','solvedList','Solved at least 10 exercise lists',10), ('Programmer','solvedList','Solved at least 50 exercise lists',50),
+  ('1337 Hackr','solvedList','Solved at least 100 exercise lists',100),
+  ('Content Creator','createdList','Created at least 10 exercise lists',10),('Teacher','createdList','Created at least 50 exercise lists',50),
+  ('Professor','createdList','Created at least 100 exercise lists',100),
+  ('Successful Creator','peopleSolvedMyList','At least 10 people solved one of his exercise lists',10), ('Successful Teacher','peopleSolvedMyList','At least 50 people solved one of his exercise lists',50),
+  ('M.D. PhD Professor','peopleSolvedMyList','At least 100 people solved one of his exercise lists',100),
+  ('Rater','gaveRating','Rated at least 10 exerciseLists',10),('Master Rater','gaveRating','Rated at least 50 exerciseLists',50),
+  ('King of the Raters','gaveRating','Rated at least 100 exerciseLists',100),
+  ('Member','timeMember','Member for 10 days',10),('Survivor','timeMember','Member for at least 1 month',30),
+  ('CodeGalaxy Veteran','timeMember','Member for 1 year',365),
+  ('Rookie','frequentVisitor','Logged in 10 consecutive days',10),('Enthusiast','frequentVisitor','Logged in 10 consecutive days',10),
+  ('Are You Still Here?','frequentVisitor','Logged in 365 consecutive days',365);
+/*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `hasBadge`
+--
+
+DROP TABLE IF EXISTS `hasBadge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `badge` (
+  `badge_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `current_value` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`badge_id`, `user_id`),
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `hasBadge`
+--
+
 --
 -- Table structure for table `verification`
 --
