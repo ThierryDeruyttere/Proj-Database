@@ -362,8 +362,14 @@
     });
   });
 
-  $(".want_to_reply_button").click(function(){
-    $("this").append('LOLNO')
+  $(".want_to_reply_button").click(function(e){
+    e.preventDefault();
+  });
+  $(".edit_button").click(function(e){
+    e.preventDefault();
+  });
+  $(".delete_button").click(function(e){
+    e.preventDefault();
   });
 </script>
 {% endblock body_js %}

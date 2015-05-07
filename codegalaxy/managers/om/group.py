@@ -249,10 +249,16 @@ class Post:
         html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
         #want_to_reply_button
         html += '<div class="row">'
-        html += '<small><p class="want_to_reply_button underline_button">Reply</p></small>'
+        html += '<div class="large-1 columns ">'
+        html += '<small><a href="#" class="want_to_reply_button underline_button">Reply</a></small>'
+        html += '</div>'
         if user.id == logged_user.id:
-            html += '<small><p class="edit_button underline_button">Edit</p></small>'
-            html += '<small><p class="delete_button underline_button">Delete</p></small>'
+            html += '<div class="large-1 columns">'
+            html += '<small><a href="#" class="edit_button underline_button">Edit</a></small>'
+            html += '</div>'
+            html += '<div class="large-1 columns end">'
+            html += '<small><a href="#" class="delete_button underline_button">Delete</a></small>'
+            html += '</div>'
         html += '</div>'
         return html
 
