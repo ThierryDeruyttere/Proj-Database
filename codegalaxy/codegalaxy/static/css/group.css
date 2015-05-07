@@ -16,3 +16,14 @@
 .reply .reply-timestamp {
   color: rgba(217, 217, 217, 0.7);
 }
+
+/* line 16, ../../../theme/scss/group.scss */
+.CodeMirror {
+  height: 130px;
+  width: 60%;
+}
+
+/* line 20, ../../../theme/scss/group.scss */
+.reply_button {
+  height: 130px;
+}

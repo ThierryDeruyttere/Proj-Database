@@ -194,6 +194,7 @@ class Group:
             posts.append(Post(info['id'], info['group_id'], info['user_id'],
             info['reply'], info['reply_number'], info['post_text'],
             info['posted_on']))
+        posts.sort(key=lambda x: x.posted_on, reverse=True)
         return posts
 
     def allPostsToHTML(self):
@@ -205,7 +206,6 @@ class Group:
                 original_posts.append(post)
         for post in original_posts:
             html += post.HTMLString()
-            html += '<hr>'
         return html
 
 
@@ -257,6 +257,7 @@ class Post:
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(1, user)
+        html += '<hr>'
         return html
 
     def HTMLStringReply(self, nest, user):

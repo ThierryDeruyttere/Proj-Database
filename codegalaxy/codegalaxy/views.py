@@ -550,6 +550,16 @@ def groupCreate(request, id=0):
 
     return render(request, 'groupCreate.html', {})
 
+@require_login
+def postNew(request):
+    user = logged_user(request)
+    group_id = int(request.GET.get('group_id'))
+    post_text = request.GET.get('post_text')
+    group = object_manager.createGroup(group_id)
+    group.postOnWall(user.id, post_text)
+    post = group.allPosts()[0]
+    new_html = post.HTMLString()
+    return HttpResponse(new_html)
 
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})

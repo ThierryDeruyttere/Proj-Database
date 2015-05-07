@@ -26,6 +26,8 @@ urlpatterns = patterns('codegalaxy.views',
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
+    # Posting on wall
+    url(r'^postNew/', 'postNew'),
     # Social overview (/social)
     url(r'^social/$', 'social'),
     # Create new group (/g/create)

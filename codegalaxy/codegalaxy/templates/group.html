@@ -168,11 +168,17 @@
           </div>
 
           <div class="content" id="wall">
-            {% if group_posts %}
-              {{ group_posts | safe }}
-            {% else %}
-            <h1>There don't seem to be any posts here yet!</h1>
-            {% endif %}
+          <div id="post_field">
+            <textarea id="post_text" name="post_text"></textarea>
+          </div>
+          <input id="post_button" type="submit" class="button tiny radius" value="{% trans "Post" %}">
+          <div id="posts">
+              {% if group_posts %}
+                {{ group_posts | safe }}
+              {% else %}
+              <h1>There don't seem to be any posts here yet!</h1>
+              {% endif %}
+            </div>
           </div>
 
           <div class="content" id="add_members">
@@ -326,6 +332,34 @@
 
   $(".b_upgrade_user").click(function() {
     $(this).closest("form").submit();
+  });
+
+  var post_text_var = CodeMirror.fromTextArea(post_text,
+        {
+          theme: "monokai"
+        });
+  $("#post_button").click(function()
+  {
+    var post_data = {
+      post_text : post_text_var.getValue(),
+      group_id: {{ group.id }}
+     };
+    $.ajax({
+      type: "GET",
+      url: "/postNew/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        //$("#post_field").hide();
+        //$("#post_button").hide();
+        $('#posts').prepend(response);
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
   });
 </script>
 {% endblock body_js %}
