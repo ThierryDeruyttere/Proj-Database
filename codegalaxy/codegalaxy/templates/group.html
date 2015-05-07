@@ -364,8 +364,11 @@
   });
 
   $(".want_to_reply_button").click(function(e){
-    // $(this).parent().parent().hide();
     e.preventDefault();
+    html_text_box = '<textarea id="post_text_reply" name="post_text_reply"></textarea>'
+    html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai"});</scr' + 'ipt>';
+    $(this).parent().parent().append(html_text_box);
+
   });
   $(".edit_button").click(function(e){
     e.preventDefault();
