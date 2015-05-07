@@ -855,12 +855,12 @@ DROP TABLE IF EXISTS `badge`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `badge` (
-  `badge_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` enum('custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'createdGroup', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor') NOT NULL,
   `message` varchar(255) NOT NULL,
   `target_value` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`badge_id`),
+  PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
