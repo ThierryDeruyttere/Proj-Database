@@ -487,7 +487,7 @@ def group(request, id=0):
             new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
         user_list = new_user_list
 
-        group_posts = group.allPostsToHTML()
+        group_posts = group.allPostsToHTML(user)
 
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
@@ -558,7 +558,7 @@ def postNew(request):
     group = object_manager.createGroup(group_id)
     group.postOnWall(user.id, post_text)
     post = group.allPosts()[0]
-    new_html = post.HTMLString()
+    new_html = post.HTMLString(user)
     return HttpResponse(new_html)
 
 def list(request, id=0):

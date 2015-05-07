@@ -4,6 +4,7 @@ import managers.om.objectmanager
 import datetime
 import time
 
+
 import os.path
 
 
@@ -197,7 +198,7 @@ class Group:
         posts.sort(key=lambda x: x.posted_on, reverse=True)
         return posts
 
-    def allPostsToHTML(self):
+    def allPostsToHTML(self, logged_user):
         html = ''
         all_posts = self.allPosts()
         original_posts = []
@@ -205,7 +206,7 @@ class Group:
             if post.id == post.reply:
                 original_posts.append(post)
         for post in original_posts:
-            html += post.HTMLString()
+            html += post.HTMLString(logged_user)
         return html
 
 
@@ -242,7 +243,20 @@ class Post:
         replies.sort(key=lambda x: x.reply_number, reverse=True)
         return replies
 
-    def HTMLString(self):
+    def HTMLBasic(self, user, logged_user):
+        html = ''
+        html += '<p>' + self.post_text + '</p>'
+        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
+        #want_to_reply_button
+        html += '<div class="row">'
+        html += '<small><p class="want_to_reply_button underline_button">Reply</p></small>'
+        if user.id == logged_user.id:
+            html += '<small><p class="edit_button underline_button">Edit</p></small>'
+            html += '<small><p class="delete_button underline_button">Delete</p></small>'
+        html += '</div>'
+        return html
+
+    def HTMLString(self, logged_user):
         object_manager = managers.om.objectmanager.ObjectManager()
         html = ''
         user = object_manager.createUser(id=self.user_id)
@@ -250,23 +264,20 @@ class Post:
         html += '<div class="feed-item">'
         html += '<div class="large-2 columns"><img src="/static/media/icons/rocket1.png"></div>'
         html += '<div class="large-10 columns end">'
-        html += '<p>' + self.post_text + '</p>'
-        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
-        html += '<p><small></small></p>'
+        html += self.HTMLBasic(user, logged_user)
         html += '</div></div></div>'
         for reply in self.allReplies():
             if reply.id is not self.id:
-                html += reply.HTMLStringReply(1, user)
+                html += reply.HTMLStringReply(1, user, logged_user)
         html += '<hr>'
         return html
 
-    def HTMLStringReply(self, nest, user):
+    def HTMLStringReply(self, nest, user, logged_user):
         html = ''
         html += '<div class="reply">'
-        html += '<p>' + self.post_text + '</p>'
-        html += '<p class="reply-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
+        html += self.HTMLBasic(user, logged_user)
         for reply in self.allReplies():
             if reply.id is not self.id:
-                html += reply.HTMLStringReply(nest + 1, user)
+                html += reply.HTMLStringReply(nest + 1, user, logged_user)
         html += '</div>'
         return html
