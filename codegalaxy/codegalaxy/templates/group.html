@@ -335,6 +335,10 @@
     $(this).closest("form").submit();
   });
 
+  function hideReplyField(){
+    $(".replying").remove()
+  }
+
   var post_text_var = CodeMirror.fromTextArea(post_text,
         {
           theme: "monokai"
@@ -366,7 +370,7 @@
   var replying = false
   $(".want_to_reply_button").click(function(e){
     if(replying){
-      $(".replying").remove()
+      hideReplyField()
     }
     e.preventDefault();
     var group_id = $(this).attr('data-group_id');
@@ -385,13 +389,19 @@
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;
   });
+
   $(".edit_button").click(function(e){
+    alert("edit");
     e.preventDefault();
   });
+
   $(".delete_button").click(function(e){
+    alert("delete");
     e.preventDefault();
   });
+
   $(".reply_button").click(function(e){
+    alert("replyyy");
     e.preventDefault();
     var post_data = {
       post_text : post_text_var_reply.getValue(),
@@ -405,7 +415,7 @@
       dataType: "text",
 
       success: function(response) {
-        
+        hideReplyField()
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());

@@ -563,6 +563,22 @@ def postNew(request):
     new_html = post.HTMLString(user)
     return HttpResponse(new_html)
 
+@require_login
+def replyTo(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    post_text = request.POST.get('post_text')
+    if post_text == '':
+        return HttpResponse('')
+    group = object_manager.createGroup(group_id)
+    for old_post in group.allPosts():
+        if old_post.id == post_id:
+            old_post.replyToPost(user.id, post_text)
+    post = group.allPosts()[0]
+    new_html = post.HTMLStringReply(user)
+    return HttpResponse(new_html)
+
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})
 
