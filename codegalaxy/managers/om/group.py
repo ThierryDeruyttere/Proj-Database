@@ -247,6 +247,10 @@ class Post:
         replies.sort(key=lambda x: x.reply_number, reverse=True)
         return replies
 
+    def addPostDataVariables(self):
+        html = ' data-post_id=' + str(self.id)
+        return html
+
     def HTMLBasic(self, user, logged_user):
         # TODO: octicons adden voor buttons
         html = ''
@@ -255,14 +259,14 @@ class Post:
         #want_to_reply_button
         html += '<div class="row">'
         html += '<div class="large-1 columns ">'
-        html += '<small><a href="#" class="want_to_reply_button">Reply</a></small>'
+        html += '<small><a href="#" class="want_to_reply_button" ' + self.addPostDataVariables() + ' >Reply</a></small>'
         html += '</div>'
         if user.id == logged_user.id:
             html += '<div class="large-1 columns">'
-            html += '<small><a href="#" class="edit_button">Edit</a></small>'
+            html += '<small><a href="#" class="edit_button" ' + self.addPostDataVariables() + ' >Edit</a></small>'
             html += '</div>'
             html += '<div class="large-1 columns end">'
-            html += '<small><a href="#" class="delete_button">Delete</a></small>'
+            html += '<small><a href="#" class="delete_button" ' + self.addPostDataVariables() + ' >Delete</a></small>'
             html += '</div>'
         html += '</div>'
         return html
