@@ -172,6 +172,7 @@
             <textarea id="post_text" name="post_text"></textarea>
           </div>
           <input id="post_button" type="submit" class="button tiny radius" value="{% trans "Post" %}">
+        <hr>
           <div id="posts">
               {% if group_posts %}
                 {{ group_posts | safe }}
@@ -362,18 +363,32 @@
       }
     });
   });
-
+  var replying = false
   $(".want_to_reply_button").click(function(e){
+    if(replying){
+      $(".replying").remove()
+    }
     e.preventDefault();
-    html_text_box = '<textarea id="post_text_reply" name="post_text_reply"></textarea>'
+    html_text_box = '<div class="row replying">'
+    html_text_box += '</br>'
+    html_text_box += '<div class="large-10 columns end">'
+    html_text_box += '<textarea id="post_text_reply" name="post_text_reply"></textarea>'
     html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai"});</scr' + 'ipt>';
-    $(this).parent().parent().append(html_text_box);
-
+    html_text_box += '</div></div>'
+    html_text_box += '<div class="row replying">'
+    html_text_box += '<div class="large-2 columns end">'
+    html_text_box += '<input id="reply_button" type="submit" class="button tiny radius reply_button" value="{% trans "Reply" %}">'
+    html_text_box += '</div></div>'
+    $(this).parent().parent().parent().append(html_text_box);
+    replying = true
   });
   $(".edit_button").click(function(e){
     e.preventDefault();
   });
   $(".delete_button").click(function(e){
+    e.preventDefault();
+  });
+  $(".reply_button").click(function(e){
     e.preventDefault();
   });
 </script>
