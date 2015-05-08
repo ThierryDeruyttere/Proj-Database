@@ -98,12 +98,16 @@ def handle_request(request):
     challenger = int(challenge_info[0])
     challenged = int(challenge_info[1])
     challenge_list = int(challenge_info[2])
+    user = logged_user(request)
 
     if request.POST.get('cancel', None):
         challenge_manager.cancelChallenge(challenger, challenged, challenge_list)
 
     elif request.POST.get('accept', None):
         challenge_manager.acceptChallenge(challenger, challenged, challenge_list)
+
+    elif request.POST.get('give_up', None):
+        challenge_manager.giveUpChallenge(user.id, challenger, challenged, challenge_list)
 
     return HttpResponse()
 
@@ -119,7 +123,8 @@ def createActiveHTML(challenge):
             <li>
                 <b>Challenge info...</b><br/>
                 Type: {type}<br/>
-                <a href="/l/{list.id}">{list.name}</a>
+                <a href="/l/{list.id}">{list.name}</a><br/>
+                <button class="alert radius tiny give_up" name="{challenger.id}-{challenged.id}-{list.id}">Give up</button>
                 </li>
             <li>
                 <b>Opponent</b><br/>

@@ -208,38 +208,43 @@ html {
   margin-right: 10px;
 }
 
-/* line 14, ../../../theme/scss/challenges.scss */
+/* line 13, ../../../theme/scss/challenges.scss */
+.give_up {
+  margin-top: 2em;
+}
+
+/* line 17, ../../../theme/scss/challenges.scss */
 .challengers {
   width: 50%;
   height: 50%;
 }
 
-/* line 20, ../../../theme/scss/challenges.scss */
+/* line 23, ../../../theme/scss/challenges.scss */
 .challenge {
   width: 80%;
 }
 
-/* line 25, ../../../theme/scss/challenges.scss */
+/* line 28, ../../../theme/scss/challenges.scss */
 .challengers-small {
   width: 30%;
   height: 30%;
 }
 
-/* line 31, ../../../theme/scss/challenges.scss */
+/* line 34, ../../../theme/scss/challenges.scss */
 #challenge_type {
   width: 20% !important;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 37, ../../../theme/scss/challenges.scss */
+/* line 40, ../../../theme/scss/challenges.scss */
 #possible_lists {
   width: 30% !important;
   margin-left: auto;
   margin-right: auto;
 }
 
-/* line 43, ../../../theme/scss/challenges.scss */
+/* line 46, ../../../theme/scss/challenges.scss */
 #textbox {
   position: absolute;
   top: 1em;
@@ -248,14 +253,14 @@ html {
   color: black;
 }
 
-/* line 51, ../../../theme/scss/challenges.scss */
+/* line 54, ../../../theme/scss/challenges.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 57, ../../../theme/scss/challenges.scss */
+/* line 60, ../../../theme/scss/challenges.scss */
 #textbox:after {
   content: '';
   position: absolute;
@@ -269,13 +274,13 @@ html {
   top: 70px;
 }
 
-/* line 71, ../../../theme/scss/challenges.scss */
+/* line 74, ../../../theme/scss/challenges.scss */
 .victor {
   border-width: 3px;
   border-style: solid;
 }
 
-/* line 77, ../../../theme/scss/challenges.scss */
+/* line 80, ../../../theme/scss/challenges.scss */
 .loser {
   border-width: 3px;
   border-style: solid;

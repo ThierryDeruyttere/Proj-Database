@@ -124,6 +124,36 @@
       });
     }
 
+    function ajaxHandleRequest(obj, extra, give_up){
+      var name = $(obj).attr("name");
+      $.ajax({
+        type: "POST",
+        url: "handle_request",
+        data: "challenge_info=" + name + extra,
+        dataType: "text",
+        success:function(response){
+          if(give_up){
+            $(name).remove();
+          }else{
+            $('#request'+name).remove();
+            notifications.decrease("challenges");
+
+            requests_amount--;
+            if (requests_amount > 0){
+              $('#request_amount').html(requests_amount);
+            }else{
+              $('#request_amount').hide();
+            }
+          }
+        }
+      });
+    }
+
+    $("#panel2-1").on("click", ".give_up", function(){
+      console.log("ok");
+      ajaxHandleRequest(this, "&give_up=1", true);
+    });
+
     function getActives(){
       ajaxDataCall("get_actives", "#panel2-1");
     }
@@ -143,35 +173,11 @@
 
 
     $('#panel2-3').on("click",".challenge_cancel" ,function(){
-      var name = $(this).attr("name");
-
-      $.ajax({
-        type: "POST",
-        url: "handle_request",
-        data: "challenge_info=" + name + "&cancel=1",
-        dataType: "text",
-        success:function(response){
-          $('#request'+name).remove();
-          notifications.decrease("challenges");
-          requests_amount--;
-          $('#request_amount').html(requests_amount);
-        }
-      });
+      ajaxHandleRequest(this, "&cancel=1");
     });
 
     $('#panel2-3').on("click", ".challenge_accept", function(){
-      var name = $(this).attr("name");
-      $.ajax({
-        type: "POST",
-        url: "handle_request",
-        data: "challenge_info=" + name + "&accept=1",
-        dataType: "text",
-        success:function(response){
-          $('#request'+name).remove();
-          requests_amount--;
-          $('#request_amount').html(requests_amount);
-        }
-      });
+      ajaxHandleRequest(this, "&accept=1");
     });
 
     function getAvailableLists(person_name){

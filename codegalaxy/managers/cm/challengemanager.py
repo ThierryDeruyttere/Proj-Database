@@ -68,4 +68,12 @@ class ChallengeManager:
 
         return challenges
 
+    def giveUpChallenge(self, user_id, challenger_id, challenged_id, list_id):
+        winner = None
+        if user_id == challenger_id:
+            winner = challenged_id
+        else:
+            winner = challenger_id
+
+        dbw.finishChallenge(challenger_id, challenged_id, list_id, winner)
 
