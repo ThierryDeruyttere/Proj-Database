@@ -263,7 +263,7 @@ class Post:
         html += '</div>'
         if user.id == logged_user.id:
             html += '<div class="large-1 columns">'
-            html += '<small><a href="#" class="edit_button" ' + self.addPostDataVariables() + ' >Edit</a></small>'
+            html += '<small><a href="#" class="want_to_edit_button" ' + self.addPostDataVariables() + ' >Edit</a></small>'
             html += '</div>'
             html += '<div class="large-1 columns end">'
             html += '<small><a href="#" class="delete_button" ' + self.addPostDataVariables() + ' >Delete</a></small>'
