@@ -846,7 +846,6 @@ INSERT INTO `userInGroup` VALUES (1,1,0,'2015-03-06 13:42:33','Member'),(1,2,1,'
 /*!40000 ALTER TABLE `userInGroup` ENABLE KEYS */;
 UNLOCK TABLES;
 
-
 --
 -- Table structure for table `badge`
 --
@@ -886,6 +885,7 @@ CREATE TABLE `hasBadge` (
   `badge_id` int(11) NOT NULL DEFAULT '0',
   `user_id` int(11) NOT NULL DEFAULT '0',
   `current_value` int(11) NOT NULL DEFAULT '0',
+  `finished` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`badge_id`, `user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -896,7 +896,6 @@ CREATE TABLE `hasBadge` (
 
 LOCK TABLES `hasBadge` WRITE;
 /*!40000 ALTER TABLE `hasBadge` DISABLE KEYS */;
-INSERT INTO `hasBadge` VALUES (1,1,10);
 /*!40000 ALTER TABLE `hasBadge` ENABLE KEYS */;
 UNLOCK TABLES;
 

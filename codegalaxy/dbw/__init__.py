@@ -863,6 +863,26 @@ def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exerci
     cursor = connection.cursor()
     cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number) VALUES({o_id},{l_id},{n_l_e_n});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number))
 
+# BADGES
+
+def incrementBadgeValue(user_id, badge_type):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    cursor = connection.cursor()
+    if len(fetched) > 0:
+        cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id IN (SELECT b.id FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id)'.format(user_id=user_id, badge_type=badge_type))
+        cursor.close()
+    else:
+        cursor.execute('SELECT * FROM badge b WHERE b.type = "{badge_type}"'.format(badge_type=badge_type))
+        badges_with_select_type = processData(cursor)
+        cursor.close()
+        for badge in badges_with_select_type:
+            cursor = connection.cursor()
+            cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES ({badge_id}, {user_id}, 1, 0)'.format(badge_id=badge['id'], user_id=user_id))
+            cursor.close()
+        
 # UPDATE
 
 def setUserActive(email):

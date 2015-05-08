@@ -138,12 +138,15 @@ class User:
         return accepted_friendship
 
     def confirmFriendship(self, friend_id):
+        dbw.incrementBadgeValue(self.id, 'hasFriend')
+        dbw.incrementBadgeValue(friend_id, 'hasFriend')
         dbw.updateFriendship(self.id, friend_id)
 
     def declineFriendship(self, friend_id):
         dbw.deleteFriendship(self.id, friend_id)
 
     def confirmGroupMembership(self, group_id):
+        dbw.incrementBadgeValue(self.id, 'memberOfGroup')
         dbw.updateGroupMembership(self.id, group_id)
 
     def deleteGroupMembership(self, group_id):
