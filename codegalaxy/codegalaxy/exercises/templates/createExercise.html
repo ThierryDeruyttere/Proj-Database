@@ -51,6 +51,7 @@
               <label>{% trans "Exercise Type:" %}</label>
               <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">{% trans "Code question" %}</label>
               <input type="radio" name="exercise_type" value="Multiple choice" id="exercise_type_open"><label for="exercise_type_open">{% trans "Multiple choice" %}</label>
+              <input type="radio" name="exercise_type" value="Python Turtle Graphics" id="exercise_type_turtle"><label for="exercise_type_turtle">{% trans "Python Turtle Graphics" %}</label>
 
             </div>
           </div>
@@ -243,6 +244,7 @@
           </div>
 
         </div>
+
         <div class="row">
           <div class="large-text-center">
             {% if edit %}
@@ -325,20 +327,24 @@
     var current_max = 5;
     $("input[type='radio'][name='exercise_type']").change(function() {
 
-      $('#slider').toggleClass("disabled");
-      if($("#exercise_type_code").is(":checked")) {
-        $("#Code_Question").show();
-        //Reset value to 5 when going from hidden to unhidden -> normally this breaks foundation slider
-        //so we need to reset it
+      if($("#exercise_type_code").is(":checked") || $("#exercise_type_turtle").is(":checked")) {
+        $('#slider').removeClass("disabled");
+
+        $("#Open_Question").hide();
 
         $('#slider').foundation('slider', 'set_value', current_max);
-        $("#Open_Question").hide();
+
+        $("#Code_Question").show();
       }
       else if($('#exercise_type_open').is(":checked")) {
+        $('#slider').addClass("disabled");
+
         $("#Code_Question").hide();
-        $("#Open_Question").show();
+
         current_max = $("#max").val();
         $('#slider').foundation('slider', 'set_value', answers);
+
+        $("#Open_Question").show();
       }
     });
 
@@ -349,11 +355,11 @@
       }
 
       $("#Hints").append(
-              $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
-                      $("<div/>", {"class":"large-5 large-centered columns"}).append(
-                              $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"id": "hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
-                      )
-              )
+        $("<div/>", {"class":"row","id":"row"+(hint_nmbr+1)}).append(
+          $("<div/>", {"class":"large-5 large-centered columns"}).append(
+            $("<input/>", {"type":"text","name":"hint"+(hint_nmbr+1),"id": "hint"+(hint_nmbr+1),"placeholder":"Tip "+(hint_nmbr+1)})
+          )
+        )
       );
 
       ++hint_nmbr;
@@ -446,19 +452,19 @@
         }
 
         $(divs[0]).append(
-                // Add the question template to the answer wrapper but change its id and the name of the input element :3
-                $("<input>").attr({id:"original"+i,
-                  type: "text",
-                  name:"",
-                  readonly:true,
-                  value: val})
+          // Add the question template to the answer wrapper but change its id and the name of the input element :3
+          $("<input>").attr({id:"original"+i,
+            type: "text",
+            name:"",
+            readonly:true,
+            value: val})
         );
 
         $(divs[1]).append(
-                // Add the question template to the answer wrapper but change its id and the name of the input element :3
-                $("<input>").attr({id:"translated"+i,
-                  type: "text",
-                  name:"translated"+i})
+          // Add the question template to the answer wrapper but change its id and the name of the input element :3
+          $("<input>").attr({id:"translated"+i,
+            type: "text",
+            name:"translated"+i})
         );
       }
     }
@@ -550,9 +556,9 @@
       $.each(translation_dict, function(key,value){
         $.each(value, function(trans_key, trans_value){
           $('#exercise_form').append(
-                  $('<input>').attr({name: key+'_'+trans_key,
-                    hidden: true,
-                    value: trans_value})
+            $('<input>').attr({name: key+'_'+trans_key,
+              hidden: true,
+              value: trans_value})
           );
         });
       });
@@ -612,10 +618,10 @@
     $(".form_button").click(function(){
       addDictionary();
       var submit = true;
-      if($('#exercise_type_code').is(":checked")) {
+      if($('#exercise_type_code').is(":checked") || $('#exercise_type_turtle').is(":checked")) {
         if (output_code.getValue() == "") {
           submit = false;
-          alert("You need to expect something!");
+          alert("You need to expect some output!");
         }
         if(submit){
           submit = checkTranslationDict(false);
