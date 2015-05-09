@@ -11,10 +11,13 @@ from codegalaxy.authentication import require_login, logged_user, authenticate
 from codegalaxy.verification import *
 from managers.om import *
 from managers.cm import challengemanager
+from managers.gm import graphmanager
 import json
 from codegalaxy.general import getBrowserLanguage
 object_manager = objectmanager.ObjectManager()
 challenge_manager = challengemanager.ChallengeManager()
+graph_manager = graphmanager.GraphManager()
+
 
 def getAllUsersNames(except_user):
     all_users = object_manager.allUsers()
@@ -43,6 +46,14 @@ def getListFromName(list_name, language_code):
         if i.name == list_name:
             return i
     return None
+
+
+def getFinishedChallengesStats(challenges):
+    stats = {"Score":0, "Perfects":0}
+    for i in challenges:
+
+        stats[i.challenge_type.type] += 1
+    return stats
 
 
 @require_login
@@ -85,7 +96,27 @@ def challenges(request):
         for i in intersect:
             if i.id not in active_lists:
                 remaining_lists.append(i)
-        return HttpResponse(json.dumps(prepareDict(remaining_lists)))
+
+        #Get charts info
+        my_wins  = challenge_manager.getWinsAgainst(user.id, challenged.id)
+        opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
+        pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
+                                               ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins],
+                                               "Wins per user")
+        dump = prepareDict(remaining_lists)
+        dump['wins_chart'] = pie_chart
+
+        finished_challenges = challenge_manager.getFinishedChallengesBetween(user.id, challenged.id, browser_language.id)
+        stats = getFinishedChallengesStats(finished_challenges)
+
+        color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
+        color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
+
+        values = [[v] for v in stats.values()]
+        #bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["Perfects", "Score"], "#Challenges per challenge type")
+        #dump['challenges_chart'] = bar_chart
+
+        return HttpResponse(json.dumps(dump))
 
     return render(request, 'challenges.html', {"all_users_names": json.dumps(all_users_names),
                                                "user": user,

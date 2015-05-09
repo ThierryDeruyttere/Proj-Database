@@ -80,7 +80,7 @@ class GraphManager:
 
     def addGetID(self, name):
         return 'var ' + self.addDatavar('O') + " = document.getElementById('" + name + "').getContext('2d');\n"
-# LINEGRAPH======================================================================================================================
+    # LINEGRAPH======================================================================================================================
 
     def addLabels(self, labels):
         labels_string = 'labels : ['
@@ -116,7 +116,7 @@ class GraphManager:
         GraphManager.count += 1
         return total_string
 
-# PIECHART=========================================================================================================
+    # PIECHART=========================================================================================================
 
     # Colorinfo's will be a list of tuples here
     def addPieData(self, labels, data, colorInfos):
@@ -139,9 +139,14 @@ class GraphManager:
         extras_string += '};\n'
         return extras_string
 
+
+    def addTitle(self, chart, name):
+        return  "<p><span class='octicon octicon-chevron-right'></span> " + name +"</p>\n" + chart
+
     # Colorinfo's will be a list of tuples here
-    def makePieChart(self, name, width, height, colorInfos, labels, data):
+    def makePieChart(self, name, width, height, colorInfos, labels, data, chart_name=None):
         total_string = ''
+
         total_string += self.addPieData(labels, data, colorInfos)
         total_string += self.addPieExtras()
         # The objects themself have postfix O
@@ -149,10 +154,12 @@ class GraphManager:
         total_string += 'new Chart(' + self.addDatavar('O') + ').Pie(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name, width, height) + total_string
+        if chart_name:
+            total_string = self.addTitle(total_string, chart_name)
         GraphManager.count += 1
         return total_string
 
-# BARCHART==================================================================================================
+    # BARCHART==================================================================================================
 
     def addBarExtras(self, percentages):
         extras_string = ''
@@ -189,7 +196,7 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, percentages=False):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, chart_name, percentages=False):
         total_string = ''
         total_string += self.addBarData(labels, data, colorInfos, datalabels)
         total_string += self.addBarExtras(percentages)
@@ -197,5 +204,7 @@ class GraphManager:
         total_string = self.addScript(total_string)
         #total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string
         total_string = self.canvasString(name, width, height) + total_string
+        if chart_name:
+            total_string = self.addTitle(total_string, chart_name)
         GraphManager.count += 1
         return total_string

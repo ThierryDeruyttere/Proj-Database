@@ -96,6 +96,16 @@
             </div>
           </div>
         </form>
+
+      </div>
+      <div class="row">
+        <div class="large-12 columns large-centered large-text-center">
+          <div class="large-6 columns"  id="pie">
+          </div>
+
+          <div class="large-6 columns"  id="bar">
+          </div>
+        </div>
       </div>
     </div>
     <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -150,7 +160,6 @@
     }
 
     $("#panel2-1").on("click", ".give_up", function(){
-      console.log("ok");
       ajaxHandleRequest(this, "&give_up=1", true);
     });
 
@@ -190,6 +199,9 @@
         success: function(response) {
           $('#possible_lists').children().remove();
           $.each(response, function(key, value){
+            if(key == "wins_chart" || key ==  "challenges_chart"){
+              return true;
+            }
             var optgroup = $("<optgroup/>",{
               label: key
             });
@@ -206,6 +218,9 @@
           $("#challenge_user").foundation('reveal', 'open', '');
           $('#challenged_name').val(person_name);
           $("#search").val("");
+          $("#pie").html(response['wins_chart']);
+
+          $("#bar").html(response['challenges_chart']);
         }
       });
     }
