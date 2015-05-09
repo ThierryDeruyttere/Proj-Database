@@ -196,7 +196,7 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, chart_name, percentages=False):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, chart_name=None, percentages=False):
         total_string = ''
         total_string += self.addBarData(labels, data, colorInfos, datalabels)
         total_string += self.addBarExtras(percentages)

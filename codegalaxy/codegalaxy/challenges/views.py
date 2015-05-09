@@ -112,9 +112,12 @@ def challenges(request):
         color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
         color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
 
-        values = [[v] for v in stats.values()]
-        #bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["Perfects", "Score"], "#Challenges per challenge type")
-        #dump['challenges_chart'] = bar_chart
+        values = [[]]
+        for v in stats.values():
+            values[0].append(v)
+            
+        bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"], "#Challenges per challenge type")
+        dump['challenges_chart'] = bar_chart
 
         return HttpResponse(json.dumps(dump))
 
