@@ -166,11 +166,11 @@
                 var user_code = CodeMirror.fromTextArea(code,
                         {
                           lineNumbers: true,
-                          {% if list.programming_language_string == "Python" %}
+                          {% if list.programming_language.name == "Python" %}
                             mode: "python",
-                          {% elif list.programming_language_string == "C++" %}
+                          {% elif list.programming_language.name == "C++" %}
                             mode: "text/x-c++src",
-                          {% elif list.programming_language_string == "SQL" %}
+                          {% elif list.programming_language.name == "SQL" %}
                             mode: "sql",
                           {% endif %}
                           theme: "monokai"
@@ -185,11 +185,11 @@
                 var output_code = CodeMirror.fromTextArea(output,
                         {
                           lineNumbers: true,
-                          {% if list.programming_language_string == "Python" %}
+                          {% if list.programming_language.name == "Python" %}
                             mode: "python",
-                          {% elif list.programming_language_string == "C++" %}
+                          {% elif list.programming_language.name == "C++" %}
                             mode: "text/x-c++src",
-                          {% elif list.programming_language_string == "SQL" %}
+                          {% elif list.programming_language.name == "SQL" %}
                             mode: "sql",
                           {% endif %}
                           theme: "monokai"
