@@ -872,8 +872,14 @@ def incrementBadgeValue(user_id, badge_type):
     cursor.close()
     cursor = connection.cursor()
     if len(fetched) > 0:
-        cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id IN (SELECT b.id FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id)'.format(user_id=user_id, badge_type=badge_type))
+        cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
+        data = processData(cursor)
         cursor.close()
+        print(data)
+        for element in data:
+            cursor = connection.cursor()
+            cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+            cursor.close()
     else:
         cursor.execute('SELECT * FROM badge b WHERE b.type = "{badge_type}"'.format(badge_type=badge_type))
         badges_with_select_type = processData(cursor)
