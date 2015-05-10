@@ -20,6 +20,8 @@
 
       {% if exercise.exercise_type == "Open Question" %}
         {% include "partial/answer_open.html" %}
+      {% elif exercise.exercise_type == "Python Turtle Graphics" %}
+        {% include "partial/answer_turtle.html" %}
       {% else %}
         {% include "partial/answer_code.html" %}
       {% endif %}
