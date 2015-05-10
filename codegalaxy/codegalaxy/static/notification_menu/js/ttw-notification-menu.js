@@ -45,7 +45,7 @@
                 colors:['#f56c7e', '#fec151', '#7ad2f4'],
                 showEmptyBubble:false
             },
-            showNotificationList:false,
+            showNotificationList:true,
             notificationListEmptyText:'No Notifications',
             defaultCategory : 'general',
             anchor:'body',

@@ -117,11 +117,14 @@
         dataType: "json",
 
         success: function(response) {
-          $.each(response, function(key, val){
-            notifications.setNotifications(key, val);
-
+          $.each(response, function (key, val) {
+            $.each(val, function (i, v) {
+              notifications.createNotification({
+                message: v,
+                category: 'challenges'
+              });
+            });
           });
-
         },
         error: function(jqXHR, textStatus, error) {
 
