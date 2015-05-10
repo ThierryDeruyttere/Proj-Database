@@ -114,6 +114,7 @@ def handle_request(request):
 def createActiveHTML(challenge):
 
     return """
+    <div class="large-9 columns right">
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
@@ -132,6 +133,7 @@ def createActiveHTML(challenge):
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
         </ul>
+    </div>
     </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
                      challenger= challenge.challenger, challenged = challenge.challenged,
                      type = challenge.challenge_type.type, list=challenge.list)
@@ -153,6 +155,7 @@ def createFinishedHtml(challenge):
 
     if challenge.challenger.id == challenge.winner.id:
         return """
+        <div class="large-9 columns right">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li>
@@ -172,11 +175,12 @@ def createFinishedHtml(challenge):
                 </li>
             </ul>
         </div>
-        """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+        </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
                    challenger= challenge.challenger, challenged = challenge.challenged,
                    type = challenge.challenge_type.type, list=challenge.list)
     else:
         return """
+        <div class="large-9 columns right">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li><b class="alert-text">Loser</b><br/>
@@ -196,7 +200,7 @@ def createFinishedHtml(challenge):
                 </li>
             </ul>
         </div>
-        """.format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
+        </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
                    challenger= challenge.challenger, challenged = challenge.challenged,
                    type = challenge.challenge_type.type, list=challenge.list)
 
@@ -222,6 +226,7 @@ def createRequestHTML(challenge, user):
                      list=challenge.list)
 
     return """
+    <div class="large-9 columns right">
     <div class="panel radius challenge" id="request{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
@@ -241,6 +246,7 @@ def createRequestHTML(challenge, user):
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
         </ul>
+    </div>
     </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
                      challenger= challenge.challenger, challenged = challenge.challenged,
                      type = challenge.challenge_type.type, list=challenge.list,
