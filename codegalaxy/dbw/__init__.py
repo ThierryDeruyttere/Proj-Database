@@ -1307,3 +1307,17 @@ def getChallengesBetween(challenger_id ,challenged_id):
     fetched = processData(cursor)
     cursor.close()
     return fetched
+
+def getChallengeWinsAgainst(user_id, opponent_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND winner_id = {user}'.format(user=user_id, challenged = opponent_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getFinishedChallengesBetween(user_id, opponent_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND status = "Finished"'.format(user=user_id, challenged = opponent_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched

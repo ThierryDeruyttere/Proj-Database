@@ -285,3 +285,8 @@ html {
   border-width: 3px;
   border-style: solid;
 }
+
+/* line 86, ../../../theme/scss/challenges.scss */
+p {
+  color: #000000;
+}

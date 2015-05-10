@@ -77,3 +77,14 @@ class ChallengeManager:
 
         dbw.finishChallenge(challenger_id, challenged_id, list_id, winner)
 
+    def getWinsAgainst(self, first_user, second_user):
+        return len(dbw.getChallengeWinsAgainst(first_user, second_user))
+
+    def getFinishedChallengesBetween(self, first_user, second_user, language_id):
+        active = dbw.getFinishedChallengesBetween(first_user, second_user)
+        challenges = []
+        for i in active:
+            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id)
+            challenges.append(challenge)
+
+        return challenges
