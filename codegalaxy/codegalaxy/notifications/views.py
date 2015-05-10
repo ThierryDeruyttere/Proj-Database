@@ -16,11 +16,19 @@ from codegalaxy.general import getBrowserLanguage
 object_manager = objectmanager.ObjectManager()
 challenge_manager = challengemanager.ChallengeManager()
 
+
+def prepareChallengeNotif(data):
+    d = {}
+    for i, val in enumerate(data):
+        d[str(i)] = val.challenger.first_name + " " + val.challenger.last_name + " has challenged you for a: " + val.challenge_type.type
+
+    return d
+
 def get_notifications(request):
     user = logged_user(request)
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
-    notifications['challenges'] = len(challenge_requests)
+    notifications['challenges'] = prepareChallengeNotif(challenge_requests)
 
     return HttpResponse(json.dumps(notifications))
 

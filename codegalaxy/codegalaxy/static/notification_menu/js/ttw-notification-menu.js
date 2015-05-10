@@ -544,9 +544,13 @@
             });
         };
 
-        notificationMenu.setNotifications = function(category, amount){
+        notificationMenu.setNotifications = function(category, data){
             var notification = notifications[category];
-            notification.unreadCount = amount;
+            if(jQuery.isEmptyObject(data)){
+                notification.unreadCount = 0;
+            }else{
+                notification.unreadCount = $(data).length;
+            }
 
             if (logInMenu(category, notification))
                 menuItems[category].updateBubble();
