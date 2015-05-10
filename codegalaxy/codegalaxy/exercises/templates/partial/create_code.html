@@ -1,0 +1,60 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load custom_filters %}
+
+<div class="row" id="Code_Question">
+
+  <div class="row">
+    <div class="large-10 large-centered columns">
+      <div data-alert class="alert-box info radius">
+        {% trans "Code the user gets to see." %}
+      </div>
+      <textarea id="code" name="code">{{ exercise.code }}</textarea>
+      <script>
+        var user_code = CodeMirror.fromTextArea(code,
+                {
+                  lineNumbers: true,
+                  {% if list.programming_language.name == "Python" %}
+                    mode: "python",
+                  {% elif list.programming_language.name == "C++" %}
+                    mode: "text/x-c++src",
+                  {% elif list.programming_language.name == "SQL" %}
+                    mode: "sql",
+                  {% endif %}
+                  theme: "monokai"
+                });
+      </script>
+
+      <div data-alert class="alert-box info radius">
+        {% trans "Expected output." %}
+      </div>
+      <textarea id="output" name="output">{{ expected_code_answer }}</textarea>
+      <script>
+        var output_code = CodeMirror.fromTextArea(output,
+                {
+                  lineNumbers: true,
+                  {% if list.programming_language.name == "Python" %}
+                    mode: "python",
+                  {% elif list.programming_language.name == "C++" %}
+                    mode: "text/x-c++src",
+                  {% elif list.programming_language.name == "SQL" %}
+                    mode: "sql",
+                  {% endif %}
+                  theme: "monokai"
+                });
+      </script>
+
+      <div class="row" id="Tips_Row">
+        <h3>Hints:</h3>
+        <div class="large-4 right columns">
+          <input type="button" class="button tiny radius" id="add_hint" value = "{% trans "Add Hint" %}">
+        </div>
+        <div class="row">
+          <span id="Hints"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
