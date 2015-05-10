@@ -69,10 +69,7 @@
     {% if exercise.exercise_type != "Open Question" %}
       var code_text = CodeMirror.fromTextArea(user_code,
               {
-                {% if list_owner %}
-                  readOnly: true,
-                {% endif %}
-                {% if not logged_in %}
+                {% if list_owner or not logged_in %}
                   readOnly: true,
                 {% endif %}
                 lineNumbers: true,
