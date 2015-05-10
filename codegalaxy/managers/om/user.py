@@ -81,10 +81,21 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
 
         rewards = dbw.getAllRewards(self.id)
-        reward_objects = []
+        reward_objects = {}
+        gold = []
+        silver = []
+        bronze = []
         for reward in rewards:
             reward_object = object_manager.createBadge(reward['id'])
-            reward_objects.append(reward_object)
+            if reward_object.medal == 'gold':
+                gold.append(reward_object)
+            elif reward_object.medal == 'silver':
+                silver.append(reward_object)
+            elif reward_object.medal == 'bronze':
+                bronze.append(reward_object)
+        reward_objects['gold'] = gold
+        reward_objects['silver'] = silver
+        reward_objects['bronze'] = bronze
         return reward_objects
 
     # List with other users this user is befriended with

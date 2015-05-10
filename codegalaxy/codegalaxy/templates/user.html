@@ -350,9 +350,19 @@
           <div class="row">
             <div class="large-12 columns">
               <div class="panel radius">
-                {% for badge in rewards %}
+                {% for gold in gold_badges %}
                   <span class="goldAch">
-                    <a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+                    <a href="/badge/{{gold.id}}">{{ gold.name }}</a>
+                  </span>
+                {% endfor %}
+                {% for silver in silver_badges %}
+                  <span class="silverAch">
+                    <a href="/badge/{{silver.id}}">{{ silver.name }}</a>
+                  </span>
+                {% endfor %}
+                {% for bronze in bronze_badges %}
+                  <span class="bronzeAch">
+                    <a href="/badge/{{bronze.id}}">{{ bronze.name }}</a>
                   </span>
                 {% endfor %}
                 {% if list_on_lang_by_user %}
