@@ -77,6 +77,16 @@ class User:
                 profile_picture = "media/icons/unknown_user.png"
         return profile_picture
 
+    def getAllRewards(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        rewards = dbw.getAllRewards(self.id)
+        reward_objects = []
+        for reward in rewards:
+            reward_object = object_manager.createBadge(reward['id'])
+            reward_objects.append(reward_object)
+        return reward_objects
+
     # List with other users this user is befriended with
     def allFriends(self):
         object_manager = managers.om.objectmanager.ObjectManager()

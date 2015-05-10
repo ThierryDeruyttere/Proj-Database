@@ -18,16 +18,5 @@ class Badge:
     def __repr__(self):
         return str(self)
 
-class hasBadge:
-	def __init__(self, user_id, badge_id, current_value):
-        self.user = id
-        self.badge = name
-        self.current_value = current_value
-
-        self.finished = False
-
-        if self.current_value >= self.badge.target_value:
-        	self.finished = True
-
-    def __repr__(self):
+    def __str__(self):
         return str(self)

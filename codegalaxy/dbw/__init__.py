@@ -750,6 +750,20 @@ def getLangForId(lang_id):
     cursor.close()
     return fetched
 
+def getAllRewards(user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT b.id FROM badge b, hasBadge p WHERE b.id = p.badge_id AND p.user_id = {user_id} AND p.finished=1'.format(user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getBadgeInformation(badge_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM badge WHERE id = {badge_id}'.format(badge_id=badge_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
 
 # INSERT
 
@@ -888,7 +902,7 @@ def incrementBadgeValue(user_id, badge_type):
             cursor = connection.cursor()
             cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES ({badge_id}, {user_id}, 1, 0)'.format(badge_id=badge['id'], user_id=user_id))
             cursor.close()
-        
+
 # UPDATE
 
 def setUserActive(email):

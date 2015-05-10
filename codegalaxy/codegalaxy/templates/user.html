@@ -350,6 +350,11 @@
           <div class="row">
             <div class="large-12 columns">
               <div class="panel radius">
+                {% for badge in rewards %}
+                  <span class="goldAch">
+                    <a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+                  </span>
+                {% endfor %}
                 {% if list_on_lang_by_user %}
                   <p><span class="octicon octicon-chevron-right"></span> {% trans "Lists made per programming language" %}</p>
                   <div class="text-center">

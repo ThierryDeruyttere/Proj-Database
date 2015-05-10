@@ -3,6 +3,7 @@ import managers.om.exercise
 import managers.om.user
 import managers.om.group
 import managers.om.feed
+import managers.om.badge
 import dbw
 import datetime
 # Class that will build and work with the various objects representing the site
@@ -55,6 +56,14 @@ class ObjectManager:
         if group_info:
             group_object = managers.om.group.Group(id, group_info['group_name'], group_info['group_type'], group_info['created_on'])
             return group_object
+        else:
+            return None
+
+    def createBadge(self, id):
+        badge_info = dbw.getBadgeInformation(id)
+        if badge_info:
+            badge_object = managers.om.badge.Badge(id, badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'])
+            return badge_object
         else:
             return None
 
