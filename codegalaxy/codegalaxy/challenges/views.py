@@ -115,7 +115,7 @@ def challenges(request):
         values = [[]]
         for v in stats.values():
             values[0].append(v)
-            
+
         bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"], "#Challenges per challenge type")
         dump['challenges_chart'] = bar_chart
 
@@ -148,7 +148,7 @@ def handle_request(request):
 def createActiveHTML(challenge):
 
     return """
-    <div class="large-9 columns right">
+    <div class="large-12 columns large-centered">
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
@@ -189,7 +189,7 @@ def createFinishedHtml(challenge):
 
     if challenge.challenger.id == challenge.winner.id:
         return """
-        <div class="large-9 columns right">
+        <div class="large-12 columns large-centered">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li>
@@ -214,7 +214,7 @@ def createFinishedHtml(challenge):
                    type = challenge.challenge_type.type, list=challenge.list)
     else:
         return """
-        <div class="large-9 columns right">
+        <div class="large-12 columns large-centered">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li><b class="alert-text">Loser</b><br/>
@@ -260,7 +260,7 @@ def createRequestHTML(challenge, user):
                      list=challenge.list)
 
     return """
-    <div class="large-9 columns right">
+    <div class="large-12 columns large-centered">
     <div class="panel radius challenge" id="request{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
@@ -268,9 +268,9 @@ def createRequestHTML(challenge, user):
                 <b>{challenger.first_name} {challenger.last_name}</b>
             </li>
             <li>
-                <b>{request_type}</b><br/>
+                <h4><b>{request_type}</b></h4><br/>
                 Type: {type}<br/>
-                <a href="/l/{list.id}">{list.name}</a>
+                List: <a href="/l/{list.id}">{list.name}</a>
                 <br/><br/>
                 {buttons}
                 </li>
