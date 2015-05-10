@@ -764,6 +764,13 @@ def getBadgeInformation(badge_id):
     cursor.close()
     return fetched
 
+def getAllBadgeInformation():
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM badge')
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 
 # INSERT
 

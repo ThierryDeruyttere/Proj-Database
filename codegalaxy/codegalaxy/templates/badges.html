@@ -1,0 +1,45 @@
+{% extends "codegalaxy.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page_css %}
+<link rel="stylesheet" type="text/css" href="{% static "css/badge.css" %}" />
+{% endblock page_css %}
+
+
+{% block base_body %}
+
+<div class="row">
+	<div class="large-12 columns">
+		<div class="panel radius">
+			<span class="octicon octicon-chevron-right"> {% trans "Gold Badges" %}</span>
+			<br>
+			{% for badge in gold_badges %}
+			<span class="goldAch">
+				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+			</span>
+			{% endfor %}
+			<br>
+			<span class="octicon octicon-chevron-right"> {% trans "Silver Badges" %}</span>
+			<br>
+			{% for badge in gold_badges %}
+			<span class="goldAch">
+				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+			</span>
+			{% endfor %}
+			<br>
+			<span class="octicon octicon-chevron-right"> {% trans "Bronze Badges" %}</span>
+			<br>
+			{% for badge in gold_badges %}
+			<span class="goldAch">
+				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+			</span>
+			{% endfor %}
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock base_body %}

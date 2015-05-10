@@ -31,6 +31,10 @@ urlpatterns = patterns('codegalaxy.views',
     # Create new group (/g/create)
     url(r'^g/create', 'groupCreate'),
 
+    ## BADGES ##
+    # Badges overview (/badges)
+    url(r'^badges/$', 'badges'),
+
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),
 

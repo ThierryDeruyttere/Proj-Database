@@ -548,6 +548,15 @@ def groupCreate(request, id=0):
 
     return render(request, 'groupCreate.html', {})
 
+def badges(request):
+    user = logged_user(request)
+
+    gold_badges = object_manager.getAllBadges()
+
+    context = {'gold_badges': gold_badges}
+
+    return render(request, 'badges.html', context)
+
 
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})

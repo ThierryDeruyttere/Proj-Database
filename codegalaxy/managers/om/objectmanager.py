@@ -67,6 +67,14 @@ class ObjectManager:
         else:
             return None
 
+    def getAllBadges(self):
+        badges_info = dbw.getAllBadgeInformation()
+        badges=[]
+        for badge_info in badges_info:
+            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'])
+            badges.append(badge_object)
+        return badges
+
     def createUserInGroup(self, group_id, user_id):
         user_in_group_info = dbw.getUserInGroupInformation(group_id, user_id)
         if user_in_group_info:
