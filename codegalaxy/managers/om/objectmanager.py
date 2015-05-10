@@ -62,17 +62,29 @@ class ObjectManager:
     def createBadge(self, id):
         badge_info = dbw.getBadgeInformation(id)
         if badge_info:
-            badge_object = managers.om.badge.Badge(id, badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'])
+            badge_object = managers.om.badge.Badge(id, badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
             return badge_object
         else:
             return None
 
     def getAllBadges(self):
         badges_info = dbw.getAllBadgeInformation()
-        badges=[]
+        badges={}
+        gold = []
+        silver = []
+        bronze = []
         for badge_info in badges_info:
-            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'])
-            badges.append(badge_object)
+            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
+            if badge_object.medal == 'gold':
+                gold.append(badge_object)
+            elif badge_object.medal == 'silver':
+                silver.append(badge_object)
+            elif badge_object.medal == 'bronze':
+                bronze.append(badge_object)
+
+        badges['gold'] = gold
+        badges['silver'] = silver
+        badges['bronze'] = bronze
         return badges
 
     def createUserInGroup(self, group_id, user_id):
