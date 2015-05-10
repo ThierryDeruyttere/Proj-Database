@@ -176,7 +176,7 @@ def createExercise(request, listId=0):
                 if cur_hint != "":
                     hints.append(cur_hint)
 
-        else:  # Python Turtle Graphics
+        else:  # Turtle
             expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
 

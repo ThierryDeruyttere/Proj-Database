@@ -20,7 +20,7 @@
 
       {% if exercise.exercise_type == "Open Question" %}
         {% include "partial/answer_open.html" %}
-      {% elif exercise.exercise_type == "Python Turtle Graphics" %}
+      {% elif exercise.exercise_type == "Turtle" %}
         {% include "partial/answer_turtle.html" %}
       {% else %}
         {% include "partial/answer_code.html" %}
@@ -45,9 +45,12 @@
               {% else %}
                 {% if exercise.exercise_type == "Open Question" %}
                   <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
-                {% else %}
+                {% elif exercise.exercise_type == "Code" %}
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
+                {% else %}
+                  <input id="code_output" name="code_output" type="hidden" value=""></input>
+                  <input id="submit_answer_turtle" type="button" class="button tiny radius" value="{% trans "Answer" %}">
                 {% endif %}
               {% endif %}
             {% endif %}
@@ -171,33 +174,80 @@
       });
     {% endif %}
 
-    $("#submit_answer_code").click(function()
-    {
-      var post_data = { code : code_text.getValue() };
-      $.ajax({
-        type: "POST",
-        url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
-        data: post_data,
-        dataType: "text",
-
-        success: function(response) {
-          $("#code_output").val(response);
-          $("#answer_question").submit();
-        },
-        error: function(jqXHR, textStatus, error) {
-          $("#output_alert").html(jqXHR.responseText.toString());
-          $("#output_alert").show();
-        }
-      });
-    });
-
     {% if exercise.exercise_type == "Code" %}
       $('#reset').click(function(){
         code_text.getDoc().setValue($("#user_code").val());
       });
+      $("#submit_answer_code").click(function()
+      {
+        var post_data = { code : code_text.getValue() };
+        $.ajax({
+          type: "POST",
+          url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
+          data: post_data,
+          dataType: "text",
+
+          success: function(response) {
+            $("#code_output").val(response);
+            $("#answer_question").submit();
+          },
+          error: function(jqXHR, textStatus, error) {
+            $("#output_alert").html(jqXHR.responseText.toString());
+            $("#output_alert").show();
+          }
+        });
+      });
+    {% elif exercise.exercise_type == "Turtle" %}
+      $('#reset').click(function(){
+        code_text.getDoc().setValue($("#user_code").val());
+      });
+      $("#submit_answer_turtle").click(function() {
+        code = code_text.getValue();
+        alert(code);
+        // var post_data = { code : code_text.getValue() };
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
+        //   data: post_data,
+        //   dataType: "text",
+        //
+        //   success: function(response) {
+        //     $("#code_output").val(response);
+        //     $("#answer_question").submit();
+        //   },
+        //   error: function(jqXHR, textStatus, error) {
+        //     $("#output_alert").html(jqXHR.responseText.toString());
+        //     $("#output_alert").show();
+        //   }
+        // });
+      });
+
+      function builtinRead(x) {
+          if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                  throw "File not found: '" + x + "'";
+          return Sk.builtinFiles["files"][x];
+      }
+
+      function runit() {
+         var prog = code_text.getValue();
+         prog += "\nprint(\"Turtle output:\")"
+         Sk.pre = "output_text";
+         Sk.configure({output:setSuccess, read:builtinRead});
+         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
+         var myPromise = Sk.misceval.asyncToPromise(function() {
+             return Sk.importMainWithBody("<stdin>", false, prog, true);
+         });
+         myPromise.then(function(mod) {
+           console.log("success");
+         },
+          function(err) {
+            $("#turtle_output").hide();
+            console.log(err.toString());
+            setError(err.toString());
+         });
+      }
+
     {% endif %}
-
-
   </script>
 
 

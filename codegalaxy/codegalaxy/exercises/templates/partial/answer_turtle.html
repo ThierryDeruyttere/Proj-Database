@@ -1,0 +1,41 @@
+{% load staticfiles %}
+{% load i18n %}
+{% load custom_filters %}
+
+<div class="row" id="Code">
+  {% if current_answer %}
+    <textarea id="user_code" name="user_code">{{ current_answer }}</textarea>
+  {% else %}
+    <textarea id="user_code" name="user_code">{{ exercise.code }}</textarea>
+  {% endif %}
+
+  <div class="large-9 columns">
+    <!-- <div class="row">
+    To be used if we have turtle graphics
+    <canvas id="mycanvas" class="code-output"></canvas> -->
+  </div>
+</div>
+<div id="output_alert" class="alert-box alert radius" data-alert></div>
+
+<div class="row">
+  {% if not solved %}
+    <ul class="button-group radius">
+      {% if logged_in and not list_owner %}
+        <li><a id="get_hint" class="button radius small">{% trans "Get hint" %}</a></li>
+        <li><a id="reset" class="alert button radius small">{% trans "Reset question" %}</a></li>
+      {% endif %}
+    </ul>
+  {% endif %}
+  <textarea id="used_hints" name="used_hints" hidden="True">0</textarea>
+</div>
+<div class="row">
+  {% if not solved %}
+    <div data-alert class="alert-box hints secondary">
+      <ul>
+        {% for hint in hints %}
+          <li id="hint{{ forloop.counter }}" hidden="True" ><label>{{ hint|safe }}</label></li>
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
