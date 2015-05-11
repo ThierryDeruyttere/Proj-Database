@@ -34,6 +34,8 @@ urlpatterns = patterns('codegalaxy.views',
     ## BADGES ##
     # Badges overview (/badges)
     url(r'^badges/$', 'badges'),
+    # Dedicated badge page (/badge/<id>)
+    url(r'^badge/(?P<id>\d*)/$', 'badge'),
 
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),

@@ -910,6 +910,13 @@ def incrementBadgeValue(user_id, badge_type):
             cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES ({badge_id}, {user_id}, 1, 0)'.format(badge_id=badge['id'], user_id=user_id))
             cursor.close()
 
+def allBadgeEarnedUsers(badge_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT user_id FROM hasBadge WHERE badge_id = {badge_id} AND finished = 1'.format(badge_id=badge_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+    
 # UPDATE
 
 def setUserActive(email):

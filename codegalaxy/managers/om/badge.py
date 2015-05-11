@@ -16,6 +16,17 @@ class Badge:
         self.target_value = target_value
         self.medal = medal
 
+    def allUsersThatEarnedBadge(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        finished_users = dbw.allBadgeEarnedUsers(self.id)
+
+        user_objects = []
+
+        for user in finished_users:
+            user_objects.append(object_manager.createUser(id=user['user_id']))
+        return user_objects
+
     def __repr__(self):
         return str(self)
 

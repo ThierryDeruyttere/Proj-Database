@@ -67,7 +67,7 @@ def createExerciseList(request):
             if subj is not None:
                 exercise_list.addSubject(subj)
 
-        dbw.incrementBadgeValue(user.id, 'createdList')
+        user.createdExerciseList()
 
         return HttpResponse("/l/" + str(exlist_id))
 
@@ -386,7 +386,7 @@ def list(request, id=0):
 
     if request.method == 'POST':
         if request.POST.get('rating') is not None and user is not None:
-            dbw.incrementBadgeValue(user.id, 'gaveRating')
+            user.ratedExerciseList()
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
 
         elif 'share_result' in request.POST:
@@ -639,7 +639,7 @@ def submit(request, list_id, exercise_number):
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
                 if len(all_exercise) < exercise_number + 1:
-                    dbw.incrementBadgeValue(user.id, 'solvedList')
+                    user.solvedExerciseList(exercise_list.created_by)
                     return redirect('/l/' + list_id + '/')
                 else:
                     return redirect('/l/' + list_id + '/' + str(exercise_number + 1))

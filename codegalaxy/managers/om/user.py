@@ -633,6 +633,19 @@ class User:
         else:
             return False
 
+    def ratedExerciseList(self):
+        dbw.incrementBadgeValue(self.id, 'gaveRating')
+
+    def solvedExerciseList(self, creator_id):
+        dbw.incrementBadgeValue(self.id, 'solvedList')
+
+    def createdExerciseList(self):
+        dbw.incrementBadgeValue(self.id, 'createdList')
+
+    def createdGroup(self):
+        dbw.incrementBadgeValue(self.id, 'createdGroup')
+
+
 class PersonalList:
 
     def __init__(self, rating, score, exercise_list_id, user_id, made_on, language_id):

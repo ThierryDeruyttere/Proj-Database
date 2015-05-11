@@ -538,7 +538,7 @@ def groupCreate(request, id=0):
                     group_name, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
             # auto add user when making a private group?
-
+            user.createdGroup()
             group = object_manager.createGroupOnName(group_name)
             group.insertMember(
                 user.id, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), 'Member')
@@ -549,9 +549,9 @@ def groupCreate(request, id=0):
 
     return render(request, 'groupCreate.html', {})
 
+@require_login
 def badges(request):
     user = logged_user(request)
-
     badges = object_manager.getAllBadges()
     gold_badges = badges['gold']
     silver_badges = badges['silver']
@@ -560,6 +560,17 @@ def badges(request):
 
     return render(request, 'badges.html', context)
 
+@require_login
+def badge(request, id=0):
+    user = logged_user(request)
+    #Omdat het kan afkljdfasfkfdas
+    id = int(id)
+    badge = object_manager.createBadge(id)
+    users_that_earned_badge = badge.allUsersThatEarnedBadge()
+
+    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge}
+
+    return render(request, 'badge.html', context)
 
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})

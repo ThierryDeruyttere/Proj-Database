@@ -1,0 +1,30 @@
+{% extends "codegalaxy.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+
+{% block page_css %}
+<link rel="stylesheet" type="text/css" href="{% static "css/badge.css" %}" />
+{% endblock page_css %}
+
+
+{% block base_body %}
+
+<div class="row">
+	<div class="large-12 columns">
+		<div class="panel radius">
+			{{ badge.name }}
+			{{ badge.message }}
+			<span class="octicon octicon-chevron-right"> {% trans "Users that earned this badge:" %}</span>
+			<br>
+			{% for person in users_that_earned_badge %}
+				<a href="/u/{{person.id}}">{{ person.name }}</a>
+			{% endfor %}
+			<br>
+		</div>
+	</div>
+</div>
+
+
+
+{% endblock base_body %}
