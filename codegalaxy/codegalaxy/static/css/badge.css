@@ -1,6 +1,14 @@
-.goldAch span, .goldAch {
+.goldAch {
   background-image: url(//katproxy.com/kastatic/images/ach_gold.gif);
   background-color: #bb9b1a;
+}
+.silverAch {
+  background-image: url(//katproxy.com/kastatic/images/ach_silver.gif);
+  background-color: #8d92a3;
+}
+.bronzeAch {
+  background-image: url(//katproxy.com/kastatic/images/ach_bronze.gif);
+  background-color: #c27e47;
 }
 .goldAch, .silverAch, .bronzeAch {
   background-position: left top;

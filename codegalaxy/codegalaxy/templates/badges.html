@@ -24,7 +24,7 @@
 			<span class="octicon octicon-chevron-right"> {% trans "Silver Badges" %}</span>
 			<br>
 			{% for badge in silver_badges %}
-			<span class="goldAch">
+			<span class="silverAch">
 				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
 			</span>
 			{% endfor %}
@@ -32,7 +32,7 @@
 			<span class="octicon octicon-chevron-right"> {% trans "Bronze Badges" %}</span>
 			<br>
 			{% for badge in bronze_badges %}
-			<span class="goldAch">
+			<span class="bronzeAch">
 				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
 			</span>
 			{% endfor %}
