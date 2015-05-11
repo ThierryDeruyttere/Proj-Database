@@ -235,6 +235,8 @@ class Post:
 
     def replyToPost(self, user_id, text):
         last_reply_number = dbw.lastReplyToPost(self.id)['last']
+        if not last_reply_number:
+            last_reply_number = 0
         dbw.insertPost(self.group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
     def allReplies(self):
@@ -276,23 +278,24 @@ class Post:
         html = ''
         user = object_manager.createUser(id=self.user_id)
         html += '<div class="row">'
-        html += '<div class="feed-item">'
-        html += '<div class="large-2 columns"><img src="/static/media/icons/rocket1.png"></div>'
-        html += '<div class="large-10 columns end">'
+        html += '<div class="wall-item">'
+        html += '<div class="post "' + ' data-post_id=' + str(self.id) + '>'
         html += self.HTMLBasic(user, logged_user)
-        html += '</div></div></div>'
+        html += '</div>'
+        html += '<div class="replies">'
         for reply in self.allReplies():
             if reply.id is not self.id:
-                html += reply.HTMLStringReply(1, user, logged_user)
-        html += '<hr>'
+                html += reply.HTMLStringReply(user, logged_user)
+        html += '</div></div></div><hr>'
         return html
 
-    def HTMLStringReply(self, nest, user, logged_user):
+    def HTMLStringReply(self, user, logged_user):
         html = ''
-        html += '<div class="reply">'
+        html += '<div class="post"' + ' data-post_id=' + str(self.id) + '>'
         html += self.HTMLBasic(user, logged_user)
+        html += '<div class="replies">'
         for reply in self.allReplies():
             if reply.id is not self.id:
-                html += reply.HTMLStringReply(nest + 1, user, logged_user)
-        html += '</div>'
+                html += reply.HTMLStringReply(user, logged_user)
+        html += '</div></div>'
         return html

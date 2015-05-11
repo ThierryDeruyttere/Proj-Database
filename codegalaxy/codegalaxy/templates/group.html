@@ -367,8 +367,9 @@
       }
     });
   });
+
   var replying = false
-  $(".want_to_reply_button").click(function(e){
+  $(document).on("click",".want_to_reply_button" , function(e){
     if(replying){
       hideReplyField()
     }
@@ -390,7 +391,7 @@
     replying = true;
   });
 
-  $(".want_to_edit_button").click(function(e){
+  $(document).on("click",".want_to_edit_button" , function(e){
     e.preventDefault();
     if(replying){
       hideReplyField()
@@ -413,13 +414,12 @@
     replying = true;
   });
 
-  $(".delete_button").click(function(e){
-    alert("delete");
+  $(document).on("click",".delete_button" , function(e){
     e.preventDefault();
+    p_id = $(this).attr('data-post_id')
     var post_data = {
-      post_text : post_text_var_reply.getValue(),
       group_id: {{ group.id }},
-      post_id: $(this).attr('data-post_id')
+      post_id: p_id
      };
     $.ajax({
       type: "POST",
@@ -428,7 +428,11 @@
       dataType: "text",
 
       success: function(response) {
-        hideReplyField()
+        $('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).remove()
+          }
+        });
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
@@ -438,12 +442,13 @@
   });
 
   $(document).on("click",".reply_button" , function(e){
-    alert("replyyy");
+    // TODO: visueel foort dit met nieuwe posts, wss weer iets met document
     e.preventDefault();
+    var p_id = $(this).attr('data-post_id')
     var post_data = {
       post_text : post_text_var_reply.getValue(),
       group_id: {{ group.id }},
-      post_id: $(this).attr('data-post_id')
+      post_id: p_id
      };
     $.ajax({
       type: "POST",
@@ -453,6 +458,11 @@
 
       success: function(response) {
         hideReplyField()
+        $('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).find('.replies').append(response)
+          }
+        });
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());

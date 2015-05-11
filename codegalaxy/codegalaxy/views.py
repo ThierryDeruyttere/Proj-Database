@@ -569,15 +569,22 @@ def replyTo(request):
     group_id = int(request.POST.get('group_id'))
     post_id = int(request.POST.get('post_id'))
     post_text = request.POST.get('post_text')
+    old_user_id = 0
     if post_text == '':
         return HttpResponse('')
     group = object_manager.createGroup(group_id)
     for old_post in group.allPosts():
         if old_post.id == post_id:
+            old_user_id = old_post.user_id
             old_post.replyToPost(user.id, post_text)
     post = group.allPosts()[0]
-    new_html = post.HTMLStringReply(user)
+    old_user = object_manager.createUser(id=old_user_id)
+    new_html = post.HTMLStringReply(user, user)
     return HttpResponse(new_html)
+
+@require_login
+def deletePost(request):
+    return HttpResponse('')
 
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})

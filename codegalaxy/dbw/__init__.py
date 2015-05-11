@@ -1288,8 +1288,6 @@ def lastReplyToPost(post_id):
     cursor.execute('SELECT MAX(reply_number) AS last FROM post WHERE id={post_id};'.format(post_id=post_id))
     fetched = processOne(cursor)
     cursor.close()
-    if not fetched['last']:
-        return {'last':0}
     return fetched
 
 def updatePost(post_id, text):
