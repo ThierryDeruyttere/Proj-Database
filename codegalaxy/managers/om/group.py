@@ -229,9 +229,12 @@ class Post:
     def __str__(self):
         return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
 
-    def delete():
-        #recursively delete this post and it's replies
-        pass
+    def delete(self):
+        print('del')
+        for reply in self.allReplies():
+            if reply.id != self.id:
+                reply.delete()
+        dbw.deletePost(self.id)
 
     def replyToPost(self, user_id, text):
         last_reply_number = dbw.lastReplyToPost(self.id)['last']
@@ -278,7 +281,7 @@ class Post:
         html = ''
         user = object_manager.createUser(id=self.user_id)
         html += '<div class="row">'
-        html += '<div class="wall-item">'
+        html += '<div class="wall-item"' + ' data-post_id=' + str(self.id) + '>'
         html += '<div class="post "' + ' data-post_id=' + str(self.id) + '>'
         html += self.HTMLBasic(user, logged_user)
         html += '</div>'

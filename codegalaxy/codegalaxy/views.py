@@ -584,6 +584,13 @@ def replyTo(request):
 
 @require_login
 def deletePost(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    group = object_manager.createGroup(group_id)
+    for post in group.allPosts():
+        if post.id == post_id:
+            post.delete()
     return HttpResponse('')
 
 def list(request, id=0):

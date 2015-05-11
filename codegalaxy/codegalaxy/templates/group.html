@@ -433,6 +433,11 @@
             $(this).remove()
           }
         });
+        $('.wall-item').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).remove()
+          }
+        });
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
