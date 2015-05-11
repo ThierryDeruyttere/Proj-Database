@@ -24,12 +24,31 @@ def prepareChallengeNotif(data):
 
     return d
 
+def prepareFriendNotif(request):
+    user = logged_user(request)
+    friend_requests = []
+    for friend_request in user.allPendingFriendships2():
+        message = friend_request.friend.name() + " sent you a friend request."
+        friend_requests.append(message)
+
+    return friend_requests
+
+def prepareGroupNotif(request):
+    user = logged_user(request)
+    group_requests = []
+    for group_request in user.allPendingGroupMemberships2():
+        message = "You have been invited to join " + group_membership.group.group_name() + "."
+        group_requests.append(message)
+
+    return group_requests
+
 def get_notifications(request):
     user = logged_user(request)
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
     notifications['challenges'] = prepareChallengeNotif(challenge_requests)
+    notifications['friend_requests'] = prepareFriendNotif(request)
+    notifications['group_request'] = prepareGroupNotif(request)
+
 
     return HttpResponse(json.dumps(notifications))
-
-
