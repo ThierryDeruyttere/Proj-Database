@@ -343,8 +343,7 @@
         {
           theme: "monokai"
         });
-  $("#post_button").click(function()
-  {
+  $(document).on("click","#post_button" , function(e){
     var post_data = {
       post_text : post_text_var.getValue(),
       group_id: {{ group.id }}
@@ -356,8 +355,6 @@
       dataType: "text",
 
       success: function(response) {
-        //$("#post_field").hide();
-        //$("#post_button").hide();
         $('#posts').prepend(response);
         post_text_var.setValue('');
       },
@@ -492,11 +489,7 @@
 
       success: function(response) {
         hideReplyField()
-        $('.post').each(function(i, obj) {
-          if ($(this).attr('data-post_id')==p_id) {
-            $(this).find('.replies').append(response);
-          }
-        });
+        $(this).closest('.replies').append(response);
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
