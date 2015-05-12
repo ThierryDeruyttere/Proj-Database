@@ -12,15 +12,29 @@
 
 <div class="row">
 	<div class="large-12 columns">
-		<div class="panel radius">
-			{{ badge.name }}
-			{{ badge.message }}
-			<span class="octicon octicon-chevron-right"> {% trans "Users that earned this badge:" %}</span>
-			<br>
+		<div class="row">
+			<div class="panel radius">
+				<div class="text-center">
+				<h3>{% trans "People that earned this badge" %}</h3>
+				<span class="goldAch">
+					<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
+				</span
+>				
+				</div>
+			</div>
+		</div>
+		<div class="row">
 			{% for person in users_that_earned_badge %}
-				<a href="/u/{{person.id}}">{{ person.name }}</a>
+			<div class="large-2 columns end">
+              <a href="/u/{{ person.id }}">
+                <div class="panel radius">
+                  <img src="{% static person.getPicture %}" class="round-image"/>
+                  <h5 class="text-cut-off">{{ person.first_name }}</h5>
+                  <h6 class="text-cut-off">{{ person.last_name }}</h6>
+                </div>
+              </a>
+            </div>
 			{% endfor %}
-			<br>
 		</div>
 	</div>
 </div>
