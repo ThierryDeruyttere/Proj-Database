@@ -101,8 +101,9 @@ def challenges(request):
         my_wins  = challenge_manager.getWinsAgainst(user.id, challenged.id)
         opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
         pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
-                                               ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins],
-                                               "Wins per user")
+                                               ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins])
+        pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
+        
         dump = prepareDict(remaining_lists)
         dump['wins_chart'] = pie_chart
 
@@ -116,7 +117,9 @@ def challenges(request):
         for v in stats.values():
             values[0].append(v)
 
-        bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"], "#Challenges per challenge type")
+        bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"])
+        bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
+
         dump['challenges_chart'] = bar_chart
 
         return HttpResponse(json.dumps(dump))

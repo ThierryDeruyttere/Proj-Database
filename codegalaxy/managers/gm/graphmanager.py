@@ -196,7 +196,7 @@ class GraphManager:
         data_string += ']\n}\n'
         return data_string
 
-    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, chart_name=None, percentages=False):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, percentages=False):
         total_string = ''
         total_string += self.addBarData(labels, data, colorInfos, datalabels)
         total_string += self.addBarExtras(percentages)
@@ -204,7 +204,5 @@ class GraphManager:
         total_string = self.addScript(total_string)
         #total_string = '<div id="legendDiv' + str(GraphManager.count) + '"></div>\n' + total_string
         total_string = self.canvasString(name, width, height) + total_string
-        if chart_name:
-            total_string = self.addTitle(total_string, chart_name)
         GraphManager.count += 1
         return total_string
