@@ -26,19 +26,17 @@ def prepareChallengeNotif(data):
 
 def prepareFriendNotif(request):
     user = logged_user(request)
-    friend_requests = []
-    for friend_request in user.allPendingFriendships2():
-        message = friend_request.friend.name() + " sent you a friend request."
-        friend_requests.append(message)
+    friend_requests = {}
+    for i, friend_request in user.allPendingFriendships2():
+        friend_requests[str(i)] = friend_request.friend.name() + " sent you a friend request."
 
     return friend_requests
 
 def prepareGroupNotif(request):
     user = logged_user(request)
-    group_requests = []
-    for group_request in user.allPendingGroupMemberships2():
-        message = "You have been invited to join " + group_membership.group.group_name() + "."
-        group_requests.append(message)
+    group_requests = {}
+    for i, group_request in user.allPendingGroupMemberships2():
+        group_requests[str(i)] = "You have been invited to join " + group_membership.group.group_name() + "."
 
     return group_requests
 
@@ -48,7 +46,7 @@ def get_notifications(request):
     notifications = {}
     notifications['challenges'] = prepareChallengeNotif(challenge_requests)
     notifications['friend_requests'] = prepareFriendNotif(request)
-    notifications['group_request'] = prepareGroupNotif(request)
+    notifications['group_requests'] = prepareGroupNotif(request)
 
 
     return HttpResponse(json.dumps(notifications))

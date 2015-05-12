@@ -127,6 +127,14 @@
                 });
               });
             }
+            else {
+              $.each(val, function (i, m) {
+                notifications.createNotification({
+                  message: m,
+                  category: 'social'
+                });
+              });
+            }
           });
         },
         error: function(jqXHR, textStatus, error) {
