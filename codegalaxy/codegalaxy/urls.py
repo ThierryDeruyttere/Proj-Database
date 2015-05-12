@@ -30,6 +30,7 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^postNew/', 'postNew'),
     url(r'^replyTo/', 'replyTo'),
     url(r'^deletePost/', 'deletePost'),
+    url(r'^editPost/', 'editPost'),
     # Social overview (/social)
     url(r'^social/$', 'social'),
     # Create new group (/g/create)

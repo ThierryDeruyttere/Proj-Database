@@ -593,6 +593,19 @@ def deletePost(request):
             post.delete()
     return HttpResponse('')
 
+@require_login
+def editPost(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    post_text = request.POST.get('post_text')
+    group = object_manager.createGroup(group_id)
+    for post in group.allPosts():
+        if post.id == post_id:
+            post.post_text = post_text
+            post.save()
+    return HttpResponse('')
+
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})
 
@@ -632,12 +645,7 @@ def recommendations(request):
 
 def wall(request):
     group = object_manager.createGroup(1)
-    group.postOnWall(1, 'Original post 1')
-    group.postOnWall(2, 'Original post 2')
-    first_post = group.allPosts()[1]
-    first_post.replyToPost(3, 'reply to original post')
-    all_posts = group.allPosts()
-    all_posts_strings = ""
-    for post in all_posts:
-        all_posts_strings += str(post)
+    post = group.allPosts()[0]
+    post.post_text = "lolol"
+    post.save()
     return render(request, 'wall.html', {'all_posts_strings' : all_posts_strings})

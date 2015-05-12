@@ -236,6 +236,9 @@ class Post:
                 reply.delete()
         dbw.deletePost(self.id)
 
+    def save(self):
+        dbw.updatePost(self.id, self.post_text)
+
     def replyToPost(self, user_id, text):
         last_reply_number = dbw.lastReplyToPost(self.id)['last']
         if not last_reply_number:

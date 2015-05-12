@@ -371,7 +371,7 @@
   var replying = false
   $(document).on("click",".want_to_reply_button" , function(e){
     if(replying){
-      hideReplyField()
+      hideReplyField();
     }
     e.preventDefault();
     var group_id = $(this).attr('data-group_id');
@@ -394,7 +394,7 @@
   $(document).on("click",".want_to_edit_button" , function(e){
     e.preventDefault();
     if(replying){
-      hideReplyField()
+      hideReplyField();
     }
 
     var group_id = $(this).attr('data-group_id');
@@ -403,12 +403,12 @@
     html_text_box += '<div class="row">';
     html_text_box += '</br>';
     html_text_box += '<div class="large-10 columns end">';
-    html_text_box += '<textarea id="post_text_reply" name="post_text_reply"></textarea>';
-    html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai"});</scr' + 'ipt>';
+    html_text_box += '<textarea id="post_text_edit" name="post_text_edit"></textarea>';
+    html_text_box += '<scr' + 'ipt>var post_text_var_edit = CodeMirror.fromTextArea(post_text_edit,{theme: "monokai"});</scr' + 'ipt>';
     html_text_box += '</div></div>';
     html_text_box += '<div class="row">';
     html_text_box += '<div class="large-2 columns end">';
-    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' type="submit" class="button tiny radius reply_button" value="{% trans "Edit" %}">';
+    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' type="submit" class="button tiny radius edit_button" value="{% trans "Edit" %}">';
     html_text_box += '</div></div></div>';
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;
@@ -430,14 +430,43 @@
       success: function(response) {
         $('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
-            $(this).remove()
+            $(this).remove();
           }
         });
         $('.wall-item').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
-            $(this).remove()
+            $(this).remove();
           }
         });
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
+  });
+
+  $(document).on("click",".edit_button" , function(e){
+    e.preventDefault();
+    p_id = $(this).attr('data-post_id')
+    var post_data = {
+      post_text : post_text_var_edit.getValue(),
+      group_id: {{ group.id }},
+      post_id: p_id
+     };
+    $.ajax({
+      type: "POST",
+      url: "/editPost/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).find('p').first().text(post_text_var_edit.getValue())
+          }
+        });
+          hideReplyField();
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
@@ -465,7 +494,7 @@
         hideReplyField()
         $('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
-            $(this).find('.replies').append(response)
+            $(this).find('.replies').append(response);
           }
         });
       },
