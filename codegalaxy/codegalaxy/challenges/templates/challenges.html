@@ -156,7 +156,7 @@
         dataType: "text",
         success:function(response){
           if(give_up){
-            $(name).remove();
+            $('#'+name).remove();
           }else{
             $('#request'+name).remove();
             notifications.decrease("challenges");

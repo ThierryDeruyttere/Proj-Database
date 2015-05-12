@@ -103,7 +103,7 @@ def challenges(request):
         pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
                                                ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins])
         pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
-        
+
         dump = prepareDict(remaining_lists)
         dump['wins_chart'] = pie_chart
 
