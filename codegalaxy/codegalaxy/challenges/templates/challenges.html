@@ -89,7 +89,7 @@
             </div>
           </li>
         </ul>
-        <form method="POST">
+        <form method="POST" id="Challenge_form">
           {% csrf_token %}
           <input id="challenged_name" name="challenged" value="" type="hidden">
           <div class="row">
@@ -203,6 +203,7 @@
     });
 
     function getAvailableLists(person_name){
+
       $.ajax({
         type: "GET",
         url: "",
@@ -234,6 +235,7 @@
           $("#pie").html(response['wins_chart']);
 
           $("#bar").html(response['challenges_chart']);
+
         }
       });
     }
@@ -281,23 +283,30 @@
 
     });
 
-    $('#send_button').click(function(e){
+    $("#Challenge_form").submit(function(e){
       e.preventDefault();
-      var post_data = $('form').serialize();
-      $.ajax({
-        type: "POST",
-        url: "",
-        data: post_data,
-        dataType: "text",
 
-        success: function(response) {
+      if($("#possible_lists").val() == null){
+        alert("We're sorry but there are no more lists available to challenge this user");
 
-        },
-        error: function(jqXHR, textStatus, error) {
+      }else {
+        var post_data = $('form').serialize();
+        $.ajax({
+          type: "POST",
+          url: "",
+          data: post_data,
+          dataType: "text",
 
-        }
-      })
+          success: function (response) {
+
+          },
+          error: function (jqXHR, textStatus, error) {
+
+          }
+        })
+      }
     });
+    
 
     $("#challenge_type").change(function(){
       setToolTipText();
