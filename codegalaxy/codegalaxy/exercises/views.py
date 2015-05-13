@@ -676,12 +676,12 @@ def submit(request, list_id, exercise_number):
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
-            elif current_exercise.exercise_type == 'Code':
+            elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
 
-                if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
+                if correct_answer == user_output or (correct_answer == '*' and user_output != '') or user_output == "~~success~~":
                     current_score = returnScore(current_score)
                     solved = True
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)

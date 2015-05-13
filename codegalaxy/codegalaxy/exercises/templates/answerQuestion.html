@@ -49,7 +49,7 @@
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
                 {% else %}
-                  <pre id="output_text"></pre>
+                  <pre id="output"></pre>
                   <div id="turtle_output"></div>
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_turtle" type="button" class="button tiny radius" value="{% trans "Answer" %}">
@@ -243,6 +243,8 @@
 '        self.edges = []\n' +
 '        self.vertices = [(0, 0)]\n' +
 
+'        self.wrong = False\n' +
+
 '        self._t = turtle.Turtle()\n' +
 '        self._t.speed(1)\n' +
 '        self._t.up()\n' +
@@ -339,10 +341,13 @@
 '        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n'
 
         var prog = prefix + code_text.getValue();
-        prog += '\nr.right(0)'
+        prog += '\nr.right(0)\n' +
+                'if (not r.wrong) and (set(r.exp_vertices) == set(r.vertices)):\n' +
+                '    print("~~success~~")\n'
+
+        Sk.pre = "output";
         console.log(prog)
-        Sk.pre = "output_text";
-        Sk.configure({output:turtleSuccess, read:builtinRead});
+        Sk.configure({output:turtleOutput, read:builtinRead});
         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
         var myPromise = Sk.misceval.asyncToPromise(function() {
             return Sk.importMainWithBody("<stdin>", false, prog, true);
@@ -357,8 +362,13 @@
          });
       }
 
-      function turtleSuccess() {
-
+      function turtleOutput(text) {
+        if(text == "~~success~~") {
+          $("#code_output").val("~~success~~");
+          $("#answer_question").submit();
+        }
+        var mypre = document.getElementById("output");
+        mypre.innerHTML = mypre.innerHTML + text;
       }
 
     {% endif %}
