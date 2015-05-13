@@ -49,6 +49,8 @@
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
                 {% else %}
+                  <pre id="output_text"></pre>
+                  <div id="turtle_output"></div>
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_turtle" type="button" class="button tiny radius" value="{% trans "Answer" %}">
                 {% endif %}
@@ -203,7 +205,8 @@
       });
       $("#submit_answer_turtle").click(function() {
         code = code_text.getValue();
-        alert(code);
+        runit();
+        // alert(code);
         // var post_data = { code : code_text.getValue() };
         // $.ajax({
         //   type: "POST",
@@ -229,22 +232,133 @@
       }
 
       function runit() {
-         var prog = code_text.getValue();
-         prog += "\nprint(\"Turtle output:\")"
-         Sk.pre = "output_text";
-         Sk.configure({output:setSuccess, read:builtinRead});
-         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
-         var myPromise = Sk.misceval.asyncToPromise(function() {
-             return Sk.importMainWithBody("<stdin>", false, prog, true);
-         });
-         myPromise.then(function(mod) {
-           console.log("success");
-         },
+        var prefix = '' +
+'import turtle\n' +
+'class Rocket:\n' +
+
+'    def __init__(self, exp_edges=[], exp_vertices=[(0, 0)]):\n' +
+'        self.exp_edges = exp_edges\n' +
+'        self.exp_vertices = exp_vertices\n' +
+
+'        self.edges = []\n' +
+'        self.vertices = [(0, 0)]\n' +
+
+'        self._t = turtle.Turtle()\n' +
+'        self._t.speed(1)\n' +
+'        self._t.up()\n' +
+
+'    def forward(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move forward\n' +
+'        @param amt The amount the turtle moves forward\n' +
+'        """\n' +
+'        self.jumpForward(amt)\n' +
+
+'    # def backward(self, amt):\n' +
+'    #     """\n' +
+'    #     Make the turtle move backward\n' +
+'    #     @param amt The amount the turtle moves backward\n' +
+'    #     """\n' +
+'    #     self.left(0)\n' +
+'    #     self._t.backward(amt)\n' +
+'    #     self.left(0)\n' +
+
+'    def left(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move to the left\n' +
+'        @param amt The amount the turtle turns in degrees\n' +
+'        """\n' +
+'        self.turn()\n' +
+'        self._t.left(amt)\n' +
+
+'    def right(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move to the right\n' +
+'        @param amt The amount the turtle turns in degrees\n' +
+'        """\n' +
+'        self.turn()\n' +
+'        self._t.right(amt)\n' +
+
+'    def turn(self):\n' +
+'        self.addLine()\n' +
+'        self.drawLastLine()\n' +
+
+'    def drawLastLine(self):\n' +
+'        self.jump(self.vertices[self.edges[-1][0]])\n' +
+'        correct = self.checkLine()\n' +
+
+'        self._t.color("green" if correct else "red")\n' +
+'        self._t.down()\n' +
+'        self._t.goto(self.vertices[self.edges[-1][1]])\n' +
+
+'        self._t.up()\n' +
+
+'    def jump(self, pos):\n' +
+'        save_speed = self._t.speed()\n' +
+'        self._t.hideturtle()\n' +
+'        self._t.speed(0)\n' +
+'        self._t.goto(pos)\n' +
+'        self._t.speed(save_speed)\n' +
+'        self._t.showturtle()\n' +
+
+'    def jumpForward(self, amt):\n' +
+'        save_speed = self._t.speed()\n' +
+'        self._t.hideturtle()\n' +
+'        self._t.speed(0)\n' +
+'        self._t.forward(amt)\n' +
+'        self._t.speed(save_speed)\n' +
+'        self._t.showturtle()\n' +
+
+'    def checkLine(self):\n' +
+'        edge = self.edges[-1]\n' +
+'        v1 = self.vertices[edge[0]]\n' +
+'        v2 = self.vertices[edge[1]]\n' +
+
+'        return (v1 in self.exp_vertices and v2 in self.exp_vertices and edge in self.exp_edges)\n' +
+
+'    def lastVertex(self):\n' +
+'        return self.vertices[self.edges[-1][1]] if len(self.edges) > 0 else self.vertices[0]\n' +
+
+'    def getPos(self):\n' +
+'        return (int(self._t.xcor()), int(self._t.ycor()))\n' +
+
+'    def addLine(self):\n' +
+'        idx = 0\n' +
+
+'        cur_pos = self.getPos()\n' +
+'        if cur_pos not in self.vertices:\n' +
+'            idx = len(self.vertices)\n' +
+'            self.vertices.append(cur_pos)\n' +
+'        else:\n' +
+'            idx = self.vertices.index(cur_pos)\n' +
+
+'        start_idx = self.vertices.index(self.lastVertex())\n' +
+'        self.edges.append((start_idx or 0, idx))\n' +
+
+'    def __str__(self):\n' +
+'        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n'
+
+        var prog = prefix + code_text.getValue();
+        prog += '\nr.right(0)'
+        console.log(prog)
+        Sk.pre = "output_text";
+        Sk.configure({output:turtleSuccess, read:builtinRead});
+        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
+        var myPromise = Sk.misceval.asyncToPromise(function() {
+            return Sk.importMainWithBody("<stdin>", false, prog, true);
+        });
+        myPromise.then(function(mod) {
+          console.log("success");
+        },
           function(err) {
             $("#turtle_output").hide();
-            console.log(err.toString());
-            setError(err.toString());
+            $("#output_alert").html(err.toString());
+            $("#output_alert").show();
          });
+      }
+
+      function turtleSuccess() {
+
       }
 
     {% endif %}
