@@ -263,7 +263,7 @@ def createRequestHTML(challenge, user):
                      list=challenge.list)
 
     return """
-    <div class="large-12 columns text-center">
+    <div class="large-12 columns">
     <div class="panel radius challenge" id="request{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
