@@ -151,7 +151,7 @@ def handle_request(request):
 def createActiveHTML(challenge):
 
     return """
-    <div class="large-12 columns text-center">
+    <div class="large-12 columns">
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
             <li><b>Challenger</b><br/>
@@ -192,7 +192,7 @@ def createFinishedHtml(challenge):
 
     if challenge.challenger.id == challenge.winner.id:
         return """
-        <div class="large-12 columns text-center">
+        <div class="large-12 columns">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li>
@@ -217,7 +217,7 @@ def createFinishedHtml(challenge):
                    type = challenge.challenge_type.type, list=challenge.list)
     else:
         return """
-        <div class="large-12 columns text-center">
+        <div class="large-12 columns">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li><b class="alert-text">Loser</b><br/>
