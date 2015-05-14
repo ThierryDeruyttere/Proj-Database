@@ -1279,7 +1279,7 @@ def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list
 
 def getChallengeForStatus(user_id, status):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM challenge WHERE status="{status}" AND challenged_id = {user}'.format(user=user_id, status=status))
+    cursor.execute('SELECT * FROM challenge WHERE status="{status}" AND (challenged_id = {user} OR challenger_id = {user})'.format(user=user_id, status=status))
     fetched = processData(cursor)
     cursor.close()
     return fetched
