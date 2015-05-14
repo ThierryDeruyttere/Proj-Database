@@ -137,3 +137,11 @@
 .round-image {
     border-radius: 50%;
 }
+
+.tabs {
+    display: inline-block;
+    .tab-title {
+        a {
+        }
+    }
+}
