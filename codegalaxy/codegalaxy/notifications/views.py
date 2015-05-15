@@ -27,7 +27,7 @@ def prepareChallengeNotif(data):
 def prepareFriendNotif(request):
     user = logged_user(request)
     friend_requests = {}
-    for i, friend_request in user.allPendingFriendships2():
+    for i, friend_request in enumerate(user.allPendingFriendships2()):
         friend_requests[str(i)] = friend_request.friend.name() + " sent you a friend request."
 
     return friend_requests
@@ -35,7 +35,7 @@ def prepareFriendNotif(request):
 def prepareGroupNotif(request):
     user = logged_user(request)
     group_requests = {}
-    for i, group_request in user.allPendingGroupMemberships2():
+    for i, group_request in enumerate(user.allPendingGroupMemberships2()):
         group_requests[str(i)] = "You have been invited to join " + group_membership.group.group_name() + "."
 
     return group_requests
