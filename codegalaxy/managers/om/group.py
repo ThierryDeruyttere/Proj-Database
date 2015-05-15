@@ -263,7 +263,7 @@ class Post:
     def HTMLBasic(self, user, logged_user):
         # TODO: octicons adden voor buttons
         html = ''
-        html += '<p>' + markdown_converter.convert(self.post_text) + '</p>'
+        html += markdown_converter.convert(self.post_text)
         html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on)[:-6] + ' by ' + user.name() + '</small></p>'
         #want_to_reply_button
         html += '<div class="row">'
