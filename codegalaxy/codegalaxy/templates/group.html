@@ -481,6 +481,7 @@
       group_id: {{ group.id }},
       post_id: p_id
      };
+     var this_button = $(this);
     $.ajax({
       type: "POST",
       url: "/replyTo/",
@@ -488,8 +489,8 @@
       dataType: "text",
 
       success: function(response) {
-        hideReplyField()
-        $(this).closest('.replies').append(response);
+        this_button.closest('.post').find('.replies').first().append(response);
+        hideReplyField();
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());

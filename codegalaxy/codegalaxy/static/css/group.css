@@ -13,6 +13,7 @@
 .wall-item {
   margin-left: 0px;
   margin-bottom: 0px;
+  padding-left: 2%;
 }
 /* line 10, ../../../theme/scss/group.scss */
 .wall-item p {

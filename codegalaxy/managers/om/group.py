@@ -292,7 +292,7 @@ class Post:
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(user, logged_user)
-        html += '</div></div></div><hr>'
+        html += '</div><hr></div></div>'
         return html
 
     def HTMLStringReply(self, user, logged_user):
