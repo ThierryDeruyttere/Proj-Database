@@ -263,7 +263,7 @@ class Post:
         # TODO: octicons adden voor buttons
         html = ''
         html += '<p>' + self.post_text + '</p>'
-        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on) + ' by ' + user.name() + '</small></p>'
+        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on)[:-6] + ' by ' + user.name() + '</small></p>'
         #want_to_reply_button
         html += '<div class="row">'
         html += '<div class="large-1 columns ">'
