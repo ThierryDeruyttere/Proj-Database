@@ -45,7 +45,7 @@
                 colors:['#f56c7e', '#fec151', '#7ad2f4'],
                 showEmptyBubble:false
             },
-            showNotificationList:true,
+            showNotificationList:false,
             notificationListEmptyText:'No Notifications',
             defaultCategory : 'general',
             anchor:'body',
@@ -546,14 +546,10 @@
 
         notificationMenu.setNotifications = function(category, data){
             var notification = notifications[category];
-            if(jQuery.isEmptyObject(data)){
-                notification.unreadCount = 0;
-            }else{
-                notification.unreadCount = $(data).length;
-            }
+            notification.unreadCount = data;
 
             if (logInMenu(category, notification))
-                menuItems[category].updateBubble();
+                 menuItems[category].updateBubble();
         };
 
 

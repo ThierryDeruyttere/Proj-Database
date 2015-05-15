@@ -119,22 +119,7 @@
 
         success: function(response) {
           $.each(response, function (key, val) {
-            if (key == 'challenges') {
-              $.each(val, function (i, v) {
-                notifications.createNotification({
-                  message: v,
-                  category: 'challenges'
-                });
-              });
-            }
-            else {
-              $.each(val, function (i, m) {
-                notifications.createNotification({
-                  message: m,
-                  category: 'social'
-                });
-              });
-            }
+            notifications.setNotifications(key, val);
           });
         },
         error: function(jqXHR, textStatus, error) {

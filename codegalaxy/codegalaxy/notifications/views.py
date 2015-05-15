@@ -29,26 +29,25 @@ def prepareChallengeNotif(data, user):
 def prepareFriendNotif(request):
     user = logged_user(request)
     friend_requests = {}
-    for i, friend_request in enumerate(user.allPendingFriendships2()):
-        friend_requests[str(i)] = friend_request.friend.name() + " sent you a friend request."
+    #for i, friend_request in enumerate(user.allPendingFriendships2()):
+    #    friend_requests[str(i)] = friend_request.friend.name() + " sent you a friend request."
 
-    return friend_requests
+    return len(user.allPendingFriendships2())
 
 def prepareGroupNotif(request):
     user = logged_user(request)
     group_requests = {}
-    for i, group_request in enumerate(user.allPendingGroupMemberships2()):
-        group_requests[str(i)] = "You have been invited to join " + group_membership.group.group_name() + "."
+    #for i, group_request in enumerate(user.allPendingGroupMemberships2()):
+    #    group_requests[str(i)] = "You have been invited to join " + group_membership.group.group_name() + "."
 
-    return group_requests
+    return len(user.allPendingGroupMemberships2())
 
 def get_notifications(request):
     user = logged_user(request)
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
-    notifications['challenges'] = prepareChallengeNotif(challenge_requests, user)
-    notifications['friend_requests'] = prepareFriendNotif(request)
-    notifications['group_requests'] = prepareGroupNotif(request)
+    notifications['challenges'] = len(challenge_requests)#prepareChallengeNotif(challenge_requests, user)
+    notifications['social'] = prepareFriendNotif(request) +  prepareGroupNotif(request)
 
 
     return HttpResponse(json.dumps(notifications))
