@@ -36,7 +36,7 @@ def prepareGroupNotif(request):
     user = logged_user(request)
     group_requests = {}
     for i, group_request in enumerate(user.allPendingGroupMemberships2()):
-        group_requests[str(i)] = "You have been invited to join " + group_membership.group.group_name() + "."
+        group_requests[str(i)] = "You have been invited to join " + group_request.group.group_name + "."
 
     return group_requests
 

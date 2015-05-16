@@ -128,9 +128,9 @@
               });
             }
             else {
-              $.each(val, function (i, m) {
+              $.each(val, function (i) {
                 notifications.createNotification({
-                  message: m,
+                  message: val[i],
                   category: 'social'
                 });
               });
