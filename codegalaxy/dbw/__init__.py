@@ -775,10 +775,8 @@ def getAllBadgeInformation():
 # INSERT
 
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
-    print("WUT")
     cursor = connection.cursor()
     cursor.execute('INSERT INTO user(is_active,first_name,last_name,password,email,joined_on,last_login, gender) VALUES ({active},"{fname}","{lname}","{passw}","{email}", "{joined_on}", "{last_login}", "{gender}");'.format(active=is_active, fname=first_name, lname=last_name, passw=password, email=email, joined_on=joined_on, last_login=last_login, gender=gender))
-
 
 def insertFriendsWith(user_id, friend_id, status):
     cursor = connection.cursor()
@@ -883,6 +881,10 @@ def insertMadeExercise(user_id, solved, exercise_score, completed_on, exercise_l
 def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exercise_number):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO exercise_references(original_id, new_list_id, new_list_exercise_number) VALUES({o_id},{l_id},{n_l_e_n});'.format(o_id=original_exercise_id, l_id=new_list_id, n_l_e_n=new_list_exercise_number))
+
+def insertDefaultBadges(user_id):
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES(25,{user_id},1,1);'.format(user_id=user_id))
 
 # BADGES
 
