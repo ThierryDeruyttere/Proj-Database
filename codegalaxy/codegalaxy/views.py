@@ -487,7 +487,7 @@ def group(request, id=0):
             new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
         user_list = new_user_list
 
-        
+
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit,
@@ -514,7 +514,15 @@ def social(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    context = {'biggest_groups': bar_chart, 's_term': s_term, 's_social': s_social}
+    friend_requests = []
+    for friend_request in current_user.allPendingFriendships2():
+        friend_requests.append(friend_request.friend.name() + " sent you a friend request.")
+
+    group_requests = []
+    for group_request in current_user.allPendingGroupMemberships2():
+        group_requests.append("You have been invited to join " + group_request.group.group_name + ".")
+
+    context = {'biggest_groups': bar_chart, 's_term': s_term, 's_social': s_social, 'friend_requests': friend_requests, 'group_requests': group_requests}
 
     return render(request, 'groupOverview.html', context)
 
