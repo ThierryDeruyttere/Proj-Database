@@ -11,6 +11,7 @@
     <div class="large-3 columns text-center ">
       <div class="panel radius">
         <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
+        <h4><a href="/badge/{{user.badge.id}}/">{{ user.badge.name }}</a></h5>
         <h5><a href="#">{{ user.name }}</a></h5>
 
         <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
