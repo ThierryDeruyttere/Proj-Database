@@ -44,8 +44,9 @@ class ObjectManager:
             user_info = dbw.getUserOnEmail(kwargs['email'])
 
         if user_info:
+            badge = self.createBadge(user_info['badge_id'])
             user_object = managers.om.user.User(user_info['id'], user_info['first_name'], user_info['last_name'],
-                                                user_info['is_active'], user_info['email'], user_info['permission'], user_info['password'], user_info['joined_on'], user_info['last_login'], user_info['gender'])
+                                                user_info['is_active'], user_info['email'], user_info['permission'], user_info['password'], user_info['joined_on'], user_info['last_login'], user_info['gender'], badge)
             return user_object
         else:
             return None
@@ -136,6 +137,11 @@ class ObjectManager:
 
     def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
         dbw.insertUser(first_name, last_name, password, email, 0, joined_on, last_login, gender)
+
+    def registered(self, email):
+        user = self.createUser(email=email)
+
+        user.addDefaultBadges()
 
     def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name, lang_id, translations):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]

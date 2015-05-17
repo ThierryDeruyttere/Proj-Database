@@ -10,7 +10,7 @@ import os.path
 
 class User:
 
-    def __init__(self, id, first_name, last_name, is_active, email, permissions, password, joined_on, last_login, gender):
+    def __init__(self, id, first_name, last_name, is_active, email, permissions, password, joined_on, last_login, gender, badge):
         if not joined_on:
             raise ValueError("joined_on in user __init__ is None.")
 
@@ -25,6 +25,7 @@ class User:
         self.joined_on = joined_on
         self.last_login = last_login
         self.gender = gender
+        self.badge = badge
 
         if type(joined_on) is datetime.datetime:
             self.joined_on = str(joined_on.strftime("%Y-%m-%d %H:%M:%S"))
@@ -644,6 +645,9 @@ class User:
 
     def createdGroup(self):
         dbw.incrementBadgeValue(self.id, 'createdGroup')
+
+    def addDefaultBadges(self):
+        dbw.insertDefaultBadges(self.id)
 
 
 class PersonalList:

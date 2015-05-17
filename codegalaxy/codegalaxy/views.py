@@ -292,6 +292,7 @@ def register(request):
                 time.strftime("%Y-%m-%d %H:%M:%S")), str(time.strftime("%Y-%m-%d %H:%M:%S")), gender)
             object_manager.addVerification(
                 email, hashlib.md5(email.encode('utf-8')).hexdigest())
+            object_manager.registered(email)
             sendVerification(email)
 
         except:
