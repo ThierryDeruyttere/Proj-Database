@@ -171,7 +171,7 @@
                 {% trans "Average Score" %}
               </li>
               <li>
-                <h4>{{ avg_rating }}</h4>
+                <h4 id="average_rating_score">{{ avg_rating }}</h4>
                 {% trans "Average rating" %}
               </li>
               <li>
@@ -320,6 +320,7 @@
               data: {"rating" : score},
 
               success: function(response) {
+                $('#average_rating_score').text(response);
               },
 
               error: function(xhr, textStatus, errorThrown){
