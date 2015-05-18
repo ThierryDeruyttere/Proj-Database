@@ -501,7 +501,11 @@
       dataType: "text",
 
       success: function(response) {
-        this_button.closest('.post').find('.replies').first().append(response);
+        $(document).find('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).find('.replies').first().append(response);
+          }
+        });
         hideReplyField();
       },
       error: function(jqXHR, textStatus, error) {

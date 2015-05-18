@@ -288,12 +288,11 @@ class Post:
         html += '<div class="wall-item"' + ' data-post_id=' + str(self.id) + '>'
         html += '<div class="post "' + ' data-post_id=' + str(self.id) + '>'
         html += self.HTMLBasic(user, logged_user)
-        html += '</div>'
         html += '<div class="replies">'
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(user, logged_user)
-        html += '</div><hr></div></div>'
+        html += '</div></div><hr></div></div>'
         return html
 
     def HTMLStringReply(self, user, logged_user):
