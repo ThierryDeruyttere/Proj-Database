@@ -252,10 +252,10 @@ def get_finished(request):
     return HttpResponse(html)
 
 def createRequestHTML(challenge, user):
-    request_type = "request"
+    request_type = "Request"
     buttons = """<button type="button" class="alert small radius challenge_cancel" name="{challenger.id}-{challenged.id}-{list.id}">Cancel</button>"""
     if challenge.challenger.id != user.id:
-        request_type = "invite"
+        request_type = "Invite"
         buttons = """<button type="button" class="success small radius challenge_accept" name="{challenger.id}-{challenged.id}-{list.id}">Accept</button>
                       """ + buttons
 

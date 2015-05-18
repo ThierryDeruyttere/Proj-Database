@@ -42,13 +42,47 @@
       </div>
       <div class="large-4 columns text-center">
         <div class="panel radius">
-          <h5>Friend requests</h5>
+          <h5><b>Friend requests</b></h5>
           <hr>
-          <h5>Group requests</h5>
+          {%for f_req in friend_requests %}
+            <div class="row">
+              <div class="large-4 columns">
+                <img src="{% static f_req.friend.getPicture %}" class="round-image"/>
+              </div>
+              <div class="large-8 columns left">
+                <div class="row">
+                  <b><a href="/u/{{ f_req.friend.id }}">{{ f_req.friend.name }}</a></b>
+                </div>
+                <div class="row">
+                  <button class="tiny button success radius">Accept</button>
+                  <button class="tiny button alert radius">Decline</button>
+                  
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+          <br>
+          <h5><b>Group requests</b></h5>
           <hr>
+          {% for g_req in group_requests %}
+            <div class="row">
+              <div class="large-4 columns">
+                <img src="{% static g_req.group.getPicture %}" class="round-image"/>
+              </div>
+              <div class="large-8 columns left">
+                <div class="row">
+                  <b><a href="/u/{{ g_req.group.id }}">{{ g_req.group.group_name }}</a></b>
+                </div>
+                <div class="row">
+                  <button class="tiny button success radius">Accept</button>
+                  <button class="tiny button alert radius">Decline</button>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
         </div>
         <div class="panel radius">
-          <p>{% trans "Biggest Groups" %}</p>
+          <p><b>{% trans "Biggest Groups" %}</b></p>
           {{ biggest_groups | safe }}
         </div class="panel">
       </div>
