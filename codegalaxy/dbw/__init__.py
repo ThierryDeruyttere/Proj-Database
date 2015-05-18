@@ -887,6 +887,51 @@ def insertDefaultBadges(user_id):
     cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES(25,{user_id},1,1);'.format(user_id=user_id))
 
 # BADGES
+def generateBadges():
+    #Member of group
+    cursor = connection.cursor()
+    cursor.execute('SELECT user_id FROM userInGroup')
+    fetched = processData(cursor)
+    for member in fetched:
+        print("MEMBER OF GROUP!")
+        incrementBadgeValue(member['user_id'], 'memberOfGroup')
+    cursor.close()
+
+    print("#hasFriend")
+    cursor = connection.cursor()
+    cursor.execute('SELECT user_id, friend_id FROM friendsWith')
+    fetched = processData(cursor)
+    for user in fetched:
+        incrementBadgeValue(user['user_id'], 'hasFriend')
+        incrementBadgeValue(user['friend_id'], 'hasFriend')
+    cursor.close()
+
+    print("#solvedList")
+    #solvedList
+    cursor = connection.cursor()
+    cursor.execute('SELECT m.user_id, l.created_by FROM madeList m, exerciseList l WHERE m.exerciseList_id = l.id')
+    fetched = processData(cursor)
+    for user in fetched:
+        incrementBadgeValue(user['user_id'], 'solvedList')
+        incrementBadgeValue(user['created_by'], 'peopleSolvedMyList')
+    cursor.close()
+
+    print("#createdList")
+    #createdList
+    cursor = connection.cursor()
+    cursor.execute('SELECT created_by FROM exerciseList')
+    fetched = processData(cursor)
+    for user in fetched:
+        incrementBadgeValue(user['created_by'], 'createdList')
+    cursor.close()
+
+    print("#Write")
+    #Write everyhting to a file
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM hasBadge')
+    fetched = processData(cursor)
+    for hasbadge in fetched:
+        print('(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
 
 def incrementBadgeValue(user_id, badge_type):
     cursor = connection.cursor()
@@ -898,11 +943,21 @@ def incrementBadgeValue(user_id, badge_type):
         cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
         data = processData(cursor)
         cursor.close()
-        print(data)
         for element in data:
             cursor = connection.cursor()
             cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
             cursor.close()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
+        data2 = processData(cursor)
+        cursor.close()
+        for element2 in data2:
+            if element2['finished'] == 0:
+                if element2['current_value'] >= element2['target_value']:
+                    cursor = connection.cursor()
+                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+                    cursor.close()
+
     else:
         cursor.execute('SELECT * FROM badge b WHERE b.type = "{badge_type}"'.format(badge_type=badge_type))
         badges_with_select_type = processData(cursor)
