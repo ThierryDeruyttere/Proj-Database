@@ -10,20 +10,28 @@
 }
 
 /* line 9, ../../../theme/scss/group.scss */
-.wall-item {
-  margin-left: 0px;
-  margin-bottom: 0px;
-  padding-left: 2%;
+#post_button {
+  width: 13%;
 }
-/* line 10, ../../../theme/scss/group.scss */
-.wall-item p {
+
+/* line 12, ../../../theme/scss/group.scss */
+.wall-item {
   margin-bottom: 0px;
 }
 /* line 13, ../../../theme/scss/group.scss */
+.wall-item p {
+  margin-bottom: 0px;
+}
+/* line 16, ../../../theme/scss/group.scss */
 .wall-item .replies {
   padding-left: 7%;
 }
-/* line 15, ../../../theme/scss/group.scss */
+/* line 18, ../../../theme/scss/group.scss */
 .wall-item .replies .reply-timestamp {
   color: rgba(217, 217, 217, 0.7);
+}
+/* line 22, ../../../theme/scss/group.scss */
+.wall-item .button {
+  width: 13%;
+  margin-right: 5px;
 }

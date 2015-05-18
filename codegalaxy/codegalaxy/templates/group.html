@@ -171,17 +171,21 @@
           <div id="post_field">
             <textarea id="post_text" name="post_text"></textarea>
           </div>
-          <input id="post_button" type="submit" class="button tiny radius" value="{% trans "Post" %}">
+          <input id="post_button" class="button tiny radius" value="{% trans "Post" %}">
         <hr>
-          <div id="posts">
-              {% if group_posts %}
-                {{ group_posts | safe }}
-              {% else %}
-              <h1>There don't seem to be any posts here yet!</h1>
-              {% endif %}
+
+        <div class="row">
+          <div class="large-12 columns">
+            <div id="posts">
+                {% if group_posts %}
+                  {{ group_posts | safe }}
+                {% else %}
+                <h1>There don't seem to be any posts here yet!</h1>
+                {% endif %}
             </div>
           </div>
-
+        </div>
+      </div>
           <div class="content" id="add_members">
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">
@@ -341,7 +345,8 @@
 
   var post_text_var = CodeMirror.fromTextArea(post_text,
         {
-          theme: "monokai"
+          theme: "monokai",
+          mode: "text/x-markdown"
         });
   $(document).on("click","#post_button" , function(e){
     var post_data = {
@@ -365,7 +370,12 @@
     });
   });
 
-  var replying = false
+  var replying = false;
+  $(document).on("click",".cancel_button" , function(e){
+    hideReplyField();
+    replying = true;
+  });
+
   $(document).on("click",".want_to_reply_button" , function(e){
     if(replying){
       hideReplyField();
@@ -378,11 +388,12 @@
     html_text_box += '</br>';
     html_text_box += '<div class="large-10 columns end">';
     html_text_box += '<textarea id="post_text_reply" name="post_text_reply"></textarea>';
-    html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai"});</scr' + 'ipt>';
+    html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
     html_text_box += '</div></div>';
     html_text_box += '<div class="row">';
-    html_text_box += '<div class="large-2 columns end">';
-    html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' type="submit" class="button tiny radius reply_button" value="{% trans "Reply" %}">';
+    html_text_box += '<div class="large-12 columns end">';
+    html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' class="button tiny radius reply_button" value="{% trans "Reply" %}">';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
     html_text_box += '</div></div></div>';
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;
@@ -401,11 +412,12 @@
     html_text_box += '</br>';
     html_text_box += '<div class="large-10 columns end">';
     html_text_box += '<textarea id="post_text_edit" name="post_text_edit"></textarea>';
-    html_text_box += '<scr' + 'ipt>var post_text_var_edit = CodeMirror.fromTextArea(post_text_edit,{theme: "monokai"});</scr' + 'ipt>';
+    html_text_box += '<scr' + 'ipt>var post_text_var_edit = CodeMirror.fromTextArea(post_text_edit,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
     html_text_box += '</div></div>';
     html_text_box += '<div class="row">';
-    html_text_box += '<div class="large-2 columns end">';
-    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' type="submit" class="button tiny radius edit_button" value="{% trans "Edit" %}">';
+    html_text_box += '<div class="large-12 columns end">';
+    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' class="button tiny radius edit_button" value="{% trans "Edit" %}">';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
     html_text_box += '</div></div></div>';
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;
@@ -458,7 +470,7 @@
       dataType: "text",
 
       success: function(response) {
-        $('.post').each(function(i, obj) {
+        $(document).find('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
             $(this).find('p').first().text(post_text_var_edit.getValue())
           }

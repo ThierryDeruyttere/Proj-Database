@@ -6,6 +6,9 @@
   height: 130px;
   width: 60%;
 }
+#post_button{
+  width: 13%;
+}
 .wall-item{
   p {
     margin-bottom: 0px;
@@ -16,7 +19,9 @@
           color: rgba(217, 217, 217, 0.7);
       }
   }
-  margin-left: 0px;
+  .button{
+    width: 13%;
+    margin-right: 5px;
+  }
   margin-bottom: 0px;
-  padding-left: 2%;
 }

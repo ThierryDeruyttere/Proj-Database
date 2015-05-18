@@ -84,7 +84,7 @@ def getExerciseListInformation(id, lang_id):
     trans = getListTranslation(id, lang_id)
     if trans:
         fetched['name'] = trans['name']
-        fetched['description'] = trans['description'].decode('ascii')
+        fetched['description'] = trans['description'].decode('utf-8')
     return fetched
 
 def getExerciseListIdsMadeByUser(user_id):

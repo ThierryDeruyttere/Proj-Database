@@ -224,7 +224,7 @@ class Post:
         self.user_id = int(user_id)
         self.reply = int(reply)
         self.reply_number = int(reply_number)
-        self.post_text = post_text.decode('ascii')
+        self.post_text = post_text.decode('utf-8')
         self.posted_on = posted_on
 
     def __str__(self):
