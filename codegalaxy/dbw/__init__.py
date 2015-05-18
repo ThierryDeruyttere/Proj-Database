@@ -930,9 +930,12 @@ def generateBadges():
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
     fetched = processData(cursor)
+    print("Kzal is printen se")
     for hasbadge in fetched:
         print('(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
 
+    print("Kleir")
+    
 def incrementBadgeValue(user_id, badge_type):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
@@ -947,6 +950,7 @@ def incrementBadgeValue(user_id, badge_type):
             cursor = connection.cursor()
             cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
             cursor.close()
+
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
         data2 = processData(cursor)
@@ -955,7 +959,7 @@ def incrementBadgeValue(user_id, badge_type):
             if element2['finished'] == 0:
                 if element2['current_value'] >= element2['target_value']:
                     cursor = connection.cursor()
-                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
                     cursor.close()
 
     else:
