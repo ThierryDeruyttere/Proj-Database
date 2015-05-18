@@ -555,8 +555,13 @@ def answerQuestion(request, list_id, exercise_number):
                 current_exercise = i
                 if current_exercise.exercise_type == 'Open Question':
                     correct_answer = current_exercise.correct_answer
-                else:
+                elif current_exercise.exercise_type == 'Code':
                     correct_answer = stripStr(current_exercise.allAnswers()[0])
+                else:
+                    answer_data = json.loads(str(current_exercise.allAnswers()[0]))
+                    # { "points": [[0,0],[0,50],[50,50],[50,0]], "edges": [[0,1],[1,2],[2,3],[3,0]] }
+                    correct_answer = [str(answer_data["points"]), str(answer_data["edges"])]
+                    # correct_answer = str(current_exercise.allAnswers()[0])
                 hints = current_exercise.allHints()
                 info = None
                 if current_user:

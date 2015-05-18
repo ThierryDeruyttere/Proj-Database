@@ -237,7 +237,8 @@
 'class Rocket:\n' +
 
 '    def __init__(self, exp_edges=[], exp_vertices=[(0, 0)]):\n' +
-'        self.exp_edges = exp_edges\n' +
+// Make [(),(),()]
+'        self.exp_edges = [(x,y) for x in exp_edges\n' +
 '        self.exp_vertices = exp_vertices\n' +
 
 '        self.edges = []\n' +
@@ -338,11 +339,12 @@
 '        self.edges.append((start_idx or 0, idx))\n' +
 
 '    def __str__(self):\n' +
-'        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n'
+'        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n' +
+'rocket = Rocket({{correct_answer.1}}, {{correct_answer.0}})\n'
 
         var prog = prefix + code_text.getValue();
-        prog += '\nr.right(0)\n' +
-                'if (not r.wrong) and (set(r.exp_vertices) == set(r.vertices)):\n' +
+        prog += '\nrocket.right(0)\n' +
+                'if (not rocket.wrong) and (set(rocket.exp_vertices) == set(rocket.vertices)):\n' +
                 '    print("~~success~~")\n'
 
         Sk.pre = "output";
