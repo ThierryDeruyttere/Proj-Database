@@ -238,8 +238,8 @@
 
 '    def __init__(self, exp_edges=[], exp_vertices=[(0, 0)]):\n' +
 // Make [(),(),()]
-'        self.exp_edges = [(x,y) for x in exp_edges\n' +
-'        self.exp_vertices = exp_vertices\n' +
+'        self.exp_edges = [(edge[0], edge[1]) for edge in exp_edges]\n' +
+'        self.exp_vertices = [(vert[0], vert[1]) for vert in exp_vertices]\n' +
 
 '        self.edges = []\n' +
 '        self.vertices = [(0, 0)]\n' +
