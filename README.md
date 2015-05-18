@@ -38,7 +38,7 @@ $ sudo apt-get install python3-dateutil
 $ sudo apt-get install python3-pip
 # Installeer PyMySQL
 $ sudo pip3 install PyMySQL
-
+```
 ###Pillow
 ```sh
 # Installeer tooools
