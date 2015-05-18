@@ -56,7 +56,6 @@
                 <div class="row">
                   <button class="tiny button success radius">Accept</button>
                   <button class="tiny button alert radius">Decline</button>
-                  
                 </div>
               </div>
             </div>
@@ -93,6 +92,21 @@
 
 {% block body_js %}
 <script>
+  /*
+  function handleRequest() {
+      $.ajax({
+        type: "POST",
+        url: "/get_notifications/handle_request",
+        data: ,
+        dataType:"text",
+
+        success: fuction(response) {
+
+        }
+      });
+  }
+  */
+
   function doSearch() {
     term_text = $("#search_groups input[type=text]").val();
 

@@ -25,3 +25,8 @@ def get_notifications(request):
 
 
     return HttpResponse(json.dumps(notifications))
+
+def handle_request(request):
+    
+
+    return
