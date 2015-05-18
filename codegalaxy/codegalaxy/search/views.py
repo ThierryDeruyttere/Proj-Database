@@ -26,3 +26,8 @@ def social(request):
         response = _('There are no search results to display.')
 
     return HttpResponse(response)
+
+def badge(request):
+    user = logged_user(request)
+    new_badge = request.POST.get('badge_name', '')
+    return HttpResponse(new_badge)

@@ -99,6 +99,18 @@ class User:
         reward_objects['bronze'] = bronze
         return reward_objects
 
+    def getAllBadges(self):
+        object_manager = managers.om.objectmanager.ObjectManager()
+
+        rewards = dbw.getAllRewards(self.id)
+        reward_objects = []
+
+        for reward in rewards:
+            reward_object = object_manager.createBadge(reward['id'])
+            reward_objects.append(reward_object)
+
+        return reward_objects
+
     # List with other users this user is befriended with
     def allFriends(self):
         object_manager = managers.om.objectmanager.ObjectManager()
@@ -648,6 +660,9 @@ class User:
 
     def addDefaultBadges(self):
         dbw.insertDefaultBadges(self.id)
+
+    def changeBadge(self, badge_name):
+        dbw.changeBadge(self.id, badge_name)
 
 
 class PersonalList:

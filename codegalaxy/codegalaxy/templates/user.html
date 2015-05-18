@@ -11,7 +11,18 @@
     <div class="large-3 columns text-center ">
       <div class="panel radius">
         <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
-        <h4><a href="/badge/{{user.badge.id}}/">{{ user.badge.name }}</a></h5>
+        {% if my_profile %}
+        <div id="badge_name"></div>
+        {% csrf_token %}
+        <select name="badge_choice" id="badge_choice">
+          {% for badge in all_badges %}
+            <option value="{{badge.name}}">{{badge.name}}</option>
+          {% endfor %}
+        </select>
+        {% else %}
+        <h4><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h4>
+
+        {% endif %}
         <h5><a href="#">{{ user.name }}</a></h5>
 
         <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
@@ -398,3 +409,27 @@
     </div>
   </div>
 {% endblock base_body %}
+
+{% block body_js %}
+<script>
+
+$('#badge_choice').change(function() {
+  $.ajax({
+    type: "POST",
+    url: "/u/badgename/",
+    data: {
+      'badge_name' : $('#badge_choice').val(),
+      'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+    },
+    success: badgeSucces,
+    dataType: "text",
+  });
+});
+
+function badgeSucces(data)
+{
+  $('#badge_name').text(data);
+}
+
+</script>
+{% endblock body_js %}

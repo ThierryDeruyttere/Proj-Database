@@ -253,12 +253,13 @@ def user(request, id=0):
 
         friendship_pending = current_user.isFriendshipPending(user)
         badges = user.getAllRewards()
+        all_badges = user.getAllBadges()
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
                    'exercise_list': exercise_list, 'already_friends': already_friends, 'pending_group_memberships': pending_group_memberships,
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
                    'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends, 'mutual_friends': mutual_friends,
-                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'gold_badges':badges['gold'],
+                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'all_badges': all_badges, 'gold_badges':badges['gold'],
                    'silver_badges': badges['silver'], 'bronze_badges': badges['bronze']}
 
         if current_user.id == user.id:

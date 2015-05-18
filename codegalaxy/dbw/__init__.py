@@ -930,13 +930,23 @@ def generateBadges():
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
     fetched = processData(cursor)
-    print("Kzal is printen se")
+
     for hasbadge in fetched:
         print('(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
 
-    print("Kleir")
     
-def incrementBadgeValue(user_id, badge_type):
+def changeBadge(user_id, badge_name):
+    cursor = connection.cursor()
+    print("|")
+    cursor.execute('SELECT * FROM badge WHERE name ="{badge_name}"'.format(badge_name=badge_name)) 
+    print("||")
+    fetched = processOne(cursor)
+    print("|46456")
+    cursor.execute('UPDATE user SET badge_id = {badge_id} WHERE id = {user_id}'.format(badge_id=fetched['id'], user_id=user_id))
+    print("||4564564564564")
+    cursor.close()
+
+def incrementBadgeValue(user_id, badge_type): 
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
     fetched = processData(cursor)
