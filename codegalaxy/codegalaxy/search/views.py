@@ -6,6 +6,7 @@ from django.utils.translation import ugettext as _
 from codegalaxy.search import *
 
 from codegalaxy.authentication import require_login, logged_user
+from managers.om import *
 
 def social(request):
     s_term = request.POST.get('term', '')
@@ -31,3 +32,29 @@ def badge(request):
     user = logged_user(request)
     new_badge = request.POST.get('badge_name', '')
     return HttpResponse(new_badge)
+
+def addmembers(request):
+    object_manager = objectmanager.ObjectManager()
+
+    s_term = request.POST.get('term', '')
+    group_id = request.POST.get('group_id', '')
+
+    current_user = logged_user(request)
+    group = object_manager.createGroup(group_id)
+
+    results = searchUser(s_term, group)
+
+    response = ''
+    for result in results:
+        print("We gaan is beginnen voor elk resultaat")
+        response += result.searchGroupResult(current_user, group.id)
+
+    if response == '':
+        response = _('There are no search results to display.')
+
+    return HttpResponse(response)
+
+
+
+
+

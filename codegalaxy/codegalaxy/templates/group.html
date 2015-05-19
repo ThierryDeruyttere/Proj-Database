@@ -44,7 +44,7 @@
       <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
       {% endif %}
       {% endif %}
-    </ul>
+    </ul> 
 
     <hr/>
 
@@ -187,6 +187,18 @@
         </div>
       </div>
           <div class="content" id="add_members">
+            <div id="search_add_members" class="row collapse">
+              <div class="row collapse postfix-radius">
+                <div class="large-10 columns">
+                  <input type="text" placeholder="{% trans "Search members to add..." %}" value="{{ s_term }}">
+                </div>
+                <div class="large-2 columns">
+                  <button name="search_add_members_button" id="search_add_members_button" class="button postfix no-outline">{% trans "Search" %}</button>
+                </div>
+                <button name="group_id" id="group_id" value="{{group.id}}" hidden="hidden"></button>
+              </div>
+            </div>
+            <div id="search_result" class="row"></div>
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">
               <div class="small-2 large-2 columns">
@@ -512,6 +524,27 @@
         $("#output_alert").html(jqXHR.responseText.toString());
         $("#output_alert").show();
       }
+    });
+  });
+
+  $("#search_add_members_button").click(function() {
+    term_text = $("#search_add_members input[type=text]").val();
+    groupid = $("#group_id").val();
+
+    var post_data = {term:term_text, group_id:groupid}
+    
+    $.ajax({
+      type: "POST",
+      url: "/g/addmembers/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $("#search_result").html(response);
+      }
+      // error: function(jqXHR, textStatus, error) {
+      //   setError(jqXHR.responseText);
+      // }
     });
   });
 </script>

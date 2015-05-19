@@ -621,6 +621,33 @@ class User:
 
         return result
 
+    def searchGroupResult(self, cur_user, group_id):
+        print("LET'S GO BITCHES")
+
+        result = '''
+        <div class="large-12 columns">
+          <div class="panel radius">
+            <div class="row">
+              <div class="large-3 columns">
+                <a href="/u/{id}">
+                  <img src="/static/{picture}" class="round-image"/>
+                </a>
+              </div>
+              <div class="large-6 columns left">
+                <div class="row">
+                  <a href="/u/{id}">
+                    <h5 class="text-cut-off"><b>{name}</b></h5>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        '''.format(id=self.id, picture=self.getPicture(), name=self.name(), group_id=group_id)
+
+        print(result)
+        return result
+
     def ownedLists(self):
         list_objects = []
         object_manager = managers.om.objectmanager.ObjectManager()

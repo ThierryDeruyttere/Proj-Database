@@ -33,3 +33,29 @@ def search(s_term='', s_users=False, s_groups=False, s_lists=False):
 
     else:
         return sorted(all_search_obj, key=lambda e: e.name())
+
+def searchUser(s_term='', group=object_manager.createGroup(1)):
+    all_search_obj = []
+
+    all_users = object_manager.allUsers()
+    all_members = group.allMembers()
+
+    all_search_obj = []
+    for user in all_users:
+        if user not in all_members:
+            all_search_obj.append(user)
+
+    # Make a dict of the object with its seachString
+    all_search = {obj: obj.searchString() for obj in all_search_obj}
+
+    if s_term:
+        # Fuzzy search
+        results = process.extract(s_term, all_search, limit=10)
+
+        # Search results have to have at least a 50% match
+        filtered = [r[2] for r in reversed(sorted(results, key=lambda e: e[1])) if r[1] >= 70]
+
+        return filtered
+
+    else:
+        return sorted(all_search_obj, key=lambda e: e.name())

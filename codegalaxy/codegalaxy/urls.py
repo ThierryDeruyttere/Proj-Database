@@ -87,5 +87,6 @@ urlpatterns += patterns('codegalaxy.evaluation.views',
 urlpatterns += patterns('codegalaxy.search.views',
     # Search page, only for getting search results #
     url(r's/social/$', 'social'),
-    url(r'u/badgename/$', 'badge')
+    url(r'u/badgename/$', 'badge'),
+    url(r'g/addmembers/$', 'addmembers')
 )

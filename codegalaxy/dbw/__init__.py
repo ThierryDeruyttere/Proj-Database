@@ -771,7 +771,6 @@ def getAllBadgeInformation():
     cursor.close()
     return fetched
 
-
 # INSERT
 
 def insertUser(first_name, last_name, password, email, is_active, joined_on, last_login, gender):
@@ -885,6 +884,7 @@ def insertExerciseByReference(original_exercise_id, new_list_id, new_list_exerci
 def insertDefaultBadges(user_id):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES(25,{user_id},1,1);'.format(user_id=user_id))
+
 
 # BADGES
 def generateBadges():
