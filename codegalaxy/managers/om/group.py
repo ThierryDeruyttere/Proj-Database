@@ -73,9 +73,11 @@ class Group:
         @param joined_on the date the user joined on
         '''
         dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
+        dbw.incrementBadgeValue(user_id, 'memberOfGroup')
 
     def deleteMember(self, user_id):
         dbw.deleteUserFromGroup(self.id, user_id)
+        dbw.decrementBadgeValue(user_id, 'memberOfGroup')
 
     def getUserPermissions(self, user_id):
         permissions = dbw.getGroupUserPermissions(self.id, user_id)

@@ -889,6 +889,7 @@ def insertDefaultBadges(user_id):
 # BADGES
 def generateBadges():
     #Member of group
+    print("START")
     cursor = connection.cursor()
     cursor.execute('SELECT user_id FROM userInGroup')
     fetched = processData(cursor)
@@ -921,14 +922,17 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'createdList')
     cursor.close()
 
+    print("TEAM")
     #Write everyhting to a file
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
     fetched = processData(cursor)
 
+    print("DO IT NOW!")
+    print(len(fetched))
     for hasbadge in fetched:
-        print('(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
-
+        print(',(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
+    print("LITTLE BITCHS")
     
 def changeBadge(user_id, badge_name):
     cursor = connection.cursor()
