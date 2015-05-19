@@ -4,436 +4,455 @@
 
 
 {% block base_body %}
-  <div class="row">
-    <div class="large-3 columns text-center ">
-      <div class="panel radius">
-        <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
-        {% if my_profile %}
-        <div id="badge_name"></div>
-        {% csrf_token %}
-        <select name="badge_choice" id="badge_choice">
-          {% for badge in all_badges %}
-            <option value="{{badge.name}}">{{badge.name}}</option>
-          {% endfor %}
-        </select>
-        {% else %}
-        <h4><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h4>
+<div class="row">
+  <div class="large-3 columns text-center ">
+    <div class="panel radius">
+      <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
+      {% if my_profile %}
+      <div id="badge_name"></div>
+      {% csrf_token %}
+      <select name="badge_choice" id="badge_choice">
+        {% for badge in all_badges %}
+        <option value="{{badge.name}}">{{badge.name}}</option>
+        {% endfor %}
+      </select>
+      {% else %}
+      <h4><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h4>
 
+      {% endif %}
+      <h5><a href="#">{{ user.name }}</a></h5>
+
+      <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
+        {% if friendship_pending and not my_profile %}
+        <input type="submit" disabled value="{% trans "Friendship pending" %}" class="small button radius"/>
+        {% elif not already_friends and not my_profile %}
+        <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
+          {% csrf_token %}
+          <input type="submit" name ='add_friend' value="{% trans "Become friends" %}" class="small success button radius"/>
+        </form>
+        {% elif already_friends and not my_profile %}
+        <form method="POST" id='remove_friend' name='remove_friend' action="/u/{{user.id}}/">
+          {% csrf_token %}
+          <input type="submit" name ='remove_friend' value="{% trans "Remove as friend" %}" class="small alert button radius"/>
+        </form>
         {% endif %}
-        <h5><a href="#">{{ user.name }}</a></h5>
+      </div>
+    </div>
+  </div>
 
-        <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
-          {% if friendship_pending and not my_profile %}
-            <input type="submit" disabled value="{% trans "Friendship pending" %}" class="small button radius"/>
-          {% elif not already_friends and not my_profile %}
-          <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
-            {% csrf_token %}
-            <input type="submit" name ='add_friend' value="{% trans "Become friends" %}" class="small success button radius"/>
-          </form>
-          {% elif already_friends and not my_profile %}
-          <form method="POST" id='remove_friend' name='remove_friend' action="/u/{{user.id}}/">
-            {% csrf_token %}
-            <input type="submit" name ='remove_friend' value="{% trans "Remove as friend" %}" class="small alert button radius"/>
-          </form>
+
+  <div class="large-9 columns">
+    <ul class="tabs radius" data-tab>
+      <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
+      <li class="tab-title"><a href="#friends">{% trans "Friends" %}</a></li>
+      <li class="tab-title"><a href="#groups">{% trans "Groups" %}</a></li>
+      <li class="tab-title"><a href="#scores">{% trans "More" %}</a></li>
+      {% if my_profile %}
+      <li class="tab-title"><a href="#edit_profile">{% trans "Edit Information" %}</a></li>
+      {% endif %}
+    </ul>
+
+    <hr/>
+
+    <div class="tabs-content">
+      {% for friendship in pending_friendships %}
+      <div data-alert class="alert-box success round">
+        <a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }}</a> {% trans "wants to be your friend."%}
+        <a href="#" class="close">&times;</a>
+      </div>
+      {% endfor %}
+      {% if my_profile %}
+      <div class="content" id="edit_profile">
+        <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
+          {% csrf_token %}
+          <div class="row collapse">
+            <div class="small-2 columns">
+              <span class="prefix"><i class="fi-mail size-28"></i></span>
+            </div>
+            <div class="small-10  columns">
+              <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
+              <small class="error">Enter a valid Email Address.</small>
+            </div>
+          </div>
+
+          <div class="row collapse">
+            <div class="small-2 columns">
+              <span class="prefix"><i class="fi-lock size-28"></i></span>
+            </div>
+            <div class="small-10 columns">
+              <input type="password" required placeholder="{% trans "Old Password" %}" id="old_password" name="old_password" value="{{ old_password }}">
+              <small class="error">{% trans "Enter a valid Password." %}</small>
+            </div>
+          </div>
+          <div class="row collapse">
+            <div class="small-2 columns">
+              <span class="prefix"><i class="fi-lock size-28"></i></span>
+            </div>
+            <div class="small-10 columns">
+              <input type="password" required placeholder="{% trans "New Password" %}" class="snap-bottom" id="new_password1" name="new_password1" value="{{ new_password1 }}">
+              <small class="error">{% trans "Enter a valid Password." %}</small>
+            </div>
+          </div>
+          <div class="row collapse">
+            <div class="small-2 columns">
+              <span class="prefix"><i class="fi-lock size-28"></i></span>
+            </div>
+            <div class="small-10 columns">
+              <input type="password" required placeholder="{% trans "Confirm new password" %}" id="new_password2" name="new_password2" data-equalto="new_password1" value="{{ new_password2 }}">
+              <small class="error">{% trans "The passwords don't match." %}</small>
+            </div>
+          </div>
+
+          <input type="submit" value="{% trans "Update Password" %}" name="update_profile_information" class="small button round success"/>
+        </form>
+
+        <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
+          {% csrf_token %}
+          <h5>{% trans "Upload profile picture" %}</h5>
+          <p>
+            <input id="id_image" type="file" class="resizeme" name="image" required value="">
+            <small class="error">{% trans "Please select a file." %}</small>
+          </p>
+          <input type="submit" value="{% trans "Edit Profile Picture" %}" name="update_profile_picture" class="small button round success"/>
+        </form>
+        <hr/>
+      </div>
+      {% endif %}
+
+      <div class="content active" id="feed">
+        {% if not my_profile %}
+        <div class="alert-box info radius" id="message">
+          You have {{ total_mutual_friends }} mutual friends
+        </div>
+        {% endif %}
+
+        {% for item in data %}
+        {% if item.type == 'FriendsWith' %}
+        <div class="row">
+          <div class="feed-item">
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-10 columns end">
+              <p>
+                <strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
+              </p>
+              <p class="feed-timestamp">
+                <small><span class="octicon octicon-clock"></span>{{ item.befriended_on }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if item.type == 'UserInGroup'%}
+        <div class="row">
+          <div class="feed-item">
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-10 columns end">
+              <p>
+                <strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
+              </p>
+              <p class="feed-timestamp">
+                <small><span class="octicon octicon-clock"></span>{{ item.joined_on }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if item.type == 'MadeExerciseList'%}
+        <div class="row">
+          <div class="feed-item">
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-10 columns end">
+              <p>
+                <strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> {% trans "and scored" %} {{ item.personal_list.score }}%.
+              </p>
+              <p class="feed-timestamp">
+                <small><span class="octicon octicon-clock"></span>{{ item.completed_on }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% if item.type == 'CreatedExerciseList'%}
+        <div class="row">
+          <div class="feed-item">
+            <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
+            <div class="large-10 columns end">
+              <p>
+                <strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
+              </p>
+              <p class="feed-timestamp">
+                <small><span class="octicon octicon-clock"></span>{{ item.created_on }}</small>
+              </p>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        <hr/>
+        {% endfor %}
+        <div class="pagination-centered">
+          <ul class="pagination">
+            {% if data.has_previous %}
+            {% if data.number = 2 %}
+            <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+            <li><a href="?page=1">1</a></li>
+            {% elif data.number = 3 %}
+            <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+            <li><a href="?page=1">1</a></li>
+            <li><a href="?page=2">2</a></li>
+            {% elif data.number > 3 %}
+            <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
+            <li><a href="?page=1">1</a></li>
+            <li class="unavailable"><a href="">&hellip;</a></li>
+            <li><a href="?page={{ data.previous_page_number }}">{{ data.previous_page_number }}</a></li>
+            {% endif %}
+            {% endif %}
+            <li class="current"><a href="">{{ data.number }}</a></li>
+            {% if data.has_next %}
+            {% if data.paginator.num_pages|add:-2 > data.number %}
+            <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+            <li class="unavailable"><a href="">&hellip;</a></li>
+            <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+            {% elif data.paginator.num_pages|add:-1 > data.number %}
+            <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+            <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+            {% elif data.paginator.num_pages|add:-1 = data.number %}
+            <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
+            {% else %}
+            <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
+            {% endif %}
+            <li class="arrow"><a href="?page={{ data.next_page_number }}">&raquo;</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="content" id="friends">
+        <div class="row">
+          {% for friendship in pending_friendships %}
+          <div class="large-2 columns small-3"><img src="{% static friendship.friend.getPicture %}" class="round-image"/></div>
+          <div class="large-10 columns">
+            <p><strong><a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }} </a></strong>{% trans "wants to be your friend, do you want to accept?" %}</p>
+            <ul class="button-group radius">
+              <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
+                {% csrf_token %}
+                <input type="hidden" name="user_id_to_confirm" value="{{ friendship.friend.id }}">
+                <input type="submit" name ='confirm_friendship' value="{% trans "Confirm" %}" class="round button success">
+              </form></li>
+              <li><form method="POST" id='decline_friendship' name='decline_friendship'>
+                {% csrf_token %}
+                <input type="hidden" name="user_id_to_decline" value="{{ friendship.friend.id }}">
+                <input type="submit" name ='decline_friendship' value="{% trans "Decline" %}" class="round button alert">
+              </form></li>
+            </ul>
+          </div>
+          <hr/>
+          {% endfor %}
+          {% if not my_profile %}
+          <div class="large-12 columns">
+            <h5>Mutual friends</h5>
+            <div class="row">
+              {% for friend in mutual_friends %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ friend.id }}">
+                  <div class="panel radius">
+                    <img src="{% static friend.getPicture %}" class="round-image"/>
+                    <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                    <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+            <h5>Others</h5>
+            <div class="row">
+              {% for friend in non_mutual_friends %}
+              <div class="large-3 columns end">
+                <a href="/u/{{ friend.id }}">
+                  <div class="panel radius">
+                    <img src="{% static friend.getPicture %}" class="round-image"/>
+                    <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                    <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+                  </div>
+                </a>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          {% else %}
+          {% for friend in friends %}
+          <div class="large-3 columns end">
+            <a href="/u/{{ friend.id }}">
+              <div class="panel radius">
+                <img src="{% static friend.getPicture %}" class="round-image"/>
+                <h5 class="text-cut-off">{{ friend.first_name }}</h5>
+                <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+              </div>
+            </a>
+          </div>
+          {% endfor %}
           {% endif %}
         </div>
       </div>
-    </div>
-
-
-    <div class="large-9 columns">
-      <ul class="tabs radius" data-tab>
-        <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
-        <li class="tab-title"><a href="#friends">{% trans "Friends" %}</a></li>
-        <li class="tab-title"><a href="#groups">{% trans "Groups" %}</a></li>
-        <li class="tab-title"><a href="#scores">{% trans "More" %}</a></li>
-        {% if my_profile %}
-        <li class="tab-title"><a href="#edit_profile">{% trans "Edit Information" %}</a></li>
-        {% endif %}
-      </ul>
-
-      <hr/>
-
-      <div class="tabs-content">
-        {% for friendship in pending_friendships %}
-        <div data-alert class="alert-box success round">
-          <a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }}</a> {% trans "wants to be your friend."%}
-          <a href="#" class="close">&times;</a>
-        </div>
-        {% endfor %}
-        {% if my_profile %}
-        <div class="content" id="edit_profile">
-          <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
-            {% csrf_token %}
-            <div class="row collapse">
-              <div class="small-2 columns">
-                <span class="prefix"><i class="fi-mail size-28"></i></span>
-              </div>
-              <div class="small-10  columns">
-                <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
-                <small class="error">Enter a valid Email Address.</small>
-              </div>
-            </div>
-
-            <div class="row collapse">
-              <div class="small-2 columns">
-                <span class="prefix"><i class="fi-lock size-28"></i></span>
-              </div>
-              <div class="small-10 columns">
-                <input type="password" required placeholder="{% trans "Old Password" %}" id="old_password" name="old_password" value="{{ old_password }}">
-                <small class="error">{% trans "Enter a valid Password." %}</small>
-              </div>
-            </div>
-            <div class="row collapse">
-              <div class="small-2 columns">
-                <span class="prefix"><i class="fi-lock size-28"></i></span>
-              </div>
-              <div class="small-10 columns">
-                <input type="password" required placeholder="{% trans "New Password" %}" class="snap-bottom" id="new_password1" name="new_password1" value="{{ new_password1 }}">
-                <small class="error">{% trans "Enter a valid Password." %}</small>
-              </div>
-            </div>
-            <div class="row collapse">
-              <div class="small-2 columns">
-                <span class="prefix"><i class="fi-lock size-28"></i></span>
-              </div>
-              <div class="small-10 columns">
-                <input type="password" required placeholder="{% trans "Confirm new password" %}" id="new_password2" name="new_password2" data-equalto="new_password1" value="{{ new_password2 }}">
-                <small class="error">{% trans "The passwords don't match." %}</small>
-              </div>
-            </div>
-
-            <input type="submit" value="{% trans "Update Password" %}" name="update_profile_information" class="small button round success"/>
-          </form>
-
-          <form method="POST" action="/u/{{user.id}}/" enctype="multipart/form-data" data-abide>
-            {% csrf_token %}
-            <h5>{% trans "Upload profile picture" %}</h5>
-            <p>
-              <input id="id_image" type="file" class="resizeme" name="image" required value="">
-              <small class="error">{% trans "Please select a file." %}</small>
-            </p>
-            <input type="submit" value="{% trans "Edit Profile Picture" %}" name="update_profile_picture" class="small button round success"/>
-          </form>
-          <hr/>
-        </div>
-        {% endif %}
-
-        <div class="content active" id="feed">
-          {% if not my_profile %}
-          <div class="alert-box info radius" id="message">
-            You have {{ total_mutual_friends }} mutual friends
-          </div>
-          {% endif %}
-
-          {% for item in data %}
-          {% if item.type == 'FriendsWith' %}
-          <div class="row">
-            <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
-              <div class="large-10 columns end">
-                <p>
-                  <strong>{{ user.name }} </strong>{% trans "became friends with" %} <a href="/u/{{ item.friend.id }}">{{ item.friend.first_name }} {{ item.friend.last_name }}</a>.
-                </p>
-                <p class="feed-timestamp">
-                  <small><span class="octicon octicon-clock"></span>{{ item.befriended_on }}</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-          {% if item.type == 'UserInGroup'%}
-          <div class="row">
-            <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
-              <div class="large-10 columns end">
-                <p>
-                  <strong>{{ user.name }} </strong>{% trans "was added to group:" %} <a href="/g/{{ item.group.id }}">{{ item.group.group_name }}</a>.
-                </p>
-                <p class="feed-timestamp">
-                  <small><span class="octicon octicon-clock"></span>{{ item.joined_on }}</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-          {% if item.type == 'MadeExerciseList'%}
-          <div class="row">
-            <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
-              <div class="large-10 columns end">
-                <p>
-                  <strong>{{ user.name }} </strong>{% trans "solved an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a> {% trans "and scored" %} {{ item.personal_list.score }}%.
-                </p>
-                <p class="feed-timestamp">
-                  <small><span class="octicon octicon-clock"></span>{{ item.completed_on }}</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-          {% if item.type == 'CreatedExerciseList'%}
-          <div class="row">
-            <div class="feed-item">
-              <div class="large-2 columns"><img src="{% static "media/icons/rocket1.png" %}"/></div>
-              <div class="large-10 columns end">
-                <p>
-                  <strong>{{ user.name }} </strong>{% trans "created an exercise list:" %} <a href="/l/{{ item.exercise_list.id }}">{{ item.exercise_list.name }}</a>.
-                </p>
-                <p class="feed-timestamp">
-                  <small><span class="octicon octicon-clock"></span>{{ item.created_on }}</small>
-                </p>
-              </div>
-            </div>
-          </div>
-          {% endif %}
-          <hr/>
-          {% endfor %}
-          <div class="pagination-centered">
-            <ul class="pagination">
-              {% if data.has_previous %}
-                {% if data.number = 2 %}
-                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
-                  <li><a href="?page=1">1</a></li>
-                {% elif data.number = 3 %}
-                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
-                  <li><a href="?page=1">1</a></li>
-                  <li><a href="?page=2">2</a></li>
-                {% elif data.number > 3 %}
-                  <li class="arrow"><a href="?page={{ data.previous_page_number }}">&laquo;</a></li>
-                  <li><a href="?page=1">1</a></li>
-                  <li class="unavailable"><a href="">&hellip;</a></li>
-                  <li><a href="?page={{ data.previous_page_number }}">{{ data.previous_page_number }}</a></li>
-                {% endif %}
-              {% endif %}
-              <li class="current"><a href="">{{ data.number }}</a></li>
-              {% if data.has_next %}
-                {% if data.paginator.num_pages|add:-2 > data.number %}
-                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
-                  <li class="unavailable"><a href="">&hellip;</a></li>
-                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
-                {% elif data.paginator.num_pages|add:-1 > data.number %}
-                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
-                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
-                {% elif data.paginator.num_pages|add:-1 = data.number %}
-                  <li><a href="?page={{ data.next_page_number }}">{{ data.next_page_number }}</a></li>
-                {% else %}
-                  <li><a href="?page={{ data.paginator.num_pages }}">{{ data.paginator.num_pages }}</a></li>
-                {% endif %}
-                <li class="arrow"><a href="?page={{ data.next_page_number }}">&raquo;</a></li>
-              {% endif %}
+      <div class="content" id="groups">
+        {% for group_membership in pending_group_memberships %}
+        <div class="row">
+          <div class="large-2 columns small-3"><img src="{% static group_membership.group.getPicture %}" class="round-image"/></div>
+          <div class="large-10 columns">
+            <p>{% trans "Someone wants to add you to" %} <strong><a href="/g/{{ group_membership.group.id }}">{{ group_membership.group.group_name }}</a></strong></p>
+            <ul class="button-group radius">
+              <li><form method="POST" id='confirm_membership' name='confirm_membership'>
+                {% csrf_token %}
+                <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.group.id }}">
+                <input type="submit" name ='confirm_membership' value="{% trans "Confirm" %}" class="button success">
+              </form></li>
+              <li><form method="POST" id='decline_membership' name='decline_membership'>
+                {% csrf_token %}
+                <input type="hidden" name="group_id_to_decline" value="{{ group_membership.group.id }}">
+                <input type="submit" name ='decline_membership' value="{% trans "Decline" %}" class="button alert">
+              </form></li>
             </ul>
           </div>
         </div>
-        <div class="content" id="friends">
-          <div class="row">
-            {% for friendship in pending_friendships %}
-            <div class="large-2 columns small-3"><img src="{% static friendship.friend.getPicture %}" class="round-image"/></div>
-            <div class="large-10 columns">
-              <p><strong><a href="/u/{{ friendship.friend.id }}">{{ friendship.friend.name }} </a></strong>{% trans "wants to be your friend, do you want to accept?" %}</p>
-              <ul class="button-group radius">
-                <li><form method="POST" id='confirm_friendship' name='confirm_friendship'>
-                  {% csrf_token %}
-                  <input type="hidden" name="user_id_to_confirm" value="{{ friendship.friend.id }}">
-                  <input type="submit" name ='confirm_friendship' value="{% trans "Confirm" %}" class="round button success">
-                </form></li>
-                <li><form method="POST" id='decline_friendship' name='decline_friendship'>
-                  {% csrf_token %}
-                  <input type="hidden" name="user_id_to_decline" value="{{ friendship.friend.id }}">
-                  <input type="submit" name ='decline_friendship' value="{% trans "Decline" %}" class="round button alert">
-                </form></li>
-              </ul>
-            </div>
-            <hr/>
-            {% endfor %}
-            {% if not my_profile %}
-            <div class="large-12 columns">
-              <h5>Mutual friends</h5>
-              <div class="row">
-                {% for friend in mutual_friends %}
-                <div class="large-3 columns end">
-                  <a href="/u/{{ friend.id }}">
-                    <div class="panel radius">
-                      <img src="{% static friend.getPicture %}" class="round-image"/>
-                      <h5 class="text-cut-off">{{ friend.first_name }}</h5>
-                      <h6 class="text-cut-off">{{ friend.last_name }}</h6>
-                    </div>
-                  </a>
-                </div>
-                {% endfor %}
-              </div>
-              <h5>Others</h5>
-              <div class="row">
-                {% for friend in non_mutual_friends %}
-                <div class="large-3 columns end">
-                  <a href="/u/{{ friend.id }}">
-                    <div class="panel radius">
-                      <img src="{% static friend.getPicture %}" class="round-image"/>
-                      <h5 class="text-cut-off">{{ friend.first_name }}</h5>
-                      <h6 class="text-cut-off">{{ friend.last_name }}</h6>
-                    </div>
-                  </a>
-                </div>
-                {% endfor %}
-              </div>
-            </div>
-            {% else %}
-            {% for friend in friends %}
-            <div class="large-3 columns end">
-              <a href="/u/{{ friend.id }}">
-                <div class="panel radius">
-                  <img src="{% static friend.getPicture %}" class="round-image"/>
-                  <h5 class="text-cut-off">{{ friend.first_name }}</h5>
-                  <h6 class="text-cut-off">{{ friend.last_name }}</h6>
+        <hr/>
+        {% endfor %}
+        <div class="row">
+          {% if group_list %}
+          {% for group in group_list %}
+          {% if my_profile %}
+          <div class="large-3 columns end">
+            <div class="panel radius">
+              <a href="/g/{{ group.id }}">
+                <img src="{% static group.getPicture %}" class="round-image"/>
+                <div>
+                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
                 </div>
               </a>
             </div>
-            {% endfor %}
-            {% endif %}
           </div>
-        </div>
-        <div class="content" id="groups">
-          {% for group_membership in pending_group_memberships %}
-          <div class="row">
-            <div class="large-2 columns small-3"><img src="{% static group_membership.group.getPicture %}" class="round-image"/></div>
-            <div class="large-10 columns">
-              <p>{% trans "Someone wants to add you to" %} <strong><a href="/g/{{ group_membership.group.id }}">{{ group_membership.group.group_name }}</a></strong></p>
-              <ul class="button-group radius">
-                <li><form method="POST" id='confirm_membership' name='confirm_membership'>
-                  {% csrf_token %}
-                  <input type="hidden" name="group_id_to_confirm" value="{{ group_membership.group.id }}">
-                  <input type="submit" name ='confirm_membership' value="{% trans "Confirm" %}" class="button success">
-                </form></li>
-                <li><form method="POST" id='decline_membership' name='decline_membership'>
-                  {% csrf_token %}
-                  <input type="hidden" name="group_id_to_decline" value="{{ group_membership.group.id }}">
-                  <input type="submit" name ='decline_membership' value="{% trans "Decline" %}" class="button alert">
-                </form></li>
-              </ul>
+          {% else %}
+          {% if group.group_type == 0 %}
+          <div class="large-3 columns end">
+            <div class="panel radius">
+              <a href="/g/{{ group.id }}">
+                <img src="{% static group.getPicture %}" class="round-image"/>
+                <div>
+                  <h6 class="text-cut-off">{{ group.group_name }}</h6>
+                </div>
+              </a>
             </div>
           </div>
-          <hr/>
-          {% endfor %}
-          <div class="row">
-            {% if group_list %}
-              {% for group in group_list %}
-                {% if my_profile %}
-                  <div class="large-3 columns end">
-                    <div class="panel radius">
-                      <a href="/g/{{ group.id }}">
-                        <img src="{% static group.getPicture %}" class="round-image"/>
-                        <div>
-                          <h6 class="text-cut-off">{{ group.group_name }}</h6>
-                        </div>
-                      </a>
-                    </div>
-                  </div>
-                {% else %}
-                  {% if group.group_type == 0 %}
-                    <div class="large-3 columns end">
-                      <div class="panel radius">
-                        <a href="/g/{{ group.id }}">
-                          <img src="{% static group.getPicture %}" class="round-image"/>
-                          <div>
-                            <h6 class="text-cut-off">{{ group.group_name }}</h6>
-                          </div>
-                        </a>
-                      </div>
-                    </div>
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
-            {% else %}
-            {% if my_profile %}
-            <h4>You have not joined a group yet.</h4>
-            <a href="/social" class="button">{% trans "Take a look!" %}</a>
-            {% else %}
-            <div class="row">
-              <h4>{{ user.first_name }} {% trans "isn't a member of any groups yet." %}</h4>
-            </div>
-            {% endif %}
           {% endif %}
-          </div>
-        </div>
-        <div class="content" id="scores">
+          {% endif %}
+          {% endfor %}
+          {% else %}
+          {% if my_profile %}
+          <h4>You have not joined a group yet.</h4>
+          <a href="/social" class="button">{% trans "Take a look!" %}</a>
+          {% else %}
           <div class="row">
-            <div class="large-12 columns">
-              <div class="panel radius">
-                {% for gold in gold_badges %}
-                  <span class="goldAch">
-                    <a href="/badge/{{gold.id}}">{{ gold.name }}</a>
-                  </span>
+            <h4>{{ user.first_name }} {% trans "isn't a member of any groups yet." %}</h4>
+          </div>
+          {% endif %}
+          {% endif %}
+        </div>
+      </div>
+      <div class="content" id="scores">
+        <div class="row">
+          <div class="large-12 columns">
+            <div class="panel radius"> 
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Earned Badges" %}</p>
+              <div class="row">
+                <div class="text-center">
+                {% for badge in gold_badges %}
+                <div class="large-3 columns end">
+                  <div class="panel radius">
+                    <a href="/badge/{{ badge.id }}">
+                      <img src="{% static badge.getPicture %}" class="round-image"/>
+                      <div>
+                        <h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+                      </div>
+                    </a>
+                  </div>
+                </div>
                 {% endfor %}
-                {% for silver in silver_badges %}
-                  <span class="silverAch">
-                    <a href="/badge/{{silver.id}}">{{ silver.name }}</a>
-                  </span>
+                {% for badge in silver_badges %}
+                <div class="large-3 columns end">
+                  <div class="panel radius">
+                    <a href="/badge/{{ badge.id }}">
+                      <img src="{% static badge.getPicture %}" class="round-image"/>
+                      <div>
+                        <h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+                      </div>
+                    </a>
+                  </div>
+                </div>
                 {% endfor %}
-                {% for bronze in bronze_badges %}
-                  <div class="large-3 columns">
-                    <div class="panel radius">
-                      <a href="/badge/{{ bronze.id }}">
-                        <img src="{% static bronze.getPicture %}" class="round-image"/>
-                        <div>
-                          <h6 class="text-cut-off" text-center>{{ bronze.name }}</h6>
-                        </div>
-                      </a>
-                    </div>
+                {% for badge in bronze_badges %}
+                <div class="large-3 columns end">
+                  <div class="panel radius">
+                    <a href="/badge/{{ badge.id }}">
+                      <img src="{% static badge.getPicture %}" class="round-image"/>
+                      <div>
+                        <h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+                      </div>
+                    </a>
                   </div>
+                </div>
                 {% endfor %}
-                {% if list_on_lang_by_user %}
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Lists made per programming language" %}</p>
-                  <div class="text-center">
-                    {{ list_on_lang_by_user | safe }}
-                  </div>
-                  <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Exercises made per programming language" %}</p>
-                  <div class="text-center">
-                    {{ ex_on_lang_by_user | safe }}
-                  </div>
-                  <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score (%) per programming language" %}</p>
-                  <div class="text-center">
-                    {{ score_per_lang | safe }}
-                  </div>
-                  <hr />
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of lists made:" %} {{ user.amountOfListsMade }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score:" %} {{ user.averageScoreOnLists }}%</p>
-                {% else %}
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "You have not completed any exercise lists yet!" %}</p>
-                {% endif %}
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of groups joined:" %} {{ user.amountOfGroupsJoined }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Time member of site:" %} {{ user.timeJoinedString }}</p>
-                  <p><span class="octicon octicon-chevron-right"></span> {% trans "Last login:" %} {{ user.last_login }}</p>
+                </div>
               </div>
+              {% if list_on_lang_by_user %}
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Lists made per programming language" %}</p>
+              <div class="text-center">
+                {{ list_on_lang_by_user | safe }}
+              </div>
+              <hr />
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Exercises made per programming language" %}</p>
+              <div class="text-center">
+                {{ ex_on_lang_by_user | safe }}
+              </div>
+              <hr />
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score (%) per programming language" %}</p>
+              <div class="text-center">
+                {{ score_per_lang | safe }}
+              </div>
+              <hr />
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of lists made:" %} {{ user.amountOfListsMade }}</p>
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Average Score:" %} {{ user.averageScoreOnLists }}%</p>
+              {% else %}
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "You have not completed any exercise lists yet!" %}</p>
+              {% endif %}
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Total amount of groups joined:" %} {{ user.amountOfGroupsJoined }}</p>
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Time member of site:" %} {{ user.timeJoinedString }}</p>
+              <p><span class="octicon octicon-chevron-right"></span> {% trans "Last login:" %} {{ user.last_login }}</p>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 {% endblock base_body %}
 
 {% block body_js %}
 <script>
 
-$('#badge_choice').change(function() {
-  $.ajax({
-    type: "POST",
-    url: "/u/badgename/",
-    data: {
-      'badge_name' : $('#badge_choice').val(),
-      'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
-    },
-    success: badgeSucces,
-    dataType: "text",
+  $('#badge_choice').change(function() {
+    $.ajax({
+      type: "POST",
+      url: "/u/badgename/",
+      data: {
+        'badge_name' : $('#badge_choice').val(),
+        'csrfmiddlewaretoken' : $("input[name=csrfmiddlewaretoken]").val()
+      },
+      success: badgeSucces,
+      dataType: "text",
+    });
   });
-});
 
-function badgeSucces(data)
-{
-  $('#badge_name').text(data);
-}
+  function badgeSucces(data)
+  {
+    $('#badge_name').text(data);
+  }
 
 </script>
 {% endblock body_js %}
