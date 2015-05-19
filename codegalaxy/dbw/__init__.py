@@ -937,7 +937,7 @@ def changeBadge(user_id, badge_name):
     cursor.execute('UPDATE user SET badge_id = {badge_id} WHERE id = {user_id}'.format(badge_id=fetched['id'], user_id=user_id))
     cursor.close()
 
-def incrementBadgeValue(user_id, badge_type): 
+def incrementBadgeValue(user_id, badge_type):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
     fetched = processData(cursor)
@@ -971,6 +971,32 @@ def incrementBadgeValue(user_id, badge_type):
             cursor = connection.cursor()
             cursor.execute('INSERT INTO hasBadge(badge_id, user_id, current_value, finished) VALUES ({badge_id}, {user_id}, 1, 0)'.format(badge_id=badge['id'], user_id=user_id))
             cursor.close()
+
+def decrementBadgeValue(user_id, badge_type):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    cursor = connection.cursor()
+    if len(fetched) > 0:
+        cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
+        data = processData(cursor)
+        cursor.close()
+        for element in data:
+            cursor = connection.cursor()
+            cursor.execute('UPDATE hasBadge SET current_value = current_value - 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+            cursor.close()
+
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
+        data2 = processData(cursor)
+        cursor.close()
+        for element2 in data2:
+            if element2['finished'] == 1:
+                if element2['current_value'] < element2['target_value']:
+                    cursor = connection.cursor()
+                    cursor.execute('UPDATE hasBadge SET finished = 0 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
+                    cursor.close()
 
 def allBadgeEarnedUsers(badge_id):
     cursor = connection.cursor()

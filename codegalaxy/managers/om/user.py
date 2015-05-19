@@ -178,6 +178,8 @@ class User:
 
     def declineFriendship(self, friend_id):
         dbw.deleteFriendship(self.id, friend_id)
+        dbw.decrementBadgeValue(self.id, 'hasFriend')
+        dbw.decrementBadgeValue(friend_id, 'hasFriend')
 
     def confirmGroupMembership(self, group_id):
         dbw.incrementBadgeValue(self.id, 'memberOfGroup')
@@ -185,6 +187,7 @@ class User:
 
     def deleteGroupMembership(self, group_id):
         dbw.deleteGroupMembership(self.id, group_id)
+        dbw.decrementBadgeValue(self.id, 'memberOfGroup')
 
     def isFriend(self, friend):
         '''
