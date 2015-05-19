@@ -211,25 +211,17 @@ class User:
     def isFriendshipPending(self, friend):
         pending_friendships = friend.allPendingFriendships2()
         pending_friendships2 = friend.allPeopleThatWantToAddMe()
-        print(len(pending_friendships))
-        print(len(pending_friendships2))
         for pending_friendship in pending_friendships:
             if pending_friendship.user.id == friend.id:
-                print("JAAA IS PENDING!!!1")
                 return True
             if pending_friendship.friend.id == self.id:
-                print("JAAA IS PENDING!!!2")
                 return True
         for pending_friendship2 in pending_friendships2:
-            print(pending_friendship2)
             if pending_friendship2.user.id == friend.id:
-                print("JAAA IS PENDING!!!3")
                 return True
             if pending_friendship2.friend.id == self.id:
-                print("JAAA IS PENDING!!!4")
                 return True
 
-        print("NOOO NIET PENDING :(")
         return False
 
     # List with all the groups this user is currently in (SQL function)

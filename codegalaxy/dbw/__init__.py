@@ -893,11 +893,9 @@ def generateBadges():
     cursor.execute('SELECT user_id FROM userInGroup')
     fetched = processData(cursor)
     for member in fetched:
-        print("MEMBER OF GROUP!")
         incrementBadgeValue(member['user_id'], 'memberOfGroup')
     cursor.close()
 
-    print("#hasFriend")
     cursor = connection.cursor()
     cursor.execute('SELECT user_id, friend_id FROM friendsWith')
     fetched = processData(cursor)
@@ -906,7 +904,6 @@ def generateBadges():
         incrementBadgeValue(user['friend_id'], 'hasFriend')
     cursor.close()
 
-    print("#solvedList")
     #solvedList
     cursor = connection.cursor()
     cursor.execute('SELECT m.user_id, l.created_by FROM madeList m, exerciseList l WHERE m.exerciseList_id = l.id')
@@ -916,7 +913,6 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'peopleSolvedMyList')
     cursor.close()
 
-    print("#createdList")
     #createdList
     cursor = connection.cursor()
     cursor.execute('SELECT created_by FROM exerciseList')
@@ -925,7 +921,6 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'createdList')
     cursor.close()
 
-    print("#Write")
     #Write everyhting to a file
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
@@ -937,13 +932,9 @@ def generateBadges():
     
 def changeBadge(user_id, badge_name):
     cursor = connection.cursor()
-    print("|")
     cursor.execute('SELECT * FROM badge WHERE name ="{badge_name}"'.format(badge_name=badge_name)) 
-    print("||")
     fetched = processOne(cursor)
-    print("|46456")
     cursor.execute('UPDATE user SET badge_id = {badge_id} WHERE id = {user_id}'.format(badge_id=fetched['id'], user_id=user_id))
-    print("||4564564564564")
     cursor.close()
 
 def incrementBadgeValue(user_id, badge_type): 
