@@ -3,6 +3,12 @@
 {% load staticfiles %}
 {% load i18n %}
 
+{% block head_js %}
+  <script type="text/javascript">var switchTo5x=true;</script>
+  <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+  <script type="text/javascript">stLight.options({publisher: "61fd4a36-495d-4faa-baf9-7cd2d50f51cb", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+{% endblock head_js %}
+
 {% block base_body %}
 
   {% if logged_in %}
@@ -11,12 +17,20 @@
         <div class="panel radius">
           <img src="{% static user.getPicture %}" class="round-image"/>
           <div class="text-center">
+            <br>
             <h5>{{ user.name }}</h5>
             <hr/>
           </div>
           <li><a href="/me" class="blue-text">{% trans "My profile" %}</a></li>
           <li><a href="/sandbox" class="blue-text">{% trans "Sandbox mode" %}</a></li>
-          <!--<li><a href="/me">Friends</a></li>-->
+          <div class="row">
+            <div class="text-center">
+              <br>
+              <span class='st_facebook_large' displayText='Facebook'></span>
+              <span class='st_twitter_large' displayText='Tweet'></span>
+              <span class='st_sharethis_large' displayText='ShareThis'></span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="large-6 columns">

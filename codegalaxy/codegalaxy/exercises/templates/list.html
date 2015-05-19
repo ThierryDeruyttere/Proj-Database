@@ -11,6 +11,15 @@
 {% endblock page_css %}
 
 {% block base_body %}
+  <div id="fb-root"></div>
+    <script>(function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3";
+        fjs.parentNode.insertBefore(js, fjs);
+      }(document, 'script', 'facebook-jssdk'));</script>
+
   <div class="row">
     <div class="large-12 columns">
       <div class="row text-center">
@@ -80,6 +89,8 @@
                   </div>
                 {% endif %}
               {% endfor %}
+              <br>
+              <div class="fb-share-button" data-href="http://127.0.0.1:8000/l/" data-layout="button"></div>
             </div>
           </div>
         </div>
@@ -160,7 +171,7 @@
                 {% trans "Average Score" %}
               </li>
               <li>
-                <h4>{{ avg_rating }}</h4>
+                <h4 id="average_rating_score">{{ avg_rating }}</h4>
                 {% trans "Average rating" %}
               </li>
               <li>
@@ -309,6 +320,7 @@
               data: {"rating" : score},
 
               success: function(response) {
+                $('#average_rating_score').text(response);
               },
 
               error: function(xhr, textStatus, errorThrown){

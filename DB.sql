@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.5.41, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: codegalaxy
 -- ------------------------------------------------------
--- Server version	5.6.24-0ubuntu2
+-- Server version	5.5.41-0ubuntu0.14.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -16,18 +16,12 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Current Database: `codegalaxy`
---
-
-CREATE DATABASE /*!32312 IF NOT EXISTS*/ `codegalaxy` /*!40100 DEFAULT CHARACTER SET latin1 */;
-
-USE `codegalaxy`;
-
---
 -- Table structure for table `answer`
 --
 
-DROP TABLE IF EXISTS `answer`; 
+USE codegalaxy
+
+DROP TABLE IF EXISTS `answer`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `answer` (
@@ -358,7 +352,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('dz2tsdu3329sajo72ku01knzq9ycd9m3','NTdkNzUzYWQ5OGViMWEyMmUwOTUwNTI4OGJkOGVjODhlNDk3ZTk4ODp7Il9sYW5ndWFnZSI6ImVuIiwiY3VycmVudF91c2VyIjoyfQ==','2015-05-13 20:02:59'),('gvl0yfalxjg1lnlse8j3831u5d7i809b','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-12 18:15:29'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23'),('omsusjvmc1aa2nmqsu0p22zly5ayjfie','NzEzMGNkNDA4YzZhOGNjMWQwMTExMGFlNTAwNzVmMzA4NzFmZmI0NTp7ImN1cnJlbnRfdXNlciI6NX0=','2015-05-11 17:03:33');
+INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('4o3v21192sfzuub72zaega30lfy2k7eq','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('7ocybkbj530637vmysaxlfxtfqumv3n6','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('dz2tsdu3329sajo72ku01knzq9ycd9m3','NTdkNzUzYWQ5OGViMWEyMmUwOTUwNTI4OGJkOGVjODhlNDk3ZTk4ODp7Il9sYW5ndWFnZSI6ImVuIiwiY3VycmVudF91c2VyIjoyfQ==','2015-05-13 20:02:59'),('emzcy3qd2v3mkvio2kgm4p7t0ekdihe7','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('gvl0yfalxjg1lnlse8j3831u5d7i809b','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-12 18:15:29'),('j0tknpc4tzh4uan5zs7wjmqlrzeg2271','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('km8st6h302exuppmlti04k7u05e14oy8','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('lyp7kbl9ravehemz5qu7e690rwylfqgt','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23'),('omsusjvmc1aa2nmqsu0p22zly5ayjfie','NzEzMGNkNDA4YzZhOGNjMWQwMTExMGFlNTAwNzVmMzA4NzFmZmI0NTp7ImN1cnJlbnRfdXNlciI6NX0=','2015-05-11 17:03:33'),('pcnjs7m4ckmsv8ph37wfof0dm6glvyep','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('thwxtc7rpw1z9a73vb95dt48ueebuys4','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('yt5abk9hlo8spg7a8kufpk7n4hbg86rr','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:24');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -706,6 +700,38 @@ INSERT INTO `madeList` VALUES (1,2,2,69,'2015-04-25 14:55:42',0),(1,3,4,75,'2015
 UNLOCK TABLES;
 
 --
+-- Table structure for table `post`
+--
+
+DROP TABLE IF EXISTS `post`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `post` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `group_id` int(11) NOT NULL DEFAULT '0',
+  `user_id` int(11) NOT NULL DEFAULT '0',
+  `reply` int(11) NOT NULL DEFAULT '0',
+  `reply_number` int(11) NOT NULL DEFAULT '0',
+  `post_text` blob NOT NULL,
+  `posted_on` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `group_id` (`group_id`),
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `post_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
+  CONSTRAINT `post_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `post`
+--
+
+LOCK TABLES `post` WRITE;
+/*!40000 ALTER TABLE `post` DISABLE KEYS */;
+/*!40000 ALTER TABLE `post` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `programmingLanguage`
 --
 
@@ -976,4 +1002,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-29 22:08:10
+-- Dump completed on 2015-05-02 16:59:02

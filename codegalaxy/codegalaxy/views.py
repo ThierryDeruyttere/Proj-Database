@@ -490,11 +490,13 @@ def group(request, id=0):
             new_user_list.append((group_member, group.getUserPermissions(group_member.id)))
         user_list = new_user_list
 
-        
+        group_posts = group.allPostsToHTML(user)
+
         context = {'user': user, 'data': data, 'id': id, 'group': group, 'user_list':
                    user_list, 'currentuser_friend_list': remaining_friends, 'is_member': is_member,
                    'group_permissions': group_permissions, 'user_id_to_edit': user_id_to_edit,
-                   'my_user_permissions': my_user_permissions, 'group_size': group_size, 'group_owner': group_owner}
+                   'my_user_permissions': my_user_permissions, 'group_size': group_size, 'group_owner': group_owner,
+                   'group_posts': group_posts}
         return render(request, 'group.html', context)
 
     else:
@@ -574,6 +576,61 @@ def badge(request, id=0):
 
     return render(request, 'badge.html', context)
 
+def postNew(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_text = request.POST.get('post_text')
+    if post_text == '':
+        return HttpResponse('')
+    group = object_manager.createGroup(group_id)
+    group.postOnWall(user.id, post_text)
+    post = group.allPosts()[0]
+    new_html = post.HTMLString(user)
+    return HttpResponse(new_html)
+
+@require_login
+def replyTo(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    post_text = request.POST.get('post_text')
+    old_user_id = 0
+    if post_text == '':
+        return HttpResponse('')
+    group = object_manager.createGroup(group_id)
+    for old_post in group.allPosts():
+        if old_post.id == post_id:
+            old_user_id = old_post.user_id
+            old_post.replyToPost(user.id, post_text)
+    post = group.allPosts()[0]
+    old_user = object_manager.createUser(id=old_user_id)
+    new_html = post.HTMLStringReply(user, user)
+    return HttpResponse(new_html)
+
+@require_login
+def deletePost(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    group = object_manager.createGroup(group_id)
+    for post in group.allPosts():
+        if post.id == post_id:
+            post.delete()
+    return HttpResponse('')
+
+@require_login
+def editPost(request):
+    user = logged_user(request)
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    post_text = request.POST.get('post_text')
+    group = object_manager.createGroup(group_id)
+    for post in group.allPosts():
+        if post.id == post_id:
+            post.post_text = post_text
+            post.save()
+    return HttpResponse('')
+
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})
 
@@ -604,8 +661,16 @@ def tables(request):
 
 
 def recommendations(request):
+    # TODO delete this in master
     user_test = object_manager.createUser(id=1)
     lists = user_test.allPersonalLists()
     b = recommendListsForUser(1)
     recommended = recommendNextExerciseLists(lists[0], 2)
     return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
+
+def wall(request):
+    group = object_manager.createGroup(1)
+    post = group.allPosts()[0]
+    post.post_text = "lolol"
+    post.save()
+    return render(request, 'wall.html', {'all_posts_strings' : all_posts_strings})

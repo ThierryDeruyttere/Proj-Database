@@ -388,6 +388,8 @@ def list(request, id=0):
         if request.POST.get('rating') is not None and user is not None:
             user.ratedExerciseList()
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
+            avg_rating = InvalidOrRound(exercise_list.averageRatingOfUsersForThisList())
+            return HttpResponse(avg_rating)
 
         elif 'share_result' in request.POST:
             user.shareExerciseListResult(exercise_list.id)

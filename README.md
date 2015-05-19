@@ -30,6 +30,8 @@ $ django-admin.py compilemessages -l nl
 ```sh
 # Installeer dateutil (library voor oa vergelijken data)
 $ sudo apt-get install python3-dateutil
+# Installeer markdown2 (markdown to html converter)
+$ sudo pip3 install markdown2
 ```
 ###Django
 ###mySQL
@@ -38,6 +40,15 @@ $ sudo apt-get install python3-dateutil
 $ sudo apt-get install python3-pip
 # Installeer PyMySQL
 $ sudo pip3 install PyMySQL
+```
+###Pillow
+```sh
+# Installeer tooools
+$ sudo apt-get install python3-dev python3-setuptools
+sudo apt-get install libtiff4-dev libjpeg8-dev zlib1g-dev \
+    libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev
+# Installeer Pillow
+$ sudo pip3 install Pillow
 ```
 ####mySQL database aanpassen via dump
 ```sh

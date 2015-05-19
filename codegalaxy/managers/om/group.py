@@ -1,10 +1,13 @@
 import dbw
 import managers.om.user
 import managers.om.objectmanager
-
+import datetime
+import time
+import markdown2
 
 import os.path
 
+markdown_converter = markdown2.Markdown()
 
 class Group:
 
@@ -170,3 +173,137 @@ class Group:
         @brief string representation of the group
         '''
         return str(self.id) + ' ' + self.group_name + ' ' + str(self.group_type) + " " + str(self.created_on)
+
+    def postOnWall(self, user_id, text):
+        last_post_id = dbw.lastPostID()['last']
+        if last_post_id is None:
+            last_post_id = 0
+        dbw.insertPost(self.id, user_id, last_post_id + 1, 0, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+
+    def deletePost(self, post_id):
+        # we'll need to delete the replies aswell -> recursion
+        replies_to_post = []
+        # getting the replies to this post
+        for reply in replies_to_post:
+            self.deletePost(reply)
+        dbw.deletePost(post_id)
+
+    def editPost(self, post_id, text):
+        dbw.updatePost(post_id, text)
+
+    def allPosts(self):
+        posts = []
+        posts_info = dbw.getAllPostsForGroup(self.id)
+        for info in posts_info:
+            posts.append(Post(info['id'], info['group_id'], info['user_id'],
+            info['reply'], info['reply_number'], info['post_text'],
+            info['posted_on']))
+        posts.sort(key=lambda x: x.posted_on, reverse=True)
+        return posts
+
+    def allPostsToHTML(self, logged_user):
+        html = ''
+        all_posts = self.allPosts()
+        original_posts = []
+        for post in all_posts:
+            if post.id == post.reply:
+                original_posts.append(post)
+        for post in original_posts:
+            html += post.HTMLString(logged_user)
+        return html
+
+
+class Post:
+
+    def __init__(self, id, group_id, user_id, reply, reply_number, post_text, posted_on):
+        '''
+            reply is which it refers to,if it's the first one
+            it refers to itself
+        '''
+
+        self.id = int(id)
+        self.group_id = int(group_id)
+        self.user_id = int(user_id)
+        self.reply = int(reply)
+        self.reply_number = int(reply_number)
+        self.post_text = post_text.decode('utf-8')
+        self.posted_on = posted_on
+
+    def __str__(self):
+        return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
+
+    def delete(self):
+        print('del')
+        for reply in self.allReplies():
+            if reply.id != self.id:
+                reply.delete()
+        dbw.deletePost(self.id)
+
+    def save(self):
+        dbw.updatePost(self.id, self.post_text)
+
+    def replyToPost(self, user_id, text):
+        last_reply_number = dbw.lastReplyToPost(self.id)['last']
+        if not last_reply_number:
+            last_reply_number = 0
+        dbw.insertPost(self.group_id, user_id, self.id, last_reply_number, text, str(time.strftime("%Y-%m-%d %H:%M:%S")))
+
+    def allReplies(self):
+        replies = []
+        replies_info = dbw.getAllRepliesToPost(self.id)
+        for info in replies_info:
+            replies.append(Post(info['id'], info['group_id'], info['user_id'],
+            info['reply'], info['reply_number'], info['post_text'],
+            info['posted_on']))
+        replies.sort(key=lambda x: x.reply_number, reverse=True)
+        return replies
+
+    def addPostDataVariables(self):
+        html = ' data-post_id=' + str(self.id)
+        return html
+
+    def HTMLBasic(self, user, logged_user):
+        # TODO: octicons adden voor buttons
+        html = ''
+        html += markdown_converter.convert(self.post_text)
+        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on)[:-6] + ' by ' + user.name() + '</small></p>'
+        #want_to_reply_button
+        html += '<div class="row">'
+        html += '<div class="large-1 columns ">'
+        html += '<small><a href="#" class="want_to_reply_button" ' + self.addPostDataVariables() + ' >Reply</a></small>'
+        html += '</div>'
+        if user.id == logged_user.id:
+            html += '<div class="large-1 columns">'
+            html += '<small><a href="#" class="want_to_edit_button" ' + self.addPostDataVariables() + ' >Edit</a></small>'
+            html += '</div>'
+            html += '<div class="large-1 columns end">'
+            html += '<small><a href="#" class="delete_button" ' + self.addPostDataVariables() + ' >Delete</a></small>'
+            html += '</div>'
+        html += '</div>'
+        return html
+
+    def HTMLString(self, logged_user):
+        object_manager = managers.om.objectmanager.ObjectManager()
+        html = ''
+        user = object_manager.createUser(id=self.user_id)
+        html += '<div class="row">'
+        html += '<div class="wall-item"' + ' data-post_id=' + str(self.id) + '>'
+        html += '<div class="post "' + ' data-post_id=' + str(self.id) + '>'
+        html += self.HTMLBasic(user, logged_user)
+        html += '<div class="replies">'
+        for reply in self.allReplies():
+            if reply.id is not self.id:
+                html += reply.HTMLStringReply(user, logged_user)
+        html += '</div></div><hr></div></div>'
+        return html
+
+    def HTMLStringReply(self, user, logged_user):
+        html = ''
+        html += '<div class="post"' + ' data-post_id=' + str(self.id) + '>'
+        html += self.HTMLBasic(user, logged_user)
+        html += '<div class="replies">'
+        for reply in self.allReplies():
+            if reply.id is not self.id:
+                html += reply.HTMLStringReply(user, logged_user)
+        html += '</div></div>'
+        return html

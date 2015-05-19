@@ -38,6 +38,7 @@
       <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
       <li class="tab-title"><a href="#members">{% trans "Members" %}</a></li>
       {% if is_member %}
+      <li class="tab-title"><a href="#wall">{% trans "Wall" %}</a></li>
       <li class="tab-title"><a href="#add_members">{% trans "Add New Members" %}</a></li>
       {% if not group_permissions == 2 %}
       <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
@@ -165,6 +166,26 @@
             </form>
             <hr/>
           </div>
+
+          <div class="content" id="wall">
+          <div id="post_field">
+            <textarea id="post_text" name="post_text"></textarea>
+          </div>
+          <input id="post_button" class="button tiny radius" value="{% trans "Post" %}">
+        <hr>
+
+        <div class="row">
+          <div class="large-12 columns">
+            <div id="posts">
+                {% if group_posts %}
+                  {{ group_posts | safe }}
+                {% else %}
+                <h1>There don't seem to be any posts here yet!</h1>
+                {% endif %}
+            </div>
+          </div>
+        </div>
+      </div>
           <div class="content" id="add_members">
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">
@@ -316,6 +337,182 @@
 
   $(".b_upgrade_user").click(function() {
     $(this).closest("form").submit();
+  });
+
+  function hideReplyField(){
+    $(".replying").remove()
+  }
+
+  var post_text_var = CodeMirror.fromTextArea(post_text,
+        {
+          theme: "monokai",
+          mode: "text/x-markdown"
+        });
+  $(document).on("click","#post_button" , function(e){
+    var post_data = {
+      post_text : post_text_var.getValue(),
+      group_id: {{ group.id }}
+     };
+    $.ajax({
+      type: "POST",
+      url: "/postNew/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $('#posts').prepend(response);
+        post_text_var.setValue('');
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
+  });
+
+  var replying = false;
+  $(document).on("click",".cancel_button" , function(e){
+    hideReplyField();
+    replying = true;
+  });
+
+  $(document).on("click",".want_to_reply_button" , function(e){
+    if(replying){
+      hideReplyField();
+    }
+    e.preventDefault();
+    var group_id = $(this).attr('data-group_id');
+    var post_id = $(this).attr('data-post_id');
+    html_text_box = '<div class="replying">';
+    html_text_box += '<div class="row">';
+    html_text_box += '</br>';
+    html_text_box += '<div class="large-10 columns end">';
+    html_text_box += '<textarea id="post_text_reply" name="post_text_reply"></textarea>';
+    html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
+    html_text_box += '</div></div>';
+    html_text_box += '<div class="row">';
+    html_text_box += '<div class="large-12 columns end">';
+    html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' class="button tiny radius reply_button" value="{% trans "Reply" %}">';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
+    html_text_box += '</div></div></div>';
+    $(this).parent().parent().parent().append(html_text_box);
+    replying = true;
+  });
+
+  $(document).on("click",".want_to_edit_button" , function(e){
+    e.preventDefault();
+    if(replying){
+      hideReplyField();
+    }
+
+    var group_id = $(this).attr('data-group_id');
+    var post_id = $(this).attr('data-post_id');
+    html_text_box = '<div class="replying">';
+    html_text_box += '<div class="row">';
+    html_text_box += '</br>';
+    html_text_box += '<div class="large-10 columns end">';
+    html_text_box += '<textarea id="post_text_edit" name="post_text_edit"></textarea>';
+    html_text_box += '<scr' + 'ipt>var post_text_var_edit = CodeMirror.fromTextArea(post_text_edit,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
+    html_text_box += '</div></div>';
+    html_text_box += '<div class="row">';
+    html_text_box += '<div class="large-12 columns end">';
+    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' class="button tiny radius edit_button" value="{% trans "Edit" %}">';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
+    html_text_box += '</div></div></div>';
+    $(this).parent().parent().parent().append(html_text_box);
+    replying = true;
+  });
+
+  $(document).on("click",".delete_button" , function(e){
+    e.preventDefault();
+    p_id = $(this).attr('data-post_id')
+    var post_data = {
+      group_id: {{ group.id }},
+      post_id: p_id
+     };
+    $.ajax({
+      type: "POST",
+      url: "/deletePost/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).remove();
+          }
+        });
+        $('.wall-item').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).remove();
+          }
+        });
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
+  });
+
+  $(document).on("click",".edit_button" , function(e){
+    e.preventDefault();
+    p_id = $(this).attr('data-post_id')
+    var post_data = {
+      post_text : post_text_var_edit.getValue(),
+      group_id: {{ group.id }},
+      post_id: p_id
+     };
+    $.ajax({
+      type: "POST",
+      url: "/editPost/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $(document).find('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).find('p').first().text(post_text_var_edit.getValue())
+          }
+        });
+          hideReplyField();
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
+  });
+
+  $(document).on("click",".reply_button" , function(e){
+    // TODO: visueel foort dit met nieuwe posts, wss weer iets met document
+    e.preventDefault();
+    var p_id = $(this).attr('data-post_id')
+    var post_data = {
+      post_text : post_text_var_reply.getValue(),
+      group_id: {{ group.id }},
+      post_id: p_id
+     };
+     var this_button = $(this);
+    $.ajax({
+      type: "POST",
+      url: "/replyTo/",
+      data: post_data,
+      dataType: "text",
+
+      success: function(response) {
+        $(document).find('.post').each(function(i, obj) {
+          if ($(this).attr('data-post_id')==p_id) {
+            $(this).find('.replies').first().append(response);
+          }
+        });
+        hideReplyField();
+      },
+      error: function(jqXHR, textStatus, error) {
+        $("#output_alert").html(jqXHR.responseText.toString());
+        $("#output_alert").show();
+      }
+    });
   });
 </script>
 {% endblock body_js %}

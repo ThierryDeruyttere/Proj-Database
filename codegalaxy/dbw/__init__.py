@@ -84,7 +84,7 @@ def getExerciseListInformation(id, lang_id):
     trans = getListTranslation(id, lang_id)
     if trans:
         fetched['name'] = trans['name']
-        fetched['description'] = trans['description'].decode('ascii')
+        fetched['description'] = trans['description'].decode('utf-8')
     return fetched
 
 def getExerciseListIdsMadeByUser(user_id):
@@ -1129,7 +1129,7 @@ def deleteGroup(group_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM userInGroup WHERE group_id={group_id};'.format(group_id=group_id))
     cursor.execute('DELETE FROM groups WHERE id={group_id};'.format(group_id=group_id))
-    
+
 def deleteFriendship(user_id, friend_id):
     cursor = connection.cursor()
     cursor.execute('DELETE FROM friendsWith WHERE user_id = {friend_id} AND friend_id = {user_id};'.format(user_id=user_id, friend_id=friend_id))
@@ -1404,6 +1404,57 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
 def filterLists(name):
     cursor = connection.cursor()
     cursor.execute('select DISTINCT eL.* from exercise e, exerciseList eL WHERE e.title LIKE "%{name}%" OR eL.name LIKE "%{name}%";'.format(name=name))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+# Post table
+
+def createPostTable():
+    # adding this with a query, soz, wasnt sure if i
+    # could add this directly to the DB with all those complicated
+    # extra thingies in there
+    cursor = connection.cursor()
+    cursor.execute('CREATE TABLE `post` (`id` int(11) NOT NULL AUTO_INCREMENT,`group_id` int(11) NOT NULL DEFAULT "0",`user_id` int(11) NOT NULL DEFAULT "0",`reply` int(11) NOT NULL DEFAULT "0",`reply_number` int(11) NOT NULL DEFAULT "0",`post_text` blob NOT NULL,`posted_on` datetime DEFAULT NULL,PRIMARY KEY(`id`),FOREIGN KEY(group_id) REFERENCES groups(id),FOREIGN KEY(user_id) REFERENCES user(id)) ;')
+
+def insertPost(group_id, user_id, reply, reply_number, post_text, posted_on):
+    cursor = connection.cursor()
+    sql = 'INSERT INTO post(group_id, user_id, reply, reply_number, post_text, posted_on) VALUES ({group_id}, {user_id}, {reply}, {reply_number}, %s, "{posted_on}");'.format(group_id=group_id, user_id=user_id, reply=reply, reply_number=reply_number, posted_on=posted_on)
+    cursor.execute(sql, [post_text])
+
+def lastPostID():
+    cursor = connection.cursor()
+    cursor.execute('SELECT MAX(id) AS last FROM post;')
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def lastReplyToPost(post_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT MAX(reply_number) AS last FROM post WHERE id={post_id};'.format(post_id=post_id))
+    fetched = processOne(cursor)
+    cursor.close()
+    return fetched
+
+def updatePost(post_id, text):
+    cursor = connection.cursor()
+    sql = 'UPDATE post SET post_text=%s WHERE id={post_id};'.format(post_id=post_id)
+    cursor.execute(sql, [text])
+
+def deletePost(post_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM post WHERE id = {post_id};'.format(post_id=post_id))
+
+def getAllPostsForGroup(group_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM post WHERE group_id={group_id};'.format(group_id=group_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getAllRepliesToPost(post_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM post WHERE reply={post_id};'.format(post_id=post_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
