@@ -1,3 +1,27 @@
 .user-controls {
     margin-right: 12px;
 }
+
+.CodeMirror {
+  height: 130px;
+  width: 60%;
+}
+#post_button{
+  width: 13%;
+}
+.wall-item{
+  p {
+    margin-bottom: 0px;
+  }
+  .replies {
+      padding-left: 7%;
+      .reply-timestamp {
+          color: rgba(217, 217, 217, 0.7);
+      }
+  }
+  .button{
+    width: 13%;
+    margin-right: 5px;
+  }
+  margin-bottom: 0px;
+}

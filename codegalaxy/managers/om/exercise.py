@@ -89,7 +89,7 @@ class Exercise:
             # We sort on the second element of every tuple
             sorted_answers = sorted(answer_unordered_list, key=lambda tup: tup[1])
             # We don't need the number anymore
-            short_list = [answer[0].decode('ascii') for answer in sorted_answers]
+            short_list = [answer[0].decode('utf-8') for answer in sorted_answers]
             return short_list
         else:
             return []

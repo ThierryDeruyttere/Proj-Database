@@ -30,6 +30,8 @@ $ django-admin.py compilemessages -l nl
 ```sh
 # Installeer dateutil (library voor oa vergelijken data)
 $ sudo apt-get install python3-dateutil
+# Installeer markdown2 (markdown to html converter)
+$ sudo pip3 install markdown2
 ```
 ###Django
 ###mySQL

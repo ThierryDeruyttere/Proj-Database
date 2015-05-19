@@ -26,6 +26,11 @@ urlpatterns = patterns('codegalaxy.views',
     ## GROUPS ##
     # Group page (/g/<id>)
     url(r'^g/(?P<id>\d*)/$', 'group'),
+    # Posting/... on wall
+    url(r'^postNew/', 'postNew'),
+    url(r'^replyTo/', 'replyTo'),
+    url(r'^deletePost/', 'deletePost'),
+    url(r'^editPost/', 'editPost'),
     # Social overview (/social)
     url(r'^social/$', 'social'),
     # Create new group (/g/create)
@@ -36,6 +41,7 @@ urlpatterns = patterns('codegalaxy.views',
 
     ## TESTING ##
     # Zurb Foundation test pages
+    url(r'^wall', 'wall'),
     url(r'zurb/', include('foundation.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^tables/', 'tables'),

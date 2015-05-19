@@ -2,3 +2,36 @@
 .user-controls {
   margin-right: 12px;
 }
+
+/* line 5, ../../../theme/scss/group.scss */
+.CodeMirror {
+  height: 130px;
+  width: 60%;
+}
+
+/* line 9, ../../../theme/scss/group.scss */
+#post_button {
+  width: 13%;
+}
+
+/* line 12, ../../../theme/scss/group.scss */
+.wall-item {
+  margin-bottom: 0px;
+}
+/* line 13, ../../../theme/scss/group.scss */
+.wall-item p {
+  margin-bottom: 0px;
+}
+/* line 16, ../../../theme/scss/group.scss */
+.wall-item .replies {
+  padding-left: 7%;
+}
+/* line 18, ../../../theme/scss/group.scss */
+.wall-item .replies .reply-timestamp {
+  color: rgba(217, 217, 217, 0.7);
+}
+/* line 22, ../../../theme/scss/group.scss */
+.wall-item .button {
+  width: 13%;
+  margin-right: 5px;
+}
