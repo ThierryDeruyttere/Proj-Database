@@ -16,6 +16,16 @@ class Badge:
         self.target_value = target_value
         self.medal = medal
 
+    def getPicture(self):
+        badge_picture = "media/icons/gold_badge.png"
+        if self.medal == "gold":
+            badge_picture = "media/icons/gold_badge.png"
+        elif self.medal == "silver":
+            badge_picture = "media/icons/silver_badge.png"
+        elif self.medal == "bronze":
+            badge_picture = "media/icons/bronze_badge.png"
+
+        return badge_picture
     def allUsersThatEarnedBadge(self):
         object_manager = managers.om.objectmanager.ObjectManager()
 

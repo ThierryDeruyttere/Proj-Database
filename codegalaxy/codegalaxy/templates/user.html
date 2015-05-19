@@ -2,9 +2,6 @@
 {% load staticfiles %}
 {% load i18n %}
 
-{% block page_css %}
-  <link rel="stylesheet" type="text/css" href="{% static "css/user.css" %}" />
-{% endblock page_css %}
 
 {% block base_body %}
   <div class="row">
@@ -373,9 +370,16 @@
                   </span>
                 {% endfor %}
                 {% for bronze in bronze_badges %}
-                  <span class="bronzeAch">
-                    <a href="/badge/{{bronze.id}}">{{ bronze.name }}</a>
-                  </span>
+                  <div class="large-3 columns">
+                    <div class="panel radius">
+                      <a href="/badge/{{ bronze.id }}">
+                        <img src="{% static bronze.getPicture %}" class="round-image"/>
+                        <div>
+                          <h6 class="text-cut-off" text-center>{{ bronze.name }}</h6>
+                        </div>
+                      </a>
+                    </div>
+                  </div>
                 {% endfor %}
                 {% if list_on_lang_by_user %}
                   <p><span class="octicon octicon-chevron-right"></span> {% trans "Lists made per programming language" %}</p>

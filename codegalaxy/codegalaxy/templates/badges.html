@@ -3,38 +3,45 @@
 {% load staticfiles %}
 {% load i18n %}
 
-{% block page_css %}
-<link rel="stylesheet" type="text/css" href="{% static "css/badge.css" %}" />
-{% endblock page_css %}
-
-
 {% block base_body %}
-
 <div class="row">
-	<div class="large-12 columns">
-		<div class="panel radius">
-			<span class="octicon octicon-chevron-right"> {% trans "Gold Badges" %}</span>
-			<br>
+	<div class="large-12 columns end">
+		<div class="row">
 			{% for badge in gold_badges %}
-			<span class="goldAch">
-				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
-			</span>
+			<div class="large-2 columns end">
+				<div class="panel radius">
+					<a href="/badge/{{ badge.id }}">
+						<img src="{% static badge.getPicture %}" class="round-image"/>
+						<div>
+							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+						</div>
+					</a>
+				</div>
+			</div>
 			{% endfor %}
-			<br>
-			<span class="octicon octicon-chevron-right"> {% trans "Silver Badges" %}</span>
-			<br>
 			{% for badge in silver_badges %}
-			<span class="silverAch">
-				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
-			</span>
+			<div class="large-2 columns end">
+				<div class="panel radius">
+					<a href="/badge/{{ badge.id }}">
+						<img src="{% static badge.getPicture %}" class="round-image"/>
+						<div>
+							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+						</div>
+					</a>
+				</div>
+			</div>
 			{% endfor %}
-			<br>
-			<span class="octicon octicon-chevron-right"> {% trans "Bronze Badges" %}</span>
-			<br>
 			{% for badge in bronze_badges %}
-			<span class="bronzeAch">
-				<a href="/badge/{{badge.id}}">{{ badge.name }}</a>
-			</span>
+			<div class="large-2 columns end">
+				<div class="panel radius">
+					<a href="/badge/{{ badge.id }}">
+						<img src="{% static badge.getPicture %}" class="round-image"/>
+						<div>
+							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+						</div>
+					</a>
+				</div>
+			</div>
 			{% endfor %}
 		</div>
 	</div>
