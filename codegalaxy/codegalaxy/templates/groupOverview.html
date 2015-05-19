@@ -54,8 +54,8 @@
                   <b><a href="/u/{{ f_req.friend.id }}">{{ f_req.friend.name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius">Accept</button>
-                  <button class="tiny button alert radius">Decline</button>
+                  <button class="tiny button success radius" name="{{f_req.friend.id}}-friend-accept">Accept</button>
+                  <button class="tiny button alert radius" name="{{f_req.friend.id}}-friend-decline">Decline</button>
                 </div>
               </div>
             </div>
@@ -93,20 +93,26 @@
 {% block body_js %}
 <script>
   /*
-  function handleRequest() {
+  function handleRequest(object) {
+      var info = $(obj).attr("name");
       $.ajax({
         type: "POST",
         url: "/get_notifications/handle_request",
-        data: ,
+        data: "request_info=" + info,
         dataType:"text",
 
         success: fuction(response) {
 
         }
       });
+
+
+      $().on("click",, function(){
+        handleFriendRequest(this);
+      });
+
   }
   */
-
   function doSearch() {
     term_text = $("#search_groups input[type=text]").val();
 
