@@ -18,6 +18,7 @@
           <img src="{% static user.getPicture %}" class="round-image"/>
           <div class="text-center">
             <br>
+            <a href="/badge/{{user.badge.id}}"><h5>{{ user.badge.name }}</h5></a>
             <h5>{{ user.name }}</h5>
             <hr/>
           </div>
