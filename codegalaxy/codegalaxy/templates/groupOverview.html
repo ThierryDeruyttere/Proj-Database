@@ -103,7 +103,12 @@
         dataType:"text",
 
         success: function(response) {
-          $(object).closest(".request").remove();
+          // Ge kunt dit gebruiken om heel de request te deleten
+          // $(object).closest(".request").remove();
+
+          // Dit delete enkel de buttons, als ze de juiste id hadden, nu is dat hun 'name' ;)
+          $("#" + response + "-accept").remove();
+          $("#" + response + "-decline").remove();
         }
       });
   }
