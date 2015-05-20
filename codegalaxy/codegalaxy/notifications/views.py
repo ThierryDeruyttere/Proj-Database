@@ -27,6 +27,7 @@ def get_notifications(request):
     return HttpResponse(json.dumps(notifications))
 
 def handle_request(request):
+    print("check")
     user = logged_user(request)
     req_info = request.POST.get('request_info').split('-')
 
@@ -48,4 +49,4 @@ def handle_request(request):
         else:
             user.deleteGroupMembership(req_id)
 
-    return
+    return req_id + "-" + category

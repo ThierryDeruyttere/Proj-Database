@@ -54,8 +54,8 @@
                   <b><a href="/u/{{ f_req.friend.id }}">{{ f_req.friend.name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius" name="{{f_req.friend.id}}-friend-accept">Accept</button>
-                  <button class="tiny button alert radius" name="{{f_req.friend.id}}-friend-decline">Decline</button>
+                  <button class="tiny button success radius request_button" name="{{f_req.friend.id}}-friend-accept">Accept</button>
+                  <button class="tiny button alert radius request_button" name="{{f_req.friend.id}}-friend-decline">Decline</button>
                 </div>
               </div>
             </div>
@@ -73,8 +73,8 @@
                   <b><a href="/u/{{ g_req.group.id }}">{{ g_req.group.group_name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius">Accept</button>
-                  <button class="tiny button alert radius">Decline</button>
+                  <button class="tiny button success radius request_button">Accept</button>
+                  <button class="tiny button alert radius request_button">Decline</button>
                 </div>
               </div>
             </div>
@@ -92,27 +92,28 @@
 
 {% block body_js %}
 <script>
-  /*
+
   function handleRequest(object) {
       var info = $(obj).attr("name");
+      alert("check")
       $.ajax({
         type: "POST",
         url: "/get_notifications/handle_request",
-        data: "request_info=" + info,
+        data: {"request_info": info},
         dataType:"text",
 
-        success: fuction(response) {
-
+        success: function(response) {
+          $("#" + response + "-accept").remove();
+          $("#" + response + "-decline").remove();
         }
       });
 
 
-      $().on("click",, function(){
-        handleFriendRequest(this);
+      $(document).on("click", ".request_button", function(){
+        handleRequest(this);
       });
-
   }
-  */
+
   function doSearch() {
     term_text = $("#search_groups input[type=text]").val();
 
