@@ -89,6 +89,6 @@ urlpatterns += patterns('codegalaxy.challenges.views',
 
 urlpatterns += patterns('codegalaxy.notifications.views',
     # Search page, only for getting search results #
-        url(r'^get_notifications/', 'get_notifications'),
-        url(r'^get_notifications/handle_request', 'handle_request')
+        url(r'^get_notifications/$', 'get_notifications'),
+        url(r'^get_notifications/handle_request/$', 'handle_request')
 )
