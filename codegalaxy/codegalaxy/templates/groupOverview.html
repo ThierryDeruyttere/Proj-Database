@@ -45,7 +45,7 @@
           <h5><b>Friend requests</b></h5>
           <hr>
           {%for f_req in friend_requests %}
-            <div class="row">
+            <div class="row request">
               <div class="large-4 columns">
                 <img src="{% static f_req.friend.getPicture %}" class="round-image"/>
               </div>
@@ -64,7 +64,7 @@
           <h5><b>Group requests</b></h5>
           <hr>
           {% for g_req in group_requests %}
-            <div class="row">
+            <div class="row request">
               <div class="large-4 columns">
                 <img src="{% static g_req.group.getPicture %}" class="round-image"/>
               </div>
@@ -94,7 +94,7 @@
 <script>
 
   function handleRequest(object) {
-      var info = $(obj).attr("name");
+      var info = $(object).attr("name");
       alert("check")
       $.ajax({
         type: "POST",
@@ -103,16 +103,14 @@
         dataType:"text",
 
         success: function(response) {
-          $("#" + response + "-accept").remove();
-          $("#" + response + "-decline").remove();
+          $(object).closest(".request").remove();
         }
       });
-
-
-      $(document).on("click", ".request_button", function(){
-        handleRequest(this);
-      });
   }
+
+  $(document).on("click", ".request_button", function(){
+    handleRequest(this);
+  });
 
   function doSearch() {
     term_text = $("#search_groups input[type=text]").val();
