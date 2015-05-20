@@ -184,6 +184,7 @@ class User:
                 print("JAAA IS PENDING!!!2")
                 return True
         for pending_friendship2 in pending_friendships2:
+            print("WTF IS HAPPENING")
             print(pending_friendship2)
             if pending_friendship2.user.id == friend.id:
                 print("JAAA IS PENDING!!!3")
@@ -192,7 +193,6 @@ class User:
                 print("JAAA IS PENDING!!!4")
                 return True
 
-        print("NOOO NIET PENDING :(")
         return False
 
     # List with all the groups this user is currently in (SQL function)
@@ -257,9 +257,9 @@ class User:
         pending_friendship_objects = []
         for pending_friendship in pending_friendships:
             friend = object_manager.createUser(id=pending_friendship['user_id'])
-
-            friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
-            pending_friendship_objects.append(friendship)
+            if user.id != friend.id:
+                friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
+                pending_friendship_objects.append(friendship)
         return pending_friendship_objects
 
     def allUserAdded(self):
