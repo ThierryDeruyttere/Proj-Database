@@ -98,8 +98,8 @@
       alert("check")
       $.ajax({
         type: "POST",
-        url: "/get_notifications/handle_request",
-        data: {"request_info": info},
+        url: "/get_notifications/handle_request/",
+        data: {request_info: info},
         dataType:"text",
 
         success: function(response) {
