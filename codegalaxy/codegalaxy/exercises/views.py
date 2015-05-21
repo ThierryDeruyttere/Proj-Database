@@ -116,8 +116,8 @@ def editList(request, listId):
         subjects = updated_subjects
 
         translation = getTranslationDict(request, languages)
-        #set current browser translation
-        translation[browser_lang] = {"name": updated_list_name, "description":updated_description}
+        # set current browser translation
+        translation[browser_lang] = {"name": updated_list_name, "description": updated_description}
 
         exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
 
@@ -768,9 +768,9 @@ def createListElem(i, elem):
          </div>
         </div>"""
 
-    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creator().name(), list_amountOfExercises=elem.amountOfExercises() , list_id=elem.id, for_i=i + 1)
+    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creator().name(), list_amountOfExercises=elem.amountOfExercises(), list_id=elem.id, for_i=i + 1)
 
-    return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),pi_format)
+    return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1), pi_format)
 
 def listOverview(request):
     # Amount of lists per programming language
