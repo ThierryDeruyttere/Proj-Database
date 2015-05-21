@@ -72,8 +72,6 @@ class GraphManager:
             labels_string += '"' + label + '",'
         return labels_string[:-1] + '],'
 
-# PIECHART=========================================================================================================
-
     # Colorinfo's will be a list of tuples here
     def addPieData(self, labels, data, colorInfos):
         data_string = ''
@@ -95,9 +93,14 @@ class GraphManager:
         extras_string += '};\n'
         return extras_string
 
+
+    def addTitle(self, chart, name):
+        return  "<p><span class='octicon octicon-chevron-right'></span> " + name +"</p>\n" + chart
+
     # Colorinfo's will be a list of tuples here
-    def makePieChart(self, name, width, height, colorInfos, labels, data):
+    def makePieChart(self, name, width, height, colorInfos, labels, data, chart_name=None):
         total_string = ''
+
         total_string += self.addPieData(labels, data, colorInfos)
         total_string += self.addPieExtras()
         # The objects themself have postfix O
@@ -105,10 +108,12 @@ class GraphManager:
         total_string += 'new Chart(' + self.addDatavar('O') + ').Pie(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name, width, height) + total_string
+        if chart_name:
+            total_string = self.addTitle(total_string, chart_name)
         GraphManager.count += 1
         return total_string
 
-# BARCHART==================================================================================================
+    # BARCHART==================================================================================================
 
     def addBarExtras(self, percentages):
         extras_string = ''

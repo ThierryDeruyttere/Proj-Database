@@ -130,10 +130,23 @@
     border-color: $success-color;
 }
 
+.alert-border {
+    border-color: $alert-color;
+}
+
 .round-image {
     border-radius: 50%;
 }
 
-.overflow{
-  word-wrap: break-word;
+.overflow {
+    word-wrap: break-word;
+}
+
+.tabs {
+    display: inline-block;
+    .tab-title {
+        a {
+            // Style individuele elementen 
+        }
+    }
 }

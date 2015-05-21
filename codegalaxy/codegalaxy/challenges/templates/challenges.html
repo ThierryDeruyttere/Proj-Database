@@ -1,0 +1,332 @@
+{% extends "codegalaxy.html" %}
+
+{% load staticfiles %}
+{% load i18n %}
+{% load custom_filters %}
+{% block page_css %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/challenges.css" %}" />
+  <link rel="stylesheet" type="text/css" href="{% static "jquery_autocomplete/content/styles.css" %}" />
+{% endblock page_css %}
+
+{% block base_body %}
+  {% getProfilePicture as pic %}
+  <div class="row">
+    <div class="large-6 columns">
+      <h1>Challenges</h1>
+    </div>
+  </div>
+  <div class="row">
+    <hr>
+  </div>
+  <div class="row">
+    <div class="large-text-center large-centered columns large-6">
+      <input id="search" type="text" placeholder="Search opponent">
+    </div>
+  </div>
+  <div class="row">
+    <div class="large-12 columns">
+      <img src={% static "media/ChallengesShield.png" %}/>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="large-12 columns text-center large-centered">
+      <ul class="tabs" data-tab role="tablist">
+        <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">Active</a></li>
+        <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">Finished</a></li>
+        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">Requests
+          <span class="alert radius round label" id="request_amount"></span>
+        </a>
+        </li>
+      </ul>
+      <div class="tabs-content">
+        <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
+          You have no active challenges...
+        </section>
+        <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
+          You have no completed challenges...
+        </section>
+        <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
+          You have no challenge requests...
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <div id="challenge_user" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    <div id="story" class="row">
+      <div class="left">
+        <!--source: http://www.veryicon.com/icon/png/Art/Space%20Invaders/Alien.png -->
+        <img class="alien" src="{% static "media/aliens/grub.png" %}">
+      </div>
+      <div id="textbox" class="large-6 columns">
+        <div id="grub_story" data-alert class="alert-box info radius">
+          {% trans "So we meet again space voyager! Do you remember me? It's me grub!" %}<br/>
+          {% trans "Oh boy! Seems you are going to challenge somebody! By challenging and defeating someone you become stronger!" %}<br/>
+          {% trans "Ah, brings back some old memories. In the bootloader galaxy I was known as Grub The Destroyer!" %}<br/>
+          {% trans "If i'd get mad I could just destroy a whole planet!..." %}<br/>
+          {% trans "Okay it's all a lie, I'm one of the lowest level aliens in the bootloader galaxy..." %}
+          {% trans "So I always needed someone strong to defend me. Before I got lost in this galaxy, my friend Kernel used to defend me." %}
+          {% trans "But since we got separated... I have no one left for protecting me... Will you please defend me? I'm so scared without Kernel..." %}
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="panel">
+        <ul class="large-block-grid-2">
+          <li>
+            <div class="large-6 large-centered large-text-center columns">
+              <img class="challengers" src="{% static pic %}">
+              <br/>
+              {{ user.first_name }} {{ user.last_name }}
+            </div>
+          </li>
+          <li>
+            <div class="large-6 large-centered large-text-center columns">
+              <div id="challenged">
+
+              </div>
+            </div>
+          </li>
+        </ul>
+        <form method="POST" id="Challenge_form">
+          {% csrf_token %}
+          <input id="challenged_name" name="challenged" value="" type="hidden">
+          <div class="row">
+            <div class="large-12 large-text-center columns">
+              Select challenge:<br/>
+              <select id="challenge_type" name="challenge_type">
+                <option value="Score" name="Score">Score</option>
+                <option value="Perfects" name="Perfects">Perfects</option>
+              </select>
+              <span data-tooltip id="tooltip" aria-haspopup="true" class="has-tip" title="">?</span>
+              <br/>
+              Select list for challenge:<br/>
+              <select id="possible_lists" name="possible_lists">
+
+              </select><br/>
+              <button type="submit" id="send_challenge" class="success tiny radius">Challenge!</button>
+            </div>
+          </div>
+        </form>
+
+      </div>
+      <div class="row">
+        <div class="large-12 columns large-centered large-text-center">
+          <div class="large-6 columns"  id="pie">
+          </div>
+
+          <div class="large-6 columns"  id="bar">
+          </div>
+        </div>
+      </div>
+    </div>
+    <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+  </div>
+
+{% endblock base_body %}
+
+{% block body_js %}
+  <script>
+
+
+    var requests_amount = {{ challenge_requests | length }};
+    //get data
+    function ajaxDataCall(url, id){
+      $.ajax({
+        type: "GET",
+        url: url,
+        data: "user=" + {{ user.id }},
+        dataType: "text",
+        success:function(response){
+          if($(response).length > 0){
+            $(id).children().remove();
+            $(id).html(response);
+          }
+        }
+      });
+    }
+
+    function ajaxHandleRequest(obj, extra, give_up){
+      var name = $(obj).attr("name");
+      $.ajax({
+        type: "POST",
+        url: "handle_request",
+        data: "challenge_info=" + name + extra,
+        dataType: "text",
+        success:function(response){
+          if(give_up){
+            $('#'+name).remove();
+          }else{
+            $('#request'+name).remove();
+            notifications.decrease("challenges");
+
+            requests_amount--;
+            if (requests_amount > 0){
+              $('#request_amount').html(requests_amount);
+            }else{
+              $('#request_amount').hide();
+            }
+          }
+        }
+      });
+    }
+
+    $("#panel2-1").on("click", ".give_up", function(){
+      ajaxHandleRequest(this, "&give_up=1", true);
+    });
+
+    function getActives(){
+      ajaxDataCall("get_actives", "#panel2-1");
+    }
+
+    $("[controls='panel2-2']").click(function(){
+      ajaxDataCall("get_finished", "#panel2-2");
+    });
+
+    $("[controls='panel2-3']").click(function(){
+      ajaxDataCall("get_requests", "#panel2-3");
+    });
+
+
+    $("[controls='panel2-1']").click(function(){
+      getActives();
+    });
+
+
+    $('#panel2-3').on("click",".challenge_cancel" ,function(){
+      ajaxHandleRequest(this, "&cancel=1");
+    });
+
+    $('#panel2-3').on("click", ".challenge_accept", function(){
+      ajaxHandleRequest(this, "&accept=1");
+    });
+
+    function getAvailableLists(person_name){
+
+      $.ajax({
+        type: "GET",
+        url: "",
+        data: "challenged=" + person_name + "&available_lists=true",
+        dataType: "json",
+
+        success: function(response) {
+          $('#possible_lists').children().remove();
+          $.each(response, function(key, value){
+            if(key == "wins_chart" || key ==  "challenges_chart"){
+              return true;
+            }
+            var optgroup = $("<optgroup/>",{
+              label: key
+            });
+            $.each(value, function(index, val){
+              var option = $("<option/>",{
+                value: val
+              });
+              option.text(val);
+              optgroup.append(option);
+            });
+            $('#possible_lists').append(optgroup);
+          });
+
+          $("#challenge_user").foundation('reveal', 'open', '');
+          $('#challenged_name').val(person_name);
+          $("#search").val("");
+          $("#pie").html(response['wins_chart']);
+
+          $("#bar").html(response['challenges_chart']);
+
+        }
+      });
+    }
+
+    var availableTags = {{ all_users_names|safe }};
+    $( "#search" ).autocomplete({
+      lookup: availableTags,
+      showNoSuggestionNotice: true,
+      noSuggestionNotice: 'Sorry, no matching results',
+      lookupFilter: function(suggestion, originalQuery, queryLowerCase) {
+        var re = new RegExp('\\b' + $.Autocomplete.utils.escapeRegExChars(queryLowerCase), 'gi');
+        return re.test(suggestion.value);
+      },
+      formatResult: function(suggestion, currentValue){
+        var regex = new RegExp(currentValue, "i");
+        var elem = $("<img/>", {
+          src: suggestion.data,
+          class:"search_pict"
+        });
+        return $(elem).prop("outerHTML") + (suggestion.value).replace(regex, function(e){
+                  return "<strong>"+e+"</strong>"
+                });
+      },
+      onSelect: function(person){
+        $("#challenged").empty();
+        var elem = $("<img/>", {
+          src: person.data,
+          class:"challengers"
+        });
+        $("#challenged").append(elem);
+        $("#challenged").append("<br/>" + person.value);
+        getAvailableLists(person.value)
+      }
+    });
+
+    $(document).ready(function(){
+      $("#story").height(180);
+      setToolTipText();
+      getActives();
+      if (requests_amount > 0){
+        $('#request_amount').html(requests_amount);
+      }else{
+        $('#request_amount').hide();
+      }
+
+    });
+
+    $("#Challenge_form").submit(function(e){
+      e.preventDefault();
+
+      if($("#possible_lists").val() == null){
+        alert("We're sorry but there are no more lists available to challenge this user");
+
+      }else {
+        var post_data = $('form').serialize();
+        $.ajax({
+          type: "POST",
+          url: "",
+          data: post_data,
+          dataType: "text",
+
+          success: function (response) {
+            location.reload();
+          },
+          error: function (jqXHR, textStatus, error) {
+
+          }
+        })
+      }
+    });
+    
+
+    $("#challenge_type").change(function(){
+      setToolTipText();
+    });
+
+    function setToolTipText(){
+      var selected = $("#challenge_type").val();
+      var text;
+      if(selected == "Score"){
+        text = "The 'Score' challenge is a challenge where you need to get the highest score on a list";
+      }else if(selected == "Perfects"){
+        text = "The 'Perfects' challenge is a challenge where you need to have the most answers with 100%";
+      }
+
+      Foundation.libs.tooltip.getTip($('#tooltip')).remove();
+      $('#tooltip').attr("title", text);
+    }
+
+
+
+
+  </script>
+{% endblock body_js %}

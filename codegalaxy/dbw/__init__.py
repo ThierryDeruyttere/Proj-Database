@@ -73,6 +73,13 @@ def getListTranslation(id, language_id):
     cursor.close()
     return fetched
 
+def getListsCreatedBy(user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM exerciseList WHERE created_by = {user_id};'.format(user_id=user_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getExerciseListInformation(id, lang_id):
     '''
     @brief get the information from Exercise lists given an user id
@@ -386,7 +393,7 @@ def getExerciseScoreFor(id, exercise_list):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT e.id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
+    cursor.execute('SELECT e.id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer, e.max_score FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -1476,9 +1483,65 @@ def getAllPostsForGroup(group_id):
     cursor.close()
     return fetched
 
+
+
+##Challenges
+
+def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list_id):
+    cursor = connection.cursor()
+    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, challenge_type_id=challenge_type))
+    cursor.close()
+
+def getChallengeForStatus(user_id, status):
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM challenge WHERE status="{status}" AND (challenged_id = {user} OR challenger_id = {user})'.format(user=user_id, status=status))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+
+def cancelChallenge(challenger_id, challenged_id, challenge_list_id):
+    cursor = connection.cursor()
+    cursor.execute('DELETE FROM challenge WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.close()
+
+
+def acceptChallenge(challenger_id, challenged_id, challenge_list_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE challenge SET status="Accepted" WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.close()
+
+def finishChallenge(challenger_id ,challenged_id, challenge_list_id, winner_id):
+    cursor = connection.cursor()
+    cursor.execute('UPDATE challenge SET status="Finished", winner_id = {winner_id} WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, winner_id = winner_id))
+    cursor.close()
+
+def getChallengesBetween(challenger_id ,challenged_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged})'.format(user=challenger_id, challenged = challenged_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+
 def getAllRepliesToPost(post_id):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM post WHERE reply={post_id};'.format(post_id=post_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
+
+def getChallengeWinsAgainst(user_id, opponent_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND winner_id = {user}'.format(user=user_id, challenged = opponent_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
+def getFinishedChallengesBetween(user_id, opponent_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND status = "Finished"'.format(user=user_id, challenged = opponent_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+

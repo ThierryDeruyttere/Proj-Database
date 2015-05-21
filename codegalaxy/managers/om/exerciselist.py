@@ -56,6 +56,8 @@ class ExerciseList:
                 if rating['rating'] != 0:
                     total_rating += rating['rating']
                     rating_divider += 1
+            if rating_divider == 0:
+                return 0
             total_rating = total_rating / rating_divider
         return total_rating
 
@@ -270,3 +272,9 @@ class ExerciseList:
         for val in transl:
             translations[object_manager.getLanguageObject(val['language_code']).name] = {'name': val['name'], 'description': val['description'].decode('ascii')}
         return translations
+
+    def __hash__(self):
+        return hash(self.id)
+
+    def __eq__(self, other):
+        return self.id == other.id

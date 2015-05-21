@@ -984,6 +984,24 @@ CREATE TABLE `verification` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
+DROP TABLE IF EXISTS `challenge`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `challenge` (
+  `challenger_id` INT NOT NULL,
+  `challenged_id` INT NOT NULL,
+  `list_id` INT NOT NULL,
+  `status` enum('Pending','Accepted','Finished') NOT NULL,
+  `challenge_type_id` INT NOT NULL,
+  `winner_id` INT,
+  PRIMARY KEY (`challenger_id`, `challenged_id`, `list_id`,`challenge_type_id`),
+  FOREIGN KEY (`challenger_id`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`challenged_id`) REFERENCES `user` (`id`),
+  FOREIGN KEY (`list_id`) REFERENCES `exerciseList` (`id`)
+
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
 --
 -- Dumping data for table `verification`
 --

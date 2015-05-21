@@ -267,9 +267,9 @@ class User:
         pending_friendship_objects = []
         for pending_friendship in pending_friendships:
             friend = object_manager.createUser(id=pending_friendship['user_id'])
-
-            friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
-            pending_friendship_objects.append(friendship)
+            if user.id != friend.id:
+                friendship = managers.om.feed.FriendsWith(user, friend, pending_friendship['befriended_on'], pending_friendship['status'])
+                pending_friendship_objects.append(friendship)
         return pending_friendship_objects
 
     def allUserAdded(self):
@@ -310,6 +310,7 @@ class User:
     def updateListRating(self, list_id, list_rating):
         dbw.updateListRating(list_id, self.id, list_rating)
 
+
     # List with all the lists of exercises this user has completed/is working
     # on (SQL function)
     def allPersonalLists(self, lang_id=1):
@@ -324,6 +325,11 @@ class User:
             exercises_lists_list.append(exercises_list_object)
 
         return exercises_lists_list
+
+    def getAllCreatedLists(self, language_id):
+        object_manager = managers.om.objectmanager.ObjectManager()
+        my_lists = dbw.getListsCreatedBy(self.id)
+        return [object_manager.createExerciseList(i["id"], language_id) for i in my_lists]
 
     def personalListWithId(self, list_id, lang_id):
         exercise_lists_info = dbw.getMadeListForUser(self.id)
@@ -696,7 +702,8 @@ class PersonalList:
                                                         language_code,
                                                         x['completed_on'],
                                                         self.exercises_list.id,
-                                                        x['exercise_number']) for x in exercise_info]
+                                                        x['exercise_number'],
+                                                        x['max_score']) for x in exercise_info]
             return personal_exercises_list
         else:
             return None
@@ -707,7 +714,7 @@ class PersonalList:
 
 class PersonalExercise:
 
-    def __init__(self, solved, score, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer):
+    def __init__(self, solved, score, exercise_id, language_code, completed_on, list_id, exercise_number, last_answer, max_score):
         # bool to check if exercise was solved
         self.solved = solved
         # obtained score
@@ -721,6 +728,7 @@ class PersonalExercise:
         self.list_id = list_id
         self.exercise_number = exercise_number
         self.last_answer = last_answer
+        self.max_score = max_score
 
     def __str__(self):
         return str(self.rating) + " " + str(self.score) + " " + str(self.solved) + " " + str(self.exercise) + ' ' + str(self.completed_on)
