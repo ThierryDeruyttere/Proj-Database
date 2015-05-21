@@ -75,11 +75,9 @@ class Group:
         @param user_permissions the permissions of the user in this group
         @param joined_on the date the user joined on
         '''
-        print("Waarom the fuck werkt da hier ni")
         dbw.insertUserInGroup(self.id, user_id, user_permissions, joined_on, status)
         if status == 'Member':
             dbw.incrementBadgeValue(user_id, 'memberOfGroup')
-        print("alle gastaaargh")
 
     def deleteMember(self, user_id):
         dbw.deleteUserFromGroup(self.id, user_id)
@@ -237,7 +235,6 @@ class Post:
         return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
 
     def delete(self):
-        print('del')
         for reply in self.allReplies():
             if reply.id != self.id:
                 reply.delete()

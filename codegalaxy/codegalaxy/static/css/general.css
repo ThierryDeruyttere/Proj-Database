@@ -190,3 +190,8 @@
 .round-image {
   border-radius: 50%;
 }
+
+/* line 137, ../../../theme/scss/general.scss */
+.overflow {
+  word-wrap: break-word;
+}

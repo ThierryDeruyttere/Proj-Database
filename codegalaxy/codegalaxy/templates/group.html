@@ -180,7 +180,7 @@
                 {% if group_posts %}
                   {{ group_posts | safe }}
                 {% else %}
-                <h1>There don't seem to be any posts here yet!</h1>
+                <h1 class="empty_posts">There does not seem to be any posts here yet!</h1>
                 {% endif %}
             </div>
           </div>
@@ -356,6 +356,7 @@
       dataType: "text",
 
       success: function(response) {
+        $('.empty_posts').remove()
         $('#posts').prepend(response);
         post_text_var.setValue('');
       },
@@ -443,6 +444,9 @@
             $(this).remove();
           }
         });
+        if (!$(".post")[0]){
+          $("#posts").append('<h1 class="empty_posts">There does not seem to be any posts here yet!</h1>')
+        }
       },
       error: function(jqXHR, textStatus, error) {
         $("#output_alert").html(jqXHR.responseText.toString());
