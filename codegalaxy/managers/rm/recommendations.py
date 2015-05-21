@@ -4,9 +4,10 @@ import datetime
 
 object_manager = objectmanager.ObjectManager()
 
-# default lists
+# default lists (chosen by us to recommend for new users)
 default_lists = [1, 3, 8]
-# Magic numbers
+# Magic numbers=================================================================
+# each factor (date/rating/...) has a certain importance/benchmark
 # Time-based
 recent = 10.0
 older_than_month = 3.0
@@ -17,16 +18,16 @@ percents_per_rating_star = 2.0  # 20% * rating (op 10)
 difference_avg_rating = 0.5  # Added to above
 # ETC
 programming_language_importance = 3.0  # In comparison to subjects
-default_list_entry = 20.0  # 10 is default vr recente
+default_list_entry = 20.0  # 20 is default vr recente
 # Friends
 friends_multiplier = 1.2  # (not friends -> this is 1)
 
 # Recomendedlists (after we made one)
 overlap_percentage = 0.4
 
-# SubjectMultiplierS==============================================================================================
+# SubjectMultipliers==============================================================================================
 
-# ARBITRAIR SubjectMultiplierSYSTEEM:
+# SubjectMultiplierSYSTEEM:
 
 def timeMultiplier(avg_date, avg_param_date):
     param_multiplier = recent
@@ -51,7 +52,7 @@ def timeProgrammingLanguageMultiplier(user, prog_lang_id):
     return timeMultiplier(avg_date_age, avg_prog_lang_date_age) * programming_language_importance
 
 # AVG Rating 5->100% | 4->80% | 3->60% | 2-> 40% | 1->20% (aka (20%*avg) maar dus minstens 20%)
-# Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%?) gedaan
+# Deze % word afh van hoeveel de user gemiddeld rate +- een deel (5%) gedaan
 
 def ratingMultiplier(avg_rating, param_rating):
     param_score = param_rating * percents_per_rating_star  # 10 max

@@ -156,7 +156,6 @@ def getExerciseInformation(id, language_code):
     exercise_type = getExerciseType(id)["exercise_type"]
     if exercise_type == "Open Question":
         cursor.execute('SELECT e.*, "" AS code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
-        # TODO FIX REFERENCES
     else:
         cursor.execute('SELECT e.*, c.code_text, q.question_text, p.name AS programming_language, l.name AS language_name, eT.title FROM programmingLanguage p, exerciseList eL, code c, exercise e, language l, question q, exerciseTitle eT WHERE e.id = {id} AND e.id = c.exercise_id  AND e.id = q.exercise_id AND q.language_id = l.id AND e.exerciseList_id = eL.id AND eL.prog_lang_id = p.id  AND l.language_code = "{lang_name}" AND eT.language_id = l.id AND eT.exercise_id = {id};'.format(id=id, lang_name=language_code))
     fetched = processOne(cursor)
@@ -261,7 +260,6 @@ def getFriendsIdForID(id):
 
 def getFriendsNotMemberOfGroupWithID(me_id, group_id):
     cursor = connection.cursor()
-    # print('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     cursor.execute('SELECT DISTINCT u2.id FROM user u, user u2, friendsWith fW, userInGroup uIG, groups g WHERE g.id = {group_id} AND u.id = {me_id} AND u.id <> u2.id AND u2.id <> uIG.user_id AND uIG.group_id = g.id AND ((u.id = fW.user_id AND u2.id = fW.friend_id) OR (u2.id = fW.user_id AND u.id = fW.friend_id));'.format(me_id=me_id, group_id=group_id))
     fetched = processData(cursor)
     cursor.close()
@@ -637,7 +635,6 @@ def getAllExercForUserForList(user_id, list_id):
     return fetched
 
 def getAllMadeRefForUserForList(user_id, list_id):
-    # TODO: fix this
     cursor = connection.cursor()
     cursor.execute('SELECT mE.user_id,mE.solved,mE.exercise_score,mE.rating,mE.completed_on FROM exercise e, exerciseList eL, madeEx mE, exercise_references ref WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id};'.format(user_id=user_id, list_id=list_id))
     fetched = processData(cursor)
@@ -890,7 +887,6 @@ def insertDefaultBadges(user_id):
 # BADGES
 def generateBadges():
     #Member of group
-    print("START")
 
     cursor = connection.cursor()
     cursor.execute('SELECT id FROM user')
@@ -931,17 +927,10 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'createdList')
     cursor.close()
 
-    print("TEAM")
     #Write everyhting to a file
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
     fetched = processData(cursor)
-
-    print("DO IT NOW!")
-    print(len(fetched))
-    for hasbadge in fetched:
-        print(',(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
-    print("LITTLE BITCHS")
 
 def changeBadge(user_id, badge_name):
     cursor = connection.cursor()
@@ -951,7 +940,6 @@ def changeBadge(user_id, badge_name):
     cursor.close()
 
 def incrementBadgeValue(user_id, badge_type):
-    print("DIT KAN NIET!")
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
     fetched = processData(cursor)

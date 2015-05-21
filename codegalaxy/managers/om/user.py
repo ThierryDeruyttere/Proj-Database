@@ -619,7 +619,6 @@ class User:
         return result
 
     def searchGroupResult(self, cur_user, group_id):
-        print("LET'S GO BITCHES")
         result = '''
         <div class="large-12 columns">
           <div class="panel radius">

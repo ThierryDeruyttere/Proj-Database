@@ -414,10 +414,8 @@ def list(request, id=0):
                 found = request.POST.get('mylist_' + str(l.id))
                 if found:
                     for ref in references:
-                        print(ref.id)
                         l.insertExerciseByReference(ref.id)
                     for copy in copies:
-                        print(copy.id)
                         l.copyExercise(copy.id)
 
     if exercise_list:

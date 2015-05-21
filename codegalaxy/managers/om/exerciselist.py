@@ -254,7 +254,6 @@ class ExerciseList:
             # list of discts with exercise_number and reference
             all_references = object_manager.getAllReferencesTo(exercise.id)
             for reference in all_references:
-                #TODO klopt dit wel? Normaal gezien maakt de taal van de lijst hier helemaal niks uit
                 exercise_list = object_manager.createExerciseList(reference['list_id'], 1)
                 exercise_list.unreferenceExercise(reference['exercise_number'])
             # Now we'll delete the old exercise

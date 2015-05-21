@@ -50,7 +50,6 @@ def addmembers(request):
 
     response = ''
     for result in results:
-        print("We gaan is beginnen voor elk resultaat")
         response += result.searchGroupResult(current_user, group.id)
 
     if response == '':
@@ -59,16 +58,10 @@ def addmembers(request):
     return HttpResponse(response)
 
 def invitemember(request):
-    print("TITS OR GTFO")
     object_manager = objectmanager.ObjectManager()
 
     group_id = request.POST.get('group_id', '')
     friend_id = request.POST.get('user_id', '')
-    print(group_id)
-    print(friend_id)
     group = object_manager.createGroup(group_id)
-    print(group.name())
-    print(group.id)
     group.insertMember(friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")),"Pending")
     return HttpResponse()
-
