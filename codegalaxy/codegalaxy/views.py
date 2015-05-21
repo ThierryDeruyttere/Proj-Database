@@ -659,19 +659,3 @@ def tables(request):
             data = dbw.getAll(table)
             return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
     return render(request, 'tables.html', {})
-
-
-def recommendations(request):
-    # TODO delete this in master
-    user_test = object_manager.createUser(id=1)
-    lists = user_test.allPersonalLists()
-    b = recommendListsForUser(1)
-    recommended = recommendNextExerciseLists(lists[0], 2)
-    return render(request, 'recommendations.html', {'test': str(b), 'test2': str(recommended)})
-
-def wall(request):
-    group = object_manager.createGroup(1)
-    post = group.allPosts()[0]
-    post.post_text = "lolol"
-    post.save()
-    return render(request, 'wall.html', {'all_posts_strings' : all_posts_strings})
