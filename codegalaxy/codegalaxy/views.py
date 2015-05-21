@@ -227,11 +227,11 @@ def user(request, id=0):
 
         pending_friendships = []
         if current_user.id == user.id:
-            pending_friendships = user.allPendingFriendships2()
+            pending_friendships = user.allPendingFriendships()
 
         pending_group_memberships = []
         if current_user.id == user.id:
-            pending_group_memberships = user.allPendingGroupMemberships2()
+            pending_group_memberships = user.allPendingGroupMemberships()
 
         friendships = accepted_friendships
         friends = []

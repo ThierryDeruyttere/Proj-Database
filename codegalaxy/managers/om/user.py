@@ -63,7 +63,7 @@ class User:
 
     def getPicture(self):
         profile_picture = "profile_pictures/{}.png".format(self.id)
-
+        # Zoekt naar custom profielfoto anders de default
         path = "./codegalaxy/static/" + profile_picture
         if os.path.isfile(path):
             profile_picture = profile_picture
@@ -78,7 +78,7 @@ class User:
 
     def getAllRewards(self):
         object_manager = managers.om.objectmanager.ObjectManager()
-
+        # Alle badges onderverdeelt in gold, silver en bronze
         rewards = dbw.getAllRewards(self.id)
         reward_objects = {}
         gold = []
@@ -136,19 +136,6 @@ class User:
             friends_list.append(
                 object_manager.createUser(id=friend['id']))
         return friends_list
-
-    def allFriendships(self):
-        friendship_info = dbw.getFriendshipsForID(self.id)
-        accepted_friendship = []
-        for friendship in friendship_info:
-            if friendship['status'] == 'Friends':
-                friendship.update({'type': 'friendship'})
-                friendship.update({'datetime': friendship['befriended_on']})
-                friendship.update({'user_first_name': self.first_name})
-                friendship.update({'user_last_name': self.last_name})
-                friendship.update({'user_id': self.id})
-                accepted_friendship.append(friendship)
-        return accepted_friendship
 
     def allFriendsWith(self):
         object_manager = managers.om.objectmanager.ObjectManager()
@@ -210,7 +197,7 @@ class User:
             dbw.deleteFriendship(self.id, friend.id)
 
     def isFriendshipPending(self, friend):
-        pending_friendships = friend.allPendingFriendships2()
+        pending_friendships = friend.allPendingFriendships()
         pending_friendships2 = friend.allPeopleThatWantToAddMe()
         for pending_friendship in pending_friendships:
             if pending_friendship.user.id == friend.id:
@@ -240,10 +227,6 @@ class User:
 
     def allPendingFriendships(self):
         pending_friendships = dbw.getPendingFriendships(self.id)
-        return pending_friendships
-
-    def allPendingFriendships2(self):
-        pending_friendships = dbw.getPendingFriendships(self.id)
 
         object_manager = managers.om.objectmanager.ObjectManager()
 
@@ -257,11 +240,8 @@ class User:
             pending_friendship_objects.append(friendship)
         return pending_friendship_objects
 
-    def allPendingGroupMemberships(self):
-        pending_group_membership = dbw.getPendingGroupMemberships(self.id)
-        return pending_group_membership
 
-    def allPendingGroupMemberships2(self):
+    def allPendingGroupMemberships(self):
         pending_group_memberships = dbw.getPendingGroupMemberships(self.id)
 
         object_manager = managers.om.objectmanager.ObjectManager()

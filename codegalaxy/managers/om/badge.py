@@ -26,6 +26,7 @@ class Badge:
             badge_picture = "media/icons/bronze_badge.png"
 
         return badge_picture
+        
     def allUsersThatEarnedBadge(self):
         object_manager = managers.om.objectmanager.ObjectManager()
 
