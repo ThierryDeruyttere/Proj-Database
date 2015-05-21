@@ -39,6 +39,10 @@ class ChallengeManager:
     def acceptChallenge(self, challenger_id, challenged_id, list_id):
         dbw.acceptChallenge(challenger_id, challenged_id, list_id)
 
+    def updateActiveChallengesForUser(self, user_id):
+        self.getActiveChallengesForUser(user_id, 1)
+
+
     def getActiveChallengesForUser(self,user_id, language_id):
         active = dbw.getChallengeForStatus(user_id, "Accepted")
         challenges = []

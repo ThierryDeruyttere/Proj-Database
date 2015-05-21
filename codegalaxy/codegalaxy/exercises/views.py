@@ -19,7 +19,7 @@ from codegalaxy.evaluation.evaluators import *
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
-
+challenge_manager = challengemanager.ChallengeManager()
 def removeLanguage(languages, code):
     for i in languages:
         if i.code == code:
@@ -692,6 +692,7 @@ def submit(request, list_id, exercise_number):
             if not ex_info['solved']:
                 user_made_all = False
         if user_made_all:
+            #Overbodig?
             if len(users_exercises) == len(all_exercise):
                 list_score = 0
                 max_list_score = 0
@@ -702,6 +703,8 @@ def submit(request, list_id, exercise_number):
                 list_score = list_score / max_list_score
                 user.madeList(exercise_list.id, list_score, 0)
                 next_exercise = ""
+                challenge_manager.updateActiveChallengesForUser(user.id)
+
 
         return render(request, 'submit.html', {"solved": solved,
                                                "list_id": list_id,
