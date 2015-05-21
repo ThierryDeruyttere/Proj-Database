@@ -6,6 +6,7 @@ import dbw
 import datetime
 import time
 
+from django.middleware import *
 import os.path
 
 class User:
@@ -623,7 +624,6 @@ class User:
 
     def searchGroupResult(self, cur_user, group_id):
         print("LET'S GO BITCHES")
-
         result = '''
         <div class="large-12 columns">
           <div class="panel radius">
@@ -640,12 +640,17 @@ class User:
                   </a>
                 </div>
               </div>
+              <div class="large-3 columns">
+                <div id="u_{id}">
+                  <a id="inviteuser" data-user_id="{id}" data-group_id="{group_id}" data-value><span class="mega-octicon octicon-plus"></span></a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
         '''.format(id=self.id, picture=self.getPicture(), name=self.name(), group_id=group_id)
 
-        print(result)
+        print("WTFF!!")
         return result
 
     def ownedLists(self):
@@ -685,6 +690,9 @@ class User:
 
     def changeBadge(self, badge_name):
         dbw.changeBadge(self.id, badge_name)
+
+    def checkTimeRelatedBadges(self):
+        dbw.checkTimeRelatedBadges(self.id)
 
 
 class PersonalList:

@@ -199,6 +199,7 @@
               </div>
             </div>
             <div id="search_result" class="row"></div>
+
             {% for user in currentuser_friend_list %}
             <div class="small-12 columns">
               <div class="small-2 large-2 columns">
@@ -545,6 +546,17 @@
       // error: function(jqXHR, textStatus, error) {
       //   setError(jqXHR.responseText);
       // }
+    });
+  });
+  $(document).on('click', '#search_result div[id^=u_] #inviteuser', function(){
+    groupid = $(this).attr('data-group_id');
+    userid = $(this).attr('data-user_id')
+    var post_data = {user_id:userid, group_id:groupid}
+    $.ajax({
+      type: "POST",
+      url: "/g/invitemember/",
+      data: post_data,
+      dataType: "text",
     });
   });
 </script>

@@ -56,7 +56,10 @@ def logged_user(request):
     user = None
     try:
         user = object_manager.createUser(id=request.session['current_user'])
+
     except:
         return None
 
+    if user:
+        user.checkTimeRelatedBadges()
     return user

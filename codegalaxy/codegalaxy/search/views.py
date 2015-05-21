@@ -8,6 +8,9 @@ from codegalaxy.search import *
 from codegalaxy.authentication import require_login, logged_user
 from managers.om import *
 
+import time
+from datetime import datetime
+
 def social(request):
     s_term = request.POST.get('term', '')
 
@@ -31,6 +34,7 @@ def social(request):
 def badge(request):
     user = logged_user(request)
     new_badge = request.POST.get('badge_name', '')
+    user.changeBadge(new_badge)
     return HttpResponse(new_badge)
 
 def addmembers(request):
@@ -54,7 +58,17 @@ def addmembers(request):
 
     return HttpResponse(response)
 
+def invitemember(request):
+    print("TITS OR GTFO")
+    object_manager = objectmanager.ObjectManager()
 
-
-
+    group_id = request.POST.get('group_id', '')
+    friend_id = request.POST.get('user_id', '')
+    print(group_id)
+    print(friend_id)
+    group = object_manager.createGroup(group_id)
+    print(group.name())
+    print(group.id)
+    group.insertMember(friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")),"Pending")
+    return HttpResponse()
 

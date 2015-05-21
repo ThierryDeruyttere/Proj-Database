@@ -140,8 +140,7 @@ class ObjectManager:
 
     def registered(self, email):
         user = self.createUser(email=email)
-
-        user.addDefaultBadges()
+        dbw.incrementBadgeValue(user.id, 'timeMember')
 
     def insertExerciseList(self, name, description, difficulty, created_by, created_on, prog_lang_name, lang_id, translations):
         prog_lang_id = dbw.getIdFromProgrammingLanguage(prog_lang_name)["id"]

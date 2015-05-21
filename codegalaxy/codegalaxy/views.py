@@ -366,6 +366,7 @@ def group(request, id=0):
 
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
+            print("WE GAAN DEZE PERSOON TOEVOEGEN:" + str(friend_id))
             group.insertMember(
                 friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
 

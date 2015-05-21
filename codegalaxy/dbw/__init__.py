@@ -1,4 +1,6 @@
 from django.db import connection
+import time
+from datetime import datetime
 
 cursor = connection.cursor()
 
@@ -791,7 +793,6 @@ def insertUserInGroup(group_id, user_id, user_permissions, joined_on, status):
     if not userIsInGroup(user_id, group_id):
         cursor.execute('INSERT INTO userInGroup(group_id,user_id,user_permissions,joined_on, status) VALUES ({g_id}, {u_id}, {u_perm},"{joined_on}", "{status}");'.format(g_id=group_id, u_id=user_id, u_perm=user_permissions, joined_on=joined_on, status=status))
 
-
 def insertProgrammingLanguage(name):
     cursor = connection.cursor()
     cursor.execute('INSERT INTO programmingLanguage(name) VALUES ("{name}");'.format(name=name))
@@ -890,6 +891,14 @@ def insertDefaultBadges(user_id):
 def generateBadges():
     #Member of group
     print("START")
+
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM user')
+    fetched = processData(cursor)
+    for member in fetched:
+        checkTimeRelatedBadges(member['id'])
+    cursor.close()
+
     cursor = connection.cursor()
     cursor.execute('SELECT user_id FROM userInGroup')
     fetched = processData(cursor)
@@ -942,6 +951,7 @@ def changeBadge(user_id, badge_name):
     cursor.close()
 
 def incrementBadgeValue(user_id, badge_type):
+    print("DIT KAN NIET!")
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge g, badge b WHERE g.badge_id = b.id AND b.type = "{badge_type}" AND g.user_id = {user_id}'.format(badge_type=badge_type, user_id=user_id))
     fetched = processData(cursor)
@@ -1009,6 +1019,39 @@ def allBadgeEarnedUsers(badge_id):
     cursor.close()
     return fetched
     
+def checkTimeRelatedBadges(user_id):
+    #Update Timemember
+    badge_type = "timeMember"
+    cursor = connection.cursor()
+    cursor.execute('SELECT joined_on FROM user WHERE id ={user_id}'.format(user_id=user_id))
+    fetched = processOne(cursor)
+    cursor.close()
+
+    today = time.strftime("%Y-%m-%d %H:%M:%S")
+    today2 = datetime.strptime(today, "%Y-%m-%d %H:%M:%S")
+    joined_on2 = fetched['joined_on']
+    naive = joined_on2.replace(tzinfo=None)
+
+    difference = (today2-naive).days
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM badge b WHERE b.type = "{badge_type}"'.format(badge_type=badge_type))
+    data = processData(cursor)
+    cursor.close()
+    for badge in data:
+        cursor = connection.cursor()
+        cursor.execute('UPDATE hasBadge SET current_value = {dayDifference} WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(dayDifference=difference, user_id=user_id,badge_id=badge['id']))
+        cursor.close()
+        cursor = connection.cursor()
+        cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
+        data2 = processData(cursor)
+        cursor.close()
+        for element2 in data2:
+            if element2['finished'] == 0:
+                if element2['current_value'] >= element2['target_value']:
+                    cursor = connection.cursor()
+                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
+                    cursor.close()
+
 # UPDATE
 
 def setUserActive(email):
