@@ -388,8 +388,8 @@
     html_text_box += '</div></div>';
     html_text_box += '<div class="row">';
     html_text_box += '<div class="large-12 columns end">';
-    html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' class="button tiny radius reply_button" value="{% trans "Reply" %}">';
-    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
+    html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' class="button tiny radius reply_button" value="{% trans "Reply" %}" readonly>';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}" readonly>';
     html_text_box += '</div></div></div>';
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;
@@ -412,8 +412,8 @@
     html_text_box += '</div></div>';
     html_text_box += '<div class="row">';
     html_text_box += '<div class="large-12 columns end">';
-    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' class="button tiny radius edit_button" value="{% trans "Edit" %}">';
-    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}">';
+    html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' class="button tiny radius edit_button" value="{% trans "Edit" %}" readonly>';
+    html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}" readonly>';
     html_text_box += '</div></div></div>';
     $(this).parent().parent().parent().append(html_text_box);
     replying = true;

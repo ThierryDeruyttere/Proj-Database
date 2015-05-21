@@ -942,10 +942,10 @@ def generateBadges():
     for hasbadge in fetched:
         print(',(' + str(hasbadge['badge_id']) + ',' + str(hasbadge['user_id']) + ',' + str(hasbadge['current_value'])+ ',' + str(hasbadge['finished'])+ ')', end="")
     print("LITTLE BITCHS")
-    
+
 def changeBadge(user_id, badge_name):
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM badge WHERE name ="{badge_name}"'.format(badge_name=badge_name)) 
+    cursor.execute('SELECT * FROM badge WHERE name ="{badge_name}"'.format(badge_name=badge_name))
     fetched = processOne(cursor)
     cursor.execute('UPDATE user SET badge_id = {badge_id} WHERE id = {user_id}'.format(badge_id=fetched['id'], user_id=user_id))
     cursor.close()
@@ -1018,7 +1018,7 @@ def allBadgeEarnedUsers(badge_id):
     fetched = processData(cursor)
     cursor.close()
     return fetched
-    
+
 def checkTimeRelatedBadges(user_id):
     #Update Timemember
     badge_type = "timeMember"
@@ -1452,13 +1452,6 @@ def filterLists(name):
     return fetched
 
 # Post table
-
-def createPostTable():
-    # adding this with a query, soz, wasnt sure if i
-    # could add this directly to the DB with all those complicated
-    # extra thingies in there
-    cursor = connection.cursor()
-    cursor.execute('CREATE TABLE `post` (`id` int(11) NOT NULL AUTO_INCREMENT,`group_id` int(11) NOT NULL DEFAULT "0",`user_id` int(11) NOT NULL DEFAULT "0",`reply` int(11) NOT NULL DEFAULT "0",`reply_number` int(11) NOT NULL DEFAULT "0",`post_text` blob NOT NULL,`posted_on` datetime DEFAULT NULL,PRIMARY KEY(`id`),FOREIGN KEY(group_id) REFERENCES groups(id),FOREIGN KEY(user_id) REFERENCES user(id)) ;')
 
 def insertPost(group_id, user_id, reply, reply_number, post_text, posted_on):
     cursor = connection.cursor()

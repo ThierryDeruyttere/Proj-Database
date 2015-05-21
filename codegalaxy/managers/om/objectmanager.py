@@ -88,18 +88,7 @@ class ObjectManager:
         badges['bronze'] = bronze
         return badges
 
-    def createUserInGroup(self, group_id, user_id):
-        user_in_group_info = dbw.getUserInGroupInformation(group_id, user_id)
-        if user_in_group_info:
-            group = createGroup(group_id)
-            user = createUser(id=user_id)
-            user_in_group = managers.om.feed.UserInGroup(group, user, user_in_group_info['user_permissions'], user_in_group_info['joined_on'], user_in_group_info['status'])
-            return user_in_group
-        else:
-            return None
-
     def createGroupOnName(self, group_name):
-        # enthousiast
         group_info = dbw.getGroupInformationOnName(group_name)
         if group_info:
             group_object = managers.om.group.Group(group_info['id'], group_name, group_info['group_type'], group_info['created_on'])
@@ -133,8 +122,7 @@ class ObjectManager:
         else:
             return None
 
-    # INSERT functions will insert info into the DB by calling dbw functions
-
+# INSERT functions will insert info into the DB by calling dbw functions
     def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
         dbw.insertUser(first_name, last_name, password, email, 0, joined_on, last_login, gender)
 
@@ -155,7 +143,6 @@ class ObjectManager:
 
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
-        # do you just need the name? id?
 
     def allProgrammingLanguageIDs(self):
         return [x['id'] for x in dbw.getAll("programmingLanguage")]
@@ -172,7 +159,6 @@ class ObjectManager:
         return [subject['id'] for subject in subjects]
 
     def allGroups(self):
-
         groups = []
         group_info = dbw.getAllGroupIDs()
         for group_id in group_info:
@@ -239,10 +225,6 @@ class ObjectManager:
 
         return lists_objects
 
-    def getAllExerciseLists(self):
-        # TODO: rekening houden met translations hier
-        pass
-
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
@@ -283,6 +265,3 @@ class ObjectManager:
 
     def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
         return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']
-
-    def createPostTable(self):
-        dbw.createPostTable()
