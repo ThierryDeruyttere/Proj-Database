@@ -40,18 +40,15 @@ class User:
 
     def getUserLists(self, lang_id):
         lists = dbw.getListsForUserId(self.id)
-
         object_manager = managers.om.objectmanager.ObjectManager()
         # create Lists
         ex_lists = []
         for i in lists:
             ex_lists.append(object_manager.createExerciseList(i['id'], lang_id))
-
         return ex_lists
 
     def getAllExercisesCreated(self, lang_id):
         object_manager = managers.om.objectmanager.ObjectManager()
-
         user = object_manager.createUser(id=self.id)
         lists = dbw.getListsForUserId(self.id)
 
@@ -342,7 +339,6 @@ class User:
         for exercises_list in exercises_lists_info:
             # If the info is legit, we add a User object with the info to the
             # list
-            # TODO ENABLE OTHER LANGUAGES
             exercises_list_object = PersonalList(exercises_list['rating'], exercises_list[
                                                  'score'], exercises_list['exerciseList_id'], self.id, exercises_list['made_on'], lang_id)
             exercises_lists_list.append(exercises_list_object)
@@ -649,8 +645,6 @@ class User:
           </div>
         </div>
         '''.format(id=self.id, picture=self.getPicture(), name=self.name(), group_id=group_id)
-
-        print("WTFF!!")
         return result
 
     def ownedLists(self):
@@ -658,7 +652,6 @@ class User:
         object_manager = managers.om.objectmanager.ObjectManager()
         list_ids = dbw.getExerciseListIdsMadeByUser(self.id)
         for list_id in list_ids:
-            # TODO klopt dit?
             list_objects.append(object_manager.createExerciseList(list_id['id'], 1))
         return list_objects
 
@@ -710,7 +703,6 @@ class PersonalList:
             exercise_list_id, language_id)
         self.made_on = made_on
         # Integer representing the number of the last-made excersise (needed?) ('calculate' with the real list-obj)
-        # self.last_made = None
 
     # Object which represents the actual list of personal exercises (SQL
     # function)
