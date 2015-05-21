@@ -59,6 +59,9 @@
                 </div>
               </div>
             </div>
+          {% empty %}
+            You have no friend requests
+            <br>
           {% endfor %}
           <br>
           <h5><b>Group requests</b></h5>
@@ -73,11 +76,14 @@
                   <b><a href="/u/{{ g_req.group.id }}">{{ g_req.group.group_name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius request_button">Accept</button>
-                  <button class="tiny button alert radius request_button">Decline</button>
+                  <button class="tiny button success radius request_button" name="{{g_req.group.id}}-group-accept">Accept</button>
+                  <button class="tiny button alert radius request_button" name="{{g_req.group.id}}-group-decline">Decline</button>
                 </div>
               </div>
             </div>
+          {% empty %}
+            You have no group invites
+            <br>
           {% endfor %}
         </div>
         <div class="panel radius">
@@ -95,7 +101,6 @@
 
   function handleRequest(object) {
       var info = $(object).attr("name");
-      alert("check")
       $.ajax({
         type: "POST",
         url: "/get_notifications/handle_request/",
@@ -103,12 +108,7 @@
         dataType:"text",
 
         success: function(response) {
-          // Ge kunt dit gebruiken om heel de request te deleten
-          // $(object).closest(".request").remove();
-
-          // Dit delete enkel de buttons, als ze de juiste id hadden, nu is dat hun 'name' ;)
-          $("#" + response + "-accept").remove();
-          $("#" + response + "-decline").remove();
+          $(object).closest(".request").remove();
         }
       });
   }
