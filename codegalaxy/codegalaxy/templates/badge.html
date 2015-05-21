@@ -19,17 +19,24 @@
 			</div>
 		</div>
 		<div class="row">
-			{% for person in users_that_earned_badge %}
-			<div class="large-2 columns end">
-              <a href="/u/{{ person.id }}">
-                <div class="panel radius">
-                  <img src="{% static person.getPicture %}" class="round-image"/>
-                  <h5 class="text-cut-off">{{ person.first_name }}</h5>
-                  <h6 class="text-cut-off">{{ person.last_name }}</h6>
-                </div>
-              </a>
-            </div>
-			{% endfor %}
+			<div class="text-center">
+			{% if users_that_earned_badge %}
+				<h3>{% trans "Users that earned this badge:" %}</h3>
+				{% for person in users_that_earned_badge %}
+				<div class="large-2 columns end">
+	              <a href="/u/{{ person.id }}">
+	                <div class="panel radius">
+	                  <img src="{% static person.getPicture %}" class="round-image"/>
+	                  <h5 class="text-cut-off">{{ person.first_name }}</h5>
+	                  <h6 class="text-cut-off">{{ person.last_name }}</h6>
+	                </div>
+	              </a>
+	            </div>
+				{% endfor %}
+			{% else %}
+				<h3>{% trans "No one has earned this badge yet, start grinding!" %}</h3> 
+			{% endif %}
+			</div>
 		</div>
 	</div>
 </div>

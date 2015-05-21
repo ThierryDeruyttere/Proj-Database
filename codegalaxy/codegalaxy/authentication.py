@@ -60,6 +60,4 @@ def logged_user(request):
     except:
         return None
 
-    if user:
-        user.checkTimeRelatedBadges()
     return user
