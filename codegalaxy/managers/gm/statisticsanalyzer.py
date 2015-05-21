@@ -93,7 +93,7 @@ class StatisticsAnalyzer:
         result['data'].append([])
         all_prog_languages = object_manager.allProgrammingLanguages()
         for i in range(len(all_prog_languages)):
-            if user.averageScoreForProgrammingLanguage(all_prog_languages[i]['id']):
+            if user.averageScoreForProgrammingLanguage(all_prog_languages[i]['id']) is not None:
                 result['data'][0].append(user.averageScoreForProgrammingLanguage(all_prog_languages[i]['id']))
                 result['labels'].append(all_prog_languages[i]['name'])
         return result
