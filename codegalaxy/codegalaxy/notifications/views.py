@@ -49,4 +49,4 @@ def handle_request(request):
         else:
             user.deleteGroupMembership(req_id)
 
-    return req_id + "-" + category
+    return HttpResponse(req_id + "-" + category)
