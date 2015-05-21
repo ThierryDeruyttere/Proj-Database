@@ -138,7 +138,7 @@ class ExerciseList:
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
         # Code (default "")
-        if code != "":
+        if exercise_type == "Code":
             dbw.insertCode(code, exercise_id)
         # question = QuestionContainer object
         dbw.insertQuestion(exercise_id, question.language.id, question.question_text)

@@ -523,14 +523,16 @@
       return true;
     }
 
-    $(".form_button").click(function(){
-      addDictionary();
+    function canSubmit(){
       var submit = true;
+      //check if our form is filled correctly
       if($('#exercise_type_code').is(":checked")) {
         if (output_code.getValue() == "") {
           submit = false;
           alert("You need to expect something!");
         }
+
+
         if(submit){
           submit = checkTranslationDict(false);
         }
@@ -551,7 +553,12 @@
 
         }
       }
-      if(submit){
+      return submit;
+    }
+
+    $(".form_button").click(function(){
+      addDictionary();
+      if(canSubmit()){
         $("#exercise_form").submit();
       }
     });
