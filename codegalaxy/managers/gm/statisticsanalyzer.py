@@ -4,8 +4,8 @@ object_manager = objectmanager.ObjectManager()
 
 class StatisticsAnalyzer:
 
-    '''Class that will use the om to query+analyze data (and put it into proper formats
-    for the graphmanager to use)'''
+    '''Class that will use the om to query+analyze data (and put it into
+    proper formats for the graphmanager to use)'''
 
     def __init__(self):
         pass
@@ -84,25 +84,6 @@ class StatisticsAnalyzer:
 
 # Used with Bar Charts
 
-    # Return the spread of scores on a certain exerciselist
-    def listScoreSpread(self, exercise_list_id):
-        result = {}
-        # Names of "score"-groups (0%-10%, 10%-20%,...)
-        result['labels'] = []
-        result['data'] = []
-        result['data'].append([])
-        scores = object_manager.getAllScoresForList(exercise_list_id)
-        # adding the correct strings
-        for i in range(10):
-            result['labels'].append(str(i * 10) + '%-' + str((i + 1) * 10) + '%')
-            result['data'][0].append([0])
-        for score in scores:
-            for i in range(10):
-                if (score >= i * 10) and (score < (i + 1) * 10):
-                    result['data'][0][i][0] += 1
-                    break
-        return result
-
     def averageScorePerProgrammingLanguageForUser(self, user):
         result = {}
         # programming language_ids
@@ -150,37 +131,6 @@ class StatisticsAnalyzer:
             result['labels'].append(users[i].first_name + ' ' + users[i].last_name)
         return result
 
-    def compareUserExercisesPerProgrammingLanguageWithFriend(self, user_id, friend_id):
-        result = {}
-        # Names of languages
-        result['labels'] = []
-        # Amount of exercises
-        result['data'] = []
-        # User 0
-        result['data'].append([])
-        # Friend 1
-        result['data'].append([])
-        all_prog_languages = object_manager.allProgrammingLanguages()
-        user = object_manager.createUser(id=user_id)
-        friend = object_manager.createUser(id=friend_id)
-        user_ex = user.allPersonalExercises()
-        friend_ex = friend.allPersonalExercises()
-        # allPersonalExercises
-        for prog_lang in all_prog_languages:
-            result['labels'].append(prog_lang['name'])
-            user_count = 0
-            for ex in user_ex:
-                if ex['name'] == prog_lang['name']:
-                    user_count += 1
-            result['data'][0].append([user_count])
-            friend_count = 0
-            for ex in friend_ex:
-                if ex['name'] == prog_lang['name']:
-                    friend_count += 1
-            result['data'][1].append([friend_count])
-        return result
-
-    # WIP
     def mostPopularSubjectsTopX(self, X):
         result = {}
         # Names of Users
@@ -197,5 +147,3 @@ class StatisticsAnalyzer:
             result['data'][0].append(subjects_list[i][1])
             result['labels'].append(subjects_list[i][0])
         return result
-
-# Used with Line Graphs
