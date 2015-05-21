@@ -44,7 +44,7 @@
       <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
       {% endif %}
       {% endif %}
-    </ul> 
+    </ul>
 
     <hr/>
 
@@ -171,7 +171,7 @@
           <div id="post_field">
             <textarea id="post_text" name="post_text"></textarea>
           </div>
-          <input id="post_button" class="button tiny radius" value="{% trans "Post" %}">
+          <input id="post_button" class="button tiny radius" value="{% trans "Post" %}" readonly>
         <hr>
 
         <div class="row">
@@ -516,7 +516,7 @@
     groupid = $("#group_id").val();
 
     var post_data = {term:term_text, group_id:groupid}
-    
+
     $.ajax({
       type: "POST",
       url: "/g/addmembers/",

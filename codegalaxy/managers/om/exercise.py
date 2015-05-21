@@ -201,7 +201,6 @@ class Exercise:
         dbw.insertTitleForExercise(self.id, key.id, value['title'])
         i = 0
         if self.exercise_type == "Code":
-            # mhh ni echt zo clean dit...
             while str(i) in value:
                 dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
                 i += 1
@@ -225,9 +224,7 @@ class Exercise:
                 dbw.updateExerciseTitle(self.id, key.id, value['title'])
                 if managers.om.objectmanager.ObjectManager().getLanguageObject(self.language_code).name != key.name:
                     if self.exercise_type == "Code":
-                        # mhh ni echt zo clean dit...
                         for i in range(number_of_):
-                            # because they all have been deleted...
                             dbw.insertHint(self.id, key.id, (i + 1), value[str(i)])
 
                     else:
@@ -248,7 +245,7 @@ class Exercise:
         '''
         # we gotta check if this is a reference
         if dbw.isReference(self.exerciseList_id, self.exercise_number):
-            # Now we unreference the exercise
+            # Now we unreference the exercise (make a copy)
             import managers.om.objectmanager
             object_manager = managers.om.objectmanager.ObjectManager()
             our_list = object_manager.createExerciseList(self.exerciseList_id, lang_id)

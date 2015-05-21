@@ -65,8 +65,6 @@ class ExerciseList:
     # List of exercises
     def allExercises(self, language_code):
         # we'll need to check if any numbers are missing, so we get the amount of em
-        # TODO: wtf doe defaultlang?
-        # amount_of_exercises = self.amountOfExercises()
         # Getting all original exercise_ids
         exercises_infos = dbw.getExercisesForList(self.id)
         # Getting all references
@@ -174,7 +172,6 @@ class ExerciseList:
 
     def unreferenceExercise(self, exercise_number):
         # to 'unreference' something, we have to add it to the DB
-        # NOTE: all the answers and questions and stuff will also have to be added!
         object_manager = managers.om.objectmanager.ObjectManager()
         # first, we'll have to look up what the original exercise was
         original_ex_id = int(dbw.getOriginalExercise(self.id, exercise_number)['id'])
@@ -205,7 +202,6 @@ class ExerciseList:
             else:
                 # Get the exercise on our current spot!
                 distance = pos_change[i]
-                #print(i, distance)
                 ex_on_new_place = exercises[ex.exercise_number + distance - 1]
                 if ex.id == ex_on_new_place.id:
                     # Ow problem! The exercise on our new spot has the same id...
@@ -216,7 +212,6 @@ class ExerciseList:
                 else:
                     transaction += ex.saveExerciseNumber(i + 1)
 
-        # print(transaction + after_transaction)
         return transaction + after_transaction
 
     # scrambled_exercises is a list of Exercise objects

@@ -218,7 +218,8 @@ class Group:
 
 class Post:
 
-    def __init__(self, id, group_id, user_id, reply, reply_number, post_text, posted_on):
+    def __init__(self, id, group_id, user_id, reply, reply_number
+    , post_text, posted_on):
         '''
             reply is which it refers to,if it's the first one
             it refers to itself
@@ -266,34 +267,49 @@ class Post:
         return html
 
     def HTMLBasic(self, user, logged_user):
-        # TODO: octicons adden voor buttons
-        html = ''
-        html += markdown_converter.convert(self.post_text)
-        html += '<p class="feed-timestamp"><small><span class="octicon octicon-clock"></span>' + str(self.posted_on)[:-6] + ' by ' + user.name() + '</small></p>'
-        #want_to_reply_button
-        html += '<div class="row">'
-        html += '<div class="large-1 columns ">'
-        html += '<small><a href="#" class="want_to_reply_button" ' + self.addPostDataVariables() + ' >Reply</a></small>'
-        html += '</div>'
+        html = '''
+        {text}
+        <p class="feed-timestamp">
+            <small>
+                <span class="octicon octicon-clock"></span>
+                {posted_on} by {user_name}
+            </small>
+        </p>
+        <div class="row">
+            <div class="large-1 columns ">
+                <small>
+                    <a href="#" class="want_to_reply_button" {post_data_variables} >Reply</a>
+                </small>
+            </div>
+        '''.format(text=markdown_converter.convert(self.post_text),
+        posted_on=str(self.posted_on)[:-6],user_name=user.name(),
+        post_data_variables=self.addPostDataVariables())
         if user.id == logged_user.id:
-            html += '<div class="large-1 columns">'
-            html += '<small><a href="#" class="want_to_edit_button" ' + self.addPostDataVariables() + ' >Edit</a></small>'
-            html += '</div>'
-            html += '<div class="large-1 columns end">'
-            html += '<small><a href="#" class="delete_button" ' + self.addPostDataVariables() + ' >Delete</a></small>'
-            html += '</div>'
+            html += '''
+            <div class="large-1 columns">
+                <small>
+                    <a href="#" class="want_to_edit_button" {post_data_variables} >Edit</a>
+                </small>
+            </div>
+            <div class="large-1 columns end">
+                <small>
+                    <a href="#" class="delete_button" {post_data_variables} >Delete</a>
+                </small>
+            </div>'''.format(post_data_variables=self.addPostDataVariables())
         html += '</div>'
         return html
 
     def HTMLString(self, logged_user):
         object_manager = managers.om.objectmanager.ObjectManager()
-        html = ''
         user = object_manager.createUser(id=self.user_id)
-        html += '<div class="row">'
-        html += '<div class="wall-item"' + ' data-post_id=' + str(self.id) + '>'
-        html += '<div class="post "' + ' data-post_id=' + str(self.id) + '>'
-        html += self.HTMLBasic(user, logged_user)
-        html += '<div class="replies">'
+
+        html = '''
+            <div class="row">
+                <div class="wall-item" data-post_id= {id}>
+                    <div class="post " data-post_id= {id}>
+                        {html_basic}
+                        <div class="replies">
+        '''.format(id=str(self.id),html_basic=self.HTMLBasic(user, logged_user))
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(user, logged_user)
@@ -301,10 +317,12 @@ class Post:
         return html
 
     def HTMLStringReply(self, user, logged_user):
-        html = ''
-        html += '<div class="post"' + ' data-post_id=' + str(self.id) + '>'
-        html += self.HTMLBasic(user, logged_user)
-        html += '<div class="replies">'
+        html = '''
+            <div class="post " data-post_id= {id}>
+                {html_basic}
+                <div class="replies">
+        '''.format(id=str(self.id),html_basic=self.HTMLBasic(user, logged_user))
+
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(user, logged_user)
