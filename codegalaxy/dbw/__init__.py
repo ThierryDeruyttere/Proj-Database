@@ -447,6 +447,18 @@ def getUsersInGroup(group_id):
     cursor.close()
     return fetched
 
+def getUsersNotMember(group_id):
+    '''
+    @brief gets the users in a group
+    @param group_id the id of the group
+    @return returns a dict with lists
+    '''
+    cursor = connection.cursor()
+    cursor.execute('SELECT id FROM user u WHERE id NOT IN (SELECT user_id from userInGroup g WHERE g.group_id = {id} AND g.status="Member");'.format(id=group_id))
+    fetched = processData(cursor)
+    cursor.close()
+    return fetched
+
 def getGroupsMemberOf(user_id):
     '''
     @brief gets the groups a user is member of

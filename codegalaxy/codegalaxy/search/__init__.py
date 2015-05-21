@@ -35,18 +35,10 @@ def search(s_term='', s_users=False, s_groups=False, s_lists=False):
         return sorted(all_search_obj, key=lambda e: e.name())
 
 def searchUser(s_term='', group=object_manager.createGroup(1)):
-    all_search_obj = []
-
-    all_users = object_manager.allUsers()
-    all_members = group.allMembers()
-
-    all_search_obj = []
-    for user in all_users:
-        if user not in all_members:
-            all_search_obj.append(user)
-
+    all_not_members = group.allUsersNotMember()
+    
     # Make a dict of the object with its seachString
-    all_search = {obj: obj.searchString() for obj in all_search_obj}
+    all_search = {obj: obj.searchString() for obj in all_not_members}
 
     if s_term:
         # Fuzzy search

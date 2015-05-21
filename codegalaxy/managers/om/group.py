@@ -53,6 +53,17 @@ class Group:
             user_list.append(object_manager.createUser(id=members_info['user_id']))
         return user_list
 
+    def allUsersNotMember(self):
+        '''
+        @return get all users that are not a member of this group, if there are none return empty list
+        '''
+        members_infos = dbw.getUsersNotMember(self.id)
+        object_manager = managers.om.objectmanager.ObjectManager()
+        user_list = []
+        for members_info in members_infos:
+            user_list.append(object_manager.createUser(id=members_info['id']))
+        return user_list
+
     def save(self):
         '''
         @brief save a group object
