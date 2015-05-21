@@ -317,9 +317,11 @@ def login(request):
 
         user = authenticate(email, password)
 
+
         # Successful login attempt
         if user:
             request.session['current_user'] = user.id
+            user.checkTimeRelatedBadges()
             return redirect('/')
         else:
             return render(request, 'login.html', {'error_login': True, 'your_email': email})
