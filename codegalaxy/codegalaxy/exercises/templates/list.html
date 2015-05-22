@@ -12,13 +12,27 @@
 
 {% block base_body %}
   <div id="fb-root"></div>
-    <script>(function(d, s, id) {
-        var js, fjs = d.getElementsByTagName(s)[0];
-        if (d.getElementById(id)) return;
-        js = d.createElement(s); js.id = id;
-        js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v2.3";
-        fjs.parentNode.insertBefore(js, fjs);
-      }(document, 'script', 'facebook-jssdk'));</script>
+  <script>
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '420881628093367',
+        xfbml      : true,
+        version    : 'v2.3'
+      });
+
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "//connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+
+  </script>
 
   <div class="row">
     <div class="large-12 columns">
@@ -78,9 +92,9 @@
               {% for exercise in all_exercises %}
                 {% if exercise.0.solved %}
                   <div class="panel radius exercise success-border" id="Exercise{{ exercise.0.exercise_number }}">
-                      {{ exercise.0.title }}
-                        <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
-                      <img class="Arrow" src="{% static "media/arrow.png" %}">
+                    {{ exercise.0.title }}
+                    <div class="left"><span class="octicon octicon-check success-text"></span> {{ exercise.1 }}/{{ exercise.0.max_score }}</div>
+                    <img class="Arrow" src="{% static "media/arrow.png" %}">
                   </div>
                 {% else %}
                   <div class="panel radius exercise" id="Exercise{{ exercise.0.exercise_number }}">
@@ -90,7 +104,7 @@
                 {% endif %}
               {% endfor %}
               <br>
-              <div class="fb-share-button" data-href="http://127.0.0.1:8000/l/" data-layout="button"></div>
+              <button class="share">Share</button>
             </div>
           </div>
         </div>
@@ -102,17 +116,17 @@
         <div class="row">
           <div class="large-9 columns large-centered large-text-center">
             {% if solved_all %}
-            <!-- <div class="panel radius info"> -->
+              <!-- <div class="panel radius info"> -->
               <ul class="large-block-grid-3">
                 <li>
                   {% trans "Your score" %}
                   <br/>
                   <h4>{{ user_score }}%</h4>
                   {% if shared_result %}
-                  <form method="post" id="share_result">
-                  {% csrf_token %}
-                    <button type="submit" name="share_result" class="button tiny radius">{% trans "Share my result" %} <span class="octicon octicon-rss"></span></button>
-                  </form>
+                    <form method="post" id="share_result">
+                      {% csrf_token %}
+                      <button type="submit" name="share_result" class="button tiny radius">{% trans "Share my result" %} <span class="octicon octicon-rss"></span></button>
+                    </form>
                   {% endif %}
                 </li>
                 <li>
@@ -130,7 +144,7 @@
                   <h4>{{user_date}}</h4>
                 </li>
               </ul>
-            <!-- </div> -->
+              <!-- </div> -->
             {% else %}
               {% trans "Make all exercises of this list to give it a rating!" %}
             {% endif %}
@@ -283,24 +297,33 @@
               </div>
             {% endif %}
           {% endif %}
-        </div>
-        <div class="large-2 left columns">
-          {% if list_owner %}
-            <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
-          {% endif %}
-        </div>
       </div>
-
-
+      <div class="large-2 left columns">
+        {% if list_owner %}
+          <a type="button" class="button tiny radius" href="/l/{{ list.id }}/editList">{% trans "Edit list" %}</a>
+        {% endif %}
+      </div>
     </div>
+
+
+  </div>
   </div>
 {% endblock base_body %}
 
 {% block body_js %}
   <script src="{% static "raty/jquery.raty.js" %}"></script>
   <script>
-    $(document).ready(function() {
 
+      $('.share').click(function(){
+        FB.ui({
+          method: 'feed',
+          link: 'https://localhost:8000/l',
+          caption: 'An example caption',
+        }, function(response){});
+
+      });
+
+    $(document).ready(function() {
       //Start button
       $(".start").click(function(){
         var id = this.id;
