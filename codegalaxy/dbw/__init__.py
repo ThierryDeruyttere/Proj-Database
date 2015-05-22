@@ -1059,17 +1059,33 @@ def checkTimeRelatedBadges(user_id):
                     cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
                     cursor.close()
 
+    badge_type = "frequentVisitor"
+    cursor = connection.cursor()
+    cursor.execute('SELECT last_login FROM user WHERE id ={user_id}'.format(user_id=user_id))
+    fetched = processOne(cursor)
+    cursor.close()
+
+    today = time.strftime("%Y-%m-%d %H:%M:%S")
+    today2 = datetime.strptime(today, "%Y-%m-%d %H:%M:%S")
+    last_login2 = fetched['last_login']
+    naive = joined_on2.replace(tzinfo=None)
+    difference = (today2-naive).days
+    if difference == 1:
+        incrementBadgeValue(user_id, "frequentVisitor")
+    else:
+        incrementBadgeValue(user_id, "frequentVisitor")
+        resetBadgeValue(user_id, "frequentVisitor")
+
 def getCurrentValueForBadge(badge_id, user_id):
     cursor = connection.cursor()
     cursor.execute('SELECT g.current_value FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id,badge_id=badge_id))
     fetched = processOne(cursor)
     return fetched
 
-def userFinishedBadge(badge_id, user_id):
+def resetBadgeValue(user_id, badge_type):
     cursor = connection.cursor()
-    cursor.execute('SELECT g.finished FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id,badge_id=badge_id))
-    fetched = processOne(cursor)
-    return fetched
+    cursor.execute('UPDATE hasBadge h, badge b SET h.current_value = 1 WHERE b.type = "{badge_type}" AND h.user_id = {user_id} AND b.id = h.badge_id'.format(user_id=user_id,badge_type=badge_type))
+    cursor.close()
 
 # UPDATE
 
