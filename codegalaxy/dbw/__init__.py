@@ -1059,6 +1059,18 @@ def checkTimeRelatedBadges(user_id):
                     cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
                     cursor.close()
 
+def getCurrentValueForBadge(badge_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT g.current_value FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id,badge_id=badge_id))
+    fetched = processOne(cursor)
+    return fetched
+
+def userFinishedBadge(badge_id, user_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT g.finished FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id,badge_id=badge_id))
+    fetched = processOne(cursor)
+    return fetched
+
 # UPDATE
 
 def setUserActive(email):

@@ -672,6 +672,11 @@ class User:
     def checkTimeRelatedBadges(self):
         dbw.checkTimeRelatedBadges(self.id)
 
+    def getCurrentValueForBadge(self, badge_id):
+        current_value = dbw.getCurrentValueForBadge(badge_id, self.id)
+        print(current_value)
+        return current_value['current_value']
+
 
 class PersonalList:
 

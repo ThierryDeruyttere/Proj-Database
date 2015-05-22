@@ -11,10 +11,31 @@
 		<div class="row">
 			<div class="panel radius">
 				<div class="text-center">
+					<div class="row">
 					<h1>{{ badge.name }}</h1>
 					<img src="{% static badge.getPicture %}">
-					<br><br>
+					</div>
+					<br>
+					{% if percentage_finished = 100 %}
+					<div class="row">
+						<div class="success-text">
+							<span class="mega-octicon octicon-check"></span><b> {% trans "Congratulations!" %} </b>
+						</div>
+		            </div>
+					{% else %}
+					<div class="row">
+						<div class="large-10 large-centered text-center columns">
+							<b>{{ percentage_finished }}%</b> {% trans "earned" %}
+						 	<div class="progress small success round">
+			                	<span class="meter" style="width: {{ percentage_finished }}%"></span>
+			              	</div>
+			            </div>
+		            </div>
+					{% endif %}
+					<br>
+					<div class="row">
 					<h4>{{ badge.message }}</h4>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -575,8 +575,17 @@ def badge(request, id=0):
     id = int(id)
     badge = object_manager.createBadge(id)
     users_that_earned_badge = badge.allUsersThatEarnedBadge()
+    target_score = badge.target_value
+    try:
+        current_score = user.getCurrentValueForBadge(badge.id)
+    except:
+        current_score = 0
+    percentage_finished = (current_score/badge.target_value)*100
+    if percentage_finished > 100:
+        percentage_finished = 100
 
-    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge}
+    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score, 
+                'target_score': target_score}
 
     return render(request, 'badge.html', context)
 
