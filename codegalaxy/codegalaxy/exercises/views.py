@@ -15,7 +15,7 @@ from managers.rm.recommendations import *
 
 from codegalaxy.authentication import require_login, logged_user
 from codegalaxy.evaluation.evaluators import *
-
+from managers.cm import challengemanager
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
@@ -703,7 +703,7 @@ def submit(request, list_id, exercise_number):
                 list_score = list_score / max_list_score
                 user.madeList(exercise_list.id, list_score, 0)
                 next_exercise = ""
-                challenge_manager.updateActiveChallengesForUser(user.id)
+                challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
 
 
         return render(request, 'submit.html', {"solved": solved,
