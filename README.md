@@ -13,6 +13,11 @@
 
 [*UML Diagram*](https://drive.google.com/file/d/0BzFlD8HmM6i9QXFCVFE1VE5yclU/view?usp=sharing)
 
+## Facebook sharing
+email: codegalaxy_zmhltht_testing@tfbnw.net
+pass: admin
+
+
 ## Useful git setting
 Zoda we ni constant die merge branch commits krijgen.
 ```sh
