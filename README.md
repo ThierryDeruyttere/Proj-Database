@@ -17,7 +17,6 @@
 email: codegalaxy_zmhltht_testing@tfbnw.net
 pass: admin
 
-
 ## Useful git setting
 Zoda we ni constant die merge branch commits krijgen.
 ```sh

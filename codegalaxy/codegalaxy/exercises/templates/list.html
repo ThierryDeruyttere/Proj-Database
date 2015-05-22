@@ -315,10 +315,17 @@
   <script>
 
       $('.share').click(function(){
+
+        var message = "Check out {{ list.name }} on Codegalaxy!";
+        {% if solved_all %}
+          message += "\nMy score is: {{ user_score }}% on this list! Can you do better?";
+        {% endif %}
         FB.ui({
           method: 'feed',
-          link: 'https://localhost:8000/l',
-          caption: 'An example caption',
+          picture: 'http://s21.postimg.org/cuniuxbg7/CGsmall_Blue.png',
+          caption: "Codegalaxy",
+          name: "Codegalaxy",
+          description: message
         }, function(response){});
 
       });
