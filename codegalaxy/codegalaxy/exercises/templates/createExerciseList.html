@@ -205,6 +205,12 @@
   <script>
 
     $(document).ready(function() {
+    //Check if we're sliding our slider!
+      $('[data-slider]').on('change', function(){
+        var value = $(this).attr('data-slider');
+        $('#difficulty').val(value);
+      });
+
 
       {% if edit %}
         var subjects = {{ subjects|length }};
@@ -387,7 +393,7 @@
       });
       if($(missing_trans).length > 0){
         alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
-        "then just remove all the entries for these languages, or fill in the missing translations for these languages");
+                "then just remove all the entries for these languages, or fill in the missing translations for these languages");
         return false;
       }
       return true;

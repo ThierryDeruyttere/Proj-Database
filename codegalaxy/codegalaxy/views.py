@@ -521,8 +521,9 @@ def social(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    friend_requests = current_user.allPendingFriendships2()
-    group_requests = current_user.allPendingGroupMemberships2()
+    #TODO check if this is ok
+    friend_requests = current_user.allPendingFriendships()
+    group_requests = current_user.allPendingGroupMemberships()
 
     context = {'biggest_groups': bar_chart, 's_term': s_term, 's_social': s_social, 'friend_requests': friend_requests, 'group_requests': group_requests}
 

@@ -21,7 +21,7 @@ def get_notifications(request):
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
     notifications['challenges'] = len(challenge_requests)
-    notifications['social'] = len(user.allPendingFriendships2()) +  len(user.allPendingGroupMemberships2())
+    notifications['social'] = len(user.allPendingFriendships()) +  len(user.allPendingGroupMemberships())
 
 
     return HttpResponse(json.dumps(notifications))
