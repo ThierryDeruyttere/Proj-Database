@@ -20,6 +20,8 @@
 
       {% if exercise.exercise_type == "Open Question" %}
         {% include "partial/answer_open.html" %}
+      {% elif exercise.exercise_type == "Turtle" %}
+        {% include "partial/answer_turtle.html" %}
       {% else %}
         {% include "partial/answer_code.html" %}
       {% endif %}
@@ -43,9 +45,14 @@
               {% else %}
                 {% if exercise.exercise_type == "Open Question" %}
                   <input id="submit_answer" type="submit" class="button tiny radius" value="{% trans "Answer" %}">
-                {% else %}
+                {% elif exercise.exercise_type == "Code" %}
                   <input id="code_output" name="code_output" type="hidden" value=""></input>
                   <input id="submit_answer_code" type="button" class="button tiny radius" value="{% trans "Answer" %}">
+                {% else %}
+                  <pre id="output"></pre>
+                  <div id="turtle_output"></div>
+                  <input id="code_output" name="code_output" type="hidden" value=""></input>
+                  <input id="submit_answer_turtle" type="button" class="button tiny radius" value="{% trans "Answer" %}">
                 {% endif %}
               {% endif %}
             {% endif %}
@@ -67,10 +74,7 @@
     {% if exercise.exercise_type != "Open Question" %}
       var code_text = CodeMirror.fromTextArea(user_code,
               {
-                {% if list_owner %}
-                  readOnly: true,
-                {% endif %}
-                {% if not logged_in %}
+                {% if list_owner or not logged_in %}
                   readOnly: true,
                 {% endif %}
                 lineNumbers: true,
@@ -172,33 +176,204 @@
       });
     {% endif %}
 
-    $("#submit_answer_code").click(function()
-    {
-      var post_data = { code : code_text.getValue() };
-      $.ajax({
-        type: "POST",
-        url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
-        data: post_data,
-        dataType: "text",
-
-        success: function(response) {
-          $("#code_output").val(response);
-          $("#answer_question").submit();
-        },
-        error: function(jqXHR, textStatus, error) {
-          $("#output_alert").html(jqXHR.responseText.toString());
-          $("#output_alert").show();
-        }
-      });
-    });
-
     {% if exercise.exercise_type == "Code" %}
       $('#reset').click(function(){
         code_text.getDoc().setValue($("#user_code").val());
       });
+      $("#submit_answer_code").click(function()
+      {
+        var post_data = { code : code_text.getValue() };
+        $.ajax({
+          type: "POST",
+          url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
+          data: post_data,
+          dataType: "text",
+
+          success: function(response) {
+            $("#code_output").val(response);
+            $("#answer_question").submit();
+          },
+          error: function(jqXHR, textStatus, error) {
+            $("#output_alert").html(jqXHR.responseText.toString());
+            $("#output_alert").show();
+          }
+        });
+      });
+    {% elif exercise.exercise_type == "Turtle" %}
+      $('#reset').click(function(){
+        code_text.getDoc().setValue($("#user_code").val());
+      });
+      $("#submit_answer_turtle").click(function() {
+        code = code_text.getValue();
+        runit();
+        // alert(code);
+        // var post_data = { code : code_text.getValue() };
+        // $.ajax({
+        //   type: "POST",
+        //   url: "/eval/{{ exercise.programming_language }}/".toLowerCase(),
+        //   data: post_data,
+        //   dataType: "text",
+        //
+        //   success: function(response) {
+        //     $("#code_output").val(response);
+        //     $("#answer_question").submit();
+        //   },
+        //   error: function(jqXHR, textStatus, error) {
+        //     $("#output_alert").html(jqXHR.responseText.toString());
+        //     $("#output_alert").show();
+        //   }
+        // });
+      });
+
+      function builtinRead(x) {
+          if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+                  throw "File not found: '" + x + "'";
+          return Sk.builtinFiles["files"][x];
+      }
+
+      function runit() {
+        var prefix = '' +
+'import turtle\n' +
+'class Rocket:\n' +
+
+'    def __init__(self, exp_edges=[], exp_vertices=[(0, 0)]):\n' +
+// Make [(),(),()]
+'        self.exp_edges = [(edge[0], edge[1]) for edge in exp_edges]\n' +
+'        self.exp_vertices = [(vert[0], vert[1]) for vert in exp_vertices]\n' +
+
+'        self.edges = []\n' +
+'        self.vertices = [(0, 0)]\n' +
+
+'        self.wrong = False\n' +
+
+'        self._t = turtle.Turtle()\n' +
+'        self._t.speed(1)\n' +
+'        self._t.up()\n' +
+
+'    def forward(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move forward\n' +
+'        @param amt The amount the turtle moves forward\n' +
+'        """\n' +
+'        self.jumpForward(amt)\n' +
+
+'    # def backward(self, amt):\n' +
+'    #     """\n' +
+'    #     Make the turtle move backward\n' +
+'    #     @param amt The amount the turtle moves backward\n' +
+'    #     """\n' +
+'    #     self.left(0)\n' +
+'    #     self._t.backward(amt)\n' +
+'    #     self.left(0)\n' +
+
+'    def left(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move to the left\n' +
+'        @param amt The amount the turtle turns in degrees\n' +
+'        """\n' +
+'        self.turn()\n' +
+'        self._t.left(amt)\n' +
+
+'    def right(self, amt):\n' +
+'        """\n' +
+'        Make the turtle move to the right\n' +
+'        @param amt The amount the turtle turns in degrees\n' +
+'        """\n' +
+'        self.turn()\n' +
+'        self._t.right(amt)\n' +
+
+'    def turn(self):\n' +
+'        self.addLine()\n' +
+'        self.drawLastLine()\n' +
+
+'    def drawLastLine(self):\n' +
+'        self.jump(self.vertices[self.edges[-1][0]])\n' +
+'        correct = self.checkLine()\n' +
+
+'        self._t.color("green" if correct else "red")\n' +
+'        self._t.down()\n' +
+'        self._t.goto(self.vertices[self.edges[-1][1]])\n' +
+
+'        self._t.up()\n' +
+
+'    def jump(self, pos):\n' +
+'        save_speed = self._t.speed()\n' +
+'        self._t.hideturtle()\n' +
+'        self._t.speed(0)\n' +
+'        self._t.goto(pos)\n' +
+'        self._t.speed(save_speed)\n' +
+'        self._t.showturtle()\n' +
+
+'    def jumpForward(self, amt):\n' +
+'        save_speed = self._t.speed()\n' +
+'        self._t.hideturtle()\n' +
+'        self._t.speed(0)\n' +
+'        self._t.forward(amt)\n' +
+'        self._t.speed(save_speed)\n' +
+'        self._t.showturtle()\n' +
+
+'    def checkLine(self):\n' +
+'        edge = self.edges[-1]\n' +
+'        v1 = self.vertices[edge[0]]\n' +
+'        v2 = self.vertices[edge[1]]\n' +
+
+'        return (v1 in self.exp_vertices and v2 in self.exp_vertices and edge in self.exp_edges)\n' +
+
+'    def lastVertex(self):\n' +
+'        return self.vertices[self.edges[-1][1]] if len(self.edges) > 0 else self.vertices[0]\n' +
+
+'    def getPos(self):\n' +
+'        return (int(self._t.xcor()), int(self._t.ycor()))\n' +
+
+'    def addLine(self):\n' +
+'        idx = 0\n' +
+
+'        cur_pos = self.getPos()\n' +
+'        if cur_pos not in self.vertices:\n' +
+'            idx = len(self.vertices)\n' +
+'            self.vertices.append(cur_pos)\n' +
+'        else:\n' +
+'            idx = self.vertices.index(cur_pos)\n' +
+
+'        start_idx = self.vertices.index(self.lastVertex())\n' +
+'        self.edges.append((start_idx or 0, idx))\n' +
+
+'    def __str__(self):\n' +
+'        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n' +
+'rocket = Rocket({{correct_answer.1}}, {{correct_answer.0}})\n'
+
+        var prog = prefix + code_text.getValue();
+        prog += '\nrocket.right(0)\n' +
+                'if (not rocket.wrong) and (set(rocket.exp_vertices) == set(rocket.vertices)):\n' +
+                '    print("~~success~~")\n'
+
+        Sk.pre = "output";
+        console.log(prog)
+        Sk.configure({output:turtleOutput, read:builtinRead});
+        (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
+        var myPromise = Sk.misceval.asyncToPromise(function() {
+            return Sk.importMainWithBody("<stdin>", false, prog, true);
+        });
+        myPromise.then(function(mod) {
+          console.log("success");
+        },
+          function(err) {
+            $("#turtle_output").hide();
+            $("#output_alert").html(err.toString());
+            $("#output_alert").show();
+         });
+      }
+
+      function turtleOutput(text) {
+        if(text == "~~success~~") {
+          $("#code_output").val("~~success~~");
+          $("#answer_question").submit();
+        }
+        var mypre = document.getElementById("output");
+        mypre.innerHTML = mypre.innerHTML + text;
+      }
+
     {% endif %}
-
-
   </script>
 
 

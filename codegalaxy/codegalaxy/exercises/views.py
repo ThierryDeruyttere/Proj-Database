@@ -169,7 +169,16 @@ def createExercise(request, listId=0):
             correct_answer = request.POST.get("correct_answer")
             exercise_penalty = 3
 
-        else:
+        elif(exercise_type == 'Code'):
+            expected_answer = request.POST.get("output")
+            exercise_answer = [expected_answer]
+
+            for j in range(1, exercise_max_score + 1):
+                cur_hint = request.POST.get("hint" + str(j), "")
+                if cur_hint != "":
+                    hints.append(cur_hint)
+
+        else:  # Turtle
             expected_answer = request.POST.get("output")
             exercise_answer = [expected_answer]
 
@@ -546,8 +555,13 @@ def answerQuestion(request, list_id, exercise_number):
                 current_exercise = i
                 if current_exercise.exercise_type == 'Open Question':
                     correct_answer = current_exercise.correct_answer
-                else:
+                elif current_exercise.exercise_type == 'Code':
                     correct_answer = stripStr(current_exercise.allAnswers()[0])
+                else:
+                    answer_data = json.loads(str(current_exercise.allAnswers()[0]))
+                    # { "points": [[0,0],[0,50],[50,50],[50,0]], "edges": [[0,1],[1,2],[2,3],[3,0]] }
+                    correct_answer = [str(answer_data["points"]), str(answer_data["edges"])]
+                    # correct_answer = str(current_exercise.allAnswers()[0])
                 hints = current_exercise.allHints()
                 info = None
                 if current_user:
@@ -668,12 +682,12 @@ def submit(request, list_id, exercise_number):
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
                     # return redirect('/l/'+ list_id+ '/'+ question_id)
 
-            elif current_exercise.exercise_type == 'Code':
+            elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
                 # For code you only have one answer so lets get it
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
                 user_output = stripStr(user_output)
 
-                if correct_answer == user_output or (correct_answer == '*' and user_output != ''):
+                if correct_answer == user_output or (correct_answer == '*' and user_output != '') or user_output == "~~success~~":
                     current_score = returnScore(current_score)
                     solved = True
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
