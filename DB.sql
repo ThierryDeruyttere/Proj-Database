@@ -883,7 +883,7 @@ DROP TABLE IF EXISTS `badge`;
 CREATE TABLE `badge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `type` enum('custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'createdGroup', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor') NOT NULL,
+  `type` enum('custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor') NOT NULL,
   `message` varchar(255) NOT NULL,
   `target_value` int(11) NOT NULL DEFAULT '0',
   `medal` enum('gold', 'silver', 'bronze') NOT NULL,

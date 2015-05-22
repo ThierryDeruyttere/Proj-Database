@@ -563,10 +563,8 @@ def groupCreate(request, id=0):
 def badges(request):
     user = logged_user(request)
     badges = object_manager.getAllBadges()
-    gold_badges = badges['gold']
-    silver_badges = badges['silver']
-    bronze_badges = badges['bronze']
-    context = {'gold_badges': gold_badges, 'silver_badges': silver_badges, 'bronze_badges': bronze_badges}
+    badge_types = ['custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
+    context = {'badge_types': badge_types, 'badges': badges}
 
     return render(request, 'badges.html', context)
 

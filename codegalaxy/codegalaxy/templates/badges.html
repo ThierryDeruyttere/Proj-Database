@@ -6,47 +6,41 @@
 {% block base_body %}
 <div class="row">
 	<div class="large-12 columns end">
+		{% for type in badge_types %}
 		<div class="row">
-			{% for badge in gold_badges %}
-			<div class="large-2 columns end">
-				<div class="panel radius">
-					<a href="/badge/{{ badge.id }}">
-						<img src="{% static badge.getPicture %}" class="round-image"/>
-						<div>
-							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
-						</div>
-					</a>
+			{% if type == "timeMember" %}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How long have you been member of codegalaxy?"%}</h4>
+			{% elif type == "memberOfGroup"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many groups are you member of?"%}</h4>
+			{% elif type == "hasFriend"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many friends do you have?"%}</h4>
+			{% elif type == "solvedList"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many exercise lists have you solved?"%}</h4>
+			{% elif type == "createdList"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many lists have you created?"%}</h4>
+			{% elif type == "peopleSolvedMyList"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many people have solved your exercise lists?"%}</h4>
+			{% elif type == "gaveRating"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many exercise lists have you rated?"%}</h4>
+			{% elif type == "frequentVisitor"%}
+			<h4><span class="octicon octicon-chevron-right"></span> {% trans "How many consecutive days have you visited?"%}</h4>
+			{% endif %}
+			{% for badge in badges %}
+				{% if type == badge.type %}
+				<div class="large-2 columns end">
+					<div class="panel radius">
+						<a href="/badge/{{ badge.id }}">
+							<img src="{% static badge.getPicture %}" class="round-image"/>
+							<div>
+								<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
+							</div>
+						</a>
+					</div>
 				</div>
-			</div>
-			{% endfor %}
-			{% for badge in silver_badges %}
-			<div class="large-2 columns end">
-				<div class="panel radius">
-					<a href="/badge/{{ badge.id }}">
-						<img src="{% static badge.getPicture %}" class="round-image"/>
-						<div>
-							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
-						</div>
-					</a>
-				</div>
-			</div>
-			{% endfor %}
-			{% for badge in bronze_badges %}
-			<div class="large-2 columns end">
-				<div class="panel radius">
-					<a href="/badge/{{ badge.id }}">
-						<img src="{% static badge.getPicture %}" class="round-image"/>
-						<div>
-							<h6 class="text-cut-off" text-center>{{ badge.name }}</h6>
-						</div>
-					</a>
-				</div>
-			</div>
+				{% endif %}
 			{% endfor %}
 		</div>
+		{% endfor %}
 	</div>
 </div>
-
-
-
 {% endblock base_body %}
