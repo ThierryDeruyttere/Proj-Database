@@ -26,27 +26,27 @@
 
 
         <div class="row">
-          <div class="large-4 large-centered columns">
+          <div class="large-6 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-4 columns">
                 <span class="prefix">{% trans "Exercise title" %}</span>
               </div>
               <div class="small-8 columns">
-                <input type="text" id="title" name="title"  class="text-center" value="{{ exercise.title }}">
+                <input type="text" id="title" name="title" class="text-center" value="{{ exercise.title }}">
               </div>
             </div>
           </div>
         </div>
 
         <div class="row">
-          <div class="large-6 large-centered columns">
+          <div class="large-8 large-centered columns">
             {% trans "Question" %}
             <textarea class="question_text" id="Question" name="Question">{{ exercise.question }}</textarea>
           </div>
         </div>
 
         <div class="row">
-          <div class="large-4 large-centered large-text-center columns">
+          <div class="large-8 large-centered large-text-center columns">
             <div data-alert class="alert-box info radius">
               <label>{% trans "Exercise Type:" %}</label>
               <input type="radio" name="exercise_type" value="Code" id="exercise_type_code" checked><label for="exercise_type_code">{% trans "Code question" %}</label>
@@ -58,7 +58,7 @@
         </div>
 
         <div class="row">
-          <div class="large-4 large-centered columns">
+          <div class="large-6 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-3 columns">
                 <span class="prefix">{% trans "Max score" %}</span>
@@ -71,7 +71,7 @@
         </div>
         <div class="max_score">
           <div class="row">
-            <div class="large-4 large-centered columns">
+            <div class="large-6 large-centered columns">
               <div class="row">
                 <div class="range-slider round" id="slider" data-slider data-options="display_selector: #max; start: 1; end: 10;" >
                   <span class="range-slider-handle" role="slider" tabindex="0"></span>
