@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-27 00:58+0200\n"
+"POT-Creation-Date: 2015-05-22 23:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,66 +18,91 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:34
-#: codegalaxy/exercises/templates/answerQuestion.html:37
-#: codegalaxy/exercises/templates/answerQuestion.html:39
-msgid "Correct answer"
-msgstr "Correct antwoord"
+#: codegalaxy/challenges/templates/challenges.html:64
+msgid "So we meet again space voyager! Do you remember me? It's me grub!"
+msgstr "We ontmoeten elkaar weer reiziger! Herinner je me? Het is grub!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:79
-msgid "Get hint"
-msgstr "Gebruik Hint"
+#: codegalaxy/challenges/templates/challenges.html:65
+msgid ""
+"Oh boy! Seems you are going to challenge somebody! By challenging and "
+"defeating someone you become stronger!"
+msgstr "Oh jongen! Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen uit te dagen en te verslaan zal je sterker worden!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:80
-msgid "Reset question"
-msgstr "Hernieuw de code"
+#: codegalaxy/challenges/templates/challenges.html:66
+msgid ""
+"Ah, brings back some old memories. In the bootloader galaxy I was known as "
+"Grub The Destroyer!"
+msgstr "Ah, die goede oude tijd. In het bootloader stelsel was ik gekend als Grub The Destroyer!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:100
-#: codegalaxy/exercises/templates/answerQuestion.html:115
-#: codegalaxy/exercises/templates/answerQuestion.html:118
+#: codegalaxy/challenges/templates/challenges.html:67
+msgid "If i'd get mad I could just destroy a whole planet!..."
+msgstr "Als ik kwaad werd kon ik een hele planeet vernietigen!..."
+
+#: codegalaxy/challenges/templates/challenges.html:68
+msgid ""
+"Okay it's all a lie, I'm one of the lowest level aliens in the bootloader "
+"galaxy..."
+msgstr "Ok het is een leugen, Ik ben een van de laagst gerankte buitenaardse wezens in het bootloader stelsel..."
+
+#: codegalaxy/challenges/templates/challenges.html:69
+msgid ""
+"So I always needed someone strong to defend me. Before I got lost in this "
+"galaxy, my friend Kernel used to defend me."
+msgstr "I had altijd iemand sterk nodig om me te verdedigen. Vooraleer ik in dit melkwegstelsel verloren geraakte had ik altijd mijn beschermer Kernel om me te beschermen."
+
+#: codegalaxy/challenges/templates/challenges.html:70
+msgid ""
+"But since we got separated... I have no one left for protecting me... Will "
+"you please defend me? I'm so scared without Kernel..."
+msgstr "Maar sinds we gescheiden zijn... Ik heb niemand meer om me te beschermen... Wil jij me beschermen? Ik ben zo bang zonder Kernel..."
+
+#: codegalaxy/exercises/templates/answerQuestion.html:31
+#: codegalaxy/exercises/templates/answerQuestion.html:47
+#: codegalaxy/exercises/templates/answerQuestion.html:50
+#: codegalaxy/exercises/templates/answerQuestion.html:55
 msgid "Answer"
 msgstr "Antwoord"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:109
+#: codegalaxy/exercises/templates/answerQuestion.html:41
 msgid "This question is part of your own list!"
 msgstr "Deze vraag is een deel van je eigen lijst!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:112
+#: codegalaxy/exercises/templates/answerQuestion.html:44
 msgid "You solved the question!"
 msgstr "Je hebt de vraag opgelost!"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:122
+#: codegalaxy/exercises/templates/answerQuestion.html:60
 #: codegalaxy/exercises/templates/editList.html:138
-#: codegalaxy/exercises/templates/submit.html:42
+#: codegalaxy/exercises/templates/submit.html:68
 msgid "Return to list"
 msgstr "Keer terug naar lijst"
 
-#: codegalaxy/exercises/templates/answerQuestion.html:124
+#: codegalaxy/exercises/templates/answerQuestion.html:62
 msgid "Edit Question"
 msgstr "Pas vraag aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:19
-#: codegalaxy/exercises/templates/createExercise.html:249
+#: codegalaxy/exercises/templates/createExercise.html:164
 #: codegalaxy/exercises/templates/createExerciseList.html:110
 #: codegalaxy/exercises/templates/editList.html:118
 msgid "Edit exercise"
 msgstr "Pas oefening aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:21
-#: codegalaxy/exercises/templates/createExercise.html:251
-#: codegalaxy/exercises/templates/list.html:179
+#: codegalaxy/exercises/templates/createExercise.html:166
+#: codegalaxy/exercises/templates/list.html:219
 msgid "Create exercise"
 msgstr "Creëer oefening"
 
 #: codegalaxy/exercises/templates/createExercise.html:32
-#: codegalaxy/exercises/templates/createExercise.html:112
-#: codegalaxy/exercises/templates/createExercise.html:138
+#: codegalaxy/exercises/templates/createExercise.html:113
+#: codegalaxy/exercises/templates/createExercise.html:139
 msgid "Exercise title"
 msgstr "Naam oefening"
 
 #: codegalaxy/exercises/templates/createExercise.html:43
-#: codegalaxy/exercises/templates/createExercise.html:118
-#: codegalaxy/exercises/templates/createExercise.html:144
+#: codegalaxy/exercises/templates/createExercise.html:119
+#: codegalaxy/exercises/templates/createExercise.html:145
 msgid "Question"
 msgstr "Vraag"
 
@@ -93,27 +118,31 @@ msgstr "Code vraag"
 msgid "Multiple choice"
 msgstr "Meerkeuzevraag"
 
-#: codegalaxy/exercises/templates/createExercise.html:63
+#: codegalaxy/exercises/templates/createExercise.html:54
+msgid "Python Turtle Graphics"
+msgstr "Python Schildpad Figuren"
+
+#: codegalaxy/exercises/templates/createExercise.html:64
 msgid "Max score"
 msgstr "Max score"
 
-#: codegalaxy/exercises/templates/createExercise.html:86
+#: codegalaxy/exercises/templates/createExercise.html:87
 msgid "Add translation"
 msgstr "Voeg vertaling toe"
 
-#: codegalaxy/exercises/templates/createExercise.html:98
+#: codegalaxy/exercises/templates/createExercise.html:99
 #: codegalaxy/exercises/templates/createExerciseList.html:149
 #: codegalaxy/exercises/templates/editList.html:157
 msgid "Hi there space voyager! I'm Kernel!"
 msgstr "Hallo daar ruimtereiziger! Ik ben Kernel!"
 
-#: codegalaxy/exercises/templates/createExercise.html:99
+#: codegalaxy/exercises/templates/createExercise.html:100
 #: codegalaxy/exercises/templates/createExerciseList.html:150
 #: codegalaxy/exercises/templates/editList.html:158
 msgid "I'm from a far away planet named Bootloader."
 msgstr "Ik ben van een planeet ver van hier genaamd Bootloader."
 
-#: codegalaxy/exercises/templates/createExercise.html:100
+#: codegalaxy/exercises/templates/createExercise.html:101
 #: codegalaxy/exercises/templates/createExerciseList.html:151
 #: codegalaxy/exercises/templates/editList.html:159
 msgid ""
@@ -123,7 +152,7 @@ msgstr ""
 "Ik ben op deze geweldige site terechtgekomen en ik wil hem laten zien aan "
 "mijn vrienden thuis!"
 
-#: codegalaxy/exercises/templates/createExercise.html:101
+#: codegalaxy/exercises/templates/createExercise.html:102
 #: codegalaxy/exercises/templates/createExerciseList.html:152
 #: codegalaxy/exercises/templates/editList.html:160
 msgid ""
@@ -133,7 +162,7 @@ msgstr ""
 "Een probleem zij echter alle verschillende talen, dus ik ben aan vertalingen "
 "voor de site aan het werken"
 
-#: codegalaxy/exercises/templates/createExercise.html:102
+#: codegalaxy/exercises/templates/createExercise.html:103
 #: codegalaxy/exercises/templates/createExerciseList.html:153
 #: codegalaxy/exercises/templates/editList.html:161
 msgid ""
@@ -143,38 +172,22 @@ msgstr ""
 "Denk je dat je zou kunnen helpen? Ik zal je beroemd over het hele universum "
 "maken als je me me helpt!"
 
-#: codegalaxy/exercises/templates/createExercise.html:109
+#: codegalaxy/exercises/templates/createExercise.html:110
 #: codegalaxy/exercises/templates/createExerciseList.html:160
 #: codegalaxy/exercises/templates/editList.html:168
 #: codegalaxy/exercises/templates/importExercise.html:51
-#: codegalaxy/exercises/templates/list.html:206
+#: codegalaxy/exercises/templates/list.html:247
 msgid "Original"
 msgstr "Originele"
 
-#: codegalaxy/exercises/templates/createExercise.html:135
+#: codegalaxy/exercises/templates/createExercise.html:136
 #: codegalaxy/exercises/templates/createExerciseList.html:183
 #: codegalaxy/exercises/templates/editList.html:191
 msgid "Translated"
 msgstr "Vertaald"
 
-#: codegalaxy/exercises/templates/createExercise.html:162
-msgid "Code the user gets to see."
-msgstr "Code die de gebruiker te zien krijgt"
-
-#: codegalaxy/exercises/templates/createExercise.html:181
-msgid "Expected output."
-msgstr "Verwachte output"
-
-#: codegalaxy/exercises/templates/createExercise.html:202
-msgid "Add Hint"
-msgstr "Voeg hint toe"
-
-#: codegalaxy/exercises/templates/createExercise.html:218
-msgid "Possible answers"
-msgstr "Mogelijke antwoorden"
-
 #: codegalaxy/exercises/templates/createExerciseList.html:13
-#: codegalaxy/exercises/templates/list.html:261
+#: codegalaxy/exercises/templates/list.html:303
 msgid "Edit list"
 msgstr "Pas lijst aan"
 
@@ -211,13 +224,13 @@ msgstr "Onderwerpen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:102
 #: codegalaxy/exercises/templates/editList.html:110
-#: codegalaxy/exercises/templates/list.html:268
+#: codegalaxy/exercises/templates/list.html:80
 msgid "Exercises"
 msgstr "Oefeningen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:130
 #: codegalaxy/exercises/templates/editList.html:137
-#: codegalaxy/templates/group.html:37
+#: codegalaxy/templates/group.html:44 codegalaxy/templates/group.html:416
 msgid "Edit"
 msgstr "Pas aan"
 
@@ -275,118 +288,123 @@ msgid "List or exercise name"
 msgstr "Naam van lijst of oefening"
 
 #: codegalaxy/exercises/templates/importExercise.html:35
-#: codegalaxy/exercises/templates/list.html:190
+#: codegalaxy/exercises/templates/list.html:231
 msgid "Copy all list"
 msgstr "Kopieer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:36
-#: codegalaxy/exercises/templates/list.html:191
+#: codegalaxy/exercises/templates/list.html:232
 msgid "Import all list"
 msgstr "Importeer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:41
-#: codegalaxy/exercises/templates/list.html:196
+#: codegalaxy/exercises/templates/list.html:237
 msgid "Title"
 msgstr "Titel"
 
 #: codegalaxy/exercises/templates/importExercise.html:42
-#: codegalaxy/exercises/templates/list.html:197
+#: codegalaxy/exercises/templates/list.html:238
 msgid "copy original"
 msgstr "kopieer originele"
 
 #: codegalaxy/exercises/templates/importExercise.html:43
-#: codegalaxy/exercises/templates/list.html:198
+#: codegalaxy/exercises/templates/list.html:239
 msgid "reference"
 msgstr "referentie"
 
 #: codegalaxy/exercises/templates/importExercise.html:59
-#: codegalaxy/exercises/templates/list.html:214
+#: codegalaxy/exercises/templates/list.html:255
 msgid "This list does not contain any exercises."
 msgstr "Deze lijst heeft geen oefeningen"
 
 #: codegalaxy/exercises/templates/importExercise.html:73
 #: codegalaxy/exercises/templates/importExercise.html:220
-#: codegalaxy/exercises/templates/list.html:222
-#: codegalaxy/exercises/templates/list.html:408
+#: codegalaxy/exercises/templates/list.html:263
+#: codegalaxy/exercises/templates/list.html:424
 msgid "Import"
 msgstr "Importeer"
 
 #: codegalaxy/exercises/templates/importExercise.html:79
-#: codegalaxy/exercises/templates/list.html:229
+#: codegalaxy/exercises/templates/list.html:270
 msgid "Confirmation"
 msgstr "Bevestig"
 
 #: codegalaxy/exercises/templates/importExercise.html:88
-#: codegalaxy/exercises/templates/list.html:251
+#: codegalaxy/exercises/templates/list.html:292
+#: codegalaxy/templates/group.html:393 codegalaxy/templates/group.html:417
 msgid "Cancel"
 msgstr "Annuleer"
 
 #: codegalaxy/exercises/templates/importExercise.html:89
-#: codegalaxy/exercises/templates/list.html:252
+#: codegalaxy/exercises/templates/list.html:293
 msgid "Import!"
 msgstr "Importeer!"
 
 #: codegalaxy/exercises/templates/importExercise.html:224
-#: codegalaxy/exercises/templates/list.html:412
+#: codegalaxy/exercises/templates/list.html:428
 msgid "Copy"
 msgstr "Kopie"
 
-#: codegalaxy/exercises/templates/list.html:73
-msgid "Rating:"
-msgstr "Beoordeling:"
-
-#: codegalaxy/exercises/templates/list.html:89
+#: codegalaxy/exercises/templates/list.html:86
 msgid "solved"
 msgstr "opgelost"
 
-#: codegalaxy/exercises/templates/list.html:101
+#: codegalaxy/exercises/templates/list.html:122
 msgid "Your score"
 msgstr "Je score"
 
-#: codegalaxy/exercises/templates/list.html:107
+#: codegalaxy/exercises/templates/list.html:128
 msgid "Share my result"
 msgstr "Deel mijn resultaat"
 
-#: codegalaxy/exercises/templates/list.html:112
+#: codegalaxy/exercises/templates/list.html:133
+msgid "Rating:"
+msgstr "Beoordeling:"
+
+#: codegalaxy/exercises/templates/list.html:142
 msgid "Completed on"
 msgstr "Voltooid op"
 
-#: codegalaxy/exercises/templates/list.html:128
-msgid "Average Score"
-msgstr "Gemiddelde Score"
+#: codegalaxy/exercises/templates/list.html:149
+msgid "Make all exercises of this list to give it a rating!"
+msgstr "Maak alle oefeningen van deze lijst om een beoordeling te kunnen geven!"
 
-#: codegalaxy/exercises/templates/list.html:132
-msgid "Average rating"
-msgstr "Gemiddelde beoordeling"
-
-#: codegalaxy/exercises/templates/list.html:136
-msgid "Users that finished list"
-msgstr "Aantl gebruikers die de lijst gemaakt hebben"
-
-#: codegalaxy/exercises/templates/list.html:158
+#: codegalaxy/exercises/templates/list.html:171
 msgid "Made By"
 msgstr "Gecreëerd Door"
 
-#: codegalaxy/exercises/templates/list.html:163
+#: codegalaxy/exercises/templates/list.html:176
 msgid "Made On"
 msgstr "Gecreëerd Op"
 
-#: codegalaxy/exercises/templates/list.html:177
-#: codegalaxy/exercises/templates/list.html:186
+#: codegalaxy/exercises/templates/list.html:185
+msgid "Average Score"
+msgstr "Gemiddelde Score"
+
+#: codegalaxy/exercises/templates/list.html:189
+msgid "Average rating"
+msgstr "Gemiddelde beoordeling"
+
+#: codegalaxy/exercises/templates/list.html:193
+msgid "Users that finished list"
+msgstr "Aantl gebruikers die de lijst gemaakt hebben"
+
+#: codegalaxy/exercises/templates/list.html:198
+msgid "ExerciseLists like this one:"
+msgstr "Oefeningenlijsten als deze:"
+
+#: codegalaxy/exercises/templates/list.html:217
+#: codegalaxy/exercises/templates/list.html:227
 msgid "Import exercise"
 msgstr "Importeer oefening"
 
-#: codegalaxy/exercises/templates/list.html:182
+#: codegalaxy/exercises/templates/list.html:223
 msgid "Add exercises to my list"
 msgstr "Voeg oefeningen aan mijn lijst toe"
 
-#: codegalaxy/exercises/templates/list.html:239
+#: codegalaxy/exercises/templates/list.html:280
 msgid "Import into:"
 msgstr "Importeer in:"
-
-#: codegalaxy/exercises/templates/list.html:287
-msgid "ExerciseLists like this one:"
-msgstr "Oefeningenlijsten als deze:"
 
 #: codegalaxy/exercises/templates/listOverview.html:50
 msgid "Author name"
@@ -396,118 +414,234 @@ msgstr "Naam auteur"
 msgid "Choose programming language"
 msgstr "Kies je programmeertaal"
 
-#: codegalaxy/exercises/templates/submit.html:18
+#: codegalaxy/exercises/templates/partial/answer_code.html:24
+#: codegalaxy/exercises/templates/partial/answer_turtle.html:24
+msgid "Get hint"
+msgstr "Gebruik Hint"
+
+#: codegalaxy/exercises/templates/partial/answer_code.html:25
+#: codegalaxy/exercises/templates/partial/answer_turtle.html:25
+msgid "Reset question"
+msgstr "Hernieuw de code"
+
+#: codegalaxy/exercises/templates/partial/answer_open.html:17
+#: codegalaxy/exercises/templates/partial/answer_open.html:20
+#: codegalaxy/exercises/templates/partial/answer_open.html:22
+msgid "Correct answer"
+msgstr "Correct antwoord"
+
+#: codegalaxy/exercises/templates/partial/create_code.html:10
+msgid "Code the user gets to see."
+msgstr "Code die de gebruiker te zien krijgt"
+
+#: codegalaxy/exercises/templates/partial/create_code.html:29
+msgid "Expected output."
+msgstr "Verwachte output"
+
+#: codegalaxy/exercises/templates/partial/create_code.html:50
+msgid "Add Hint"
+msgstr "Voeg hint toe"
+
+#: codegalaxy/exercises/templates/partial/create_open.html:9
+msgid "Possible answers"
+msgstr "Mogelijke antwoorden"
+
+#: codegalaxy/exercises/templates/submit.html:17
 msgid "Correct answer!"
 msgstr "Correct antwoord!"
 
-#: codegalaxy/exercises/templates/submit.html:26
-msgid "Your score:"
-msgstr "Je score"
-
-#: codegalaxy/exercises/templates/submit.html:45
-msgid "Next exercise"
-msgstr "Volgende oefening"
-
-#: codegalaxy/exercises/templates/submit.html:55
+#: codegalaxy/exercises/templates/submit.html:19
 msgid "Wrong answer..."
 msgstr "Fout antwoord..."
 
-#: codegalaxy/exercises/templates/submit.html:62
-msgid "Your code outputted:"
-msgstr "Je code gaf als resultaat:"
+#: codegalaxy/exercises/templates/submit.html:30
+msgid "Your score:"
+msgstr "Je score"
 
-#: codegalaxy/exercises/templates/submit.html:82
+#: codegalaxy/exercises/templates/submit.html:32
 msgid "Your current score:"
 msgstr "Je huidige score"
 
-#: codegalaxy/exercises/templates/submit.html:116
+#: codegalaxy/exercises/templates/submit.html:44
+msgid "Your code outputted:"
+msgstr "Je code gaf als resultaat:"
+
+#: codegalaxy/exercises/templates/submit.html:71
+msgid "Next exercise"
+msgstr "Volgende oefening"
+
+#: codegalaxy/exercises/templates/submit.html:77
 msgid "Try again"
 msgstr "Probeer opnieuw"
 
-#: codegalaxy/search/views.py:26
+#: codegalaxy/search/views.py:30 codegalaxy/search/views.py:56
 msgid "There are no search results to display."
 msgstr "Er zijn geen zoekresultaten om weer te geven."
 
-#: codegalaxy/templates/codegalaxy.html:46
+#: codegalaxy/templates/badge.html:22
+#, fuzzy
+#| msgid "Confirmation"
+msgid "Congratulations!"
+msgstr "Bevestig"
+
+#: codegalaxy/templates/badge.html:28
+msgid "earned"
+msgstr "verdient"
+
+#: codegalaxy/templates/badge.html:45
+#, fuzzy
+#| msgid "Users that finished list"
+msgid "Users that earned this badge:"
+msgstr "Aantal gebruikers die de lijst gemaakt hebben"
+
+#: codegalaxy/templates/badge.html:58
+msgid "No one has earned this badge yet, be the first!"
+msgstr "Nog niemand heeft deze badge verdient, zorg dat jij de eerste bent!"
+
+#: codegalaxy/templates/badges.html:12
+msgid "How long have you been member of codegalaxy?"
+msgstr "Hoe lang ben je al lid van codegalaxy?"
+
+#: codegalaxy/templates/badges.html:14
+msgid "How many groups are you member of?"
+msgstr "Van hoeveel groepen ben je lid?"
+
+#: codegalaxy/templates/badges.html:16
+msgid "How many friends do you have?"
+msgstr "Hoeveel vrienden heb je?"
+
+#: codegalaxy/templates/badges.html:18
+msgid "How many exercise lists have you solved?"
+msgstr "Hoeveel oefeningenreeksen heb je opgelost?"
+
+#: codegalaxy/templates/badges.html:20
+msgid "How many lists have you created?"
+msgstr "Hoeveel oefeningen lijsten heb je gecreeerd?"
+
+#: codegalaxy/templates/badges.html:22
+msgid "How many people have solved your exercise lists?"
+msgstr "Hoeveel mensen hebben een van je oefeningen lijsten opgelost?"
+
+#: codegalaxy/templates/badges.html:24
+msgid "How many exercise lists have you rated?"
+msgstr "Hoeveel oefeningen lijsten heb je beoordeeld?"
+
+#: codegalaxy/templates/badges.html:26
+msgid "How many consecutive days have you visited?"
+msgstr "Hoeveel opeenvolgende dagen heb je onze site bezocht?"
+
+#: codegalaxy/templates/codegalaxy.html:49
 msgid "Menu"
 msgstr "Menu"
 
-#: codegalaxy/templates/codegalaxy.html:75
+#: codegalaxy/templates/codegalaxy.html:78
 msgid "English"
 msgstr "Engels"
 
-#: codegalaxy/templates/codegalaxy.html:75
+#: codegalaxy/templates/codegalaxy.html:78
 msgid "Dutch"
 msgstr "Nederlands"
 
-#: codegalaxy/templates/group.html:17
+#: codegalaxy/templates/group.html:25
 msgid "Become member"
 msgstr "Word lid"
 
-#: codegalaxy/templates/group.html:22
+#: codegalaxy/templates/group.html:30
 msgid "Leave group"
 msgstr "Verlaat groep"
 
-#: codegalaxy/templates/group.html:31 codegalaxy/templates/user.html:30
+#: codegalaxy/templates/group.html:38 codegalaxy/templates/user.html:46
 msgid "Feed"
 msgstr "Nieuws"
 
-#: codegalaxy/templates/group.html:32
+#: codegalaxy/templates/group.html:39
 msgid "Members"
 msgstr "Leden"
 
-#: codegalaxy/templates/group.html:36
+#: codegalaxy/templates/group.html:41
+msgid "Wall"
+msgstr "Muur"
+
+#: codegalaxy/templates/group.html:42
 msgid "Add New Members"
 msgstr "Voeg nieuwe leden toe"
 
-#: codegalaxy/templates/group.html:51 codegalaxy/templates/home.html:44
-#: codegalaxy/templates/user.html:120
+#: codegalaxy/templates/group.html:60 codegalaxy/templates/home.html:60
+#: codegalaxy/templates/user.html:136
 msgid "became friends with"
 msgstr "werd bevriend met"
 
-#: codegalaxy/templates/group.html:62 codegalaxy/templates/user.html:135
+#: codegalaxy/templates/group.html:75 codegalaxy/templates/user.html:151
 msgid "was added to group:"
 msgstr "werd toegevoegd aan de groep:"
 
-#: codegalaxy/templates/group.html:75
-msgid "made an exercise list:"
-msgstr "maakte een oefeningenlijst:"
+#: codegalaxy/templates/group.html:90 codegalaxy/templates/home.html:90
+#: codegalaxy/templates/user.html:166
+msgid "solved an exercise list:"
+msgstr "loste deze oefeningenlijst op:"
 
-#: codegalaxy/templates/group.html:121
+#: codegalaxy/templates/group.html:90 codegalaxy/templates/home.html:90
+#: codegalaxy/templates/user.html:166
+msgid "and scored"
+msgstr "en behaalde"
+
+#: codegalaxy/templates/group.html:105 codegalaxy/templates/home.html:105
+#: codegalaxy/templates/user.html:181
+msgid "created an exercise list:"
+msgstr "creëerde een oefeningenlijst:"
+
+#: codegalaxy/templates/group.html:156
 msgid "Delete Group"
 msgstr "Maak groep"
 
-#: codegalaxy/templates/group.html:126
+#: codegalaxy/templates/group.html:161
 msgid "Upload group picture"
 msgstr "Kies een nieuwe groepsfoto"
 
-#: codegalaxy/templates/group.html:130
+#: codegalaxy/templates/group.html:165
 msgid "Edit Group Picture"
 msgstr "Wijzig groepsfoto"
 
-#: codegalaxy/templates/group.html:145
-msgid "Add User"
-msgstr "Voeg gebruiker toe"
+#: codegalaxy/templates/group.html:174
+msgid "Post"
+msgstr "Schrijf"
 
-#: codegalaxy/templates/group.html:163
+#: codegalaxy/templates/group.html:193
+#, fuzzy
+#| msgid "Search groups..."
+msgid "Search members to add..."
+msgstr "Zoek groepen..."
+
+#: codegalaxy/templates/group.html:196
+#: codegalaxy/templates/groupOverview.html:25
+#: codegalaxy/templates/home.html:47
+msgid "Search"
+msgstr "Zoeken"
+
+#: codegalaxy/templates/group.html:221 codegalaxy/templates/group.html:309
 msgid "Member"
 msgstr "Leden"
 
-#: codegalaxy/templates/group.html:165
+#: codegalaxy/templates/group.html:223 codegalaxy/templates/group.html:311
 msgid "Admin"
 msgstr "Admin"
 
-#: codegalaxy/templates/group.html:167
+#: codegalaxy/templates/group.html:225 codegalaxy/templates/group.html:313
 msgid "Owner"
 msgstr "Eigenaar"
 
-#: codegalaxy/templates/group.html:177 codegalaxy/templates/group.html:184
-msgid "Delete"
-msgstr "Verwijder"
+#: codegalaxy/templates/group.html:236 codegalaxy/templates/group.html:244
+#: codegalaxy/templates/group.html:266 codegalaxy/templates/group.html:274
+msgid "Kick user"
+msgstr "Verwijder lid"
 
-#: codegalaxy/templates/group.html:193
-msgid "Upgrade"
-msgstr "Promoveer"
+#: codegalaxy/templates/group.html:254 codegalaxy/templates/group.html:284
+msgid "Promote user"
+msgstr "Promoveer lid"
+
+#: codegalaxy/templates/group.html:392
+msgid "Reply"
+msgstr "Antwoord"
 
 #: codegalaxy/templates/groupCreate.html:11
 msgid "Create a new group"
@@ -549,137 +683,124 @@ msgstr "Maak een nieuwe groep"
 msgid "Search groups..."
 msgstr "Zoek groepen..."
 
-#: codegalaxy/templates/groupOverview.html:25
-#: codegalaxy/templates/home.html:31
-msgid "Search"
-msgstr "Zoeken"
-
 #: codegalaxy/templates/groupOverview.html:37
 msgid "Show my groups only"
 msgstr "Toon enkel mijn groepen"
 
-#: codegalaxy/templates/groupOverview.html:45
+#: codegalaxy/templates/groupOverview.html:90
 msgid "Biggest Groups"
 msgstr "Grootste Groepen"
 
-#: codegalaxy/templates/home.html:17
+#: codegalaxy/templates/home.html:25
 msgid "My profile"
 msgstr "Mijn profiel"
 
-#: codegalaxy/templates/home.html:18
+#: codegalaxy/templates/home.html:26
 msgid "Sandbox mode"
 msgstr "Zandbak modus"
 
 #: codegalaxy/templates/home.html:27
+#, fuzzy
+#| msgid "Group overview"
+msgid "Badge overview"
+msgstr "Overzicht groepen "
+
+#: codegalaxy/templates/home.html:43
 msgid "Explore the galaxy..."
 msgstr "Verken het sterrenstelsel..."
 
-#: codegalaxy/templates/home.html:59
+#: codegalaxy/templates/home.html:75
 msgid "became member of the group:"
 msgstr "werd lid van:"
 
-#: codegalaxy/templates/home.html:74 codegalaxy/templates/user.html:150
-msgid "solved an exercise list:"
-msgstr "loste deze oefeningenlijst op:"
-
-#: codegalaxy/templates/home.html:74
-msgid "and scored"
-msgstr "en behaalde"
-
-#: codegalaxy/templates/home.html:89 codegalaxy/templates/user.html:165
-msgid "created an exercise list:"
-msgstr "creëerde een oefeningenlijst:"
-
-#: codegalaxy/templates/home.html:141
+#: codegalaxy/templates/home.html:157
 msgid "Recommended Lists:"
 msgstr "Aanbevolen lijsten:"
 
-#: codegalaxy/templates/home.html:146
+#: codegalaxy/templates/home.html:162
 msgid "I'm feeling lucky!"
 msgstr "Een gokje wagen!"
 
-#: codegalaxy/templates/home.html:148
+#: codegalaxy/templates/home.html:164
 msgid "You have made every single exerciselist!"
 msgstr "Je hebt elke lijst opgelost!"
 
-#: codegalaxy/templates/home.html:173
+#: codegalaxy/templates/home.html:189
 msgid "Already a member"
 msgstr "Al een gebruiker"
 
-#: codegalaxy/templates/home.html:177 codegalaxy/templates/home.html.py:217
+#: codegalaxy/templates/home.html:193 codegalaxy/templates/home.html.py:233
 #: codegalaxy/templates/login.html:24 codegalaxy/templates/register.html:24
 msgid "Incorrect email and/or password."
 msgstr "Ongeldig email en/of paswoord."
 
-#: codegalaxy/templates/home.html:186 codegalaxy/templates/home.html.py:244
+#: codegalaxy/templates/home.html:202 codegalaxy/templates/home.html.py:260
 #: codegalaxy/templates/login.html:33 codegalaxy/templates/register.html:51
 msgid "Email Address"
 msgstr "Email adres"
 
-#: codegalaxy/templates/home.html:187 codegalaxy/templates/home.html.py:245
+#: codegalaxy/templates/home.html:203 codegalaxy/templates/home.html.py:261
 #: codegalaxy/templates/login.html:34 codegalaxy/templates/register.html:52
 msgid "Enter a valid Email Address."
 msgstr "Vul een gedig email adres in."
 
-#: codegalaxy/templates/home.html:195 codegalaxy/templates/home.html.py:253
+#: codegalaxy/templates/home.html:211 codegalaxy/templates/home.html.py:269
 #: codegalaxy/templates/login.html:42 codegalaxy/templates/register.html:60
 msgid "Password"
 msgstr "Paswoord"
 
-#: codegalaxy/templates/home.html:196 codegalaxy/templates/login.html:43
-#: codegalaxy/templates/user.html:68 codegalaxy/templates/user.html.py:77
+#: codegalaxy/templates/home.html:212 codegalaxy/templates/login.html:43
+#: codegalaxy/templates/user.html:84 codegalaxy/templates/user.html.py:93
 msgid "Enter a valid Password."
 msgstr "Vul een geldig paswoord in."
 
-#: codegalaxy/templates/home.html:199
+#: codegalaxy/templates/home.html:215
 msgid "Continue journey"
 msgstr "Zet je reis verder"
 
-#: codegalaxy/templates/home.html:213
+#: codegalaxy/templates/home.html:229
 msgid "New member"
 msgstr "Nieuwe gebruiker"
 
-#: codegalaxy/templates/home.html:226 codegalaxy/templates/register.html:33
+#: codegalaxy/templates/home.html:242 codegalaxy/templates/register.html:33
 msgid "First Name"
 msgstr "Voornaam"
 
-#: codegalaxy/templates/home.html:227 codegalaxy/templates/register.html:34
+#: codegalaxy/templates/home.html:243 codegalaxy/templates/register.html:34
 msgid "Enter a valid First Name."
 msgstr "Vul een geldige voornaam in."
 
-#: codegalaxy/templates/home.html:235 codegalaxy/templates/register.html:42
+#: codegalaxy/templates/home.html:251 codegalaxy/templates/register.html:42
 msgid "Last Name"
 msgstr "Achternaam"
 
-#: codegalaxy/templates/home.html:236 codegalaxy/templates/register.html:43
+#: codegalaxy/templates/home.html:252 codegalaxy/templates/register.html:43
 msgid "Enter a valid Last Name."
 msgstr "Vul een geldige achternaam in."
 
-#: codegalaxy/templates/home.html:254 codegalaxy/templates/register.html:61
+#: codegalaxy/templates/home.html:270 codegalaxy/templates/register.html:61
 msgid "Enter a valid password."
 msgstr "Vul een geldig paswoord in."
 
-#: codegalaxy/templates/home.html:262 codegalaxy/templates/register.html:69
+#: codegalaxy/templates/home.html:278 codegalaxy/templates/register.html:69
 msgid "Confirm Password"
 msgstr "Bevestig Paswoord"
 
-#: codegalaxy/templates/home.html:263 codegalaxy/templates/register.html:70
+#: codegalaxy/templates/home.html:279 codegalaxy/templates/register.html:70
 msgid "The passwords did not match."
 msgstr "De paswoorden komen niet overeen"
 
-#: codegalaxy/templates/home.html:267
+#: codegalaxy/templates/home.html:283
 msgid "Lift off"
 msgstr "Lanceer"
 
-#: codegalaxy/templates/home.html:281
+#: codegalaxy/templates/home.html:297
 msgid "Learn to program with CodeGalaxy!"
 msgstr "Leer programmeren met CodeGalaxy!"
 
-#: codegalaxy/templates/home.html:285
+#: codegalaxy/templates/home.html:301
 msgid "Learn to program in a fun and interactive way..."
-msgstr ""
-"Leer programmeren op een toffe en interactieve manier... Wat is de init "
-"class? --Maarten"
+msgstr "Leer programmeren op een toffe en interactieve manier..."
 
 #: codegalaxy/templates/login.html:22
 msgid "Log in"
@@ -693,117 +814,148 @@ msgstr "Registreer"
 msgid "Sign Up"
 msgstr "Maak een account?"
 
+#: codegalaxy/templates/user.html:27
+msgid "Friendship pending"
+msgstr "Vriendschap in behandeling"
+
 #: codegalaxy/templates/user.html:31
+#, fuzzy
+#| msgid "became friends with"
+msgid "Become friends"
+msgstr "werd bevriend met"
+
+#: codegalaxy/templates/user.html:36
+msgid "Remove as friend"
+msgstr "Verwijder als vriend"
+
+#: codegalaxy/templates/user.html:47
 msgid "Friends"
 msgstr "Vrienden"
 
-#: codegalaxy/templates/user.html:32
+#: codegalaxy/templates/user.html:48
 msgid "Groups"
 msgstr "Groepen"
 
-#: codegalaxy/templates/user.html:33
+#: codegalaxy/templates/user.html:49
 msgid "More"
 msgstr "Meer"
 
-#: codegalaxy/templates/user.html:35
+#: codegalaxy/templates/user.html:51
 msgid "Edit Information"
 msgstr "Wijzig informatie"
 
-#: codegalaxy/templates/user.html:44
+#: codegalaxy/templates/user.html:60
 msgid "wants to be your friend."
 msgstr "wil je vriend worden."
 
-#: codegalaxy/templates/user.html:67
+#: codegalaxy/templates/user.html:83
 msgid "Old Password"
 msgstr "Oud Paswoord"
 
-#: codegalaxy/templates/user.html:76
+#: codegalaxy/templates/user.html:92
 msgid "New Password"
 msgstr "Nieuw Paswoord"
 
-#: codegalaxy/templates/user.html:85
+#: codegalaxy/templates/user.html:101
 msgid "Confirm new password"
 msgstr "Bevestig nieuw paswoord"
 
-#: codegalaxy/templates/user.html:86
+#: codegalaxy/templates/user.html:102
 msgid "The passwords don't match."
 msgstr "De wachtwoorden komen niet overeen"
 
-#: codegalaxy/templates/user.html:90
+#: codegalaxy/templates/user.html:106
 msgid "Update Password"
 msgstr "Wijzig Paswoord"
 
-#: codegalaxy/templates/user.html:95
+#: codegalaxy/templates/user.html:111
 msgid "Upload profile picture"
 msgstr "Kies een nieuwe Profielfoto"
 
-#: codegalaxy/templates/user.html:98
+#: codegalaxy/templates/user.html:114
 msgid "Please select a file."
 msgstr "Selecteer een bestand"
 
-#: codegalaxy/templates/user.html:100
+#: codegalaxy/templates/user.html:116
 msgid "Edit Profile Picture"
 msgstr "Wijzig Profielfoto"
 
-#: codegalaxy/templates/user.html:219
+#: codegalaxy/templates/user.html:233
 msgid "wants to be your friend, do you want to accept?"
 msgstr "wil je vriend worden, accepteer je dit verzoek?"
 
-#: codegalaxy/templates/user.html:224 codegalaxy/templates/user.html.py:290
+#: codegalaxy/templates/user.html:238 codegalaxy/templates/user.html.py:305
 msgid "Confirm"
 msgstr "Bevestig"
 
-#: codegalaxy/templates/user.html:229 codegalaxy/templates/user.html.py:295
+#: codegalaxy/templates/user.html:243 codegalaxy/templates/user.html.py:310
 msgid "Decline"
 msgstr "Wijger"
 
-#: codegalaxy/templates/user.html:285
+#: codegalaxy/templates/user.html:300
 msgid "Someone wants to add you to"
 msgstr "Iemand wil je toevoegen aan"
 
-#: codegalaxy/templates/user.html:334
+#: codegalaxy/templates/user.html:349
 msgid "Take a look!"
 msgstr "Neem een kijkje!"
 
-#: codegalaxy/templates/user.html:337
+#: codegalaxy/templates/user.html:352
 msgid "isn't a member of any groups yet."
 msgstr "is nog geen lid van een groep."
 
-#: codegalaxy/templates/user.html:348
+#: codegalaxy/templates/user.html:362
+msgid "Earned Badges"
+msgstr "Verdiende Badges"
+
+#: codegalaxy/templates/user.html:404
 msgid "Lists made per programming language"
 msgstr "Lijsten gemaakt per programmeertaal"
 
-#: codegalaxy/templates/user.html:353
+#: codegalaxy/templates/user.html:409
 msgid "Exercises made per programming language"
 msgstr "Oefeningen gemaakt per programmeertaal"
 
-#: codegalaxy/templates/user.html:358
+#: codegalaxy/templates/user.html:414
+#, python-format
 msgid "Average Score (%%) per programming language"
 msgstr "Gemiddelde Score (%%) per programmeer taal"
 
-#: codegalaxy/templates/user.html:363
+#: codegalaxy/templates/user.html:419
 msgid "Total amount of lists made:"
 msgstr "Totale aantal oefeningenlijsten gemaakt:"
 
-#: codegalaxy/templates/user.html:364
+#: codegalaxy/templates/user.html:420
 msgid "Average Score:"
 msgstr "Gemiddelde Score"
 
-#: codegalaxy/templates/user.html:366
+#: codegalaxy/templates/user.html:422
 msgid "You have not completed any exercise lists yet!"
 msgstr "Je hebt nog geen oefeningenlijsten afgewerkt!"
 
-#: codegalaxy/templates/user.html:368
+#: codegalaxy/templates/user.html:424
 msgid "Total amount of groups joined:"
 msgstr "Totaal aantal groepen waar je lid bent:"
 
-#: codegalaxy/templates/user.html:369
+#: codegalaxy/templates/user.html:425
 msgid "Time member of site:"
 msgstr "Werd lid van deze wesite:"
 
-#: codegalaxy/templates/user.html:370
+#: codegalaxy/templates/user.html:426
 msgid "Last login:"
 msgstr "Laatste keer bezocht:"
+
+#~ msgid "made an exercise list:"
+#~ msgstr "maakte een oefeningenlijst:"
+
+#~ msgid "Add User"
+#~ msgstr "Voeg gebruiker toe"
+
+#~ msgid "Delete"
+#~ msgstr "Verwijder"
+
+#~ msgid "Upgrade"
+#~ msgstr "Promoveer"
 
 #~ msgid "I"
 #~ msgstr "Ik"
@@ -822,9 +974,6 @@ msgstr "Laatste keer bezocht:"
 
 #~ msgid "next"
 #~ msgstr "volgende"
-
-#~ msgid "Group overview"
-#~ msgstr "Overzicht groepen "
 
 #~ msgid "The passwords don't match"
 #~ msgstr "De paswoorden komen niet overeen"
