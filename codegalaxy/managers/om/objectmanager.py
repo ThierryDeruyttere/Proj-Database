@@ -98,34 +98,6 @@ class ObjectManager:
         badges['bronze'] = bronze
         return badges
 
-    def getAllBadgesOnType(self):
-        badges_info = dbw.getAllBadgeInformation()
-        badges={}
-        badge_types = ['custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'createdGroup', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
-
-        memberOfGroup = []
-        hasFriend = []
-        solvedList = []
-        createdList = []
-        createdGroup = []
-        peopleSolvedMyList = []
-        gaveRating = []
-        timeMember = []
-        frequentVisitor = []
-        for badge_info in badges_info:
-            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
-            if badge_object.medal == 'gold':
-                gold.append(badge_object)
-            elif badge_object.medal == 'silver':
-                silver.append(badge_object)
-            elif badge_object.medal == 'bronze':
-                bronze.append(badge_object)
-
-        badges['gold'] = gold
-        badges['silver'] = silver
-        badges['bronze'] = bronze
-        return badges
-
     def createGroupOnName(self, group_name):
         group_info = dbw.getGroupInformationOnName(group_name)
         if group_info:
