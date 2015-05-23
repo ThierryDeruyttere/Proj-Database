@@ -580,7 +580,7 @@ def badge(request, id=0):
         current_score = user.getCurrentValueForBadge(badge.id)
     except:
         current_score = 0
-    percentage_finished = (current_score/badge.target_value)*100
+    percentage_finished = round((current_score/badge.target_value)*100)
     if percentage_finished > 100:
         percentage_finished = 100
 
