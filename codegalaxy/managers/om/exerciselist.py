@@ -110,7 +110,6 @@ class ExerciseList:
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 
     def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
-        # list_id,name, description ,difficulty, prog_lang_id)
         dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
         self.name = updated_name
         self.description = updated_description
@@ -137,10 +136,9 @@ class ExerciseList:
         l_id = language_obj.id
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
-        # Code (default "")
         if exercise_type == "Code":
             dbw.insertCode(code, exercise_id)
-        # question = QuestionContainer object
+        # question is een QuestionContainer object
         dbw.insertQuestion(exercise_id, question.language.id, question.question_text)
 
         import managers.om.objectmanager

@@ -929,7 +929,7 @@ def generateBadges():
         incrementBadgeValue(user['friend_id'], 'hasFriend')
     cursor.close()
 
-    #solvedList
+    # solvedList
     cursor = connection.cursor()
     cursor.execute('SELECT m.user_id, l.created_by FROM madeList m, exerciseList l WHERE m.exerciseList_id = l.id')
     fetched = processData(cursor)
@@ -938,7 +938,7 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'peopleSolvedMyList')
     cursor.close()
 
-    #createdList
+    # createdList
     cursor = connection.cursor()
     cursor.execute('SELECT created_by FROM exerciseList')
     fetched = processData(cursor)
@@ -946,7 +946,7 @@ def generateBadges():
         incrementBadgeValue(user['created_by'], 'createdList')
     cursor.close()
 
-    #Write everyhting to a file
+    # Write everyhting to a file
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM hasBadge')
     fetched = processData(cursor)
@@ -1027,7 +1027,7 @@ def allBadgeEarnedUsers(badge_id):
     return fetched
 
 def checkTimeRelatedBadges(user_id):
-    #Update Timemember
+    # Update Timemember
     badge_type = "timeMember"
     cursor = connection.cursor()
     cursor.execute('SELECT joined_on FROM user WHERE id ={user_id}'.format(user_id=user_id))
@@ -1455,7 +1455,7 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
     fetched = processData(cursor)
 
     cursor.close()
-    #Clear doubles/ if any
+    # Clear doubles/ if any
     if lang_id != 1:
         info = {}
         for i in fetched:
@@ -1467,7 +1467,6 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
         cleaned = []
         for i in fetched:
             if info[i['id']] == 1:
-                #No prob add it
                 cleaned.append(i)
             else:
                 if int(i['language_id']) != 1:
@@ -1525,7 +1524,7 @@ def getAllPostsForGroup(group_id):
 
 
 
-##Challenges
+# Challenges
 
 def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list_id):
     cursor = connection.cursor()
@@ -1584,4 +1583,3 @@ def getFinishedChallengesBetween(user_id, opponent_id):
     fetched = processData(cursor)
     cursor.close()
     return fetched
-

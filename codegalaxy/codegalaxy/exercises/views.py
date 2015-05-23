@@ -75,7 +75,7 @@ def editList(request, listId):
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
-    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # Check if list exists
     if exercise_list is None or exercise_list.created_by != user.id:
         return redirect('/')
 
@@ -365,12 +365,12 @@ def InvalidOrRound(object):
 
 def list(request, id=0):
     user = logged_user(request)
-    # score spread forthis exercise
+    # score spread for this exercise
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(id, browser_lang.id)
-    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # Check if list exists
     if exercise_list is None:
         return redirect('/')
 
@@ -676,7 +676,6 @@ def submit(request, list_id, exercise_number):
                 else:
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
-                    # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
                 # For code you only have one answer so lets get it

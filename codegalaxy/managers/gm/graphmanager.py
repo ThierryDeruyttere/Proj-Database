@@ -44,7 +44,6 @@ class GraphManager:
     '''Class which will build strings that can be used to generate graphs in an html page'''
 
     def __init__(self):
-        # To avoid variables with the same name
         pass
 
     def canvasString(self, name, width, height):
@@ -86,7 +85,6 @@ class GraphManager:
         extras_string = ''
         extras_string += 'var options = { \n'
         extras_string += 'segmentShowStroke : false,\n'
-        # add more stuff here
         extras_string += 'animationEasing : "easeOutBounce",'
         extras_string += 'animateScale : true\n,'
         extras_string += self.globalOptions()

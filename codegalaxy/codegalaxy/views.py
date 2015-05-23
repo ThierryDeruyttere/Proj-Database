@@ -570,7 +570,6 @@ def badges(request):
 @require_login
 def badge(request, id=0):
     user = logged_user(request)
-    #Omdat het kan afkljdfasfkfdas
     id = int(id)
     badge = object_manager.createBadge(id)
     users_that_earned_badge = badge.allUsersThatEarnedBadge()
@@ -583,7 +582,7 @@ def badge(request, id=0):
     if percentage_finished > 100:
         percentage_finished = 100
 
-    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score, 
+    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
                 'target_score': target_score}
 
     return render(request, 'badge.html', context)
