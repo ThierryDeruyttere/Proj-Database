@@ -16,11 +16,21 @@ from codegalaxy.general import getBrowserLanguage
 object_manager = objectmanager.ObjectManager()
 challenge_manager = challengemanager.ChallengeManager()
 
+def removeChallenges(user_id, challenges):
+    challenge = []
+    for i in challenges:
+        if i.challenger.id == user_id:
+            pass
+        else:
+            challenge.append(i)
+
+    return challenge
+
 def get_notifications(request):
     user = logged_user(request)
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
-    notifications['challenges'] = len(challenge_requests)
+    notifications['challenges'] = len(removeChallenges(user.id, challenge_requests))
     notifications['social'] = len(user.allPendingFriendships()) +  len(user.allPendingGroupMemberships())
 
 

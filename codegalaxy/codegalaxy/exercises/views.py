@@ -706,7 +706,6 @@ def submit(request, list_id, exercise_number):
             if not ex_info['solved']:
                 user_made_all = False
         if user_made_all:
-            #Overbodig?
             if len(users_exercises) == len(all_exercise):
                 list_score = 0
                 max_list_score = 0
