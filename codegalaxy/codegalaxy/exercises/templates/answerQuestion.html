@@ -157,7 +157,7 @@
             amount_of_hints: {{ hints|length }},
             max_score: {{ exercise.max_score }},
             penalty: {{ penalty }}
-          }
+          };
           $.ajax({
             type: "POST",
             url: "/addHint/",
@@ -340,15 +340,15 @@
 
 '    def __str__(self):\n' +
 '        return "Edges:" + str(self.edges) + "\\nVerti: " + str(self.vertices)\n' +
-'rocket = Rocket({{correct_answer.1}}, {{correct_answer.0}})\n'
+'rocket = Rocket({{correct_answer.1}}, {{correct_answer.0}})\n';
 
         var prog = prefix + code_text.getValue();
         prog += '\nrocket.right(0)\n' +
                 'if (not rocket.wrong) and (set(rocket.exp_vertices) == set(rocket.vertices)):\n' +
-                '    print("~~success~~")\n'
+                '    print("~~success~~")\n';
 
         Sk.pre = "output";
-        console.log(prog)
+        console.log(prog);
         Sk.configure({output:turtleOutput, read:builtinRead});
         (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';
         var myPromise = Sk.misceval.asyncToPromise(function() {

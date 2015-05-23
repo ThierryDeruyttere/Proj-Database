@@ -78,7 +78,7 @@
               <legend>{% trans "Subjects" %}</legend>
               <div class="row" id="subjects_list">
                 {% for subject in subjects %}
-                  <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
+                  <span class="success label" id="{{ subject }}" onclick="removeSubject(this)">{{ subject }}</span>
                   <input type="hidden" id="{{ subject }}_text" name="subject{{ forloop.counter0 }}" hidden="True" class="text-center" value="{{ subject }}">
                 {% endfor %}
               </div>

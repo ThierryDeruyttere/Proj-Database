@@ -154,7 +154,7 @@
 
   function runit() {
      var prog = code_text.getValue();
-     prog += "\nprint(\"Turtle output:\")"
+     prog += "\nprint(\"Turtle output:\")";
      Sk.pre = "output_text";
      Sk.configure({output:setSuccess, read:builtinRead});
      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';

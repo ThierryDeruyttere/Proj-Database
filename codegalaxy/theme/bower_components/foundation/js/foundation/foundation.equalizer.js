@@ -48,8 +48,7 @@
         if (isStacked) {
           return;
         }
-      };
-
+      }
       var heights = vals.map(function () { return $(this).outerHeight(false) }).get();
 
       if (settings.use_tallest) {

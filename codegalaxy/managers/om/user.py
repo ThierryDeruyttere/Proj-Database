@@ -702,7 +702,6 @@ class PersonalList:
         if exercise_info:
             personal_exercises_list = [PersonalExercise(x['solved'],
                                                         x['exercise_score'],
-                                                        x['rating'],
                                                         x['exercise_id'],
                                                         language_code,
                                                         x['completed_on'],

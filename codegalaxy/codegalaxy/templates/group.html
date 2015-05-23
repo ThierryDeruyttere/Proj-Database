@@ -356,7 +356,7 @@
       dataType: "text",
 
       success: function(response) {
-        $('.empty_posts').remove()
+        $('.empty_posts').remove();
         $('#posts').prepend(response);
         post_text_var.setValue('');
       },
@@ -422,7 +422,7 @@
 
   $(document).on("click",".delete_button" , function(e){
     e.preventDefault();
-    p_id = $(this).attr('data-post_id')
+    p_id = $(this).attr('data-post_id');
     var post_data = {
       group_id: {{ group.id }},
       post_id: p_id
@@ -457,7 +457,7 @@
 
   $(document).on("click",".edit_button" , function(e){
     e.preventDefault();
-    p_id = $(this).attr('data-post_id')
+    p_id = $(this).attr('data-post_id');
     var post_data = {
       post_text : post_text_var_edit.getValue(),
       group_id: {{ group.id }},
@@ -486,7 +486,7 @@
 
   $(document).on("click",".reply_button" , function(e){
     e.preventDefault();
-    var p_id = $(this).attr('data-post_id')
+    var p_id = $(this).attr('data-post_id');
     var post_data = {
       post_text : post_text_var_reply.getValue(),
       group_id: {{ group.id }},
@@ -518,7 +518,7 @@
     term_text = $("#search_add_members input[type=text]").val();
     groupid = $("#group_id").val();
 
-    var post_data = {term:term_text, group_id:groupid}
+    var post_data = {term:term_text, group_id:groupid};
 
     $.ajax({
       type: "POST",
@@ -536,8 +536,8 @@
   });
   $(document).on('click', '#search_result div[id^=u_] #inviteuser', function(){
     groupid = $(this).attr('data-group_id');
-    userid = $(this).attr('data-user_id')
-    var post_data = {user_id:userid, group_id:groupid}
+    userid = $(this).attr('data-user_id');
+    var post_data = {user_id:userid, group_id:groupid};
     $.ajax({
       type: "POST",
       url: "/g/invitemember/",

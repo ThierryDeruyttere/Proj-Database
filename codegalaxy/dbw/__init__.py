@@ -393,7 +393,7 @@ def getExerciseScoreFor(id, exercise_list):
     @return returns a dict with lists
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT e.id, mE.solved, mE.rating, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer, e.max_score FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
+    cursor.execute('SELECT e.id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer, e.max_score FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
     fetched = processData(cursor)
     cursor.close()
     return fetched
