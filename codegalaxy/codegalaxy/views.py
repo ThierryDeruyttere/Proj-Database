@@ -521,7 +521,6 @@ def social(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
-    #TODO check if this is ok
     friend_requests = current_user.allPendingFriendships()
     group_requests = current_user.allPendingGroupMemberships()
 
