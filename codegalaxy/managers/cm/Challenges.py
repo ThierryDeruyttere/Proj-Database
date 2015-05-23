@@ -76,14 +76,15 @@ class Challenge:
         if self.challenge_type.code == 1:
             #Score game mode
             challenger_score = challenger_list.score
-            challenged_score = challenged_list.score
+            challenged_score = challenger_list.score
 
 
         elif self.challenge_type.code == 2:
             #Perfects gamemode
+
             #language code doesn't matter here
-            challenger_exercises = challenger_list.list.allExercises('en')
-            challenged_exercises = challenged_list.list.allExercises('en')
+            challenger_exercises = challenger_list.exercises_list.allExercises('en')
+            challenged_exercises = challenged_list.exercises_list.allExercises('en')
 
             #This could be done in one loop, but what if a user adds more exercises to a list
             #when one of the two players has already finished the list?
