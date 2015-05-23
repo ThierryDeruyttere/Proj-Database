@@ -83,12 +83,13 @@ class Challenge:
             #Perfects gamemode
 
             #language code doesn't matter here
-            challenger_exercises = challenger_list.exercises_list.allExercises('en')
-            challenged_exercises = challenged_list.exercises_list.allExercises('en')
+            challenger_exercises = challenger_list.allExercises('en')
+            challenged_exercises = challenged_list.allExercises('en')
 
             #This could be done in one loop, but what if a user adds more exercises to a list
             #when one of the two players has already finished the list?
             for i in challenger_exercises:
+
                 if i.score == i.max_score:
                     challenger_score += 1
 

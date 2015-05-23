@@ -49,10 +49,6 @@ def createExerciseList(request):
         difficulty = request.POST.get('difficulty', '')
         prog_lang = request.POST.get('prog_lang', '')
 
-        # Not longer in use
-        # def_lang = request.POST.get('default_language', '')
-        def_lang = "English"
-
         user = logged_user(request)
         translation = getTranslationDict(request, languages)
 
