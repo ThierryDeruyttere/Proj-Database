@@ -19,6 +19,8 @@
 -- Table structure for table `answer`
 --
 
+CREATE DATABASE IF NOT EXISTS codegalaxy;
+
 USE codegalaxy
 
 DROP TABLE IF EXISTS `answer`;
