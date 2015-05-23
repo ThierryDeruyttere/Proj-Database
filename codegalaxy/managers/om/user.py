@@ -707,6 +707,7 @@ class PersonalList:
                                                         x['completed_on'],
                                                         self.exercises_list.id,
                                                         x['exercise_number'],
+                                                        x['last_answer'],
                                                         x['max_score']) for x in exercise_info]
             return personal_exercises_list
         else:
