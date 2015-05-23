@@ -732,7 +732,7 @@ class PersonalExercise:
             exercise_id, language_code)
         self.list_id = list_id
         self.exercise_number = exercise_number
-        self.last_answer = last_answer
+        self.last_answer = datetime.strptime(last_answer, "%Y-%m-%d %H:%M:%S")
         self.max_score = max_score
 
     def __str__(self):

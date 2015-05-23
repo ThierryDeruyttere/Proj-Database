@@ -235,13 +235,13 @@ class ObjectManager:
 
         return lists_objects
 
-    def getAllExerciseLists(self, language_code):
+    def getAllExerciseLists(self, language_id):
         all_prog_langs = self.allProgrammingLanguages()
         all_lists = []
         for i in all_prog_langs:
             lists = self.getExerciseListsOnProgLang(i["name"])
             for l in lists:
-                all_lists.append(self.createExerciseList(l, language_code))
+                all_lists.append(self.createExerciseList(l, language_id))
 
         return all_lists
 

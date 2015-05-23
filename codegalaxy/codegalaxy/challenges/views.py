@@ -38,6 +38,9 @@ def prepareDict(lists):
             new_dict[i.programming_language.name] = []
         new_dict[i.programming_language.name].append(i.name)
 
+    if len(new_dict) == 0:
+        return {'empty': ["Sorry, we couldn't find any lists!"]}
+
     return new_dict
 
 def getListFromName(list_name, language_code):
@@ -54,6 +57,55 @@ def getFinishedChallengesStats(challenges):
 
         stats[i.challenge_type.type] += 1
     return stats
+
+def createPieChart(user, challenged, browser_language):
+    #Get charts info
+    my_wins  = challenge_manager.getWinsAgainst(user.id, challenged.id)
+    opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
+    pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
+                                           ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins])
+    pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
+    return pie_chart
+
+def createBarChart(user, challenged, browser_language):
+    finished_challenges = challenge_manager.getFinishedChallengesBetween(user.id, challenged.id, browser_language.id)
+    stats = getFinishedChallengesStats(finished_challenges)
+
+    color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
+    color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
+
+    values = [[]]
+    for v in stats.values():
+        values[0].append(v)
+
+    bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"])
+    bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
+    return bar_chart
+
+def getRemainingLists(user, challenged, browser_language):
+    user_pers_lists = user.allPersonalLists()
+    #Get all the list objects from the personal lists
+    user_lists = [i.exercises_list for i in user_pers_lists]
+
+    challenged_pers_lists = challenged.allPersonalLists()
+    #Same here
+    challenged_lists = [i.exercises_list for i in challenged_pers_lists]
+
+
+    all_lists = object_manager.getAllExerciseLists(browser_language.id)
+    #take an union from all solved lists + lists created by the users
+    active_challenges = challenge_manager.getChallengesBetween(user.id, challenged.id, browser_language.id)
+    active_lists = [i.list.id for i in active_challenges]
+
+    union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | \
+            set(challenged.getAllCreatedLists(browser_language.id)) | set(active_challenges)
+
+    intersect = set(all_lists) - set(union)
+    remaining_lists = []
+    for i in intersect:
+        if i.id not in active_lists:
+            remaining_lists.append(i)
+    return remaining_lists
 
 
 @require_login
@@ -74,53 +126,14 @@ def challenges(request):
         return HttpResponseRedirect('')
 
     if request.method == 'GET' and 'available_lists' in request.GET:
-        user_pers_lists = user.allPersonalLists()
-        #Get all the list objects from the personal lists
-        user_lists = [i.exercises_list for i in user_pers_lists]
-
         challenged = object_manager.getUserByName(request.GET.get('challenged'))
-        challenged_pers_lists = challenged.allPersonalLists()
-        #Same here
-        challenged_lists = [i.exercises_list for i in challenged_pers_lists]
+        remaining_lists = getRemainingLists(user, challenged, browser_language)
 
-        all_lists = object_manager.getAllExerciseLists(browser_language.id)
-        #take an union from all solved lists + lists created by the users
-        active_challenges = challenge_manager.getChallengesBetween(user.id, challenged.id, browser_language.id)
-        active_lists = [i.list.id for i in active_challenges]
-
-        union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | \
-                set(challenged.getAllCreatedLists(browser_language.id)) | set(active_challenges)
-
-        intersect = set(all_lists) - set(union)
-        remaining_lists = []
-        for i in intersect:
-            if i.id not in active_lists:
-                remaining_lists.append(i)
-
-        #Get charts info
-        my_wins  = challenge_manager.getWinsAgainst(user.id, challenged.id)
-        opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
-        pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
-                                               ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins])
-        pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
+        #Get charts info & prepare dictionary
 
         dump = prepareDict(remaining_lists)
-        dump['wins_chart'] = pie_chart
-
-        finished_challenges = challenge_manager.getFinishedChallengesBetween(user.id, challenged.id, browser_language.id)
-        stats = getFinishedChallengesStats(finished_challenges)
-
-        color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
-        color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
-
-        values = [[]]
-        for v in stats.values():
-            values[0].append(v)
-
-        bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"])
-        bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
-
-        dump['challenges_chart'] = bar_chart
+        dump['wins_chart'] = createPieChart(user, challenged, browser_language)
+        dump['challenges_chart'] = createBarChart(user, challenged, browser_language)
 
         return HttpResponse(json.dumps(dump))
 
@@ -213,8 +226,8 @@ def createFinishedHtml(challenge):
             </ul>
         </div>
         </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                   challenger= challenge.challenger, challenged = challenge.challenged,
-                   type = challenge.challenge_type.type, list=challenge.list)
+                         challenger= challenge.challenger, challenged = challenge.challenged,
+                         type = challenge.challenge_type.type, list=challenge.list)
     else:
         return """
         <div class="large-12 columns">
@@ -238,8 +251,8 @@ def createFinishedHtml(challenge):
             </ul>
         </div>
         </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                   challenger= challenge.challenger, challenged = challenge.challenged,
-                   type = challenge.challenge_type.type, list=challenge.list)
+                         challenger= challenge.challenger, challenged = challenge.challenged,
+                         type = challenge.challenge_type.type, list=challenge.list)
 
 def get_finished(request):
     browser_language = getBrowserLanguage(request)
@@ -260,7 +273,7 @@ def createRequestHTML(challenge, user):
                       """ + buttons
 
     buttons = buttons.format(challenger= challenge.challenger, challenged = challenge.challenged,
-                     list=challenge.list)
+                             list=challenge.list)
 
     return """
     <div class="large-12 columns">
