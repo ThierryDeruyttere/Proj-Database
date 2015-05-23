@@ -175,12 +175,12 @@
         <hr>
 
         <div class="row">
-          <div class="large-12 columns">
+          <div class="large-12 columns move_right">
             <div id="posts">
                 {% if group_posts %}
                   {{ group_posts | safe }}
                 {% else %}
-                <h1 class="empty_posts">There does not seem to be any posts here yet!</h1>
+                <p class="empty_posts">There does not seem to be any posts here yet!</p>
                 {% endif %}
             </div>
           </div>
@@ -445,7 +445,7 @@
           }
         });
         if (!$(".post")[0]){
-          $("#posts").append('<h1 class="empty_posts">There does not seem to be any posts here yet!</h1>')
+          $("#posts").append('<p class="empty_posts">There does not seem to be any posts here yet!</p>')
         }
       },
       error: function(jqXHR, textStatus, error) {

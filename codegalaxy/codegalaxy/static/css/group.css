@@ -10,45 +10,57 @@
 }
 
 /* line 10, ../../../theme/scss/group.scss */
+.move_right {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+/* line 15, ../../../theme/scss/group.scss */
 .CodeMirror {
   height: 130px;
   width: 60%;
 }
 
-/* line 14, ../../../theme/scss/group.scss */
+/* line 19, ../../../theme/scss/group.scss */
 #post_button {
   width: 13%;
 }
 
-/* line 17, ../../../theme/scss/group.scss */
+/* line 22, ../../../theme/scss/group.scss */
 .wall-item {
   margin-bottom: 0px;
 }
-/* line 18, ../../../theme/scss/group.scss */
+/* line 23, ../../../theme/scss/group.scss */
 .wall-item p {
   margin-bottom: 0px;
 }
-/* line 21, ../../../theme/scss/group.scss */
-.wall-item .replies {
-  padding-left: 7%;
+/* line 26, ../../../theme/scss/group.scss */
+.wall-item .row {
+  padding-left: 20px;
 }
-/* line 23, ../../../theme/scss/group.scss */
+/* line 29, ../../../theme/scss/group.scss */
+.wall-item .replies {
+  padding-left: 40px;
+}
+/* line 31, ../../../theme/scss/group.scss */
 .wall-item .replies .reply-timestamp {
   color: rgba(217, 217, 217, 0.7);
 }
-/* line 27, ../../../theme/scss/group.scss */
+/* line 35, ../../../theme/scss/group.scss */
 .wall-item .button {
   width: 13%;
   margin-right: 5px;
 }
-/* line 32, ../../../theme/scss/group.scss */
-.wall-item .large-1 {
-  margin-right: 1px;
-  margin-left: 1px;
-  padding-right: 0px;
+/* line 40, ../../../theme/scss/group.scss */
+.wall-item .button_margin {
+  margin-right: 12px;
+}
+/* line 43, ../../../theme/scss/group.scss */
+.wall-item .octicon {
+  margin-right: 3px;
 }
 
-/* line 39, ../../../theme/scss/group.scss */
+/* line 48, ../../../theme/scss/group.scss */
 .octicon {
   padding-right: 2px;
 }

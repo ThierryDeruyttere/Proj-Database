@@ -284,26 +284,26 @@ class Post:
             </small>
         </p>
         <div class="row">
-            <div class="large-1 columns">
+            <span class="button_margin">
                 <small>
                     <span class="octicon octicon-comment"></span><a href="#" class="want_to_reply_button" {post_data_variables} >Reply</a>
                 </small>
-            </div>
+            </span>
         '''.format(text=markdown_converter.convert(self.post_text),
         posted_on=str(self.posted_on)[:-6],user_name=user.name(),
         post_data_variables=self.addPostDataVariables())
         if user.id == logged_user.id:
             html += '''
-            <div class="large-1 columns end">
+            <span class="button_margin">
                 <small>
                     <span class="octicon octicon-pencil"></span><a href="#" class="want_to_edit_button" {post_data_variables} >Edit</a>
                 </small>
-            </div>
-            <div class="large-1 columns end">
+            </span>
+            <span class="button_margin">
                 <small>
                     <span class="octicon octicon-x"></span><a href="#" class="delete_button" {post_data_variables} >Delete</a>
                 </small>
-            </div>'''.format(post_data_variables=self.addPostDataVariables())
+            </span>'''.format(post_data_variables=self.addPostDataVariables())
         html += '</div>'
         return html
 
