@@ -111,7 +111,7 @@
                             <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                           </div>
                           {% if exercise.isReference %}
-                            <a href="/l/{{exercise.isReferenceTo.0}}">Original</a>[{{exercise.isReferenceTo.1}}]
+                            <a href="/l/{{exercise.isReferenceTo.0}}">{% trans "Original" %}</a>[{{exercise.isReferenceTo.1}}]
                           {% endif %}
                         </div>
                       </li>

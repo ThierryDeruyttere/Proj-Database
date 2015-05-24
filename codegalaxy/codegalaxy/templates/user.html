@@ -73,7 +73,7 @@
             </div>
             <div class="small-10  columns">
               <input type="email" required placeholder="Email Address" id="new_email" name="new_email" value="{{ old_email }}">
-              <small class="error">Enter a valid Email Address.</small>
+              <small class="error">{% trans "Enter a valid Email Address." %}</small>
             </div>
           </div>
 
@@ -124,7 +124,7 @@
       <div class="content active" id="feed">
         {% if not my_profile %}
         <div class="alert-box info radius" id="message">
-          You have {{ total_mutual_friends }} mutual friends
+          {% trans "You have" %} {{ total_mutual_friends }} {% trans "mutual friends" %}
         </div>
         {% endif %}
 
@@ -250,7 +250,7 @@
           {% endfor %}
           {% if not my_profile %}
           <div class="large-12 columns">
-            <h5>Mutual friends</h5>
+            <h5>{% trans "Mutual friends" %}</h5>
             <div class="row">
               {% for friend in mutual_friends %}
               <div class="large-3 columns end">
@@ -264,7 +264,7 @@
               </div>
               {% endfor %}
             </div>
-            <h5>Others</h5>
+            <h5>{% trans "Others" %}</h5>
             <div class="row">
               {% for friend in non_mutual_friends %}
               <div class="large-3 columns end">
@@ -347,7 +347,7 @@
           {% endfor %}
           {% else %}
           {% if my_profile %}
-          <h4>You have not joined a group yet.</h4>
+          <h4>{% trans "You have not joined a group yet." %}</h4>
           <a href="/social" class="button">{% trans "Take a look!" %}</a>
           {% else %}
           <div class="row">

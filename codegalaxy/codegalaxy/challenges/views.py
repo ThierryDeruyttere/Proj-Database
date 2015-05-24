@@ -43,7 +43,7 @@ def prepareDict(lists):
         new_dict[i.programming_language.name].append([i.id, i.name])
 
     if len(new_dict) == 0:
-        return {'empty': [[-1, "Sorry, we couldn't find any lists!"]]}
+        return {'empty': [[-1, _("Sorry, we couldn't find any lists!")]]}
 
     return new_dict
 
@@ -62,7 +62,7 @@ def createPieChart(user, challenged, browser_language):
     opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
     pie_chart = graph_manager.makePieChart("#wins", 150, 150, graphmanager.color_tuples,
                                            ["You", challenged.first_name + " " + challenged.last_name], [my_wins, opponent_wins])
-    pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
+    pie_chart = graph_manager.addTitle(pie_chart, _("Wins per user"))
     return pie_chart
 
 # Shows how many challenges of eacht type you have done against another user
@@ -78,7 +78,7 @@ def createBarChart(user, challenged, browser_language):
         values[0].append(v)
 
     bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys(), values, ["test"])
-    bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
+    bar_chart = graph_manager.addTitle(bar_chart, _("#Challenges per challenge type"))
     return bar_chart
 
 # Searches all the lists between two users that are still egligable for
