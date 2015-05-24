@@ -27,7 +27,11 @@
       {% else %}
       <form method="post" action="/g/{{group.id}}/">
         {% csrf_token %}
+        {% if group_permissions == 0 %}
+        <input type="submit" name="leave_group" value="{% trans "Delete Group" %}" class="button alert radius"/>
+        {% else %}
         <input type="submit" name="leave_group" value="{% trans "Leave group" %}" class="button alert radius"/>
+        {% endif %}
       </form>
       {% endif %}
     </div>

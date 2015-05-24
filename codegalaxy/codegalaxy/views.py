@@ -391,7 +391,11 @@ def group(request, id=0):
                 './codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
-            group.deleteMember(user.id)
+            if group.getUserPermissions(user.id) == 2:
+                group.disband()
+                return redirect('/social/')
+            else:
+                group.deleteMember(user.id)
 
         elif 'remove_user' in request.POST:
             user_id_to_delete = request.POST.get('user_id_to_delete')
