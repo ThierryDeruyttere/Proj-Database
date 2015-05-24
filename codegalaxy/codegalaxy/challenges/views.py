@@ -19,6 +19,7 @@ challenge_manager = challengemanager.ChallengeManager()
 graph_manager = graphmanager.GraphManager()
 
 
+# Fetches tha names and pictures (path) of all the users except one
 def getAllUsersNames(except_user):
     all_users = object_manager.allUsers()
     all_users_names = []
@@ -27,10 +28,12 @@ def getAllUsersNames(except_user):
             continue
 
         name = i.first_name + " " + i.last_name
+        # The pictures are located in the 'static' folder
         img = "/static/" + i.getPicture()
         all_users_names.append({"value": name, "data": img})
     return all_users_names
 
+# TODO
 def prepareDict(lists):
     new_dict = {}
     for i in lists:
@@ -44,9 +47,8 @@ def prepareDict(lists):
     return new_dict
 
 def getFinishedChallengesStats(challenges):
-    stats = {"Score":0, "Perfects":0}
+    stats = {"Score": 0, "Perfects": 0}
     for i in challenges:
-
         stats[i.challenge_type.type] += 1
     return stats
 
@@ -101,11 +103,13 @@ def getRemainingLists(user, challenged, browser_language):
 
 
 @require_login
+# The view for challenges.html
 def challenges(request):
     browser_language = getBrowserLanguage(request)
     user = logged_user(request)
     all_users_names = getAllUsersNames(user.id)
 
+    # We'll fetch all the pending requests for challenges for the current user
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, browser_language.id)
 
     if request.method == 'POST':
@@ -134,6 +138,8 @@ def challenges(request):
                                                "challenge_requests": challenge_requests
                                                })
 
+# The POST request sent when a user reacts to a request/running challenge.
+# This updates whether the user accepts, cancels or gives up on the challenge.
 def handle_request(request):
     info = request.POST.get('challenge_info')
     challenge_info = info.split('-')
@@ -153,8 +159,9 @@ def handle_request(request):
 
     return HttpResponse()
 
+# The html to be inserted for any challenges that are still going on,
+# contains info like between who the challenge is/which list/type/...
 def createActiveHTML(challenge):
-
     return """
     <div class="large-12 columns">
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
@@ -180,8 +187,7 @@ def createActiveHTML(challenge):
                      challenger= challenge.challenger, challenged = challenge.challenged,
                      type = challenge.challenge_type.type, list=challenge.list)
 
-
-
+# Gets all the challenges a certain user is busy with right now (not completed)
 def get_actives(request):
     browser_language = getBrowserLanguage(request)
     user = request.GET.get('user')
@@ -192,7 +198,8 @@ def get_actives(request):
 
     return HttpResponse(html)
 
-
+# The html to be inserted for any completed challenges, contains info
+# like who won/which list/type/...
 def createFinishedHtml(challenge):
 
     if challenge.challenger.id == challenge.winner.id:
@@ -246,6 +253,8 @@ def createFinishedHtml(challenge):
                          challenger= challenge.challenger, challenged = challenge.challenged,
                          type = challenge.challenge_type.type, list=challenge.list)
 
+# Seeks out which challenges have een completed and chains the appropriate
+# html together
 def get_finished(request):
     browser_language = getBrowserLanguage(request)
     user = request.GET.get('user')
@@ -256,6 +265,7 @@ def get_finished(request):
 
     return HttpResponse(html)
 
+# The html to be inserted for any challenge requests (accept button/some info/...)
 def createRequestHTML(challenge, user):
     request_type = "Request"
     buttons = """<button type="button" class="alert small radius challenge_cancel" name="{challenger.id}-{challenged.id}-{list.id}">Cancel</button>"""
@@ -294,7 +304,8 @@ def createRequestHTML(challenge, user):
                      type = challenge.challenge_type.type, list=challenge.list,
                      buttons=buttons, request_type=request_type)
 
-
+# Seeks out which challenges have een requested and chains the appropriate
+# html together
 def get_requests(request):
     browser_language = getBrowserLanguage(request)
     user = logged_user(request)
