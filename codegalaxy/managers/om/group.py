@@ -258,6 +258,7 @@ class Post:
         self.reply_number = int(reply_number)
         self.post_text = post_text.decode('utf-8')
         self.posted_on = posted_on
+        self.object_manager = managers.om.objectmanager.ObjectManager()
 
     def __str__(self):
         return str(self.id) + ' \n' + str(self.group_id) + ' \n' + str(self.user_id) + ' \n' + str(self.reply) + ' \n' + str(self.reply_number) + ' \n' + self.post_text + '\n\n'
@@ -335,8 +336,7 @@ class Post:
 
     # html representation of a post (highest nest)
     def HTMLString(self, logged_user):
-        object_manager = managers.om.objectmanager.ObjectManager()
-        user = object_manager.createUser(id=self.user_id)
+        user = self.object_manager.createUser(id=self.user_id)
 
         hr = ''
         if len(self.allReplies()) != 0:
@@ -351,7 +351,8 @@ class Post:
                         <div class="replies">
         '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
         for reply in self.allReplies():
-            html += reply.HTMLStringReply(user, logged_user)
+            replying_user =  self.object_manager.createUser(id=reply.user_id)
+            html += reply.HTMLStringReply(replying_user, logged_user)
         html += '</div></div></div></div>'
 
         return html
@@ -370,7 +371,8 @@ class Post:
         '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
 
         for reply in self.allReplies():
-            html += reply.HTMLStringReply(user, logged_user)
+            replying_user = self.object_manager.createUser(id=reply.user_id)
+            html += reply.HTMLStringReply(replying_user, logged_user)
         html += '</div></div>'
 
         return html
