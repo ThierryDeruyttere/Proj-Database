@@ -17,6 +17,7 @@ from managers.rm.recommendations import *
 from codegalaxy.authentication import require_login, logged_user
 from codegalaxy.evaluation.evaluators import *
 from managers.cm import challengemanager
+
 object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
@@ -32,6 +33,7 @@ def removeLanguage(languages, code):
             break
     return languages
 
+
 # Prepares the translation dictionary
 # This gets all the current translations from request
 def getTranslationDict(request, languages):
@@ -44,6 +46,7 @@ def getTranslationDict(request, languages):
                 translation[lang][name] = request.POST.get(obj)
 
     return translation
+
 
 # Adds subjects to a newly created list
 def addSubjectsTo(list, request):
@@ -61,7 +64,7 @@ def addSubjectsTo(list, request):
 @require_login
 def createExerciseList(request):
     browser_lang = getBrowserLanguage(request)
-    #Prepare info
+    # Prepare info
     prog_languages = object_manager.allProgrammingLanguages()
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
@@ -74,15 +77,18 @@ def createExerciseList(request):
         user = logged_user(request)
         translation = getTranslationDict(request, languages)
 
-        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), prog_lang, browser_lang.id, translation)
+        exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id,
+                                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), prog_lang,
+                                                      browser_lang.id, translation)
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id, browser_lang.id)
         addSubjectsTo(exercise_list, request)
-        #Update user's points for badges
+        # Update user's points for badges
         user.createdExerciseList()
         return HttpResponse("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
+
 
 def updateSubjects(list, subjects, request):
     updated_subjects_amount = int(request.POST.get("subjects_amount"))
@@ -104,13 +110,14 @@ def updateSubjects(list, subjects, request):
 
     return updated_subjects
 
+
 # The view for editList.html
 @require_login
 def editList(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
-    #Remove browser language from available languages
+    # Remove browser language from available languages
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
     # Check if list exists
     if exercise_list is None or exercise_list.created_by != user.id:
@@ -119,24 +126,25 @@ def editList(request, listId):
     prog_langs = object_manager.allProgrammingLanguages()
 
     if request.method == 'POST':
-        #Get updated information
+        # Get updated information
         updated_list_name = request.POST.get('list_name')
         updated_difficulty = request.POST.get('difficulty')
 
         updated_prog_lang = request.POST.get('prog_lang', '')
         updated_description = request.POST.get('description_text')
         new_order = request.POST.get('order')
-        #Reorder our exercises if necessary
+        # Reorder our exercises if necessary
         new_order = filterOrder(new_order)
         exercise_list.reorderExercises(new_order, browser_lang.code)
 
-        subjects = updateSubjects(exercise_list,subjects,request)
+        subjects = updateSubjects(exercise_list, subjects, request)
 
         translation = getTranslationDict(request, languages)
         # set current browser translation
         translation[browser_lang] = {"name": updated_list_name, "description": updated_description}
 
-        exercise_list.update(updated_list_name, updated_description, updated_difficulty, object_manager.getProgrLanguageObject(updated_prog_lang), translation)
+        exercise_list.update(updated_list_name, updated_description, updated_difficulty,
+                             object_manager.getProgrLanguageObject(updated_prog_lang), translation)
 
     all_exercises = exercise_list.allExercises(browser_lang.code)
     current_translations = exercise_list.getAllTranslations()
@@ -149,7 +157,8 @@ def editList(request, listId):
                                                        'translations': current_translations,
                                                        'edit': True})
 
-#get multiple choice information when creating new exercise
+
+# get multiple choice information when creating new exercise
 def getMultipleChoiceInfo(request, exercise_max_score):
     answer = []
     for i in range(exercise_max_score + 1):
@@ -162,7 +171,8 @@ def getMultipleChoiceInfo(request, exercise_max_score):
     exercise_penalty = 3
     return exercise_answer, correct_answer, exercise_penalty
 
-#Get code information when creating new exercise
+
+# Get code information when creating new exercise
 def getCodeInfo(request, exercise_max_score):
     hints = []
     exercise_answer = [request.POST.get("output")]
@@ -174,6 +184,7 @@ def getCodeInfo(request, exercise_max_score):
 
     return exercise_answer, hints
 
+
 # The view for createExercise.html
 @require_login
 def createExercise(request, listId=0):
@@ -183,7 +194,7 @@ def createExercise(request, listId=0):
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
     if request.method == 'POST':
-        #Get information
+        # Get information
         translation = getTranslationDict(request, languages)
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
@@ -201,7 +212,7 @@ def createExercise(request, listId=0):
         code = request.POST.get('code', '')
         exercise_max_score = int(request.POST.get('max', '1'))
 
-        #Get the according information for each exercise_type
+        # Get the according information for each exercise_type
         if exercise_type == 'Open Question':
             exercise_answer, correct_answer, exercise_penalty = getMultipleChoiceInfo(request, exercise_max_score)
 
@@ -210,7 +221,8 @@ def createExercise(request, listId=0):
 
         exercise_list.insertExercise(exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,
-                                     exercise_answer, correct_answer, hints, browser_lang, exercise_title, translation, code)
+                                     exercise_answer, correct_answer, hints, browser_lang, exercise_title, translation,
+                                     code)
         return redirect("/l/" + str(listId))
 
     if exercise_list:
@@ -222,6 +234,7 @@ def createExercise(request, listId=0):
                                                            'languages': languages})
 
     return redirect('/')
+
 
 # Function to filter the new order of the exercises.
 def filterOrder(order):
@@ -247,6 +260,7 @@ def editOpenQuestion(exercise, request):
     correct_answer = request.POST.get("correct_answer")
     return exercise_answer, correct_answer
 
+
 # Edit a codeQuestion
 def editCodeQuestion(exercise, request):
     hints = []
@@ -258,6 +272,7 @@ def editCodeQuestion(exercise, request):
             hints.append(cur_hint)
 
     return exercise_answer, hints
+
 
 # Function to update an exercise after a post request on the edit exercise page
 def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request):
@@ -275,7 +290,7 @@ def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, l
     correct_answer = 1
 
     # Update our question type
-    if(exercise.exercise_type == 'Open Question'):
+    if exercise.exercise_type == 'Open Question':
         exercise_answer, correct_answer = editOpenQuestion(exercise, request)
     else:
         exercise_answer, hints = editCodeQuestion(exercise, request)
@@ -326,6 +341,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'languages': languages,
                                                        'translations': json.dumps(translation)})
 
+
 # TODO
 def createImportHTML(all_lists, all_exercises):
     html = ""
@@ -357,6 +373,7 @@ def createImportHTML(all_lists, all_exercises):
                 </div>
                 </li>"""
     return html
+
 
 @require_login
 def importExercise(request, listId):
@@ -408,6 +425,7 @@ def importExercise(request, listId):
 
     return redirect('/')
 
+
 # Rounds integers or tells the user is the givn object was None
 def InvalidOrRound(object):
     if object is None:
@@ -415,6 +433,7 @@ def InvalidOrRound(object):
     else:
         object = round(object)
     return object
+
 
 def importOnList(exercise_list, browser_lang, user, request):
     # just to be sure we can't import stuff in our own list
@@ -442,6 +461,7 @@ def importOnList(exercise_list, browser_lang, user, request):
             for copy in copies:
                 l.copyExercise(copy.id)
 
+
 def recommendLists(user, browser_lang, exercise_list):
     similar_lists = []
     similar_list_ids = []
@@ -456,6 +476,7 @@ def recommendLists(user, browser_lang, exercise_list):
         similar_lists.append(object_manager.createExerciseList(list_id, browser_lang.id))
 
     return similar_lists
+
 
 # Calculate score of user on list
 def getPercentage(all_exercises, list_owner):
@@ -481,7 +502,7 @@ def getPercentage(all_exercises, list_owner):
                 if cur_exercise < e.exercise_number:
                     cur_exercise = e.exercise_number
 
-        #TODO why?
+        # TODO why?
         if len(all_exercises) < percent:
             found = False
             cur_exercise = all_exercises[0].exercise_number
@@ -582,7 +603,6 @@ def list(request, id=0):
             user_rating = user.getRatingForList(exercise_list.id)
             similar_lists = recommendLists(user, browser_lang, exercise_list)
 
-
         return render(request, 'list.html', {'list_owner': list_owner,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises_with_score,
@@ -606,6 +626,7 @@ def list(request, id=0):
                                              'user': user})
     else:
         return redirect('/')
+
 
 # Restores the question where the user left off
 def restoreQuestion(all_exercise, exercise_number, current_user, list_id):
@@ -642,6 +663,7 @@ def restoreQuestion(all_exercise, exercise_number, current_user, list_id):
             break
 
     return current_exercise, current_score, last_hint_used, current_answer, correct_answer
+
 
 # View for answering a question/exercise
 def answerQuestion(request, list_id, exercise_number):
@@ -695,6 +717,8 @@ def answerQuestion(request, list_id, exercise_number):
     # Redirect to home if exercise list does't exist
     return redirect('/')
 
+
+# Strips string from \n or \r
 def stripStr(string):
     strip = ["\n", "\r"]
     s = string
@@ -702,10 +726,12 @@ def stripStr(string):
         s = s.replace(i, "")
     return s
 
+
 def returnScore(current_score):
     if current_score < 0:
         return 0
     return current_score
+
 
 @require_login
 def addHint(request):
@@ -718,6 +744,69 @@ def addHint(request):
     user.useHintForExercise(list_id, exercise_number, amount_of_hints, max_score, penalty)
     return HttpResponse('Everything went fine')
 
+# Check if a user finished the list
+def checkMadeList(exercise_list, browser_lang, all_exercise, user):
+    user_made_all = True
+    users_exercises = exercise_list.getAllExercForUserForList(user.id)
+    for ex_info in users_exercises:
+        if not ex_info['solved']:
+            user_made_all = False
+    if user_made_all:
+        if len(users_exercises) == len(all_exercise):
+            list_score = 0
+            max_list_score = 0
+            for ex in users_exercises:
+                list_score += ex['exercise_score']
+                max_list_score += ex['max_score']
+            list_score = list_score * 100
+            list_score = list_score / max_list_score
+            user.madeList(exercise_list.id, list_score, 0)
+            next_exercise = ""
+            challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
+
+# Check if the user gave a correct answer
+def checkCorrectAnswer(current_exercise, user_output, request, current_score, user):
+    user_code = request.POST.get('user_code', '')
+    hint = request.POST.get("used_hints")
+    penalty = current_exercise.penalty
+    exercise_number = current_exercise.exercise_number
+    list_id = current_exercise.exerciseList_id
+
+    if current_exercise.exercise_type == 'Open Question':
+        selected_answer = request.POST.get('corr_answer')
+
+        if current_exercise.correct_answer == int(selected_answer):
+            # Woohoo right answer!
+            solved = True
+            current_score = returnScore(current_score)
+            object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")),
+                                            int(list_id), int(exercise_number), selected_answer, hint)
+        else:
+            current_score = returnScore(current_score - penalty)
+            # Even though we didn't complete this exercise, we need to remember the progress of the user
+            object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")),
+                                            int(list_id), int(exercise_number), selected_answer, hint)
+
+    elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
+        # For code you only have one answer so lets get it
+        correct_answer = stripStr(current_exercise.allAnswers()[0])
+        user_output = stripStr(user_output)
+
+        if correct_answer == user_output or (
+                        correct_answer == '*' and user_output != '') or user_output == "~~success~~":
+            current_score = returnScore(current_score)
+            solved = True
+            object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")),
+                                            int(list_id), int(exercise_number), user_code, hint)
+
+        else:
+            # We didn't get the right answer! Deduct points!
+            current_score = returnScore(current_score - penalty)
+            object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")),
+                                            int(list_id), int(exercise_number), user_code, hint)
+
+    return solved, current_score
+# The view when the users submits his/her answer
 @require_login
 def submit(request, list_id, exercise_number):
     user = logged_user(request)
@@ -725,6 +814,7 @@ def submit(request, list_id, exercise_number):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(list_id, browser_lang.id)
     if exercise_list:
+        # Get the correct exercise
         solved = False
         all_exercise = exercise_list.allExercises(browser_lang.code)
         current_exercise = None
@@ -744,6 +834,7 @@ def submit(request, list_id, exercise_number):
             elif 'b_returntolist' in request.POST:
                 return redirect('/l/' + list_id)
             elif 'b_nextexercise' in request.POST:
+                # Redirects to next exercise
                 if len(all_exercise) < exercise_number + 1:
                     user.solvedExerciseList(exercise_list.created_by)
                     return redirect('/l/' + list_id + '/')
@@ -751,66 +842,24 @@ def submit(request, list_id, exercise_number):
                     return redirect('/l/' + list_id + '/' + str(exercise_number + 1))
 
             info = object_manager.getInfoForUserForExercise(user.id, list_id, exercise_number)
-            penalty = current_exercise.penalty
             current_score = None
             if info is not None:
                 current_score = object_manager.getScoreForExerciseForUser(user.id, list_id, exercise_number)
+
+            # So the user hasn't made this exercise yet
             if current_score is None:
                 current_score = current_exercise.max_score
 
             max_score = current_exercise.max_score
-            hint = request.POST.get("used_hints")
-
-            user_code = request.POST.get('user_code', '')
             user_output = request.POST.get('code_output', '')
 
-            if current_exercise.exercise_type == 'Open Question':
-                selected_answer = request.POST.get('corr_answer')
-
-                if current_exercise.correct_answer == int(selected_answer):
-                    # Woohoo right answer!
-                    solved = True
-                    current_score = returnScore(current_score)
-                    object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
-                else:
-                    current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
-
-            elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
-                # For code you only have one answer so lets get it
-                correct_answer = stripStr(current_exercise.allAnswers()[0])
-                user_output = stripStr(user_output)
-
-                if correct_answer == user_output or (correct_answer == '*' and user_output != '') or user_output == "~~success~~":
-                    current_score = returnScore(current_score)
-                    solved = True
-                    object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
-
-                else:
-                    # We didn't get the right answer! Deduct points!
-                    current_score = returnScore(current_score - penalty)
-                    object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
+            # Check if the user gave a correct answer
+            solved, current_score = checkCorrectAnswer(current_exercise, user_output, request, current_score, user)
 
         next_exercise = exercise_number + 1
 
         # Checking if user made list
-        user_made_all = True
-        users_exercises = exercise_list.getAllExercForUserForList(user.id)
-        for ex_info in users_exercises:
-            if not ex_info['solved']:
-                user_made_all = False
-        if user_made_all:
-            if len(users_exercises) == len(all_exercise):
-                list_score = 0
-                max_list_score = 0
-                for ex in users_exercises:
-                    list_score += ex['exercise_score']
-                    max_list_score += ex['max_score']
-                list_score = list_score * 100
-                list_score = list_score / max_list_score
-                user.madeList(exercise_list.id, list_score, 0)
-                next_exercise = ""
-                challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
+        checkMadeList(exercise_list, browser_lang, all_exercise, user)
 
         return render(request, 'submit.html', {"solved": solved,
                                                "list_id": list_id,
@@ -822,6 +871,7 @@ def submit(request, list_id, exercise_number):
 
     else:
         return redirect('/')
+
 
 def createListElem(i, elem):
     class_name = "planet "
@@ -872,14 +922,17 @@ def createListElem(i, elem):
          </div>
         </div>"""
 
-    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty, list_creator=elem.creator().name(), list_amountOfExercises=elem.amountOfExercises(), list_id=elem.id, for_i=i + 1)
+    pi_format = planet_info.format(list_name=elem.name, list_difficulty=elem.difficulty,
+                                   list_creator=elem.creator().name(), list_amountOfExercises=elem.amountOfExercises(),
+                                   list_id=elem.id, for_i=i + 1)
 
-    return ("""<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1), pi_format)
+    return (
+        """<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),
+        pi_format)
 
-def listOverview(request):
+def createChartsForOverview():
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
-    browser_lang = getBrowserLanguage(request)
     pie_chart = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
@@ -892,11 +945,23 @@ def listOverview(request):
     # Data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,
-                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"], False, _('Most Popular Subjects'))
+                                           [color_info2, color_info1], most_popular_subjects['labels'],
+                                           most_popular_subjects['data'], ["subject"], False,
+                                           _('Most Popular Subjects'))
     # Users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"], False,_('Users who made the most lists'))
+    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2],
+                                            users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'],
+                                            ["#exercises"], False, _('Users who made the most lists'))
 
+    return pie_chart, bar_chart, bar_chart2
+
+
+# View for listoverview
+def listOverview(request):
+    pie_chart, bar_chart, bar_chart2 = createChartsForOverview()
+
+    browser_lang = getBrowserLanguage(request)
     list_name = '%'
     min_list_difficulty = 1
     max_list_difficulty = 5
@@ -931,7 +996,8 @@ def listOverview(request):
         else:
             order_mode = "DESC"
 
-        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, browser_lang.id)
+        all_lists = object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name,
+                                            user_last_name, prog_lang_name, subject_name, order_mode, browser_lang.id)
         html = ""
         info = ""
         for i, obj in enumerate(reversed(all_lists)):
@@ -942,10 +1008,13 @@ def listOverview(request):
 
         return HttpResponse(json.dumps({"planets": html, "info": info}))
 
-    all_lists = reversed(object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name, prog_lang_name, subject_name, order_mode, browser_lang.id))
+    all_lists = reversed(
+        object_manager.filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_name, user_last_name,
+                                prog_lang_name, subject_name, order_mode, browser_lang.id))
 
     return render(request, 'listOverview.html', {"all_lists": all_lists,
                                                  "languages": object_manager.allProgrammingLanguages(),
                                                  'lists_per_prog_lang_graph': pie_chart,
                                                  'most_popular_subjects': bar_chart,
-                                                 'users_with_mosts_made_lists': bar_chart2})
+                                                 'users_with_mosts_made_lists':
+                                                     bar_chart2})
