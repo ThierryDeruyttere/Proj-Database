@@ -46,6 +46,8 @@ def prepareDict(lists):
 
     return new_dict
 
+# Goes over a list of challenge-objects of 2 different types and counts how
+# many there are of each type
 def getFinishedChallengesStats(challenges):
     stats = {"Score": 0, "Perfects": 0}
     for i in challenges:
