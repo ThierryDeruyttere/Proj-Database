@@ -31,8 +31,7 @@ def get_notifications(request):
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
     notifications = {}
     notifications['challenges'] = len(removeChallenges(user.id, challenge_requests))
-    notifications['social'] = len(user.allPendingFriendships()) +  len(user.allPendingGroupMemberships())
-
+    notifications['social'] = len(user.allPendingFriendships()) + len(user.allPendingGroupMemberships())
 
     return HttpResponse(json.dumps(notifications))
 
@@ -47,7 +46,7 @@ def handle_request(request):
     answer = req_info[2]
     print("answer: " + answer)
 
-    if category ==  'friend':
+    if category == 'friend':
         if answer == 'accept':
             user.confirmFriendship(req_id)
         else:

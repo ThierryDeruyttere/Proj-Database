@@ -53,11 +53,11 @@ def getFinishedChallengesStats(challenges):
     return stats
 
 def createPieChart(user, challenged, browser_language):
-    #Get charts info
-    my_wins  = challenge_manager.getWinsAgainst(user.id, challenged.id)
+    # Get charts info
+    my_wins = challenge_manager.getWinsAgainst(user.id, challenged.id)
     opponent_wins = challenge_manager.getWinsAgainst(challenged.id, user.id)
-    pie_chart = graph_manager.makePieChart("#wins", 150,150, graphmanager.color_tuples,
-                                           ["You", challenged.first_name + " " + challenged.last_name] , [my_wins, opponent_wins])
+    pie_chart = graph_manager.makePieChart("#wins", 150, 150, graphmanager.color_tuples,
+                                           ["You", challenged.first_name + " " + challenged.last_name], [my_wins, opponent_wins])
     pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
     return pie_chart
 
@@ -72,27 +72,26 @@ def createBarChart(user, challenged, browser_language):
     for v in stats.values():
         values[0].append(v)
 
-    bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys() , values, ["test"])
+    bar_chart = graph_manager.makeBarChart("#challenge-per-challenge_type", 200, 200, [color_info1, color_info2], stats.keys(), values, ["test"])
     bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
     return bar_chart
 
 def getRemainingLists(user, challenged, browser_language):
     user_pers_lists = user.allPersonalLists()
-    #Get all the list objects from the personal lists
+    # Get all the list objects from the personal lists
     user_lists = [i.exercises_list for i in user_pers_lists]
 
     challenged_pers_lists = challenged.allPersonalLists()
-    #Same here
+    # Same here
     challenged_lists = [i.exercises_list for i in challenged_pers_lists]
 
-
     all_lists = object_manager.getAllExerciseLists(browser_language.id)
-    #take an union from all solved lists + lists created by the users
+    # take an union from all solved lists + lists created by the users
     active_challenges = challenge_manager.getChallengesBetween(user.id, challenged.id, browser_language.id)
     active_lists = [i.list.id for i in active_challenges]
 
     union = set(user_lists) | set(challenged_lists) | set(user.getAllCreatedLists(browser_language.id)) | \
-            set(challenged.getAllCreatedLists(browser_language.id)) | set(active_challenges)
+        set(challenged.getAllCreatedLists(browser_language.id)) | set(active_challenges)
 
     intersect = set(all_lists) - set(union)
     remaining_lists = []
@@ -125,7 +124,7 @@ def challenges(request):
         challenged = object_manager.getUserByName(request.GET.get('challenged'))
         remaining_lists = getRemainingLists(user, challenged, browser_language)
 
-        #Get charts info & prepare dictionary
+        # Get charts info & prepare dictionary
 
         dump = prepareDict(remaining_lists)
         dump['wins_chart'] = createPieChart(user, challenged, browser_language)
@@ -183,9 +182,9 @@ def createActiveHTML(challenge):
             </li>
         </ul>
     </div>
-    </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                     challenger= challenge.challenger, challenged = challenge.challenged,
-                     type = challenge.challenge_type.type, list=challenge.list)
+    </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
+                     challenger=challenge.challenger, challenged=challenge.challenged,
+                     type=challenge.challenge_type.type, list=challenge.list)
 
 # Gets all the challenges a certain user is busy with right now (not completed)
 def get_actives(request):
@@ -224,9 +223,9 @@ def createFinishedHtml(challenge):
                 </li>
             </ul>
         </div>
-        </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                         challenger= challenge.challenger, challenged = challenge.challenged,
-                         type = challenge.challenge_type.type, list=challenge.list)
+        </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
+                         challenger=challenge.challenger, challenged=challenge.challenged,
+                         type=challenge.challenge_type.type, list=challenge.list)
     else:
         return """
         <div class="large-12 columns">
@@ -249,9 +248,9 @@ def createFinishedHtml(challenge):
                 </li>
             </ul>
         </div>
-        </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                         challenger= challenge.challenger, challenged = challenge.challenged,
-                         type = challenge.challenge_type.type, list=challenge.list)
+        </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
+                         challenger=challenge.challenger, challenged=challenge.challenged,
+                         type=challenge.challenge_type.type, list=challenge.list)
 
 # Seeks out which challenges have een completed and chains the appropriate
 # html together
@@ -274,7 +273,7 @@ def createRequestHTML(challenge, user):
         buttons = """<button type="button" class="success small radius challenge_accept" name="{challenger.id}-{challenged.id}-{list.id}">Accept</button>
                       """ + buttons
 
-    buttons = buttons.format(challenger= challenge.challenger, challenged = challenge.challenged,
+    buttons = buttons.format(challenger=challenge.challenger, challenged=challenge.challenged,
                              list=challenge.list)
 
     return """
@@ -299,9 +298,9 @@ def createRequestHTML(challenge, user):
             </li>
         </ul>
     </div>
-    </div>""".format(challenged_pict = challenge.challenged.getPicture(), challenger_pict = challenge.challenger.getPicture(),
-                     challenger= challenge.challenger, challenged = challenge.challenged,
-                     type = challenge.challenge_type.type, list=challenge.list,
+    </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
+                     challenger=challenge.challenger, challenged=challenge.challenged,
+                     type=challenge.challenge_type.type, list=challenge.list,
                      buttons=buttons, request_type=request_type)
 
 # Seeks out which challenges have een requested and chains the appropriate

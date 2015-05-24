@@ -9,6 +9,7 @@ def sandbox(request):
     return render(request, 'sandbox.html', {})
 
 def evaluate(request, lang):
+    # Get data from POST request
     code = request.POST.get('code', '')
     is_editor = request.POST.get('is_editor', '') != ''
 

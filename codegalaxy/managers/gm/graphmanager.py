@@ -32,8 +32,8 @@
 color_tuples = [("#2a3963", "#3e5084"), ("#f04124", "#f76148"), ("#FF9437", "#ffa85d"), ("#FFA336", "#ffb257"), ("#FF621D", "#ff773b"), ("#949FB1", "#A8B3C5")]
 
 class ColorInfo:
-    def __init__(self, fillColor="#f04124", strokeColor="#f04124"
-    , pointColor="#f04124", pointStrokeColor="#f04124"):
+
+    def __init__(self, fillColor="#f04124", strokeColor="#f04124", pointColor="#f04124", pointStrokeColor="#f04124"):
         self.fillColor = fillColor
         self.strokeColor = strokeColor
         self.pointColor = pointColor
@@ -91,9 +91,8 @@ class GraphManager:
         extras_string += '};\n'
         return extras_string
 
-
     def addTitle(self, chart, name):
-        return  "<p><span class='octicon octicon-chevron-right'></span> " + name +"</p>\n" + chart
+        return "<p><span class='octicon octicon-chevron-right'></span> " + name + "</p>\n" + chart
 
     # Colorinfo's will be a list of tuples here
     def makePieChart(self, name, width, height, colorInfos, labels, data, chart_name=None):

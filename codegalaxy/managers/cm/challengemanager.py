@@ -10,7 +10,7 @@ class ChallengeManager:
         requests = dbw.getChallengesBetween(challenger_id, challenged_id)
         challenges = []
         for i in requests:
-            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
+            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'], i['list_id'], i['status'], language_id))
 
         return challenges
 
@@ -23,15 +23,13 @@ class ChallengeManager:
 
         dbw.createChallenge(challenger_id, challenged_id, challenge, list_id)
 
-
     def getChallengeRequestsForUser(self, user_id, language_id):
         requests = dbw.getChallengeForStatus(user_id, "Pending")
         challenges = []
         for i in requests:
-            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id))
+            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'], i['list_id'], i['status'], language_id))
 
         return challenges
-
 
     def cancelChallenge(self, challenger_id, challenged_id, list_id):
         dbw.cancelChallenge(challenger_id, challenged_id, list_id)
@@ -39,18 +37,17 @@ class ChallengeManager:
     def acceptChallenge(self, challenger_id, challenged_id, list_id):
         dbw.acceptChallenge(challenger_id, challenged_id, list_id)
 
-
-    def getActiveChallengesForUser(self,user_id, language_id):
+    def getActiveChallengesForUser(self, user_id, language_id):
         active = dbw.getChallengeForStatus(user_id, "Accepted")
         challenges = []
         for i in active:
-            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id)
+            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'], i['list_id'], i['status'], language_id)
             challenges.append(challenge)
 
         return challenges
 
     def checkActiveChallenges(self, user_id, language_id):
-        #checks if active challenges are finished
+        # checks if active challenges are finished
         active = self.getActiveChallengesForUser(user_id, language_id)
         for challenge in active:
             if challenge.isFinished():
@@ -62,7 +59,7 @@ class ChallengeManager:
         finished = dbw.getChallengeForStatus(user_id, "Finished")
         challenges = []
         for i in finished:
-            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id, i['winner_id']))
+            challenges.append(Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'], i['list_id'], i['status'], language_id, i['winner_id']))
 
         return challenges
 
@@ -82,7 +79,7 @@ class ChallengeManager:
         active = dbw.getFinishedChallengesBetween(first_user, second_user)
         challenges = []
         for i in active:
-            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'] ,i['list_id'], i['status'], language_id)
+            challenge = Challenge(i['challenger_id'], i['challenged_id'], i['challenge_type_id'], i['list_id'], i['status'], language_id)
             challenges.append(challenge)
 
         return challenges

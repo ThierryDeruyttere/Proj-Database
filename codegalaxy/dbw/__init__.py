@@ -65,7 +65,7 @@ def getListTranslation(id, language_id):
     @return returns the translation
     '''
     cursor = connection.cursor()
-    cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = {lang_id};'.format(id=id, lang_id = language_id))
+    cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = {lang_id};'.format(id=id, lang_id=language_id))
     fetched = processOne(cursor)
     if fetched is None:
         cursor.execute('SELECT * FROM listTranslation WHERE list_id = {id} AND language_id = 1;'.format(id=id))
@@ -869,7 +869,7 @@ def insertExerciseList(name, description, difficulty, created_by, created_on, pr
     cursor.execute(sql)
     cursor.execute('SELECT MAX(id) AS highest_id FROM exerciseList WHERE exerciseList.created_by = {created_by};'.format(created_by=created_by))
     fetched = processOne(cursor)
-    insertListTranslation(name, description, fetched['highest_id'],lang_id)
+    insertListTranslation(name, description, fetched['highest_id'], lang_id)
     cursor.close()
     return fetched
 
@@ -905,7 +905,7 @@ def insertDefaultBadges(user_id):
 
 # BADGES
 def generateBadges():
-    #Member of group
+    # Member of group
 
     cursor = connection.cursor()
     cursor.execute('SELECT id FROM user')
@@ -970,7 +970,7 @@ def incrementBadgeValue(user_id, badge_type):
         cursor.close()
         for element in data:
             cursor = connection.cursor()
-            cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+            cursor.execute('UPDATE hasBadge SET current_value = current_value + 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'], badge_id=element['id']))
             cursor.close()
 
         cursor = connection.cursor()
@@ -981,7 +981,7 @@ def incrementBadgeValue(user_id, badge_type):
             if element2['finished'] == 0:
                 if element2['current_value'] >= element2['target_value']:
                     cursor = connection.cursor()
-                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
+                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'], badge_id=element2['id']))
                     cursor.close()
 
     else:
@@ -1005,7 +1005,7 @@ def decrementBadgeValue(user_id, badge_type):
         cursor.close()
         for element in data:
             cursor = connection.cursor()
-            cursor.execute('UPDATE hasBadge SET current_value = current_value - 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'],badge_id=element['id']))
+            cursor.execute('UPDATE hasBadge SET current_value = current_value - 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element['user_id'], badge_id=element['id']))
             cursor.close()
 
         cursor = connection.cursor()
@@ -1016,7 +1016,7 @@ def decrementBadgeValue(user_id, badge_type):
             if element2['finished'] == 1:
                 if element2['current_value'] < element2['target_value']:
                     cursor = connection.cursor()
-                    cursor.execute('UPDATE hasBadge SET finished = 0 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
+                    cursor.execute('UPDATE hasBadge SET finished = 0 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'], badge_id=element2['id']))
                     cursor.close()
 
 def allBadgeEarnedUsers(badge_id):
@@ -1039,14 +1039,14 @@ def checkTimeRelatedBadges(user_id):
     joined_on2 = fetched['joined_on']
     naive = joined_on2.replace(tzinfo=None)
 
-    difference = (today2-naive).days
+    difference = (today2 - naive).days
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM badge b WHERE b.type = "{badge_type}"'.format(badge_type=badge_type))
     data = processData(cursor)
     cursor.close()
     for badge in data:
         cursor = connection.cursor()
-        cursor.execute('UPDATE hasBadge SET current_value = {dayDifference} WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(dayDifference=difference, user_id=user_id,badge_id=badge['id']))
+        cursor.execute('UPDATE hasBadge SET current_value = {dayDifference} WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(dayDifference=difference, user_id=user_id, badge_id=badge['id']))
         cursor.close()
         cursor = connection.cursor()
         cursor.execute('SELECT * FROM badge b, hasBadge g WHERE b.type = "{badge_type}" AND g.user_id = {user_id} AND b.id = g.badge_id'.format(user_id=user_id, badge_type=badge_type))
@@ -1056,7 +1056,7 @@ def checkTimeRelatedBadges(user_id):
             if element2['finished'] == 0:
                 if element2['current_value'] >= element2['target_value']:
                     cursor = connection.cursor()
-                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'],badge_id=element2['id']))
+                    cursor.execute('UPDATE hasBadge SET finished = 1 WHERE badge_id = {badge_id} AND user_id = {user_id}'.format(user_id=element2['user_id'], badge_id=element2['id']))
                     cursor.close()
 
     badge_type = "frequentVisitor"
@@ -1069,7 +1069,7 @@ def checkTimeRelatedBadges(user_id):
     today2 = datetime.strptime(today, "%Y-%m-%d %H:%M:%S")
     last_login2 = fetched['last_login']
     naive = joined_on2.replace(tzinfo=None)
-    difference = (today2-naive).days
+    difference = (today2 - naive).days
     if difference == 1:
         incrementBadgeValue(user_id, "frequentVisitor")
     else:
@@ -1078,13 +1078,13 @@ def checkTimeRelatedBadges(user_id):
 
 def getCurrentValueForBadge(badge_id, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT g.current_value FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id,badge_id=badge_id))
+    cursor.execute('SELECT g.current_value FROM hasBadge g WHERE g.badge_id={badge_id} AND g.user_id = {user_id}'.format(user_id=user_id, badge_id=badge_id))
     fetched = processOne(cursor)
     return fetched
 
 def resetBadgeValue(user_id, badge_type):
     cursor = connection.cursor()
-    cursor.execute('UPDATE hasBadge h, badge b SET h.current_value = 1 WHERE b.type = "{badge_type}" AND h.user_id = {user_id} AND b.id = h.badge_id'.format(user_id=user_id,badge_type=badge_type))
+    cursor.execute('UPDATE hasBadge h, badge b SET h.current_value = 1 WHERE b.type = "{badge_type}" AND h.user_id = {user_id} AND b.id = h.badge_id'.format(user_id=user_id, badge_type=badge_type))
     cursor.close()
 
 # UPDATE
@@ -1280,7 +1280,7 @@ def countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
 
 def countExercisesForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT COUNT(madeEx.solved) AS amount FROM madeEx, exerciseList, exercise WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeEx.list_id AND madeEx.user_id = {user_id} AND madeEx.solved = 1 AND madeEx.list_id = exercise.exerciseList_id AND madeEx.exercise_number = exercise.exercise_number ;'.format(id=prog_lang_id, user_id = user_id))
+    cursor.execute('SELECT COUNT(madeEx.solved) AS amount FROM madeEx, exerciseList, exercise WHERE exerciseList.prog_lang_id = {id} AND exerciseList.id = madeEx.list_id AND madeEx.user_id = {user_id} AND madeEx.solved = 1 AND madeEx.list_id = exercise.exerciseList_id AND madeEx.exercise_number = exercise.exercise_number ;'.format(id=prog_lang_id, user_id=user_id))
     fetched = processOne(cursor)
     cursor.close()
     return fetched
@@ -1451,7 +1451,7 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
                    ' AND lT.list_id = e.id AND (lT.language_id = {lang_id} OR lT.language_id = 1)'
                    ' GROUP BY lT.name ORDER BY popularity {order_mode};'
                    .format(name=list_name, min_diff=min_list_difficulty, max_diff=max_list_difficulty, first_name=user_first_name, last_name=user_last_name,
-                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id = lang_id))
+                           prog_lang=prog_lang_name, subject=subject_search, order_mode=order_mode, lang_id=lang_id))
     fetched = processData(cursor)
 
     cursor.close()
@@ -1471,7 +1471,6 @@ def filterOn(list_name, min_list_difficulty, max_list_difficulty, user_first_nam
             else:
                 if int(i['language_id']) != 1:
                     cleaned.append(i)
-
 
         return cleaned
 
@@ -1523,12 +1522,11 @@ def getAllPostsForGroup(group_id):
     return fetched
 
 
-
 # Challenges
 
 def createChallenge(challenger_id, challenged_id, challenge_type, challenge_list_id):
     cursor = connection.cursor()
-    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, challenge_type_id=challenge_type))
+    cursor.execute('INSERT INTO challenge(challenger_id, challenged_id, list_id, challenge_type_id, status) VALUES ({challenger}, {challenged_id}, {list}, {challenge_type_id}, "Pending");'.format(challenger=challenger_id, challenged_id=challenged_id, list=challenge_list_id, challenge_type_id=challenge_type))
     cursor.close()
 
 def getChallengeForStatus(user_id, status):
@@ -1541,23 +1539,23 @@ def getChallengeForStatus(user_id, status):
 
 def cancelChallenge(challenger_id, challenged_id, challenge_list_id):
     cursor = connection.cursor()
-    cursor.execute('DELETE FROM challenge WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.execute('DELETE FROM challenge WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger=challenger_id, challenged_id=challenged_id, list=challenge_list_id))
     cursor.close()
 
 
 def acceptChallenge(challenger_id, challenged_id, challenge_list_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE challenge SET status="Accepted" WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id))
+    cursor.execute('UPDATE challenge SET status="Accepted" WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger=challenger_id, challenged_id=challenged_id, list=challenge_list_id))
     cursor.close()
 
-def finishChallenge(challenger_id ,challenged_id, challenge_list_id, winner_id):
+def finishChallenge(challenger_id, challenged_id, challenge_list_id, winner_id):
     cursor = connection.cursor()
-    cursor.execute('UPDATE challenge SET status="Finished", winner_id = {winner_id} WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger = challenger_id, challenged_id = challenged_id, list= challenge_list_id, winner_id = winner_id))
+    cursor.execute('UPDATE challenge SET status="Finished", winner_id = {winner_id} WHERE challenger_id = {challenger} AND challenged_id = {challenged_id} AND list_id = {list};'.format(challenger=challenger_id, challenged_id=challenged_id, list=challenge_list_id, winner_id=winner_id))
     cursor.close()
 
-def getChallengesBetween(challenger_id ,challenged_id):
+def getChallengesBetween(challenger_id, challenged_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged})'.format(user=challenger_id, challenged = challenged_id))
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged})'.format(user=challenger_id, challenged=challenged_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
@@ -1572,14 +1570,14 @@ def getAllRepliesToPost(post_id):
 
 def getChallengeWinsAgainst(user_id, opponent_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND winner_id = {user}'.format(user=user_id, challenged = opponent_id))
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND winner_id = {user}'.format(user=user_id, challenged=opponent_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched
 
 def getFinishedChallengesBetween(user_id, opponent_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND status = "Finished"'.format(user=user_id, challenged = opponent_id))
+    cursor.execute('SELECT DISTINCT * FROM challenge WHERE (challenger_id = {user} OR challenged_id = {user}) AND (challenger_id = {challenged} OR challenged_id = {challenged}) AND status = "Finished"'.format(user=user_id, challenged=opponent_id))
     fetched = processData(cursor)
     cursor.close()
     return fetched

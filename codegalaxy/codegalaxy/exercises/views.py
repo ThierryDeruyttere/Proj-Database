@@ -486,7 +486,7 @@ def list(request, id=0):
             if percent == 100:
                 solved_all = True
 
-        # lists like this one
+        # Lists like this one
         similar_lists = []
         similar_list_ids = []
 
@@ -495,7 +495,7 @@ def list(request, id=0):
         if user:
             user_lists = user.getUserLists(browser_lang.id)
             user_rating = user.getRatingForList(exercise_list.id)
-            # for the recommended lists, we'll first check if the user solved the current list
+            # For the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
                 made_list = user.getMadeList(exercise_list.id, browser_lang.id)
                 if made_list:
@@ -688,13 +688,13 @@ def submit(request, list_id, exercise_number):
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
                 else:
-                    # not the right answer! Deduct points!
+                    # We didn't get the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
         next_exercise = exercise_number + 1
 
-        # checking if user made list
+        # Checking if user made list
         user_made_all = True
         users_exercises = exercise_list.getAllExercForUserForList(user.id)
         for ex_info in users_exercises:
@@ -712,7 +712,6 @@ def submit(request, list_id, exercise_number):
                 user.madeList(exercise_list.id, list_score, 0)
                 next_exercise = ""
                 challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
-
 
         return render(request, 'submit.html', {"solved": solved,
                                                "list_id": list_id,
@@ -787,15 +786,15 @@ def listOverview(request):
                                            lists_per_prog_lang['labels'],
                                            lists_per_prog_lang['data'])
     # Amount of subjects:
-    # colors
+    # Colors
     color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
     color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
 
-    # data
+    # Data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,
                                            [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
-    # users with most made lists
+    # Users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
     bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"])
 
