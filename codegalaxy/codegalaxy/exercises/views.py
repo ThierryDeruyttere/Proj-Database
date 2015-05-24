@@ -802,7 +802,7 @@ def listOverview(request):
     pie_chart = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
-                                           lists_per_prog_lang['data'])
+                                           lists_per_prog_lang['data'], 'Planets/Programming Language')
     # Amount of subjects:
     # Colors
     color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
@@ -811,10 +811,10 @@ def listOverview(request):
     # Data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,
-                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
+                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"], False, 'Most Popular Subjects')
     # Users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"])
+    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"], False,'Users who made the most lists')
 
     list_name = '%'
     min_list_difficulty = 1
