@@ -259,7 +259,7 @@ def user(request, id=0):
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
                    'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends, 'mutual_friends': mutual_friends,
-                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'all_badges': all_badges, 'gold_badges':badges['gold'],
+                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'all_badges': all_badges, 'gold_badges': badges['gold'],
                    'silver_badges': badges['silver'], 'bronze_badges': badges['bronze']}
 
         if current_user.id == user.id:
@@ -316,7 +316,6 @@ def login(request):
             request.POST.get('your_password', '').encode('utf-8')).hexdigest()
 
         user = authenticate(email, password)
-
 
         # Successful login attempt
         if user:
@@ -562,7 +561,7 @@ def groupCreate(request, id=0):
 def badges(request):
     user = logged_user(request)
     badges = object_manager.getAllBadges()
-    badge_types = ['custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
+    badge_types = ['custom', 'memberOfGroup', 'hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
     context = {'badge_types': badge_types, 'badges': badges}
 
     return render(request, 'badges.html', context)
@@ -578,12 +577,12 @@ def badge(request, id=0):
         current_score = user.getCurrentValueForBadge(badge.id)
     except:
         current_score = 0
-    percentage_finished = round((current_score/badge.target_value)*100)
+    percentage_finished = round((current_score / badge.target_value) * 100)
     if percentage_finished > 100:
         percentage_finished = 100
 
     context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
-                'target_score': target_score}
+               'target_score': target_score}
 
     return render(request, 'badge.html', context)
 

@@ -1,8 +1,6 @@
 import os
 import subprocess
 
-# TODO: Commenting
-
 class Evaluator:
 
     """Base class for all code evaluators"""
