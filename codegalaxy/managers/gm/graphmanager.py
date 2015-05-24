@@ -155,14 +155,12 @@ class GraphManager:
         return data_string
 
     # Creates jquery/html for a Bar chart
-    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, percentages=False, chart_name=None):
+    def makeBarChart(self, name, width, height, colorInfos, labels, data, datalabels, percentages=False):
         total_string = ''
         total_string += self.addBarData(labels, data, colorInfos, datalabels)
         total_string += self.addBarExtras(percentages)
         total_string += 'var ' + self.addDatavar('O') + ' = new Chart(document.getElementById("' + name + '").getContext("2d")).Bar(' + self.addDatavar('D') + ',options);\n'
         total_string = self.addScript(total_string)
         total_string = self.canvasString(name, width, height) + total_string
-        if chart_name:
-            total_string = self.addTitle(total_string, chart_name)
         GraphManager.count += 1
         return total_string
