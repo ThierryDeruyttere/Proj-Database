@@ -42,6 +42,7 @@ class Group:
 
     # deletes the group and thereby all th memberships aswell
     def disband(self):
+        dbw.deleteGroupPosts(self.id)
         dbw.deleteGroup(self.id)
 
     # list of users that are member of this group

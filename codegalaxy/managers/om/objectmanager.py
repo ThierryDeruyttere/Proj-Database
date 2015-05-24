@@ -220,7 +220,7 @@ class ObjectManager:
             dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on, hint, exercise_score)
         else:
             dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer, hint)
-    # TODO some more functions below this one
+    # TODO some more functions below this one(want fuuuck dees is saai)
 
     def getInfoForUserForExercise(self, user_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_list_id, exercise_number)
