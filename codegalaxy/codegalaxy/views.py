@@ -575,20 +575,24 @@ def badge(request, id=0):
     user = logged_user(request)
     id = int(id)
     badge = object_manager.createBadge(id)
-    users_that_earned_badge = badge.allUsersThatEarnedBadge()
-    target_score = badge.target_value
-    try:
-        current_score = user.getCurrentValueForBadge(badge.id)
-    except:
-        current_score = 0
-    percentage_finished = round((current_score / badge.target_value) * 100)
-    if percentage_finished > 100:
-        percentage_finished = 100
 
-    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
-               'target_score': target_score}
+    if badge:
+        users_that_earned_badge = badge.allUsersThatEarnedBadge()
+        target_score = badge.target_value
+        try:
+            current_score = user.getCurrentValueForBadge(badge.id)
+        except:
+            current_score = 0
+        percentage_finished = round((current_score / badge.target_value) * 100)
+        if percentage_finished > 100:
+            percentage_finished = 100
 
-    return render(request, 'badge.html', context)
+        context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
+                   'target_score': target_score}
+
+        return render(request, 'badge.html', context)
+    else:
+        return redirect("/badges/")
 
 def postNew(request):
     user = logged_user(request)
