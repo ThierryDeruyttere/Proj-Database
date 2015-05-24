@@ -1,6 +1,7 @@
 from django.core.context_processors import request
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
+from django.utils.translation import ugettext as _
 
 import time
 import json
@@ -233,8 +234,60 @@ def filterOrder(order):
         new_order.append(int(i.replace('exercise', '')))
     return new_order
 
+
+# Edit an openQuestion (Multiple choice)
+def editOpenQuestion(exercise, request):
+    exercise_answer = []
+    for i in range(exercise.max_score + 1):
+        cur_answer = request.POST.get("answer" + str(i), "")
+        if cur_answer != "":
+            exercise_answer.append(cur_answer)
+
+    exercise.penalty = 3
+    correct_answer = request.POST.get("correct_answer")
+    return exercise_answer, correct_answer
+
+# Edit a codeQuestion
+def editCodeQuestion(exercise, request):
+    hints = []
+    exercise_answer = [request.POST.get("output")]
+    exercise.penalty = 1
+    for j in range(1, exercise.max_score + 1):
+        cur_hint = request.POST.get("hint" + str(j), "")
+        if cur_hint != "":
+            hints.append(cur_hint)
+
+    return exercise_answer, hints
+
+# Function to update an exercise after a post request on the edit exercise page
+def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request):
+    # get information
+    exercise = object_manager.createExercise(exercise_id, browser_lang.code)
+    exercise.question = request.POST.get('Question')
+    exercise.title = request.POST.get('title')
+    exercise.exerciseList_id = int(listId)
+    exercise.exercise_number = int(exercise_number)
+    exercise.exercise_type = request.POST.get('exercise_type')
+    hints = []
+    exercise.code = request.POST.get('code', '')
+    exercise.max_score = int(request.POST.get('max', '1'))
+    exercise_answer = None
+    correct_answer = 1
+
+    # Update our question type
+    if(exercise.exercise_type == 'Open Question'):
+        exercise_answer, correct_answer = editOpenQuestion(exercise, request)
+    else:
+        exercise_answer, hints = editCodeQuestion(exercise, request)
+
+    # Get the translation dictionary from our request
+    translation = getTranslationDict(request, languages)
+
+    exercise.update(correct_answer, exercise_answer, hints, browser_lang, translation, user.id)
+
+
 @require_login
-# TODO
+# view for editing an exercise
 def editExercise(request, listId, exercise_id, exercise_number):
     user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
@@ -243,39 +296,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
     if request.method == 'POST':
-        exercise = object_manager.createExercise(exercise_id, browser_lang.code)
-        exercise.question = request.POST.get('Question')
-        exercise.title = request.POST.get('title')
-        exercise.exerciseList_id = int(listId)
-        exercise.exercise_number = int(exercise_number)
-        exercise.exercise_type = request.POST.get('exercise_type')
-        hints = []
-        exercise.code = request.POST.get('code', '')
-        exercise.max_score = int(request.POST.get('max', '1'))
-        exercise_answer = None
-        correct_answer = 1
-        if(exercise.exercise_type == 'Open Question'):
-            answer = []
-            for i in range(exercise.max_score + 1):
-                cur_answer = request.POST.get("answer" + str(i), "")
-                if cur_answer != "":
-                    answer.append(cur_answer)
-
-            exercise_answer = answer
-            correct_answer = request.POST.get("correct_answer")
-            exercise.penalty = 3
-
-        else:
-            expected_answer = request.POST.get("output")
-            exercise_answer = [expected_answer]
-            exercise.penalty = 1
-            for j in range(1, exercise.max_score + 1):
-                cur_hint = request.POST.get("hint" + str(j), "")
-                if cur_hint != "":
-                    hints.append(cur_hint)
-        translation = getTranslationDict(request, languages)
-
-        exercise.update(correct_answer, exercise_answer, hints, browser_lang, translation, user.id)
+        handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:
