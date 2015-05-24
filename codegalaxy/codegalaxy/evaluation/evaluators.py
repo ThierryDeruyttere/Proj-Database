@@ -49,6 +49,8 @@ class EvaluatorCpp(Evaluator):
 
 class EvaluatorSql(Evaluator):
 
+    """ Code Evaluator for SQL """
+
     def __init__(self, code, user=0):
         self.db_name = str(user)
         super(EvaluatorSql, self).__init__('sql', 'sql', code)
@@ -61,6 +63,8 @@ class EvaluatorSql(Evaluator):
         cursor = connections['sandbox'].cursor()
         cursor.execute('SHOW TABLES;')
         tables = cursor.fetchall()
+
+        # Generate html tables for all database tables
         output = '<div class="row">'
         for table in tables:
             print(table[0])

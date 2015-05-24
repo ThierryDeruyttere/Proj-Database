@@ -140,7 +140,7 @@
                 $target = $next;
                 break;
               default:
-                $target = false
+                $target = false;
                   break;
             }
 
@@ -170,7 +170,7 @@
             // This function allows correct behaviour of the browser's back button when deep linking is enabled. Without it
             // the user would get continually redirected to the default hash.
             var is_entry_location = window.location.href === self.entry_location,
-                default_hash = settings.scroll_to_content ? self.default_tab_hashes[0] : is_entry_location ? window.location.hash :'fndtn-' + self.default_tab_hashes[0].replace('#', '')
+                default_hash = settings.scroll_to_content ? self.default_tab_hashes[0] : is_entry_location ? window.location.hash :'fndtn-' + self.default_tab_hashes[0].replace('#', '');
 
             if (!(is_entry_location && hash === default_hash)) {
               window.location.hash = hash;
@@ -211,7 +211,7 @@
       // Clean up multiple attr instances to done once
       tab.addClass(settings.active_class).triggerHandler('opened');
       tab_link.attr({'aria-selected' : 'true',  tabindex : 0});
-      siblings.removeClass(settings.active_class)
+      siblings.removeClass(settings.active_class);
       siblings.find('a').attr({'aria-selected' : 'false',  tabindex : -1});
       target.siblings().removeClass(settings.active_class).attr({'aria-hidden' : 'true',  tabindex : -1});
       target.addClass(settings.active_class).attr('aria-hidden', 'false').removeAttr('tabindex');

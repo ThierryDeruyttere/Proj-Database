@@ -20,7 +20,7 @@ from managers.rm.recommendations import *
 from codegalaxy.general import getBrowserLanguage
 
 import os.path
-#from PIL import Image
+from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -29,25 +29,31 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 
 def home(request):
+    #Homepage view
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
     feed = []
     browser_lang = getBrowserLanguage(request)
     if current_user:
+        #Als er een user bestaat de ingelogde homepage laten zien
+
+        #Data voor op feed toevoegen
         current_user_accepted_friendships = current_user.allFriendsWith()
         current_user_member_of_groups = current_user.allGroupsJoined()
         current_user_exercises_made = current_user.allExerciseListsShared(browser_lang.id)
         current_user_exercises_created = current_user.getAllExercisesCreated(browser_lang.id)
 
+        #Data dat niet gezien mag worden (Private group) verwijderen
         for userInGroup in current_user_member_of_groups:
-                if userInGroup.group.group_type == 1:
-                    current_user_member_of_groups.remove(userInGroup)
+            if userInGroup.group.group_type == 1:
+                current_user_member_of_groups.remove(userInGroup)
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
         feed.extend(current_user_exercises_created)
 
+        #De data van elke vriend die je hebt moet ook op de feed komen
         for friendship in current_user_accepted_friendships:
             friend = object_manager.createUser(id=friendship.friend.id)
 
@@ -65,8 +71,10 @@ def home(request):
             feed.extend(exercises_made)
             feed.extend(exercises_created)
 
+        #Alles moet gesorteerd worden op datum zodat alles chronologisch op het scherm kan komen
         feed = sorted(feed, key=lambda k: k.datetime, reverse=True)
 
+        #Paginator aanmaken zodat we niet te veel data tegelijk op het scherm hebben staan maar door da pages kunnen scrollen
         paginator = Paginator(feed, 10)  # 10 items per page
 
         page = request.GET.get('page')
@@ -79,6 +87,7 @@ def home(request):
             # geen resultaten->laatste page
             feed_data = paginator.page(paginator.num_pages)
 
+        #Aanbevolen lijsten zoeken
         recommended = recommendListsForUser(
             current_user, True, True, True, True, True, False)
         for recommended_list in recommended:
@@ -87,6 +96,7 @@ def home(request):
 
         return render(request, 'home.html', {'user': current_user, 'feed_data': feed_data, 'feed': feed, 'friends': friends,
                 'recommended': recommended_lists, 'random_list': imFeelingLucky(current_user)})
+    #Anders de homepage waar je een account kan aanmaken en waar je kan inloggen
     return render(request, 'home.html')
 
 def registered(request):
@@ -133,6 +143,7 @@ def user(request, id=0):
                                                ex_per_prog_lang['data'])
 
     if request.method == 'POST':
+        #Verschillende POST requests voor elke actie die aan een knop verbonden is
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
 
@@ -159,6 +170,7 @@ def user(request, id=0):
                 user.updateProfile(new_email, new_password1)
 
         elif 'update_profile_picture' in request.POST:
+            #Nieuwe profielfoto uploaden
             f = request.FILES['image']
 
             destination = open(
@@ -173,6 +185,7 @@ def user(request, id=0):
 
             im1 = Image.open(imageFile)
 
+            #Deze foto zal automatisch naar 512x512 pixels worden omgezet
             THUMB_SIZE = 512, 512
             image = im1.resize(THUMB_SIZE, Image.ANTIALIAS)
             image.save(
@@ -186,6 +199,7 @@ def user(request, id=0):
             group_id = request.POST.get('group_id_to_decline')
             user.deleteGroupMembership(group_id)
 
+    #Data voor de add-user knop
     already_friends = False
     if current_user:
         already_friends = current_user.isFriend(user)
@@ -195,6 +209,7 @@ def user(request, id=0):
 
         exercise_list = user.allPersonalLists()
 
+        #Data voor de feed
         accepted_friendships = user.allFriendsWith()
         member_of_groups = user.allGroupsJoined()
         exercises_made = user.allExerciseListsShared(browser_lang.id)
@@ -211,8 +226,10 @@ def user(request, id=0):
         all_data.extend(exercises_made)
         all_data.extend(exercises_created)
 
+        #Data voor de feed sorteren op datum
         all_data = sorted(all_data, key=lambda k: k.datetime, reverse=True)
 
+        #Paginator aanmaken om data per pagina te beperken
         paginator = Paginator(all_data, 10)  # 10 items per page
 
         page = request.GET.get('page')
@@ -225,20 +242,24 @@ def user(request, id=0):
             # geen resultaten->laatste page
             data = paginator.page(paginator.num_pages)
 
+        #Welke users willen je toevoegen
         pending_friendships = []
         if current_user.id == user.id:
             pending_friendships = user.allPendingFriendships()
 
+        #Welke groepen willen je als lid hebben
         pending_group_memberships = []
         if current_user.id == user.id:
             pending_group_memberships = user.allPendingGroupMemberships()
 
+        #Al je vrienden
         friendships = accepted_friendships
         friends = []
         for friendship in friendships:
             friends.append(
                 object_manager.createUser(id=friendship.friend.id))
 
+        #Als dit niet je eigen profiel is kan je zien met wie je al bevriend bent
         mutual_friends = []
         non_mutual_friends = []
         if current_user.id != user.id:
@@ -252,6 +273,7 @@ def user(request, id=0):
         total_mutual_friends = len(mutual_friends)
 
         friendship_pending = current_user.isFriendshipPending(user)
+        #Alls badges die de user heeft
         badges = user.getAllRewards()
         all_badges = user.getAllBadges()
         context = {'user': user, 'current_user': current_user, 'group_list': group_list, 'data': data,
@@ -259,7 +281,7 @@ def user(request, id=0):
                    'pending_friendships': pending_friendships, 'accepted_friendships': accepted_friendships,
                    'friends': friends, 'list_on_lang_by_user': pie_chart, 'score_per_lang': bar_chart,
                    'ex_on_lang_by_user': pie_chart2, 'total_mutual_friends': total_mutual_friends, 'mutual_friends': mutual_friends,
-                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'all_badges': all_badges, 'gold_badges':badges['gold'],
+                   'non_mutual_friends': non_mutual_friends, 'friendship_pending': friendship_pending, 'all_badges': all_badges, 'gold_badges': badges['gold'],
                    'silver_badges': badges['silver'], 'bronze_badges': badges['bronze']}
 
         if current_user.id == user.id:
@@ -289,11 +311,13 @@ def register(request):
         gender = request.POST.get('sex')
 
         try:
+            #Proberen een nieuwe user aan de database toe te voegen
             object_manager.insertUser(first_name, last_name, email, password, str(
                 time.strftime("%Y-%m-%d %H:%M:%S")), str(time.strftime("%Y-%m-%d %H:%M:%S")), gender)
             object_manager.addVerification(
                 email, hashlib.md5(email.encode('utf-8')).hexdigest())
             object_manager.registered(email)
+            #Email verification versturen
             sendVerification(email)
 
         except:
@@ -317,11 +341,9 @@ def login(request):
 
         user = authenticate(email, password)
 
-
         # Successful login attempt
         if user:
             request.session['current_user'] = user.id
-            user.checkTimeRelatedBadges()
             return redirect('/')
         else:
             return render(request, 'login.html', {'error_login': True, 'your_email': email})
@@ -392,7 +414,11 @@ def group(request, id=0):
                 './codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
-            group.deleteMember(user.id)
+            if group.getUserPermissions(user.id) == 0:
+                group.disband()
+                return redirect('/social/')
+            else:
+                group.deleteMember(user.id)
 
         elif 'remove_user' in request.POST:
             user_id_to_delete = request.POST.get('user_id_to_delete')
@@ -562,7 +588,7 @@ def groupCreate(request, id=0):
 def badges(request):
     user = logged_user(request)
     badges = object_manager.getAllBadges()
-    badge_types = ['custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
+    badge_types = ['custom', 'memberOfGroup', 'hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
     context = {'badge_types': badge_types, 'badges': badges}
 
     return render(request, 'badges.html', context)
@@ -570,9 +596,9 @@ def badges(request):
 @require_login
 def badge(request, id=0):
     user = logged_user(request)
-    #Omdat het kan afkljdfasfkfdas
     id = int(id)
     badge = object_manager.createBadge(id)
+<<<<<<< HEAD
     users_that_earned_badge = badge.allUsersThatEarnedBadge()
     target_score = badge.target_value
     try:
@@ -587,6 +613,26 @@ def badge(request, id=0):
                 'target_score': target_score}
 
     return render(request, 'badge.html', context)
+=======
+
+    if badge:
+        users_that_earned_badge = badge.allUsersThatEarnedBadge()
+        target_score = badge.target_value
+        try:
+            current_score = user.getCurrentValueForBadge(badge.id)
+        except:
+            current_score = 0
+        percentage_finished = round((current_score / badge.target_value) * 100)
+        if percentage_finished > 100:
+            percentage_finished = 100
+
+        context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
+                   'target_score': target_score}
+
+        return render(request, 'badge.html', context)
+    else:
+        return redirect("/badges/")
+>>>>>>> 5a46ce8c0ab7b690fa8412224ff20264c845e59f
 
 def postNew(request):
     user = logged_user(request)

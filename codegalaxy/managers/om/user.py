@@ -6,6 +6,8 @@ import dbw
 import datetime
 import time
 
+# TODO: comments
+
 from django.middleware import *
 import os.path
 
@@ -240,7 +242,6 @@ class User:
             pending_friendship_objects.append(friendship)
         return pending_friendship_objects
 
-
     def allPendingGroupMemberships(self):
         pending_group_memberships = dbw.getPendingGroupMemberships(self.id)
 
@@ -309,7 +310,6 @@ class User:
 
     def updateListRating(self, list_id, list_rating):
         dbw.updateListRating(list_id, self.id, list_rating)
-
 
     # List with all the lists of exercises this user has completed/is working
     # on (SQL function)
@@ -702,12 +702,12 @@ class PersonalList:
         if exercise_info:
             personal_exercises_list = [PersonalExercise(x['solved'],
                                                         x['exercise_score'],
-                                                        x['rating'],
                                                         x['exercise_id'],
                                                         language_code,
                                                         x['completed_on'],
                                                         self.exercises_list.id,
                                                         x['exercise_number'],
+                                                        x['last_answer'],
                                                         x['max_score']) for x in exercise_info]
             return personal_exercises_list
         else:
@@ -732,7 +732,7 @@ class PersonalExercise:
             exercise_id, language_code)
         self.list_id = list_id
         self.exercise_number = exercise_number
-        self.last_answer = last_answer
+        self.last_answer = datetime.strptime(last_answer, "%Y-%m-%d %H:%M:%S")
         self.max_score = max_score
 
     def __str__(self):

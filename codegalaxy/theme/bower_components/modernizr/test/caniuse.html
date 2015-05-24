@@ -705,7 +705,7 @@ try {
 	w.onmessage = function (event) {
 	  var success = (event.data && event.data === 'worker works');
 	  setResult('webworkers1', success);
-	}
+	};
 	
 	w.postMessage('');
 
@@ -1134,9 +1134,9 @@ object-position: 30px 30px;
 var elem  = $('#webgl_canvas')[0], g;
 try {
     g     = elem.getContext && elem.getContext('experimental-webgl');
-} catch(e){};
-
-if (g){    
+} catch (e) {
+}
+if (g){
   g.clearColor(0,1,0,1);
   g.clear(g.COLOR_BUFFER_BIT);
 }

@@ -702,7 +702,7 @@
 
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.abide = {
@@ -1043,7 +1043,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.accordion = {
@@ -1111,7 +1111,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.alert = {
@@ -1155,7 +1155,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.clearing = {
@@ -1712,7 +1712,7 @@
 
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.dropdown = {
@@ -2161,7 +2161,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.equalizer = {
@@ -2211,8 +2211,7 @@
         if (isStacked) {
           return;
         }
-      };
-
+      }
       var heights = vals.map(function () { return $(this).outerHeight(false) }).get();
 
       if (settings.use_tallest) {
@@ -2239,7 +2238,7 @@
   };
 })(jQuery, window, window.document);
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.interchange = {
@@ -2594,7 +2593,7 @@
 
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   var Modernizr = Modernizr || false;
@@ -3498,7 +3497,7 @@
       }
 
       // Unplug keystrokes listener
-      $(this.scope).off('keyup.joyride')
+      $(this.scope).off('keyup.joyride');
 
       this.settings.$next_tip.data('closed', true);
       this.settings.riding = false;
@@ -3527,7 +3526,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs['magellan-expedition'] = {
@@ -3731,7 +3730,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.offcanvas = {
@@ -3884,7 +3883,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   var noop = function () {};
@@ -3963,7 +3962,7 @@
         container.append(bullets_container);
         bullets_container.wrap('<div class="orbit-bullets-container"></div>');
         self.slides().each(function (idx, el) {
-          var bullet = $('<li>').attr('data-orbit-slide', idx).on('click', self.link_bullet);;
+          var bullet = $('<li>').attr('data-orbit-slide', idx).on('click', self.link_bullet);
           bullets_container.append(bullet);
         });
       }
@@ -4064,11 +4063,11 @@
         }
       }
 
-    }
+    };
 
     self.timer_callback = function () {
       self._goto(idx + 1, true);
-    }
+    };
 
     self.compute_dimensions = function () {
       var current = $(self.slides().get(idx));
@@ -4361,7 +4360,7 @@
 
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.reveal = {
@@ -4833,7 +4832,7 @@
   }
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.slider = {
@@ -5097,7 +5096,7 @@
 
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.tab = {
@@ -5239,7 +5238,7 @@
                 $target = $next;
                 break;
               default:
-                $target = false
+                $target = false;
                   break;
             }
 
@@ -5269,7 +5268,7 @@
             // This function allows correct behaviour of the browser's back button when deep linking is enabled. Without it
             // the user would get continually redirected to the default hash.
             var is_entry_location = window.location.href === self.entry_location,
-                default_hash = settings.scroll_to_content ? self.default_tab_hashes[0] : is_entry_location ? window.location.hash :'fndtn-' + self.default_tab_hashes[0].replace('#', '')
+                default_hash = settings.scroll_to_content ? self.default_tab_hashes[0] : is_entry_location ? window.location.hash :'fndtn-' + self.default_tab_hashes[0].replace('#', '');
 
             if (!(is_entry_location && hash === default_hash)) {
               window.location.hash = hash;
@@ -5310,7 +5309,7 @@
       // Clean up multiple attr instances to done once
       tab.addClass(settings.active_class).triggerHandler('opened');
       tab_link.attr({'aria-selected' : 'true',  tabindex : 0});
-      siblings.removeClass(settings.active_class)
+      siblings.removeClass(settings.active_class);
       siblings.find('a').attr({'aria-selected' : 'false',  tabindex : -1});
       target.siblings().removeClass(settings.active_class).attr({'aria-hidden' : 'true',  tabindex : -1});
       target.addClass(settings.active_class).attr('aria-hidden', 'false').removeAttr('tabindex');
@@ -5335,7 +5334,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.tooltip = {
@@ -5442,7 +5441,7 @@
           }
 
           if ($(this).data('tooltip-open-event-type') == 'touch' && e.type == 'mouseleave') {
-            return;
+
           } else if ($(this).data('tooltip-open-event-type') == 'mouse' && /MSPointerDown|touchstart/i.test(e.type)) {
             self.convert_to_touch($(this));
           } else {
@@ -5464,7 +5463,7 @@
       if (this.should_show($target, $tip)) {
         return this.show($target);
       }
-      return;
+
     },
 
     getTip : function ($target) {
@@ -5643,7 +5642,7 @@
   };
 }(jQuery, window, window.document));
 
-;(function ($, window, document, undefined) {
+(function ($, window, document, undefined) {
   'use strict';
 
   Foundation.libs.topbar = {

@@ -13,9 +13,18 @@
 				<div class="text-center">
 					<div class="row">
 					<h1>{{ badge.name }}</h1>
+					{% if badge.id|add:"-1" > 0 %}
+					<a href="/badge/{{badge.id|add:"-1"}}"><span class="mega-octicon octicon-arrow-left"></span></a>
+					{% endif %}
 					<img src="{% static badge.getPicture %}">
+					{% if badge.id|add:"1" <= 25 %}
+					<a href="/badge/{{badge.id|add:"1"}}"><span class="mega-octicon octicon-arrow-right"></span></a>
+					{% endif %}
 					</div>
 					<br>
+					<div class="row">
+					<h4>{{ badge.message }}</h4>
+					</div>
 					{% if percentage_finished = 100 %}
 					<div class="row">
 						<div class="success-text">
@@ -33,9 +42,6 @@
 		            </div>
 					{% endif %}
 					<br>
-					<div class="row">
-					<h4>{{ badge.message }}</h4>
-					</div>
 				</div>
 			</div>
 		</div>

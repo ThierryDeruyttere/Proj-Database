@@ -21,46 +21,71 @@
   width: 60%;
 }
 
-/* line 19, ../../../theme/scss/group.scss */
+/* line 20, ../../../theme/scss/group.scss */
 #post_button {
   width: 13%;
 }
 
-/* line 22, ../../../theme/scss/group.scss */
+/* line 24, ../../../theme/scss/group.scss */
 .wall-item {
+  border: 1px solid;
   margin-bottom: 0px;
+  border-radius: 2px;
+  background-color: rgba(28, 69, 124, 0.37);
+  border-color: #ababab;
+  padding: 5px;
+  margin-bottom: 8px;
 }
-/* line 23, ../../../theme/scss/group.scss */
+/* line 35, ../../../theme/scss/group.scss */
 .wall-item p {
   margin-bottom: 0px;
 }
-/* line 26, ../../../theme/scss/group.scss */
-.wall-item .row {
-  padding-left: 20px;
-}
-/* line 29, ../../../theme/scss/group.scss */
-.wall-item .replies {
-  padding-left: 40px;
-}
-/* line 31, ../../../theme/scss/group.scss */
-.wall-item .replies .reply-timestamp {
-  color: rgba(217, 217, 217, 0.7);
-}
-/* line 35, ../../../theme/scss/group.scss */
-.wall-item .button {
-  width: 13%;
-  margin-right: 5px;
-}
-/* line 40, ../../../theme/scss/group.scss */
-.wall-item .button_margin {
-  margin-right: 12px;
+/* line 39, ../../../theme/scss/group.scss */
+.wall-item a {
+  color: rgba(151, 151, 151, 0.86);
 }
 /* line 43, ../../../theme/scss/group.scss */
+.wall-item hr {
+  border: 0;
+  height: 1px;
+  margin: 4px 0px 6px 0px;
+  background-image: -webkit-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -moz-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -ms-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+  background-image: -o-linear-gradient(left, rgba(209, 209, 209, 0.2), rgba(209, 209, 209, 0.5), rgba(209, 209, 209, 0.2));
+}
+/* line 53, ../../../theme/scss/group.scss */
+.wall-item .timestamp {
+  color: rgba(144, 144, 144, 0.7);
+}
+/* line 56, ../../../theme/scss/group.scss */
+.wall-item .timestamp .author {
+  color: rgba(195, 195, 195, 0.7);
+}
+/* line 65, ../../../theme/scss/group.scss */
+.wall-item .replies {
+  margin-left: 20px;
+  margin-top: 3px;
+  padding-left: 8px;
+  border-left: rgba(200, 200, 200, 0.8) dashed 2px;
+}
+/* line 72, ../../../theme/scss/group.scss */
+.wall-item .button.tiny {
+  margin-right: 5px;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+/* line 79, ../../../theme/scss/group.scss */
+.wall-item .button_margin {
+  margin-right: 8px;
+}
+/* line 83, ../../../theme/scss/group.scss */
 .wall-item .octicon {
   margin-right: 3px;
+  vertical-align: middle;
+  color: rgba(233, 233, 233, 0.7);
 }
-
-/* line 48, ../../../theme/scss/group.scss */
-.octicon {
-  padding-right: 2px;
+/* line 88, ../../../theme/scss/group.scss */
+.wall-item .octicon:hover {
+  color: white;
 }

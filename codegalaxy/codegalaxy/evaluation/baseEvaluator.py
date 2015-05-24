@@ -1,5 +1,5 @@
 import os
-import subprocess
+from subprocess import STDOUT, check_output, TimeoutExpired, CalledProcessError
 
 class Evaluator:
 
@@ -41,9 +41,17 @@ class Evaluator:
         else:
             cmd = command + ' ' + ' '.join(args)
 
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True, shell=sh)
-        response = p.communicate()
-        self.output, self.error = response
+        output = "", ""
+        try:
+            self.output = check_output(cmd, stderr=STDOUT, timeout=5, universal_newlines=True, shell=sh)
+
+        except TimeoutExpired:
+            self.output = "Killed the process."
+            self.error = "Process took longer than expected, so we killed it."
+
+        except CalledProcessError as e:
+            self.output = "Oops, something went wrong."
+            self.error = e.output
 
     def hasError(self):
         return not self.error == ''
@@ -59,8 +67,3 @@ class Evaluator:
             return '<pre>' + self.output + '<pre>'
         else:
             return self.output
-
-# class Table():
-#     def __init__(self, desc=[], rows=[]):
-#         self.desc = desc
-#         self.rows = rows

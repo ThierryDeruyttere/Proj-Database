@@ -27,7 +27,11 @@
       {% else %}
       <form method="post" action="/g/{{group.id}}/">
         {% csrf_token %}
+        {% if group_permissions == 0 %}
+        <input type="submit" name="leave_group" value="{% trans "Delete Group" %}" class="button alert radius"/>
+        {% else %}
         <input type="submit" name="leave_group" value="{% trans "Leave group" %}" class="button alert radius"/>
+        {% endif %}
       </form>
       {% endif %}
     </div>
@@ -38,7 +42,7 @@
       <li class="tab-title active"><a href="#feed">{% trans "Feed" %}</a></li>
       <li class="tab-title"><a href="#members">{% trans "Members" %}</a></li>
       {% if is_member %}
-      <li class="tab-title"><a href="#wall">{% trans "Wall" %}</a></li>
+      <li class="tab-title"><a href="#wall">{% trans "Messages" %}</a></li>
       <li class="tab-title"><a href="#add_members">{% trans "Add New Members" %}</a></li>
       {% if not group_permissions == 2 %}
       <li class="tab-title"><a href="#edit_group">{% trans "Edit" %}</a></li>
@@ -356,7 +360,7 @@
       dataType: "text",
 
       success: function(response) {
-        $('.empty_posts').remove()
+        $('.empty_posts').remove();
         $('#posts').prepend(response);
         post_text_var.setValue('');
       },
@@ -422,7 +426,7 @@
 
   $(document).on("click",".delete_button" , function(e){
     e.preventDefault();
-    p_id = $(this).attr('data-post_id')
+    p_id = $(this).attr('data-post_id');
     var post_data = {
       group_id: {{ group.id }},
       post_id: p_id
@@ -457,7 +461,7 @@
 
   $(document).on("click",".edit_button" , function(e){
     e.preventDefault();
-    p_id = $(this).attr('data-post_id')
+    p_id = $(this).attr('data-post_id');
     var post_data = {
       post_text : post_text_var_edit.getValue(),
       group_id: {{ group.id }},
@@ -486,7 +490,7 @@
 
   $(document).on("click",".reply_button" , function(e){
     e.preventDefault();
-    var p_id = $(this).attr('data-post_id')
+    var p_id = $(this).attr('data-post_id');
     var post_data = {
       post_text : post_text_var_reply.getValue(),
       group_id: {{ group.id }},
@@ -503,6 +507,7 @@
         $(document).find('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
             $(this).find('.replies').first().append(response);
+            $(this).find('.replies').parent().append("<hr />");
           }
         });
         hideReplyField();
@@ -518,7 +523,7 @@
     term_text = $("#search_add_members input[type=text]").val();
     groupid = $("#group_id").val();
 
-    var post_data = {term:term_text, group_id:groupid}
+    var post_data = {term:term_text, group_id:groupid};
 
     $.ajax({
       type: "POST",
@@ -536,8 +541,8 @@
   });
   $(document).on('click', '#search_result div[id^=u_] #inviteuser', function(){
     groupid = $(this).attr('data-group_id');
-    userid = $(this).attr('data-user_id')
-    var post_data = {user_id:userid, group_id:groupid}
+    userid = $(this).attr('data-user_id');
+    var post_data = {user_id:userid, group_id:groupid};
     $.ajax({
       type: "POST",
       url: "/g/invitemember/",

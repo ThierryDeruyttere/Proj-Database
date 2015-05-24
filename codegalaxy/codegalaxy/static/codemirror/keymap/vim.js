@@ -719,8 +719,9 @@
         }
 
         function handleKeyNonInsertMode() {
-          if (handleMacroRecording() || handleEsc()) { return true; };
-
+          if (handleMacroRecording() || handleEsc()) {
+            return true;
+          }
           var keys = vim.inputState.keyBuffer = vim.inputState.keyBuffer + key;
           if (/^[1-9]\d*$/.test(keys)) { return true; }
 
@@ -3186,7 +3187,7 @@
               if (wordStart == cur.ch && lineNum == cur.line &&
                   wordEnd == wordStart + dir) {
                 // We started at the end of a word. Find the next one.
-                continue;
+
               } else {
                 return {
                   from: Math.min(wordStart, wordEnd + 1),
@@ -4584,7 +4585,9 @@
       }
       if (!confirm) {
         replaceAll();
-        if (callback) { callback(); };
+        if (callback) {
+          callback();
+        }
         return;
       }
       showPrompt(cm, {
@@ -4718,7 +4721,7 @@
             exitInsertMode(cm);
           }
         }
-      };
+      }
       macroModeState.isPlaying = false;
     }
 
@@ -4910,8 +4913,7 @@
         exitInsertMode(cm);
       }
       macroModeState.isPlaying = false;
-    };
-
+    }
     function repeatInsertModeChanges(cm, changes, repeat) {
       function keyHandler(binding) {
         if (typeof binding == 'string') {

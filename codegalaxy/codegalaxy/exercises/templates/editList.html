@@ -78,12 +78,12 @@
               <legend>{% trans "Subjects" %}</legend>
               <div class="row" id="subjects_list">
                 {% for subject in subjects %}
-                  <span class="success label" id="{{ subject }}" onclick="javascript:removeSubject(this)">{{ subject }}</span>
+                  <span class="success label" id="{{ subject }}" onclick="removeSubject(this)">{{ subject }}</span>
                   <input type="hidden" id="{{ subject }}_text" name="subject{{ forloop.counter0 }}" hidden="True" class="text-center" value="{{ subject }}">
                 {% endfor %}
               </div>
             </fieldset>
-            <h6>{% trans "click on a subject to delete it" %}</h6>
+            <h6>{% trans "Click on a subject to delete it." %}</h6>
             <div class="row collapse prefix-radius">
               <div class="small-4 columns">
                 <span class="prefix">{% trans "New subject" %}</span>
@@ -157,7 +157,7 @@
             {% trans "Hi there space voyager! I'm Kernel!" %}
             {% trans "I'm from a far away planet named Bootloader." %}<br/>
             {% trans "I've stumbled upon this site and I really like it and I want to show it to my friends back home!" %}<br/>
-            {% trans "The only problem is, on each planet we speak an other language, so I'm working on translating this site." %}<br/>
+            {% trans "The only problem is, on each planet we speak a different language, so I'm working on translating this site." %}<br/>
             {% trans "Think you could help? I will make your name famous across the universe if you do!" %}
           </div>
         </div>

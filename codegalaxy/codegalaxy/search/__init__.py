@@ -36,7 +36,7 @@ def search(s_term='', s_users=False, s_groups=False, s_lists=False):
 
 def searchUser(s_term='', group=object_manager.createGroup(1)):
     all_not_members = group.allUsersNotMember()
-    
+
     # Make a dict of the object with its seachString
     all_search = {obj: obj.searchString() for obj in all_not_members}
 

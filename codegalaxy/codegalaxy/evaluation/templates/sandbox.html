@@ -14,8 +14,8 @@
   </div>
 
   <div data-alert class="alert-box info radius">
-    This is the sandbox area. You can try out pieces of code here and practise your programming skills.
-    Select a programming language above and have fun coding!
+    {% trans "This is the sandbox area. You can try out pieces of code here and practise your programming skills.
+    Select a programming language above and have fun coding!" %}
     <a href="#" class="close">&times;</a>
   </div>
 
@@ -26,21 +26,21 @@
   <div class="row">
     <div class="large-4 columns">
       <ul class="button-group radius">
-        <li><a id="b_clear" class="button">Clear</a></li>
+        <li><a id="b_clear" class="button">{% trans "Clear" %}</a></li>
         <li id="b_turtle_wrapper"><a id="b_turtle" class="button">Turtle graphics</a></li>
       </ul>
     </div>
     <div class="large-8 columns">
       <form>
-        <input type="submit" name="test" class="button round success no-outline right" id="evaluate" value="Evaluate"></input>
+        <input type="submit" name="test" class="button round success no-outline right" id="evaluate" value="{% trans "Evaluate" %}"></input>
       </form>
     </div>
   </div>
 
   <div class="row" hidden>
     <div data-alert id="output" class="alert-box success radius">
-      <div id="output_success" class="output-header">Success!</div>
-      <div id="output_error" class="output-header" hidden>Oops, something went wrong...</div>
+      <div id="output_success" class="output-header">{% trans "Success!" %}</div>
+      <div id="output_error" class="output-header" hidden>{% trans "Oops, something went wrong..." %}</div>
       <pre id="output_text"></pre>
       <div id="turtle_output" hidden></div>
     </div>
@@ -61,7 +61,7 @@
     });
 
   function updateOutput(add, remove, text) {
-    $("#output_text").html(text || "No output...");
+    $("#output_text").html(text || {% trans "No output..." %});
 
     $(".CodeMirror").addClass(add);
     $(".CodeMirror").switchClass(add, "", 2800, "easeInExpo");
@@ -127,6 +127,10 @@
     else if($("b_turtle")) {
       $("#b_turtle_wrapper").html("");
     }
+
+    if($(this).attr("id") == "text/x-c++src" && code_text.getValue() == "") {
+      code_text.setValue("#include <iostream>\n\nint main (int argc, const char* argv[]) {\n  \n  return 0;\n}\n");
+    }
   });
 
   $("#b_clear").click(function(e) {
@@ -134,6 +138,11 @@
 
     // Clear text editor
     code_text.setValue("");
+
+    // Fill it with default C++ code if necessary
+    if(code_text.getOption("mode") == "text/x-c++src") {
+      code_text.setValue("#include <iostream>\n\nint main (int argc, const char* argv[]) {\n  \n  return 0;\n}\n");
+    }
 
     // Focus the text editor again
     code_text.focus();
@@ -154,7 +163,7 @@
 
   function runit() {
      var prog = code_text.getValue();
-     prog += "\nprint(\"Turtle output:\")"
+     prog += "\nprint(\"Turtle output:\")";
      Sk.pre = "output_text";
      Sk.configure({output:setSuccess, read:builtinRead});
      (Sk.TurtleGraphics || (Sk.TurtleGraphics = {})).target = 'turtle_output';

@@ -20,6 +20,8 @@ object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 challenge_manager = challengemanager.ChallengeManager()
+
+# TODO
 def removeLanguage(languages, code):
     for i in languages:
         if i.code == code:
@@ -27,6 +29,7 @@ def removeLanguage(languages, code):
             break
     return languages
 
+# TODO
 def getTranslationDict(request, languages):
     translation = {}
     for lang in languages:
@@ -39,6 +42,8 @@ def getTranslationDict(request, languages):
     return translation
 
 @require_login
+# The view for createExerciseList.html
+# TODO: hierin ng wat comments?
 def createExerciseList(request):
     prog_languages = object_manager.allProgrammingLanguages()
     browser_lang = getBrowserLanguage(request)
@@ -70,12 +75,14 @@ def createExerciseList(request):
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
 @require_login
+# The view for editList.html
+# TODO: hierin ng wat comments?
 def editList(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
-    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # Check if list exists
     if exercise_list is None or exercise_list.created_by != user.id:
         return redirect('/')
 
@@ -130,6 +137,8 @@ def editList(request, listId):
 
 
 @require_login
+# The view for createExercise.html
+# TODO: hierin ng wat comments?
 def createExercise(request, listId=0):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -198,6 +207,7 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
+# TODO
 def filterOrder(order):
     if len(order) == 0:
         return []
@@ -209,6 +219,7 @@ def filterOrder(order):
     return new_order
 
 @require_login
+# TODO
 def editExercise(request, listId, exercise_id, exercise_number):
     user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
@@ -279,6 +290,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'languages': languages,
                                                        'translations': json.dumps(translation)})
 
+# TODO
 def createImportHTML(all_lists, all_exercises):
     html = ""
     for list in all_lists:
@@ -311,6 +323,7 @@ def createImportHTML(all_lists, all_exercises):
     return html
 
 @require_login
+# TODO
 def importExercise(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -355,6 +368,7 @@ def importExercise(request, listId):
 
     return redirect('/')
 
+# Rounds integers or tells the user is the givn object was None
 def InvalidOrRound(object):
     if object is None:
         object = "N/A"
@@ -362,24 +376,27 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
-
+# The view for createExercise.html
+# TODO: comments
 def list(request, id=0):
     user = logged_user(request)
-    # score spread forthis exercise
+    # Colors for the graphs
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(id, browser_lang.id)
-    # FIRST CHECK IF LIST EXISTS BEFORE DOING ANYTHING
+    # Check if list exists
     if exercise_list is None:
         return redirect('/')
 
+    # Statistic info about this list
     avg_score = InvalidOrRound(exercise_list.averageOfUsersForThisList())
     avg_rating = InvalidOrRound(exercise_list.averageRatingOfUsersForThisList())
     number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
     user_score = 0
     user_date = None
 
+    # Other general info about the list
     subjects = exercise_list.allSubjects()
     creator = exercise_list.creator()
     created_on = exercise_list.created_on
@@ -387,6 +404,7 @@ def list(request, id=0):
     if subjects is None:
         subjects = []
 
+    # if the user interacts with the page (POST request is sent)
     if request.method == 'POST':
         if request.POST.get('rating') is not None and user is not None:
             user.ratedExerciseList()
@@ -486,7 +504,7 @@ def list(request, id=0):
             if percent == 100:
                 solved_all = True
 
-        # lists like this one
+        # Lists like this one
         similar_lists = []
         similar_list_ids = []
 
@@ -495,7 +513,7 @@ def list(request, id=0):
         if user:
             user_lists = user.getUserLists(browser_lang.id)
             user_rating = user.getRatingForList(exercise_list.id)
-            # for the recommended lists, we'll first check if the user solved the current list
+            # For the recommended lists, we'll first check if the user solved the current list
             if exercise_list:
                 made_list = user.getMadeList(exercise_list.id, browser_lang.id)
                 if made_list:
@@ -676,7 +694,6 @@ def submit(request, list_id, exercise_number):
                 else:
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), selected_answer, hint)
-                    # return redirect('/l/'+ list_id+ '/'+ question_id)
 
             elif current_exercise.exercise_type == 'Code' or current_exercise.exercise_type == 'Turtle':
                 # For code you only have one answer so lets get it
@@ -689,13 +706,13 @@ def submit(request, list_id, exercise_number):
                     object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
                 else:
-                    # not the right answer! Deduct points!
+                    # We didn't get the right answer! Deduct points!
                     current_score = returnScore(current_score - penalty)
                     object_manager.userMadeExercise(user.id, current_score, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")), int(list_id), int(exercise_number), user_code, hint)
 
         next_exercise = exercise_number + 1
 
-        # checking if user made list
+        # Checking if user made list
         user_made_all = True
         users_exercises = exercise_list.getAllExercForUserForList(user.id)
         for ex_info in users_exercises:
@@ -713,7 +730,6 @@ def submit(request, list_id, exercise_number):
                 user.madeList(exercise_list.id, list_score, 0)
                 next_exercise = ""
                 challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
-
 
         return render(request, 'submit.html', {"solved": solved,
                                                "list_id": list_id,
@@ -786,19 +802,19 @@ def listOverview(request):
     pie_chart = graph_manager.makePieChart('colours', 180, 100,
                                            graphmanager.color_tuples,
                                            lists_per_prog_lang['labels'],
-                                           lists_per_prog_lang['data'])
+                                           lists_per_prog_lang['data'], 'Planets/Programming Language')
     # Amount of subjects:
-    # colors
+    # Colors
     color_info1 = graphmanager.ColorInfo("#f04124", "#f04124", "#f76148", "#f76148")
     color_info2 = graphmanager.ColorInfo("#FF9437", "#FF9437", "#ffa85d", "#ffa85d")
 
-    # data
+    # Data
     most_popular_subjects = statistics_analyzer.mostPopularSubjectsTopX(5)
     bar_chart = graph_manager.makeBarChart('subjectsgraph', 200, 200,
-                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"])
-    # users with most made lists
+                                           [color_info2, color_info1], most_popular_subjects['labels'], most_popular_subjects['data'], ["subject"], False, 'Most Popular Subjects')
+    # Users with most made lists
     users_with_mosts_made_lists = statistics_analyzer.mostExerciseListsTopX(5)
-    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"])
+    bar_chart2 = graph_manager.makeBarChart('activeusers', 200, 200, [color_info1, color_info2], users_with_mosts_made_lists['labels'], users_with_mosts_made_lists['data'], ["#exercises"], False,'Users who made the most lists')
 
     list_name = '%'
     min_list_difficulty = 1

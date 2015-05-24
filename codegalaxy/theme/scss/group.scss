@@ -3,48 +3,94 @@
 }
 
 .small_button {
-  margin-left: 1px;
-  margin-right: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
-.move_right{
-  margin-left: 1rem;
-  margin-right: 1rem;
+.move_right {
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .CodeMirror {
-  height: 130px;
-  width: 60%;
-}
-#post_button{
-  width: 13%;
-}
-.wall-item{
-  p {
-    margin-bottom: 0px;
-  }
-  .row{
-    padding-left: 20px;
-  }
-  .replies {
-      padding-left: 40px;
-      .reply-timestamp {
-          color: rgba(217, 217, 217, 0.7);
-      }
-  }
-  .button{
-    width: 13%;
-    margin-right: 5px;
-  }
-  margin-bottom: 0px;
-  .button_margin{
-    margin-right: 12px;
-  }
-  .octicon{
-    margin-right: 3px;
-  }
+    height: 130px;
+    width: 60%;
 }
 
-.octicon{
-  padding-right: 2px;
+#post_button {
+    width: 13%;
 }
+
+.wall-item{
+    $timestamp_color: rgba(144, 144, 144, 0.7);
+
+    border: 1px solid;
+    margin-bottom: 0px;
+    border-radius: 2px;
+    background-color: rgba(28, 69, 124, 0.37);
+    border-color: #ababab;
+    padding: 5px;
+    margin-bottom: 8px;
+
+    p {
+        margin-bottom: 0px;
+    }
+
+    a {
+        color: rgba(151, 151, 151, 0.86);
+    }
+
+    hr {
+        border: 0;
+        height: 1px;
+        margin: 4px 0px 6px 0px;
+        background-image: -webkit-linear-gradient(left, rgba(209,209,209,0.20), rgba(209,209,209,0.50), rgba(209,209,209,0.20));
+        background-image:    -moz-linear-gradient(left, rgba(209,209,209,0.20), rgba(209,209,209,0.50), rgba(209,209,209,0.20));
+        background-image:     -ms-linear-gradient(left, rgba(209,209,209,0.20), rgba(209,209,209,0.50), rgba(209,209,209,0.20));
+        background-image:      -o-linear-gradient(left, rgba(209,209,209,0.20), rgba(209,209,209,0.50), rgba(209,209,209,0.20));
+    }
+
+    .timestamp {
+        color: $timestamp_color;
+
+        .author {
+            color: lighten($timestamp_color, 20%);
+        }
+    }
+    //
+    // .controls {
+    //
+    // }
+
+    .replies {
+        margin-left: 20px;
+        margin-top: 3px;
+        padding-left: 8px;
+        border-left: rgba(200, 200, 200, 0.8) dashed 2px;
+    }
+
+    .button.tiny {
+        // width: 13%;
+        margin-right: 5px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .button_margin {
+        margin-right: 8px;
+    }
+
+    .octicon {
+        margin-right: 3px;
+        vertical-align: middle;
+        color: lighten($timestamp_color, 35%);
+
+        &:hover {
+            color: rgb(255,255,255);
+        }
+    }
+}
+//
+// .octicon {
+//     padding-right: 2px;
+// }

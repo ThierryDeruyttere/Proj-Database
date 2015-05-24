@@ -4,10 +4,15 @@ from django.core.context_processors import request
 
 from codegalaxy.evaluation.evaluators import *
 
+# The view for sandbox.html
 def sandbox(request):
     return render(request, 'sandbox.html', {})
 
+# Handles the POST-request for evaluating code
+# The code will be run through an evaluator object and the output/error
+# message will be returned.
 def evaluate(request, lang):
+    # Get data from POST request
     code = request.POST.get('code', '')
     is_editor = request.POST.get('is_editor', '') != ''
 

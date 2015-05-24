@@ -166,42 +166,42 @@
   margin-right: 6px;
 }
 
-/* line 117, ../../../theme/scss/general.scss */
+/* line 119, ../../../theme/scss/general.scss */
 .success-text {
   color: #43AC6A;
 }
 
-/* line 121, ../../../theme/scss/general.scss */
+/* line 123, ../../../theme/scss/general.scss */
 .alert-text {
   color: #f04124;
 }
 
-/* line 125, ../../../theme/scss/general.scss */
+/* line 127, ../../../theme/scss/general.scss */
 .blue-text {
   color: #3498DB;
 }
 
-/* line 129, ../../../theme/scss/general.scss */
+/* line 131, ../../../theme/scss/general.scss */
 .success-border, .victor {
   border-color: #43AC6A;
 }
 
-/* line 133, ../../../theme/scss/general.scss */
+/* line 135, ../../../theme/scss/general.scss */
 .alert-border, .loser {
   border-color: #f04124;
 }
 
-/* line 137, ../../../theme/scss/general.scss */
+/* line 139, ../../../theme/scss/general.scss */
 .round-image, .search_pict, .challengers, .challengers-small {
   border-radius: 50%;
 }
 
-/* line 141, ../../../theme/scss/general.scss */
+/* line 143, ../../../theme/scss/general.scss */
 .overflow {
   word-wrap: break-word;
 }
 
-/* line 145, ../../../theme/scss/general.scss */
+/* line 147, ../../../theme/scss/general.scss */
 .tabs {
   display: inline-block;
 }
@@ -258,47 +258,30 @@ html {
 
 /* line 48, ../../../theme/scss/challenges.scss */
 #textbox {
-  position: absolute;
-  top: 1em;
-  left: 10em;
   width: 80%;
   color: black;
 }
 
-/* line 56, ../../../theme/scss/challenges.scss */
+/* line 53, ../../../theme/scss/challenges.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 62, ../../../theme/scss/challenges.scss */
-#textbox:after {
-  content: '';
-  position: absolute;
-  border-style: solid;
-  border-width: 15px 15px 15px 0;
-  border-color: transparent #9fd2e6;
-  display: block;
-  width: 0;
-  z-index: 1;
-  left: 1px;
-  top: 70px;
-}
-
-/* line 76, ../../../theme/scss/challenges.scss */
+/* line 59, ../../../theme/scss/challenges.scss */
 .victor {
   border-width: 3px;
   border-style: solid;
 }
 
-/* line 82, ../../../theme/scss/challenges.scss */
+/* line 65, ../../../theme/scss/challenges.scss */
 .loser {
   border-width: 3px;
   border-style: solid;
 }
 
-/* line 88, ../../../theme/scss/challenges.scss */
+/* line 71, ../../../theme/scss/challenges.scss */
 p {
   color: #000000;
 }
