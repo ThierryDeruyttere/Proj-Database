@@ -19,25 +19,25 @@
     <form method="post" id="list_form">
       {% csrf_token %}
       <div class="row">
-        <div class="large-6 large-centered columns">
+        <div class="large-8 large-centered columns">
 
           <input type="text" id="list_name" placeholder= {% trans "'Enter list name'" %} name="list_name" value="{{ list.name }}">
 
           <textarea id="description_text" class="description" placeholder= {% trans "'Enter description of exercise list'" %} name="description_text">{{ list.description }}</textarea>
         </div>
         <div class="row">
-          <div class="large-4 large-centered columns">
-            <div class="small-10 medium-11 columns">
+          <div class="large-6 large-centered columns">
+            <div class="large-10 large-centered columns">
               <div class="range-slider round" id="slider" data-slider data-options="display_selector: #difficulty; start: 1; end: 5;">
                 <span class="range-slider-handle" role="slider" tabindex="0"></span>
                 <span class="range-slider-active-segment"></span>
               </div>
             </div>
             <div class="row collapse prefix-radius">
-              <div class="small-3 columns">
+              <div class="large-3 columns">
                 <span class="prefix">{% trans "Difficulty" %}</span>
               </div>
-              <div class="small-9 columns">
+              <div class="large-9 columns">
                 <input type="text" id="difficulty" name="difficulty" readonly="True" class="text-center">
               </div>
             </div>
@@ -45,7 +45,7 @@
         </div>
 
         <div class="row">
-          <div class="large-4 large-centered columns">
+          <div class="large-6 large-centered columns">
             <label>{% trans "Programming language" %}</label>
             <select name="prog_lang">
               {% for lang in prog_languages %}
@@ -66,7 +66,7 @@
         </div>
 
         <div class="row">
-          <div class="large-4 large-centered columns">
+          <div class="large-6 large-centered columns">
             <div class="row collapse prefix-radius">
               <div class="small-3 columns">
                 <span class="prefix">{% trans "Subject" %}</span>
@@ -80,7 +80,7 @@
               </div>
             </div>
           </div>
-          <div class="large-4 large-centered columns">
+          <div class="large-6 large-centered columns">
             <fieldset>
               <legend>{% trans "Subjects" %}</legend>
               <div class="row" id="subjects">
