@@ -841,8 +841,30 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (id, is_active, first_name, last_name, password, email, permission, joined_on, last_login, gender) VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-29 18:38:34','M'),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-28 18:12:43','M'),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-04-28 17:50:42','F'),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:10:32','F'),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(8,1,'Thomas','Vandelanotte','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(9,1,'Pieter','Jan','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(10,1,'Bart','De Wever','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(12,1,'Jommeke','Hegre','21232f297a57a5a743894a0e4a801fc3','Jommeke@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(13,1,'Fany','Kiekeboe','21232f297a57a5a743894a0e4a801fc3','Fany@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(14,1,'Wouter','Vanuitdebroeken','21232f297a57a5a743894a0e4a801fc3','Wouter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(15,1,'Kalm','Zalm','21232f297a57a5a743894a0e4a801fc3','Kalm@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','U'),(16,1,'Alaise','Pladijs','21232f297a57a5a743894a0e4a801fc3','Alaise@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),(17,1,'Alain','Drissens','21232f297a57a5a743894a0e4a801fc3','Alain@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(18,1,'Rudy','Verboven','21232f297a57a5a743894a0e4a801fc3','Rudy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(19,1,'Bruno','Tobback','21232f297a57a5a743894a0e4a801fc3','Bruno@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(20,1,'Janneman','Stanneman','21232f297a57a5a743894a0e4a801fc3','Janneman@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),(21,1,'Maarten','jorens','21232f297a57a5a743894a0e4a801fc3','projdbua@gmail.com',0,'2015-04-29 18:36:28','2015-04-29 18:36:28','N');
+INSERT INTO `user` (id, is_active, first_name, last_name, password, email, permission, joined_on, last_login, gender) VALUES 
+(1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),
+(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-29 18:38:34','M'),
+(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),
+(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-04-28 18:12:43','M'),
+(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-04-28 17:50:42','F'),
+(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-04-26 18:10:32','M'),
+(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(8,1,'Thomas','Reyn','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(9,1,'Pieter','De Ridder','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(10,1,'Bart','De Wilde','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(12,1,'Julie','Janssens','21232f297a57a5a743894a0e4a801fc3','Julie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),
+(13,1,'Mark','Walters','21232f297a57a5a743894a0e4a801fc3','Mark@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(14,1,'Sofie','De Bruyne','21232f297a57a5a743894a0e4a801fc3','Sofie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),
+(15,1,'Leona','Dean','21232f297a57a5a743894a0e4a801fc3','Leona@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),
+(16,1,'Loretta Simmons','Pladijs','21232f297a57a5a743894a0e4a801fc3','Loretta@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),
+(17,1,'Isaac','Hayes','21232f297a57a5a743894a0e4a801fc3','Isaac@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(18,1,'Jerry','Owens','21232f297a57a5a743894a0e4a801fc3','Jerry@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(19,1,'Daisy','Obrien','21232f297a57a5a743894a0e4a801fc3','Daisy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F'),
+(20,1,'Steven','Ross','21232f297a57a5a743894a0e4a801fc3','Steven@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M'),
+(21,1,'Dylan','Anderson','21232f297a57a5a743894a0e4a801fc3','Dylan@gmail.com',0,'2015-04-29 18:36:28','2015-04-29 18:36:28','M');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 --
