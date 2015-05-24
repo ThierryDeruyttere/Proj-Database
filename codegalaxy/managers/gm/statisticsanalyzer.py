@@ -2,10 +2,9 @@
 from managers.om import *
 object_manager = objectmanager.ObjectManager()
 
+# Class that will use the objectmanager to query+analyze data (and put it into
+# proper formats for the graphmanager to use)
 class StatisticsAnalyzer:
-
-    '''Class that will use the om to query+analyze data (and put it into
-    proper formats for the graphmanager to use)'''
 
     def __init__(self):
         pass
@@ -13,6 +12,7 @@ class StatisticsAnalyzer:
 # Used with Pie Graphs
 
     # returns a dict consisting of the "labels"=languages and "data" = # of exercises
+    # Creates the graph Exlists/Language on the lists.html page
     def AmountOfExerciseListsPerProgrammingLanguage(self):
         result = {}
         # Programming language names
@@ -36,6 +36,7 @@ class StatisticsAnalyzer:
         result['data'].reverse()
         return result
 
+    # Creates the graph Exercises/Language on a user.html page (info based on that user)
     def AmountOfExercisesPerProgrammingLanguageForUser(self, user_id):
         result = {}
         # Programming language names
@@ -59,6 +60,7 @@ class StatisticsAnalyzer:
         result['data'].reverse()
         return result
 
+    # Creates the graph ExerciseLists/Language on a user.html page (info based on that user)
     def AmountOfExerciseListsPerProgrammingLanguageForUser(self, user_id):
         result = {}
         # Programming language names
@@ -84,6 +86,8 @@ class StatisticsAnalyzer:
 
 # Used with Bar Charts
 
+    # Creates the graph score/Language on a user.html page (info based on that user)
+    # the score is the average of all the made Exerciselists
     def averageScorePerProgrammingLanguageForUser(self, user):
         result = {}
         # programming language_ids
@@ -98,7 +102,7 @@ class StatisticsAnalyzer:
                 result['labels'].append(all_prog_languages[i]['name'])
         return result
 
-    # Return the X biggest groups
+    # Return the X biggest groups and how many memebrs are in there as a Graph
     def biggestGroupsTopX(self, X):
         result = {}
         # Names of groups
@@ -115,6 +119,8 @@ class StatisticsAnalyzer:
             result['labels'].append(groups[i].group_name)
         return result
 
+    # Graph that displays the X users that have completed the most exerciselists
+    # aside from that, the amount is also given
     def mostExerciseListsTopX(self, X):
         result = {}
         # Names of Users
@@ -131,6 +137,8 @@ class StatisticsAnalyzer:
             result['labels'].append(users[i].first_name + ' ' + users[i].last_name)
         return result
 
+    # Graph that displays the X subjects that occur in the most exerciselists
+    # aside from that, the amount is also given
     def mostPopularSubjectsTopX(self, X):
         result = {}
         # Names of Users
