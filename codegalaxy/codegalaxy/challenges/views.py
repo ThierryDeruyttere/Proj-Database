@@ -36,20 +36,12 @@ def prepareDict(lists):
     for i in lists:
         if i.programming_language.name not in new_dict:
             new_dict[i.programming_language.name] = []
-        new_dict[i.programming_language.name].append(i.name)
+        new_dict[i.programming_language.name].append([i.id, i.name])
 
     if len(new_dict) == 0:
-        return {'empty': ["Sorry, we couldn't find any lists!"]}
+        return {'empty': [[-1, "Sorry, we couldn't find any lists!"]]}
 
     return new_dict
-
-def getListFromName(list_name, language_code):
-    lists = object_manager.getAllExerciseLists(language_code)
-    for i in lists:
-        if i.name == list_name:
-            return i
-    return None
-
 
 def getFinishedChallengesStats(challenges):
     stats = {"Score":0, "Perfects":0}
@@ -121,7 +113,7 @@ def challenges(request):
         challenged = object_manager.getUserByName(challenged_name)
         challenge_type = request.POST.get('challenge_type')
         challenge_list = request.POST.get('possible_lists')
-        challenged_list_obj = getListFromName(challenge_list, browser_language.id)
+        challenged_list_obj = object_manager.createExerciseList(int(challenge_list), browser_language.id)
         challenge_manager.createChallenge(user.id, challenged.id, challenge_type, challenged_list_obj.id)
         return HttpResponseRedirect('')
 

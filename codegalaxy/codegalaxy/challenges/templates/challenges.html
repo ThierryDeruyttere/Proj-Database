@@ -220,10 +220,11 @@
               label: key
             });
             $.each(value, function(index, val){
+
               var option = $("<option/>",{
-                value: val
+                value: val[0]
               });
-              option.text(val);
+              option.text(val[1]);
               optgroup.append(option);
             });
             $('#possible_lists').append(optgroup);
@@ -286,7 +287,7 @@
     $("#Challenge_form").submit(function(e){
       e.preventDefault();
 
-      if($("#possible_lists").val() == "Sorry, we couldn't find any lists!"){
+      if($("#possible_lists").val() == -1){
         alert("We're sorry but there are no more lists available to challenge this user");
 
       }else {
