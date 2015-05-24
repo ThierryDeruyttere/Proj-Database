@@ -733,7 +733,7 @@ msgstr "Schrijf"
 
 #: codegalaxy/templates/group.html:187
 msgid "There does not seem to be any posts here yet!"
-msgstr ""
+msgstr "Er zijn hier precies nog geen berichten!"
 
 #: codegalaxy/templates/group.html:197
 msgid "Search members to add..."
@@ -1098,7 +1098,7 @@ msgstr "Laatste keer bezocht:"
 
 #: codegalaxy/templates/verify.html:8
 msgid "Congratulations, you have verified your email"
-msgstr ""
+msgstr "Gefeliciteerd,je email is geverifieerd!"
 
 #~ msgid "Congratulations!"
 #~ msgstr "Proficiat!"
