@@ -1,6 +1,7 @@
 import dbw
 import managers.om.objectmanager
 
+# Tries to decode input to utf-8
 def decodeString(fromVar):
     decoded = ""
     try:
@@ -9,7 +10,7 @@ def decodeString(fromVar):
         decoded = fromVar
     return decoded
 
-
+# Object representation of an exercise
 class Exercise:
 
     '''An Exercise-object holds all the information of a single exercise that
@@ -61,6 +62,7 @@ class Exercise:
         self.exerciseList_id = int(exerciseList_id)
         self.isReference = False
 
+    # Gives the list and exercise number of the exercise this one is referring to
     def isReferenceTo(self):
         original = dbw.getOriginalExercise(self.exerciseList_id, self.exercise_number)
         return (original['id'], original['ex_number'])
@@ -152,6 +154,7 @@ class Exercise:
         if translations:
             self.updateTranslations(translations)
 
+    # TODO
     def getTranslations(self, languages=None):
         # Additional param languages -> only if you want to have certain languages
         lang = languages
@@ -184,9 +187,11 @@ class Exercise:
 
         return translations
 
+    # Updates the code for this exercise in the database
     def updateCode(self):
         dbw.updateExerciseCode(self.code, self.id)
 
+    # TODO
     def saveExerciseNumber(self, newPos):
         transaction = ''
         if self.isReference:
@@ -196,6 +201,7 @@ class Exercise:
         self.exercise_number = newPos
         return transaction
 
+    # TODO
     def insertUpdateValues(self, key, value):
         dbw.insertQuestion(self.id, key.id, value['question'])
         dbw.insertTitleForExercise(self.id, key.id, value['title'])
@@ -209,6 +215,7 @@ class Exercise:
                 dbw.insertAnswer(self.id, key.id, (i + 1), value[str(i)])
                 i += 1
 
+    # Updates the translations for this exercise in the database
     def updateTranslations(self, translations):
         if translations is None:
             return
@@ -234,11 +241,14 @@ class Exercise:
             elif len(value) > 0 and value['title'] != "":
                 self.insertUpdateValues(key, value)
 
+    # TODO
     def setTranslations(self, translations):
         for key, value in translations.items():
             if len(value) > 0:
                 self.insertUpdateValues(key, value)
 
+    # will update the database to the values currently on the object
+    # will also dereference the exercise if it was a reference
     def save(self, lang_id, user_id=None):
         '''
         @brief saves/dereferences the exercise in the database
@@ -260,6 +270,7 @@ class Exercise:
         dbw.updateExercise(self.id, self.max_score, self.penalty, self.exercise_type, self.created_by, self.created_on, self.exercise_number, self.correct_answer, self.exerciseList_id, self.title, lang_id)
         dbw.updateQuestion(self.id, dbw.getIdFromLanguage(self.language_code)['id'], self.question)
 
+# Struct representation of a Question
 class Question:
 
     def __init__(self, question_text, language_code):

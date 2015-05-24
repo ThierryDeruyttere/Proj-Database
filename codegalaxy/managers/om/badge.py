@@ -5,7 +5,7 @@ import datetime
 
 import os.path
 
-
+# Struct representing a Badge
 class Badge:
 
     def __init__(self, id, name, type, message, target_value, medal):
@@ -16,6 +16,7 @@ class Badge:
         self.target_value = target_value
         self.medal = medal
 
+    # Returns a string representing the path to the picture of a bronze/zilver or gold medal
     def getPicture(self):
         badge_picture = "media/icons/gold_badge.png"
         if self.medal == "gold":
@@ -27,6 +28,7 @@ class Badge:
 
         return badge_picture
 
+    # Returns User-objects of all the users that have earned this badge
     def allUsersThatEarnedBadge(self):
         object_manager = managers.om.objectmanager.ObjectManager()
 

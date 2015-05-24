@@ -2,6 +2,7 @@ import dbw
 import managers.om.exercise
 import managers.om.objectmanager
 
+# Object representation of an exerciselist
 class ExerciseList:
 
     def __init__(self, id, name, difficulty, description, created_by, created_on, programming_lang, default_language_code='en'):
@@ -17,12 +18,13 @@ class ExerciseList:
     def __str__(self):
         return self.name + ' ' + str(self.difficulty) + ' ' + self.description + ' ' + str(self.created_by) + ' ' + str(self.created_on)
 
+    # Returns a User-object of the creator of this list
     def creator(self):
         object_manager = managers.om.objectmanager.ObjectManager()
         creator = object_manager.createUser(id=self.created_by)
         return creator
 
-    # List of subjects
+    # List of names subjects that this list has
     def allSubjects(self):
         subjects_info = dbw.getSubjectsForList(self.id)
         if subjects_info:
@@ -32,6 +34,7 @@ class ExerciseList:
         else:
             return None
 
+    # List of ids subjects that this list has
     def allSubjectIDs(self):
         subjects_info = dbw.getSubjectIDsForList(self.id)
         if subjects_info:
@@ -41,30 +44,36 @@ class ExerciseList:
         else:
             return None
 
+    # Returns the amount of users that made this list
     def amountOfUsersWhoMadeThisList(self):
         return dbw.getAmountOfUsersWhoMadeList(self.id)['amount']
 
+    # Returns the average of users' scores for this list
     def averageOfUsersForThisList(self):
         return dbw.getAvgScoreOfUsersWhoMadeList(self.id)['average']
 
+    # Returns the average of users' ratings for this list
     def averageRatingOfUsersForThisList(self):
         ratings = dbw.averageRatingOfUsersWhoMadeList(self.id)
         total_rating = 0
         rating_divider = 0
         if ratings:
             for rating in ratings:
+                # Ratings of 0 are not valid (default)
                 if rating['rating'] != 0:
                     total_rating += rating['rating']
                     rating_divider += 1
+            # no ratings yet
             if rating_divider == 0:
                 return 0
             total_rating = total_rating / rating_divider
         return total_rating
 
+    # Returns the amount of exercises in this list
     def amountOfExercises(self):
         return len(self.allExercises('en'))
 
-    # List of exercises
+    # List of Exercise-objects that belong to this list (original and references)
     def allExercises(self, language_code):
         # we'll need to check if any numbers are missing, so we get the amount of em
         # Getting all original exercise_ids
@@ -74,8 +83,10 @@ class ExerciseList:
         object_manager = managers.om.objectmanager.ObjectManager()
         exercises = []
         # We'll put the info in a regular list
+        # The normal exercises
         for exercise_id in exercises_infos:
             exercises.append(object_manager.createExercise(exercise_id['id'], language_code))
+        # The references
         for exercise_id in exercise_references_infos:
             referenced = object_manager.createExercise(exercise_id['id'], language_code)
             referenced.exercise_number = exercise_id['new_list_exercise_number']
@@ -86,6 +97,7 @@ class ExerciseList:
         exercises = sorted(exercises, key=lambda ex: ex.exercise_number)
         return exercises
 
+    # Gets one specific exercise belonging to this list on the id
     def getExercise(self, id, language_code):
         for ex in allExercises(language_code):
             if ex.id == id:
@@ -93,12 +105,14 @@ class ExerciseList:
             else:
                 return None
 
+    # Returns specific variables depending on what was asked
     def hasX(self, id, X_type):
         if X_type == 'Subject':
             return self.hasSubject(id)
         elif X_type == 'Programming Language':
             return self.programming_language.id == id
 
+    # Checks whether the exerciselist has a certain subject
     def hasSubject(self, subject_id):
         subjects_info = dbw.getSubjectIDsForList(self.id)
         if subjects_info:
@@ -106,9 +120,11 @@ class ExerciseList:
             subjects_list = [x['id'] for x in subjects_info]
             return subject_id in subjects_list
 
+    # Updates the database to the variables on the current object
     def save(self):
         dbw.updateExerciseList(self.id, self.name, self.description, self.difficulty, self.programming_language)
 
+    # Updates the current object+ the database
     def update(self, updated_name, updated_description, updated_difficulty, updated_prog_lang, translation=None):
         dbw.updateExerciseList(self.id, updated_name, updated_description, updated_difficulty, updated_prog_lang.id, translation)
         self.name = updated_name
@@ -116,19 +132,23 @@ class ExerciseList:
         self.difficulty = int(updated_difficulty)
         self.programming_language = updated_prog_lang
 
+    # Adds a subject for this list to the database
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
         subject_id = int(dbw.getSubjectID(subject_name)["id"])
-
         dbw.insertHasSubject(self.id, subject_id)
 
+    # Deletes a subject from this list in the database
     def deleteSubject(self, subject_name):
         subject_id = int(dbw.getSubjectID(subject_name)["id"])
         dbw.deleteSubjectFromHasSubject(self.id, subject_id)
 
+    # Gets the exercises of this list that a user has made or attempted
     def getAllExercForUserForList(self, user_id):
         return dbw.getAllExercForUserForList(user_id, self.id)
 
+    # Inserts a new exercise into the list (and database)
+    # (this info is spread out over multiple tables)
     def insertExercise(self, max_score, penalty, exercise_type, created_by, created_on, exercise_number, question, answers, correct_answer, hints, language_obj, title, translation, code=""):
         # AssociatedWith relation
         l_id = language_obj.id
@@ -156,6 +176,7 @@ class ExerciseList:
         exercise.update(correct_answer, answers, hints, language_obj)
         exercise.setTranslations(translation)
 
+    # Gets the numerically last exercise of this list
     def getLastExercise(self):
         last = dbw.getLastExerciseFromList(self.id)["last_exercise_number"]
         if last is None:
@@ -163,11 +184,13 @@ class ExerciseList:
         else:
             return last
 
+    # Inserts a reference to an exercise in this list
     def insertExerciseByReference(self, original_exercise_id):
         new_list_exercise_number = int(self.getLastExercise()) + 1
         dbw.insertExerciseByReference(original_exercise_id, self.id, new_list_exercise_number)
         return new_list_exercise_number
 
+    # Makes a reference into its own unique exercise
     def unreferenceExercise(self, exercise_number):
         # to 'unreference' something, we have to add it to the DB
         object_manager = managers.om.objectmanager.ObjectManager()
@@ -178,13 +201,16 @@ class ExerciseList:
         dbw.deleteReference(self.id, exercise_number)
         return new_id
 
+    # Make a new exercise based on another one
     def copyExercise(self, original_exercise_id):
         number = self.insertExerciseByReference(original_exercise_id)
         self.unreferenceExercise(number)
 
+    # TODO
     def maxScore(self):
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
 
+    # TODO
     def fixUpdateNumbers(self, exercises, pos_change):
         nextPos = len(exercises) + 1
         # check if there are exercises who might cause problems
@@ -240,6 +266,7 @@ class ExerciseList:
         for i in range(len(remove)):
             self.deleteExercise(last_exercise - i)
 
+    # Removes an exercise of reference to an exercise in this list
     def deleteExercise(self, exercise_number):
         if dbw.isReference(self.id, exercise_number):
             # Ref -> just delete from DB
@@ -257,9 +284,11 @@ class ExerciseList:
             # Now we'll delete the old exercise
             dbw.deleteExercise(exercise.id)
 
+    # TODO
     def searchString(self):
         return str(self.name)
 
+    # Gets the translations of the title/description/... for this list
     def getAllTranslations(self):
         transl = dbw.getAllListTranslations(self.id)
         translations = {}

@@ -9,12 +9,13 @@ import datetime
 # Class that will build and work with the various objects representing the site
 # will use SQL
 
-
+# The time in a time object between today and the given date
 def timeFromToday(compare_date):
     compare_date = compare_date.replace(tzinfo=None)
     now = datetime.datetime.now()
     return compare_date - now
 
+# Struct representing a language (not a programming language)
 class Language:
 
     def __init__(self, id, name, code=None):
@@ -22,6 +23,7 @@ class Language:
         self.name = name
         self.code = code
 
+# Class that handles most database representations of the data
 class ObjectManager:
 
     '''Class which will consist of a few make-functions for objects by using SQL queries
@@ -60,6 +62,7 @@ class ObjectManager:
         else:
             return None
 
+    # Uses the DB to create an object representing a Badge
     def createBadge(self, id):
         badge_info = dbw.getBadgeInformation(id)
         if badge_info:
@@ -68,6 +71,7 @@ class ObjectManager:
         else:
             return None
 
+    # Returns objects of all the badges
     def getAllBadges(self):
         badges_info = dbw.getAllBadgeInformation()
         badges = []
@@ -78,6 +82,8 @@ class ObjectManager:
 
         return badges
 
+    # Returns objects of all the badges sorted per tier
+    # TODO: zou dit ni beter bovenstaande functie gwn use?
     def getAllBadgesOnMedal(self):
         badges_info = dbw.getAllBadgeInformation()
         badges = {}
@@ -98,6 +104,7 @@ class ObjectManager:
         badges['bronze'] = bronze
         return badges
 
+    # Uses the DB to create an object representing a Group (given a name)
     def createGroupOnName(self, group_name):
         group_info = dbw.getGroupInformationOnName(group_name)
         if group_info:
@@ -133,9 +140,11 @@ class ObjectManager:
             return None
 
 # INSERT functions will insert info into the DB by calling dbw functions
+# All functions query the database for the info (the functionname is usually enough)
     def insertUser(self, first_name, last_name, email, password, joined_on, last_login, gender):
         dbw.insertUser(first_name, last_name, password, email, 0, joined_on, last_login, gender)
 
+    # Everytime a user logs in, we update values for the timeMember badge
     def registered(self, email):
         user = self.createUser(email=email)
         dbw.incrementBadgeValue(user.id, 'timeMember')
@@ -182,21 +191,27 @@ class ObjectManager:
             groups.append(self.createGroup(id=group_id['id']))
         return groups
 
+    # Counts the amount of exerciselists of a certain programming language
     def countExerciseListsForProgrammingLanguageID(self, id):
         return dbw.countExerciseListsForProgrammingLanguageID(id)
 
+    # Counts the amount of exerciselists of a certain programming language made by a certain user
     def countExerciseListsForProgrammingLanguageIDMadeByUser(self, prog_lang_id, user_id):
         return dbw.countExerciseListsForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id)
 
+    # Counts the amount of exercises of a certain programming language made by a certain user
     def countExercisesForProgrammingLanguageIDMadeByUser(self, prog_lang_id, user_id):
         return dbw.countExercisesForProgrammingLanguageIDMadeByUser(prog_lang_id, user_id)
 
     def allSubjects(self):
         return dbw.getAllSubjects()
 
+    # Counts the amount of times a subject appears in all the lists
     def occurencesOfSubject(self, subject_id):
         return dbw.getOccurenceOfSubject(subject_id)
 
+    # Updates/Inserts (into) the table madeexercise depending if the user
+    # had already attempted the exercise
     def userMadeExercise(self, user_id, exercise_score, made_exercise, completed_on, list_id, exercise_number, last_answer="", hint=0):
         if hint is None:
             hint = 0
@@ -205,6 +220,7 @@ class ObjectManager:
             dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on, hint, exercise_score)
         else:
             dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer, hint)
+    # TODO some more functions below this one
 
     def getInfoForUserForExercise(self, user_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_list_id, exercise_number)
