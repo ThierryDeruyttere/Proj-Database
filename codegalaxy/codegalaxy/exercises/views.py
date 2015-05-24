@@ -174,7 +174,6 @@ def getCodeInfo(request, exercise_max_score):
     return exercise_answer, hints
 
 # The view for createExercise.html
-# TODO: hierin ng wat comments?
 @require_login
 def createExercise(request, listId=0):
     browser_lang = getBrowserLanguage(request)
@@ -201,6 +200,7 @@ def createExercise(request, listId=0):
         code = request.POST.get('code', '')
         exercise_max_score = int(request.POST.get('max', '1'))
 
+        #Get the according information for each exercise_type
         if exercise_type == 'Open Question':
             exercise_answer, correct_answer, exercise_penalty = getMultipleChoiceInfo(request, exercise_max_score)
 
@@ -222,7 +222,7 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
-# TODO
+# Function to filter the new order of the exercises.
 def filterOrder(order):
     if len(order) == 0:
         return []
