@@ -937,10 +937,6 @@ msgstr "Gemiddelde score (%%) per programmeer taal"
 msgid "Total amount of lists made:"
 msgstr "Totale aantal oefeningenlijsten gemaakt:"
 
-#: codegalaxy/templates/user.html:420
-msgid "Average score"
-msgstr "Gemiddelde score"
-
 #: codegalaxy/templates/user.html:422
 msgid "You have not completed any exercise lists yet!"
 msgstr "Je hebt nog geen oefeningenlijsten afgewerkt!"
