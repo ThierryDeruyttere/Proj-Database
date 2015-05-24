@@ -17,8 +17,8 @@
       <br />
       <h4><b>{{ group.group_name }}</b></h4>
       <br />
-      <h6><b>Owner: </b> {{ group_owner }}</h6>
-      <h6><b>Members: </b> {{ group_size }}</h6>
+      <h6><b>{% trans "Owner: " %}</b> {{ group_owner }}</h6>
+      <h6><b>{% trans "Members: " %}</b> {{ group_size }}</h6>
       {% if not is_member %}
       <form method="post" action="/g/{{group.id}}/">
         {% csrf_token %}
@@ -184,7 +184,7 @@
                 {% if group_posts %}
                   {{ group_posts | safe }}
                 {% else %}
-                <p class="empty_posts">There does not seem to be any posts here yet!</p>
+                  <p class="empty_posts">{% trans "There does not seem to be any posts here yet!" %}</p>
                 {% endif %}
             </div>
           </div>
@@ -447,6 +447,7 @@
           }
         });
         if (!$(".post")[0]){
+          // Fk dees word ni ge'trans't
           $("#posts").append('<p class="empty_posts">There does not seem to be any posts here yet!</p>')
         }
       },

@@ -42,7 +42,7 @@
       </div>
       <div class="large-4 columns text-center">
         <div class="panel radius">
-          <h5><b>Friend requests</b></h5>
+          <h5><b>{% trans "Friend requests" %}</b></h5>
           <hr>
           {%for f_req in friend_requests %}
             <div class="row request">
@@ -54,17 +54,17 @@
                   <b><a href="/u/{{ f_req.friend.id }}">{{ f_req.friend.name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius request_button" name="{{f_req.friend.id}}-friend-accept">Accept</button>
-                  <button class="tiny button alert radius request_button" name="{{f_req.friend.id}}-friend-decline">Decline</button>
+                  <button class="tiny button success radius request_button" name="{{f_req.friend.id}}-friend-accept">{% trans "Accept" %}</button>
+                  <button class="tiny button alert radius request_button" name="{{f_req.friend.id}}-friend-decline">{% trans "Decline" %}</button>
                 </div>
               </div>
             </div>
           {% empty %}
-            You have no friend requests
+            {% trans "You have no friend requests" %}
             <br>
           {% endfor %}
           <br>
-          <h5><b>Group requests</b></h5>
+          <h5><b>{% trans "Group requests" %}</b></h5>
           <hr>
           {% for g_req in group_requests %}
             <div class="row request">
@@ -76,13 +76,13 @@
                   <b><a href="/u/{{ g_req.group.id }}">{{ g_req.group.group_name }}</a></b>
                 </div>
                 <div class="row">
-                  <button class="tiny button success radius request_button" name="{{g_req.group.id}}-group-accept">Accept</button>
-                  <button class="tiny button alert radius request_button" name="{{g_req.group.id}}-group-decline">Decline</button>
+                  <button class="tiny button success radius request_button" name="{{g_req.group.id}}-group-accept">{% trans "Accept" %}</button>
+                  <button class="tiny button alert radius request_button" name="{{g_req.group.id}}-group-decline">{% trans "Decline" %}</button>
                 </div>
               </div>
             </div>
           {% empty %}
-            You have no group invites
+            {% trans "You have no group invites" %}
             <br>
           {% endfor %}
         </div>
