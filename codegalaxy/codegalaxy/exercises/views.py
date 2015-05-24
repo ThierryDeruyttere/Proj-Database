@@ -21,7 +21,9 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 challenge_manager = challengemanager.ChallengeManager()
 
-# TODO
+# Remove a certain language from a list
+# This is necessary for when you want to send translations to the user
+# you don't want to show the current browser language in list of possible languages for translation
 def removeLanguage(languages, code):
     for i in languages:
         if i.code == code:
@@ -29,7 +31,8 @@ def removeLanguage(languages, code):
             break
     return languages
 
-# TODO
+# Prepares the translation dictionary
+# This gets all the current translations from request
 def getTranslationDict(request, languages):
     translation = {}
     for lang in languages:
@@ -41,13 +44,26 @@ def getTranslationDict(request, languages):
 
     return translation
 
-@require_login
+# Adds subjects to a newly created list
+def addSubjectsTo(list, request):
+    max_subjects = int(request.POST.get("subjects_amount"))
+    if max_subjects == 0:
+        list.addSubject("")
+    for i in range(max_subjects):
+        subj = request.POST.get("subject" + str(i))
+        if subj is not None:
+            list.addSubject(subj)
+
+
 # The view for createExerciseList.html
 # TODO: hierin ng wat comments?
+@require_login
 def createExerciseList(request):
-    prog_languages = object_manager.allProgrammingLanguages()
     browser_lang = getBrowserLanguage(request)
+    #Prepare info
+    prog_languages = object_manager.allProgrammingLanguages()
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
+
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
@@ -60,63 +76,60 @@ def createExerciseList(request):
         exlist_id = object_manager.insertExerciseList(list_name, list_description, int(difficulty), user.id, str(time.strftime("%Y-%m-%d %H:%M:%S")), prog_lang, browser_lang.id, translation)
         # get subjects
         exercise_list = object_manager.createExerciseList(exlist_id, browser_lang.id)
-        max_subjects = int(request.POST.get("subjects_amount"))
-        if max_subjects == 0:
-            exercise_list.addSubject("")
-        for i in range(max_subjects):
-            subj = request.POST.get("subject" + str(i))
-            if subj is not None:
-                exercise_list.addSubject(subj)
-
+        addSubjectsTo(exercise_list, request)
+        #Update user's points for badges
         user.createdExerciseList()
-
         return HttpResponse("/l/" + str(exlist_id))
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
-@require_login
+def updateSubjects(list, subjects, request):
+    updated_subjects_amount = int(request.POST.get("subjects_amount"))
+    updated_subjects = []
+    for i in range(updated_subjects_amount):
+        subject = request.POST.get('subject' + str(i))
+        if subject is not None:
+            updated_subjects.append(subject)
+
+    removed_subjects = set(subjects) - set(updated_subjects)
+    intersection = set(subjects) & set(updated_subjects)
+    subjects_to_add = set(updated_subjects) - intersection
+
+    for subject in removed_subjects:
+        list.deleteSubject(subject)
+
+    for subject in subjects_to_add:
+        list.addSubject(subject)
+
+    return updated_subjects
+
 # The view for editList.html
-# TODO: hierin ng wat comments?
+@require_login
 def editList(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     user = logged_user(request)
+    #Remove browser language from available languages
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
     # Check if list exists
     if exercise_list is None or exercise_list.created_by != user.id:
         return redirect('/')
-
     subjects = exercise_list.allSubjects()
     prog_langs = object_manager.allProgrammingLanguages()
 
     if request.method == 'POST':
-
+        #Get updated information
         updated_list_name = request.POST.get('list_name')
         updated_difficulty = request.POST.get('difficulty')
-        updated_subjects_amount = int(request.POST.get("subjects_amount"))
-        updated_subjects = []
+
         updated_prog_lang = request.POST.get('prog_lang', '')
         updated_description = request.POST.get('description_text')
         new_order = request.POST.get('order')
+        #Reorder our exercises if necessary
         new_order = filterOrder(new_order)
         exercise_list.reorderExercises(new_order, browser_lang.code)
 
-        for i in range(updated_subjects_amount):
-            subject = request.POST.get('subject' + str(i))
-            if subject is not None:
-                updated_subjects.append(subject)
-
-        removed_subjects = set(subjects) - set(updated_subjects)
-        intersection = set(subjects) & set(updated_subjects)
-        subjects_to_add = set(updated_subjects) - intersection
-
-        for subject in removed_subjects:
-            exercise_list.deleteSubject(subject)
-
-        for subject in subjects_to_add:
-            exercise_list.addSubject(subject)
-
-        subjects = updated_subjects
+        subjects = updateSubjects(exercise_list,subjects,request)
 
         translation = getTranslationDict(request, languages)
         # set current browser translation
@@ -128,17 +141,41 @@ def editList(request, listId):
     current_translations = exercise_list.getAllTranslations()
 
     return render(request, 'createExerciseList.html', {'list': exercise_list,
-                                             'subjects': subjects,
-                                             'prog_languages': prog_langs,
-                                             'all_exercises': all_exercises,
-                                             'languages': languages,
-                                             'translations': current_translations,
-                                             'edit': True})
+                                                       'subjects': subjects,
+                                                       'prog_languages': prog_langs,
+                                                       'all_exercises': all_exercises,
+                                                       'languages': languages,
+                                                       'translations': current_translations,
+                                                       'edit': True})
 
+#get multiple choice information when creating new exercise
+def getMultipleChoiceInfo(request, exercise_max_score):
+    answer = []
+    for i in range(exercise_max_score + 1):
+        cur_answer = request.POST.get("answer" + str(i), "")
+        if cur_answer != "":
+            answer.append(cur_answer)
 
-@require_login
+    exercise_answer = answer
+    correct_answer = request.POST.get("correct_answer")
+    exercise_penalty = 3
+    return exercise_answer, correct_answer, exercise_penalty
+
+#Get code information when creating new exercise
+def getCodeInfo(request, exercise_max_score):
+    hints = []
+    exercise_answer = [request.POST.get("output")]
+
+    for j in range(1, exercise_max_score + 1):
+        cur_hint = request.POST.get("hint" + str(j), "")
+        if cur_hint != "":
+            hints.append(cur_hint)
+
+    return exercise_answer, hints
+
 # The view for createExercise.html
 # TODO: hierin ng wat comments?
+@require_login
 def createExercise(request, listId=0):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -146,6 +183,7 @@ def createExercise(request, listId=0):
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
     if request.method == 'POST':
+        #Get information
         translation = getTranslationDict(request, languages)
         exercise_penalty = 1
         exercise_question_text = request.POST.get('Question')
@@ -163,34 +201,11 @@ def createExercise(request, listId=0):
         code = request.POST.get('code', '')
         exercise_max_score = int(request.POST.get('max', '1'))
 
-        if(exercise_type == 'Open Question'):
-            answer = []
-            for i in range(exercise_max_score + 1):
-                cur_answer = request.POST.get("answer" + str(i), "")
-                if cur_answer != "":
-                    answer.append(cur_answer)
+        if exercise_type == 'Open Question':
+            exercise_answer, correct_answer, exercise_penalty = getMultipleChoiceInfo(request, exercise_max_score)
 
-            exercise_answer = answer
-            correct_answer = request.POST.get("correct_answer")
-            exercise_penalty = 3
-
-        elif(exercise_type == 'Code'):
-            expected_answer = request.POST.get("output")
-            exercise_answer = [expected_answer]
-
-            for j in range(1, exercise_max_score + 1):
-                cur_hint = request.POST.get("hint" + str(j), "")
-                if cur_hint != "":
-                    hints.append(cur_hint)
-
-        else:  # Turtle
-            expected_answer = request.POST.get("output")
-            exercise_answer = [expected_answer]
-
-            for j in range(1, exercise_max_score + 1):
-                cur_hint = request.POST.get("hint" + str(j), "")
-                if cur_hint != "":
-                    hints.append(cur_hint)
+        else:  # Turtle or Code
+            exercise_answer, hints = getCodeInfo(request, exercise_max_score)
 
         exercise_list.insertExercise(exercise_max_score, exercise_penalty, exercise_type, user.id,
                                      str(time.strftime("%Y-%m-%d %H:%M:%S")), exercise_number, exercise_question,

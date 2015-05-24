@@ -2,34 +2,15 @@ from managers.om import *
 object_manager = objectmanager.ObjectManager()
 import dbw
 
-# TODO
 class ChallengeType:
 
-    def __init__(self, type):
-        self.code = None
-        self.type = None
-        if isinstance(type, str):
-            self.createFromStr(type)
-
-        elif isinstance(type, int):
-            self.createFromInt(type)
-
-    def createFromInt(self, code):
+    def __init__(self, code):
         self.code = code
         if self.code == 1:
             self.type = "Score"
         elif self.code == 2:
             self.type = "Perfects"
 
-    def createFromStr(self, str):
-        self.type = str
-        self.code = 0
-        if self.type == "Score":
-            self.code = 1
-        elif self.type == "Perfects":
-            self.code = 2
-
-# Object that represents a challenge
 class Challenge:
 
     def __init__(self, challenger, challenged, challenge_type, list_id, status, language_id, winner=None):
