@@ -1068,11 +1068,13 @@ def checkTimeRelatedBadges(user_id):
     today = time.strftime("%Y-%m-%d %H:%M:%S")
     today2 = datetime.strptime(today, "%Y-%m-%d %H:%M:%S")
     last_login2 = fetched['last_login']
-    naive = joined_on2.replace(tzinfo=None)
-    difference = (today2 - naive).days
+    naive = last_login2.replace(tzinfo=None)
+    today_day = today2.day
+    lastLogin_day = naive.day
+    difference = (today_day - lastLogin_day)
     if difference == 1:
         incrementBadgeValue(user_id, "frequentVisitor")
-    else:
+    elif difference > 0:
         incrementBadgeValue(user_id, "frequentVisitor")
         resetBadgeValue(user_id, "frequentVisitor")
 

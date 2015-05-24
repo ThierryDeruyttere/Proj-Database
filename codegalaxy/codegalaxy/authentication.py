@@ -17,6 +17,7 @@ def authenticate(email, password):
 
     if user and user.password == password:
         if user.is_active:
+            user.checkTimeRelatedBadges()
             user.last_login = str(time.strftime("%Y-%m-%d %H:%M:%S"))
             user.save()
             return user
