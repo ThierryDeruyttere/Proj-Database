@@ -3,48 +3,48 @@
 }
 
 .small_button {
-  margin-left: 1px;
-  margin-right: 1px;
+    margin-left: 1px;
+    margin-right: 1px;
 }
 
 .move_right{
-  margin-left: 1rem;
-  margin-right: 1rem;
+    margin-left: 1rem;
+    margin-right: 1rem;
 }
 
 .CodeMirror {
-  height: 130px;
-  width: 60%;
+    height: 130px;
+    width: 60%;
 }
 #post_button{
-  width: 13%;
+    width: 13%;
 }
 .wall-item{
-  p {
+    p {
+        margin-bottom: 0px;
+    }
+    .row{
+        padding-left: 20px;
+    }
+    .replies {
+        padding-left: 40px;
+        .reply-timestamp {
+            color: rgba(217, 217, 217, 0.7);
+        }
+    }
+    .button{
+        width: 13%;
+        margin-right: 5px;
+    }
     margin-bottom: 0px;
-  }
-  .row{
-    padding-left: 20px;
-  }
-  .replies {
-      padding-left: 40px;
-      .reply-timestamp {
-          color: rgba(217, 217, 217, 0.7);
-      }
-  }
-  .button{
-    width: 13%;
-    margin-right: 5px;
-  }
-  margin-bottom: 0px;
-  .button_margin{
-    margin-right: 12px;
-  }
-  .octicon{
-    margin-right: 3px;
-  }
+    .button_margin{
+        margin-right: 12px;
+    }
+    .octicon{
+        margin-right: 3px;
+    }
 }
 
 .octicon{
-  padding-right: 2px;
+    padding-right: 2px;
 }
