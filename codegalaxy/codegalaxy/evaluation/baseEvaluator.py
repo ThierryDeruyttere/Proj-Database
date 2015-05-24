@@ -45,7 +45,7 @@ class Evaluator:
         output = "", ""
         got_exception = False
         try:
-            output = check_output(cmd, stderr=STDOUT, timeout=1, universal_newlines=True, shell=sh)
+            output = check_output(cmd, stderr=STDOUT, timeout=5, universal_newlines=True, shell=sh)
         except (TimeoutExpired, CalledProcessError) :
             self.output = "Killed the process"
             self.error = "Process took longer than expected, so we killed it"
