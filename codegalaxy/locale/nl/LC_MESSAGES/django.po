@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-22 23:36+0200\n"
+"POT-Creation-Date: 2015-05-24 14:54+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,43 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: codegalaxy/challenges/templates/challenges.html:64
+#: codegalaxy/challenges/templates/challenges.html:65
 msgid "So we meet again space voyager! Do you remember me? It's me grub!"
 msgstr "We ontmoeten elkaar weer reiziger! Herinner je me? Het is grub!"
 
-#: codegalaxy/challenges/templates/challenges.html:65
-msgid ""
-"Oh boy! Seems you are going to challenge somebody! By challenging and "
-"defeating someone you become stronger!"
-msgstr "Oh jongen! Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen uit te dagen en te verslaan zal je sterker worden!"
-
 #: codegalaxy/challenges/templates/challenges.html:66
 msgid ""
-"Ah, brings back some old memories. In the bootloader galaxy I was known as "
-"Grub The Destroyer!"
-msgstr "Ah, die goede oude tijd. In het bootloader stelsel was ik gekend als Grub The Destroyer!"
-
-#: codegalaxy/challenges/templates/challenges.html:67
-msgid "If i'd get mad I could just destroy a whole planet!..."
-msgstr "Als ik kwaad werd kon ik een hele planeet vernietigen!..."
-
-#: codegalaxy/challenges/templates/challenges.html:68
-msgid ""
-"Okay it's all a lie, I'm one of the lowest level aliens in the bootloader "
-"galaxy..."
-msgstr "Ok het is een leugen, Ik ben een van de laagst gerankte buitenaardse wezens in het bootloader stelsel..."
+"Oh boy! Seems you are going to challenge somebody! By challenging and "
+"defeating someone you become stronger! Ah, brings back some old memories. In "
+"the Bootloader galaxy I was known as Grub The Destroyer! If i'd get mad I "
+"could just destroy a whole planet!"
+msgstr ""
+"Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen "
+"uit te dagen en te verslaan zal je sterker worden!"
+"Ah, die goede oude tijd. In het Bootloader stelsel was ik gekend als Grub The Destroyer!"
+"Als ik kwaad werd kon ik een hele planeet vernietigen!"
 
 #: codegalaxy/challenges/templates/challenges.html:69
 msgid ""
-"So I always needed someone strong to defend me. Before I got lost in this "
-"galaxy, my friend Kernel used to defend me."
-msgstr "I had altijd iemand sterk nodig om me te verdedigen. Vooraleer ik in dit melkwegstelsel verloren geraakte had ik altijd mijn beschermer Kernel om me te beschermen."
+"Okay that's a lie, I'm one of the lowest level aliens in the Bootloader "
+"galaxy. I always needed someone strong to defend me. Before I got lost in "
+"this galaxy, my friend Kernel used to defend me. But since we got "
+"separated, I have no one left for protecting me... Will you please defend "
+"me? I'm so scared without Kernel..."
+msgstr ""
+"Ok dat is een leugen, Ik ben een van de laagst gerankte buitenaardse "
+"wezens in het bootloader stelsel... I had altijd iemand sterk nodig om me te verdedigen. Voor dat ik in dit "
+"melkwegstelsel verloren geraakte was mijn vriend Kernel er altijd om "
+"me te beschermen. Maar sinds we gescheiden zijn, heb niemand meer om me te "
+"beschermen... Wil jij me beschermen? Ik ben zo bang zonder Kernel..."
 
-#: codegalaxy/challenges/templates/challenges.html:70
-msgid ""
-"But since we got separated... I have no one left for protecting me... Will "
-"you please defend me? I'm so scared without Kernel..."
-msgstr "Maar sinds we gescheiden zijn... Ik heb niemand meer om me te beschermen... Wil jij me beschermen? Ik ben zo bang zonder Kernel..."
+#: codegalaxy/evaluation/templates/sandbox.html:29
+msgid "Clear"
+msgstr "Maak leeg"
+
+#: codegalaxy/evaluation/templates/sandbox.html:35
+msgid "Evaluate"
+msgstr "Evalueer"
+
+#: codegalaxy/evaluation/templates/sandbox.html:42
+msgid "Success!"
+msgstr "Gelukt!"
+
+#: codegalaxy/evaluation/templates/sandbox.html:43
+msgid "Oops, something went wrong..."
+msgstr "Oeps, er ging iets mis..."
+
+#: codegalaxy/evaluation/templates/sandbox.html:64
+msgid "No output..."
+msgstr "Geen output..."
 
 #: codegalaxy/exercises/templates/answerQuestion.html:31
 #: codegalaxy/exercises/templates/answerQuestion.html:47
@@ -65,11 +77,11 @@ msgstr "Antwoord"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:41
 msgid "This question is part of your own list!"
-msgstr "Deze vraag is een deel van je eigen lijst!"
+msgstr "Deze vraag is onderdeel van je eigen lijst!"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:44
-msgid "You solved the question!"
-msgstr "Je hebt de vraag opgelost!"
+msgid "You solved this question!"
+msgstr "Je hebt deze vraag opgelost!"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:60
 #: codegalaxy/exercises/templates/editList.html:138
@@ -78,7 +90,7 @@ msgid "Return to list"
 msgstr "Keer terug naar lijst"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:62
-msgid "Edit Question"
+msgid "Edit question"
 msgstr "Pas vraag aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:19
@@ -90,7 +102,7 @@ msgstr "Pas oefening aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:21
 #: codegalaxy/exercises/templates/createExercise.html:166
-#: codegalaxy/exercises/templates/list.html:219
+#: codegalaxy/exercises/templates/list.html:215
 msgid "Create exercise"
 msgstr "Creëer oefening"
 
@@ -134,7 +146,7 @@ msgstr "Voeg vertaling toe"
 #: codegalaxy/exercises/templates/createExerciseList.html:149
 #: codegalaxy/exercises/templates/editList.html:157
 msgid "Hi there space voyager! I'm Kernel!"
-msgstr "Hallo daar ruimtereiziger! Ik ben Kernel!"
+msgstr "Hallo ruimtereiziger! Ik ben Kernel!"
 
 #: codegalaxy/exercises/templates/createExercise.html:100
 #: codegalaxy/exercises/templates/createExerciseList.html:150
@@ -156,11 +168,11 @@ msgstr ""
 #: codegalaxy/exercises/templates/createExerciseList.html:152
 #: codegalaxy/exercises/templates/editList.html:160
 msgid ""
-"The only problem is, on each planet we speak an other language, so I'm "
+"The only problem is, on each planet we speak a different language, so I'm "
 "working on translating this site."
 msgstr ""
-"Een probleem zij echter alle verschillende talen, dus ik ben aan vertalingen "
-"voor de site aan het werken"
+"Het probleem is dat er op elke planeet een andere taal gesproken wordt, dus ik ben aan vertalingen "
+"voor de site aan het werken."
 
 #: codegalaxy/exercises/templates/createExercise.html:103
 #: codegalaxy/exercises/templates/createExerciseList.html:153
@@ -169,16 +181,16 @@ msgid ""
 "Think you could help? I will make your name famous across the universe if "
 "you do!"
 msgstr ""
-"Denk je dat je zou kunnen helpen? Ik zal je beroemd over het hele universum "
-"maken als je me me helpt!"
+"Denk je dat je zou kunnen helpen? Ik zal je beroemd maken over het hele universum "
+"als je me me helpt!"
 
 #: codegalaxy/exercises/templates/createExercise.html:110
 #: codegalaxy/exercises/templates/createExerciseList.html:160
 #: codegalaxy/exercises/templates/editList.html:168
 #: codegalaxy/exercises/templates/importExercise.html:51
-#: codegalaxy/exercises/templates/list.html:247
+#: codegalaxy/exercises/templates/list.html:243
 msgid "Original"
-msgstr "Originele"
+msgstr "Origineel"
 
 #: codegalaxy/exercises/templates/createExercise.html:136
 #: codegalaxy/exercises/templates/createExerciseList.html:183
@@ -187,7 +199,7 @@ msgid "Translated"
 msgstr "Vertaald"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:13
-#: codegalaxy/exercises/templates/list.html:303
+#: codegalaxy/exercises/templates/list.html:299
 msgid "Edit list"
 msgstr "Pas lijst aan"
 
@@ -197,11 +209,11 @@ msgstr "Maak een nieuwe lijst"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:24
 msgid "'Enter list name'"
-msgstr "'Vul een naam in voor de lijst.'"
+msgstr "'Vul een naam in voor de lijst'"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:26
 msgid "'Enter description of exercise list'"
-msgstr "'Geef beschrijving van de oefeningenlijst'"
+msgstr "'Geef een beschrijving van de oefeningenlijst'"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:38
 #: codegalaxy/exercises/templates/editList.html:51
@@ -224,7 +236,7 @@ msgstr "Onderwerpen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:102
 #: codegalaxy/exercises/templates/editList.html:110
-#: codegalaxy/exercises/templates/list.html:80
+#: codegalaxy/exercises/templates/list.html:76
 msgid "Exercises"
 msgstr "Oefeningen"
 
@@ -241,7 +253,7 @@ msgstr "Keer terug naar lijst"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:133
 msgid "'Create list'"
-msgstr "'Maak de lijst'"
+msgstr "'Maak lijst'"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:135
 msgid "Translate"
@@ -272,8 +284,8 @@ msgid "Enter description of exercise list"
 msgstr "Geef beschrijving van de oefeningenlijst"
 
 #: codegalaxy/exercises/templates/editList.html:86
-msgid "click on a subject to delete it"
-msgstr "klik op een onderwerp om het te verwijderen"
+msgid "Click on a subject to delete it."
+msgstr "Klik op een onderwerp om het te verwijderen."
 
 #: codegalaxy/exercises/templates/editList.html:89
 msgid "New subject"
@@ -288,121 +300,122 @@ msgid "List or exercise name"
 msgstr "Naam van lijst of oefening"
 
 #: codegalaxy/exercises/templates/importExercise.html:35
-#: codegalaxy/exercises/templates/list.html:231
+#: codegalaxy/exercises/templates/list.html:227
 msgid "Copy all list"
 msgstr "Kopieer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:36
-#: codegalaxy/exercises/templates/list.html:232
+#: codegalaxy/exercises/templates/list.html:228
 msgid "Import all list"
 msgstr "Importeer alles"
 
 #: codegalaxy/exercises/templates/importExercise.html:41
-#: codegalaxy/exercises/templates/list.html:237
+#: codegalaxy/exercises/templates/list.html:233
 msgid "Title"
 msgstr "Titel"
 
 #: codegalaxy/exercises/templates/importExercise.html:42
-#: codegalaxy/exercises/templates/list.html:238
+#: codegalaxy/exercises/templates/list.html:234
 msgid "copy original"
 msgstr "kopieer originele"
 
 #: codegalaxy/exercises/templates/importExercise.html:43
-#: codegalaxy/exercises/templates/list.html:239
+#: codegalaxy/exercises/templates/list.html:235
 msgid "reference"
 msgstr "referentie"
 
 #: codegalaxy/exercises/templates/importExercise.html:59
-#: codegalaxy/exercises/templates/list.html:255
+#: codegalaxy/exercises/templates/list.html:251
 msgid "This list does not contain any exercises."
-msgstr "Deze lijst heeft geen oefeningen"
+msgstr "Deze lijst heeft geen oefeningen."
 
 #: codegalaxy/exercises/templates/importExercise.html:73
 #: codegalaxy/exercises/templates/importExercise.html:220
-#: codegalaxy/exercises/templates/list.html:263
-#: codegalaxy/exercises/templates/list.html:424
+#: codegalaxy/exercises/templates/list.html:259
+#: codegalaxy/exercises/templates/list.html:428
 msgid "Import"
 msgstr "Importeer"
 
 #: codegalaxy/exercises/templates/importExercise.html:79
-#: codegalaxy/exercises/templates/list.html:270
+#: codegalaxy/exercises/templates/list.html:266
 msgid "Confirmation"
 msgstr "Bevestig"
 
 #: codegalaxy/exercises/templates/importExercise.html:88
-#: codegalaxy/exercises/templates/list.html:292
+#: codegalaxy/exercises/templates/list.html:288
 #: codegalaxy/templates/group.html:393 codegalaxy/templates/group.html:417
 msgid "Cancel"
 msgstr "Annuleer"
 
 #: codegalaxy/exercises/templates/importExercise.html:89
-#: codegalaxy/exercises/templates/list.html:293
+#: codegalaxy/exercises/templates/list.html:289
 msgid "Import!"
 msgstr "Importeer!"
 
 #: codegalaxy/exercises/templates/importExercise.html:224
-#: codegalaxy/exercises/templates/list.html:428
+#: codegalaxy/exercises/templates/list.html:432
 msgid "Copy"
 msgstr "Kopie"
 
-#: codegalaxy/exercises/templates/list.html:86
+#: codegalaxy/exercises/templates/list.html:82
 msgid "solved"
 msgstr "opgelost"
 
-#: codegalaxy/exercises/templates/list.html:122
+#: codegalaxy/exercises/templates/list.html:118
 msgid "Your score"
 msgstr "Je score"
 
-#: codegalaxy/exercises/templates/list.html:128
+#: codegalaxy/exercises/templates/list.html:124
 msgid "Share my result"
 msgstr "Deel mijn resultaat"
 
-#: codegalaxy/exercises/templates/list.html:133
+#: codegalaxy/exercises/templates/list.html:129
 msgid "Rating:"
 msgstr "Beoordeling:"
 
-#: codegalaxy/exercises/templates/list.html:142
+#: codegalaxy/exercises/templates/list.html:138
 msgid "Completed on"
 msgstr "Voltooid op"
 
-#: codegalaxy/exercises/templates/list.html:149
+#: codegalaxy/exercises/templates/list.html:145
 msgid "Make all exercises of this list to give it a rating!"
-msgstr "Maak alle oefeningen van deze lijst om een beoordeling te kunnen geven!"
+msgstr ""
+"Maak alle oefeningen van deze lijst om een beoordeling te kunnen geven!"
 
-#: codegalaxy/exercises/templates/list.html:171
-msgid "Made By"
-msgstr "Gecreëerd Door"
+#: codegalaxy/exercises/templates/list.html:167
+msgid "Made by"
+msgstr "Gecreëerd door"
 
-#: codegalaxy/exercises/templates/list.html:176
-msgid "Made On"
-msgstr "Gecreëerd Op"
+#: codegalaxy/exercises/templates/list.html:172
+msgid "Made on"
+msgstr "Gecreëerd op"
+
+#: codegalaxy/exercises/templates/list.html:181
+msgid "Average score"
+msgstr "Gemiddelde score"
 
 #: codegalaxy/exercises/templates/list.html:185
-msgid "Average Score"
-msgstr "Gemiddelde Score"
-
-#: codegalaxy/exercises/templates/list.html:189
 msgid "Average rating"
 msgstr "Gemiddelde beoordeling"
 
-#: codegalaxy/exercises/templates/list.html:193
+#: codegalaxy/exercises/templates/list.html:189
 msgid "Users that finished list"
-msgstr "Aantl gebruikers die de lijst gemaakt hebben"
+msgstr "Aantal gebruikers die de lijst gemaakt hebben"
 
-#: codegalaxy/exercises/templates/list.html:198
+#: codegalaxy/exercises/templates/list.html:194
 msgid "ExerciseLists like this one:"
 msgstr "Oefeningenlijsten als deze:"
 
-#: codegalaxy/exercises/templates/list.html:217
-#: codegalaxy/exercises/templates/list.html:227
+#: codegalaxy/exercises/templates/list.html:213
+#: codegalaxy/exercises/templates/list.html:223
 msgid "Import exercise"
 msgstr "Importeer oefening"
 
-#: codegalaxy/exercises/templates/list.html:223
+#: codegalaxy/exercises/templates/list.html:219
 msgid "Add exercises to my list"
 msgstr "Voeg oefeningen aan mijn lijst toe"
 
-#: codegalaxy/exercises/templates/list.html:280
+#: codegalaxy/exercises/templates/list.html:276
 msgid "Import into:"
 msgstr "Importeer in:"
 
@@ -479,10 +492,8 @@ msgid "There are no search results to display."
 msgstr "Er zijn geen zoekresultaten om weer te geven."
 
 #: codegalaxy/templates/badge.html:22
-#, fuzzy
-#| msgid "Confirmation"
 msgid "Congratulations!"
-msgstr "Bevestig"
+msgstr "Proficiat!"
 
 #: codegalaxy/templates/badge.html:28
 msgid "earned"
@@ -559,8 +570,8 @@ msgid "Members"
 msgstr "Leden"
 
 #: codegalaxy/templates/group.html:41
-msgid "Wall"
-msgstr "Muur"
+msgid "Messages"
+msgstr "Berichten"
 
 #: codegalaxy/templates/group.html:42
 msgid "Add New Members"
@@ -607,10 +618,8 @@ msgid "Post"
 msgstr "Schrijf"
 
 #: codegalaxy/templates/group.html:193
-#, fuzzy
-#| msgid "Search groups..."
 msgid "Search members to add..."
-msgstr "Zoek groepen..."
+msgstr "Zoek leden om toe te voegen..."
 
 #: codegalaxy/templates/group.html:196
 #: codegalaxy/templates/groupOverview.html:25
@@ -703,7 +712,7 @@ msgstr "Zandbak modus"
 #, fuzzy
 #| msgid "Group overview"
 msgid "Badge overview"
-msgstr "Overzicht groepen "
+msgstr "Overzicht badges"
 
 #: codegalaxy/templates/home.html:43
 msgid "Explore the galaxy..."
@@ -918,8 +927,8 @@ msgstr "Oefeningen gemaakt per programmeertaal"
 
 #: codegalaxy/templates/user.html:414
 #, python-format
-msgid "Average Score (%%) per programming language"
-msgstr "Gemiddelde Score (%%) per programmeer taal"
+msgid "Average score (%%) per programming language"
+msgstr "Gemiddelde score (%%) per programmeer taal"
 
 #: codegalaxy/templates/user.html:419
 msgid "Total amount of lists made:"
@@ -939,11 +948,50 @@ msgstr "Totaal aantal groepen waar je lid bent:"
 
 #: codegalaxy/templates/user.html:425
 msgid "Time member of site:"
-msgstr "Werd lid van deze wesite:"
+msgstr "Werd lid van deze website:"
 
 #: codegalaxy/templates/user.html:426
 msgid "Last login:"
 msgstr "Laatste keer bezocht:"
+
+#~ msgid ""
+#~ "Oh boy! Seems you are going to challenge somebody! By challenging and "
+#~ "defeating someone you become stronger!"
+#~ msgstr ""
+#~ "Oh jongen! Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen "
+#~ "uit te dagen en te verslaan zal je sterker worden!"
+
+#~ msgid ""
+#~ "Ah, brings back some old memories. In the bootloader galaxy I was known "
+#~ "as Grub The Destroyer!"
+#~ msgstr ""
+#~ "Ah, die goede oude tijd. In het bootloader stelsel was ik gekend als Grub "
+#~ "The Destroyer!"
+
+#~ msgid "If i'd get mad I could just destroy a whole planet!..."
+#~ msgstr "Als ik kwaad werd kon ik een hele planeet vernietigen!..."
+
+#~ msgid ""
+#~ "Okay it's all a lie, I'm one of the lowest level aliens in the bootloader "
+#~ "galaxy..."
+#~ msgstr ""
+#~ "Ok het is een leugen, Ik ben een van de laagst gerankte buitenaardse "
+#~ "wezens in het bootloader stelsel..."
+
+#~ msgid ""
+#~ "So I always needed someone strong to defend me. Before I got lost in this "
+#~ "galaxy, my friend Kernel used to defend me."
+#~ msgstr ""
+#~ "I had altijd iemand sterk nodig om me te verdedigen. Vooraleer ik in dit "
+#~ "melkwegstelsel verloren geraakte had ik altijd mijn beschermer Kernel om "
+#~ "me te beschermen."
+
+#~ msgid ""
+#~ "But since we got separated... I have no one left for protecting me... "
+#~ "Will you please defend me? I'm so scared without Kernel..."
+#~ msgstr ""
+#~ "Maar sinds we gescheiden zijn... Ik heb niemand meer om me te "
+#~ "beschermen... Wil jij me beschermen? Ik ben zo bang zonder Kernel..."
 
 #~ msgid "made an exercise list:"
 #~ msgstr "maakte een oefeningenlijst:"
