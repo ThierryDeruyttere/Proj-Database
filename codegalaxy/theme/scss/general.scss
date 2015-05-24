@@ -104,16 +104,17 @@
         padding-right: 0px;
     }
 
+    .feed-timestamp {
+        color: rgba(217, 217, 217, 0.7);
+    }
 
     .octicon {
         vertical-align: middle;
         margin-right: 6px;
     }
+
 }
 
-.feed-timestamp {
-    color: rgba(217, 217, 217, 0.7);
-}
 
 .success-text {
     color: $success-color;

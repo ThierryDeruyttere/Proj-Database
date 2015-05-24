@@ -507,6 +507,7 @@
         $(document).find('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
             $(this).find('.replies').first().append(response);
+            $(this).find('.replies').parent().append("<hr />");
           }
         });
         hideReplyField();

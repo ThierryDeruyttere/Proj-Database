@@ -285,9 +285,10 @@ class Post:
         replies = []
         replies_info = dbw.getAllRepliesToPost(self.id)
         for info in replies_info:
-            replies.append(Post(info['id'], info['group_id'], info['user_id'],
-            info['reply'], info['reply_number'], info['post_text'],
-                info['posted_on']))
+            if info['id'] != self.id:
+                replies.append(Post(info['id'], info['group_id'], info['user_id'],
+                                    info['reply'], info['reply_number'], info['post_text'],
+                                    info['posted_on']))
         replies.sort(key=lambda x: x.reply_number, reverse=True)
         return replies
 
@@ -300,35 +301,36 @@ class Post:
     def HTMLBasic(self, user, logged_user):
         html = '''
         {text}
-        <p class="feed-timestamp">
+        <p class="timestamp">
             <small>
                 <span class="octicon octicon-clock"></span>
-                {posted_on} by {user_name}
+                {posted_on} by <span class="author"><b>{user_name}</b> ({title})</span>
             </small>
-        </p>
-        <div class="row">
+        <span class="controls right">
             <span class="button_margin">
                 <small>
-                    <a href="#" class="want_to_reply_button" {post_data_variables} ><span class="octicon octicon-comment"></span>Reply</a>
+                    <a href="#" class="want_to_reply_button" {post_data_variables} ><span class="octicon octicon-comment"></span><!--Reply--></a>
                 </small>
             </span>
         '''.format(text=markdown_converter.convert(self.post_text),
-        posted_on=str(self.posted_on)[:-6], user_name=user.name(),
-        post_data_variables=self.addPostDataVariables())
+                   posted_on=str(self.posted_on)[:-6],
+                   user_name=user.name(),
+                   post_data_variables=self.addPostDataVariables(),
+                   title=user.badge.name)
 
         if user.id == logged_user.id:
             html += '''
             <span class="button_margin">
                 <small>
-                    <a href="#" class="want_to_edit_button" {post_data_variables} ><span class="octicon octicon-pencil"></span>Edit</a>
+                    <a href="#" class="want_to_edit_button" {post_data_variables} ><span class="octicon octicon-pencil"></span><!--Edit--></a>
                 </small>
             </span>
             <span class="button_margin">
                 <small>
-                    <a href="#" class="delete_button" {post_data_variables} ><span class="octicon octicon-x"></span>Delete</a>
+                    <a href="#" class="delete_button" {post_data_variables} ><span class="octicon octicon-x"></span><!--Delete--></a>
                 </small>
             </span>'''.format(post_data_variables=self.addPostDataVariables())
-        html += '</div>'
+        html += '</span></p>'
         return html
 
     # html representation of a post (highest nest)
@@ -336,29 +338,39 @@ class Post:
         object_manager = managers.om.objectmanager.ObjectManager()
         user = object_manager.createUser(id=self.user_id)
 
+        hr = ''
+        if len(self.allReplies()) != 0:
+            hr = '<hr />'
+
         html = '''
             <div class="row">
                 <div class="wall-item" data-post_id= {id}>
-                    <div class="post " data-post_id= {id}>
+                    <div class="post" data-post_id= {id}>
                         {html_basic}
+                        {hr}
                         <div class="replies">
-        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user))
+        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
         for reply in self.allReplies():
-            if reply.id is not self.id:
-                html += reply.HTMLStringReply(user, logged_user)
-        html += '</div></div><hr></div></div>'
+            html += reply.HTMLStringReply(user, logged_user)
+        html += '</div></div></div></div>'
+
         return html
 
     # html representation of a reply
     def HTMLStringReply(self, user, logged_user):
+        hr = ''
+        if len(self.allReplies()) != 0:
+            hr = '<hr />'
+
         html = '''
-            <div class="post " data-post_id= {id}>
+            <div class="post" data-post_id= {id}>
                 {html_basic}
+                {hr}
                 <div class="replies">
-        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user))
+        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
 
         for reply in self.allReplies():
-            if reply.id is not self.id:
-                html += reply.HTMLStringReply(user, logged_user)
+            html += reply.HTMLStringReply(user, logged_user)
         html += '</div></div>'
+
         return html
