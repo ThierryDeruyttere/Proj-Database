@@ -89,3 +89,7 @@
 .wall-item .octicon:hover {
   color: white;
 }
+/* line 93, ../../../theme/scss/group.scss */
+.wall-item .replying {
+  margin-left: 10px;
+}
