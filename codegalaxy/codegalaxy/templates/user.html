@@ -10,6 +10,7 @@
       <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
       {% if my_profile %}
       <div id="badge_name"></div>
+      <br>
       {% csrf_token %}
       <select name="badge_choice" id="badge_choice">
         {% for badge in all_badges %}
@@ -17,6 +18,7 @@
         {% endfor %}
       </select>
       {% else %}
+      <br>
       <h4><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h4>
 
       {% endif %}
@@ -358,7 +360,7 @@
       <div class="content" id="scores">
         <div class="row">
           <div class="large-12 columns">
-            <div class="panel radius"> 
+            <div class="panel radius">
               <p><span class="octicon octicon-chevron-right"></span> {% trans "Earned Badges" %}</p>
               <div class="row">
                 <div class="text-center">

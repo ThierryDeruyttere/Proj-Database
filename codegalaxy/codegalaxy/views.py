@@ -20,7 +20,7 @@ from managers.rm.recommendations import *
 from codegalaxy.general import getBrowserLanguage
 
 import os.path
-from PIL import Image
+#from PIL import Image
 
 # We'll use one ObjectManager to work with/create the objects stored in the DB
 object_manager = objectmanager.ObjectManager()
@@ -583,7 +583,7 @@ def badge(request, id=0):
     if percentage_finished > 100:
         percentage_finished = 100
 
-    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score, 
+    context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
                 'target_score': target_score}
 
     return render(request, 'badge.html', context)
