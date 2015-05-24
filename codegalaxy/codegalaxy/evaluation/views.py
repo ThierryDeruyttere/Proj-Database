@@ -4,6 +4,7 @@ from django.core.context_processors import request
 
 from codegalaxy.evaluation.evaluators import *
 
+# The view for sandbox.html
 def sandbox(request):
     return render(request, 'sandbox.html', {})
 

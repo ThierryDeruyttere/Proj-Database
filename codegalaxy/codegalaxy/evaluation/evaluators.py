@@ -14,6 +14,8 @@ Functions to use:
 - hasError: bool to check if the last command had an error
 """
 
+# TODO: Commenting
+
 import os
 import subprocess
 
