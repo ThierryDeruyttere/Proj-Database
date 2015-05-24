@@ -391,7 +391,7 @@ def group(request, id=0):
                 './codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
         elif 'leave_group' in request.POST:
-            if group.getUserPermissions(user.id) == 2:
+            if group.getUserPermissions(user.id) == 0:
                 group.disband()
                 return redirect('/social/')
             else:
