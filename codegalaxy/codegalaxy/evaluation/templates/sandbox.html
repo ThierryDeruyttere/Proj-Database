@@ -127,6 +127,10 @@
     else if($("b_turtle")) {
       $("#b_turtle_wrapper").html("");
     }
+
+    if($(this).attr("id") == "text/x-c++src" && code_text.getValue() == "") {
+      code_text.setValue("#include <iostream>\n\nint main (int argc, const char* argv[]) {\n  \n  return 0;\n}\n");
+    }
   });
 
   $("#b_clear").click(function(e) {
@@ -134,6 +138,11 @@
 
     // Clear text editor
     code_text.setValue("");
+
+    // Fill it with default C++ code if necessary
+    if(code_text.getOption("mode") == "text/x-c++src") {
+      code_text.setValue("#include <iostream>\n\nint main (int argc, const char* argv[]) {\n  \n  return 0;\n}\n");
+    }
 
     // Focus the text editor again
     code_text.focus();
