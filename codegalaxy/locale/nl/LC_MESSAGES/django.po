@@ -30,8 +30,8 @@ msgid ""
 "could just destroy a whole planet!"
 msgstr ""
 "Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen uit te dagen "
-"en te verslaan zal je sterker worden!Ah, die goede oude tijd. In het "
-"Bootloader stelsel was ik gekend als Grub The Destroyer!Als ik kwaad werd "
+"en te verslaan zal je sterker worden! Ah, die goede oude tijd. In het "
+"Bootloader stelsel was ik gekend als Grub The Destroyer! Als ik kwaad werd "
 "kon ik een hele planeet vernietigen!"
 
 #: codegalaxy/challenges/templates/challenges.html:69
