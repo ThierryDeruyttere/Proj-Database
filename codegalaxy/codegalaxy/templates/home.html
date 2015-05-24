@@ -18,8 +18,9 @@
           <img src="{% static user.getPicture %}" class="round-image"/>
           <div class="text-center">
             <br>
-            <a href="/badge/{{user.badge.id}}"><h5>{{ user.badge.name }}</h5></a>
+            
             <h5><b>{{ user.name }}</b></h5>
+            <a href="/badge/{{user.badge.id}}"><h5>{{ user.badge.name }}</h5></a>
             <hr/>
           </div>
           <li><a href="/me" class="blue-text">{% trans "My profile" %}</a></li>
