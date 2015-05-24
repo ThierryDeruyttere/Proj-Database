@@ -63,8 +63,8 @@
         {% if not list_owner and found %}
           <div class="large-8 large-centered text-center columns">
             <div data-alert class="alert-box info radius">
-              <p>It seems like you have been on this planet before.</p>
-              <button class="tiny button round start" id="{{ cur_exercise }}">Continue exploring! <span class="octicon octicon-rocket"></span></button>
+              <p>{% trans "It seems like you have been on this planet before." %}</p>
+              <button class="tiny button round start" id="{{ cur_exercise }}">{% trans "Continue exploring!" %} <span class="octicon octicon-rocket"></span></button>
               <a href="#" class="close"><span class="octicon-x octicon"></span></a>
             </div>
           </div>
@@ -100,7 +100,7 @@
                 {% endif %}
               {% endfor %}
               <br>
-              <button class="share">Share</button>
+              <button class="share">{% trans "Share" %}</button>
             </div>
           </div>
         </div>
