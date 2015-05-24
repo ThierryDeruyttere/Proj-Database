@@ -359,20 +359,23 @@ def createImportHTML(all_lists, all_exercises):
     return html
 
 @require_login
-# TODO
 def importExercise(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
     if exercise_list and exercise_list.created_by == logged_user(request).id:
+        # The only user who can import something into a list, is the creator of that list
+
+        # Get all the lists
         all_lists_id = object_manager.getExerciseListsOnProgLang(exercise_list.programming_language.name)
         if request.method == "GET" and request.GET:
             all_lists_id = object_manager.filterImportsLists(request.GET['search_input'])
 
         all_lists = []
-
         for i in all_lists_id:
             all_lists.append(object_manager.createExerciseList(i, browser_lang.id))
 
+        # Get all the exercises for each list
+        # Store them as list id, exercises pair
         all_exercises = {}
         for i in all_lists:
             all_exercises[i.id] = i.allExercises(browser_lang.code)
@@ -381,6 +384,7 @@ def importExercise(request, listId):
             return HttpResponse(createImportHTML(all_lists, all_exercises))
 
         if request.method == "POST":
+            # Check which exercises to copy/import
             copies = []
             references = []
             for key, i in all_exercises.items():
@@ -412,13 +416,52 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
+def importOnList(exercise_list, browser_lang, user, request):
+    # just to be sure we can't import stuff in our own list
+    # Import parts of list
+    all_exercises = exercise_list.allExercises(browser_lang.code)
+    copies = []
+    references = []
+    for i in all_exercises:
+        copy = request.POST.get('checkbox_copy' + str(i.exercise_number))
+        ref = request.POST.get('checkbox_import' + str(i.exercise_number))
+        if copy is not None:
+            copies.append(i)
+
+        if ref is not None:
+            references.append(i)
+    # Here we got the exercises
+    # Check in which lists we need to insert them
+    mylists = user.getUserLists(browser_lang.id)
+    lists = []
+    for l in mylists:
+        found = request.POST.get('mylist_' + str(l.id))
+        if found:
+            for ref in references:
+                l.insertExerciseByReference(ref.id)
+            for copy in copies:
+                l.copyExercise(copy.id)
+
+def recommendLists(user, browser_lang, exercise_list):
+    similar_lists = []
+    similar_list_ids = []
+    # For the recommended lists, we'll first check if the user solved the current list
+    if exercise_list:
+        made_list = user.getMadeList(exercise_list.id, browser_lang.id)
+        if made_list:
+            similar_list_ids = recommendNextExerciseLists(made_list, user)
+        else:
+            similar_list_ids = listsLikeThisOne(exercise_list.id, user)
+    for list_id in similar_list_ids:
+        similar_lists.append(object_manager.createExerciseList(list_id, browser_lang.id))
+
+    return similar_lists
+
+
 # The view for createExercise.html
 # TODO: comments
 def list(request, id=0):
     user = logged_user(request)
-    # Colors for the graphs
-    color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
-    color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(id, browser_lang.id)
     # Check if list exists
@@ -442,6 +485,7 @@ def list(request, id=0):
 
     # if the user interacts with the page (POST request is sent)
     if request.method == 'POST':
+        # User gives a rating to our page
         if request.POST.get('rating') is not None and user is not None:
             user.ratedExerciseList()
             user.updateListRating(exercise_list.id, int(request.POST.get('rating')))
@@ -452,30 +496,7 @@ def list(request, id=0):
             user.shareExerciseListResult(exercise_list.id)
 
         elif user is not None and user.id != exercise_list.created_by:
-            # just to be sure we can't import stuff in our own list
-            # Import parts of list
-            all_exercises = exercise_list.allExercises(browser_lang.code)
-            copies = []
-            references = []
-            for i in all_exercises:
-                copy = request.POST.get('checkbox_copy' + str(i.exercise_number))
-                ref = request.POST.get('checkbox_import' + str(i.exercise_number))
-                if copy is not None:
-                    copies.append(i)
-
-                if ref is not None:
-                    references.append(i)
-            # Here we got the exercises
-            # Check in which lists we need to insert them
-            mylists = user.getUserLists(browser_lang.id)
-            lists = []
-            for l in mylists:
-                found = request.POST.get('mylist_' + str(l.id))
-                if found:
-                    for ref in references:
-                        l.insertExerciseByReference(ref.id)
-                    for copy in copies:
-                        l.copyExercise(copy.id)
+            importOnList(exercise_list, browser_lang, user, request)
 
     if exercise_list:
         all_exercises = exercise_list.allExercises(browser_lang.code)
@@ -549,15 +570,9 @@ def list(request, id=0):
         if user:
             user_lists = user.getUserLists(browser_lang.id)
             user_rating = user.getRatingForList(exercise_list.id)
-            # For the recommended lists, we'll first check if the user solved the current list
-            if exercise_list:
-                made_list = user.getMadeList(exercise_list.id, browser_lang.id)
-                if made_list:
-                    similar_list_ids = recommendNextExerciseLists(made_list, user)
-                else:
-                    similar_list_ids = listsLikeThisOne(exercise_list.id, user)
-        for list_id in similar_list_ids:
-            similar_lists.append(object_manager.createExerciseList(list_id, browser_lang.id))
+            similar_lists = recommendLists(user, browser_lang, exercise_list)
+
+
         return render(request, 'list.html', {'list_owner': list_owner,
                                              'id': exercise_list.id,
                                              'all_exercises': all_exercises_with_score,
