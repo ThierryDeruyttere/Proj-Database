@@ -457,6 +457,48 @@ def recommendLists(user, browser_lang, exercise_list):
 
     return similar_lists
 
+# Calculate score of user on list
+def getPercentage(all_exercises, list_owner):
+    cur_exercise = 0
+    percent = 0
+    solved_all = False
+    found = False
+
+    if list_owner:
+        if all_exercises:
+            cur_exercise = all_exercises[0].exercise_number
+        else:
+            cur_exercise = 1
+    else:
+        if len(all_exercises) > 0:
+            cur_exercise = all_exercises[0].exercise_number
+
+        # For all exercises we've made increase our percent counter
+        for e in all_exercises:
+            if e.solved:
+                found = True
+                percent += 1
+                if cur_exercise < e.exercise_number:
+                    cur_exercise = e.exercise_number
+
+        #TODO why?
+        if len(all_exercises) < percent:
+            found = False
+            cur_exercise = all_exercises[0].exercise_number
+
+        elif percent > 0 and len(all_exercises) > percent:
+            cur_exercise = all_exercises[percent].exercise_number
+
+        if len(all_exercises) > 0:
+            percent = percent / len(all_exercises) * 100
+            if percent > 100:
+                percent = 100
+
+        if percent == 100:
+            solved_all = True
+
+    return percent, solved_all, found, cur_exercise
+
 
 # The view for createExercise.html
 # TODO: comments
@@ -510,6 +552,7 @@ def list(request, id=0):
         shared_result = True
         list_owner = False
 
+        # TODO wat doet dit?
         if user:
             shared_result = user.sharedResult(exercise_list.id)
             for exercise in all_exercises:
@@ -527,44 +570,11 @@ def list(request, id=0):
         else:
             all_exercises_with_score = [(x, None) for x in all_exercises]
 
-        cur_exercise = 0
-        percent = 0
-        solved_all = False
-        found = False
-        if list_owner:
-            if all_exercises:
-                cur_exercise = all_exercises[0].exercise_number
-            else:
-                cur_exercise = 1
-        else:
-            if len(all_exercises) > 0:
-                cur_exercise = all_exercises[0].exercise_number
-
-            for e in all_exercises:
-                if e.solved:
-                    found = True
-                    percent += 1
-                    if cur_exercise < e.exercise_number:
-                        cur_exercise = e.exercise_number
-
-            if len(all_exercises) < percent:
-                found = False
-                cur_exercise = all_exercises[0].exercise_number
-            elif percent > 0 and len(all_exercises) > percent:
-                cur_exercise = all_exercises[percent].exercise_number
-
-            if len(all_exercises) > 0:
-                percent = percent / len(all_exercises) * 100
-                if percent > 100:
-                    percent = 100
-
-            if percent == 100:
-                solved_all = True
+        # Calculate percentage for this list (score of user)
+        percent, solved_all, found, cur_exercise = getPercentage(all_exercises, list_owner)
 
         # Lists like this one
         similar_lists = []
-        similar_list_ids = []
-
         user_rating = 0
         user_lists = None
         if user:
@@ -597,10 +607,47 @@ def list(request, id=0):
     else:
         return redirect('/')
 
+# Restores the question where the user left off
+def restoreQuestion(all_exercise, exercise_number, current_user, list_id):
+    current_exercise = None
+    current_score = None
+    last_hint_used = None
+    current_answer = None
+    correct_answer = None
+
+    for i in all_exercise:
+        if i.exercise_number == int(exercise_number):
+            current_exercise = i
+            if current_exercise.exercise_type == 'Open Question':
+                correct_answer = current_exercise.correct_answer
+            elif current_exercise.exercise_type == 'Code':
+                correct_answer = stripStr(current_exercise.allAnswers()[0])
+            else:
+                answer_data = json.loads(str(current_exercise.allAnswers()[0]))
+                correct_answer = [str(answer_data["points"]), str(answer_data["edges"])]
+
+            info = None
+            if current_user:
+                info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
+                last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
+                current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
+            penalty = current_exercise.penalty
+            if info:
+                current_score = info['exercise_score']
+
+            if not current_score:
+                current_score = current_exercise.max_score
+            if current_exercise.exercise_type == 'Open Question':
+                current_answer = int(current_answer)
+            break
+
+    return current_exercise, current_score, last_hint_used, current_answer, correct_answer
+
+# View for answering a question/exercise
 def answerQuestion(request, list_id, exercise_number):
     current_user = logged_user(request)
     if request.method == "POST":
-
+        # If user submits a post request, then we need to go to the submit page!
         return redirect('/l/' + list_id + '/' + exercise_number + '/submit')
 
     list_owner = False
@@ -610,39 +657,21 @@ def answerQuestion(request, list_id, exercise_number):
     correct_answer = ""
     last_hint_used = 0
     solved = None
+
     if current_user:
+        # Check if we've solved this exercise already
         solved = current_user.haveISolvedExercise(exercise_list.id, exercise_number)
     if exercise_list:
-        all_exercise = exercise_list.allExercises(browser_lang.code)
-        current_exercise = None
-        for i in all_exercise:
-            if i.exercise_number == int(exercise_number):
-                current_exercise = i
-                if current_exercise.exercise_type == 'Open Question':
-                    correct_answer = current_exercise.correct_answer
-                elif current_exercise.exercise_type == 'Code':
-                    correct_answer = stripStr(current_exercise.allAnswers()[0])
-                else:
-                    answer_data = json.loads(str(current_exercise.allAnswers()[0]))
-                    # { "points": [[0,0],[0,50],[50,50],[50,0]], "edges": [[0,1],[1,2],[2,3],[3,0]] }
-                    correct_answer = [str(answer_data["points"]), str(answer_data["edges"])]
-                    # correct_answer = str(current_exercise.allAnswers()[0])
-                hints = current_exercise.allHints()
-                info = None
-                if current_user:
-                    info = object_manager.getInfoForUserForExercise(current_user.id, list_id, exercise_number)
-                    last_hint_used = current_user.latestHintIUsedForExercise(list_id, exercise_number)
-                    current_answer = current_user.getLastAnswerForExercise(list_id, exercise_number)
-                penalty = current_exercise.penalty
-                current_score = None
-                if info:
-                    current_score = info['exercise_score']
 
-                if not current_score:
-                    current_score = current_exercise.max_score
-                if current_exercise.exercise_type == 'Open Question':
-                    current_answer = int(current_answer)
-                break
+        all_exercise = exercise_list.allExercises(browser_lang.code)
+        # Restore our progress
+        progress = restoreQuestion(all_exercise, exercise_number, current_user, list_id)
+
+        current_exercise = progress[0]
+        current_score = progress[1]
+        last_hint_used = progress[2]
+        current_answer = progress[3]
+        correct_answer = progress[4]
 
         if current_exercise:
             list_owner = False
@@ -651,14 +680,15 @@ def answerQuestion(request, list_id, exercise_number):
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
-                                                           "hints": hints,
+                                                           "hints": current_exercise.allHints(),
                                                            "current_answer": current_answer,
                                                            "solved": solved,
                                                            "last_hint_used": last_hint_used,
                                                            "current_score": current_score,
-                                                           "penalty": penalty,
+                                                           "penalty": current_exercise.penalty,
                                                            'list_owner': list_owner,
                                                            'correct_answer': correct_answer})
+
         # If the exercise doesn't exist, redirect to the list page
         else:
             return redirect('/l/' + list_id)
