@@ -386,7 +386,6 @@
     var post_id = $(this).attr('data-post_id');
     html_text_box = '<div class="replying">';
     html_text_box += '<div class="row">';
-    html_text_box += '</br>';
     html_text_box += '<div class="large-10 columns end">';
     html_text_box += '<textarea id="post_text_reply" name="post_text_reply"></textarea>';
     html_text_box += '<scr' + 'ipt>var post_text_var_reply = CodeMirror.fromTextArea(post_text_reply,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
@@ -396,7 +395,7 @@
     html_text_box += '<input id="reply_button"' + ' data-post_id=' + post_id + ' class="button tiny radius reply_button" value="{% trans "Reply" %}" readonly>';
     html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}" readonly>';
     html_text_box += '</div></div></div>';
-    $(this).parent().parent().parent().append(html_text_box);
+    $(this).closest(".post").find(".timestamp:first").after(html_text_box);
     replying = true;
   });
 
@@ -410,7 +409,6 @@
     var post_id = $(this).attr('data-post_id');
     html_text_box = '<div class="replying">';
     html_text_box += '<div class="row">';
-    html_text_box += '</br>';
     html_text_box += '<div class="large-10 columns end">';
     html_text_box += '<textarea id="post_text_edit" name="post_text_edit"></textarea>';
     html_text_box += '<scr' + 'ipt>var post_text_var_edit = CodeMirror.fromTextArea(post_text_edit,{theme: "monokai",mode: "text/x-markdown"});</scr' + 'ipt>';
@@ -420,7 +418,7 @@
     html_text_box += '<input id="edit_button"' + ' data-post_id=' + post_id + ' class="button tiny radius edit_button" value="{% trans "Edit" %}" readonly>';
     html_text_box += '<input id="cancel_button" class="button tiny radius cancel_button" value="{% trans "Cancel" %}" readonly>';
     html_text_box += '</div></div></div>';
-    $(this).parent().parent().parent().append(html_text_box);
+    $(this).closest(".post").find(".timestamp:first").after(html_text_box);
     replying = true;
   });
 
@@ -507,7 +505,7 @@
         $(document).find('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
             $(this).find('.replies').first().append(response);
-            $(this).find('.replies').parent().append("<hr />");
+            // $(this).find('.replies:first').parent().append("<hr />");
           }
         });
         hideReplyField();
