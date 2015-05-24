@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-24 14:54+0200\n"
+"POT-Creation-Date: 2015-05-24 15:15+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,13 +26,13 @@ msgstr "We ontmoeten elkaar weer reiziger! Herinner je me? Het is grub!"
 msgid ""
 "Oh boy! Seems you are going to challenge somebody! By challenging and "
 "defeating someone you become stronger! Ah, brings back some old memories. In "
-"the Bootloader galaxy I was known as Grub The Destroyer! If i'd get mad I "
+"the bootloader galaxy I was known as Grub The Destroyer! If i'd get mad I "
 "could just destroy a whole planet!"
 msgstr ""
-"Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen "
-"uit te dagen en te verslaan zal je sterker worden!"
-"Ah, die goede oude tijd. In het Bootloader stelsel was ik gekend als Grub The Destroyer!"
-"Als ik kwaad werd kon ik een hele planeet vernietigen!"
+"Het ziet er naar uit dat je iemand gaat uitdagen. Door mensen uit te dagen "
+"en te verslaan zal je sterker worden!Ah, die goede oude tijd. In het "
+"Bootloader stelsel was ik gekend als Grub The Destroyer!Als ik kwaad werd "
+"kon ik een hele planeet vernietigen!"
 
 #: codegalaxy/challenges/templates/challenges.html:69
 msgid ""
@@ -42,11 +42,12 @@ msgid ""
 "separated, I have no one left for protecting me... Will you please defend "
 "me? I'm so scared without Kernel..."
 msgstr ""
-"Ok dat is een leugen, Ik ben een van de laagst gerankte buitenaardse "
-"wezens in het bootloader stelsel... I had altijd iemand sterk nodig om me te verdedigen. Voor dat ik in dit "
-"melkwegstelsel verloren geraakte was mijn vriend Kernel er altijd om "
-"me te beschermen. Maar sinds we gescheiden zijn, heb niemand meer om me te "
-"beschermen... Wil jij me beschermen? Ik ben zo bang zonder Kernel..."
+"Ok dat is een leugen, Ik ben een van de laagst gerankte buitenaardse wezens "
+"in het bootloader stelsel... I had altijd iemand sterk nodig om me te "
+"verdedigen. Voor dat ik in dit melkwegstelsel verloren geraakte was mijn "
+"vriend Kernel er altijd om me te beschermen. Maar sinds we gescheiden zijn, "
+"heb niemand meer om me te beschermen... Wil jij me beschermen? Ik ben zo "
+"bang zonder Kernel..."
 
 #: codegalaxy/evaluation/templates/sandbox.html:29
 msgid "Clear"
@@ -90,7 +91,9 @@ msgid "Return to list"
 msgstr "Keer terug naar lijst"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:62
-msgid "Edit question"
+#, fuzzy
+#| msgid "Edit question"
+msgid "Edit Question"
 msgstr "Pas vraag aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:19
@@ -171,8 +174,8 @@ msgid ""
 "The only problem is, on each planet we speak a different language, so I'm "
 "working on translating this site."
 msgstr ""
-"Het probleem is dat er op elke planeet een andere taal gesproken wordt, dus ik ben aan vertalingen "
-"voor de site aan het werken."
+"Het probleem is dat er op elke planeet een andere taal gesproken wordt, dus "
+"ik ben aan vertalingen voor de site aan het werken."
 
 #: codegalaxy/exercises/templates/createExercise.html:103
 #: codegalaxy/exercises/templates/createExerciseList.html:153
@@ -181,8 +184,8 @@ msgid ""
 "Think you could help? I will make your name famous across the universe if "
 "you do!"
 msgstr ""
-"Denk je dat je zou kunnen helpen? Ik zal je beroemd maken over het hele universum "
-"als je me me helpt!"
+"Denk je dat je zou kunnen helpen? Ik zal je beroemd maken over het hele "
+"universum als je me me helpt!"
 
 #: codegalaxy/exercises/templates/createExercise.html:110
 #: codegalaxy/exercises/templates/createExerciseList.html:160
@@ -935,8 +938,8 @@ msgid "Total amount of lists made:"
 msgstr "Totale aantal oefeningenlijsten gemaakt:"
 
 #: codegalaxy/templates/user.html:420
-msgid "Average Score:"
-msgstr "Gemiddelde Score"
+msgid "Average score"
+msgstr "Gemiddelde score"
 
 #: codegalaxy/templates/user.html:422
 msgid "You have not completed any exercise lists yet!"
@@ -953,6 +956,9 @@ msgstr "Werd lid van deze website:"
 #: codegalaxy/templates/user.html:426
 msgid "Last login:"
 msgstr "Laatste keer bezocht:"
+
+#~ msgid "Average Score:"
+#~ msgstr "Gemiddelde Score"
 
 #~ msgid ""
 #~ "Oh boy! Seems you are going to challenge somebody! By challenging and "
