@@ -28,6 +28,13 @@ class Badge:
 
         return badge_picture
 
+    # Returns the dutch translation of the message
+    def getDutchMessageTranslation(self):
+        translation = dbw.getDutchMessageTranslation(self.id)
+        dutch = translation['dutch_translation']
+        print(dutch)
+        return dutch
+
     # Returns User-objects of all the users that have earned this badge
     def allUsersThatEarnedBadge(self):
         object_manager = managers.om.objectmanager.ObjectManager()

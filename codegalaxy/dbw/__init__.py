@@ -1089,6 +1089,13 @@ def resetBadgeValue(user_id, badge_type):
     cursor.execute('UPDATE hasBadge h, badge b SET h.current_value = 1 WHERE b.type = "{badge_type}" AND h.user_id = {user_id} AND b.id = h.badge_id'.format(user_id=user_id, badge_type=badge_type))
     cursor.close()
 
+def getDutchMessageTranslation(badge_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT dutch_translation FROM badgeMessageTranslation WHERE badge_id = {badge_id}'.format(badge_id=badge_id))
+    cursor.close()
+    fetched = processOne(cursor)
+    return fetched
+
 # UPDATE
 
 def setUserActive(email):

@@ -9,7 +9,9 @@
     <div class="panel radius">
       <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
       {% if my_profile %}
-      <div id="badge_name"></div>
+      <br>
+      <div id="badge_name">
+      </div>
       <br>
       {% csrf_token %}
       <select name="badge_choice" id="badge_choice">

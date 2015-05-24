@@ -931,6 +931,55 @@ INSERT INTO `hasBadge` VALUES(1,1,8,0),(1,2,9,0),(1,3,18,1),(1,4,5,0),(1,5,8,0),
 UNLOCK TABLES;
 
 --
+-- Table structure for table `badgeMessageTranslation`
+--
+
+DROP TABLE IF EXISTS `badgeMessageTranslation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `badgeMessageTranslation` (
+  `badge_id` int(11) NOT NULL DEFAULT '0',
+  `dutch_translation` varchar(255) NOT NULL,
+  PRIMARY KEY (`badge_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `badgeMessageTranslation`
+--
+
+LOCK TABLES `badgeMessageTranslation` WRITE;
+/*!40000 ALTER TABLE `badgeMessageTranslation` DISABLE KEYS */;
+INSERT INTO `badgeMessageTranslation` VALUES (1, "Werd met minstens 10 mensen bevriend!"),
+(2, "Werd met minstens 50 mensen bevriend!"),
+(3, "Werd met minstens 100 mensen bevriend!"),
+(4, "Lid van minstens 10 groepen!"),
+(5, "Lid van minstens 50 groepen!"),
+(6, "Lid van minstens 100 groepen!"),
+(7, "Minstens 10 oefeningenlijsten opgelost!"),
+(8, "Minstens 50 oefeningenlijsten opgelost!"),
+(9, "Minstens 100 oefeningenlijsten opgelost!"),
+(10, "Minstens 10 oefeningenlijsten aangemaakt!"),
+(11, "Minstens 50 oefeningenlijsten aangemaakt!"),
+(12, "Minstens 100 oefeningenlijsten aangemaakt!"),
+(13, "Minstens 10 mensen hebben een van je oefeninenlijsten opgelost!"),
+(14, "Minstens 50 mensen hebben een van je oefeninenlijsten opgelost!"),
+(15, "Minstens 100 mensen hebben een van je oefeninenlijsten opgelost!"),
+(16, "Minstens 10 oefeningenlijsten een beoordeling gegeven!"),
+(17, "Minstens 50 oefeningenlijsten een beoordeling gegeven!"),
+(18, "Minstens 100 oefeningenlijsteneen beoordeling gegeven!"),
+(19, "Minstens 10 dagen lid van CodeGalaxy!"),
+(20, "Minstens 1 maand lid van CodeGalaxy!"),
+(21, "Minstens 1 jaar lid van CodeGalaxy!"),
+(22, "Minstens 10 opeenvolgende dagen CodeGalaxy bezocht!"),
+(23, "Minstens 30 opeenvolgende dagen CodeGalaxy bezocht!"),
+(24, "Minstens 365 opeenvolgende dagen CodeGalaxy bezocht!"),
+(25, "Lid van CodeGalaxy!");
+/*!40000 ALTER TABLE `badgeMessageTranslation` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
 -- Table structure for table `verification`
 --
 

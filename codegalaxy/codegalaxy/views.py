@@ -598,9 +598,15 @@ def badge(request, id=0):
     user = logged_user(request)
     id = int(id)
     badge = object_manager.createBadge(id)
+    browser_lang = getBrowserLanguage(request)
+
     if badge:
         users_that_earned_badge = badge.allUsersThatEarnedBadge()
         target_score = badge.target_value
+        if browser_lang.code == "en":
+            message = badge.message
+        else:
+            message = badge.getDutchMessageTranslation()
         try:
             current_score = user.getCurrentValueForBadge(badge.id)
         except:
@@ -610,7 +616,7 @@ def badge(request, id=0):
             percentage_finished = 100
 
         context = {'users_that_earned_badge': users_that_earned_badge, 'badge': badge, 'percentage_finished': percentage_finished, 'current_score': current_score,
-                   'target_score': target_score}
+                   'target_score': target_score, 'message':message}
 
         return render(request, 'badge.html', context)
     else:
