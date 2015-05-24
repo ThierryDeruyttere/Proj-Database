@@ -33,7 +33,8 @@ def getAllUsersNames(except_user):
         all_users_names.append({"value": name, "data": img})
     return all_users_names
 
-# TODO
+# Maps the Exerciselist-objects on the programming languages
+# NOTE: These Exerciselists are the ones neither user has made (used for challenges).
 def prepareDict(lists):
     new_dict = {}
     for i in lists:
@@ -54,6 +55,7 @@ def getFinishedChallengesStats(challenges):
         stats[i.challenge_type.type] += 1
     return stats
 
+# Shows head-to-head record of two users in a graph
 def createPieChart(user, challenged, browser_language):
     # Get charts info
     my_wins = challenge_manager.getWinsAgainst(user.id, challenged.id)
@@ -63,6 +65,7 @@ def createPieChart(user, challenged, browser_language):
     pie_chart = graph_manager.addTitle(pie_chart, "Wins per user")
     return pie_chart
 
+# Shows how many challenges of eacht type you have done against another user
 def createBarChart(user, challenged, browser_language):
     finished_challenges = challenge_manager.getFinishedChallengesBetween(user.id, challenged.id, browser_language.id)
     stats = getFinishedChallengesStats(finished_challenges)
@@ -78,6 +81,8 @@ def createBarChart(user, challenged, browser_language):
     bar_chart = graph_manager.addTitle(bar_chart, "#Challenges per challenge type")
     return bar_chart
 
+# Searches all the lists between two users that are still egligable for
+# a challenge (not currently busy, already done,...)
 def getRemainingLists(user, challenged, browser_language):
     user_pers_lists = user.allPersonalLists()
     # Get all the list objects from the personal lists
@@ -101,7 +106,6 @@ def getRemainingLists(user, challenged, browser_language):
         if i.id not in active_lists:
             remaining_lists.append(i)
     return remaining_lists
-
 
 @require_login
 # The view for challenges.html

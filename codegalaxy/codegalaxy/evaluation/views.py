@@ -8,6 +8,9 @@ from codegalaxy.evaluation.evaluators import *
 def sandbox(request):
     return render(request, 'sandbox.html', {})
 
+# Handles the POST-request for evaluating code
+# The code will be run through an evaluator object and the output/error
+# message will be returned.
 def evaluate(request, lang):
     # Get data from POST request
     code = request.POST.get('code', '')

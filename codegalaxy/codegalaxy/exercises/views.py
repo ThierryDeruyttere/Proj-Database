@@ -20,6 +20,8 @@ object_manager = objectmanager.ObjectManager()
 statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 graph_manager = graphmanager.GraphManager()
 challenge_manager = challengemanager.ChallengeManager()
+
+# TODO
 def removeLanguage(languages, code):
     for i in languages:
         if i.code == code:
@@ -27,6 +29,7 @@ def removeLanguage(languages, code):
             break
     return languages
 
+# TODO
 def getTranslationDict(request, languages):
     translation = {}
     for lang in languages:
@@ -39,6 +42,8 @@ def getTranslationDict(request, languages):
     return translation
 
 @require_login
+# The view for createExerciseList.html
+# TODO: hierin ng wat comments?
 def createExerciseList(request):
     prog_languages = object_manager.allProgrammingLanguages()
     browser_lang = getBrowserLanguage(request)
@@ -70,6 +75,8 @@ def createExerciseList(request):
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
 @require_login
+# The view for editList.html
+# TODO: hierin ng wat comments?
 def editList(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -130,6 +137,8 @@ def editList(request, listId):
 
 
 @require_login
+# The view for createExercise.html
+# TODO: hierin ng wat comments?
 def createExercise(request, listId=0):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -198,6 +207,7 @@ def createExercise(request, listId=0):
 
     return redirect('/')
 
+# TODO
 def filterOrder(order):
     if len(order) == 0:
         return []
@@ -209,6 +219,7 @@ def filterOrder(order):
     return new_order
 
 @require_login
+# TODO
 def editExercise(request, listId, exercise_id, exercise_number):
     user = logged_user(request)
     # list_id is required, if someone copies our exercise in an other list we want to know in which list we are
@@ -279,6 +290,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'languages': languages,
                                                        'translations': json.dumps(translation)})
 
+# TODO
 def createImportHTML(all_lists, all_exercises):
     html = ""
     for list in all_lists:
@@ -311,6 +323,7 @@ def createImportHTML(all_lists, all_exercises):
     return html
 
 @require_login
+# TODO
 def importExercise(request, listId):
     browser_lang = getBrowserLanguage(request)
     exercise_list = object_manager.createExerciseList(listId, browser_lang.id)
@@ -355,6 +368,7 @@ def importExercise(request, listId):
 
     return redirect('/')
 
+# Rounds integers or tells the user is the givn object was None
 def InvalidOrRound(object):
     if object is None:
         object = "N/A"
@@ -362,10 +376,11 @@ def InvalidOrRound(object):
         object = round(object)
     return object
 
-
+# The view for createExercise.html
+# TODO: comments
 def list(request, id=0):
     user = logged_user(request)
-    # score spread for this exercise
+    # Colors for the graphs
     color_info1 = graphmanager.ColorInfo("rgba(151,187,205,0.5)", "rgba(151,187,205,0.8)", "rgba(151,187,205,0.75)", "rgba(151,187,205,1)")
     color_info2 = graphmanager.ColorInfo("rgba(220,220,220,0.5)", "rgba(220,220,220,0.8)", "rgba(220,220,220,0.75)", "rgba(220,220,220,1)")
     browser_lang = getBrowserLanguage(request)
@@ -374,12 +389,14 @@ def list(request, id=0):
     if exercise_list is None:
         return redirect('/')
 
+    # Statistic info about this list
     avg_score = InvalidOrRound(exercise_list.averageOfUsersForThisList())
     avg_rating = InvalidOrRound(exercise_list.averageRatingOfUsersForThisList())
     number_of_users = InvalidOrRound(exercise_list.amountOfUsersWhoMadeThisList())
     user_score = 0
     user_date = None
 
+    # Other general info about the list
     subjects = exercise_list.allSubjects()
     creator = exercise_list.creator()
     created_on = exercise_list.created_on
@@ -387,6 +404,7 @@ def list(request, id=0):
     if subjects is None:
         subjects = []
 
+    # if the user interacts with the page (POST request is sent)
     if request.method == 'POST':
         if request.POST.get('rating') is not None and user is not None:
             user.ratedExerciseList()
