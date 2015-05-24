@@ -474,7 +474,7 @@
       success: function(response) {
         $(document).find('.post').each(function(i, obj) {
           if ($(this).attr('data-post_id')==p_id) {
-            $(this).find('p').first().text(post_text_var_edit.getValue())
+            $(this).find('.post_text').first().html(response)
           }
         });
           hideReplyField();

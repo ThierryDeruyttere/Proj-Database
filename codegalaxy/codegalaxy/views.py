@@ -660,6 +660,8 @@ def deletePost(request):
 
 @require_login
 def editPost(request):
+    import markdown2
+    markdown_converter = markdown2.Markdown()
     user = logged_user(request)
     group_id = int(request.POST.get('group_id'))
     post_id = int(request.POST.get('post_id'))
@@ -669,7 +671,9 @@ def editPost(request):
         if post.id == post_id:
             post.post_text = post_text
             post.save()
-    return HttpResponse('')
+            post_html = markdown_converter.convert(post_text)
+
+            return HttpResponse(post_html)
 
 def list(request, id=0):
     return render(request, 'list.html', {'id': id})

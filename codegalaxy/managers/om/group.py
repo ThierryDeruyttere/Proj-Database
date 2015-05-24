@@ -301,7 +301,9 @@ class Post:
     # html representation (with markdown) of a a part of a post/reply
     def HTMLBasic(self, user, logged_user):
         html = '''
-        {text}
+        <div class="post_text">
+            {text}
+        </div>
         <p class="timestamp">
             <small>
                 <span class="octicon octicon-clock"></span>
