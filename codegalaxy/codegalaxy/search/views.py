@@ -63,5 +63,5 @@ def invitemember(request):
     group_id = request.POST.get('group_id', '')
     friend_id = request.POST.get('user_id', '')
     group = object_manager.createGroup(group_id)
-    group.insertMember(friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")),"Pending")
+    group.insertMember(friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
     return HttpResponse()

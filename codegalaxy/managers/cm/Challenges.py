@@ -3,6 +3,7 @@ object_manager = objectmanager.ObjectManager()
 import dbw
 
 class ChallengeType:
+
     def __init__(self, type):
         self.code = None
         self.type = None
@@ -22,24 +23,24 @@ class ChallengeType:
     def createFromStr(self, str):
         self.type = str
         self.code = 0
-        if  self.type == "Score":
+        if self.type == "Score":
             self.code = 1
         elif self.type == "Perfects":
             self.code = 2
 
 
-
 class Challenge:
-    def __init__(self, challenger, challenged, challenge_type,list_id, status, language_id, winner=None):
+
+    def __init__(self, challenger, challenged, challenge_type, list_id, status, language_id, winner=None):
         self.challenger = object_manager.createUser(id=challenger)
         self.challenged = object_manager.createUser(id=challenged)
         self.challenge_type = challenge_type
-        #if we passed a string or int, quickly create Challenge type object
+        # if we passed a string or int, quickly create Challenge type object
         if not isinstance(challenge_type, ChallengeType):
             self.challenge_type = ChallengeType(challenge_type)
         self.status = status
         self.winner = object_manager.createUser(id=winner)
-        self.list = object_manager.createExerciseList(list_id,language_id)
+        self.list = object_manager.createExerciseList(list_id, language_id)
 
     def isFinished(self):
         if self.status == "Finished":
@@ -76,11 +77,10 @@ class Challenge:
             challenger_score = challenger_list.score
             challenged_score = challenger_list.score
 
-
         elif self.challenge_type.code == 2:
-            #Perfects gamemode
+            # Perfects gamemode
 
-            #language code doesn't matter here
+            # language code doesn't matter here
             challenger_exercises = challenger_list.allExercises('en')
             challenged_exercises = challenged_list.allExercises('en')
 
@@ -94,7 +94,6 @@ class Challenge:
             for i in challenged_exercises:
                 if i.score == i.max_score:
                     challenged_score += 1
-
 
         self.selectWinner(challenger_score, challenged_score)
         dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner.id)

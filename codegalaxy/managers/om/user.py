@@ -240,7 +240,6 @@ class User:
             pending_friendship_objects.append(friendship)
         return pending_friendship_objects
 
-
     def allPendingGroupMemberships(self):
         pending_group_memberships = dbw.getPendingGroupMemberships(self.id)
 
@@ -309,7 +308,6 @@ class User:
 
     def updateListRating(self, list_id, list_rating):
         dbw.updateListRating(list_id, self.id, list_rating)
-
 
     # List with all the lists of exercises this user has completed/is working
     # on (SQL function)

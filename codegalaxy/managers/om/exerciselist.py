@@ -48,7 +48,7 @@ class ExerciseList:
         return dbw.getAvgScoreOfUsersWhoMadeList(self.id)['average']
 
     def averageRatingOfUsersForThisList(self):
-        ratings =  dbw.averageRatingOfUsersWhoMadeList(self.id)
+        ratings = dbw.averageRatingOfUsersWhoMadeList(self.id)
         total_rating = 0
         rating_divider = 0
         if ratings:
@@ -115,8 +115,6 @@ class ExerciseList:
         self.description = updated_description
         self.difficulty = int(updated_difficulty)
         self.programming_language = updated_prog_lang
-
-
 
     def addSubject(self, subject_name):
         dbw.insertSubject(subject_name)
@@ -261,7 +259,6 @@ class ExerciseList:
 
     def searchString(self):
         return str(self.name)
-
 
     def getAllTranslations(self):
         transl = dbw.getAllListTranslations(self.id)

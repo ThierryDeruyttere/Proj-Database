@@ -39,7 +39,7 @@ def multi_line(string):
     splitted = string.split('\r')
     multiline = ""
     for i, st in enumerate(splitted):
-        if st != "\n" and i < (len(splitted)-1):
+        if st != "\n" and i < (len(splitted) - 1):
             multiline += st.replace('\"', '\\\"') + "<br/>\\"
         else:
             multiline += st.replace('\"', '\\\"')

@@ -70,7 +70,7 @@ class ObjectManager:
 
     def getAllBadges(self):
         badges_info = dbw.getAllBadgeInformation()
-        badges=[]
+        badges = []
 
         for badge_info in badges_info:
             badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
@@ -80,7 +80,7 @@ class ObjectManager:
 
     def getAllBadgesOnMedal(self):
         badges_info = dbw.getAllBadgeInformation()
-        badges={}
+        badges = {}
         gold = []
         silver = []
         bronze = []

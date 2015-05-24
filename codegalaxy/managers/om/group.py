@@ -209,7 +209,7 @@ class Group:
         for info in posts_info:
             posts.append(Post(info['id'], info['group_id'], info['user_id'],
             info['reply'], info['reply_number'], info['post_text'],
-            info['posted_on']))
+                info['posted_on']))
         posts.sort(key=lambda x: x.posted_on, reverse=True)
         return posts
 
@@ -227,8 +227,7 @@ class Group:
 
 class Post:
 
-    def __init__(self, id, group_id, user_id, reply, reply_number
-    , post_text, posted_on):
+    def __init__(self, id, group_id, user_id, reply, reply_number, post_text, posted_on):
         '''
             reply is which it refers to,if it's the first one
             it refers to itself
@@ -266,7 +265,7 @@ class Post:
         for info in replies_info:
             replies.append(Post(info['id'], info['group_id'], info['user_id'],
             info['reply'], info['reply_number'], info['post_text'],
-            info['posted_on']))
+                info['posted_on']))
         replies.sort(key=lambda x: x.reply_number, reverse=True)
         return replies
 
@@ -290,7 +289,7 @@ class Post:
                 </small>
             </span>
         '''.format(text=markdown_converter.convert(self.post_text),
-        posted_on=str(self.posted_on)[:-6],user_name=user.name(),
+        posted_on=str(self.posted_on)[:-6], user_name=user.name(),
         post_data_variables=self.addPostDataVariables())
         if user.id == logged_user.id:
             html += '''
@@ -317,7 +316,7 @@ class Post:
                     <div class="post " data-post_id= {id}>
                         {html_basic}
                         <div class="replies">
-        '''.format(id=str(self.id),html_basic=self.HTMLBasic(user, logged_user))
+        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user))
         for reply in self.allReplies():
             if reply.id is not self.id:
                 html += reply.HTMLStringReply(user, logged_user)
@@ -329,7 +328,7 @@ class Post:
             <div class="post " data-post_id= {id}>
                 {html_basic}
                 <div class="replies">
-        '''.format(id=str(self.id),html_basic=self.HTMLBasic(user, logged_user))
+        '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user))
 
         for reply in self.allReplies():
             if reply.id is not self.id:

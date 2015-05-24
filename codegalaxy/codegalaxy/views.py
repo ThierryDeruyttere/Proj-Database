@@ -41,8 +41,8 @@ def home(request):
         current_user_exercises_created = current_user.getAllExercisesCreated(browser_lang.id)
 
         for userInGroup in current_user_member_of_groups:
-                if userInGroup.group.group_type == 1:
-                    current_user_member_of_groups.remove(userInGroup)
+            if userInGroup.group.group_type == 1:
+                current_user_member_of_groups.remove(userInGroup)
 
         feed.extend(current_user_member_of_groups)
         feed.extend(current_user_exercises_made)
