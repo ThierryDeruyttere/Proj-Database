@@ -2,6 +2,7 @@ from managers.om import *
 object_manager = objectmanager.ObjectManager()
 import dbw
 
+# TODO
 class ChallengeType:
 
     def __init__(self, type):
@@ -28,10 +29,11 @@ class ChallengeType:
         elif self.type == "Perfects":
             self.code = 2
 
-
+# Object that represents a challenge
 class Challenge:
 
     def __init__(self, challenger, challenged, challenge_type, list_id, status, language_id, winner=None):
+        # The users in the challege as objects
         self.challenger = object_manager.createUser(id=challenger)
         self.challenged = object_manager.createUser(id=challenged)
         self.challenge_type = challenge_type
@@ -42,6 +44,7 @@ class Challenge:
         self.winner = object_manager.createUser(id=winner)
         self.list = object_manager.createExerciseList(list_id, language_id)
 
+    # Returns a boolean that tells us if the list is finished
     def isFinished(self):
         if self.status == "Finished":
             return True
@@ -52,6 +55,7 @@ class Challenge:
 
         return False
 
+    # Chacks which user has the higher score and chooses the winner acordingly
     def selectWinner(self, challenger_score, challenged_score):
         if challenger_score > challenged_score:
             self.winner = self.challenger
@@ -61,6 +65,8 @@ class Challenge:
             # ex eaquo...
             self.winner = self.challenger
 
+    # Will set the challenge as finished and will give scores based on
+    # the challenge type. After this it will use the above function to select a winner
     def finishChallenge(self):
         self.status = "Finished"
         # Determine winner
