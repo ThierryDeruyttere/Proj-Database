@@ -12,7 +12,7 @@
   {% getProfilePicture as pic %}
   <div class="row">
     <div class="large-6 columns">
-      <h1>Challenges</h1>
+      <h1>{% trans "Challenges" %}</h1>
     </div>
   </div>
   <div class="row">
@@ -20,7 +20,7 @@
   </div>
   <div class="row">
     <div class="large-text-center large-centered columns large-6">
-      <input id="search" type="text" placeholder="Search opponent">
+      <input id="search" type="text" placeholder="{% trans "Search opponent" %}">
     </div>
   </div>
   <div class="row">
@@ -32,22 +32,22 @@
   <div class="row">
     <div class="large-12 columns text-center large-centered">
       <ul class="tabs" data-tab role="tablist">
-        <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">Active</a></li>
-        <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">Finished</a></li>
-        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">Requests
+        <li class="tab-title active" role="presentational" ><a href="#panel2-1" role="tab" tabindex="0" aria-selected="true" controls="panel2-1">{% trans "Active" %}</a></li>
+        <li class="tab-title" role="presentational" ><a href="#panel2-2" role="tab" tabindex="0"aria-selected="false" controls="panel2-2">{% trans "Finished" %}</a></li>
+        <li class="tab-title" role="presentational"><a href="#panel2-3" role="tab" tabindex="0" aria-selected="false" controls="panel2-3">{% trans "Requests" %}
           <span class="alert radius round label" id="request_amount"></span>
         </a>
         </li>
       </ul>
       <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-          You have no active challenges...
+          {% trans "You have no active challenges..." %}"
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-          You have no completed challenges...
+          {% trans "You have no completed challenges..." %}"
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
-          You have no challenge requests...
+          {% trans "You have no challenge requests..." %}
         </section>
       </div>
     </div>
@@ -95,18 +95,18 @@
           {% csrf_token %}
           <input id="challenged_name" name="challenged" value="" type="hidden">
           <div class="row text-center">
-            Select challenge:<br/>
+            {% trans "Select challenge:" %}<br/>
             <select id="challenge_type" name="challenge_type">
-              <option value="Score" name="Score">Score</option>
-              <option value="Perfects" name="Perfects">Perfects</option>
+              <option value="Score" name="Score">{% trans "Score" %}</option>
+              <option value="Perfects" name="Perfects">{% trans "Perfects" %}</option>
             </select>
             <span data-tooltip id="tooltip" aria-haspopup="true" class="has-tip" title="">?</span>
             <br/>
-            Select list for challenge:<br/>
+            {% trans "Select list for challenge:" %}<br/>
             <select id="possible_lists" name="possible_lists">
 
             </select><br/>
-            <button type="submit" id="send_challenge" class="success tiny radius">Challenge!</button>
+            <button type="submit" id="send_challenge" class="success tiny radius">{% trans "Challenge!"%}</button>
           </div>
         </form>
 
