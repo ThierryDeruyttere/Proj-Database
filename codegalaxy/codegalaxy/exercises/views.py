@@ -477,6 +477,7 @@ def recommendLists(user, browser_lang, exercise_list):
 
     return similar_lists
 
+# Check if the list has been shared, if the user i the owner and which of the exercises have been completed yet
 def DecidesharedOwnerAllExWithScore(all_exercises, user, exercise_list, id):
     shared_result = True
     list_owner = False
