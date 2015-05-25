@@ -13,6 +13,11 @@
 
 [*UML Diagram*](https://drive.google.com/file/d/0BzFlD8HmM6i9QXFCVFE1VE5yclU/view?usp=sharing)
 
+## Turtle graphics exercises
+```json
+{ "points": [[0,0],[0,50],[50,50],[50,0]], "edges": [[0,1],[1,2],[2,3],[3,0]] }
+```
+
 ## Facebook sharing
 email: codegalaxy_zmhltht_testing@tfbnw.net
 pass: admin

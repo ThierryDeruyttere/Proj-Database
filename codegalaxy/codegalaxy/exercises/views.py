@@ -686,6 +686,7 @@ def answerQuestion(request, list_id, exercise_number):
     if exercise_list:
 
         all_exercise = exercise_list.allExercises(browser_lang.code)
+
         # Restore our progress
         progress = restoreQuestion(all_exercise, exercise_number, current_user, list_id)
 
