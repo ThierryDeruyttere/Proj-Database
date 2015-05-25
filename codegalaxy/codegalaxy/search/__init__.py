@@ -27,7 +27,7 @@ def search(s_term='', s_users=False, s_groups=False, s_lists=False):
         results = process.extract(s_term, all_search, limit=10)
 
         # Search results have to have at least a 50% match
-        filtered = [r[2] for r in reversed(sorted(results, key=lambda e: e[1])) if r[1] >= 50]
+        filtered = [r[2] for r in reversed(sorted(results, key=lambda e: e[1])) if r[1] >= 80]
 
         return filtered
 
