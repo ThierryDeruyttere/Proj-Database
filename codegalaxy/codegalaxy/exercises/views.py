@@ -60,7 +60,6 @@ def addSubjectsTo(list, request):
 
 
 # The view for createExerciseList.html
-# TODO: hierin ng wat comments?
 @require_login
 def createExerciseList(request):
     browser_lang = getBrowserLanguage(request)
@@ -68,6 +67,7 @@ def createExerciseList(request):
     prog_languages = object_manager.allProgrammingLanguages()
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
+    # If there is a POST request to handle
     if request.method == 'POST':
         list_name = request.POST.get('list_name', '')
         list_description = request.POST.get('description_text', '')
@@ -89,7 +89,7 @@ def createExerciseList(request):
 
     return render(request, 'createExerciseList.html', {"prog_languages": prog_languages, "languages": languages})
 
-
+# Update subjects when editing a list
 def updateSubjects(list, subjects, request):
     updated_subjects_amount = int(request.POST.get("subjects_amount"))
     updated_subjects = []
@@ -109,7 +109,6 @@ def updateSubjects(list, subjects, request):
         list.addSubject(subject)
 
     return updated_subjects
-
 
 # The view for editList.html
 @require_login
@@ -216,7 +215,8 @@ def createExercise(request, listId=0):
         if exercise_type == 'Open Question':
             exercise_answer, correct_answer, exercise_penalty = getMultipleChoiceInfo(request, exercise_max_score)
 
-        else:  # Turtle or Code
+        # Turtle or Code
+        else:
             exercise_answer, hints = getCodeInfo(request, exercise_max_score)
 
         exercise_list.insertExercise(exercise_max_score, exercise_penalty, exercise_type, user.id,
@@ -341,8 +341,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
                                                        'languages': languages,
                                                        'translations': json.dumps(translation)})
 
-
-# TODO
+# Generate the html for the import modal view
 def createImportHTML(all_lists, all_exercises):
     html = ""
     for list in all_lists:
@@ -375,6 +374,7 @@ def createImportHTML(all_lists, all_exercises):
     return html
 
 
+# Import exercise view
 @require_login
 def importExercise(request, listId):
     browser_lang = getBrowserLanguage(request)
@@ -462,6 +462,7 @@ def importOnList(exercise_list, browser_lang, user, request):
                 l.copyExercise(copy.id)
 
 
+# Getter for recommended lists for a user
 def recommendLists(user, browser_lang, exercise_list):
     similar_lists = []
     similar_list_ids = []
@@ -543,7 +544,6 @@ def getPercentage(all_exercises, list_owner):
 
 
 # The view for createExercise.html
-# TODO: comments
 def list(request, id=0):
     user = logged_user(request)
     browser_lang = getBrowserLanguage(request)
@@ -737,7 +737,7 @@ def returnScore(current_score):
         return 0
     return current_score
 
-
+# User requesting a hint
 @require_login
 def addHint(request):
     exercise_number = int(request.POST.get('ex_number'))
@@ -880,7 +880,7 @@ def submit(request, list_id, exercise_number):
     else:
         return redirect('/')
 
-
+# Generate HTML for list planets
 def createListElem(i, elem):
     class_name = "planet "
     if elem.programming_language.id == 1:
@@ -938,6 +938,7 @@ def createListElem(i, elem):
         """<div><div class=\"{class_name}\">{for_i}</div></div>""".format(class_name=class_name, for_i=i + 1),
         pi_format)
 
+# Charts for lists
 def createChartsForOverview():
     # Amount of lists per programming language
     lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguage()
