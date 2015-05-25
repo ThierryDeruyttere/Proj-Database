@@ -6,16 +6,12 @@ label {
     height: 10em !important;
 }
 .alien {
-    transform: scale(0.5);
+    transform: scale(1);
 }
 #translation {
     color: black;
 }
 #textbox {
-    position: relative;
-    left: -5em;
-    top: 2em;
-    width: auto;
     color: black;
 }
 #arrow-right {

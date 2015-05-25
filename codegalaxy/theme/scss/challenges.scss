@@ -1,73 +1,72 @@
 @import "general";
-
-html {overflow-y: scroll;}
-
+html {
+    overflow-y: scroll;
+}
 .search_pict {
-  @extend .round-image;
-
-  width: 32px;
-  height: 32px;
-  margin-right: 10px;
+    @extend .round-image;
+    width: 32px;
+    height: 32px;
+    margin-right: 10px;
 }
-
-.give_up{
-  margin-top: 2em;
+.give_up {
+    margin-top: 2em;
 }
-
 .challengers {
-  @extend .round-image;
-  width: 50%;
-  height: 50%;
+    @extend .round-image;
+    width: 50%;
+    height: 50%;
 }
-
-.challenge{
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
+.challenge {
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-
 .challengers-small {
-  @extend .round-image;
-  width: 30%;
-  height: 30%;
+    @extend .round-image;
+    width: 30%;
+    height: 30%;
 }
-
-#challenge_type{
-  width: 20% !important;
-  margin-left: auto;
-  margin-right: auto;
+#challenge_type {
+    width: 20% !important;
+    margin-left: auto;
+    margin-right: auto;
 }
-
-#possible_lists{
-  width: 30% !important;
-  margin-left: auto;
-  margin-right: auto;
+#possible_lists {
+    width: 30% !important;
+    margin-left: auto;
+    margin-right: auto;
 }
-
 #textbox {
-  width: 80%;
-  color: black;
+    width: 80%;
+    color: black;
 }
-
 #arrow-right {
-  transform: scale(0.4);
-  position: relative;
-  width: auto;
+    transform: scale(0.4);
+    position: relative;
+    width: auto;
 }
-
-.victor{
-  @extend .success-border;
-  border-width: 3px;
-  border-style: solid;
+.victor {
+    @extend .success-border;
+    border-width: 3px;
+    border-style: solid;
 }
-
-.loser{
-  @extend .alert-border;
-  border-width: 3px;
-  border-style: solid;
+.loser {
+    @extend .alert-border;
+    border-width: 3px;
+    border-style: solid;
 }
-
-p{
-  color: #000000;
+p {
+    color: #000;
+}
+#textbox:after {
+    content: '';
+    position: absolute;
+    border-style: solid;
+    border-width: 15px 15px 15px 0;
+    border-color: transparent #9fd2e6;
+    display: block;
+    width: 0;
+    z-index: 1;
+    left: 1px;
+    top: 70px;
 }
