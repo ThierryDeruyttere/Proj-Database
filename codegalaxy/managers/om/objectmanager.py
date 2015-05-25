@@ -65,8 +65,9 @@ class ObjectManager:
     # Uses the DB to create an object representing a Badge
     def createBadge(self, id):
         badge_info = dbw.getBadgeInformation(id)
+        badge_message = dbw.getEnglishMessage(id)
         if badge_info:
-            badge_object = managers.om.badge.Badge(id, badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
+            badge_object = managers.om.badge.Badge(id, badge_info['name'], badge_info['type'], badge_message['translation'], badge_info['target_value'], badge_info['medal'])
             return badge_object
         else:
             return None
@@ -74,10 +75,12 @@ class ObjectManager:
     # Returns objects of all the badges
     def getAllBadges(self):
         badges_info = dbw.getAllBadgeInformation()
+
         badges = []
 
         for badge_info in badges_info:
-            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
+            badge_message = dbw.getEnglishMessage(badge_info['id'])
+            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_message['translation'], badge_info['target_value'], badge_info['medal'])
             badges.append(badge_object)
 
         return badges

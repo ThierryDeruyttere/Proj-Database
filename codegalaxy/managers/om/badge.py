@@ -30,10 +30,16 @@ class Badge:
 
     # Returns the dutch translation of the message
     def getDutchMessageTranslation(self):
-        translation = dbw.getDutchMessageTranslation(self.id)
-        dutch = translation['dutch_translation']
+        trans = dbw.getDutchMessageTranslation(self.id)
+        dutch = trans['translation']
         print(dutch)
         return dutch
+
+    # Returns the english original of the message
+    def getEnglishMessage(self):
+        trans = dbw.getEnglishMessage(self.id)
+        english = trans['translation']
+        return english
 
     # Returns User-objects of all the users that have earned this badge
     def allUsersThatEarnedBadge(self):

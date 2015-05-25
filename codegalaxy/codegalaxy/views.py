@@ -604,8 +604,8 @@ def badge(request, id=0):
         users_that_earned_badge = badge.allUsersThatEarnedBadge()
         target_score = badge.target_value
         if browser_lang.code == "en":
-            message = badge.message
-        else:
+            message = badge.getEnglishMessage()
+        elif browser_lang.code == "nl":
             message = badge.getDutchMessageTranslation()
         try:
             current_score = user.getCurrentValueForBadge(badge.id)

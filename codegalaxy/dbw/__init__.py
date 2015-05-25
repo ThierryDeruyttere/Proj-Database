@@ -1091,7 +1091,14 @@ def resetBadgeValue(user_id, badge_type):
 
 def getDutchMessageTranslation(badge_id):
     cursor = connection.cursor()
-    cursor.execute('SELECT dutch_translation FROM badgeMessageTranslation WHERE badge_id = {badge_id}'.format(badge_id=badge_id))
+    cursor.execute('SELECT translation FROM badgeMessageTranslation WHERE badge_id = {badge_id} AND language_id=2'.format(badge_id=badge_id))
+    cursor.close()
+    fetched = processOne(cursor)
+    return fetched
+    
+def getEnglishMessage(badge_id):
+    cursor = connection.cursor()
+    cursor.execute('SELECT translation FROM badgeMessageTranslation WHERE badge_id = {badge_id} AND language_id=1'.format(badge_id=badge_id))
     cursor.close()
     fetched = processOne(cursor)
     return fetched

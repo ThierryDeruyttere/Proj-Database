@@ -910,7 +910,6 @@ CREATE TABLE `badge` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `type` enum('custom','memberOfGroup','hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor') NOT NULL,
-  `message` varchar(255) NOT NULL,
   `target_value` int(11) NOT NULL DEFAULT '0',
   `medal` enum('gold', 'silver', 'bronze') NOT NULL,
   PRIMARY KEY (`id`),
@@ -924,7 +923,31 @@ CREATE TABLE `badge` (
 
 LOCK TABLES `badge` WRITE;
 /*!40000 ALTER TABLE `badge` DISABLE KEYS */;
-INSERT INTO `badge` VALUES (1,'Friendly','hasFriend','Became friends with at least 10 people!',10, 'bronze'), (2,'Friendlier','hasFriend','Became friends with at least 50 people!',50,'silver'),(3,'Friendmeister','hasFriend','Became friends with at least 100 people!',100,'gold'),(4,'Groupy','memberOfGroup','Joined at least 10 groups',10, 'bronze'),(5,'Groupier','memberOfGroup','Joined at least 50 groups',50,'silver'),(6,'Groupmeister','memberOfGroup','Joined at least 100 groups',100,'gold'),(7,'Problem Solver','solvedList','Solved at least 10 exercise lists',10,'bronze'), (8,'Programmer','solvedList','Solved at least 50 exercise lists',50,'silver'),(9,'1337 Hackr','solvedList','Solved at least 100 exercise lists',100, 'gold'),(10,'Content Creator','createdList','Created at least 10 exercise lists',10,'bronze'),(11,'Teacher','createdList','Created at least 50 exercise lists',50,'silver'),(12,'Professor','createdList','Created at least 100 exercise lists',100,'gold'),(13,'Successful Creator','peopleSolvedMyList','At least 10 people solved one of his exercise lists',10,'bronze'), (14,'Successful Teacher','peopleSolvedMyList','At least 50 people solved one of his exercise lists',50,'silver'),(15,'M.D. PhD Professor','peopleSolvedMyList','At least 100 people solved one of his exercise lists',100, 'gold'),(16,'Rater','gaveRating','Rated at least 10 exerciseLists',10,'bronze'),(17,'Master Rater','gaveRating','Rated at least 50 exerciseLists',50,'silver'),(18,'King of the Raters','gaveRating','Rated at least 100 exerciseLists',100, 'gold'),(19,'Member','timeMember','Member for 10 days',10,'bronze'),(20,'Survivor','timeMember','Member for at least 1 month',30, 'silver'),(21,'CodeGalaxy Veteran','timeMember','Member for 1 year',365, 'gold'),(22,'Rookie','frequentVisitor','Logged in 10 consecutive days',10, 'bronze'),(23,'Enthusiast','frequentVisitor','Logged in 30 consecutive days',30,'silver'),(24,'Are You Still Here?','frequentVisitor','Logged in 365 consecutive days',365,'gold'), (25,'Astronaut','timeMember','Became a CodeGalaxy member!',1,'bronze');
+INSERT INTO `badge` VALUES (1,'Friendly','hasFriend',10,'bronze'), 
+(2,'Friendlier','hasFriend',50,'silver'),
+(3,'Friendmeister','hasFriend',100,'gold'),
+(4,'Groupy','memberOfGroup',10,'bronze'),
+(5,'Groupier','memberOfGroup',50,'silver'),
+(6,'Groupmeister','memberOfGroup',100,'gold'),
+(7,'Problem Solver','solvedList',10,'bronze'),
+(8,'Programmer','solvedList',50,'silver'),
+(9,'1337 Hackr','solvedList',100,'gold'),
+(10,'Content Creator','createdList',10,'bronze'),
+(11,'Teacher','createdList',50,'silver'),
+(12,'Professor','createdList',100,'gold'),
+(13,'Successful Creator','peopleSolvedMyList',10,'bronze'),
+(14,'Successful Teacher','peopleSolvedMyList',50,'silver'),
+(15,'M.D. PhD Professor','peopleSolvedMyList',100, 'gold'),
+(16,'Rater','gaveRating',10,'bronze'),
+(17,'Master Rater','gaveRating',50,'silver'),
+(18,'King of the Raters','gaveRating',100, 'gold'),
+(19,'Astronaut','timeMember',10,'bronze'),
+(20,'Survivor','timeMember',30,'silver'),
+(21,'CodeGalaxy Veteran','timeMember',365,'gold'),
+(22,'Rookie','frequentVisitor',10,'bronze'),
+(23,'Enthusiast','frequentVisitor',30,'silver'),
+(24,'Are You Still Here?','frequentVisitor',365,'gold'),
+(25,'Member','timeMember',1,'bronze');
 /*!40000 ALTER TABLE `badge` ENABLE KEYS */;
 UNLOCK TABLES;
 
