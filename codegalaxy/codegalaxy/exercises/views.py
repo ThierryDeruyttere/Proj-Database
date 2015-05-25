@@ -477,6 +477,27 @@ def recommendLists(user, browser_lang, exercise_list):
 
     return similar_lists
 
+def DecidesharedOwnerAllExWithScore(all_exercises, user, exercise_list, id):
+    shared_result = True
+    list_owner = False
+    all_exercises_with_score = []
+    if user:
+        shared_result = user.sharedResult(exercise_list.id)
+        for exercise in all_exercises:
+            completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
+            if completed is not None:
+                if completed['solved'] == 1:
+                    exercise.solved = True
+                    all_exercises_with_score.append((exercise, completed['exercise_score']))
+                else:
+                    all_exercises_with_score.append((exercise, None))
+            else:
+                all_exercises_with_score.append((exercise, None))
+
+        list_owner = (user.id == exercise_list.created_by)
+    else:
+        all_exercises_with_score = [(x, None) for x in all_exercises]
+    return shared_result, list_owner, all_exercises_with_score
 
 # Calculate score of user on list
 def getPercentage(all_exercises, list_owner):
@@ -568,29 +589,11 @@ def list(request, id=0):
             if personal_list:
                 user_score = personal_list.score
                 user_date = personal_list.made_on
-        all_exercises_with_score = []
 
+        all_exercises_with_score = []
         shared_result = True
         list_owner = False
-
-        # TODO wat doet dit?
-        if user:
-            shared_result = user.sharedResult(exercise_list.id)
-            for exercise in all_exercises:
-                completed = object_manager.getInfoForUserForExercise(user.id, id, exercise.exercise_number)
-                if completed is not None:
-                    if completed['solved'] == 1:
-                        exercise.solved = True
-                        all_exercises_with_score.append((exercise, completed['exercise_score']))
-                    else:
-                        all_exercises_with_score.append((exercise, None))
-                else:
-                    all_exercises_with_score.append((exercise, None))
-
-            list_owner = (user.id == exercise_list.created_by)
-        else:
-            all_exercises_with_score = [(x, None) for x in all_exercises]
-
+        shared_result, shared_result, all_exercises_with_score = DecidesharedOwnerAllExWithScore(all_exercises, user, exercise_list, id)
         # Calculate percentage for this list (score of user)
         percent, solved_all, found, cur_exercise = getPercentage(all_exercises, list_owner)
 
