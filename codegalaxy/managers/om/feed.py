@@ -7,8 +7,8 @@ import dbw
 import datetime
 
 import os.path
-# TODO: commenting
 
+# Feeditems die op de user en homepage komen
 class FeedItem:
 
     def __init__(self, type, time_stamp):
@@ -18,6 +18,7 @@ class FeedItem:
     def __repr__(self):
         return str(self)
 
+# Feeditem over user dat lid wordt van een groep
 class UserInGroup(FeedItem):
 
     def __init__(self, group, user, user_permissions, joined_on, status):
@@ -32,6 +33,7 @@ class UserInGroup(FeedItem):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name + ' became member of ' + self.group.group_name + ' on ' + str(self.joined_on)
 
+# Feeditem over user die een oefeningen lijst maakt
 class MadeExerciseList(FeedItem):
 
     def __init__(self, user, exercise_list, completed_on, lang_id):
@@ -45,6 +47,7 @@ class MadeExerciseList(FeedItem):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name + ' made: ' + self.exercise_list.name + ' on ' + str(self.completed_on)
 
+# Feeditem over user die een nieuwe vriend heeft
 class FriendsWith(FeedItem):
 
     def __init__(self, user, friend, befriended_on, status):
@@ -58,6 +61,7 @@ class FriendsWith(FeedItem):
     def __str__(self):
         return self.user.first_name + ' ' + self.user.last_name + ' became friends with: ' + self.friend.first_name + ' ' + self.friend.last_name + ' on ' + str(self.befriended_on)
 
+# Feeditem over user die een oefeningen lijst aanmaakt
 class CreatedExerciseList(FeedItem):
 
     def __init__(self, user, exercise_list):
