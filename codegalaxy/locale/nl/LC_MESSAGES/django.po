@@ -129,6 +129,56 @@ msgstr "Overwinningen per gebruiker"
 msgid "#Challenges per challenge type"
 msgstr "#Uitdagingen per uitdagingstype"
 
+#: codegalaxy/challenges/views.py:194 codegalaxy/challenges/views.py:237
+#: codegalaxy/challenges/views.py:263
+msgid "Challenge info..."
+msgstr "Uitdagingsinfo..."
+
+#: codegalaxy/challenges/views.py:194
+msgid "Give up"
+msgstr "Geef op"
+
+#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:315
+msgid "Opponent"
+msgstr "Tegenstander"
+
+#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:314
+msgid "Challenger"
+msgstr "Uitdager"
+
+#: codegalaxy/challenges/views.py:236 codegalaxy/challenges/views.py:262
+msgid "Winner"
+msgstr "Winnaar"
+
+#: codegalaxy/challenges/views.py:237 codegalaxy/challenges/views.py:263
+msgid "Loser"
+msgstr "Verliezer"
+
+#: codegalaxy/challenges/views.py:264 codegalaxy/challenges/views.py:315
+msgid "Type:"
+msgstr "Soort:"
+
+#: codegalaxy/challenges/views.py:264 codegalaxy/challenges/views.py:315
+msgid "List:"
+msgstr "Lijst:"
+
+#: codegalaxy/challenges/views.py:281
+#: codegalaxy/exercises/templates/importExercise.html:88
+#: codegalaxy/exercises/templates/list.html:288
+#: codegalaxy/templates/group.html:396 codegalaxy/templates/group.html:419
+msgid "Cancel"
+msgstr "Annuleer"
+
+#: codegalaxy/challenges/views.py:283
+msgid "Invite"
+msgstr "Uitnodiging"
+
+#: codegalaxy/challenges/views.py:284
+#: codegalaxy/templates/groupOverview.html:57
+#: codegalaxy/templates/groupOverview.html:79
+msgid "Accept"
+msgstr "Accepteer"
+
 #: codegalaxy/evaluation/templates/sandbox.html:29
 msgid "Clear"
 msgstr "Maak leeg"
@@ -386,12 +436,6 @@ msgstr "Importeer"
 msgid "Confirmation"
 msgstr "Bevestig"
 
-#: codegalaxy/exercises/templates/importExercise.html:88
-#: codegalaxy/exercises/templates/list.html:288
-#: codegalaxy/templates/group.html:396 codegalaxy/templates/group.html:419
-msgid "Cancel"
-msgstr "Annuleer"
-
 #: codegalaxy/exercises/templates/importExercise.html:89
 #: codegalaxy/exercises/templates/list.html:289
 msgid "Import!"
@@ -502,6 +546,10 @@ msgstr "Gevorderd zoeken"
 msgid "Subjects (separated with a comma)"
 msgstr "Onderwerpen (gescheiden met komma)"
 
+#: codegalaxy/exercises/templates/listOverview.html:87
+msgid "Sort:"
+msgstr "Sorteer:"
+
 #: codegalaxy/exercises/templates/listOverview.html:89
 msgid "Ascending"
 msgstr "Stijgend"
@@ -518,8 +566,6 @@ msgid "Search"
 msgstr "Zoeken"
 
 #: codegalaxy/exercises/templates/listOverview.html:140
-#, fuzzy
-#| msgid "Difficulty"
 msgid "Difficulty:"
 msgstr "Moeilijkheid:"
 
@@ -538,6 +584,10 @@ msgstr "Onderwerpen:"
 #: codegalaxy/exercises/templates/listOverview.html:164
 msgid "Explore!"
 msgstr "Verken!"
+
+#: codegalaxy/exercises/templates/listOverview.html:251
+msgid "Planet difficulty min-max: 1 - 5"
+msgstr "Moeilijkheid planeet min-max: 1-5"
 
 #: codegalaxy/exercises/templates/partial/answer_code.html:24
 #: codegalaxy/exercises/templates/partial/answer_turtle.html:24
@@ -725,7 +775,7 @@ msgstr "Berichten"
 
 #: codegalaxy/templates/group.html:46
 msgid "Add New Members"
-msgstr "Voeg nieuwe leden toe"
+msgstr "Voeg leden toe"
 
 #: codegalaxy/templates/group.html:64 codegalaxy/templates/home.html:61
 #: codegalaxy/templates/user.html:142
@@ -843,11 +893,6 @@ msgstr "Toon enkel mijn groepen"
 #: codegalaxy/templates/groupOverview.html:45
 msgid "Friend requests"
 msgstr "Vriendschapsverzoeken"
-
-#: codegalaxy/templates/groupOverview.html:57
-#: codegalaxy/templates/groupOverview.html:79
-msgid "Accept"
-msgstr "Accepteer"
 
 #: codegalaxy/templates/groupOverview.html:58
 #: codegalaxy/templates/groupOverview.html:80

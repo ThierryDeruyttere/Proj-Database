@@ -84,7 +84,7 @@
                   <input type="hidden" id="max_difficulty" name="max_difficulty" readonly="True" class="text-center" value="5">
 
                   <div class="large-2 columns right">
-                    Sort:
+                    {% trans "Sort:" %}
                     <select id="order_mode" name="order_mode">
                       <option>{% trans "Ascending" %}</option>
                       <option>{% trans "Descending" %}</option>
@@ -248,7 +248,7 @@
 
     $(document).ready(function(){
       createSlick();
-      $("#amount").text("Planet difficulty min-max: 1 - 5");
+      $("#amount").text("{% trans "Planet difficulty min-max: 1 - 5" %}");
     });
     $("#search_button").click(function()
     {
