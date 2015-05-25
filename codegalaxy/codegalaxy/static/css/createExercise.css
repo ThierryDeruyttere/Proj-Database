@@ -16,21 +16,17 @@
 
 /* line 14, ../../../theme/scss/createExercise.scss */
 #textbox {
-  position: relative;
-  left: -5em;
-  top: 2em;
-  width: auto;
   color: black;
 }
 
-/* line 22, ../../../theme/scss/createExercise.scss */
+/* line 18, ../../../theme/scss/createExercise.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 28, ../../../theme/scss/createExercise.scss */
+/* line 24, ../../../theme/scss/createExercise.scss */
 #textbox:after {
   content: '';
   position: absolute;

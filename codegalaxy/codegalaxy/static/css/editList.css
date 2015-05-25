@@ -20,21 +20,17 @@
 
 /* line 17, ../../../theme/scss/editList.scss */
 #textbox {
-  position: relative;
-  left: -5em;
-  top: 2em;
-  width: auto;
   color: black;
 }
 
-/* line 25, ../../../theme/scss/editList.scss */
+/* line 21, ../../../theme/scss/editList.scss */
 #arrow-right {
   transform: scale(0.4);
   position: relative;
   width: auto;
 }
 
-/* line 31, ../../../theme/scss/editList.scss */
+/* line 27, ../../../theme/scss/editList.scss */
 #textbox:after {
   content: '';
   position: absolute;
