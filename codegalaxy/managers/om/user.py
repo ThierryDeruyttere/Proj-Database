@@ -6,8 +6,6 @@ import dbw
 import datetime
 import time
 
-# TODO: comments
-
 from django.middleware import *
 import os.path
 
