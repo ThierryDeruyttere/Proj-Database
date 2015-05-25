@@ -363,7 +363,7 @@
         }
       }
 
-
+      var not_okay = false;
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
         var empty = 0;
@@ -381,7 +381,8 @@
 
         if(empty > 0 && key == "English"){
           alert("{% trans "Error: You need to at least provide an english translation" %}");
-          return false;
+          not_okay =  true;
+          return;
         }
 
         if(empty != Object.keys(value).length  && empty != 0 ){
@@ -389,6 +390,10 @@
           missing_trans.push(key);
         }
       });
+      if(not_okay){
+        return false;
+      }
+
       if($(missing_trans).length > 0){
         alert("{% trans "Error: There are translations missing for: " %}" + missing_trans +"{% trans ". If you don't want translations for these languages" %}" +
                 "{% trans "then just remove all the entries for these languages, or fill in the missing translations for these languages" %}");
