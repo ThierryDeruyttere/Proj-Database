@@ -114,6 +114,8 @@ def user(request, id=0):
     # Get the user object for that id
     user = object_manager.createUser(id=id)
 
+    if not user:
+        return redirect('/')
     # We'll show:
     # % per lang, # lists per lang, total lists, total groups, time joined,
     # % avg (any lang), # ex per lang
@@ -303,9 +305,6 @@ def user(request, id=0):
             context['old_email'] = user.email
 
         return render(request, 'user.html', context)
-
-    else:
-        return redirect('/')
 
 # Logging on to the site
 def login(request):
