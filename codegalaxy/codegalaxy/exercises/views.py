@@ -708,10 +708,6 @@ def answerQuestion(request, list_id, exercise_number):
             if current_user:
                 list_owner = (current_user.id == exercise_list.created_by)
             antwoorden = current_exercise.allAnswers()
-            print("LENGTE: " + str(len(antwoorden)))
-            for test in antwoorden:
-                print("WUT")
-                print(test)
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
