@@ -113,11 +113,11 @@ class Group:
         # 0 = OWNER, 1 = ADMIN, 2 = USER
         dbw.updateUserPermissions(self.id, user_id, 1)
 
-    # TODO
+    # Wordt gebruikt om een dictionarry te maken van zoekresultaten
     def searchString(self):
         return str(self.group_name)
 
-    # TODO
+    # De HTML code die door JQuery na een Ajax call gebruikt wordt bij het zoeken naar user/group
     def searchResult(self, cur_user):
         group_owner = ''
         friends_in_group = ' | '
