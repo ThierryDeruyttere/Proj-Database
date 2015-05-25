@@ -85,28 +85,6 @@ class ObjectManager:
 
         return badges
 
-    # Returns objects of all the badges sorted per tier
-    # TODO: zou dit ni beter bovenstaande functie gwn use?
-    def getAllBadgesOnMedal(self):
-        badges_info = dbw.getAllBadgeInformation()
-        badges = {}
-        gold = []
-        silver = []
-        bronze = []
-        for badge_info in badges_info:
-            badge_object = managers.om.badge.Badge(badge_info['id'], badge_info['name'], badge_info['type'], badge_info['message'], badge_info['target_value'], badge_info['medal'])
-            if badge_object.medal == 'gold':
-                gold.append(badge_object)
-            elif badge_object.medal == 'silver':
-                silver.append(badge_object)
-            elif badge_object.medal == 'bronze':
-                bronze.append(badge_object)
-
-        badges['gold'] = gold
-        badges['silver'] = silver
-        badges['bronze'] = bronze
-        return badges
-
     # Uses the DB to create an object representing a Group (given a name)
     def createGroupOnName(self, group_name):
         group_info = dbw.getGroupInformationOnName(group_name)
@@ -119,8 +97,7 @@ class ObjectManager:
     # Uses the DB to create an object representing an Exercise
     def createExercise(self, id, language_code='en'):
         exercise_info = dbw.getExerciseInformation(id, language_code)
-
-        if language_code != 'en' and exercise_info is None:
+        if language_code != 'en' and exercise_info is None or exercise_info["title"] == "":
             exercise_info = dbw.getExerciseInformation(id, 'en')
         if exercise_info:
             exercise_object = managers.om.exercise.Exercise(id,
@@ -163,12 +140,14 @@ class ObjectManager:
     def insertGroup(self, group_name, group_type, created_on):
         dbw.insertGroup(group_name, group_type, created_on)
 
+    # All programming languages
     def allProgrammingLanguages(self):
         return dbw.getAll("programmingLanguage")
 
     def allProgrammingLanguageIDs(self):
         return [x['id'] for x in dbw.getAll("programmingLanguage")]
 
+    # Returns list of all user objects
     def allUsers(self):
         users = []
         user_info = dbw.getAllUserIDs()
@@ -180,6 +159,7 @@ class ObjectManager:
         subjects = dbw.getAllSubjectIDs()
         return [subject['id'] for subject in subjects]
 
+    # Returns list a all group objects
     def allGroups(self):
         groups = []
         group_info = dbw.getAllGroupIDs()
@@ -187,6 +167,7 @@ class ObjectManager:
             groups.append(self.createGroup(id=group_id['id']))
         return groups
 
+    # Returns list of all public group obejcts
     def allPublicGroups(self):
         groups = []
         group_info = dbw.getAllPublicGroupIDs()
@@ -224,24 +205,31 @@ class ObjectManager:
         else:
             dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer, hint)
 
+    # Returns data from madeExercise for a user that made an exercise from an exercise_list
     def getInfoForUserForExercise(self, user_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_list_id, exercise_number)
 
+    # Adds a new subject
     def addSubject(self, name):
         dbw.insertSubject(name)
 
+    # Returns id of a subject
     def getIdOfSubject(self, name):
         return dbw.getSubjectID(name)["id"]
 
+    # Returns the email that needs verification with this hash
     def needsVerification(self, hash):
         return dbw.needsVerification(hash)
 
+    # Let's user verify account via email
     def addVerification(self, email, hash):
         dbw.addVerification(email, hash)
 
+    # Accepts the verified link the useer submits
     def acceptVerification(self, hash):
         return dbw.getEmailFromVerificationAndRemoveVerification(hash)['email']
 
+    # Activates a user account
     def setUserActive(self, email):
         dbw.setUserActive(email)
 
@@ -253,6 +241,7 @@ class ObjectManager:
 
         return lists_objects
 
+    # Returns all the exercise List objects
     def getAllExerciseLists(self, language_id):
         all_prog_langs = self.allProgrammingLanguages()
         all_lists = []
@@ -263,7 +252,7 @@ class ObjectManager:
 
         return all_lists
 
-    # Get all exercise lists for a certain programming language
+    # Returns all the exercise lists in a specific language
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
@@ -273,6 +262,7 @@ class ObjectManager:
         scores = dbw.getAllScoresForList(exercise_list_id)
         return [score['score'] for score in scores]
 
+    # Amount of exercise lists
     def amountOfLists(self):
         return len(dbw.allExerciseListIDs())
 
@@ -280,24 +270,25 @@ class ObjectManager:
         lists = dbw.filterLists(name)
         return [list_id['id'] for list_id in lists]
 
-    # Get the original exercise from a reference
+    # Returns the original exercise from a reference
     def getOriginalExercise(self, list_id, exercise_number):
         return dbw.getOriginalExercise(list_id, exercise_number)['id']
 
     def getExerciseID(self, list_id, exercise_number):
         return dbw.getExerciseInList(list_id, exercise_number)['id']
 
-    # Get all references to a cetain exercise
+    # Returns the references to an exercise
     def getAllReferencesTo(self, exercise_id):
         return dbw.getAllReferencesToExercise(exercise_id)
 
+    # Returns the languages the site supports
     def getAllLanguages(self):
         languages = []
         for i in dbw.getAll('language'):
             languages.append(Language(i['id'], i['name'], i['language_code']))
         return languages
 
-    # Get language object from languages name
+    # Returns a language object with a specified language_code
     def getLanguageObject(self, languade_code):
         lang = dbw.getLanguageForCode(languade_code)
         return Language(lang['id'], lang['name'], lang['language_code'])
@@ -307,11 +298,11 @@ class ObjectManager:
         lang = dbw.getIdFromProgrammingLanguage(language_name)
         return Language(lang['id'], language_name)
 
-    # Get the score of an exercise made by a specific user
+    # Returns score a user scored on exercise
     def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
         return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']
 
-    # Find user by user_name
+    # Returns a user object by name
     def getUserByName(self, user_name):
         all_users = self.allUsers()
         for i in all_users:

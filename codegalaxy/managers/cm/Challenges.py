@@ -54,23 +54,31 @@ class Challenge:
 
         # Set the score of each user when you're done with your if statement
         # At the end of the function, the victor is chosen.
-        challenger_score = 0
-        challenged_score = 0
+        challenger_score = self.getScoreFor(self.challenger)
+        challenged_score = self.getScoreFor(self.challenged)
 
-        challenger_list = self.challenger.personalListWithId(self.list.id, 1)
-        challenged_list = self.challenged.personalListWithId(self.list.id, 1)
+        self.selectWinner(challenger_score, challenged_score)
+        dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner.id)
+
+    def getScoreFor(self, user):
+        if user.id != self.challenger.id and user.id != self.challenged.id:
+            print("You can only get the score for one of the participents of this challenge")
+            return
+
+        challenger_list = user.personalListWithId(self.list.id, 1)
+        if challenger_list is None:
+            return -1
+
         if self.challenge_type.code == 1:
             # Score game mode
-            challenger_score = challenger_list.score
-            challenged_score = challenger_list.score
+            return challenger_list.score
 
         elif self.challenge_type.code == 2:
             # Perfects gamemode
 
             # language code doesn't matter here
             challenger_exercises = challenger_list.allExercises('en')
-            challenged_exercises = challenged_list.allExercises('en')
-
+            challenger_score = 0
             # This could be done in one loop, but what if a user adds more exercises to a list
             # when one of the two players has already finished the list?
             for i in challenger_exercises:
@@ -78,9 +86,4 @@ class Challenge:
                 if i.score == i.max_score:
                     challenger_score += 1
 
-            for i in challenged_exercises:
-                if i.score == i.max_score:
-                    challenged_score += 1
-
-        self.selectWinner(challenger_score, challenged_score)
-        dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner.id)
+        return challenger_score

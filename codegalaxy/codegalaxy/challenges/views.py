@@ -171,18 +171,18 @@ def createActiveHTML(challenge):
     <div class="large-12 columns">
     <div class="panel radius challenge" id="{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
-            <li><b>Challenger</b><br/>
+            <li><b>{challenger_text}</b><br/>
                 <img class="challengers-small" src="/static/{challenger_pict}"><br/>
                 <b>{challenger.first_name} {challenger.last_name}</b>
             </li>
             <li>
-                <b>Challenge info...</b><br/>
+                <b>{challenge_info_string}</b><br/>
                 Type: {type}<br/>
                 <a href="/l/{list.id}">{list.name}</a><br/>
-                <button class="alert radius tiny give_up" name="{challenger.id}-{challenged.id}-{list.id}">Give up</button>
+                <button class="alert radius tiny give_up" name="{challenger.id}-{challenged.id}-{list.id}">{give_up_string}</button>
                 </li>
             <li>
-                <b>Opponent</b><br/>
+                <b>{opponent_string}</b><br/>
                 <img class="challengers-small" src="/static/{challenged_pict}"><br/>
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
@@ -190,7 +190,9 @@ def createActiveHTML(challenge):
     </div>
     </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
                      challenger=challenge.challenger, challenged=challenge.challenged,
-                     type=challenge.challenge_type.type, list=challenge.list)
+                     type=challenge.challenge_type.type, list=challenge.list,
+                     challenge_info_string=_("Challenge info..."), give_up_string=_("Give up"),
+                     opponent_string=_("Opponent"), challenger_text=_("Challenger"))
 
 # Gets all the challenges a certain user is busy with right now (not completed)
 def get_actives(request):
@@ -203,9 +205,33 @@ def get_actives(request):
 
     return HttpResponse(html)
 
+# Get the score text for users
+def getScoreText(challenge, challenger_score, challenged_score):
+    challenger_score_text = ""
+    challenged_score_text = ""
+
+    if challenger_score == -1 and challenged_score == -1:
+        if challenge.winner.id == challenge.challenger.id:
+            return _("Won by default"), _("Gave up")
+        else:
+             return _("Gave up"), _("Won by default")
+    if challenge.challenge_type.code == 1:
+        #Score
+        challenger_score_text += str(challenger_score) + "%"
+        challenged_score_text += str(challenged_score) + "%"
+    elif challenge.challenge_type.code == 2:
+        challenger_score_text += str(challenger_score) + _(" Perfects")
+        challenged_score_text += str(challenged_score) + _(" Perfects")
+
+    return challenger_score_text, challenged_score_text
+
 # The html to be inserted for any completed challenges, contains info
 # like who won/which list/type/...
 def createFinishedHtml(challenge):
+    challenger_score = challenge.getScoreFor(challenge.challenger)
+    challenged_score = challenge.getScoreFor(challenge.challenged)
+
+    challenger_score_text, challenged_score_text = getScoreText(challenge, challenger_score, challenged_score)
 
     if challenge.challenger.id == challenge.winner.id:
         return """
@@ -213,50 +239,58 @@ def createFinishedHtml(challenge):
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
                 <li>
-                    <b class="success-text">Winner</b><br/>
+                    <b class="success-text">{winner_text}</b><br/>
                     <img class="challengers-small victor" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    {challenger_score_text}
                 </li>
                 <li>
-                    <b>Challenge info...</b><br/>
+                    <b>{challenge_info_string}</b><br/>
                     Type: {type}<br/>
                     <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b class="alert-text">Loser</b><br/>
+                    <b class="alert-text">{loser_text}</b><br/>
                     <img class="challengers-small loser" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
+                    {challenged_score_text}
                 </li>
             </ul>
         </div>
         </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
                          challenger=challenge.challenger, challenged=challenge.challenged,
-                         type=challenge.challenge_type.type, list=challenge.list)
+                         type=challenge.challenge_type.type, list=challenge.list, winner_text=_("Winner"),
+                         loser_text=_("Loser"),challenge_info_string=_("Challenge info..."),
+                         challenger_score_text = challenger_score_text, challenged_score_text = challenged_score_text)
     else:
         return """
         <div class="large-12 columns">
         <div class="panel radius challenge finished">
              <ul class="large-block-grid-3">
-                <li><b class="alert-text">Loser</b><br/>
+                <li><b class="alert-text">{loser_text}</b><br/>
                     <img class="challengers-small loser" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    {challenger_score_text}
                 </li>
                 <li>
-                    <b>Challenge info...</b><br/>
-                    Type: {type}<br/>
-                    <a href="/l/{list.id}">{list.name}</a>
+                    <b>{challenge_info_string}</b><br/>
+                    {type_string} {type}<br/>
+                    {list_string} <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b class="success_text">Winner</b><br/>
+                    <b class="success_text">{winner_text}</b><br/>
                     <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
-
+                    {challenged_score_text}
                 </li>
             </ul>
         </div>
         </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
                          challenger=challenge.challenger, challenged=challenge.challenged,
-                         type=challenge.challenge_type.type, list=challenge.list)
+                         type=challenge.challenge_type.type, list=challenge.list, winner_text=_("Winner"),
+                         loser_text=_("Loser"), challenge_info_string=_("Challenge info..."),
+                         type_string=_("Type:"), list_string=_("List:"),
+                         challenger_score_text = challenger_score_text, challenged_score_text = challenged_score_text)
 
 # Seeks out which challenges have een completed and chains the appropriate
 # html together
@@ -273,11 +307,10 @@ def get_finished(request):
 # The html to be inserted for any challenge requests (accept button/some info/...)
 def createRequestHTML(challenge, user):
     request_type = "Request"
-    buttons = """<button type="button" class="alert small radius challenge_cancel" name="{challenger.id}-{challenged.id}-{list.id}">Cancel</button>"""
+    buttons = '<button type="button" class="alert small radius challenge_cancel" name="{challenger.id}-{challenged.id}-{list.id}">' + _("Cancel") + '</button>'
     if challenge.challenger.id != user.id:
-        request_type = "Invite"
-        buttons = """<button type="button" class="success small radius challenge_accept" name="{challenger.id}-{challenged.id}-{list.id}">Accept</button>
-                      """ + buttons
+        request_type = _("Invite")
+        buttons = '<button type="button" class="success small radius challenge_accept" name="{challenger.id}-{challenged.id}-{list.id}">' + _("Accept") + '</button>' + buttons
 
     buttons = buttons.format(challenger=challenge.challenger, challenged=challenge.challenged,
                              list=challenge.list)
@@ -286,19 +319,19 @@ def createRequestHTML(challenge, user):
     <div class="large-12 columns">
     <div class="panel radius challenge" id="request{challenger.id}-{challenged.id}-{list.id}">
         <ul class="large-block-grid-3">
-            <li><b>Challenger</b><br/>
+            <li><b>{challenger_string}</b><br/>
                 <img class="challengers-small" src="/static/{challenger_pict}"><br/>
                 <b>{challenger.first_name} {challenger.last_name}</b>
             </li>
             <li>
                 <h4><b>{request_type}</b></h4><br/>
-                Type: {type}<br/>
-                List: <a href="/l/{list.id}">{list.name}</a>
+                {type_string} {type}<br/>
+                {list_string} <a href="/l/{list.id}">{list.name}</a>
                 <br/><br/>
                 {buttons}
                 </li>
             <li>
-                <b>Opponent</b><br/>
+                <b>{opponent_string}</b><br/>
                 <img class="challengers-small" src="/static/{challenged_pict}"><br/>
                 <b>{challenged.first_name} {challenged.last_name}</b>
             </li>
@@ -307,7 +340,8 @@ def createRequestHTML(challenge, user):
     </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
                      challenger=challenge.challenger, challenged=challenge.challenged,
                      type=challenge.challenge_type.type, list=challenge.list,
-                     buttons=buttons, request_type=request_type)
+                     buttons=buttons, request_type=request_type, challenger_string=_("Challenger"),
+                     opponent_string=_("Opponent"), type_string=_("Type:"), list_string=_("List:"))
 
 # Seeks out which challenges have een requested and chains the appropriate
 # html together

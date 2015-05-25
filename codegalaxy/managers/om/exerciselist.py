@@ -154,7 +154,7 @@ class ExerciseList:
         l_id = language_obj.id
         # Info for exercises table + id of the exercise
         exercise_id = dbw.insertExercise(max_score, penalty, exercise_type, created_by, created_on, exercise_number, correct_answer, self.id, title, l_id)['highest_id']
-        if exercise_type == "Code":
+        if exercise_type == "Code" or exercise_type == "Turtle":
             dbw.insertCode(code, exercise_id)
         # question is een QuestionContainer object
         dbw.insertQuestion(exercise_id, question.language.id, question.question_text)

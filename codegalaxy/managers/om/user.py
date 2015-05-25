@@ -202,7 +202,8 @@ class User:
         pending_friendships = friend.allPendingFriendships()
         pending_friendships2 = friend.allPeopleThatWantToAddMe()
         for pending_friendship in pending_friendships:
-            if pending_friendship.user.id == friend.id:
+            print(str(pending_friendship.user.id) + " " + str(pending_friendship.friend.id))
+            if pending_friendship.user.id == self.id:
                 return True
             if pending_friendship.friend.id == self.id:
                 return True

@@ -113,11 +113,11 @@ class Group:
         # 0 = OWNER, 1 = ADMIN, 2 = USER
         dbw.updateUserPermissions(self.id, user_id, 1)
 
-    # TODO
+    # Wordt gebruikt om een dictionarry te maken van zoekresultaten
     def searchString(self):
         return str(self.group_name)
 
-    # TODO
+    # De HTML code die door JQuery na een Ajax call gebruikt wordt bij het zoeken naar user/group
     def searchResult(self, cur_user):
         group_owner = ''
         friends_in_group = ' | '
@@ -319,7 +319,8 @@ class Post:
                    posted_on=str(self.posted_on)[:-6],
                    user_name=user.name(),
                    post_data_variables=self.addPostDataVariables(),
-                   title=user.badge.name)
+                   title=user.badge.name,
+                   real_text=self.post_text)
 
         if user.id == logged_user.id:
             html += '''
@@ -353,7 +354,7 @@ class Post:
                         <div class="replies">
         '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
         for reply in self.allReplies():
-            replying_user =  self.object_manager.createUser(id=reply.user_id)
+            replying_user = self.object_manager.createUser(id=reply.user_id)
             html += reply.HTMLStringReply(replying_user, logged_user)
         html += '</div></div></div></div>'
 

@@ -1095,7 +1095,7 @@ def getDutchMessageTranslation(badge_id):
     cursor.close()
     fetched = processOne(cursor)
     return fetched
-    
+
 def getEnglishMessage(badge_id):
     cursor = connection.cursor()
     cursor.execute('SELECT translation FROM badgeMessageTranslation WHERE badge_id = {badge_id} AND language_id=1'.format(badge_id=badge_id))

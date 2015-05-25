@@ -96,30 +96,26 @@
         </div>
 
         {% if edit %}
-          <div class ="row">
+          <div id="sort_exercises" class="row">
             <div class="large-10 large-centered columns">
-              <ul class="pricing-table">
-                <li class="title">{% trans "Exercises" %}</li>
-                <div class="row">
-                  <ul class="accordion dragdrop" id="dragdrop" data-accordion>
-                    {% for exercise in all_exercises %}
-                      <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
-                        <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
-                        <div id="Exerc{{ exercise.exercise_number }}" class="content">
-                          <div class="row">
-                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
-                            <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
-                          </div>
-                          {% if exercise.isReference %}
-                            <a href="/l/{{exercise.isReferenceTo.0}}">{% trans "Original" %}</a>[{{exercise.isReferenceTo.1}}]
-                          {% endif %}
+              <div class="row">
+                <ul class="accordion dragdrop" id="dragdrop" data-accordion>
+                  {% for exercise in all_exercises %}
+                    <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
+                      <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
+                      <div id="Exerc{{ exercise.exercise_number }}" class="content">
+                        <div class="row">
+                          <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
+                          <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                         </div>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                  <li class="price"></li>
-                </div>
-              </ul>
+                        {% if exercise.isReference %}
+                          <a href="/l/{{exercise.isReferenceTo.0}}">{% trans "Original" %}</a>[{{exercise.isReferenceTo.1}}]
+                        {% endif %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
             <input type="hidden" id="order" name="order">
           </div>
@@ -205,7 +201,7 @@
   <script>
 
     $(document).ready(function() {
-    //Check if we're sliding our slider!
+      //Check if we're sliding our slider!
       $('[data-slider]').on('change', function(){
         var value = $(this).attr('data-slider');
         $('#difficulty').val(value);
@@ -267,18 +263,13 @@
       $("#sub_Button").click(function(e){
         e.preventDefault();
         if(subjects == 0){
-          window.alert("You need to add at least one subject!");
+          window.alert("{% trans "You need to add at least one subject!" %}");
         }else{
-          $(function(){
-            addDictionary();
-            var submit = true;
-            if(submit){
-              submit = checkTranslationDict(false);
-            }
-            if(submit) {
-              $('#list_form').submit();
-            }
-          });
+          addDictionary();
+          if(!checkTranslationDict()) {
+            return false;
+          }
+          $('#list_form').submit();
         }
       });
 
@@ -361,11 +352,18 @@
 
       var missing_trans = [];
 
-      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict) ){
-        alert("Error: You need to atleast provide an english translation");
-        return false;
+      if("{{ request.LANGUAGE_CODE }}" != "en"){
+        if(!("English" in translation_dict)){
+          alert("{% trans "Error: You need to atleast provide an english translation" %}");
+          return false;
+        }
+        if(translation_dict["English"]["title"] == ""){
+          alert("{% trans "Error: You need to atleast provide an english title" %}");
+          return false;
+        }
       }
 
+      var not_okay = false;
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
         var empty = 0;
@@ -382,8 +380,9 @@
         });
 
         if(empty > 0 && key == "English"){
-          alert("Error: You need to at least provide an english translation");
-          return false;
+          alert("{% trans "Error: You need to at least provide an english translation" %}");
+          not_okay =  true;
+          return;
         }
 
         if(empty != Object.keys(value).length  && empty != 0 ){
@@ -391,9 +390,13 @@
           missing_trans.push(key);
         }
       });
+      if(not_okay){
+        return false;
+      }
+
       if($(missing_trans).length > 0){
-        alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
-                "then just remove all the entries for these languages, or fill in the missing translations for these languages");
+        alert("{% trans "Error: There are translations missing for: " %}" + missing_trans +"{% trans ". If you don't want translations for these languages" %}" +
+                "{% trans "then just remove all the entries for these languages, or fill in the missing translations for these languages" %}");
         return false;
       }
       return true;

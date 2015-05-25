@@ -9,7 +9,7 @@
 }
 
 /* line 9, ../../../theme/scss/answerQuestion.scss */
-.question > a:hover {
+.question > a :hover {
   text-decoration: underline;
 }
 
@@ -28,4 +28,9 @@
 /* line 23, ../../../theme/scss/answerQuestion.scss */
 #caption {
   background-color: lightgray;
+}
+
+/* line 27, ../../../theme/scss/answerQuestion.scss */
+#turtle_output {
+  background-image: url(../media/galaxy.jpg);
 }
