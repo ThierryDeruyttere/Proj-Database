@@ -200,7 +200,7 @@ class User:
         pending_friendships = friend.allPendingFriendships()
         pending_friendships2 = friend.allPeopleThatWantToAddMe()
         for pending_friendship in pending_friendships:
-            print(str(pending_friendship.user.id) + " " + str(pending_friendship.friend.id))
+
             if pending_friendship.user.id == self.id:
                 return True
             if pending_friendship.friend.id == self.id:
@@ -673,7 +673,6 @@ class User:
 
     def getCurrentValueForBadge(self, badge_id):
         current_value = dbw.getCurrentValueForBadge(badge_id, self.id)
-        print(current_value)
         return current_value['current_value']
 
 
