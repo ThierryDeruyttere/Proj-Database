@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-24 22:36+0200\n"
+"POT-Creation-Date: 2015-05-25 10:08+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,22 +39,16 @@ msgid "Requests"
 msgstr "Aanvragen"
 
 #: codegalaxy/challenges/templates/challenges.html:44
-#, fuzzy
-#| msgid "You have no friend requests"
 msgid "You have no active challenges..."
-msgstr "Je hebt geen vriendschapsverzoeken"
+msgstr "Je hebt geen lopende uitdagingen..."
 
 #: codegalaxy/challenges/templates/challenges.html:47
-#, fuzzy
-#| msgid "You have not completed any exercise lists yet!"
 msgid "You have no completed challenges..."
-msgstr "Je hebt nog geen oefeningenlijsten afgewerkt!"
+msgstr "Je hebt nog geen uitdagingen afgemaakt..."
 
 #: codegalaxy/challenges/templates/challenges.html:50
-#, fuzzy
-#| msgid "You have no friend requests"
 msgid "You have no challenge requests..."
-msgstr "Je hebt geen vriendschapsverzoeken"
+msgstr "Je hebt geen uitdagingsverzoeken..."
 
 #: codegalaxy/challenges/templates/challenges.html:65
 msgid "So we meet again space voyager! Do you remember me? It's me grub!"
@@ -106,6 +100,22 @@ msgstr "Selecteer lijst voor de uitdaging"
 #: codegalaxy/challenges/templates/challenges.html:109
 msgid "Challenge!"
 msgstr "Daag uit!"
+
+#: codegalaxy/challenges/templates/challenges.html:319
+msgid ""
+"The 'Score' challenge is a challenge where you need to get the highest score "
+"on a list."
+msgstr ""
+"De 'Score' uitdaging is een uitdaging waarbij je de hoogste score moet "
+"behalen op een lijst."
+
+#: codegalaxy/challenges/templates/challenges.html:321
+msgid ""
+"The 'Perfects' challenge is a challenge where you need to have the most "
+"questions answered perfectly."
+msgstr ""
+"De 'Perfect' uitdaging is een uitdaging waarbij je om ter meeste vragen "
+"perfect moet oplossen."
 
 #: codegalaxy/challenges/views.py:46
 msgid "Sorry, we couldn't find any lists!"
@@ -633,15 +643,15 @@ msgstr "Volgende oefening"
 msgid "Try again"
 msgstr "Probeer opnieuw"
 
-#: codegalaxy/exercises/views.py:841
+#: codegalaxy/exercises/views.py:940
 msgid "Planets/Programming Language"
 msgstr "Planeten/Programmeertaal"
 
-#: codegalaxy/exercises/views.py:850
+#: codegalaxy/exercises/views.py:951
 msgid "Most Popular Subjects"
 msgstr "Meest Populaire Onderwerpen"
 
-#: codegalaxy/exercises/views.py:853
+#: codegalaxy/exercises/views.py:956
 msgid "Users who made the most lists"
 msgstr "Gebruikers die het meeste lijsten maakten"
 

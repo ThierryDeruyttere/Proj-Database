@@ -41,10 +41,10 @@
       </ul>
       <div class="tabs-content">
         <section role="tabpanel" aria-hidden="false" class="content active" id="panel2-1">
-          {% trans "You have no active challenges..." %}"
+          {% trans "You have no active challenges..." %}
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-2">
-          {% trans "You have no completed challenges..." %}"
+          {% trans "You have no completed challenges..." %}
         </section>
         <section role="tabpanel" aria-hidden="true" class="content" id="panel2-3">
           {% trans "You have no challenge requests..." %}
@@ -316,9 +316,9 @@
       var selected = $("#challenge_type").val();
       var text;
       if(selected == "Score"){
-        text = "The 'Score' challenge is a challenge where you need to get the highest score on a list";
+        text = "{% trans "The 'Score' challenge is a challenge where you need to get the highest score on a list." %}";
       }else if(selected == "Perfects"){
-        text = "The 'Perfects' challenge is a challenge where you need to have the most answers with 100%";
+        text = "{% trans "The 'Perfects' challenge is a challenge where you need to have the most questions answered perfectly." %}";
       }
 
       Foundation.libs.tooltip.getTip($('#tooltip')).remove();

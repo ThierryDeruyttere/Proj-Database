@@ -772,7 +772,7 @@ def checkCorrectAnswer(current_exercise, user_output, request, current_score, us
     penalty = current_exercise.penalty
     exercise_number = current_exercise.exercise_number
     list_id = current_exercise.exerciseList_id
-
+    solved = False
     if current_exercise.exercise_type == 'Open Question':
         selected_answer = request.POST.get('corr_answer')
 
@@ -891,7 +891,7 @@ def createListElem(i, elem):
         <div class=\"information panel radius\" id="info{for_i}" hidden="True">
           <div class=\"row\">
             <div class=\"text-center\">
-              {list_name}
+              <b>{list_name}</b>
             </div>
           </div>
           <br>
