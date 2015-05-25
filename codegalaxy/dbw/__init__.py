@@ -9,7 +9,7 @@ def dictfetchall(cursor):
     return [
         dict(zip([col[0] for col in desc], row))
         for row in cursor.fetchall()
-    ]
+        ]
 
 def getAll(table):
     cursor = connection.cursor()
@@ -395,6 +395,18 @@ def getExerciseScoreFor(id, exercise_list):
     cursor = connection.cursor()
     cursor.execute('SELECT e.id AS exercise_id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer, e.max_score FROM user u, exerciseList eL, madeEx mE, exercise e WHERE u.id = {u_id} AND eL.id = {el_id} AND e.exerciseList_id = eL.id AND e.exerciseList_id =  mE.list_id AND e.exercise_number =  mE.exercise_number AND mE.user_id = u.id;'.format(u_id=id, el_id=exercise_list))
     fetched = processData(cursor)
+
+    cursor.execute('''
+     SELECT e.id AS exercise_id, mE.solved, mE.exercise_score, mE.completed_on, mE.list_id, mE.exercise_number, mE.last_answer, e.max_score FROM
+     user u, exerciseList eL, madeEx mE, exercise e, exercise_references eR WHERE
+     u.id = {user_id} AND eL.id = {list_id} AND eR.new_list_id = eL.id AND eR.original_id = e.id AND
+     eR.new_list_id =  mE.list_id AND
+     eR.new_list_exercise_number =  mE.exercise_number AND
+    mE.user_id = u.id;
+    '''.format(user_id = id, list_id = exercise_list))
+
+    references = processData(cursor)
+    fetched.extend(references)
     cursor.close()
     return fetched
 
@@ -650,6 +662,13 @@ def getAllExercForUserForList(user_id, list_id):
     cursor = connection.cursor()
     cursor.execute('SELECT mE.*,e.max_score FROM exercise e, exerciseList eL, madeEx mE WHERE eL.id = {list_id} AND e.exerciseList_id = eL.id AND mE.exercise_number = e.exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id}'.format(user_id=user_id, list_id=list_id))
     fetched = processData(cursor)
+
+    #get references
+    cursor.execute("""SELECT mE.*,e.max_score FROM exercise e, exerciseList eL,
+                    madeEx mE, exercise_references eR WHERE eL.id = {list_id}  AND eR.new_list_id = eL.id AND eR.original_id = e.id
+                    AND mE.exercise_number = eR.new_list_exercise_number AND mE.list_id = eL.id AND mE.user_id = {user_id};""".format(user_id=user_id, list_id=list_id))
+    references = processData(cursor)
+    fetched.extend(references)
     cursor.close()
     return fetched
 
@@ -904,53 +923,6 @@ def insertDefaultBadges(user_id):
 
 
 # BADGES
-def generateBadges():
-    # Member of group
-
-    cursor = connection.cursor()
-    cursor.execute('SELECT id FROM user')
-    fetched = processData(cursor)
-    for member in fetched:
-        checkTimeRelatedBadges(member['id'])
-    cursor.close()
-
-    cursor = connection.cursor()
-    cursor.execute('SELECT user_id FROM userInGroup')
-    fetched = processData(cursor)
-    for member in fetched:
-        incrementBadgeValue(member['user_id'], 'memberOfGroup')
-    cursor.close()
-
-    cursor = connection.cursor()
-    cursor.execute('SELECT user_id, friend_id FROM friendsWith')
-    fetched = processData(cursor)
-    for user in fetched:
-        incrementBadgeValue(user['user_id'], 'hasFriend')
-        incrementBadgeValue(user['friend_id'], 'hasFriend')
-    cursor.close()
-
-    # solvedList
-    cursor = connection.cursor()
-    cursor.execute('SELECT m.user_id, l.created_by FROM madeList m, exerciseList l WHERE m.exerciseList_id = l.id')
-    fetched = processData(cursor)
-    for user in fetched:
-        incrementBadgeValue(user['user_id'], 'solvedList')
-        incrementBadgeValue(user['created_by'], 'peopleSolvedMyList')
-    cursor.close()
-
-    # createdList
-    cursor = connection.cursor()
-    cursor.execute('SELECT created_by FROM exerciseList')
-    fetched = processData(cursor)
-    for user in fetched:
-        incrementBadgeValue(user['created_by'], 'createdList')
-    cursor.close()
-
-    # Write everyhting to a file
-    cursor = connection.cursor()
-    cursor.execute('SELECT * FROM hasBadge')
-    fetched = processData(cursor)
-
 def changeBadge(user_id, badge_name):
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM badge WHERE name ="{badge_name}"'.format(badge_name=badge_name))

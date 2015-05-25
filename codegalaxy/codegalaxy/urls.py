@@ -18,8 +18,6 @@ urlpatterns = patterns('codegalaxy.views',
     url(r'^registered', 'registered'),
     # Redirect to user page (/me)
     url(r'^me', 'me'),
-    # Register (/register)
-    url(r'^register', 'register'),
     # Email verification
     url(r'^verification/(?P<hash_seq>[a-zA-Z0-9_]{32})$', 'verify'),
 
