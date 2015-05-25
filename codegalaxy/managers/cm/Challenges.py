@@ -60,26 +60,27 @@ class Challenge:
         self.selectWinner(challenger_score, challenged_score)
         dbw.finishChallenge(self.challenger.id, self.challenged.id, self.list.id, self.winner.id)
 
-def getScoreFor(self, user):
-    if user.id != self.challenger.id or user.id != self.challenged.id:
-        print("You can only get the score for one of the participents of this challenge")
-        return
+    def getScoreFor(self, user):
+        if user.id != self.challenger.id and user.id != self.challenged.id:
+            print("You can only get the score for one of the participents of this challenge")
+            return
 
-    challenger_list = self.user.personalListWithId(self.list.id, 1)
-    if self.challenge_type.code == 1:
-        # Score game mode
-        return challenger_list.score
+        challenger_list = self.user.personalListWithId(self.list.id, 1)
+        if self.challenge_type.code == 1:
+            # Score game mode
+            return challenger_list.score
 
-    elif self.challenge_type.code == 2:
-        # Perfects gamemode
+        elif self.challenge_type.code == 2:
+            # Perfects gamemode
 
-        # language code doesn't matter here
-        challenger_exercises = challenger_list.allExercises('en')
-        challenger_score = 0
-        # This could be done in one loop, but what if a user adds more exercises to a list
-        # when one of the two players has already finished the list?
-        for i in challenger_exercises:
+            # language code doesn't matter here
+            challenger_exercises = challenger_list.allExercises('en')
+            challenger_score = 0
+            # This could be done in one loop, but what if a user adds more exercises to a list
+            # when one of the two players has already finished the list?
+            for i in challenger_exercises:
 
-            if i.score == i.max_score:
-                challenger_score += 1
+                if i.score == i.max_score:
+                    challenger_score += 1
+
         return challenger_score
