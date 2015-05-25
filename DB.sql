@@ -832,7 +832,8 @@ CREATE TABLE `user` (
   `gender` varchar(1) NOT NULL,
   `badge_id` int(11) DEFAULT '25',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `email` (`email`)
+  UNIQUE KEY `email` (`email`),
+  CONSTRAINT `badge_ibfk_1` FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
