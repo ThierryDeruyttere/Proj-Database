@@ -43,11 +43,6 @@ urlpatterns = patterns('codegalaxy.views',
 
     # TRANSLATIONS ##
     (r'^i18n/', include('django.conf.urls.i18n')),
-
-    ## TESTING ##
-    # Zurb Foundation test pages
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^tables/', 'tables'),
 )
 
 urlpatterns += patterns('codegalaxy.exercises.views',

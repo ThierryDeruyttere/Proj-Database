@@ -720,15 +720,4 @@ def verify(request, hash_seq):
         object_manager.setUserActive(email)
         user = object_manager.createUser(email=email)
         return render(request, 'verify.html', {'user': user})
-
     return redirect('/')
-
-# Get all tables
-def tables(request):
-    import dbw
-    if request.method == 'GET':
-        table = request.GET.get('sql_table', '')
-        if table != '':
-            data = dbw.getAll(table)
-            return render(request, 'tables.html', {'data': data, 'keys': data[0].keys()})
-    return render(request, 'tables.html', {})
