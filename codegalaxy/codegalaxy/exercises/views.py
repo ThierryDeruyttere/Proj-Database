@@ -647,7 +647,6 @@ def restoreQuestion(all_exercise, exercise_number, current_user, list_id):
             current_exercise = i
             if current_exercise.exercise_type == 'Open Question':
                 correct_answer = current_exercise.correct_answer
-                print("Correct antwoord = " + str(correct_answer))
             elif current_exercise.exercise_type == 'Code':
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
             else:

@@ -206,11 +206,10 @@ class ExerciseList:
         number = self.insertExerciseByReference(original_exercise_id)
         self.unreferenceExercise(number)
 
-    # TODO
     def maxScore(self):
         return dbw.getMaxSumForExForList(self.id) + dbw.getMaxSumForRefForList(self.id)
 
-    # TODO
+    # Reshuffle the exercisenumbers after changing positions
     def fixUpdateNumbers(self, exercises, pos_change):
         nextPos = len(exercises) + 1
         # check if there are exercises who might cause problems
@@ -284,7 +283,6 @@ class ExerciseList:
             # Now we'll delete the old exercise
             dbw.deleteExercise(exercise.id)
 
-    # TODO
     def searchString(self):
         return str(self.name)
 

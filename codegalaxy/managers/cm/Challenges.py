@@ -62,7 +62,6 @@ class Challenge:
 
     def getScoreFor(self, user):
         if user.id != self.challenger.id and user.id != self.challenged.id:
-            print("You can only get the score for one of the participents of this challenge")
             return
 
         challenger_list = user.personalListWithId(self.list.id, 1)

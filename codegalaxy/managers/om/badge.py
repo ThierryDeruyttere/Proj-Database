@@ -32,7 +32,6 @@ class Badge:
     def getDutchMessageTranslation(self):
         trans = dbw.getDutchMessageTranslation(self.id)
         dutch = trans['translation']
-        print(dutch)
         return dutch
 
     # Returns the english original of the message

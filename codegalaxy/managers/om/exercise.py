@@ -154,7 +154,6 @@ class Exercise:
         if translations:
             self.updateTranslations(translations)
 
-    # TODO
     def getTranslations(self, languages=None):
         # Additional param languages -> only if you want to have certain languages
         lang = languages
@@ -191,7 +190,6 @@ class Exercise:
     def updateCode(self):
         dbw.updateExerciseCode(self.code, self.id)
 
-    # TODO
     def saveExerciseNumber(self, newPos):
         transaction = ''
         if self.isReference:
@@ -201,7 +199,6 @@ class Exercise:
         self.exercise_number = newPos
         return transaction
 
-    # TODO
     def insertUpdateValues(self, key, value):
         dbw.insertQuestion(self.id, key.id, value['question'])
         dbw.insertTitleForExercise(self.id, key.id, value['title'])
@@ -241,7 +238,6 @@ class Exercise:
             elif len(value) > 0 and value['title'] != "":
                 self.insertUpdateValues(key, value)
 
-    # TODO
     def setTranslations(self, translations):
         for key, value in translations.items():
             if len(value) > 0:

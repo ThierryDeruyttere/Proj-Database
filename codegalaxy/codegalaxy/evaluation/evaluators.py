@@ -67,7 +67,6 @@ class EvaluatorSql(Evaluator):
         # Generate html tables for all database tables
         output = '<div class="row">'
         for table in tables:
-            print(table[0])
             cursor.execute('SELECT * FROM ' + str(table[0]) + ';')
             output += '<div class="large-3 columns end">'
             output += table[0]
