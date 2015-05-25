@@ -459,7 +459,7 @@ CREATE TABLE `exercise_references` (
   `original_id` int(11) NOT NULL,
   `new_list_id` int(11) NOT NULL,
   `new_list_exercise_number` int(11) NOT NULL,
-  PRIMARY KEY (`original_id`,`new_list_id`, `new_list_exercise_number`),
+  PRIMARY KEY (`original_id`,`new_list_id`, `new_list_exercise_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -966,7 +966,7 @@ CREATE TABLE `badgeMessageTranslation` (
   `translation` varchar(255) NOT NULL,
   PRIMARY KEY (`badge_id`, `language_id`),
   FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`),
-  FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
+  FOREIGN KEY (`language_id`) REFERENCES `language` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -1001,7 +1001,7 @@ INSERT INTO `badgeMessageTranslation` VALUES
 (22,1, "Logged in 10 consecutive days!"),
 (23,1, "Logged in 30 consecutive days!"),
 (24,1, "Logged in 365 consecutive days!"),
-(25,1, "Became a CodeGalaxy member!")
+(25,1, "Became a CodeGalaxy member!"),
 
 (1,2, "Werd met minstens 10 mensen bevriend!"),
 (2,2, "Werd met minstens 50 mensen bevriend!"),
