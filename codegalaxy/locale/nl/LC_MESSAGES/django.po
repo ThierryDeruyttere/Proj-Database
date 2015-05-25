@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 12:53+0000\n"
+"POT-Creation-Date: 2015-05-25 13:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -345,7 +345,7 @@ msgstr "Vertaald"
 
 #: codegalaxy/exercises/templates/createExercise.html:496
 #: codegalaxy/exercises/templates/createExercise.html:516
-#: codegalaxy/exercises/templates/createExerciseList.html:381
+#: codegalaxy/exercises/templates/createExerciseList.html:383
 msgid "Error: You need to at least provide an english translation"
 msgstr "Error: je moet een engelse vertaling geven"
 
@@ -354,12 +354,12 @@ msgid "Error: There are translations missing for:"
 msgstr "Error: Er ontbreken vertalingen voor:"
 
 #: codegalaxy/exercises/templates/createExercise.html:526
-#: codegalaxy/exercises/templates/createExerciseList.html:391
+#: codegalaxy/exercises/templates/createExerciseList.html:398
 msgid ". If you don't want translations for these languages"
 msgstr ". Als je geen vertalingen wilt voor deze talen"
 
 #: codegalaxy/exercises/templates/createExercise.html:527
-#: codegalaxy/exercises/templates/createExerciseList.html:392
+#: codegalaxy/exercises/templates/createExerciseList.html:399
 msgid ""
 "then just remove all the entries for these languages, or fill in the missing "
 "translations for these languages"
@@ -432,21 +432,21 @@ msgstr "Lijstnaam"
 msgid "Description"
 msgstr "Beschrijving"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:358
+#: codegalaxy/exercises/templates/createExerciseList.html:266
 #, fuzzy
-#| msgid "Error: You need to at least provide an english translation"
+#| msgid "You need to expect some output!"
+msgid "You need to add at least one subject!"
+msgstr "Je moet wel output verwachten!"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:357
 msgid "Error: You need to atleast provide an english translation"
 msgstr "Error: je moet een engelse vertaling geven"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:362
-#, fuzzy
-#| msgid "Error: You need to at least provide an english translation"
+#: codegalaxy/exercises/templates/createExerciseList.html:361
 msgid "Error: You need to atleast provide an english title"
-msgstr "Error: je moet een engelse vertaling geven"
+msgstr "Error: je moet een engelse titel geven"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:391
-#, fuzzy
-#| msgid "Error: There are translations missing for:"
+#: codegalaxy/exercises/templates/createExerciseList.html:398
 msgid "Error: There are translations missing for: "
 msgstr "Error: Er ontbreken vertalingen voor:"
 
@@ -717,15 +717,15 @@ msgstr "Volgende oefening"
 msgid "Try again"
 msgstr "Probeer opnieuw"
 
-#: codegalaxy/exercises/views.py:944
+#: codegalaxy/exercises/views.py:945
 msgid "Planets/Programming Language"
 msgstr "Planeten/Programmeertaal"
 
-#: codegalaxy/exercises/views.py:955
+#: codegalaxy/exercises/views.py:956
 msgid "Most Popular Subjects"
 msgstr "Meest Populaire Onderwerpen"
 
-#: codegalaxy/exercises/views.py:960
+#: codegalaxy/exercises/views.py:961
 msgid "Users who made the most lists"
 msgstr "Gebruikers die het meeste lijsten maakten"
 
