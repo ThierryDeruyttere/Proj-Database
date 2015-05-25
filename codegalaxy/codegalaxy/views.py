@@ -681,15 +681,6 @@ def editPost(request):
 
             return HttpResponse(post_html)
 
-def list(request, id=0):
-    return render(request, 'list.html', {'id': id})
-
-
-@require_login
-def submit(request, id, question):
-    return render(request, 'submit.html', {})
-
-
 def verify(request, hash_seq):
     if object_manager.needsVerification(hash_seq):
         email = object_manager.acceptVerification(hash_seq)

@@ -188,6 +188,13 @@
 {% block body_js %}
   <script>
 
+    $(document).ready(function() {
+       $('[data-slider]').on('change', function(){
+        var value = $(this).attr('data-slider');
+        $('#max').val(value);
+      });
+    });
+
     var answers = 2;
     $("#add_answer").click(function(e) {
       if(answers < 5) {
