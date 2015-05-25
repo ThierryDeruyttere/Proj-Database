@@ -1,5 +1,6 @@
 import os
 from subprocess import STDOUT, check_output, TimeoutExpired, CalledProcessError
+from django.utils.translation import ugettext as _
 
 class Evaluator:
 
@@ -46,8 +47,8 @@ class Evaluator:
             self.output = check_output(cmd, stderr=STDOUT, timeout=5, universal_newlines=True, shell=sh)
 
         except TimeoutExpired:
-            self.output = "Killed the process."
-            self.error = "Process took longer than expected, so we killed it."
+            self.output = _("Killed the process.")
+            self.error = _("Process took longer than expected, so we killed it.")
 
         except CalledProcessError as e:
             self.output = "Oops, something went wrong."

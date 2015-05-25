@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 11:17+0000\n"
+"POT-Creation-Date: 2015-05-25 11:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -179,11 +179,21 @@ msgstr "Uitnodiging"
 msgid "Accept"
 msgstr "Accepteer"
 
+#: codegalaxy/evaluation/baseEvaluator.py:49
+msgid "Killed the process."
+msgstr "Het proces beeïndigd"
+
+#: codegalaxy/evaluation/baseEvaluator.py:50
+msgid "Process took longer than expected, so we killed it."
+msgstr "Het proces duurde langer dan verwacht, dus we sloten het af."
+
 #: codegalaxy/evaluation/templates/sandbox.html:18
 msgid ""
 "This is the sandbox area. You can try out pieces of code here and practise "
 "your programming skills."
-msgstr "Dit is de zandbak, hier kan je stukken code uitproberen en dus je codeervaardigheden oefenen."
+msgstr ""
+"Dit is de zandbak, hier kan je stukken code uitproberen en dus je "
+"codeervaardigheden oefenen."
 
 #: codegalaxy/evaluation/templates/sandbox.html:19
 msgid "Select a programming language above and have fun coding!"
