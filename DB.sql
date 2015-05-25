@@ -458,7 +458,8 @@ DROP TABLE IF EXISTS `exercise_references`;
 CREATE TABLE `exercise_references` (
   `original_id` int(11) NOT NULL,
   `new_list_id` int(11) NOT NULL,
-  `new_list_exercise_number` int(11) NOT NULL
+  `new_list_exercise_number` int(11) NOT NULL,
+  PRIMARY KEY (`original_id`,`new_list_id`, `new_list_exercise_number`),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -841,7 +842,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` (id, is_active, first_name, last_name, password, email, permission, joined_on, last_login, gender) VALUES 
+INSERT INTO `user` (id, is_active, first_name, last_name, password, email, permission, joined_on, last_login, gender) VALUES
 (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U'),
 (2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-04-29 18:38:34','M'),
 (3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-04-25 11:35:14','M'),
@@ -961,8 +962,11 @@ DROP TABLE IF EXISTS `badgeMessageTranslation`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `badgeMessageTranslation` (
   `badge_id` int(11) NOT NULL DEFAULT '0',
-  `dutch_translation` varchar(255) NOT NULL,
-  PRIMARY KEY (`badge_id`)
+  `language_id` int(11) NOT NULL DEFAULT '0',
+  `translation` varchar(255) NOT NULL,
+  PRIMARY KEY (`badge_id`, `language_id`),
+  FOREIGN KEY (`badge_id`) REFERENCES `badge` (`id`),
+  FOREIGN KEY (`language_id`) REFERENCES `language` (`id`),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -972,31 +976,58 @@ CREATE TABLE `badgeMessageTranslation` (
 
 LOCK TABLES `badgeMessageTranslation` WRITE;
 /*!40000 ALTER TABLE `badgeMessageTranslation` DISABLE KEYS */;
-INSERT INTO `badgeMessageTranslation` VALUES (1, "Werd met minstens 10 mensen bevriend!"),
-(2, "Werd met minstens 50 mensen bevriend!"),
-(3, "Werd met minstens 100 mensen bevriend!"),
-(4, "Lid van minstens 10 groepen!"),
-(5, "Lid van minstens 50 groepen!"),
-(6, "Lid van minstens 100 groepen!"),
-(7, "Minstens 10 oefeningenlijsten opgelost!"),
-(8, "Minstens 50 oefeningenlijsten opgelost!"),
-(9, "Minstens 100 oefeningenlijsten opgelost!"),
-(10, "Minstens 10 oefeningenlijsten aangemaakt!"),
-(11, "Minstens 50 oefeningenlijsten aangemaakt!"),
-(12, "Minstens 100 oefeningenlijsten aangemaakt!"),
-(13, "Minstens 10 mensen hebben een van je oefeninenlijsten opgelost!"),
-(14, "Minstens 50 mensen hebben een van je oefeninenlijsten opgelost!"),
-(15, "Minstens 100 mensen hebben een van je oefeninenlijsten opgelost!"),
-(16, "Minstens 10 oefeningenlijsten een beoordeling gegeven!"),
-(17, "Minstens 50 oefeningenlijsten een beoordeling gegeven!"),
-(18, "Minstens 100 oefeningenlijsteneen beoordeling gegeven!"),
-(19, "Minstens 10 dagen lid van CodeGalaxy!"),
-(20, "Minstens 1 maand lid van CodeGalaxy!"),
-(21, "Minstens 1 jaar lid van CodeGalaxy!"),
-(22, "Minstens 10 opeenvolgende dagen CodeGalaxy bezocht!"),
-(23, "Minstens 30 opeenvolgende dagen CodeGalaxy bezocht!"),
-(24, "Minstens 365 opeenvolgende dagen CodeGalaxy bezocht!"),
-(25, "Lid van CodeGalaxy!");
+INSERT INTO `badgeMessageTranslation` VALUES
+(1,1, "Became friends with at least 10 people!"),
+(2,1, "Became friends with at least 50 people!"),
+(3,1, "Became friends with at least 100 people!"),
+(4,1, "Joined at least 10 groups!"),
+(5,1, "Joined at least 50 groups!"),
+(6,1, "Joined at least 100 groups!"),
+(7,1, "Solved at least 10 exercise lists"),
+(8,1, "Solved at least 50 exercise lists"),
+(9,1, "Solved at least 100 exercise lists"),
+(10,1, "Created at least 10 exercise lists"),
+(11,1, "Created at least 50 exercise lists"),
+(12,1, "Created at least 100 exercise lists"),
+(13,1, "At least 10 people solved one of his exercise lists"),
+(14,1, "At least 50 people solved one of his exercise lists"),
+(15,1, "At least 100 people solved one of his exercise lists"),
+(16,1, "Rated at least 10 exerciseLists"),
+(17,1, "Rated at least 50 exerciseLists"),
+(18,1, "Rated at least 100 exerciseLists"),
+(19,1, "Member for 10 days"),
+(20,1, "Member for at least 1 month"),
+(21,1, "Member for 1 year"),
+(22,1, "Logged in 10 consecutive days"),
+(23,1, "Logged in 30 consecutive days"),
+(24,1, "Logged in 365 consecutive days"),
+(25,1, "Became a CodeGalaxy member!")
+
+(1,2, "Werd met minstens 10 mensen bevriend!"),
+(2,2, "Werd met minstens 50 mensen bevriend!"),
+(3,2, "Werd met minstens 100 mensen bevriend!"),
+(4,2, "Lid van minstens 10 groepen!"),
+(5,2, "Lid van minstens 50 groepen!"),
+(6,2, "Lid van minstens 100 groepen!"),
+(7,2, "Minstens 10 oefeningenlijsten opgelost!"),
+(8,2, "Minstens 50 oefeningenlijsten opgelost!"),
+(9,2, "Minstens 100 oefeningenlijsten opgelost!"),
+(10,2, "Minstens 10 oefeningenlijsten aangemaakt!"),
+(11,2, "Minstens 50 oefeningenlijsten aangemaakt!"),
+(12,2, "Minstens 100 oefeningenlijsten aangemaakt!"),
+(13,2, "Minstens 10 mensen hebben een van je oefeninenlijsten opgelost!"),
+(14,2, "Minstens 50 mensen hebben een van je oefeninenlijsten opgelost!"),
+(15,2, "Minstens 100 mensen hebben een van je oefeninenlijsten opgelost!"),
+(16,2, "Minstens 10 oefeningenlijsten een beoordeling gegeven!"),
+(17,2, "Minstens 50 oefeningenlijsten een beoordeling gegeven!"),
+(18,2, "Minstens 100 oefeningenlijsteneen beoordeling gegeven!"),
+(19,2, "Minstens 10 dagen lid van CodeGalaxy!"),
+(20,2, "Minstens 1 maand lid van CodeGalaxy!"),
+(21,2, "Minstens 1 jaar lid van CodeGalaxy!"),
+(22,2, "Minstens 10 opeenvolgende dagen CodeGalaxy bezocht!"),
+(23,2, "Minstens 30 opeenvolgende dagen CodeGalaxy bezocht!"),
+(24,2, "Minstens 365 opeenvolgende dagen CodeGalaxy bezocht!"),
+(25,2, "Lid van CodeGalaxy!");
 /*!40000 ALTER TABLE `badgeMessageTranslation` ENABLE KEYS */;
 UNLOCK TABLES;
 
