@@ -205,9 +205,28 @@ def get_actives(request):
 
     return HttpResponse(html)
 
+# Get the score text for users
+def getScoreText(challenge, challenger_score, challenged_score):
+    challenger_score_text = ""
+    challenged_score_text = ""
+
+    if challenge.challenge_type.code == 1:
+        #Score
+        challenger_score_text += str(challenger_score) + "%"
+        challenged_score_text += str(challenged_score) + "%"
+    elif challenge.challenge_type.code == 2:
+        challenger_score_text += str(challenger_score) + " Perfects"
+        challenged_score_text += str(challenged_score) + " Perfects"
+
+    return challenger_score_text, challenged_score_text
+
 # The html to be inserted for any completed challenges, contains info
 # like who won/which list/type/...
 def createFinishedHtml(challenge):
+    challenger_score = challenge.getScoreFor(challenge.challenger)
+    challenged_score = challenge.getScoreFor(challenge.challenged)
+
+    challenger_score_text, challenged_score_text = getScoreText(challenge, challenger_score, challenged_score)
 
     if challenge.challenger.id == challenge.winner.id:
         return """
@@ -218,6 +237,7 @@ def createFinishedHtml(challenge):
                     <b class="success-text">{winner_text}</b><br/>
                     <img class="challengers-small victor" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    {challenger_score_text}
                 </li>
                 <li>
                     <b>{challenge_info_string}</b><br/>
@@ -228,13 +248,15 @@ def createFinishedHtml(challenge):
                     <b class="alert-text">{loser_text}</b><br/>
                     <img class="challengers-small loser" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
+                    {challenged_score_text}
                 </li>
             </ul>
         </div>
         </div>""".format(challenged_pict=challenge.challenged.getPicture(), challenger_pict=challenge.challenger.getPicture(),
                          challenger=challenge.challenger, challenged=challenge.challenged,
                          type=challenge.challenge_type.type, list=challenge.list, winner_text=_("Winner"),
-                         loser_text=_("Loser"),challenge_info_string=_("Challenge info..."))
+                         loser_text=_("Loser"),challenge_info_string=_("Challenge info..."),
+                         challenger_score_text = challenger_score_text, challenged_score_text = challenged_score_text)
     else:
         return """
         <div class="large-12 columns">
@@ -243,6 +265,7 @@ def createFinishedHtml(challenge):
                 <li><b class="alert-text">{loser_text}</b><br/>
                     <img class="challengers-small loser" src="/static/{challenger_pict}"><br/>
                     <b>{challenger.first_name} {challenger.last_name}</b><br/>
+                    {challenger_score_text}
                 </li>
                 <li>
                     <b>{challenge_info_string}</b><br/>
@@ -253,7 +276,7 @@ def createFinishedHtml(challenge):
                     <b class="success_text">{winner_text}</b><br/>
                     <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
-
+                    {challenged_score_text}
                 </li>
             </ul>
         </div>
@@ -261,7 +284,8 @@ def createFinishedHtml(challenge):
                          challenger=challenge.challenger, challenged=challenge.challenged,
                          type=challenge.challenge_type.type, list=challenge.list, winner_text=_("Winner"),
                          loser_text=_("Loser"), challenge_info_string=_("Challenge info..."),
-                         type_string=_("Type:"), list_string=_("List:"))
+                         type_string=_("Type:"), list_string=_("List:"),
+                         challenger_score_text = challenger_score_text, challenged_score_text = challenged_score_text)
 
 # Seeks out which challenges have een completed and chains the appropriate
 # html together
