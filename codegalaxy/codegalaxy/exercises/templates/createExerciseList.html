@@ -265,13 +265,11 @@
         if(subjects == 0){
           window.alert("You need to add at least one subject!");
         }else{
-          $(function(){
-            addDictionary();
-            if(!checkTranslationDict()) {
-              return false;
-            }
-            $('#list_form').submit();
-          });
+          addDictionary();
+          if(!checkTranslationDict()) {
+            return false;
+          }
+          $('#list_form').submit();
         }
       });
 
@@ -357,14 +355,14 @@
       if("{{ request.LANGUAGE_CODE }}" != "en"){
         if(!("English" in translation_dict)){
           alert("{% trans "Error: You need to atleast provide an english translation" %}");
-        return false;
+          return false;
         }
         if(translation_dict["English"]["title"] == ""){
           alert("{% trans "Error: You need to atleast provide an english title" %}");
           return false;
         }
       }
-      
+
 
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
