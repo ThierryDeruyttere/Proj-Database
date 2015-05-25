@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 11:26+0000\n"
+"POT-Creation-Date: 2015-05-25 12:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -179,11 +179,11 @@ msgstr "Uitnodiging"
 msgid "Accept"
 msgstr "Accepteer"
 
-#: codegalaxy/evaluation/baseEvaluator.py:49
+#: codegalaxy/evaluation/baseEvaluator.py:50
 msgid "Killed the process."
 msgstr "Het proces beeïndigd"
 
-#: codegalaxy/evaluation/baseEvaluator.py:50
+#: codegalaxy/evaluation/baseEvaluator.py:51
 msgid "Process took longer than expected, so we killed it."
 msgstr "Het proces duurde langer dan verwacht, dus we sloten het af."
 
@@ -247,7 +247,7 @@ msgstr "Pas vraag aan"
 
 #: codegalaxy/exercises/templates/createExercise.html:19
 #: codegalaxy/exercises/templates/createExercise.html:164
-#: codegalaxy/exercises/templates/createExerciseList.html:110
+#: codegalaxy/exercises/templates/createExerciseList.html:108
 msgid "Edit exercise"
 msgstr "Pas oefening aan"
 
@@ -294,17 +294,17 @@ msgid "Add translation"
 msgstr "Voeg vertaling toe"
 
 #: codegalaxy/exercises/templates/createExercise.html:99
-#: codegalaxy/exercises/templates/createExerciseList.html:149
+#: codegalaxy/exercises/templates/createExerciseList.html:145
 msgid "Hi there space voyager! I'm Kernel!"
 msgstr "Hallo ruimtereiziger! Ik ben Kernel!"
 
 #: codegalaxy/exercises/templates/createExercise.html:100
-#: codegalaxy/exercises/templates/createExerciseList.html:150
+#: codegalaxy/exercises/templates/createExerciseList.html:146
 msgid "I'm from a far away planet named Bootloader."
 msgstr "Ik ben van een planeet ver van hier genaamd Bootloader."
 
 #: codegalaxy/exercises/templates/createExercise.html:101
-#: codegalaxy/exercises/templates/createExerciseList.html:151
+#: codegalaxy/exercises/templates/createExerciseList.html:147
 msgid ""
 "I've stumbled upon this site and I really like it and I want to show it to "
 "my friends back home!"
@@ -313,7 +313,7 @@ msgstr ""
 "mijn vrienden thuis!"
 
 #: codegalaxy/exercises/templates/createExercise.html:102
-#: codegalaxy/exercises/templates/createExerciseList.html:152
+#: codegalaxy/exercises/templates/createExerciseList.html:148
 msgid ""
 "The only problem is, on each planet we speak a different language, so I'm "
 "working on translating this site."
@@ -322,7 +322,7 @@ msgstr ""
 "ik ben aan vertalingen voor de site aan het werken."
 
 #: codegalaxy/exercises/templates/createExercise.html:103
-#: codegalaxy/exercises/templates/createExerciseList.html:153
+#: codegalaxy/exercises/templates/createExerciseList.html:149
 msgid ""
 "Think you could help? I will make your name famous across the universe if "
 "you do!"
@@ -331,17 +331,44 @@ msgstr ""
 "universum als je me me helpt!"
 
 #: codegalaxy/exercises/templates/createExercise.html:110
-#: codegalaxy/exercises/templates/createExerciseList.html:114
-#: codegalaxy/exercises/templates/createExerciseList.html:160
+#: codegalaxy/exercises/templates/createExerciseList.html:112
+#: codegalaxy/exercises/templates/createExerciseList.html:156
 #: codegalaxy/exercises/templates/importExercise.html:51
 #: codegalaxy/exercises/templates/list.html:243
 msgid "Original"
 msgstr "Origineel"
 
 #: codegalaxy/exercises/templates/createExercise.html:136
-#: codegalaxy/exercises/templates/createExerciseList.html:183
+#: codegalaxy/exercises/templates/createExerciseList.html:179
 msgid "Translated"
 msgstr "Vertaald"
+
+#: codegalaxy/exercises/templates/createExercise.html:496
+#: codegalaxy/exercises/templates/createExercise.html:516
+#: codegalaxy/exercises/templates/createExerciseList.html:381
+msgid "Error: You need to at least provide an english translation"
+msgstr "Error: je moet een engelse vertaling geven"
+
+#: codegalaxy/exercises/templates/createExercise.html:526
+msgid "Error: There are translations missing for:"
+msgstr "Error: Er ontbreken vertalingen voor:"
+
+#: codegalaxy/exercises/templates/createExercise.html:526
+#: codegalaxy/exercises/templates/createExerciseList.html:391
+msgid ". If you don't want translations for these languages"
+msgstr ". Als je geen vertalingen wilt voor deze talen"
+
+#: codegalaxy/exercises/templates/createExercise.html:527
+#: codegalaxy/exercises/templates/createExerciseList.html:392
+msgid ""
+"then just remove all the entries for these languages, or fill in the missing "
+"translations for these languages"
+msgstr ""
+"Verwijder dan alle ingevulde delen voor deze talen, of vul de ontbrekende in"
+
+#: codegalaxy/exercises/templates/createExercise.html:539
+msgid "You need to expect some output!"
+msgstr "Je moet wel output verwachten!"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:13
 #: codegalaxy/exercises/templates/list.html:299
@@ -376,39 +403,52 @@ msgstr "Onderwerp"
 msgid "Subjects"
 msgstr "Onderwerpen"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:102
-#: codegalaxy/exercises/templates/list.html:76
-msgid "Exercises"
-msgstr "Oefeningen"
-
-#: codegalaxy/exercises/templates/createExerciseList.html:130
+#: codegalaxy/exercises/templates/createExerciseList.html:126
 #: codegalaxy/templates/group.html:48 codegalaxy/templates/group.html:418
 msgid "Edit"
 msgstr "Pas aan"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:131
+#: codegalaxy/exercises/templates/createExerciseList.html:127
 #: codegalaxy/exercises/templates/importExercise.html:72
 msgid "Return"
 msgstr "Keer terug naar lijst"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:133
+#: codegalaxy/exercises/templates/createExerciseList.html:129
 msgid "'Create list'"
 msgstr "'Maak lijst'"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:135
+#: codegalaxy/exercises/templates/createExerciseList.html:131
 msgid "Translate"
 msgstr "Vertaal"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:163
-#: codegalaxy/exercises/templates/createExerciseList.html:186
+#: codegalaxy/exercises/templates/createExerciseList.html:159
+#: codegalaxy/exercises/templates/createExerciseList.html:182
 #: codegalaxy/exercises/templates/listOverview.html:40
 msgid "List name"
 msgstr "Lijstnaam"
 
-#: codegalaxy/exercises/templates/createExerciseList.html:169
-#: codegalaxy/exercises/templates/createExerciseList.html:192
+#: codegalaxy/exercises/templates/createExerciseList.html:165
+#: codegalaxy/exercises/templates/createExerciseList.html:188
 msgid "Description"
 msgstr "Beschrijving"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:358
+#, fuzzy
+#| msgid "Error: You need to at least provide an english translation"
+msgid "Error: You need to atleast provide an english translation"
+msgstr "Error: je moet een engelse vertaling geven"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:362
+#, fuzzy
+#| msgid "Error: You need to at least provide an english translation"
+msgid "Error: You need to atleast provide an english title"
+msgstr "Error: je moet een engelse vertaling geven"
+
+#: codegalaxy/exercises/templates/createExerciseList.html:391
+#, fuzzy
+#| msgid "Error: There are translations missing for:"
+msgid "Error: There are translations missing for: "
+msgstr "Error: Er ontbreken vertalingen voor:"
 
 #: codegalaxy/exercises/templates/importExercise.html:16
 msgid "List or exercise name"
@@ -474,6 +514,10 @@ msgstr "Het lijkt erop dat je deze planeet al eens bezoekt hebt."
 #, fuzzy
 msgid "Continue exploring!"
 msgstr "Zet je reis verder!"
+
+#: codegalaxy/exercises/templates/list.html:76
+msgid "Exercises"
+msgstr "Oefeningen"
 
 #: codegalaxy/exercises/templates/list.html:82
 msgid "solved"
@@ -673,15 +717,15 @@ msgstr "Volgende oefening"
 msgid "Try again"
 msgstr "Probeer opnieuw"
 
-#: codegalaxy/exercises/views.py:940
+#: codegalaxy/exercises/views.py:944
 msgid "Planets/Programming Language"
 msgstr "Planeten/Programmeertaal"
 
-#: codegalaxy/exercises/views.py:951
+#: codegalaxy/exercises/views.py:955
 msgid "Most Popular Subjects"
 msgstr "Meest Populaire Onderwerpen"
 
-#: codegalaxy/exercises/views.py:956
+#: codegalaxy/exercises/views.py:960
 msgid "Users who made the most lists"
 msgstr "Gebruikers die het meeste lijsten maakten"
 

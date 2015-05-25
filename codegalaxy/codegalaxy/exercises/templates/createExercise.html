@@ -493,7 +493,7 @@
       var missing_trans = [];
 
       if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict) ){
-        alert("Error: You need to at least provide an english translation");
+        alert("{% trans "Error: You need to at least provide an english translation" %}");
         return false;
       }
 
@@ -513,7 +513,7 @@
         });
 
         if(empty > 0 && key == "English"){
-          alert("Error: You need to atleast provide an english translation");
+          alert("{% trans "Error: You need to at least provide an english translation" %}");
           return false;
         }
 
@@ -523,8 +523,8 @@
         }
       });
       if($(missing_trans).length > 0){
-        alert("Error: There are translations missing for: " + missing_trans +". If you don't want translations for these languages" +
-        "then just remove all the entries for these languages, or fill in the missing translations for these languages");
+        alert("{% trans "Error: There are translations missing for:" %}  " + missing_trans + "{% trans ". If you don't want translations for these languages" %} " +
+        "{% trans "then just remove all the entries for these languages, or fill in the missing translations for these languages" %} ");
         return false;
       }
       return true;
@@ -536,7 +536,7 @@
       if($('#exercise_type_code').is(":checked") || $('#exercise_type_turtle').is(":checked")) {
         if (output_code.getValue() == "") {
           submit = false;
-          alert("You need to expect some output!");
+          alert("{% trans "You need to expect some output!" %}");
         }
 
         if(submit){
