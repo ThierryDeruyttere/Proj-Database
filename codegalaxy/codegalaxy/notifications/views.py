@@ -36,15 +36,12 @@ def get_notifications(request):
     return HttpResponse(json.dumps(notifications))
 
 def handle_request(request):
-    print("check")
     user = logged_user(request)
     req_info = request.POST.get('request_info').split('-')
 
     req_id = req_info[0]
     category = req_info[1]
-    print("category: " + category)
     answer = req_info[2]
-    print("answer: " + answer)
 
     if category == 'friend':
         if answer == 'accept':
