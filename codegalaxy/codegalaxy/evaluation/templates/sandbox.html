@@ -62,7 +62,7 @@
     });
 
   function updateOutput(add, remove, text) {
-    $("#output_text").html(text || {% trans "No output..." %});
+    $("#output_text").html(text || "{% trans "No output..." %}");
 
     $(".CodeMirror").addClass(add);
     $(".CodeMirror").switchClass(add, "", 2800, "easeInExpo");
