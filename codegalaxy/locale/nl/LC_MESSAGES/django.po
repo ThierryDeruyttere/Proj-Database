@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 12:39+0200\n"
+"POT-Creation-Date: 2015-05-25 11:17+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -179,23 +179,33 @@ msgstr "Uitnodiging"
 msgid "Accept"
 msgstr "Accepteer"
 
-#: codegalaxy/evaluation/templates/sandbox.html:29
+#: codegalaxy/evaluation/templates/sandbox.html:18
+msgid ""
+"This is the sandbox area. You can try out pieces of code here and practise "
+"your programming skills."
+msgstr "Dit is de zandbak, hier kan je stukken code uitproberen en dus je codeervaardigheden oefenen."
+
+#: codegalaxy/evaluation/templates/sandbox.html:19
+msgid "Select a programming language above and have fun coding!"
+msgstr "Selecteer een programmeertaal hierboven en veel plezier!"
+
+#: codegalaxy/evaluation/templates/sandbox.html:30
 msgid "Clear"
 msgstr "Maak leeg"
 
-#: codegalaxy/evaluation/templates/sandbox.html:35
+#: codegalaxy/evaluation/templates/sandbox.html:36
 msgid "Evaluate"
 msgstr "Evalueer"
 
-#: codegalaxy/evaluation/templates/sandbox.html:42
+#: codegalaxy/evaluation/templates/sandbox.html:43
 msgid "Success!"
 msgstr "Gelukt!"
 
-#: codegalaxy/evaluation/templates/sandbox.html:43
+#: codegalaxy/evaluation/templates/sandbox.html:44
 msgid "Oops, something went wrong..."
 msgstr "Oeps, er ging iets mis..."
 
-#: codegalaxy/evaluation/templates/sandbox.html:64
+#: codegalaxy/evaluation/templates/sandbox.html:65
 msgid "No output..."
 msgstr "Geen output..."
 
@@ -1149,8 +1159,9 @@ msgid "Exercises made per programming language"
 msgstr "Oefeningen gemaakt per programmeertaal"
 
 #: codegalaxy/templates/user.html:420
-#, python-format
-msgid "Average score (%) per programming language"
+#, fuzzy, python-format
+#| msgid "Average score (%) per programming language"
+msgid "Average score (%%) per programming language"
 msgstr "Gemiddelde score (%) per programmeer taal"
 
 #: codegalaxy/templates/user.html:425
