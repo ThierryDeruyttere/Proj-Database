@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.43, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.24, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: 
 -- ------------------------------------------------------
--- Server version	5.5.43-0ubuntu0.14.04.1
+-- Server version	5.6.24-0ubuntu2
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -334,7 +334,7 @@ CREATE TABLE `code` (
 
 LOCK TABLES `code` WRITE;
 /*!40000 ALTER TABLE `code` DISABLE KEYS */;
-INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in range(10):\r\n  print(\"\")',3),('num_list = [10,9,8,7,6,5,4,3,2,1,0]',4),('#TELL ME WHAT YOU ARE!',6),('#MAKE IT RAIN!!',7),('countdown = [\"Ten\", \"Nine\", \"Eight\", \"Seven\", \"Six\", \"Five\", \"Four\", \"Three\", \"Two\", \"One\", \"Liftoff\"]',10),('rocket.forward(50)\r\nrocket.left(90)\r\nrocket.forward(50)\r\nrocket.left(90)\r\nrocket.forward(50)\r\nrocket.left(90)\r\n',12);
+INSERT INTO `code` VALUES ('print(\"\")',1),('distance_1 = 1\r\ndistance_2 = 3',2),('for every_time in range(10):\r\n  print(\"\")',3),('num_list = [10,9,8,7,6,5,4,3,2,1,0]',4),('#TELL ME WHAT YOU ARE!',6),('#MAKE IT RAIN!!',7),('countdown = [\"Ten\", \"Nine\", \"Eight\", \"Seven\", \"Six\", \"Five\", \"Four\", \"Three\", \"Two\", \"One\", \"Liftoff\"]',10),('rocket.forward(50)\r\nrocket.left(90)',12);
 /*!40000 ALTER TABLE `code` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -446,7 +446,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('0wv7kv044lkke90k4rmbcew3p9fowocc','MmU4MDE3YWU2NGE3NWQ0NDI2Nzg4OTk1OWQyNjE3ZGQ1OTRmZjQ5ODp7ImN1cnJlbnRfdXNlciI6Nn0=','2015-06-08 18:26:45'),('4o3v21192sfzuub72zaega30lfy2k7eq','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('7ocybkbj530637vmysaxlfxtfqumv3n6','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('dz2tsdu3329sajo72ku01knzq9ycd9m3','NTdkNzUzYWQ5OGViMWEyMmUwOTUwNTI4OGJkOGVjODhlNDk3ZTk4ODp7Il9sYW5ndWFnZSI6ImVuIiwiY3VycmVudF91c2VyIjoyfQ==','2015-05-13 20:02:59'),('emzcy3qd2v3mkvio2kgm4p7t0ekdihe7','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('gvl0yfalxjg1lnlse8j3831u5d7i809b','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-12 18:15:29'),('j0tknpc4tzh4uan5zs7wjmqlrzeg2271','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('km8st6h302exuppmlti04k7u05e14oy8','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('lyp7kbl9ravehemz5qu7e690rwylfqgt','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23'),('omsusjvmc1aa2nmqsu0p22zly5ayjfie','NzEzMGNkNDA4YzZhOGNjMWQwMTExMGFlNTAwNzVmMzA4NzFmZmI0NTp7ImN1cnJlbnRfdXNlciI6NX0=','2015-05-11 17:03:33'),('pcnjs7m4ckmsv8ph37wfof0dm6glvyep','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('rj8monbun2d25ml2788b35xipjtyn2dc','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-06-08 17:38:19'),('thwxtc7rpw1z9a73vb95dt48ueebuys4','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('yt5abk9hlo8spg7a8kufpk7n4hbg86rr','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:24');
+INSERT INTO `django_session` VALUES ('0k4sedjjt3df9xscq528k1ttgk06uid5','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 18:59:58'),('0wv7kv044lkke90k4rmbcew3p9fowocc','MmU4MDE3YWU2NGE3NWQ0NDI2Nzg4OTk1OWQyNjE3ZGQ1OTRmZjQ5ODp7ImN1cnJlbnRfdXNlciI6Nn0=','2015-06-08 18:26:45'),('4o3v21192sfzuub72zaega30lfy2k7eq','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('7c01vgq3qlm5arz8cwk6shd3a388wllt','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-09 12:54:34'),('7ocybkbj530637vmysaxlfxtfqumv3n6','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('dz2tsdu3329sajo72ku01knzq9ycd9m3','NTdkNzUzYWQ5OGViMWEyMmUwOTUwNTI4OGJkOGVjODhlNDk3ZTk4ODp7Il9sYW5ndWFnZSI6ImVuIiwiY3VycmVudF91c2VyIjoyfQ==','2015-05-13 20:02:59'),('emzcy3qd2v3mkvio2kgm4p7t0ekdihe7','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('gvl0yfalxjg1lnlse8j3831u5d7i809b','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-12 18:15:29'),('i0smd5zpivpda4at2av3s6m4tr3x8zhn','M2U3YTliYTZlMTRiOGI1ZjI2Y2JiYTcyNGVhZDRjN2I0YTY0MGY2YTp7ImN1cnJlbnRfdXNlciI6NiwiX2xhbmd1YWdlIjoibmwifQ==','2015-06-08 19:12:46'),('j0tknpc4tzh4uan5zs7wjmqlrzeg2271','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('km8st6h302exuppmlti04k7u05e14oy8','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('lyp7kbl9ravehemz5qu7e690rwylfqgt','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('obp0xlqvuii4awqi4e4hviio18l0eip6','NzJkNjVlNzAwYzI3Y2VkOGM4MWZmNjdjYjU2MDE1OWMzZTQwMWQ4Mzp7ImN1cnJlbnRfdXNlciI6Mn0=','2015-05-10 17:35:23'),('omsusjvmc1aa2nmqsu0p22zly5ayjfie','NzEzMGNkNDA4YzZhOGNjMWQwMTExMGFlNTAwNzVmMzA4NzFmZmI0NTp7ImN1cnJlbnRfdXNlciI6NX0=','2015-05-11 17:03:33'),('pcnjs7m4ckmsv8ph37wfof0dm6glvyep','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:26'),('rj8monbun2d25ml2788b35xipjtyn2dc','NDBhM2U2NTNmMDQ0NDY5ZTg2ODg0NTgxMjUxNTc0ZmFhMjUyZDdlNDp7ImN1cnJlbnRfdXNlciI6NH0=','2015-06-08 17:38:19'),('thwxtc7rpw1z9a73vb95dt48ueebuys4','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:25'),('yt5abk9hlo8spg7a8kufpk7n4hbg86rr','OTIyZTQ4MmFiNmUyOWFjYjNiMDIxZjEwMTNiNzA4ZTE4NmQ5ZmJiNjp7fQ==','2015-05-16 14:51:24');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -840,7 +840,7 @@ CREATE TABLE `post` (
   KEY `user_id` (`user_id`),
   CONSTRAINT `post_ibfk_1` FOREIGN KEY (`group_id`) REFERENCES `groups` (`id`),
   CONSTRAINT `post_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -849,7 +849,7 @@ CREATE TABLE `post` (
 
 LOCK TABLES `post` WRITE;
 /*!40000 ALTER TABLE `post` DISABLE KEYS */;
-INSERT INTO `post` VALUES (4,32,6,1,0,'Hey,\n\nIk zit vast bij [deze lijst](http://localhost:8000/l/1/)\n\nKan er iemand mij zeggen hoe ik vanuit github gebruik?\n','2015-05-25 17:05:05'),(5,32,6,5,0,'Hey, \n\nIk zit vast bij [deze lijst](http://localhost:8000/l/1)\n\nWil er iemand mij helpen?','2015-05-25 17:06:36'),(6,32,4,5,0,'# Github\n### Pushen\n**$ git push origin Test_Feature**\n### Pullen\n**$ git push origin Test_Feature**\n### Mergen*$ git push origin Test_Feature*\n\n1. Maarten\n2. Tristan\n3. Sten\n4. Marie\n5. Thierry','2015-05-25 17:39:43');
+INSERT INTO `post` VALUES (4,32,6,1,0,'Hey,\n\nIk zit vast bij [deze lijst](http://localhost:8000/l/1/)\n\nKan er iemand mij zeggen hoe ik vanuit github gebruik?\n','2015-05-25 17:05:05'),(5,32,6,5,0,'Hey, \n\nIk zit vast bij [deze lijst](http://localhost:8000/l/1)\n\nWil er iemand mij helpen?','2015-05-25 17:06:36'),(8,32,4,5,0,'Hey Maarten!\nWelkom in de codehelpers groep!\nIk zie dat je mijn lijst probeert op te lossen.\nWat vind je er zo moeilijk aan?\nIk zal je even op de juiste weg helpen \n\n1. Bij de eerste vraag moet je iets printen met de print statement. De syntax van print is `print(\" met hier je bericht \")`\n\n2. De tweede vraag is die twee variabelen optellen. Dit doe je met de + operator\n\n3. Bij vraag drie gebruik je dezelfde syntax als in vraag één om je spaceship te herstellen.\n\n\n*Als je nog extra vragen zou hebben, vraag gerust*\n\nTristan','2015-05-25 19:06:41');
 /*!40000 ALTER TABLE `post` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -963,7 +963,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U',25),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 13:43:11','M',25),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-05-25 13:43:41','M',25),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 17:38:19','M',25),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 15:42:09','F',20),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 18:26:45','M',25),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(8,1,'Thomas','Reyn','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(9,1,'Pieter','De Ridder','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(10,1,'Bart','De Wilde','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 15:51:13','M',25),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 16:00:23','M',25),(12,1,'Julie','Janssens','21232f297a57a5a743894a0e4a801fc3','Julie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(13,1,'Mark','Walters','21232f297a57a5a743894a0e4a801fc3','Mark@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(14,1,'Sofie','De Bruyne','21232f297a57a5a743894a0e4a801fc3','Sofie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(15,1,'Leona','Dean','21232f297a57a5a743894a0e4a801fc3','Leona@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(16,1,'Loretta Simmons','Pladijs','21232f297a57a5a743894a0e4a801fc3','Loretta@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(17,1,'Isaac','Hayes','21232f297a57a5a743894a0e4a801fc3','Isaac@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(18,1,'Jerry','Owens','21232f297a57a5a743894a0e4a801fc3','Jerry@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(19,1,'Daisy','Obrien','21232f297a57a5a743894a0e4a801fc3','Daisy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(20,1,'Steven','Ross','21232f297a57a5a743894a0e4a801fc3','Steven@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(21,1,'Dylan','Anderson','21232f297a57a5a743894a0e4a801fc3','Dylan@gmail.com',0,'2015-04-29 18:36:28','2015-04-29 18:36:28','M',25);
+INSERT INTO `user` VALUES (1,1,'Root','Admin','e48e13207341b6bffb7fb1622282247b','root_admin_1337@hotmail.com',0,'2014-03-06 11:11:12','2015-04-24 11:55:26','U',25),(2,1,'Thierry','Deruyttere','098f6bcd4621d373cade4e832627b4f6','thierryderuyttere@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 13:43:11','M',25),(3,1,'Sten','Verbois','21232f297a57a5a743894a0e4a801fc3','stenverbois@gmail.com',0,'2015-03-06 12:12:12','2015-05-25 13:43:41','M',25),(4,1,'Tristan','Vandeputte','21232f297a57a5a743894a0e4a801fc3','tristanvandeputte@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 18:55:41','M',25),(5,1,'Marie','Kegeleers','21232f297a57a5a743894a0e4a801fc3','marie@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 15:42:09','F',20),(6,1,'Maarten','Jorens','21232f297a57a5a743894a0e4a801fc3','maarten@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 19:07:50','M',25),(7,1,'Dirk','Jan','21232f297a57a5a743894a0e4a801fc3','dirk@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(8,1,'Thomas','Reyn','21232f297a57a5a743894a0e4a801fc3','Thomas@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(9,1,'Pieter','De Ridder','21232f297a57a5a743894a0e4a801fc3','Pieter@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(10,1,'Bart','De Wilde','21232f297a57a5a743894a0e4a801fc3','Bart@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 15:51:13','M',25),(11,1,'Chris','Brys','21232f297a57a5a743894a0e4a801fc3','Chris@hotmail.com',0,'2015-03-06 12:12:12','2015-05-25 16:00:23','M',25),(12,1,'Julie','Janssens','21232f297a57a5a743894a0e4a801fc3','Julie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(13,1,'Mark','Walters','21232f297a57a5a743894a0e4a801fc3','Mark@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(14,1,'Sofie','De Bruyne','21232f297a57a5a743894a0e4a801fc3','Sofie@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(15,1,'Leona','Dean','21232f297a57a5a743894a0e4a801fc3','Leona@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(16,1,'Loretta Simmons','Pladijs','21232f297a57a5a743894a0e4a801fc3','Loretta@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(17,1,'Isaac','Hayes','21232f297a57a5a743894a0e4a801fc3','Isaac@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(18,1,'Jerry','Owens','21232f297a57a5a743894a0e4a801fc3','Jerry@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(19,1,'Daisy','Obrien','21232f297a57a5a743894a0e4a801fc3','Daisy@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','F',25),(20,1,'Steven','Ross','21232f297a57a5a743894a0e4a801fc3','Steven@hotmail.com',0,'2015-03-06 12:12:12','2015-03-06 12:12:12','M',25),(21,1,'Dylan','Anderson','21232f297a57a5a743894a0e4a801fc3','Dylan@gmail.com',0,'2015-04-29 18:36:28','2015-04-29 18:36:28','M',25);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1139,6 +1139,15 @@ CREATE TABLE `event` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Dumping data for table `event`
+--
+
+LOCK TABLES `event` WRITE;
+/*!40000 ALTER TABLE `event` DISABLE KEYS */;
+/*!40000 ALTER TABLE `event` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `func`
 --
 
@@ -1307,6 +1316,64 @@ CREATE TABLE `host` (
 LOCK TABLES `host` WRITE;
 /*!40000 ALTER TABLE `host` DISABLE KEYS */;
 /*!40000 ALTER TABLE `host` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `innodb_index_stats`
+--
+
+DROP TABLE IF EXISTS `innodb_index_stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `innodb_index_stats` (
+  `database_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `index_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `stat_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `stat_value` bigint(20) unsigned NOT NULL,
+  `sample_size` bigint(20) unsigned DEFAULT NULL,
+  `stat_description` varchar(1024) COLLATE utf8_bin NOT NULL,
+  PRIMARY KEY (`database_name`,`table_name`,`index_name`,`stat_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin STATS_PERSISTENT=0;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `innodb_index_stats`
+--
+
+LOCK TABLES `innodb_index_stats` WRITE;
+/*!40000 ALTER TABLE `innodb_index_stats` DISABLE KEYS */;
+INSERT INTO `innodb_index_stats` VALUES ('codegalaxy','answer','PRIMARY','2015-05-25 18:54:51','n_diff_pfx01',12,1,'is_answer_for'),('codegalaxy','answer','PRIMARY','2015-05-25 18:54:51','n_diff_pfx02',25,1,'is_answer_for,answer_number'),('codegalaxy','answer','PRIMARY','2015-05-25 18:54:51','n_diff_pfx03',31,1,'is_answer_for,answer_number,language_id'),('codegalaxy','answer','PRIMARY','2015-05-25 18:54:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','answer','PRIMARY','2015-05-25 18:54:51','size',1,NULL,'Number of pages in the index'),('codegalaxy','answer','language_id','2015-05-25 18:54:51','n_diff_pfx01',2,1,'language_id'),('codegalaxy','answer','language_id','2015-05-25 18:54:51','n_diff_pfx02',14,1,'language_id,is_answer_for'),('codegalaxy','answer','language_id','2015-05-25 18:54:51','n_diff_pfx03',31,1,'language_id,is_answer_for,answer_number'),('codegalaxy','answer','language_id','2015-05-25 18:54:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','answer','language_id','2015-05-25 18:54:51','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group','PRIMARY','2015-05-25 18:54:39','n_diff_pfx01',0,1,'id'),('codegalaxy','auth_group','PRIMARY','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group','PRIMARY','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group','name','2015-05-25 18:54:39','n_diff_pfx01',0,1,'name'),('codegalaxy','auth_group','name','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group','name','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group_permissions','PRIMARY','2015-05-25 18:54:39','n_diff_pfx01',0,1,'id'),('codegalaxy','auth_group_permissions','PRIMARY','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group_permissions','PRIMARY','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group_permissions','auth_group_permissions_0e939a4f','2015-05-25 18:54:39','n_diff_pfx01',0,1,'group_id'),('codegalaxy','auth_group_permissions','auth_group_permissions_0e939a4f','2015-05-25 18:54:39','n_diff_pfx02',0,1,'group_id,id'),('codegalaxy','auth_group_permissions','auth_group_permissions_0e939a4f','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group_permissions','auth_group_permissions_0e939a4f','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group_permissions','auth_group_permissions_8373b171','2015-05-25 18:54:39','n_diff_pfx01',0,1,'permission_id'),('codegalaxy','auth_group_permissions','auth_group_permissions_8373b171','2015-05-25 18:54:39','n_diff_pfx02',0,1,'permission_id,id'),('codegalaxy','auth_group_permissions','auth_group_permissions_8373b171','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group_permissions','auth_group_permissions_8373b171','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_group_permissions','group_id','2015-05-25 18:54:39','n_diff_pfx01',0,1,'group_id'),('codegalaxy','auth_group_permissions','group_id','2015-05-25 18:54:39','n_diff_pfx02',0,1,'group_id,permission_id'),('codegalaxy','auth_group_permissions','group_id','2015-05-25 18:54:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_group_permissions','group_id','2015-05-25 18:54:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_permission','PRIMARY','2015-05-25 18:54:42','n_diff_pfx01',18,1,'id'),('codegalaxy','auth_permission','PRIMARY','2015-05-25 18:54:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_permission','PRIMARY','2015-05-25 18:54:42','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_permission','auth_permission_417f1b1c','2015-05-25 18:54:42','n_diff_pfx01',6,1,'content_type_id'),('codegalaxy','auth_permission','auth_permission_417f1b1c','2015-05-25 18:54:42','n_diff_pfx02',18,1,'content_type_id,id'),('codegalaxy','auth_permission','auth_permission_417f1b1c','2015-05-25 18:54:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_permission','auth_permission_417f1b1c','2015-05-25 18:54:42','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_permission','content_type_id','2015-05-25 18:54:42','n_diff_pfx01',6,1,'content_type_id'),('codegalaxy','auth_permission','content_type_id','2015-05-25 18:54:42','n_diff_pfx02',18,1,'content_type_id,codename'),('codegalaxy','auth_permission','content_type_id','2015-05-25 18:54:42','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_permission','content_type_id','2015-05-25 18:54:42','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user','PRIMARY','2015-05-25 18:54:40','n_diff_pfx01',0,1,'id'),('codegalaxy','auth_user','PRIMARY','2015-05-25 18:54:40','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user','PRIMARY','2015-05-25 18:54:40','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user','username','2015-05-25 18:54:40','n_diff_pfx01',0,1,'username'),('codegalaxy','auth_user','username','2015-05-25 18:54:40','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user','username','2015-05-25 18:54:40','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_groups','PRIMARY','2015-05-25 18:54:41','n_diff_pfx01',0,1,'id'),('codegalaxy','auth_user_groups','PRIMARY','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_groups','PRIMARY','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_groups','auth_user_groups_0e939a4f','2015-05-25 18:54:41','n_diff_pfx01',0,1,'group_id'),('codegalaxy','auth_user_groups','auth_user_groups_0e939a4f','2015-05-25 18:54:41','n_diff_pfx02',0,1,'group_id,id'),('codegalaxy','auth_user_groups','auth_user_groups_0e939a4f','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_groups','auth_user_groups_0e939a4f','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_groups','auth_user_groups_e8701ad4','2015-05-25 18:54:41','n_diff_pfx01',0,1,'user_id'),('codegalaxy','auth_user_groups','auth_user_groups_e8701ad4','2015-05-25 18:54:41','n_diff_pfx02',0,1,'user_id,id'),('codegalaxy','auth_user_groups','auth_user_groups_e8701ad4','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_groups','auth_user_groups_e8701ad4','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_groups','user_id','2015-05-25 18:54:41','n_diff_pfx01',0,1,'user_id'),('codegalaxy','auth_user_groups','user_id','2015-05-25 18:54:41','n_diff_pfx02',0,1,'user_id,group_id'),('codegalaxy','auth_user_groups','user_id','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_groups','user_id','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_user_permissions','PRIMARY','2015-05-25 18:54:41','n_diff_pfx01',0,1,'id'),('codegalaxy','auth_user_user_permissions','PRIMARY','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_user_permissions','PRIMARY','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_8373b171','2015-05-25 18:54:41','n_diff_pfx01',0,1,'permission_id'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_8373b171','2015-05-25 18:54:41','n_diff_pfx02',0,1,'permission_id,id'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_8373b171','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_8373b171','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_e8701ad4','2015-05-25 18:54:41','n_diff_pfx01',0,1,'user_id'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_e8701ad4','2015-05-25 18:54:41','n_diff_pfx02',0,1,'user_id,id'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_e8701ad4','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_user_permissions','auth_user_user_permissions_e8701ad4','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','auth_user_user_permissions','user_id','2015-05-25 18:54:41','n_diff_pfx01',0,1,'user_id'),('codegalaxy','auth_user_user_permissions','user_id','2015-05-25 18:54:41','n_diff_pfx02',0,1,'user_id,permission_id'),('codegalaxy','auth_user_user_permissions','user_id','2015-05-25 18:54:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','auth_user_user_permissions','user_id','2015-05-25 18:54:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','badge','PRIMARY','2015-05-25 18:54:43','n_diff_pfx01',25,1,'id'),('codegalaxy','badge','PRIMARY','2015-05-25 18:54:43','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','badge','PRIMARY','2015-05-25 18:54:43','size',1,NULL,'Number of pages in the index'),('codegalaxy','badge','name','2015-05-25 18:54:43','n_diff_pfx01',25,1,'name'),('codegalaxy','badge','name','2015-05-25 18:54:43','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','badge','name','2015-05-25 18:54:43','size',1,NULL,'Number of pages in the index'),('codegalaxy','badgeMessageTranslation','PRIMARY','2015-05-25 18:54:44','n_diff_pfx01',25,1,'badge_id'),('codegalaxy','badgeMessageTranslation','PRIMARY','2015-05-25 18:54:44','n_diff_pfx02',50,1,'badge_id,language_id'),('codegalaxy','badgeMessageTranslation','PRIMARY','2015-05-25 18:54:44','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','badgeMessageTranslation','PRIMARY','2015-05-25 18:54:44','size',1,NULL,'Number of pages in the index'),('codegalaxy','badgeMessageTranslation','language_id','2015-05-25 18:54:44','n_diff_pfx01',2,1,'language_id'),('codegalaxy','badgeMessageTranslation','language_id','2015-05-25 18:54:44','n_diff_pfx02',50,1,'language_id,badge_id'),('codegalaxy','badgeMessageTranslation','language_id','2015-05-25 18:54:44','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','badgeMessageTranslation','language_id','2015-05-25 18:54:44','size',1,NULL,'Number of pages in the index'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','n_diff_pfx01',0,1,'challenger_id'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','n_diff_pfx02',0,1,'challenger_id,challenged_id'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','n_diff_pfx03',0,1,'challenger_id,challenged_id,list_id'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','n_diff_pfx04',0,1,'challenger_id,challenged_id,list_id,challenge_type_id'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','challenge','PRIMARY','2015-05-25 18:54:43','size',1,NULL,'Number of pages in the index'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','n_diff_pfx01',0,1,'challenged_id'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','n_diff_pfx02',0,1,'challenged_id,challenger_id'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','n_diff_pfx03',0,1,'challenged_id,challenger_id,list_id'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','n_diff_pfx04',0,1,'challenged_id,challenger_id,list_id,challenge_type_id'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','challenge','challenged_id','2015-05-25 18:54:43','size',1,NULL,'Number of pages in the index'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','n_diff_pfx01',0,1,'list_id'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','n_diff_pfx02',0,1,'list_id,challenger_id'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','n_diff_pfx03',0,1,'list_id,challenger_id,challenged_id'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','n_diff_pfx04',0,1,'list_id,challenger_id,challenged_id,challenge_type_id'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','challenge','list_id','2015-05-25 18:54:43','size',1,NULL,'Number of pages in the index'),('codegalaxy','code','PRIMARY','2015-05-25 18:54:45','n_diff_pfx01',8,1,'exercise_id'),('codegalaxy','code','PRIMARY','2015-05-25 18:54:45','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','code','PRIMARY','2015-05-25 18:54:45','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_admin_log','PRIMARY','2015-05-25 18:54:44','n_diff_pfx01',0,1,'id'),('codegalaxy','django_admin_log','PRIMARY','2015-05-25 18:54:44','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_admin_log','PRIMARY','2015-05-25 18:54:44','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_admin_log','django_admin_log_417f1b1c','2015-05-25 18:54:44','n_diff_pfx01',0,1,'content_type_id'),('codegalaxy','django_admin_log','django_admin_log_417f1b1c','2015-05-25 18:54:44','n_diff_pfx02',0,1,'content_type_id,id'),('codegalaxy','django_admin_log','django_admin_log_417f1b1c','2015-05-25 18:54:44','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_admin_log','django_admin_log_417f1b1c','2015-05-25 18:54:44','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_admin_log','django_admin_log_e8701ad4','2015-05-25 18:54:44','n_diff_pfx01',0,1,'user_id'),('codegalaxy','django_admin_log','django_admin_log_e8701ad4','2015-05-25 18:54:44','n_diff_pfx02',0,1,'user_id,id'),('codegalaxy','django_admin_log','django_admin_log_e8701ad4','2015-05-25 18:54:44','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_admin_log','django_admin_log_e8701ad4','2015-05-25 18:54:44','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_content_type','PRIMARY','2015-05-25 18:54:46','n_diff_pfx01',6,1,'id'),('codegalaxy','django_content_type','PRIMARY','2015-05-25 18:54:46','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_content_type','PRIMARY','2015-05-25 18:54:46','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_content_type','django_content_type_app_label_6ba5864255c5100a_uniq','2015-05-25 18:54:46','n_diff_pfx01',4,1,'app_label'),('codegalaxy','django_content_type','django_content_type_app_label_6ba5864255c5100a_uniq','2015-05-25 18:54:46','n_diff_pfx02',6,1,'app_label,model'),('codegalaxy','django_content_type','django_content_type_app_label_6ba5864255c5100a_uniq','2015-05-25 18:54:46','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_content_type','django_content_type_app_label_6ba5864255c5100a_uniq','2015-05-25 18:54:46','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_migrations','PRIMARY','2015-05-25 18:54:46','n_diff_pfx01',4,1,'id'),('codegalaxy','django_migrations','PRIMARY','2015-05-25 18:54:46','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_migrations','PRIMARY','2015-05-25 18:54:46','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_session','PRIMARY','2015-05-25 19:12:46','n_diff_pfx01',18,1,'session_key'),('codegalaxy','django_session','PRIMARY','2015-05-25 19:12:46','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_session','PRIMARY','2015-05-25 19:12:46','size',1,NULL,'Number of pages in the index'),('codegalaxy','django_session','django_session_de54fa62','2015-05-25 19:12:46','n_diff_pfx01',12,1,'expire_date'),('codegalaxy','django_session','django_session_de54fa62','2015-05-25 19:12:46','n_diff_pfx02',18,1,'expire_date,session_key'),('codegalaxy','django_session','django_session_de54fa62','2015-05-25 19:12:46','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','django_session','django_session_de54fa62','2015-05-25 19:12:46','size',1,NULL,'Number of pages in the index'),('codegalaxy','exercise','PRIMARY','2015-05-25 18:54:49','n_diff_pfx01',12,1,'id'),('codegalaxy','exercise','PRIMARY','2015-05-25 18:54:49','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exercise','PRIMARY','2015-05-25 18:54:49','size',1,NULL,'Number of pages in the index'),('codegalaxy','exercise','exerciseList_id','2015-05-25 18:54:49','n_diff_pfx01',7,1,'exerciseList_id'),('codegalaxy','exercise','exerciseList_id','2015-05-25 18:54:49','n_diff_pfx02',12,1,'exerciseList_id,id'),('codegalaxy','exercise','exerciseList_id','2015-05-25 18:54:49','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exercise','exerciseList_id','2015-05-25 18:54:49','size',1,NULL,'Number of pages in the index'),('codegalaxy','exerciseList','PRIMARY','2015-05-25 18:54:49','n_diff_pfx01',9,1,'id'),('codegalaxy','exerciseList','PRIMARY','2015-05-25 18:54:49','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exerciseList','PRIMARY','2015-05-25 18:54:49','size',1,NULL,'Number of pages in the index'),('codegalaxy','exerciseList','prog_lang_id','2015-05-25 18:54:49','n_diff_pfx01',3,1,'prog_lang_id'),('codegalaxy','exerciseList','prog_lang_id','2015-05-25 18:54:49','n_diff_pfx02',9,1,'prog_lang_id,id'),('codegalaxy','exerciseList','prog_lang_id','2015-05-25 18:54:49','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exerciseList','prog_lang_id','2015-05-25 18:54:49','size',1,NULL,'Number of pages in the index'),('codegalaxy','exerciseTitle','PRIMARY','2015-05-25 18:54:50','n_diff_pfx01',2,1,'language_id'),('codegalaxy','exerciseTitle','PRIMARY','2015-05-25 18:54:50','n_diff_pfx02',20,1,'language_id,exercise_id'),('codegalaxy','exerciseTitle','PRIMARY','2015-05-25 18:54:50','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exerciseTitle','PRIMARY','2015-05-25 18:54:50','size',1,NULL,'Number of pages in the index'),('codegalaxy','exerciseTitle','exercise_id','2015-05-25 18:54:50','n_diff_pfx01',12,1,'exercise_id'),('codegalaxy','exerciseTitle','exercise_id','2015-05-25 18:54:50','n_diff_pfx02',20,1,'exercise_id,language_id'),('codegalaxy','exerciseTitle','exercise_id','2015-05-25 18:54:50','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exerciseTitle','exercise_id','2015-05-25 18:54:50','size',1,NULL,'Number of pages in the index'),('codegalaxy','exercise_references','PRIMARY','2015-05-25 18:54:47','n_diff_pfx01',0,1,'original_id'),('codegalaxy','exercise_references','PRIMARY','2015-05-25 18:54:47','n_diff_pfx02',0,1,'original_id,new_list_id'),('codegalaxy','exercise_references','PRIMARY','2015-05-25 18:54:47','n_diff_pfx03',0,1,'original_id,new_list_id,new_list_exercise_number'),('codegalaxy','exercise_references','PRIMARY','2015-05-25 18:54:47','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','exercise_references','PRIMARY','2015-05-25 18:54:47','size',1,NULL,'Number of pages in the index'),('codegalaxy','friendsWith','PRIMARY','2015-05-25 18:54:51','n_diff_pfx01',16,1,'user_id'),('codegalaxy','friendsWith','PRIMARY','2015-05-25 18:54:51','n_diff_pfx02',76,1,'user_id,friend_id'),('codegalaxy','friendsWith','PRIMARY','2015-05-25 18:54:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','friendsWith','PRIMARY','2015-05-25 18:54:51','size',1,NULL,'Number of pages in the index'),('codegalaxy','friendsWith','friend_id','2015-05-25 18:54:51','n_diff_pfx01',19,1,'friend_id'),('codegalaxy','friendsWith','friend_id','2015-05-25 18:54:51','n_diff_pfx02',76,1,'friend_id,user_id'),('codegalaxy','friendsWith','friend_id','2015-05-25 18:54:51','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','friendsWith','friend_id','2015-05-25 18:54:51','size',1,NULL,'Number of pages in the index'),('codegalaxy','groups','PRIMARY','2015-05-25 18:54:52','n_diff_pfx01',32,1,'id'),('codegalaxy','groups','PRIMARY','2015-05-25 18:54:52','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','groups','PRIMARY','2015-05-25 18:54:52','size',1,NULL,'Number of pages in the index'),('codegalaxy','groups','group_name','2015-05-25 18:54:52','n_diff_pfx01',32,1,'group_name'),('codegalaxy','groups','group_name','2015-05-25 18:54:52','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','groups','group_name','2015-05-25 18:54:52','size',1,NULL,'Number of pages in the index'),('codegalaxy','hasBadge','PRIMARY','2015-05-25 18:54:52','n_diff_pfx01',25,1,'badge_id'),('codegalaxy','hasBadge','PRIMARY','2015-05-25 18:54:52','n_diff_pfx02',249,1,'badge_id,user_id'),('codegalaxy','hasBadge','PRIMARY','2015-05-25 18:54:52','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hasBadge','PRIMARY','2015-05-25 18:54:52','size',1,NULL,'Number of pages in the index'),('codegalaxy','hasSubject','PRIMARY','2015-05-25 18:54:54','n_diff_pfx01',9,1,'exerciseList_id'),('codegalaxy','hasSubject','PRIMARY','2015-05-25 18:54:54','n_diff_pfx02',31,1,'exerciseList_id,subject_id'),('codegalaxy','hasSubject','PRIMARY','2015-05-25 18:54:54','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hasSubject','PRIMARY','2015-05-25 18:54:54','size',1,NULL,'Number of pages in the index'),('codegalaxy','hasSubject','subject_id','2015-05-25 18:54:54','n_diff_pfx01',19,1,'subject_id'),('codegalaxy','hasSubject','subject_id','2015-05-25 18:54:54','n_diff_pfx02',31,1,'subject_id,exerciseList_id'),('codegalaxy','hasSubject','subject_id','2015-05-25 18:54:54','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hasSubject','subject_id','2015-05-25 18:54:54','size',1,NULL,'Number of pages in the index'),('codegalaxy','hint','PRIMARY','2015-05-25 18:54:54','n_diff_pfx01',2,1,'hint_number'),('codegalaxy','hint','PRIMARY','2015-05-25 18:54:54','n_diff_pfx02',11,1,'hint_number,exercise_id'),('codegalaxy','hint','PRIMARY','2015-05-25 18:54:54','n_diff_pfx03',18,1,'hint_number,exercise_id,language_id'),('codegalaxy','hint','PRIMARY','2015-05-25 18:54:54','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hint','PRIMARY','2015-05-25 18:54:54','size',1,NULL,'Number of pages in the index'),('codegalaxy','hint','exercise_id','2015-05-25 18:54:54','n_diff_pfx01',7,1,'exercise_id'),('codegalaxy','hint','exercise_id','2015-05-25 18:54:54','n_diff_pfx02',11,1,'exercise_id,hint_number'),('codegalaxy','hint','exercise_id','2015-05-25 18:54:54','n_diff_pfx03',18,1,'exercise_id,hint_number,language_id'),('codegalaxy','hint','exercise_id','2015-05-25 18:54:54','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hint','exercise_id','2015-05-25 18:54:54','size',1,NULL,'Number of pages in the index'),('codegalaxy','hint','language_id','2015-05-25 18:54:54','n_diff_pfx01',2,1,'language_id'),('codegalaxy','hint','language_id','2015-05-25 18:54:54','n_diff_pfx02',4,1,'language_id,hint_number'),('codegalaxy','hint','language_id','2015-05-25 18:54:54','n_diff_pfx03',18,1,'language_id,hint_number,exercise_id'),('codegalaxy','hint','language_id','2015-05-25 18:54:54','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','hint','language_id','2015-05-25 18:54:54','size',1,NULL,'Number of pages in the index'),('codegalaxy','language','PRIMARY','2015-05-25 18:54:55','n_diff_pfx01',2,1,'id'),('codegalaxy','language','PRIMARY','2015-05-25 18:54:55','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','language','PRIMARY','2015-05-25 18:54:55','size',1,NULL,'Number of pages in the index'),('codegalaxy','language','name','2015-05-25 18:54:55','n_diff_pfx01',2,1,'name'),('codegalaxy','language','name','2015-05-25 18:54:55','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','language','name','2015-05-25 18:54:55','size',1,NULL,'Number of pages in the index'),('codegalaxy','listTranslation','PRIMARY','2015-05-25 18:54:56','n_diff_pfx01',9,1,'list_id'),('codegalaxy','listTranslation','PRIMARY','2015-05-25 18:54:56','n_diff_pfx02',16,1,'list_id,language_id'),('codegalaxy','listTranslation','PRIMARY','2015-05-25 18:54:56','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','listTranslation','PRIMARY','2015-05-25 18:54:56','size',1,NULL,'Number of pages in the index'),('codegalaxy','listTranslation','language_id','2015-05-25 18:54:56','n_diff_pfx01',2,1,'language_id'),('codegalaxy','listTranslation','language_id','2015-05-25 18:54:56','n_diff_pfx02',16,1,'language_id,list_id'),('codegalaxy','listTranslation','language_id','2015-05-25 18:54:56','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','listTranslation','language_id','2015-05-25 18:54:56','size',1,NULL,'Number of pages in the index'),('codegalaxy','madeEx','PRIMARY','2015-05-25 18:54:57','n_diff_pfx01',7,1,'user_id'),('codegalaxy','madeEx','PRIMARY','2015-05-25 18:54:57','n_diff_pfx02',15,1,'user_id,exercise_number'),('codegalaxy','madeEx','PRIMARY','2015-05-25 18:54:57','n_diff_pfx03',24,1,'user_id,exercise_number,list_id'),('codegalaxy','madeEx','PRIMARY','2015-05-25 18:54:57','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','madeEx','PRIMARY','2015-05-25 18:54:57','size',1,NULL,'Number of pages in the index'),('codegalaxy','madeList','PRIMARY','2015-05-25 18:54:57','n_diff_pfx01',6,1,'exerciseList_id'),('codegalaxy','madeList','PRIMARY','2015-05-25 18:54:57','n_diff_pfx02',12,1,'exerciseList_id,user_id'),('codegalaxy','madeList','PRIMARY','2015-05-25 18:54:57','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','madeList','PRIMARY','2015-05-25 18:54:57','size',1,NULL,'Number of pages in the index'),('codegalaxy','madeList','user_id','2015-05-25 18:54:57','n_diff_pfx01',6,1,'user_id'),('codegalaxy','madeList','user_id','2015-05-25 18:54:57','n_diff_pfx02',12,1,'user_id,exerciseList_id'),('codegalaxy','madeList','user_id','2015-05-25 18:54:57','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','madeList','user_id','2015-05-25 18:54:57','size',1,NULL,'Number of pages in the index'),('codegalaxy','post','PRIMARY','2015-05-25 19:06:41','n_diff_pfx01',3,1,'id'),('codegalaxy','post','PRIMARY','2015-05-25 19:06:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','post','PRIMARY','2015-05-25 19:06:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','post','group_id','2015-05-25 19:06:41','n_diff_pfx01',1,1,'group_id'),('codegalaxy','post','group_id','2015-05-25 19:06:41','n_diff_pfx02',3,1,'group_id,id'),('codegalaxy','post','group_id','2015-05-25 19:06:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','post','group_id','2015-05-25 19:06:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','post','user_id','2015-05-25 19:06:41','n_diff_pfx01',2,1,'user_id'),('codegalaxy','post','user_id','2015-05-25 19:06:41','n_diff_pfx02',3,1,'user_id,id'),('codegalaxy','post','user_id','2015-05-25 19:06:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','post','user_id','2015-05-25 19:06:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','programmingLanguage','PRIMARY','2015-05-25 18:55:09','n_diff_pfx01',3,1,'id'),('codegalaxy','programmingLanguage','PRIMARY','2015-05-25 18:55:09','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','programmingLanguage','PRIMARY','2015-05-25 18:55:09','size',1,NULL,'Number of pages in the index'),('codegalaxy','programmingLanguage','name','2015-05-25 18:55:09','n_diff_pfx01',3,1,'name'),('codegalaxy','programmingLanguage','name','2015-05-25 18:55:09','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','programmingLanguage','name','2015-05-25 18:55:09','size',1,NULL,'Number of pages in the index'),('codegalaxy','question','PRIMARY','2015-05-25 18:55:19','n_diff_pfx01',12,1,'exercise_id'),('codegalaxy','question','PRIMARY','2015-05-25 18:55:19','n_diff_pfx02',20,1,'exercise_id,language_id'),('codegalaxy','question','PRIMARY','2015-05-25 18:55:19','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','question','PRIMARY','2015-05-25 18:55:19','size',1,NULL,'Number of pages in the index'),('codegalaxy','question','language_id','2015-05-25 18:55:19','n_diff_pfx01',2,1,'language_id'),('codegalaxy','question','language_id','2015-05-25 18:55:19','n_diff_pfx02',20,1,'language_id,exercise_id'),('codegalaxy','question','language_id','2015-05-25 18:55:19','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','question','language_id','2015-05-25 18:55:19','size',1,NULL,'Number of pages in the index'),('codegalaxy','subject','PRIMARY','2015-05-25 18:55:29','n_diff_pfx01',19,1,'id'),('codegalaxy','subject','PRIMARY','2015-05-25 18:55:29','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','subject','PRIMARY','2015-05-25 18:55:29','size',1,NULL,'Number of pages in the index'),('codegalaxy','subject','name','2015-05-25 18:55:29','n_diff_pfx01',19,1,'name'),('codegalaxy','subject','name','2015-05-25 18:55:29','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','subject','name','2015-05-25 18:55:29','size',1,NULL,'Number of pages in the index'),('codegalaxy','user','PRIMARY','2015-05-25 18:55:39','n_diff_pfx01',21,1,'id'),('codegalaxy','user','PRIMARY','2015-05-25 18:55:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','user','PRIMARY','2015-05-25 18:55:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','user','badge_ibfk_1','2015-05-25 18:55:39','n_diff_pfx01',2,1,'badge_id'),('codegalaxy','user','badge_ibfk_1','2015-05-25 18:55:39','n_diff_pfx02',21,1,'badge_id,id'),('codegalaxy','user','badge_ibfk_1','2015-05-25 18:55:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','user','badge_ibfk_1','2015-05-25 18:55:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','user','email','2015-05-25 18:55:39','n_diff_pfx01',21,1,'email'),('codegalaxy','user','email','2015-05-25 18:55:39','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','user','email','2015-05-25 18:55:39','size',1,NULL,'Number of pages in the index'),('codegalaxy','userInGroup','PRIMARY','2015-05-25 18:55:41','n_diff_pfx01',24,1,'group_id'),('codegalaxy','userInGroup','PRIMARY','2015-05-25 18:55:41','n_diff_pfx02',76,1,'group_id,user_id'),('codegalaxy','userInGroup','PRIMARY','2015-05-25 18:55:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','userInGroup','PRIMARY','2015-05-25 18:55:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','userInGroup','user_id','2015-05-25 18:55:41','n_diff_pfx01',20,1,'user_id'),('codegalaxy','userInGroup','user_id','2015-05-25 18:55:41','n_diff_pfx02',76,1,'user_id,group_id'),('codegalaxy','userInGroup','user_id','2015-05-25 18:55:41','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','userInGroup','user_id','2015-05-25 18:55:41','size',1,NULL,'Number of pages in the index'),('codegalaxy','verification','PRIMARY','2015-05-25 18:54:59','n_diff_pfx01',0,1,'hash'),('codegalaxy','verification','PRIMARY','2015-05-25 18:54:59','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','verification','PRIMARY','2015-05-25 18:54:59','size',1,NULL,'Number of pages in the index'),('codegalaxy','verification','email','2015-05-25 18:54:59','n_diff_pfx01',0,1,'email'),('codegalaxy','verification','email','2015-05-25 18:54:59','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','verification','email','2015-05-25 18:54:59','size',1,NULL,'Number of pages in the index'),('codegalaxy','verification','hash','2015-05-25 18:54:59','n_diff_pfx01',0,1,'hash'),('codegalaxy','verification','hash','2015-05-25 18:54:59','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('codegalaxy','verification','hash','2015-05-25 18:54:59','size',1,NULL,'Number of pages in the index'),('rs_db','cuisines','PRIMARY','2015-04-26 13:28:01','n_diff_pfx01',0,1,'id'),('rs_db','cuisines','PRIMARY','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','cuisines','PRIMARY','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','followers','PRIMARY','2015-04-26 13:28:01','n_diff_pfx01',0,1,'id'),('rs_db','followers','PRIMARY','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','followers','PRIMARY','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','followers','followers_restaurant_id_foreign','2015-04-26 13:28:01','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','followers','followers_restaurant_id_foreign','2015-04-26 13:28:01','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','followers','followers_restaurant_id_foreign','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','followers','followers_restaurant_id_foreign','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','followers','followers_user_id_foreign','2015-04-26 13:28:01','n_diff_pfx01',0,1,'user_id'),('rs_db','followers','followers_user_id_foreign','2015-04-26 13:28:01','n_diff_pfx02',0,1,'user_id,id'),('rs_db','followers','followers_user_id_foreign','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','followers','followers_user_id_foreign','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','menus','PRIMARY','2015-04-26 13:28:01','n_diff_pfx01',0,1,'id'),('rs_db','menus','PRIMARY','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','menus','PRIMARY','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','menus','menus_cuisine_id_foreign','2015-04-26 13:28:01','n_diff_pfx01',0,1,'cuisine_id'),('rs_db','menus','menus_cuisine_id_foreign','2015-04-26 13:28:01','n_diff_pfx02',0,1,'cuisine_id,id'),('rs_db','menus','menus_cuisine_id_foreign','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','menus','menus_cuisine_id_foreign','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','menus','menus_restaurant_id_foreign','2015-04-26 13:28:01','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','menus','menus_restaurant_id_foreign','2015-04-26 13:28:01','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','menus','menus_restaurant_id_foreign','2015-04-26 13:28:01','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','menus','menus_restaurant_id_foreign','2015-04-26 13:28:01','size',1,NULL,'Number of pages in the index'),('rs_db','migrations','GEN_CLUST_INDEX','2015-04-26 13:28:02','n_diff_pfx01',2,1,'DB_ROW_ID'),('rs_db','migrations','GEN_CLUST_INDEX','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','migrations','GEN_CLUST_INDEX','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','offers','PRIMARY','2015-04-26 13:28:02','n_diff_pfx01',0,1,'id'),('rs_db','offers','PRIMARY','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','offers','PRIMARY','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','offers','offers_restaurant_id_foreign','2015-04-26 13:28:02','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','offers','offers_restaurant_id_foreign','2015-04-26 13:28:02','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','offers','offers_restaurant_id_foreign','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','offers','offers_restaurant_id_foreign','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','password_reminders','GEN_CLUST_INDEX','2015-04-26 13:28:02','n_diff_pfx01',0,1,'DB_ROW_ID'),('rs_db','password_reminders','GEN_CLUST_INDEX','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','password_reminders','GEN_CLUST_INDEX','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','password_reminders','password_reminders_email_index','2015-04-26 13:28:02','n_diff_pfx01',0,1,'email'),('rs_db','password_reminders','password_reminders_email_index','2015-04-26 13:28:02','n_diff_pfx02',0,1,'email,DB_ROW_ID'),('rs_db','password_reminders','password_reminders_email_index','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','password_reminders','password_reminders_email_index','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','password_reminders','password_reminders_token_index','2015-04-26 13:28:02','n_diff_pfx01',0,1,'token'),('rs_db','password_reminders','password_reminders_token_index','2015-04-26 13:28:02','n_diff_pfx02',0,1,'token,DB_ROW_ID'),('rs_db','password_reminders','password_reminders_token_index','2015-04-26 13:28:02','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','password_reminders','password_reminders_token_index','2015-04-26 13:28:02','size',1,NULL,'Number of pages in the index'),('rs_db','queue_menus','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','queue_menus','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_menus','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_menus','queue_menus_menu_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'menu_id'),('rs_db','queue_menus','queue_menus_menu_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'menu_id,id'),('rs_db','queue_menus','queue_menus_menu_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_menus','queue_menus_menu_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_menus','queue_menus_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','queue_menus','queue_menus_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','queue_menus','queue_menus_restaurant_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_menus','queue_menus_restaurant_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_menus','queue_menus_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'user_id'),('rs_db','queue_menus','queue_menus_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'user_id,id'),('rs_db','queue_menus','queue_menus_user_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_menus','queue_menus_user_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_offers','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','queue_offers','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_offers','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_offers','queue_offers_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'offer_id'),('rs_db','queue_offers','queue_offers_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'offer_id,id'),('rs_db','queue_offers','queue_offers_offer_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_offers','queue_offers_offer_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_offers','queue_offers_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','queue_offers','queue_offers_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','queue_offers','queue_offers_restaurant_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_offers','queue_offers_restaurant_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','queue_offers','queue_offers_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'user_id'),('rs_db','queue_offers','queue_offers_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'user_id,id'),('rs_db','queue_offers','queue_offers_user_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','queue_offers','queue_offers_user_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','recur_offers','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','recur_offers','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','recur_offers','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','recur_offers','recur_offers_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'offer_id'),('rs_db','recur_offers','recur_offers_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'offer_id,id'),('rs_db','recur_offers','recur_offers_offer_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','recur_offers','recur_offers_offer_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','reservations','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','reservations','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','reservations','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','reservations','reservations_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'offer_id'),('rs_db','reservations','reservations_offer_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'offer_id,id'),('rs_db','reservations','reservations_offer_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','reservations','reservations_offer_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','reservations','reservations_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','reservations','reservations_restaurant_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','reservations','reservations_restaurant_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','reservations','reservations_restaurant_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','reservations','reservations_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'user_id'),('rs_db','reservations','reservations_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'user_id,id'),('rs_db','reservations','reservations_user_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','reservations','reservations_user_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','restaurants','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','restaurants','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','restaurants','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','restaurants','restaurants_email_unique','2015-04-26 13:28:03','n_diff_pfx01',0,1,'email'),('rs_db','restaurants','restaurants_email_unique','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','restaurants','restaurants_email_unique','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','restaurants','restaurants_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',0,1,'user_id'),('rs_db','restaurants','restaurants_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',0,1,'user_id,id'),('rs_db','restaurants','restaurants_user_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','restaurants','restaurants_user_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','restaurants_requests','PRIMARY','2015-04-26 13:28:03','n_diff_pfx01',0,1,'id'),('rs_db','restaurants_requests','PRIMARY','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','restaurants_requests','PRIMARY','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','restaurants_requests','restaurants_requests_email_unique','2015-04-26 13:28:03','n_diff_pfx01',0,1,'email'),('rs_db','restaurants_requests','restaurants_requests_email_unique','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','restaurants_requests','restaurants_requests_email_unique','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','role_user','GEN_CLUST_INDEX','2015-04-26 13:28:03','n_diff_pfx01',2,1,'DB_ROW_ID'),('rs_db','role_user','GEN_CLUST_INDEX','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','role_user','GEN_CLUST_INDEX','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','role_user','role_user_role_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',2,1,'role_id'),('rs_db','role_user','role_user_role_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',2,1,'role_id,DB_ROW_ID'),('rs_db','role_user','role_user_role_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','role_user','role_user_role_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','role_user','role_user_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx01',2,1,'user_id'),('rs_db','role_user','role_user_user_id_foreign','2015-04-26 13:28:03','n_diff_pfx02',2,1,'user_id,DB_ROW_ID'),('rs_db','role_user','role_user_user_id_foreign','2015-04-26 13:28:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','role_user','role_user_user_id_foreign','2015-04-26 13:28:03','size',1,NULL,'Number of pages in the index'),('rs_db','roles','PRIMARY','2015-04-26 13:28:04','n_diff_pfx01',3,1,'id'),('rs_db','roles','PRIMARY','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','roles','PRIMARY','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','roles','roles_role_unique','2015-04-26 13:28:04','n_diff_pfx01',3,1,'role'),('rs_db','roles','roles_role_unique','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','roles','roles_role_unique','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','rsettings','PRIMARY','2015-04-26 13:28:04','n_diff_pfx01',0,1,'id'),('rs_db','rsettings','PRIMARY','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','rsettings','PRIMARY','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','rsettings','rsettings_restaurant_id_foreign','2015-04-26 13:28:04','n_diff_pfx01',0,1,'restaurant_id'),('rs_db','rsettings','rsettings_restaurant_id_foreign','2015-04-26 13:28:04','n_diff_pfx02',0,1,'restaurant_id,id'),('rs_db','rsettings','rsettings_restaurant_id_foreign','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','rsettings','rsettings_restaurant_id_foreign','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','settings','PRIMARY','2015-04-26 13:28:04','n_diff_pfx01',2,1,'id'),('rs_db','settings','PRIMARY','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','settings','PRIMARY','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','settings','settings_user_id_foreign','2015-04-26 13:28:04','n_diff_pfx01',2,1,'user_id'),('rs_db','settings','settings_user_id_foreign','2015-04-26 13:28:04','n_diff_pfx02',2,1,'user_id,id'),('rs_db','settings','settings_user_id_foreign','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','settings','settings_user_id_foreign','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','users','PRIMARY','2015-04-26 13:28:04','n_diff_pfx01',2,1,'id'),('rs_db','users','PRIMARY','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','users','PRIMARY','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('rs_db','users','users_email_unique','2015-04-26 13:28:04','n_diff_pfx01',2,1,'email'),('rs_db','users','users_email_unique','2015-04-26 13:28:04','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('rs_db','users','users_email_unique','2015-04-26 13:28:04','size',1,NULL,'Number of pages in the index'),('sandbox','exercise_references','GEN_CLUST_INDEX','2015-05-25 18:53:03','n_diff_pfx01',0,1,'DB_ROW_ID'),('sandbox','exercise_references','GEN_CLUST_INDEX','2015-05-25 18:53:03','n_leaf_pages',1,NULL,'Number of leaf pages in the index'),('sandbox','exercise_references','GEN_CLUST_INDEX','2015-05-25 18:53:03','size',1,NULL,'Number of pages in the index');
+/*!40000 ALTER TABLE `innodb_index_stats` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `innodb_table_stats`
+--
+
+DROP TABLE IF EXISTS `innodb_table_stats`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `innodb_table_stats` (
+  `database_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `table_name` varchar(64) COLLATE utf8_bin NOT NULL,
+  `last_update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `n_rows` bigint(20) unsigned NOT NULL,
+  `clustered_index_size` bigint(20) unsigned NOT NULL,
+  `sum_of_other_index_sizes` bigint(20) unsigned NOT NULL,
+  PRIMARY KEY (`database_name`,`table_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin STATS_PERSISTENT=0;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `innodb_table_stats`
+--
+
+LOCK TABLES `innodb_table_stats` WRITE;
+/*!40000 ALTER TABLE `innodb_table_stats` DISABLE KEYS */;
+INSERT INTO `innodb_table_stats` VALUES ('codegalaxy','answer','2015-05-25 18:54:51',31,1,1),('codegalaxy','auth_group','2015-05-25 18:54:39',0,1,1),('codegalaxy','auth_group_permissions','2015-05-25 18:54:39',0,1,3),('codegalaxy','auth_permission','2015-05-25 18:54:42',18,1,2),('codegalaxy','auth_user','2015-05-25 18:54:40',0,1,1),('codegalaxy','auth_user_groups','2015-05-25 18:54:41',0,1,3),('codegalaxy','auth_user_user_permissions','2015-05-25 18:54:41',0,1,3),('codegalaxy','badge','2015-05-25 18:54:43',25,1,1),('codegalaxy','badgeMessageTranslation','2015-05-25 18:54:44',50,1,1),('codegalaxy','challenge','2015-05-25 18:54:43',0,1,2),('codegalaxy','code','2015-05-25 18:54:45',8,1,0),('codegalaxy','django_admin_log','2015-05-25 18:54:44',0,1,2),('codegalaxy','django_content_type','2015-05-25 18:54:46',6,1,1),('codegalaxy','django_migrations','2015-05-25 18:54:46',4,1,0),('codegalaxy','django_session','2015-05-25 19:12:46',18,1,1),('codegalaxy','exercise','2015-05-25 18:54:49',12,1,1),('codegalaxy','exerciseList','2015-05-25 18:54:49',9,1,1),('codegalaxy','exerciseTitle','2015-05-25 18:54:50',20,1,1),('codegalaxy','exercise_references','2015-05-25 18:54:47',0,1,0),('codegalaxy','friendsWith','2015-05-25 18:54:51',76,1,1),('codegalaxy','groups','2015-05-25 18:54:52',32,1,1),('codegalaxy','hasBadge','2015-05-25 18:54:52',249,1,0),('codegalaxy','hasSubject','2015-05-25 18:54:54',31,1,1),('codegalaxy','hint','2015-05-25 18:54:54',18,1,2),('codegalaxy','language','2015-05-25 18:54:55',2,1,1),('codegalaxy','listTranslation','2015-05-25 18:54:56',16,1,1),('codegalaxy','madeEx','2015-05-25 18:54:57',24,1,0),('codegalaxy','madeList','2015-05-25 18:54:57',12,1,1),('codegalaxy','post','2015-05-25 19:06:41',3,1,2),('codegalaxy','programmingLanguage','2015-05-25 18:55:09',3,1,1),('codegalaxy','question','2015-05-25 18:55:19',20,1,1),('codegalaxy','subject','2015-05-25 18:55:29',19,1,1),('codegalaxy','user','2015-05-25 18:55:39',21,1,2),('codegalaxy','userInGroup','2015-05-25 18:55:41',76,1,1),('codegalaxy','verification','2015-05-25 18:54:59',0,1,2),('rs_db','cuisines','2015-04-26 13:28:01',0,1,0),('rs_db','followers','2015-04-26 13:28:01',0,1,2),('rs_db','menus','2015-04-26 13:28:01',0,1,2),('rs_db','migrations','2015-04-26 13:28:02',2,1,0),('rs_db','offers','2015-04-26 13:28:02',0,1,1),('rs_db','password_reminders','2015-04-26 13:28:02',0,1,2),('rs_db','queue_menus','2015-04-26 13:28:03',0,1,3),('rs_db','queue_offers','2015-04-26 13:28:03',0,1,3),('rs_db','recur_offers','2015-04-26 13:28:03',0,1,1),('rs_db','reservations','2015-04-26 13:28:03',0,1,3),('rs_db','restaurants','2015-04-26 13:28:03',0,1,2),('rs_db','restaurants_requests','2015-04-26 13:28:03',0,1,1),('rs_db','role_user','2015-04-26 13:28:03',2,1,2),('rs_db','roles','2015-04-26 13:28:04',3,1,1),('rs_db','rsettings','2015-04-26 13:28:04',0,1,1),('rs_db','settings','2015-04-26 13:28:04',2,1,1),('rs_db','users','2015-04-26 13:28:04',2,1,1),('sandbox','exercise_references','2015-05-25 18:53:03',0,1,0);
+/*!40000 ALTER TABLE `innodb_table_stats` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1489,6 +1556,112 @@ CREATE TABLE `servers` (
 LOCK TABLES `servers` WRITE;
 /*!40000 ALTER TABLE `servers` DISABLE KEYS */;
 /*!40000 ALTER TABLE `servers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `slave_master_info`
+--
+
+DROP TABLE IF EXISTS `slave_master_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `slave_master_info` (
+  `Number_of_lines` int(10) unsigned NOT NULL COMMENT 'Number of lines in the file.',
+  `Master_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The name of the master binary log currently being read from the master.',
+  `Master_log_pos` bigint(20) unsigned NOT NULL COMMENT 'The master log position of the last read event.',
+  `Host` char(64) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'The host name of the master.',
+  `User_name` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The user name used to connect to the master.',
+  `User_password` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The password used to connect to the master.',
+  `Port` int(10) unsigned NOT NULL COMMENT 'The network port used to connect to the master.',
+  `Connect_retry` int(10) unsigned NOT NULL COMMENT 'The period (in seconds) that the slave will wait before trying to reconnect to the master.',
+  `Enabled_ssl` tinyint(1) NOT NULL COMMENT 'Indicates whether the server supports SSL connections.',
+  `Ssl_ca` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The file used for the Certificate Authority (CA) certificate.',
+  `Ssl_capath` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The path to the Certificate Authority (CA) certificates.',
+  `Ssl_cert` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The name of the SSL certificate file.',
+  `Ssl_cipher` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The name of the cipher in use for the SSL connection.',
+  `Ssl_key` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The name of the SSL key file.',
+  `Ssl_verify_server_cert` tinyint(1) NOT NULL COMMENT 'Whether to verify the server certificate.',
+  `Heartbeat` float NOT NULL,
+  `Bind` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'Displays which interface is employed when connecting to the MySQL server',
+  `Ignored_server_ids` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The number of server IDs to be ignored, followed by the actual server IDs',
+  `Uuid` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The master server uuid.',
+  `Retry_count` bigint(20) unsigned NOT NULL COMMENT 'Number of reconnect attempts, to the master, before giving up.',
+  `Ssl_crl` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The file used for the Certificate Revocation List (CRL)',
+  `Ssl_crlpath` text CHARACTER SET utf8 COLLATE utf8_bin COMMENT 'The path used for Certificate Revocation List (CRL) files',
+  `Enabled_auto_position` tinyint(1) NOT NULL COMMENT 'Indicates whether GTIDs will be used to retrieve events from the master.',
+  PRIMARY KEY (`Host`,`Port`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 STATS_PERSISTENT=0 COMMENT='Master Information';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `slave_master_info`
+--
+
+LOCK TABLES `slave_master_info` WRITE;
+/*!40000 ALTER TABLE `slave_master_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `slave_master_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `slave_relay_log_info`
+--
+
+DROP TABLE IF EXISTS `slave_relay_log_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `slave_relay_log_info` (
+  `Number_of_lines` int(10) unsigned NOT NULL COMMENT 'Number of lines in the file or rows in the table. Used to version table definitions.',
+  `Relay_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The name of the current relay log file.',
+  `Relay_log_pos` bigint(20) unsigned NOT NULL COMMENT 'The relay log position of the last executed event.',
+  `Master_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'The name of the master binary log file from which the events in the relay log file were read.',
+  `Master_log_pos` bigint(20) unsigned NOT NULL COMMENT 'The master log position of the last executed event.',
+  `Sql_delay` int(11) NOT NULL COMMENT 'The number of seconds that the slave must lag behind the master.',
+  `Number_of_workers` int(10) unsigned NOT NULL,
+  `Id` int(10) unsigned NOT NULL COMMENT 'Internal Id that uniquely identifies this record.',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 STATS_PERSISTENT=0 COMMENT='Relay Log Information';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `slave_relay_log_info`
+--
+
+LOCK TABLES `slave_relay_log_info` WRITE;
+/*!40000 ALTER TABLE `slave_relay_log_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `slave_relay_log_info` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `slave_worker_info`
+--
+
+DROP TABLE IF EXISTS `slave_worker_info`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `slave_worker_info` (
+  `Id` int(10) unsigned NOT NULL,
+  `Relay_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Relay_log_pos` bigint(20) unsigned NOT NULL,
+  `Master_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Master_log_pos` bigint(20) unsigned NOT NULL,
+  `Checkpoint_relay_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Checkpoint_relay_log_pos` bigint(20) unsigned NOT NULL,
+  `Checkpoint_master_log_name` text CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `Checkpoint_master_log_pos` bigint(20) unsigned NOT NULL,
+  `Checkpoint_seqno` int(10) unsigned NOT NULL,
+  `Checkpoint_group_size` int(10) unsigned NOT NULL,
+  `Checkpoint_group_bitmap` blob NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 STATS_PERSISTENT=0 COMMENT='Worker Information';
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `slave_worker_info`
+--
+
+LOCK TABLES `slave_worker_info` WRITE;
+/*!40000 ALTER TABLE `slave_worker_info` DISABLE KEYS */;
+/*!40000 ALTER TABLE `slave_worker_info` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1713,7 +1886,7 @@ UNLOCK TABLES;
 CREATE TABLE IF NOT EXISTS `general_log` (
   `event_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `user_host` mediumtext NOT NULL,
-  `thread_id` int(11) NOT NULL,
+  `thread_id` bigint(21) unsigned NOT NULL,
   `server_id` int(10) unsigned NOT NULL,
   `command_type` varchar(64) NOT NULL,
   `argument` mediumtext NOT NULL
@@ -1737,9 +1910,554 @@ CREATE TABLE IF NOT EXISTS `slow_log` (
   `last_insert_id` int(11) NOT NULL,
   `insert_id` int(11) NOT NULL,
   `server_id` int(10) unsigned NOT NULL,
-  `sql_text` mediumtext NOT NULL
+  `sql_text` mediumtext NOT NULL,
+  `thread_id` bigint(21) unsigned NOT NULL
 ) ENGINE=CSV DEFAULT CHARSET=utf8 COMMENT='Slow log';
 /*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Current Database: `rs_db`
+--
+
+CREATE DATABASE /*!32312 IF NOT EXISTS*/ `rs_db` /*!40100 DEFAULT CHARACTER SET latin1 */;
+
+USE `rs_db`;
+
+--
+-- Table structure for table `cuisines`
+--
+
+DROP TABLE IF EXISTS `cuisines`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `cuisines` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `cuisines`
+--
+
+LOCK TABLES `cuisines` WRITE;
+/*!40000 ALTER TABLE `cuisines` DISABLE KEYS */;
+/*!40000 ALTER TABLE `cuisines` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `followers`
+--
+
+DROP TABLE IF EXISTS `followers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `followers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `followers_user_id_foreign` (`user_id`),
+  KEY `followers_restaurant_id_foreign` (`restaurant_id`),
+  CONSTRAINT `followers_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `followers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `followers`
+--
+
+LOCK TABLES `followers` WRITE;
+/*!40000 ALTER TABLE `followers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `followers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `menus`
+--
+
+DROP TABLE IF EXISTS `menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `menus` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `cuisine_id` int(10) unsigned NOT NULL,
+  `description` varchar(160) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `price` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `m_photos` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `menus_restaurant_id_foreign` (`restaurant_id`),
+  KEY `menus_cuisine_id_foreign` (`cuisine_id`),
+  CONSTRAINT `menus_cuisine_id_foreign` FOREIGN KEY (`cuisine_id`) REFERENCES `cuisines` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `menus_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `menus`
+--
+
+LOCK TABLES `menus` WRITE;
+/*!40000 ALTER TABLE `menus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `menus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `migrations`
+--
+
+DROP TABLE IF EXISTS `migrations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `migrations` (
+  `migration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `batch` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `migrations`
+--
+
+LOCK TABLES `migrations` WRITE;
+/*!40000 ALTER TABLE `migrations` DISABLE KEYS */;
+INSERT INTO `migrations` VALUES ('2014_07_29_084646_create_database',1),('2014_08_11_160047_create_password_reminders_table',1);
+/*!40000 ALTER TABLE `migrations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `offers`
+--
+
+DROP TABLE IF EXISTS `offers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `offers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `date` date NOT NULL,
+  `start_time` time NOT NULL,
+  `end_time` time NOT NULL,
+  `parent_id` bigint(20) DEFAULT NULL,
+  `finish_at` date DEFAULT NULL,
+  `uniqcod` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `tables` bigint(20) NOT NULL,
+  `pdiscount` bigint(20) NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `offers_restaurant_id_foreign` (`restaurant_id`),
+  CONSTRAINT `offers_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `offers`
+--
+
+LOCK TABLES `offers` WRITE;
+/*!40000 ALTER TABLE `offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `password_reminders`
+--
+
+DROP TABLE IF EXISTS `password_reminders`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `password_reminders` (
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  KEY `password_reminders_email_index` (`email`),
+  KEY `password_reminders_token_index` (`token`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `password_reminders`
+--
+
+LOCK TABLES `password_reminders` WRITE;
+/*!40000 ALTER TABLE `password_reminders` DISABLE KEYS */;
+/*!40000 ALTER TABLE `password_reminders` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `queue_menus`
+--
+
+DROP TABLE IF EXISTS `queue_menus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `queue_menus` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `menu_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `queue_menus_user_id_foreign` (`user_id`),
+  KEY `queue_menus_restaurant_id_foreign` (`restaurant_id`),
+  KEY `queue_menus_menu_id_foreign` (`menu_id`),
+  CONSTRAINT `queue_menus_menu_id_foreign` FOREIGN KEY (`menu_id`) REFERENCES `menus` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `queue_menus_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `queue_menus_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `queue_menus`
+--
+
+LOCK TABLES `queue_menus` WRITE;
+/*!40000 ALTER TABLE `queue_menus` DISABLE KEYS */;
+/*!40000 ALTER TABLE `queue_menus` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `queue_offers`
+--
+
+DROP TABLE IF EXISTS `queue_offers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `queue_offers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `offer_id` int(10) unsigned NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `queue_offers_user_id_foreign` (`user_id`),
+  KEY `queue_offers_offer_id_foreign` (`offer_id`),
+  KEY `queue_offers_restaurant_id_foreign` (`restaurant_id`),
+  CONSTRAINT `queue_offers_offer_id_foreign` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `queue_offers_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `queue_offers_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `queue_offers`
+--
+
+LOCK TABLES `queue_offers` WRITE;
+/*!40000 ALTER TABLE `queue_offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `queue_offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `recur_offers`
+--
+
+DROP TABLE IF EXISTS `recur_offers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `recur_offers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `offer_id` int(10) unsigned NOT NULL,
+  `date` date NOT NULL,
+  `every` bigint(20) NOT NULL,
+  `type` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `until` date DEFAULT NULL,
+  `occurrence` bigint(20) DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `recur_offers_offer_id_foreign` (`offer_id`),
+  CONSTRAINT `recur_offers_offer_id_foreign` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `recur_offers`
+--
+
+LOCK TABLES `recur_offers` WRITE;
+/*!40000 ALTER TABLE `recur_offers` DISABLE KEYS */;
+/*!40000 ALTER TABLE `recur_offers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `reservations`
+--
+
+DROP TABLE IF EXISTS `reservations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reservations` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `offer_id` int(10) unsigned DEFAULT NULL,
+  `user_id` int(10) unsigned NOT NULL,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `reservation_date` datetime NOT NULL,
+  `number_of_people` int(11) NOT NULL,
+  `number_of_tables` int(11) NOT NULL DEFAULT '1',
+  `confirmed` tinyint(1) NOT NULL DEFAULT '0',
+  `message` text COLLATE utf8_unicode_ci,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `reservations_offer_id_foreign` (`offer_id`),
+  KEY `reservations_user_id_foreign` (`user_id`),
+  KEY `reservations_restaurant_id_foreign` (`restaurant_id`),
+  CONSTRAINT `reservations_offer_id_foreign` FOREIGN KEY (`offer_id`) REFERENCES `offers` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT `reservations_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `reservations_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `reservations`
+--
+
+LOCK TABLES `reservations` WRITE;
+/*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `restaurants`
+--
+
+DROP TABLE IF EXISTS `restaurants`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `restaurants` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `logo` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `address` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `geocode` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `mobile` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `google_page` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `facebook_page` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `r_photos` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `opening_time` time NOT NULL,
+  `closing_time` time NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `restaurants_email_unique` (`email`),
+  KEY `restaurants_user_id_foreign` (`user_id`),
+  CONSTRAINT `restaurants_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `restaurants`
+--
+
+LOCK TABLES `restaurants` WRITE;
+/*!40000 ALTER TABLE `restaurants` DISABLE KEYS */;
+/*!40000 ALTER TABLE `restaurants` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `restaurants_requests`
+--
+
+DROP TABLE IF EXISTS `restaurants_requests`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `restaurants_requests` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `message` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `website` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `restaurants_requests_email_unique` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `restaurants_requests`
+--
+
+LOCK TABLES `restaurants_requests` WRITE;
+/*!40000 ALTER TABLE `restaurants_requests` DISABLE KEYS */;
+/*!40000 ALTER TABLE `restaurants_requests` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `role_user`
+--
+
+DROP TABLE IF EXISTS `role_user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `role_user` (
+  `user_id` int(10) unsigned NOT NULL,
+  `role_id` int(10) unsigned NOT NULL,
+  KEY `role_user_user_id_foreign` (`user_id`),
+  KEY `role_user_role_id_foreign` (`role_id`),
+  CONSTRAINT `role_user_role_id_foreign` FOREIGN KEY (`role_id`) REFERENCES `roles` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `role_user_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `role_user`
+--
+
+LOCK TABLES `role_user` WRITE;
+/*!40000 ALTER TABLE `role_user` DISABLE KEYS */;
+INSERT INTO `role_user` VALUES (1,1),(2,2);
+/*!40000 ALTER TABLE `role_user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `roles`
+--
+
+DROP TABLE IF EXISTS `roles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `roles` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `role` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `roles_role_unique` (`role`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `roles`
+--
+
+LOCK TABLES `roles` WRITE;
+/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
+INSERT INTO `roles` VALUES (1,'admin','2015-03-18 09:12:57','2015-03-18 09:12:57'),(2,'user','2015-03-18 09:12:57','2015-03-18 09:12:57'),(3,'restaurant','2015-03-18 09:12:57','2015-03-18 09:12:57');
+/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `rsettings`
+--
+
+DROP TABLE IF EXISTS `rsettings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `rsettings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `restaurant_id` int(10) unsigned NOT NULL,
+  `auto_confirm` tinyint(1) NOT NULL DEFAULT '1',
+  `auto_confirm_message` text COLLATE utf8_unicode_ci,
+  `suspended` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `rsettings_restaurant_id_foreign` (`restaurant_id`),
+  CONSTRAINT `rsettings_restaurant_id_foreign` FOREIGN KEY (`restaurant_id`) REFERENCES `restaurants` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `rsettings`
+--
+
+LOCK TABLES `rsettings` WRITE;
+/*!40000 ALTER TABLE `rsettings` DISABLE KEYS */;
+/*!40000 ALTER TABLE `rsettings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `settings`
+--
+
+DROP TABLE IF EXISTS `settings`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `settings` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` int(10) unsigned NOT NULL,
+  `new_menu_notification` tinyint(1) NOT NULL DEFAULT '0',
+  `new_offer_notification` tinyint(1) NOT NULL DEFAULT '1',
+  `newsletter` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  KEY `settings_user_id_foreign` (`user_id`),
+  CONSTRAINT `settings_user_id_foreign` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `settings`
+--
+
+LOCK TABLES `settings` WRITE;
+/*!40000 ALTER TABLE `settings` DISABLE KEYS */;
+INSERT INTO `settings` VALUES (1,1,0,1,0,'2015-03-18 09:12:57','2015-03-18 09:12:57'),(2,2,0,1,0,'2015-03-18 09:13:33','2015-03-18 09:13:33');
+/*!40000 ALTER TABLE `settings` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `users` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `avatar` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `password` varchar(60) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `phone` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `facebook_id` bigint(20) unsigned DEFAULT NULL,
+  `f_access_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `google_id` bigint(20) unsigned DEFAULT NULL,
+  `g_access_token` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `confirmed` tinyint(1) NOT NULL DEFAULT '0',
+  `activation_code` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `suspended` tinyint(1) NOT NULL DEFAULT '0',
+  `suspended_reason` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `last_activity` timestamp NULL DEFAULT NULL,
+  `remember_token` varchar(100) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `users_email_unique` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,NULL,'Administrator','$2y$10$AZKTVrkT37sq2Ow2Nfj2HeAtkL3Pj3iJP.8eXBI9Km1mLzESDNfsW','admin@lastminutetable.co.nz',NULL,NULL,NULL,NULL,NULL,1,NULL,0,NULL,NULL,NULL,'2015-03-18 09:12:57','2015-03-18 09:12:57'),(2,NULL,'Thierry','$2y$10$phpev2QYfSzlNorzWCl7F.XRyzQvktE2rAcPHli4xDFMWfDqIm2UG','titi.der@hotmail.com','+32478466243',NULL,NULL,NULL,NULL,0,'R4cdrpW5QDMbiq3hYOg46w7l0sOcJ6bTM2WJ4hD3wdgNL76TmQDyPnOD6AdB',0,NULL,NULL,NULL,'2015-03-18 09:13:32','2015-03-18 09:13:32');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
 -- Current Database: `sandbox`
@@ -1748,6 +2466,30 @@ CREATE TABLE IF NOT EXISTS `slow_log` (
 CREATE DATABASE /*!32312 IF NOT EXISTS*/ `sandbox` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `sandbox`;
+
+--
+-- Table structure for table `exercise_references`
+--
+
+DROP TABLE IF EXISTS `exercise_references`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `exercise_references` (
+  `original_id` int(11) NOT NULL,
+  `new_list_id` int(11) NOT NULL,
+  `new_list_exercise_number` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `exercise_references`
+--
+
+LOCK TABLES `exercise_references` WRITE;
+/*!40000 ALTER TABLE `exercise_references` DISABLE KEYS */;
+INSERT INTO `exercise_references` VALUES (2,2,6);
+/*!40000 ALTER TABLE `exercise_references` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -1758,4 +2500,4 @@ USE `sandbox`;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-05-25 20:28:05
+-- Dump completed on 2015-05-25 21:15:02

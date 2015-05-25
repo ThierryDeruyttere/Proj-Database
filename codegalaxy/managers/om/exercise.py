@@ -80,7 +80,7 @@ class Exercise:
         @return returns all the answers for an exercise if there are some else return None
         '''
         answer_info = None
-        if self.exercise_type == "Code":
+        if self.exercise_type == "Code" or self.exercise_type == "Turtle":
             answer_info = dbw.getExerciseAnswers(self.id, 'English')
         else:
             answer_info = dbw.getExerciseAnswers(self.id, self.language_name)

@@ -278,7 +278,7 @@ def createFinishedHtml(challenge):
                     {list_string} <a href="/l/{list.id}">{list.name}</a>
                     </li>
                 <li>
-                    <b class="success_text">{winner_text}</b><br/>
+                    <b class="success-text">{winner_text}</b><br/>
                     <img class="challengers-small victor" src="/static/{challenged_pict}"><br/>
                     <b>{challenged.first_name} {challenged.last_name}</b><br/>
                     {challenged_score_text}
