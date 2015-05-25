@@ -96,30 +96,26 @@
         </div>
 
         {% if edit %}
-          <div class ="row">
+          <div id="sort_exercises" class="row">
             <div class="large-10 large-centered columns">
-              <ul class="pricing-table">
-                <li class="title">{% trans "Exercises" %}</li>
-                <div class="row">
-                  <ul class="accordion dragdrop" id="dragdrop" data-accordion>
-                    {% for exercise in all_exercises %}
-                      <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
-                        <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
-                        <div id="Exerc{{ exercise.exercise_number }}" class="content">
-                          <div class="row">
-                            <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
-                            <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
-                          </div>
-                          {% if exercise.isReference %}
-                            <a href="/l/{{exercise.isReferenceTo.0}}">{% trans "Original" %}</a>[{{exercise.isReferenceTo.1}}]
-                          {% endif %}
+              <div class="row">
+                <ul class="accordion dragdrop" id="dragdrop" data-accordion>
+                  {% for exercise in all_exercises %}
+                    <li class="accordion-navigation" id="exercise{{ exercise.exercise_number }}">
+                      <a href="#Exerc{{ exercise.exercise_number }}"> {{ exercise.title }}</a>
+                      <div id="Exerc{{ exercise.exercise_number }}" class="content">
+                        <div class="row">
+                          <a href="../{{ exercise.id}}/{{ exercise.exercise_number }}/edit" class="button tiny radius">{% trans "Edit exercise" %}</a>
+                          <input type="button" class="tiny radius button removal" id="remove_{{ exercise.exercise_number }}" value="remove">
                         </div>
-                      </li>
-                    {% endfor %}
-                  </ul>
-                  <li class="price"></li>
-                </div>
-              </ul>
+                        {% if exercise.isReference %}
+                          <a href="/l/{{exercise.isReferenceTo.0}}">{% trans "Original" %}</a>[{{exercise.isReferenceTo.1}}]
+                        {% endif %}
+                      </div>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </div>
             </div>
             <input type="hidden" id="order" name="order">
           </div>
