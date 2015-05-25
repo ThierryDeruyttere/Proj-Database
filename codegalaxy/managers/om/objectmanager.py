@@ -223,7 +223,6 @@ class ObjectManager:
             dbw.updateMadeExercise(list_id, user_id, exercise_number, last_answer, made_exercise, completed_on, hint, exercise_score)
         else:
             dbw.insertMadeExercise(user_id, made_exercise, exercise_score, completed_on, list_id, exercise_number, last_answer, hint)
-    # TODO some more functions below this one(want fuuuck dees is saai)
 
     def getInfoForUserForExercise(self, user_id, exercise_list_id, exercise_number):
         return dbw.getMadeExercise(user_id, exercise_list_id, exercise_number)
@@ -264,10 +263,12 @@ class ObjectManager:
 
         return all_lists
 
+    # Get all exercise lists for a certain programming language
     def getExerciseListsOnProgLang(self, prog_lang):
         lists = dbw.getExerciseListsOnProgLang(prog_lang)
         return [list_id['id'] for list_id in lists]
 
+    # Get scores of all users who solved this list
     def getAllScoresForList(self, exercise_list_id):
         scores = dbw.getAllScoresForList(exercise_list_id)
         return [score['score'] for score in scores]
@@ -279,12 +280,14 @@ class ObjectManager:
         lists = dbw.filterLists(name)
         return [list_id['id'] for list_id in lists]
 
+    # Get the original exercise from a reference
     def getOriginalExercise(self, list_id, exercise_number):
         return dbw.getOriginalExercise(list_id, exercise_number)['id']
 
     def getExerciseID(self, list_id, exercise_number):
         return dbw.getExerciseInList(list_id, exercise_number)['id']
 
+    # Get all references to a cetain exercise
     def getAllReferencesTo(self, exercise_id):
         return dbw.getAllReferencesToExercise(exercise_id)
 
@@ -294,17 +297,21 @@ class ObjectManager:
             languages.append(Language(i['id'], i['name'], i['language_code']))
         return languages
 
+    # Get language object from languages name
     def getLanguageObject(self, languade_code):
         lang = dbw.getLanguageForCode(languade_code)
         return Language(lang['id'], lang['name'], lang['language_code'])
 
+    # Get Programming Language Object from languages name
     def getProgrLanguageObject(self, language_name):
         lang = dbw.getIdFromProgrammingLanguage(language_name)
         return Language(lang['id'], language_name)
 
+    # Get the score of an exercise made by a specific user
     def getScoreForExerciseForUser(self, user_id, list_id, exercise_number):
         return dbw.getScoreForExerciseForUser(user_id, list_id, exercise_number)['exercise_score']
 
+    # Find user by user_name
     def getUserByName(self, user_name):
         all_users = self.allUsers()
         for i in all_users:

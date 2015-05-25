@@ -16,6 +16,7 @@ from codegalaxy.general import getBrowserLanguage
 object_manager = objectmanager.ObjectManager()
 challenge_manager = challengemanager.ChallengeManager()
 
+# Returns list of challenges
 def removeChallenges(user_id, challenges):
     challenge = []
     for i in challenges:
@@ -26,6 +27,7 @@ def removeChallenges(user_id, challenges):
 
     return challenge
 
+# Returns dictionary with notifications for ajax request
 def get_notifications(request):
     user = logged_user(request)
     challenge_requests = challenge_manager.getChallengeRequestsForUser(user.id, 1)
@@ -35,6 +37,7 @@ def get_notifications(request):
 
     return HttpResponse(json.dumps(notifications))
 
+# Confirms/denies friend/group notifications
 def handle_request(request):
     print("check")
     user = logged_user(request)
