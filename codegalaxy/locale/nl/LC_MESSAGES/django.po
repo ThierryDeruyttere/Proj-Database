@@ -715,7 +715,7 @@ msgstr "Aantal gebruikers die deze badge verdiend hebben:"
 
 #: codegalaxy/templates/badge.html:65
 msgid "No one has earned this badge yet, be the first!"
-msgstr "Nog niemand heeft deze badge verdient, zorg dat jij de eerste bent!"
+msgstr "Nog niemand heeft deze badge verdiend, zorg dat jij de eerste bent!"
 
 #: codegalaxy/templates/badges.html:12
 msgid "How long have you been member of codegalaxy?"
