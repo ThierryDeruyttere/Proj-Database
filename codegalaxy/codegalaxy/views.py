@@ -681,6 +681,16 @@ def editPost(request):
 
             return HttpResponse(post_html)
 
+@require_login
+def wantToEdit(request):
+    group_id = int(request.POST.get('group_id'))
+    post_id = int(request.POST.get('post_id'))
+    group = object_manager.createGroup(group_id)
+    for post in group.allPosts():
+        if post.id == post_id:
+            return HttpResponse(post.post_text)
+    return HttpResponse("")
+
 def verify(request, hash_seq):
     if object_manager.needsVerification(hash_seq):
         email = object_manager.acceptVerification(hash_seq)

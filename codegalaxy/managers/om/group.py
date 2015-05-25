@@ -319,7 +319,8 @@ class Post:
                    posted_on=str(self.posted_on)[:-6],
                    user_name=user.name(),
                    post_data_variables=self.addPostDataVariables(),
-                   title=user.badge.name)
+                   title=user.badge.name,
+                   real_text=self.post_text)
 
         if user.id == logged_user.id:
             html += '''
