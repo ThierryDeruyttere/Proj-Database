@@ -263,7 +263,7 @@
       $("#sub_Button").click(function(e){
         e.preventDefault();
         if(subjects == 0){
-          window.alert("You need to add at least one subject!");
+          window.alert("{% trans "You need to add at least one subject!" %}");
         }else{
           addDictionary();
           if(!checkTranslationDict()) {
