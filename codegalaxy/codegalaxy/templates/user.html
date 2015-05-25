@@ -5,15 +5,13 @@
 
 {% block base_body %}
 <div class="row">
-  <div class="large-3 columns text-center ">
+  <div class="large-3 columns text-center">
     <div class="panel radius">
       <a href="#"><img src="{% static user.getPicture %}" class="round-image"></a>
       {% if my_profile %}
       <br>
-      <div id="badge_name">
-      </div>
-      <br>
       {% csrf_token %}
+      <br>
       <select name="badge_choice" id="badge_choice">
         {% for badge in all_badges %}
         <option value="{{badge.name}}">{{badge.name}}</option>
@@ -21,20 +19,24 @@
       </select>
       {% else %}
       <br>
-      <h4><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h4>
+      <br>
+      <h5><a href="/badge/{{user.badge.id}}">{{ user.badge.name }}</a></h5>
 
       {% endif %}
-      <h5><a href="#">{{ user.name }}</a></h5>
+      <h4><a href="#">{{ user.name }}</a></h4>
 
       <div class="section-container vertical-nav" text-center data-section data-options="deep_linking: false; one_up: true">
         {% if friendship_pending and not my_profile %}
+        <br>
         <input type="submit" disabled value="{% trans "Friendship pending" %}" class="small button radius"/>
         {% elif not already_friends and not my_profile %}
+        <br>
         <form method="POST" id='add_friend' name='add_friend' action="/u/{{user.id}}/">
           {% csrf_token %}
           <input type="submit" name ='add_friend' value="{% trans "Become friends" %}" class="small success button radius"/>
         </form>
         {% elif already_friends and not my_profile %}
+        <br>
         <form method="POST" id='remove_friend' name='remove_friend' action="/u/{{user.id}}/">
           {% csrf_token %}
           <input type="submit" name ='remove_friend' value="{% trans "Remove as friend" %}" class="small alert button radius"/>
