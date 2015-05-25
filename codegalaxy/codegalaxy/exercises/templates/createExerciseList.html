@@ -201,7 +201,7 @@
   <script>
 
     $(document).ready(function() {
-    //Check if we're sliding our slider!
+      //Check if we're sliding our slider!
       $('[data-slider]').on('change', function(){
         var value = $(this).attr('data-slider');
         $('#difficulty').val(value);
@@ -354,14 +354,18 @@
 
       var missing_trans = [];
 
-      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict)){
-        alert("{% trans "Error: You need to atleast provide an english translation" %}");
+      if("{{ request.LANGUAGE_CODE }}" != "en"){
+        if(!("English" in translation_dict)){
+          alert("{% trans "Error: You need to atleast provide an english translation" %}");
         return false;
+        }
+        if(translation_dict["English"]["title"] == ""){
+          alert("{% trans "Error: You need to atleast provide an english title" %}");
+          return false;
+        }
       }
-      if(translation_dict["English"]["title"] == ""){
-        alert("{% trans "Error: You need to atleast provide an english title" %}");
-        return false;
-      }
+      
+
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
         var empty = 0;
