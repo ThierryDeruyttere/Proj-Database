@@ -17,7 +17,7 @@ from codegalaxy.verification import *
 from managers.om import *
 from managers.gm import *
 from managers.rm.recommendations import *
-from codegalaxy.general import getBrowserLanguage
+from codegalaxy.general import getBrowserLanguage, stripStr
 
 import os.path
 from PIL import Image
@@ -710,7 +710,7 @@ def wantToEdit(request):
     group = object_manager.createGroup(group_id)
     for post in group.allPosts():
         if post.id == post_id:
-            return HttpResponse(post.post_text)
+            return HttpResponse(stripStr(post.post_text))
     return HttpResponse("")
 
 # Verify email

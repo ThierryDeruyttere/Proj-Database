@@ -5,7 +5,7 @@ from django.utils.translation import ugettext as _
 
 import time
 import json
-from codegalaxy.general import getBrowserLanguage
+from codegalaxy.general import getBrowserLanguage, stripStr
 
 from pymysql import escape_string
 
@@ -725,16 +725,6 @@ def answerQuestion(request, list_id, exercise_number):
             return redirect('/l/' + list_id)
     # Redirect to home if exercise list does't exist
     return redirect('/')
-
-
-# Strips string from \n or \r
-def stripStr(string):
-    strip = ["\n", "\r"]
-    s = string
-    for i in strip:
-        s = s.replace(i, "")
-    return s
-
 
 def returnScore(current_score):
     if current_score < 0:
