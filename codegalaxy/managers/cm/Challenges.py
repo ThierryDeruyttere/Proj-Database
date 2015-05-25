@@ -66,6 +66,9 @@ class Challenge:
             return
 
         challenger_list = user.personalListWithId(self.list.id, 1)
+        if challenger_list is None:
+            return -1
+
         if self.challenge_type.code == 1:
             # Score game mode
             return challenger_list.score

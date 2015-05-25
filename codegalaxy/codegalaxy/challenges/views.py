@@ -210,13 +210,18 @@ def getScoreText(challenge, challenger_score, challenged_score):
     challenger_score_text = ""
     challenged_score_text = ""
 
+    if challenger_score == -1 and challenged_score == -1:
+        if challenge.winner.id == challenge.challenger.id:
+            return _("Won by default"), _("Gave up")
+        else:
+             return _("Gave up"), _("Won by default")
     if challenge.challenge_type.code == 1:
         #Score
         challenger_score_text += str(challenger_score) + "%"
         challenged_score_text += str(challenged_score) + "%"
     elif challenge.challenge_type.code == 2:
-        challenger_score_text += str(challenger_score) + " Perfects"
-        challenged_score_text += str(challenged_score) + " Perfects"
+        challenger_score_text += str(challenger_score) + _(" Perfects")
+        challenged_score_text += str(challenged_score) + _(" Perfects")
 
     return challenger_score_text, challenged_score_text
 
