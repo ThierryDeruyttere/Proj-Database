@@ -28,8 +28,8 @@ statistics_analyzer = statisticsanalyzer.StatisticsAnalyzer()
 # We'll use the graph maker to make pretty graphs with statistical data
 graph_manager = graphmanager.GraphManager()
 
+# The view for home.html
 def home(request):
-    # Homepage view
     current_user = logged_user(request)
     friends = []
     recommended_lists = []
@@ -99,11 +99,13 @@ def home(request):
     # Anders de homepage waar je een account kan aanmaken en waar je kan inloggen
     return render(request, 'home.html')
 
+# After you register for the site
 def registered(request):
     if logged_user(request):
         return redirect('/')
     return render(request, 'registered.html')
 
+# The view for user.html
 @require_login
 def user(request, id=0):
     current_user = logged_user(request)
@@ -123,6 +125,8 @@ def user(request, id=0):
     # ex per lang
     pie_chart2 = None
     if len(user.allPersonalLists()) != 0:
+        # Here we'll create the graphs displayed on this page
+        #Lists/ programming language
         lists_per_prog_lang = statistics_analyzer.AmountOfExerciseListsPerProgrammingLanguageForUser(user.id)
 
         pie_chart = graph_manager.makePieChart('list_per_lang', 100, 100,
@@ -132,10 +136,12 @@ def user(request, id=0):
 
         color_info1 = graphmanager.ColorInfo("#F7464A", "#F7464A", "#FF5A5E", "#FF5A5E")
         color_info2 = graphmanager.ColorInfo("#46BFBD", "#46BFBD", "#5AD3D1", "#46BFBD")
+        #Average score/ programming language
         avg_score_per_lang = statistics_analyzer.averageScorePerProgrammingLanguageForUser(user)
         bar_chart = graph_manager.makeBarChart('score_per_lang', 200, 200,
                                                [color_info2, color_info1], avg_score_per_lang['labels'], avg_score_per_lang['data'], ["Score"], True)
 
+        # Exercises/ programming language
         ex_per_prog_lang = statistics_analyzer.AmountOfExercisesPerProgrammingLanguageForUser(user.id)
         pie_chart2 = graph_manager.makePieChart('ex_per_lang', 100, 100,
                                                graphmanager.color_tuples,
@@ -144,20 +150,25 @@ def user(request, id=0):
 
     if request.method == 'POST':
         # Verschillende POST requests voor elke actie die aan een knop verbonden is
+        # Adding a new friend (sending request)
         if 'add_friend' in request.POST:
             current_user.addFriend(user)
 
+        # Removing a friend
         if 'remove_friend' in request.POST:
             current_user.declineFriendship(user.id)
 
+        # Accept friend request
         elif 'confirm_friendship' in request.POST:
             friend_id = request.POST.get('user_id_to_confirm')
             user.confirmFriendship(friend_id)
 
+        # Decline friend request
         elif 'decline_friendship' in request.POST:
             friend_id = request.POST.get('user_id_to_decline')
             user.declineFriendship(friend_id)
 
+        # Change your profile info (pass/email/...)
         elif 'update_profile_information' in request.POST:
             new_password1 = hashlib.md5(
                 request.POST.get('new_password1').encode('utf-8')).hexdigest()
@@ -169,8 +180,8 @@ def user(request, id=0):
                 new_email = request.POST.get('new_email')
                 user.updateProfile(new_email, new_password1)
 
+        # Change your photo
         elif 'update_profile_picture' in request.POST:
-            # Nieuwe profielfoto uploaden
             f = request.FILES['image']
 
             destination = open(
@@ -191,10 +202,12 @@ def user(request, id=0):
             image.save(
                 './codegalaxy/static/profile_pictures/' + str(current_user.id) + '.png')
 
+        # Accepting a group invite
         elif 'confirm_membership' in request.POST:
             group_id = request.POST.get('group_id_to_confirm')
             user.confirmGroupMembership(group_id)
 
+        # Declining a group invite
         elif 'decline_membership' in request.POST:
             group_id = request.POST.get('group_id_to_decline')
             user.deleteGroupMembership(group_id)
@@ -202,6 +215,7 @@ def user(request, id=0):
     # Data voor de add-user knop
     already_friends = False
     if current_user:
+        # Checking if you and the user which profile you are looking at are friends
         already_friends = current_user.isFriend(user)
 
     if user:
@@ -293,45 +307,15 @@ def user(request, id=0):
     else:
         return redirect('/')
 
-def register(request):
-    # Check if we are already logged in
-    user = logged_user(request)
-    if user:
-        return redirect('/u/{id}'.format(id=user.id))
-
-    # There has been a request to register a new user
-    if request.method == 'POST':
-        first_name = request.POST.get('your_first_name', '')
-        last_name = request.POST.get('your_last_name', '')
-        email = request.POST.get('your_email', '')
-
-        password = hashlib.md5(
-            request.POST.get('your_password').encode('utf-8')).hexdigest()
-
-        gender = request.POST.get('sex')
-
-        try:
-            # Proberen een nieuwe user aan de database toe te voegen
-            object_manager.insertUser(first_name, last_name, email, password, str(
-                time.strftime("%Y-%m-%d %H:%M:%S")), str(time.strftime("%Y-%m-%d %H:%M:%S")), gender)
-            object_manager.addVerification(
-                email, hashlib.md5(email.encode('utf-8')).hexdigest())
-            object_manager.registered(email)
-            # Email verification versturen
-            sendVerification(email)
-
-        except:
-            return render(request, 'register.html', {'error_register': True})
-
-    return redirect('/registered/')
-
-
+# Logging on to the site
 def login(request):
+    # Adding an entry for the current user in the request.session table
     if 'current_user' not in request.session:
         request.session['current_user'] = None
 
     # There has been a request to log in
     if request.method == 'POST':
+        # And thus we verify the password
         error_email = True
         error_password = True
 
@@ -356,43 +340,48 @@ def login(request):
     return render(request, 'login.html', {})
 
 
+# Logging off from the site
 @require_login('/')
 def logout(request):
-    # flush zorgt ervoor dat er geen restjes achterblijven
-    # geen idee of dit de juiste manier is
+    # Flush deletes your entry from the request.session table
     request.session.flush()
     request.session['current_user'] = None
     return render(request, 'logout.html', {})
 
 
+# A redirect to your own user page
 @require_login
 def me(request):
     user_url = '/u/{id}'.format(id=logged_user(request).id)
     return redirect(user_url)
 
-
+# The view for the group.html page
 @require_login
 def group(request, id=0):
     user = logged_user(request)
     browser_lang = getBrowserLanguage(request)
-
     group = object_manager.createGroup(id)
-
     user_id_to_edit = user.id
 
+    # Interacting with the page
+    # If the logged user wants to join this group
     if request.method == 'POST':
         if 'become_member' in request.POST:
+            # If you were invited
             if group.membershipPending(user.id):
                 user.confirmGroupMembership(group.id)
+            # If you were not invited
             else:
                 group.insertMember(
                     user.id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Member")
 
+        # If you want to add someone to this group
         elif 'add_friend' in request.POST:
             friend_id = request.POST.get('user_id_to_add', '')
             group.insertMember(
                 friend_id, 2, str(time.strftime("%Y-%m-%d %H:%M:%S")), "Pending")
 
+        # If you are an admin/the owner, you may choose to upload a new photo
         elif 'update_group_picture' in request.POST:
             f = request.FILES['image']
 
@@ -413,6 +402,7 @@ def group(request, id=0):
             image.save(
                 './codegalaxy/static/group_pictures/' + str(group.id) + '.png')
 
+        # If you want to leave the group
         elif 'leave_group' in request.POST:
             if group.getUserPermissions(user.id) == 0:
                 group.disband()
@@ -420,6 +410,7 @@ def group(request, id=0):
             else:
                 group.deleteMember(user.id)
 
+        # TODO: vanaf hier marie
         elif 'remove_user' in request.POST:
             user_id_to_delete = request.POST.get('user_id_to_delete')
             group.deleteMember(user_id_to_delete)
