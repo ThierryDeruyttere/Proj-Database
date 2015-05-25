@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 13:47+0000\n"
+"POT-Creation-Date: 2015-05-25 13:54+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -129,8 +129,8 @@ msgstr "Overwinningen per gebruiker"
 msgid "#Challenges per challenge type"
 msgstr "#Uitdagingen per uitdagingstype"
 
-#: codegalaxy/challenges/views.py:194 codegalaxy/challenges/views.py:237
-#: codegalaxy/challenges/views.py:263
+#: codegalaxy/challenges/views.py:194 codegalaxy/challenges/views.py:263
+#: codegalaxy/challenges/views.py:291
 msgid "Challenge info..."
 msgstr "Uitdagingsinfo..."
 
@@ -138,42 +138,54 @@ msgstr "Uitdagingsinfo..."
 msgid "Give up"
 msgstr "Geef op"
 
-#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:315
+#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:344
 msgid "Opponent"
 msgstr "Tegenstander"
 
-#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:314
+#: codegalaxy/challenges/views.py:195 codegalaxy/challenges/views.py:343
 msgid "Challenger"
 msgstr "Uitdager"
 
-#: codegalaxy/challenges/views.py:236 codegalaxy/challenges/views.py:262
+#: codegalaxy/challenges/views.py:215 codegalaxy/challenges/views.py:217
+msgid "Won by default"
+msgstr "Is gewonnen"
+
+#: codegalaxy/challenges/views.py:215 codegalaxy/challenges/views.py:217
+msgid "Gave up"
+msgstr "Heeft het opgegeven"
+
+#: codegalaxy/challenges/views.py:223 codegalaxy/challenges/views.py:224
+msgid " Perfects"
+msgstr "Perfect"
+
+#: codegalaxy/challenges/views.py:262 codegalaxy/challenges/views.py:290
 msgid "Winner"
 msgstr "Winnaar"
 
-#: codegalaxy/challenges/views.py:237 codegalaxy/challenges/views.py:263
+#: codegalaxy/challenges/views.py:263 codegalaxy/challenges/views.py:291
 msgid "Loser"
 msgstr "Verliezer"
 
-#: codegalaxy/challenges/views.py:264 codegalaxy/challenges/views.py:315
+#: codegalaxy/challenges/views.py:292 codegalaxy/challenges/views.py:344
 msgid "Type:"
 msgstr "Soort:"
 
-#: codegalaxy/challenges/views.py:264 codegalaxy/challenges/views.py:315
+#: codegalaxy/challenges/views.py:292 codegalaxy/challenges/views.py:344
 msgid "List:"
 msgstr "Lijst:"
 
-#: codegalaxy/challenges/views.py:281
+#: codegalaxy/challenges/views.py:310
 #: codegalaxy/exercises/templates/importExercise.html:88
 #: codegalaxy/exercises/templates/list.html:288
 #: codegalaxy/templates/group.html:396 codegalaxy/templates/group.html:419
 msgid "Cancel"
 msgstr "Annuleer"
 
-#: codegalaxy/challenges/views.py:283
+#: codegalaxy/challenges/views.py:312
 msgid "Invite"
 msgstr "Uitnodiging"
 
-#: codegalaxy/challenges/views.py:284
+#: codegalaxy/challenges/views.py:313
 #: codegalaxy/templates/groupOverview.html:57
 #: codegalaxy/templates/groupOverview.html:79
 msgid "Accept"
