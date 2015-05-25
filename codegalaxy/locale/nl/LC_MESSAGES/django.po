@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-25 10:08+0000\n"
+"POT-Creation-Date: 2015-05-25 12:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -165,7 +165,6 @@ msgid "You solved this question!"
 msgstr "Je hebt deze vraag opgelost!"
 
 #: codegalaxy/exercises/templates/answerQuestion.html:60
-#: codegalaxy/exercises/templates/editList.html:138
 #: codegalaxy/exercises/templates/submit.html:68
 msgid "Return to list"
 msgstr "Keer terug naar lijst"
@@ -179,7 +178,6 @@ msgstr "Pas vraag aan"
 #: codegalaxy/exercises/templates/createExercise.html:19
 #: codegalaxy/exercises/templates/createExercise.html:164
 #: codegalaxy/exercises/templates/createExerciseList.html:110
-#: codegalaxy/exercises/templates/editList.html:118
 msgid "Edit exercise"
 msgstr "Pas oefening aan"
 
@@ -227,19 +225,16 @@ msgstr "Voeg vertaling toe"
 
 #: codegalaxy/exercises/templates/createExercise.html:99
 #: codegalaxy/exercises/templates/createExerciseList.html:149
-#: codegalaxy/exercises/templates/editList.html:157
 msgid "Hi there space voyager! I'm Kernel!"
 msgstr "Hallo ruimtereiziger! Ik ben Kernel!"
 
 #: codegalaxy/exercises/templates/createExercise.html:100
 #: codegalaxy/exercises/templates/createExerciseList.html:150
-#: codegalaxy/exercises/templates/editList.html:158
 msgid "I'm from a far away planet named Bootloader."
 msgstr "Ik ben van een planeet ver van hier genaamd Bootloader."
 
 #: codegalaxy/exercises/templates/createExercise.html:101
 #: codegalaxy/exercises/templates/createExerciseList.html:151
-#: codegalaxy/exercises/templates/editList.html:159
 msgid ""
 "I've stumbled upon this site and I really like it and I want to show it to "
 "my friends back home!"
@@ -249,7 +244,6 @@ msgstr ""
 
 #: codegalaxy/exercises/templates/createExercise.html:102
 #: codegalaxy/exercises/templates/createExerciseList.html:152
-#: codegalaxy/exercises/templates/editList.html:160
 msgid ""
 "The only problem is, on each planet we speak a different language, so I'm "
 "working on translating this site."
@@ -259,7 +253,6 @@ msgstr ""
 
 #: codegalaxy/exercises/templates/createExercise.html:103
 #: codegalaxy/exercises/templates/createExerciseList.html:153
-#: codegalaxy/exercises/templates/editList.html:161
 msgid ""
 "Think you could help? I will make your name famous across the universe if "
 "you do!"
@@ -270,8 +263,6 @@ msgstr ""
 #: codegalaxy/exercises/templates/createExercise.html:110
 #: codegalaxy/exercises/templates/createExerciseList.html:114
 #: codegalaxy/exercises/templates/createExerciseList.html:160
-#: codegalaxy/exercises/templates/editList.html:122
-#: codegalaxy/exercises/templates/editList.html:168
 #: codegalaxy/exercises/templates/importExercise.html:51
 #: codegalaxy/exercises/templates/list.html:243
 msgid "Original"
@@ -279,7 +270,6 @@ msgstr "Origineel"
 
 #: codegalaxy/exercises/templates/createExercise.html:136
 #: codegalaxy/exercises/templates/createExerciseList.html:183
-#: codegalaxy/exercises/templates/editList.html:191
 msgid "Translated"
 msgstr "Vertaald"
 
@@ -301,12 +291,10 @@ msgid "'Enter description of exercise list'"
 msgstr "'Geef een beschrijving van de oefeningenlijst'"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:38
-#: codegalaxy/exercises/templates/editList.html:51
 msgid "Difficulty"
 msgstr "Moeilijkheid"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:49
-#: codegalaxy/exercises/templates/editList.html:62
 msgid "Programming language"
 msgstr "Programmeertaal"
 
@@ -315,18 +303,15 @@ msgid "Subject"
 msgstr "Onderwerp"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:85
-#: codegalaxy/exercises/templates/editList.html:78
 msgid "Subjects"
 msgstr "Onderwerpen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:102
-#: codegalaxy/exercises/templates/editList.html:110
 #: codegalaxy/exercises/templates/list.html:76
 msgid "Exercises"
 msgstr "Oefeningen"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:130
-#: codegalaxy/exercises/templates/editList.html:137
 #: codegalaxy/templates/group.html:48 codegalaxy/templates/group.html:418
 msgid "Edit"
 msgstr "Pas aan"
@@ -346,39 +331,14 @@ msgstr "Vertaal"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:163
 #: codegalaxy/exercises/templates/createExerciseList.html:186
-#: codegalaxy/exercises/templates/editList.html:25
-#: codegalaxy/exercises/templates/editList.html:171
-#: codegalaxy/exercises/templates/editList.html:194
 #: codegalaxy/exercises/templates/listOverview.html:40
 msgid "List name"
 msgstr "Lijstnaam"
 
 #: codegalaxy/exercises/templates/createExerciseList.html:169
 #: codegalaxy/exercises/templates/createExerciseList.html:192
-#: codegalaxy/exercises/templates/editList.html:177
-#: codegalaxy/exercises/templates/editList.html:200
 msgid "Description"
 msgstr "Beschrijving"
-
-#: codegalaxy/exercises/templates/editList.html:17
-msgid "List editor"
-msgstr "Lijst aanpassen"
-
-#: codegalaxy/exercises/templates/editList.html:36
-msgid "Enter description of exercise list"
-msgstr "Geef beschrijving van de oefeningenlijst"
-
-#: codegalaxy/exercises/templates/editList.html:86
-msgid "Click on a subject to delete it."
-msgstr "Klik op een onderwerp om het te verwijderen."
-
-#: codegalaxy/exercises/templates/editList.html:89
-msgid "New subject"
-msgstr "Nieuw onderwerp"
-
-#: codegalaxy/exercises/templates/editList.html:103
-msgid "Translation"
-msgstr "Vertaling"
 
 #: codegalaxy/exercises/templates/importExercise.html:16
 msgid "List or exercise name"
@@ -667,19 +627,23 @@ msgstr "Pagina niet gevonden"
 msgid "Internal Server Error"
 msgstr "Interne Server Error"
 
-#: codegalaxy/templates/badge.html:31
+#: codegalaxy/templates/badge.html:10
+msgid "Badge Overview"
+msgstr "Overzicht badges"
+
+#: codegalaxy/templates/badge.html:32
 msgid "Congratulations! You already earned this badge!"
 msgstr "Gefeliciteerd! Je hebt deze badge al eens verdiend!"
 
-#: codegalaxy/templates/badge.html:37
+#: codegalaxy/templates/badge.html:38
 msgid "earned"
 msgstr "verdiend"
 
-#: codegalaxy/templates/badge.html:51
+#: codegalaxy/templates/badge.html:52
 msgid "Users that earned this badge:"
 msgstr "Aantal gebruikers die deze badge verdiend hebben:"
 
-#: codegalaxy/templates/badge.html:64
+#: codegalaxy/templates/badge.html:65
 msgid "No one has earned this badge yet, be the first!"
 msgstr "Nog niemand heeft deze badge verdient, zorg dat jij de eerste bent!"
 
@@ -1167,6 +1131,21 @@ msgstr "Laatste keer bezocht:"
 #: codegalaxy/templates/verify.html:11
 msgid "Congratulations, you have verified your email"
 msgstr "Gefeliciteerd,je email is geverifieerd!"
+
+#~ msgid "List editor"
+#~ msgstr "Lijst aanpassen"
+
+#~ msgid "Enter description of exercise list"
+#~ msgstr "Geef beschrijving van de oefeningenlijst"
+
+#~ msgid "Click on a subject to delete it."
+#~ msgstr "Klik op een onderwerp om het te verwijderen."
+
+#~ msgid "New subject"
+#~ msgstr "Nieuw onderwerp"
+
+#~ msgid "Translation"
+#~ msgstr "Vertaling"
 
 #~ msgid "Congratulations!"
 #~ msgstr "Proficiat!"
