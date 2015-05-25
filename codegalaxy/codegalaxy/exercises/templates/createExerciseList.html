@@ -267,13 +267,10 @@
         }else{
           $(function(){
             addDictionary();
-            var submit = true;
-            if(submit){
-              submit = checkTranslationDict(false);
+            if(!checkTranslationDict()) {
+              return false;
             }
-            if(submit) {
-              $('#list_form').submit();
-            }
+            $('#list_form').submit();
           });
         }
       });
@@ -357,11 +354,14 @@
 
       var missing_trans = [];
 
-      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict) ){
+      if("{{ request.LANGUAGE_CODE }}" != "en" && !("English" in translation_dict)){
         alert("Error: You need to atleast provide an english translation");
         return false;
       }
-
+      if(translation_dict["English"]["title"] == ""){
+        alert("Error: You need to atleast provide an english title");
+        return false;
+      }
       $.each(translation_dict, function(key,value){
         //the amount of inputs that are empty
         var empty = 0;
