@@ -275,7 +275,7 @@ def editCodeQuestion(exercise, request):
 
 
 # Function to update an exercise after a post request on the edit exercise page
-def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request):
+def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request, user):
     # get information
     exercise = object_manager.createExercise(exercise_id, browser_lang.code)
     exercise.question = request.POST.get('Question')
@@ -301,6 +301,7 @@ def handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, l
     exercise.update(correct_answer, exercise_answer, hints, browser_lang, translation, user.id)
 
 
+
 @require_login
 # view for editing an exercise
 def editExercise(request, listId, exercise_id, exercise_number):
@@ -311,7 +312,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
     languages = removeLanguage(object_manager.getAllLanguages(), browser_lang.code)
 
     if request.method == 'POST':
-        handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request)
+        handleEditExercisePost(exercise_id, browser_lang, listId, exercise_number, languages, request, user)
         return redirect("/l/" + str(listId))
 
     if exercise_list and user.id == exercise_list.created_by:
@@ -646,6 +647,7 @@ def restoreQuestion(all_exercise, exercise_number, current_user, list_id):
             current_exercise = i
             if current_exercise.exercise_type == 'Open Question':
                 correct_answer = current_exercise.correct_answer
+                print("Correct antwoord = " + str(correct_answer))
             elif current_exercise.exercise_type == 'Code':
                 correct_answer = stripStr(current_exercise.allAnswers()[0])
             else:
@@ -705,6 +707,11 @@ def answerQuestion(request, list_id, exercise_number):
             list_owner = False
             if current_user:
                 list_owner = (current_user.id == exercise_list.created_by)
+            antwoorden = current_exercise.allAnswers()
+            print("LENGTE: " + str(len(antwoorden)))
+            for test in antwoorden:
+                print("WUT")
+                print(test)
             return render(request, 'answerQuestion.html', {"exercise": current_exercise,
                                                            "answers": current_exercise.allAnswers(),
                                                            "list_id": list_id,
