@@ -30,7 +30,7 @@ STATICFILES_DIRS = (os.path.join(BASE_DIR, "codegalaxy/static"),)
 SECRET_KEY = 'x(zzx)fo0fj05n*)%uqk(pp!fz$i!79ihyt-n%o68dcw1u3ee-'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 TEMPLATE_DEBUG = True
 
