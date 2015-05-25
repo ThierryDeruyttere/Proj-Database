@@ -524,7 +524,6 @@ def getPercentage(all_exercises, list_owner):
                 if cur_exercise < e.exercise_number:
                     cur_exercise = e.exercise_number
 
-        # TODO why?
         if len(all_exercises) < percent:
             found = False
             cur_exercise = all_exercises[0].exercise_number
@@ -767,9 +766,10 @@ def checkMadeList(exercise_list, browser_lang, all_exercise, user):
             list_score = list_score * 100
             list_score = list_score / max_list_score
             user.madeList(exercise_list.id, list_score, 0)
-            next_exercise = ""
             challenge_manager.checkActiveChallenges(user.id, browser_lang.id)
+            return True
 
+    return False
 # Check if the user gave a correct answer
 def checkCorrectAnswer(current_exercise, user_output, request, current_score, user):
     user_code = request.POST.get('user_code', '')
@@ -785,6 +785,7 @@ def checkCorrectAnswer(current_exercise, user_output, request, current_score, us
             # Woohoo right answer!
             solved = True
             current_score = returnScore(current_score)
+
             object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")),
                                             int(list_id), int(exercise_number), selected_answer, hint)
         else:
@@ -865,7 +866,8 @@ def submit(request, list_id, exercise_number):
         next_exercise = exercise_number + 1
 
         # Checking if user made list
-        checkMadeList(exercise_list, browser_lang, all_exercise, user)
+        if checkMadeList(exercise_list, browser_lang, all_exercise, user):
+            next_exercise = 0
 
         return render(request, 'submit.html', {"solved": solved,
                                                "list_id": list_id,
