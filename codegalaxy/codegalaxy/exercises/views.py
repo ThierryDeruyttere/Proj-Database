@@ -594,7 +594,8 @@ def list(request, id=0):
         all_exercises_with_score = []
         shared_result = True
         list_owner = False
-        shared_result, shared_result, all_exercises_with_score = DecidesharedOwnerAllExWithScore(all_exercises, user, exercise_list, id)
+        shared_result, list_owner, all_exercises_with_score = DecidesharedOwnerAllExWithScore(all_exercises, user, exercise_list, id)
+
         # Calculate percentage for this list (score of user)
         percent, solved_all, found, cur_exercise = getPercentage(all_exercises, list_owner)
 
