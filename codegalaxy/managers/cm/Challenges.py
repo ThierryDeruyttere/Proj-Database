@@ -65,7 +65,7 @@ class Challenge:
             print("You can only get the score for one of the participents of this challenge")
             return
 
-        challenger_list = self.user.personalListWithId(self.list.id, 1)
+        challenger_list = user.personalListWithId(self.list.id, 1)
         if self.challenge_type.code == 1:
             # Score game mode
             return challenger_list.score
