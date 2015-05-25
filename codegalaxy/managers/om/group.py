@@ -353,7 +353,7 @@ class Post:
                         <div class="replies">
         '''.format(id=str(self.id), html_basic=self.HTMLBasic(user, logged_user), hr=hr)
         for reply in self.allReplies():
-            replying_user =  self.object_manager.createUser(id=reply.user_id)
+            replying_user = self.object_manager.createUser(id=reply.user_id)
             html += reply.HTMLStringReply(replying_user, logged_user)
         html += '</div></div></div></div>'
 

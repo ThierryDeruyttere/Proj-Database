@@ -794,7 +794,7 @@ def checkCorrectAnswer(current_exercise, user_output, request, current_score, us
         user_output = stripStr(user_output)
 
         if correct_answer == user_output or (
-                        correct_answer == '*' and user_output != '') or user_output == "~~success~~":
+                correct_answer == '*' and user_output != '') or user_output == "~~success~~":
             current_score = returnScore(current_score)
             solved = True
             object_manager.userMadeExercise(user.id, current_score, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")),
