@@ -410,15 +410,17 @@ def group(request, id=0):
             else:
                 group.deleteMember(user.id)
 
-        # TODO: vanaf hier marie
+        # If the owner or an admin decides to remove a user from the group
         elif 'remove_user' in request.POST:
             user_id_to_delete = request.POST.get('user_id_to_delete')
             group.deleteMember(user_id_to_delete)
 
+        # If a user gets upgraded to admin
         elif 'upgrade_user' in request.POST:
             user_id_to_upgrade = request.POST.get('user_id_to_upgrade')
             group.upgradeUserPermissions(user_id_to_upgrade)
 
+        # If the owner wants to delete the group
         elif 'delete_group' in request.POST:
             group.disband()
             return redirect('/social/')
@@ -427,8 +429,9 @@ def group(request, id=0):
 
     if group:
         user_list = group.allMembers()
+
+        # If the group is private, only members can access this page
         if group.group_type == 1:
-            # Only users in this group can access this page
             list_owner = False
             for u in user_list:
                 if u.id == user.id:
@@ -443,6 +446,7 @@ def group(request, id=0):
         except:
             group_size = 0
 
+        # Check if current user is member of this group
         if group_size > 0:
             for x in range(0, group_size):
                 if user.email == user_list[x].email:
@@ -455,6 +459,7 @@ def group(request, id=0):
 
         group_owner = ''
 
+        # Sets up a list with all data (friendships, members, exercises) to display on the group feed
         if group_size > 0:
             for one_user in user_list:
                 exercises_made = one_user.allExerciseListsShared(browser_lang.id)
@@ -489,6 +494,7 @@ def group(request, id=0):
 
         currentuser_friend_list = user.allFriendsNotMemberOfGroupWithID(id)
 
+        # Ceates list of all friends who are not a member of this group yet
         remaining_friends = []
         for friend in currentuser_friend_list:
             inList = False
@@ -499,6 +505,7 @@ def group(request, id=0):
             if not inList:
                 remaining_friends.append(friend)
 
+        # Specifies users permissions in a group
         group_permissions = []
         my_user_permissions = []
         if is_member:
@@ -521,7 +528,7 @@ def group(request, id=0):
     else:
         return redirect('/')
 
-
+# Set-up social page
 @require_login
 def social(request):
     current_user = logged_user(request)
@@ -529,7 +536,7 @@ def social(request):
     s_term = request.POST.get('s_term', '')
     s_social = request.POST.get('s_social', 'false') != 'false'
 
-    # Biggest Groups
+    # Sets up 'Biggest Groups' statistics
     biggest_groups = statistics_analyzer.biggestGroupsTopX(5)
     color_info1 = graphmanager.ColorInfo(
         "#2a3963", "#2a3963", "#3e5084", "#3e5084")
@@ -538,6 +545,7 @@ def social(request):
     bar_chart = graph_manager.makeBarChart('groups', 270, 180, [
                                            color_info2, color_info1], biggest_groups['labels'], biggest_groups['data'], "#members")
 
+    # Lists containing all friend or group notifications to use on html page
     friend_requests = current_user.allPendingFriendships()
     group_requests = current_user.allPendingGroupMemberships()
 
@@ -545,25 +553,29 @@ def social(request):
 
     return render(request, 'groupOverview.html', context)
 
-
+# Create a new group
 @require_login
 def groupCreate(request, id=0):
     user = logged_user(request)
+
+    # Determine group name and type (private or public)
     if request.method == 'POST':
         group_name = request.POST.get('group_name', '')
 
         group_type = request.POST.get('group_type')
 
         try:
+            # Create private group
             if group_type == 'on':
                 object_manager.insertGroup(
                     group_name, 1, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
+            # Create public group
             else:
                 object_manager.insertGroup(
                     group_name, 0, str(time.strftime("%Y-%m-%d %H:%M:%S")))
 
-            # auto add user when making a private group?
+            # User becomes owner and member of new created group
             user.createdGroup()
             group = object_manager.createGroupOnName(group_name)
             group.insertMember(
@@ -575,15 +587,19 @@ def groupCreate(request, id=0):
 
     return render(request, 'groupCreate.html', {})
 
+# Set-up badges page
 @require_login
 def badges(request):
     user = logged_user(request)
+
+    # Lis of all badges
     badges = object_manager.getAllBadges()
     badge_types = ['custom', 'memberOfGroup', 'hasFriend', 'solvedList', 'createdList', 'peopleSolvedMyList', 'gaveRating', 'timeMember', 'frequentVisitor']
     context = {'badge_types': badge_types, 'badges': badges}
 
     return render(request, 'badges.html', context)
 
+# Set-up page for each badge
 @require_login
 def badge(request, id=0):
     user = logged_user(request)
@@ -591,6 +607,7 @@ def badge(request, id=0):
     badge = object_manager.createBadge(id)
     browser_lang = getBrowserLanguage(request)
 
+    # Get information about badge (users who earned the badge, percentage of completion,...)
     if badge:
         users_that_earned_badge = badge.allUsersThatEarnedBadge()
         target_score = badge.target_value
@@ -613,6 +630,7 @@ def badge(request, id=0):
     else:
         return redirect("/badges/")
 
+# Post new message to wall
 def postNew(request):
     user = logged_user(request)
     group_id = int(request.POST.get('group_id'))
@@ -625,16 +643,23 @@ def postNew(request):
     new_html = post.HTMLString(user)
     return HttpResponse(new_html)
 
+# Reply to a post on a group wall
 @require_login
 def replyTo(request):
     user = logged_user(request)
+
+    # Get the right group & post id's
     group_id = int(request.POST.get('group_id'))
     post_id = int(request.POST.get('post_id'))
     post_text = request.POST.get('post_text')
     old_user_id = 0
+
+    # Return if post is empty
     if post_text == '':
         return HttpResponse('')
     group = object_manager.createGroup(group_id)
+
+    # Search to post to reply to and write reply
     for old_post in group.allPosts():
         if old_post.id == post_id:
             old_user_id = old_post.user_id
@@ -644,6 +669,7 @@ def replyTo(request):
     new_html = post.HTMLStringReply(user, user)
     return HttpResponse(new_html)
 
+# Delete post from group wall
 @require_login
 def deletePost(request):
     user = logged_user(request)
@@ -655,15 +681,20 @@ def deletePost(request):
             post.delete()
     return HttpResponse('')
 
+# Edit a post on a group wall
 @require_login
 def editPost(request):
     import markdown2
     markdown_converter = markdown2.Markdown()
     user = logged_user(request)
+
+    # Get the right post & group
     group_id = int(request.POST.get('group_id'))
     post_id = int(request.POST.get('post_id'))
     post_text = request.POST.get('post_text')
     group = object_manager.createGroup(group_id)
+
+    # Edit post
     for post in group.allPosts():
         if post.id == post_id:
             post.post_text = post_text
@@ -682,6 +713,7 @@ def wantToEdit(request):
             return HttpResponse(post.post_text)
     return HttpResponse("")
 
+# Verify email
 def verify(request, hash_seq):
     if object_manager.needsVerification(hash_seq):
         email = object_manager.acceptVerification(hash_seq)
@@ -692,6 +724,7 @@ def verify(request, hash_seq):
 
     return redirect('/')
 
+# Get all tables
 def tables(request):
     import dbw
     if request.method == 'GET':
