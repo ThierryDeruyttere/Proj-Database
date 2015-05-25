@@ -319,7 +319,7 @@ def editExercise(request, listId, exercise_id, exercise_number):
         exercise = object_manager.createExercise(exercise_id, browser_lang.code)
         all_answers = exercise.allAnswers()
         expected_code_answer = ""
-        if exercise.exercise_type == "Code":
+        if exercise.exercise_type == 'Code' or exercise.exercise_type == 'Turtle':
             for i, ans in enumerate(all_answers):
                 if i == exercise.correct_answer - 1:
                     expected_code_answer = ans

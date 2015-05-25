@@ -1,16 +1,16 @@
-.question{
+.question {
     margin-top: 2em;
 }
 
-.question>a{
+.question > a {
   color: #815ba4;
 }
 
-.question>a:hover{
+.question > a :hover {
   text-decoration: underline;
 }
 
-.hints{
+.hints {
     width: 40%;
     border-radius: 1em;
 }
@@ -20,6 +20,10 @@
     margin-left: auto;
 }
 
-#caption{
+#caption {
     background-color: lightgray;
+}
+
+#turtle_output {
+    background-image: url(../media/galaxy.jpg);
 }
